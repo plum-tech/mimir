@@ -2,13 +2,14 @@ import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
+import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/school/yellow_pages/entity/contact.dart';
-import 'package:sit/entity/version.dart';
+import 'package:sit/entity/meta.dart';
 
 class R {
   const R._();
 
-  static const scheme = "life.mysit";
+  static const scheme = "sit-life";
   static const hiveStorageVersionCache = "2.3.0";
   static const hiveStorageVersionCore = "2.1.1";
   static const appId = "life.mysit.SITLife";
@@ -17,10 +18,13 @@ class R {
 
   static String get appNameL10n => "appName".tr();
 
-  static late AppMeta currentVersion;
+  static late AppMeta meta;
 
   /// For debugging iOS on other platforms.
   static const debugCupertino = kDebugMode ? false : false;
+
+  static const debugNetwork = true;
+  static const poorNetworkSimulation = false;
 
   /// The default window size is small enough for any modern desktop device.
   static const Size defaultWindowSize = Size(500, 800);
@@ -29,10 +33,10 @@ class R {
   static const Size minWindowSize = Size(300, 400);
 
   static const eduEmailDomain = "mail.sit.edu.cn";
-  static const demoModeOaAccount = "2300421153";
-  static const demoModeOaPassword = "liplum-sit-life";
+  static const demoModeOaCredentials = Credentials(account: "2300421153", password: "liplum-sit-life");
   static const iosAppId = "6468989112";
-  static const iosAppStoreUrl = "https://apps.apple.com/cn/app/$iosAppId";
+  static const iosAppStoreUrl = "https://apps.apple.com/app/$iosAppId";
+  static const iosTimetableICalToCalendarShortcut = "https://www.icloud.com/shortcuts/98f1b96465c542dcbdac651a921e2459";
 
   static String formatEduEmail({required String username}) {
     return "$username@$eduEmailDomain";
@@ -44,7 +48,7 @@ class R {
   static const enLocale = Locale('en');
   static const zhHansLocale = Locale.fromSubtags(languageCode: "zh", scriptCode: "Hans");
   static const zhHantLocale = Locale.fromSubtags(languageCode: "zh", scriptCode: "Hant");
-  static const defaultLocale = zhHansLocale;
+  static const defaultLocale = enLocale;
   static const supportedLocales = [
     enLocale,
     zhHansLocale,
@@ -52,6 +56,7 @@ class R {
   ];
 
   static final jwxtUri = Uri(scheme: "http", host: "jwxt.sit.edu.cn");
+  static final gmsUri = Uri(scheme: "http", host: "gms.sit.edu.cn");
   static final authServerUri = Uri(scheme: "https", host: "authserver.sit.edu.cn");
   static final class2ndUri = Uri(scheme: "http", host: "sc.sit.edu.cn");
   static final schoolCardUri = Uri(scheme: "http", host: "card.sit.edu.cn");
@@ -61,6 +66,7 @@ class R {
   static final sitUriList = [
     authServerUri,
     jwxtUri,
+    gmsUri,
     class2ndUri,
     schoolCardUri,
     myPortalUri,
@@ -68,6 +74,7 @@ class R {
   ];
   static final sitSchoolNetworkUriList = [
     jwxtUri,
+    gmsUri,
     class2ndUri,
     schoolCardUri,
     libraryUri,

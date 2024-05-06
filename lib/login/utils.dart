@@ -20,7 +20,7 @@ Future<void> handleLoginException({
       serious: true,
       title: _i18n.failedWarn,
       desc: error.type.l10n(),
-      ok: _i18n.close,
+      primary: _i18n.close,
     );
     return;
   }
@@ -29,7 +29,7 @@ Future<void> handleLoginException({
       serious: true,
       title: _i18n.failedWarn,
       desc: _i18n.schoolServerUnconnectedTip,
-      ok: _i18n.close,
+      primary: _i18n.close,
     );
     return;
   }
@@ -42,7 +42,7 @@ Future<void> handleLoginException({
     serious: true,
     title: _i18n.failedWarn,
     desc: _i18n.unknownAuthErrorTip,
-    ok: _i18n.close,
+    primary: _i18n.close,
   );
   return;
 }

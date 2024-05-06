@@ -1,5 +1,6 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 import 'package:sit/init.dart';
 
@@ -60,8 +61,11 @@ class Class2ndPointsService {
     double schoolCulture,
   }) _parseAllStatus(BeautifulSoup html) {
     // 学分=1.5(主题报告)+2.0(社会实践)+1.5(创新创业创意)+1.0(校园安全文明)+0.0(公益志愿)+2.0(校园文化)
-    final found = html.find('#span_score')!;
-    final String scoreText = found.text;
+    final found = html.find('#span_score');
+    if (found == null) {
+      debugPrint(found.toString());
+    }
+    final String scoreText = found!.text;
     final regExp = RegExp(r'([\d.]+)\(([\u4e00-\u9fa5]+)\)');
 
     late final double lecture, practice, creation, safetyEdu, voluntary, campus;

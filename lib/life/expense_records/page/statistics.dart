@@ -1,61 +1,176 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:sit/design/widgets/card.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/design/widgets/grouped.dart';
 import 'package:sit/life/expense_records/entity/statistics.dart';
 import 'package:sit/life/expense_records/storage/local.dart';
-import 'package:sit/life/expense_records/utils.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:fl_chart/fl_chart.dart';
+import 'package:sit/life/expense_records/utils.dart';
+import 'package:sit/utils/collection.dart';
+import 'package:sit/utils/date.dart';
+import 'package:statistics/statistics.dart';
 
 import '../entity/local.dart';
 import '../i18n.dart';
 import '../init.dart';
-import '../widget/chart.dart';
-import '../widget/selector.dart';
+import '../widget/chart/bar.dart';
+import '../widget/chart/delegate.dart';
+import '../widget/chart/header.dart';
+import '../widget/chart/pie.dart';
+import '../widget/transaction.dart';
 
-class ExpenseStatisticsPage extends StatefulWidget {
+class ExpenseStatisticsPage extends ConsumerStatefulWidget {
   const ExpenseStatisticsPage({super.key});
 
   @override
-  State<ExpenseStatisticsPage> createState() => _ExpenseStatisticsPageState();
+  ConsumerState<ExpenseStatisticsPage> createState() => _ExpenseStatisticsPageState();
 }
 
 typedef Type2transactions = Map<TransactionType, ({List<Transaction> records, double total, double proportion})>;
 
-class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
-  late List<Transaction> records;
-  var selectedMode = StatisticsMode.week;
-  late double total;
-  late Type2transactions type2transactions;
-  late int selectedYear;
-  late int selectedMonth;
+final _allRecords = Provider.autoDispose((ref) {
+  final all = ExpenseRecordsInit.storage.getTransactionsByRange() ?? const [];
+  all.retainWhere((record) => record.type.isConsume);
+  return all;
+});
+
+final _statisticsMode = StateProvider.autoDispose<StatisticsMode>((ref) => StatisticsMode.week);
+
+final _startTime2Records = Provider.autoDispose((ref) {
+  final mode = ref.watch(_statisticsMode);
+  final all = ref.watch(_allRecords);
+  return mode.resort(all);
+});
+
+class _ExpenseStatisticsPageState extends ConsumerState<ExpenseStatisticsPage> {
+  late int index = ref.read(_startTime2Records).length - 1;
+  final controller = ScrollController();
+  final $showTimeSpan = ValueNotifier(false);
 
   @override
   void initState() {
     super.initState();
-    final now = DateTime.now();
-    selectedYear = now.year;
-    selectedMonth = now.month;
-    refreshRecords();
-  }
-
-  void refreshRecords() {
-    records = ExpenseRecordsInit.storage.getTransactionsByRange(
-          start: DateTime(selectedYear, selectedMonth, 1),
-          end: DateTime(selectedYear, selectedMonth + 1),
-        ) ??
-        const [];
-    records.retainWhere((record) => record.type.isConsume);
-    final type2transactions = records.groupListsBy((record) => record.type);
-    final type2total = type2transactions.map((type, records) => MapEntry(type, accumulateTransactionAmount(records)));
-    total = type2total.values.sum;
-    this.type2transactions = type2transactions.map((type, records) {
-      final (income: _, :outcome) = accumulateTransactionIncomeOutcome(records);
-      return MapEntry(type, (records: records, total: outcome, proportion: (type2total[type] ?? 0) / total));
+    controller.addListener(() {
+      final pos = controller.positions.last;
+      final showTimeSpan = $showTimeSpan.value;
+      if (pos.pixels > pos.minScrollExtent) {
+        if (!showTimeSpan) {
+          setState(() {
+            $showTimeSpan.value = true;
+          });
+        }
+      } else {
+        if (showTimeSpan) {
+          setState(() {
+            $showTimeSpan.value = false;
+          });
+        }
+      }
     });
   }
 
-  Widget buildModeSelector() {
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final mode = ref.watch(_statisticsMode);
+    final startTime2Records = ref.watch(_startTime2Records);
+    ref.listen(_startTime2Records, (previous, next) {
+      setState(() {
+        index = next.length - 1;
+      });
+    });
+    final current = startTime2Records.indexAt(index);
+    assert(current.records.every((type) => type.isConsume));
+    final type2Records = current.records.groupListsBy((r) => r.type).entries.toList();
+    final delegate = StatisticsDelegate.byMode(
+      mode,
+      start: current.start,
+      records: current.records,
+    );
+    return Scaffold(
+      appBar: AppBar(
+        title: i18n.stats.title.text(),
+      ),
+      body: [
+        CustomScrollView(
+          controller: controller,
+          physics: const AlwaysScrollableScrollPhysics(),
+          slivers: [
+            SliverList.list(children: [
+              buildModeSelector(mode).padSymmetric(h: 16, v: 4),
+              ExpenseBarChart(delegate: delegate),
+              const Divider(),
+              ExpensePieChart(delegate: delegate),
+              const Divider(),
+              ExpenseChartHeaderLabel(i18n.stats.summary).padFromLTRB(16, 8, 0, 0),
+            ]),
+            SliverList.builder(
+              itemCount: type2Records.length,
+              itemBuilder: (ctx, i) {
+                final e = type2Records[i];
+                final amounts = e.value.map((e) => e.deltaAmount).toList();
+                return ExpenseAverageTile(
+                  average: amounts.mean,
+                  max: amounts.max,
+                  type: e.key,
+                );
+              },
+            ),
+            SliverList.list(children: [
+              const Divider(),
+              ExpenseChartHeaderLabel(i18n.stats.details).padFromLTRB(16, 8, 0, 0),
+            ]),
+            if (mode != StatisticsMode.day)
+              ...mode.downgrade.resort(current.records).map((e) {
+                return GroupedSection(
+                  headerBuilder: (context, expanded, toggleExpand, defaultTrailing) {
+                    return ListTile(
+                      title: formatDateSpan(
+                        from: e.start,
+                        to: mode.downgrade.getAfterUnitTime(start: e.start),
+                      ).text(),
+                      onTap: toggleExpand,
+                      trailing: defaultTrailing,
+                    );
+                  },
+                  itemCount: e.records.length,
+                  itemBuilder: (ctx, i) {
+                    final record = e.records[i];
+                    return TransactionTile(record);
+                  },
+                );
+              })
+            else
+              SliverList.builder(
+                itemCount: current.records.length,
+                itemBuilder: (ctx, i) {
+                  final record = current.records[i];
+                  return TransactionTile(record);
+                },
+              ),
+          ],
+        ),
+        $showTimeSpan >>
+            (ctx, showTimeSpan) => AnimatedSlide(
+                  offset: showTimeSpan ? Offset.zero : const Offset(0, -2),
+                  duration: Durations.long4,
+                  child: AnimatedSwitcher(
+                    duration: Durations.long4,
+                    child: showTimeSpan ? buildHeader(current.start) : null,
+                  ),
+                ).align(at: Alignment.topCenter),
+      ].stack(),
+    );
+  }
+
+  Widget buildModeSelector(StatisticsMode selected) {
     return SegmentedButton<StatisticsMode>(
       showSelectedIcon: false,
       segments: StatisticsMode.values
@@ -64,277 +179,40 @@ class _ExpenseStatisticsPageState extends State<ExpenseStatisticsPage> {
                 label: e.l10nName().text(),
               ))
           .toList(),
-      selected: <StatisticsMode>{selectedMode},
+      selected: <StatisticsMode>{selected},
       onSelectionChanged: (newSelection) {
-        setState(() {
-          selectedMode = newSelection.first;
-        });
+        ref.read(_statisticsMode.notifier).state = newSelection.first;
       },
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: i18n.stats.title.text(),
-      ),
-      body: [
-        buildModeSelector().padSymmetric(h: 16, v: 4),
-        _buildChartView(),
-        ExpensePieChart(records: type2transactions),
-        // StatisticsSection(mode: selectedMode, all: type2transactions).expanded(),
-      ].column(),
-    );
-    final now = DateTime.now();
-    final years = _getYear(records);
-    final months = _getMonth(records, years, selectedYear);
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            pinned: true,
-            expandedHeight: 200,
-            flexibleSpace: FlexibleSpaceBar(
-              title: i18n.stats.title.text(),
-              centerTitle: true,
-              background: YearMonthSelector(
-                years: years,
-                months: months,
-                initialYear: now.year,
-                initialMonth: now.month,
-              ),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: _buildChartView(),
-          ),
-          SliverToBoxAdapter(
-            child: ExpensePieChart(records: type2transactions),
-          ),
-        ],
-      ),
-    );
-  }
-
-  List<int> _getYear(List<Transaction> expenseBillDesc) {
-    List<int> years = [];
-    final now = DateTime.now();
-    final currentYear = now.year;
-    final int startYear = expenseBillDesc.isNotEmpty ? expenseBillDesc.last.timestamp.year : currentYear;
-    for (int year = startYear; year <= currentYear; year++) {
-      years.add(year);
-    }
-    return years;
-  }
-
-  List<int> _getMonth(List<Transaction> expenseBill, List<int> years, int year) {
-    List<int> result = [];
-    final now = DateTime.now();
-    if (now.year == year) {
-      for (int month = 1; month <= now.month; month++) {
-        result.add(month);
-      }
-    } else if (years.first == year) {
-      for (int month = expenseBill.last.timestamp.month; month <= 12; month++) {
-        result.add(month);
-      }
-    } else {
-      result = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-    }
-    return result;
-  }
-
-  static int getDayCountOfMonth(int year, int month) {
-    final int daysFeb = (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)) ? 29 : 28;
-    List<int> days = [31, daysFeb, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-    return days[month - 1];
-  }
-
-  Widget _buildChartView() {
-    // TODO: take current month into account
-    // 得到该年该月有多少天, 生成数组记录每一天的消费.
-    final List<double> daysAmount = List.filled(getDayCountOfMonth(selectedYear, selectedMonth), 0.00);
-    // 便利该月消费情况, 加到上述统计列表中.
-    for (final record in records) {
-      daysAmount[record.timestamp.day - 1] += record.deltaAmount;
-    }
-    return OutlinedCard(
-      child: AspectRatio(
-        aspectRatio: 1.5,
-        child: BaseLineChartWidget(
-          bottomTitles: List.generate(daysAmount.length, (i) => (i + 1).toString()),
-          values: daysAmount,
-        ).padSymmetric(v: 12, h: 8),
-      ),
-    );
-  }
-
-  Widget buildWeekChart() {
-    return const BaseLineChartWidget(
-      bottomTitles: [],
-      values: [],
-    );
-  }
-
-  Widget buildMonthChart() {
-    return const BaseLineChartWidget(
-      bottomTitles: [],
-      values: [],
-    );
-  }
-
-  Widget buildYearChart() {
-    return const BaseLineChartWidget(
-      bottomTitles: [],
-      values: [],
-    );
-  }
-}
-
-class StatisticsSection extends StatefulWidget {
-  final StatisticsMode mode;
-  final Type2transactions all;
-
-  const StatisticsSection({
-    super.key,
-    required this.mode,
-    required this.all,
-  });
-
-  @override
-  State<StatisticsSection> createState() => _StatisticsSectionState();
-}
-
-class _StatisticsSectionState extends State<StatisticsSection> {
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return PageView.builder(
-      itemCount: 10,
-      itemBuilder: (ctx, i) {
-        return const StatisticsPage();
-      },
-    );
-  }
-}
-
-class BaseLineChartWidget extends StatelessWidget {
-  final List<String> bottomTitles;
-  final List<double> values;
-
-  const BaseLineChartWidget({
-    super.key,
-    required this.bottomTitles,
-    required this.values,
-  });
-
-  ///底部标题栏
-  Widget bottomTitle(BuildContext ctx, double value, TitleMeta mate) {
-    if ((value * 10).toInt() % 10 == 5) {
-      return const SizedBox();
-    }
-
-    return SideTitleWidget(
-      axisSide: mate.axisSide,
-      child: Text(
-        bottomTitles[value.toInt()],
-        style: ctx.textTheme.bodySmall?.copyWith(
-          color: Colors.blueGrey,
+  Widget buildHeader(DateTime start) {
+    final startTime2Records = ref.watch(_startTime2Records);
+    final mode = ref.watch(_statisticsMode);
+    return Card.filled(
+      child: [
+        PlatformIconButton(
+          onPressed: index > 0
+              ? () {
+                  setState(() {
+                    index = index - 1;
+                  });
+                }
+              : null,
+          icon: Icon(context.icons.leftChevron),
         ),
-      ),
-    );
-  }
-
-  ///左边部标题栏
-  Widget leftTitle(BuildContext ctx, double value, TitleMeta mate) {
-    const style = TextStyle(
-      color: Colors.blueGrey,
-      fontSize: 11,
-    );
-    String text = '¥${value.toStringAsFixed(2)}';
-    return SideTitleWidget(
-      axisSide: mate.axisSide,
-      child: Text(text, style: style),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return LineChart(
-      LineChartData(
-        ///触摸控制
-        lineTouchData: LineTouchData(
-          touchTooltipData: LineTouchTooltipData(
-            getTooltipColor: (touchedSpot) => Colors.transparent,
-          ),
-          touchSpotThreshold: 10,
+        resolveTime4Display(context: context, mode: mode, date: start).text(),
+        PlatformIconButton(
+          onPressed: index < startTime2Records.length - 1
+              ? () {
+                  setState(() {
+                    index = index + 1;
+                  });
+                }
+              : null,
+          icon: Icon(context.icons.rightChevron),
         ),
-        borderData: FlBorderData(
-          border: const Border(
-            bottom: BorderSide.none,
-          ),
-        ),
-        lineBarsData: [
-          LineChartBarData(
-            isStrokeCapRound: true,
-            belowBarData: BarAreaData(
-              show: true,
-              color: context.colorScheme.primary.withOpacity(0.15),
-            ),
-            spots: values
-                .map((e) => (e * 100).toInt() / 100) // 保留两位小数
-                .toList()
-                .asMap()
-                .entries
-                .map((e) => FlSpot(e.key.toDouble(), e.value))
-                .toList(),
-            color: context.colorScheme.primary,
-            isCurved: true,
-            preventCurveOverShooting: true,
-            barWidth: 1,
-          ),
-        ],
-
-        ///图表线表线框
-        titlesData: FlTitlesData(
-          show: true,
-          rightTitles: const AxisTitles(),
-          leftTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              reservedSize: 50,
-              getTitlesWidget: (v, meta) => leftTitle(context, v, meta),
-            ),
-          ),
-          topTitles: const AxisTitles(),
-          bottomTitles: AxisTitles(
-            sideTitles: SideTitles(
-              showTitles: true,
-              reservedSize: 55,
-              getTitlesWidget: (v, meta) => bottomTitle(context, v, meta),
-            ),
-          ),
-        ),
-      ),
+      ].row(maa: MainAxisAlignment.spaceBetween),
     );
-  }
-}
-
-class StatisticsPage extends StatefulWidget {
-  const StatisticsPage({super.key});
-
-  @override
-  State<StatisticsPage> createState() => _StatisticsPageState();
-}
-
-class _StatisticsPageState extends State<StatisticsPage> {
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
   }
 }

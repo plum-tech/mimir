@@ -1,6 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
@@ -9,6 +8,7 @@ import 'package:sit/login/utils.dart';
 import 'package:sit/login/widgets/forgot_pwd.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/school/library/api.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/utils/error.dart';
 import '../init.dart';
 import '../i18n.dart';
@@ -61,9 +61,9 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
   Widget buildBody() {
     return [
       buildForm(),
-      SizedBox(height: 10.h),
+      SizedBox(height: 10),
       buildLoginButton(),
-    ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25.h).center();
+    ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25).center();
   }
 
   Widget buildForm() {
@@ -77,7 +77,7 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
               controller: $readerId,
               textInputAction: TextInputAction.next,
               autofocus: true,
-              readOnly: !kDebugMode && initialAccount != null,
+              readOnly: !Dev.on && initialAccount != null,
               autocorrect: false,
               enableSuggestions: false,
               decoration: InputDecoration(
@@ -108,7 +108,7 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
                 labelText: i18n.login.credentials.pwd,
                 hintText: i18n.login.passwordHint,
                 icon: Icon(context.icons.lock),
-                suffixIcon: IconButton(
+                suffixIcon: PlatformIconButton(
                   icon: Icon(isPasswordClear ? context.icons.eyeSolid : context.icons.eyeSlashSolid),
                   onPressed: () {
                     setState(() {
@@ -154,7 +154,7 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
       setState(() => isLoggingIn = false);
       context.replace("/library/borrowing");
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       if (error is Exception) {

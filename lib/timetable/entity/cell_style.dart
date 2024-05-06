@@ -1,5 +1,9 @@
+import 'dart:ui';
+
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sit/utils/color.dart';
 
 part "cell_style.g.dart";
 
@@ -22,9 +26,27 @@ class CourseCellStyle {
     this.alpha = 1.0,
   });
 
+  Color decorateColor(
+    Color color, {
+    Color? themeColor,
+    bool isLessonTaken = false,
+  }) {
+    if (harmonizeWithThemeColor && themeColor != null) {
+      color = color.harmonizeWith(themeColor);
+    }
+    if (grayOutTakenLessons && isLessonTaken) {
+      color = color.monochrome();
+    }
+    if (alpha < 1.0) {
+      color = color.withOpacity(color.opacity * alpha);
+    }
+    return color;
+  }
+
   factory CourseCellStyle.fromJson(Map<String, dynamic> json) => _$CourseCellStyleFromJson(json);
 
   Map<String, dynamic> toJson() => _$CourseCellStyleToJson(this);
+
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||

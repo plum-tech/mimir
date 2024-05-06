@@ -2,52 +2,36 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/login_status.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/lifecycle.dart';
 import 'package:sit/login/i18n.dart';
-import 'package:sit/network/widgets/entry.dart';
+import 'package:sit/network/widgets/entrance.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/init.dart';
 import 'package:sit/l10n/extension.dart';
-import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/school/widgets/campus.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:locale_names/locale_names.dart';
+import 'package:sit/utils/riverpod.dart';
 
 import '../i18n.dart';
 import '../../design/widgets/navigation.dart';
 
-class SettingsPage extends StatefulWidget {
+class SettingsPage extends ConsumerStatefulWidget {
   const SettingsPage({super.key});
 
   @override
-  State<SettingsPage> createState() => _SettingsPageState();
+  ConsumerState<SettingsPage> createState() => _SettingsPageState();
 }
 
-class _SettingsPageState extends State<SettingsPage> {
-  final $isDeveloperMode = Dev.listenDevMode();
-
-  @override
-  void initState() {
-    super.initState();
-    $isDeveloperMode.addListener(refresh);
-  }
-
-  @override
-  void dispose() {
-    $isDeveloperMode.removeListener(refresh);
-    super.dispose();
-  }
-
-  void refresh() {
-    setState(() {});
-  }
-
+class _SettingsPageState extends ConsumerState<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,16 +53,17 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   List<Widget> buildEntries() {
+    final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
+    final loginStatus = ref.watch(CredentialsInit.storage.$oaLoginStatus);
+    final devOn = ref.watch(Dev.$on);
     final all = <Widget>[];
-    final auth = context.auth;
-    if (auth.loginStatus != LoginStatus.never) {
+    if (loginStatus != LoginStatus.never) {
       all.add(const CampusSelector().padSymmetric(h: 8));
     }
-    final credential = auth.credentials;
-    if (credential != null) {
+    if (credentials != null) {
       all.add(PageNavigationTile(
         title: i18n.oaCredentials.oaAccount.text(),
-        subtitle: credential.account.text(),
+        subtitle: credentials.account.text(),
         leading: const Icon(Icons.person_rounded),
         path: "/settings/credentials",
       ));
@@ -109,27 +94,32 @@ class _SettingsPageState extends State<SettingsPage> {
     ));
     all.add(const Divider());
 
-    if (auth.loginStatus != LoginStatus.never) {
+    if (loginStatus != LoginStatus.never) {
       all.add(PageNavigationTile(
         leading: const Icon(Icons.calendar_month_outlined),
-        title: i18n.timetable.title.text(),
+        title: i18n.app.navigation.timetable.text(),
         path: "/settings/timetable",
       ));
       if (!kIsWeb) {
         all.add(PageNavigationTile(
-          title: i18n.school.title.text(),
+          title: i18n.app.navigation.school.text(),
           leading: const Icon(Icons.school_outlined),
           path: "/settings/school",
         ));
         all.add(PageNavigationTile(
-          title: i18n.life.title.text(),
+          title: i18n.app.navigation.life.text(),
           leading: const Icon(Icons.spa_outlined),
           path: "/settings/life",
         ));
       }
+      all.add(PageNavigationTile(
+        title: i18n.app.navigation.game.text(),
+        leading: const Icon(Icons.videogame_asset),
+        path: "/settings/game",
+      ));
       all.add(const Divider());
     }
-    if (Dev.on) {
+    if (devOn) {
       all.add(PageNavigationTile(
         title: i18n.dev.title.text(),
         leading: const Icon(Icons.developer_mode_outlined),
@@ -143,9 +133,9 @@ class _SettingsPageState extends State<SettingsPage> {
         leading: const Icon(Icons.vpn_key),
         path: "/settings/proxy",
       ));
-      all.add(const NetworkToolEntryTile());
+      all.add(const NetworkToolEntranceTile());
     }
-    if (auth.loginStatus != LoginStatus.never) {
+    if (loginStatus != LoginStatus.never) {
       all.add(const ClearCacheTile());
     }
     all.add(const WipeDataTile());
@@ -159,27 +149,27 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget buildThemeMode() {
-    return Settings.theme.listenThemeMode() >>
-        (ctx, _) => ListTile(
-              leading: switch (Settings.theme.themeMode) {
-                ThemeMode.dark => const Icon(Icons.dark_mode),
-                ThemeMode.light => const Icon(Icons.light_mode),
-                ThemeMode.system => const Icon(Icons.brightness_auto),
-              },
-              isThreeLine: true,
-              title: i18n.themeModeTitle.text(),
-              subtitle: ThemeMode.values
-                  .map((mode) => ChoiceChip(
-                        label: mode.l10n().text(),
-                        selected: Settings.theme.themeMode == mode,
-                        onSelected: (value) async {
-                          Settings.theme.themeMode = mode;
-                          await HapticFeedback.mediumImpact();
-                        },
-                      ))
-                  .toList()
-                  .wrap(spacing: 4),
-            );
+    final themeMode = ref.watch(Settings.theme.$themeMode) ?? ThemeMode.system;
+    return ListTile(
+      leading: switch (themeMode) {
+        ThemeMode.dark => const Icon(Icons.dark_mode),
+        ThemeMode.light => const Icon(Icons.light_mode),
+        ThemeMode.system => const Icon(Icons.brightness_auto),
+      },
+      isThreeLine: true,
+      title: i18n.themeModeTitle.text(),
+      subtitle: ThemeMode.values
+          .map((mode) => ChoiceChip(
+                label: mode.l10n().text(),
+                selected: Settings.theme.themeMode == mode,
+                onSelected: (value) async {
+                  ref.read(Settings.theme.$themeMode.notifier).set(mode);
+                  await HapticFeedback.mediumImpact();
+                },
+              ))
+          .toList()
+          .wrap(spacing: 4),
+    );
   }
 }
 
@@ -200,11 +190,10 @@ class ClearCacheTile extends StatelessWidget {
 }
 
 void _onClearCache(BuildContext context) async {
-  final confirm = await context.showDialogRequest(
-    title: i18n.clearCacheTitle,
+  final confirm = await context.showActionRequest(
+    action: i18n.clearCacheTitle,
     desc: i18n.clearCacheRequest,
-    yes: i18n.confirm,
-    no: i18n.cancel,
+    cancel: i18n.cancel,
     destructive: true,
   );
   if (confirm == true) {
@@ -229,19 +218,18 @@ class WipeDataTile extends StatelessWidget {
 }
 
 Future<void> _onWipeData(BuildContext context) async {
-  final confirm = await context.showDialogRequest(
-    title: i18n.wipeDataRequest,
+  final confirm = await context.showActionRequest(
+    action: i18n.wipeDataRequest,
     desc: i18n.wipeDataRequestDesc,
-    yes: i18n.confirm,
-    no: i18n.cancel,
+    cancel: i18n.cancel,
     destructive: true,
   );
   if (confirm == true) {
-    await HiveInit.clear(); // 清除存储
+    await HiveInit.clear(); // Clear storage
     await Init.initNetwork();
     await Init.initModules();
     if (!context.mounted) return;
-    OaOnlineManagerState.of(context).isOnline = false;
+    context.riverpod().read($oaOnline.notifier).state = false;
     _gotoLogin(context);
   }
 }

@@ -67,7 +67,7 @@ class _SchoolContactListState extends State<SchoolContactList> {
       slivers: department2contacts.entries
           .mapIndexed(
             (i, entry) => GroupedSection(
-              headerBuilder: (expanded, toggleExpand, defaultTrailing) {
+              headerBuilder: (context, expanded, toggleExpand, defaultTrailing) {
                 return ListTile(
                   title: entry.key.text(),
                   titleTextStyle: context.textTheme.titleMedium,

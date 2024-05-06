@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:sit/credentials/entity/credential.dart';
+import 'package:sit/credentials/entity/login_status.dart';
+import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/entity/campus.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:sit/credentials/init.dart';
+import 'package:sit/lifecycle.dart';
 import 'package:sit/session/backend.dart';
+import 'package:sit/settings/entity/proxy.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/session/class2nd.dart';
-import 'package:sit/session/gms.dart';
+import 'package:sit/session/pg_registration.dart';
 import 'package:sit/session/library.dart';
 import 'package:sit/session/ywb.dart';
 import 'package:sit/life/electricity/init.dart';
@@ -21,7 +26,7 @@ import 'package:sit/school/oa_announce/init.dart';
 import 'package:sit/school/class2nd/init.dart';
 import 'package:sit/school/exam_result/init.dart';
 import 'package:sit/school/yellow_pages/init.dart';
-import 'package:sit/session/jwxt.dart';
+import 'package:sit/session/ug_registration.dart';
 import 'package:sit/timetable/init.dart';
 import 'dart:async';
 
@@ -29,7 +34,6 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:sit/storage/hive/cookie.dart';
 import 'package:sit/network/dio.dart';
-import 'package:sit/route.dart';
 import 'package:sit/session/sso.dart';
 import 'package:sit/update/init.dart';
 
@@ -42,8 +46,8 @@ class Init {
   static late Dio dio;
   static late BackendSession backend;
   static late SsoSession ssoSession;
-  static late JwxtSession jwxtSession;
-  static late GmsSession gmsSession;
+  static late UgRegistrationSession ugRegSession;
+  static late PgRegistrationSession pgRegSession;
   static late YwbSession ywbSession;
   static late LibrarySession librarySession;
   static late Class2ndSession class2ndSession;
@@ -71,12 +75,8 @@ class Init {
     ssoSession = SsoSession(
       dio: dio,
       cookieJar: cookieJar,
-      onError: (error, stackTrace) {
-        debugPrint(error.toString());
-        debugPrintStack(stackTrace: stackTrace);
-      },
       inputCaptcha: (Uint8List imageBytes) async {
-        final context = $Key.currentContext!;
+        final context = $key.currentContext!;
         // return await context.show$Sheet$(
         //   (ctx) => CaptchaSheetPage(
         //     captchaData: imageBytes,
@@ -89,7 +89,7 @@ class Init {
         );
       },
     );
-    jwxtSession = JwxtSession(
+    ugRegSession = UgRegistrationSession(
       ssoSession: ssoSession,
     );
     ywbSession = YwbSession(
@@ -101,13 +101,13 @@ class Init {
     class2ndSession = Class2ndSession(
       ssoSession: ssoSession,
     );
-    gmsSession = GmsSession(
+    pgRegSession = PgRegistrationSession(
       ssoSession: ssoSession,
     );
   }
 
   static Future<void> initModules() async {
-    debugPrint("Initializing module storage");
+    debugPrint("Initializing modules");
     CredentialsInit.init();
     TimetableInit.init();
     if (!kIsWeb) {
@@ -126,8 +126,39 @@ class Init {
     LoginInit.init();
   }
 
+  static Future<void> initStorage() async {
+    debugPrint("Initializing module storage");
+    CredentialsInit.initStorage();
+    TimetableInit.initStorage();
+    if (!kIsWeb) {
+      UpdateInit.initStorage();
+      OaAnnounceInit.initStorage();
+      ExamResultInit.initStorage();
+      ExamArrangeInit.initStorage();
+      ExpenseRecordsInit.initStorage();
+      LibraryInit.initStorage();
+      YwbInit.initStorage();
+      Class2ndInit.initStorage();
+      ElectricityBalanceInit.initStorage();
+    }
+    YellowPagesInit.initStorage();
+    EduEmailInit.initStorage();
+    LoginInit.initStorage();
+  }
+
   static void registerCustomEditor() {
     EditorEx.registerEnumEditor(Campus.values);
     EditorEx.registerEnumEditor(ThemeMode.values);
+    EditorEx.registerEnumEditor(ProxyMode.values);
+    Editor.registerEditor<Credentials>((ctx, desc, initial) => StringsEditor(
+          fields: [
+            (name: "account", initial: initial.account),
+            (name: "password", initial: initial.password),
+          ],
+          title: desc,
+          ctor: (values) => Credentials(account: values[0], password: values[1]),
+        ));
+    EditorEx.registerEnumEditor(LoginStatus.values);
+    EditorEx.registerEnumEditor(OaUserType.values);
   }
 }

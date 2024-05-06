@@ -42,9 +42,10 @@ class LibraryInit {
     bookImageSearch = const BookImageSearchService();
     collectionPreviewService = const LibraryCollectionPreviewService();
     hotSearchService = Dev.demoMode ? const DemoLibraryTrendsService() : const LibraryTrendsService();
-
     borrowService = const LibraryBorrowService();
+  }
 
+  static void initStorage() {
     searchStorage = const LibrarySearchStorage();
     bookStorage = const LibraryBookStorage();
     borrowStorage = LibraryBorrowStorage();

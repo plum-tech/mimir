@@ -4,7 +4,7 @@ import 'package:sit/design/animation/progress.dart';
 import 'package:sit/init.dart';
 
 import 'package:sit/school/entity/school.dart';
-import 'package:sit/session/jwxt.dart';
+import 'package:sit/session/ug_registration.dart';
 
 import '../entity/result.ug.dart';
 
@@ -27,7 +27,7 @@ class ExamResultUgService {
   static const _scorePercentageSelector = 'td:nth-child(3)';
   static const _scoreValueSelector = 'td:nth-child(5)';
 
-  JwxtSession get _session => Init.jwxtSession;
+  UgRegistrationSession get _session => Init.ugRegSession;
 
   const ExamResultUgService();
 

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/design/widgets/app.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/l10n/extension.dart';
@@ -55,11 +55,11 @@ class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> {
   }
 
   Future<void> refresh({required bool active}) async {
-    final oaCredential = context.auth.credentials;
-    if (oaCredential == null) return;
+    final credentials = ref.read(CredentialsInit.storage.$oaCredentials);
+    if (credentials == null) return;
     try {
       await ExpenseAggregated.fetchAndSaveTransactionUntilNow(
-        studentId: oaCredential.account,
+        oaAccount: credentials.account,
       );
     } catch (error) {
       if (active) {

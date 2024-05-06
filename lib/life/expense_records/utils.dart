@@ -1,9 +1,16 @@
 import 'package:collection/collection.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:sit/life/expense_records/entity/local.dart';
+import 'package:sit/lifecycle.dart';
 
 import 'package:sit/school/utils.dart';
+import 'package:sit/utils/date.dart';
 
 import 'entity/remote.dart';
+import 'entity/statistics.dart';
+import 'i18n.dart';
 
 const deviceName2Type = {
   '开水': TransactionType.water,
@@ -122,4 +129,73 @@ double accumulateTransactionAmount(List<Transaction> transactions) {
     total += t.deltaAmount;
   }
   return total;
+}
+
+({double total, Map<TransactionType, ({double proportion, List<Transaction> records, double total})> type2Stats})
+    statisticsTransactionByType(
+  List<Transaction> records,
+) {
+  final type2transactions = records.groupListsBy((record) => record.type);
+  final type2total = type2transactions.map((type, records) => MapEntry(type, accumulateTransactionAmount(records)));
+  final total = type2total.values.sum;
+  return (
+    total: total,
+    type2Stats: type2transactions.map((type, records) {
+      final (income: _, :outcome) = accumulateTransactionIncomeOutcome(records);
+      return MapEntry(type, (records: records, total: outcome, proportion: (type2total[type] ?? 0) / total));
+    })
+  );
+}
+
+String resolveTime4Display({
+  required BuildContext context,
+  required StatisticsMode mode,
+  required DateTime date,
+}) {
+  final now = DateTime.now();
+  final local = $key.currentContext?.locale.toString();
+  switch (mode) {
+    case StatisticsMode.day:
+      final dayDiff = now.difference(date).inDays;
+      if (dayDiff == 0) {
+        return i18n.stats.today;
+      } else if (dayDiff == 1) {
+        return i18n.stats.yesterday;
+      }
+      return formatDateSpan(from: date, to: StatisticsMode.day.getAfterUnitTime(start: date));
+    case StatisticsMode.week:
+      if (date.year == now.year) {
+        final nowWeek = now.week;
+        final dateWeek = date.week;
+        if (dateWeek == nowWeek) {
+          return i18n.stats.thisWeek;
+        } else if (dateWeek == nowWeek - 1) {
+          return i18n.stats.lastWeek;
+        }
+      }
+      return formatDateSpan(from: date, to: StatisticsMode.week.getAfterUnitTime(start: date));
+    case StatisticsMode.month:
+      final yearMonthFormat = DateFormat.yMMMM(local);
+      final monthFormat = DateFormat.MMMM(local);
+      if (date.year == now.year) {
+        if (date.month == now.month) {
+          return i18n.stats.thisMonth;
+        } else if (date.month == now.month - 1) {
+          return i18n.stats.lastMonth;
+        } else {
+          return monthFormat.format(date);
+        }
+      } else {
+        return yearMonthFormat.format(date);
+      }
+    case StatisticsMode.year:
+      final yearFormat = DateFormat.y(local);
+      if (date.year == now.year) {
+        return i18n.stats.thisYear;
+      } else if (date.year == now.year - 1) {
+        return i18n.stats.lastYear;
+      } else {
+        return yearFormat.format(date);
+      }
+  }
 }

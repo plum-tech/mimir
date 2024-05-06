@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+@JsonEnum()
 enum Weekday {
   monday,
   tuesday,
@@ -11,13 +13,24 @@ enum Weekday {
 
   int toJson() => index;
 
+  static const calendarOrder = [
+    sunday,
+    monday,
+    tuesday,
+    wednesday,
+    thursday,
+    friday,
+    saturday,
+  ];
+
   int getIndex({required Weekday firstDay}) {
     return (this - firstDay.index).index;
   }
 
-  factory Weekday.fromJson(int json) => Weekday.values.elementAtOrNull(json) ?? Weekday.monday;
+  const Weekday();
+  static Weekday fromJson(int json) => Weekday.values.elementAtOrNull(json) ?? Weekday.monday;
 
-  factory Weekday.fromIndex(int index) {
+  static Weekday fromIndex(int index) {
     assert(0 <= index && index < Weekday.values.length);
     return Weekday.values[index % Weekday.values.length];
   }

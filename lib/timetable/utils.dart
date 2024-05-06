@@ -5,8 +5,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:open_file/open_file.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/entity/campus.dart';
@@ -17,7 +19,8 @@ import 'package:sit/school/entity/school.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:sit/school/utils.dart';
-import 'package:sit/school/entity/timetable.dart';
+import 'package:sit/timetable/entity/pos.dart';
+import 'package:sit/utils/error.dart';
 import 'package:sit/utils/ical.dart';
 import 'package:sit/utils/permission.dart';
 import 'package:sit/utils/strings.dart';
@@ -26,6 +29,7 @@ import '../school/exam_result/entity/result.pg.dart';
 import 'entity/timetable.dart';
 
 import 'entity/course.dart';
+import 'entity/timetable_entity.dart';
 import 'dart:math';
 
 import 'i18n.dart';
@@ -96,9 +100,13 @@ Campus _parseCampus(String campus) {
   }
 }
 
-SitTimetable parseUndergraduateTimetableFromCourseRaw(List<UndergraduateCourseRaw> all) {
+SitTimetable parseUndergraduateTimetableFromCourseRaw(
+  List<UndergraduateCourseRaw> all, {
+  required Campus defaultCampus,
+}) {
   final courseKey2Entity = <String, SitCourse>{};
   var counter = 0;
+  var campus = defaultCampus;
   for (final raw in all) {
     final courseKey = counter++;
     final weekIndices = _parseWeekText2RangedNumbers(
@@ -112,12 +120,12 @@ SitTimetable parseUndergraduateTimetableFromCourseRaw(List<UndergraduateCourseRa
     if (dayIndex == null || !(0 <= dayIndex && dayIndex < 7)) continue;
     final timeslots = rangeFromString(raw.timeslotsText, number2index: true);
     assert(timeslots.start <= timeslots.end, "${timeslots.start} > ${timeslots.end} actually. ${raw.courseName}");
+    campus = _parseCampus(raw.campus);
     final course = SitCourse(
       courseKey: courseKey,
       courseName: mapChinesePunctuations(raw.courseName).trim(),
       courseCode: raw.courseCode.trim(),
       classCode: raw.classCode.trim(),
-      campus: _parseCampus(raw.campus),
       place: reformatPlace(mapChinesePunctuations(raw.place)),
       weekIndices: weekIndices,
       timeslots: timeslots,
@@ -131,58 +139,13 @@ SitTimetable parseUndergraduateTimetableFromCourseRaw(List<UndergraduateCourseRa
     courses: courseKey2Entity,
     lastCourseKey: counter,
     name: "",
+    campus: campus,
     startDate: DateTime.utc(0),
     schoolYear: 0,
     semester: Semester.term1,
+    lastModified: DateTime.now(),
   );
   return res;
-}
-
-SitTimetableEntity resolveTimetableEntity(SitTimetable timetable) {
-  final weeks = List.generate(20, (index) => SitTimetableWeek.$7days(index));
-
-  for (final course in timetable.courses.values) {
-    final timeslots = course.timeslots;
-    for (final weekIndex in course.weekIndices.getWeekIndices()) {
-      assert(
-        0 <= weekIndex && weekIndex < maxWeekLength,
-        "Week index is more out of range [0,$maxWeekLength) but $weekIndex.",
-      );
-      if (0 <= weekIndex && weekIndex < maxWeekLength) {
-        final week = weeks[weekIndex];
-        final day = week.days[course.dayIndex];
-        final thatDay = reflectWeekDayIndexToDate(
-          weekIndex: week.index,
-          weekday: Weekday.fromIndex(day.index),
-          startDate: timetable.startDate,
-        );
-        final fullClassTime = course.calcBeginEndTimePoint();
-        final lesson = SitTimetableLesson(
-          course: course,
-          startIndex: timeslots.start,
-          endIndex: timeslots.end,
-          startTime: thatDay.addTimePoint(fullClassTime.begin),
-          endTime: thatDay.addTimePoint(fullClassTime.end),
-        );
-        for (int slot = timeslots.start; slot <= timeslots.end; slot++) {
-          final classTime = course.calcBeginEndTimePointOfLesson(slot);
-          day.add(
-            at: slot,
-            lesson: SitTimetableLessonPart(
-              type: lesson,
-              index: slot,
-              startTime: thatDay.addTimePoint(classTime.begin),
-              endTime: thatDay.addTimePoint(classTime.end),
-            ),
-          );
-        }
-      }
-    }
-  }
-  return SitTimetableEntity(
-    type: timetable,
-    weeks: weeks,
-  );
 }
 
 Duration calcuSwitchAnimationDuration(num distance) {
@@ -190,7 +153,7 @@ Duration calcuSwitchAnimationDuration(num distance) {
   return Duration(milliseconds: time.toInt());
 }
 
-Future<SitTimetable?> readTimetableFromFile() async {
+Future<SitTimetable?> readTimetableFromPickedFile() async {
   final result = await FilePicker.platform.pickFiles(
       // Cannot limit the extensions. My RedMi phone just reject all files.
       // type: FileType.custom,
@@ -204,32 +167,56 @@ Future<SitTimetable?> readTimetableFromFile() async {
   return timetable;
 }
 
-Future<SitTimetable?> readTimetableFromFileWithPrompt(BuildContext context) async {
+Future<SitTimetable?> readTimetableFromFile(String path) async {
+  final file = File(path);
+  final content = await file.readAsString();
+  final json = jsonDecode(content);
+  final timetable = SitTimetable.fromJson(json);
+  return timetable;
+}
+
+Future<SitTimetable?> readTimetableFromFileWithPrompt(BuildContext context, String path) async {
   try {
-    final id2timetable = await readTimetableFromFile();
-    if (id2timetable == null) return null;
-  } catch (err, stackTrace) {
-    debugPrint(err.toString());
-    debugPrintStack(stackTrace: stackTrace);
+    final timetable = await readTimetableFromFile(path);
+    return timetable;
+  } catch (error, stackTrace) {
+    debugPrintError(error, stackTrace);
     if (!context.mounted) return null;
-    if (err is PlatformException) {
+    context.showTip(
+      title: "Format error",
+      desc: "The file isn't supported. Please select a timetable file.",
+      primary: i18n.ok,
+    );
+    return null;
+  }
+}
+
+Future<SitTimetable?> readTimetableFromPickedFileWithPrompt(BuildContext context) async {
+  try {
+    final timetable = await readTimetableFromPickedFile();
+    return timetable;
+  } catch (error, stackTrace) {
+    debugPrintError(error, stackTrace);
+    if (!context.mounted) return null;
+    if (error is PlatformException) {
       await showPermissionDeniedDialog(context: context, permission: Permission.storage);
     } else {
       context.showTip(
         title: "Format error",
         desc: "The file isn't supported. Please select a timetable file.",
-        ok: i18n.ok,
+        primary: i18n.ok,
       );
     }
     return null;
   }
-  return null;
 }
 
 Future<String?> _readTimetableFi(PlatformFile fi) async {
   if (kIsWeb) {
     final bytes = fi.bytes;
-    return bytes == null ? null : String.fromCharCodes(bytes);
+    if (bytes == null) return null;
+    // timetable file should be encoding in utf-8.
+    return const Utf8Decoder().convert(bytes.toList());
   } else {
     final path = fi.path;
     if (path == null) return null;
@@ -284,47 +271,51 @@ String convertTimetable2ICal({
   );
   final alarm = config.alarm;
   final merged = config.isLessonMerged;
-  for (final week in timetable.weeks) {
-    for (final day in week.days) {
-      for (final lessonSlot in day.timeslot2LessonSlot) {
-        for (final part in lessonSlot.lessons) {
-          final course = part.course;
-          final teachers = course.teachers.join(', ');
-          final lesson = part.type;
-          final startTime = (merged ? lesson.startTime : part.startTime).toUtc();
-          final endTime = (merged ? lesson.endTime : part.endTime).toUtc();
-          final uid = merged
-              ? "${R.appId}.${course.courseCode}.${week.index}.${day.index}.${lesson.startIndex}-${lesson.endIndex}"
-              : "${R.appId}.${course.courseCode}.${week.index}.${day.index}.${part.index}";
-          // Use UTC
-          final event = calendar.addEvent(
-            uid: uid,
-            summary: course.courseName,
-            location: course.place,
-            description: teachers,
-            comment: teachers,
-            start: startTime,
-            end: endTime,
-          );
-          if (alarm != null) {
-            final trigger = startTime.subtract(alarm.alarmBeforeClass).toUtc();
-            if (alarm.isSoundAlarm) {
-              event.addAlarmAudio(
-                triggerDate: trigger,
-                repeating: (repeat: 1, duration: alarm.alarmDuration),
-              );
-            } else {
-              event.addAlarmDisplay(
-                triggerDate: trigger,
-                description: "${course.courseName} ${course.place} $teachers",
-                repeating: (repeat: 1, duration: alarm.alarmDuration),
-              );
-            }
+  final added = <SitTimetableLesson>{};
+  for (final day in timetable.days) {
+    for (final lessonSlot in day.timeslot2LessonSlot) {
+      for (final part in lessonSlot.lessons) {
+        final lesson = part.type;
+        if (merged && added.contains(lesson)) {
+          continue;
+        } else {
+          added.add(lesson);
+        }
+        final course = part.course;
+        final teachers = course.teachers.join(', ');
+        final startTime = (merged ? lesson.startTime : part.startTime).toUtc();
+        final endTime = (merged ? lesson.endTime : part.endTime).toUtc();
+        final uid = merged
+            ? "${R.appId}.${course.courseCode}.${day.weekIndex}.${day.weekday.index}.${lesson.startIndex}-${lesson.endIndex}"
+            : "${R.appId}.${course.courseCode}.${day.weekIndex}.${day.weekday.index}.${part.index}";
+        // Use UTC
+        final event = calendar.addEvent(
+          uid: uid,
+          summary: course.courseName,
+          location: course.place,
+          description: teachers,
+          comment: teachers,
+          start: startTime,
+          end: endTime,
+        );
+        if (alarm != null) {
+          final trigger = startTime.subtract(alarm.alarmBeforeClass).toUtc();
+          if (alarm.isDisplayAlarm) {
+            event.addAlarmDisplay(
+              triggerDate: trigger,
+              description: "${course.courseName} ${course.place} $teachers",
+              repeating: (repeat: 1, duration: alarm.alarmDuration),
+            );
+          } else {
+            event.addAlarmAudio(
+              triggerDate: trigger,
+              repeating: (repeat: 1, duration: alarm.alarmDuration),
+            );
           }
-          if (merged) {
-            // skip the `lessonParts` loop
-            break;
-          }
+        }
+        if (merged) {
+          // skip the `lessonParts` loop
+          break;
         }
       }
     }
@@ -464,7 +455,7 @@ void completePostgraduateCourseRawsFromPostgraduateScoreRaws(
 
 SitTimetable parsePostgraduateTimetableFromCourseRaw(
   List<PostgraduateCourseRaw> all, {
-  required Campus campus,
+  required Campus defaultCampus,
 }) {
   final courseKey2Entity = <String, SitCourse>{};
   var counter = 0;
@@ -489,7 +480,6 @@ SitTimetable parsePostgraduateTimetableFromCourseRaw(
       courseName: mapChinesePunctuations(raw.courseName).trim(),
       courseCode: raw.courseCode.trim(),
       classCode: raw.classCode.trim(),
-      campus: campus,
       place: reformatPlace(mapChinesePunctuations(raw.place)),
       weekIndices: weekIndices,
       timeslots: timeslots,
@@ -503,9 +493,90 @@ SitTimetable parsePostgraduateTimetableFromCourseRaw(
     courses: courseKey2Entity,
     lastCourseKey: counter,
     name: "",
+    campus: defaultCampus,
     startDate: DateTime.utc(0),
     schoolYear: 0,
     semester: Semester.term1,
+    lastModified: DateTime.now(),
   );
   return res;
+}
+
+Future<int?> selectWeekInTimetable({
+  required BuildContext context,
+  required SitTimetable timetable,
+  int? initialWeekIndex,
+  required String submitLabel,
+}) async {
+  final todayPos = timetable.locate(DateTime.now());
+  final todayIndex = todayPos.weekIndex;
+  final controller = FixedExtentScrollController(initialItem: initialWeekIndex ?? todayIndex);
+  final selectedWeek = await context.showPicker(
+        count: 20,
+        controller: controller,
+        ok: submitLabel,
+        okEnabled: (curSelected) => curSelected != initialWeekIndex,
+        actions: [
+          (ctx, curSelected) => PlatformTextButton(
+                onPressed: (curSelected == todayIndex)
+                    ? null
+                    : () {
+                        controller.animateToItem(todayIndex,
+                            duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
+                      },
+                child: i18n.findToday.text(),
+              )
+        ],
+        make: (ctx, i) {
+          return Text(i18n.weekOrderedName(number: i + 1));
+        },
+      ) ??
+      initialWeekIndex;
+  controller.dispose();
+  return selectedWeek;
+}
+
+Future<TimetablePos?> selectDayInTimetable({
+  required BuildContext context,
+  required SitTimetable timetable,
+  TimetablePos? initialPos,
+  required String submitLabel,
+}) async {
+  final initialWeekIndex = initialPos?.weekIndex;
+  final initialDayIndex = initialPos?.weekday.index;
+  final todayPos = timetable.locate(DateTime.now());
+  final todayWeekIndex = todayPos.weekIndex;
+  final todayDayIndex = todayPos.weekday.index;
+  final $week = FixedExtentScrollController(initialItem: initialPos?.weekIndex ?? todayWeekIndex);
+  final $day = FixedExtentScrollController(initialItem: initialDayIndex ?? todayDayIndex);
+  final (selectedWeek, selectedDay) = await context.showDualPicker(
+        countA: 20,
+        countB: 7,
+        controllerA: $week,
+        controllerB: $day,
+        ok: submitLabel,
+        okEnabled: (weekSelected, daySelected) => weekSelected != initialWeekIndex || daySelected != initialDayIndex,
+        actions: [
+          (ctx, week, day) => PlatformTextButton(
+                onPressed: (week == todayWeekIndex && day == todayDayIndex)
+                    ? null
+                    : () {
+                        $week.animateToItem(todayWeekIndex,
+                            duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
+
+                        $day.animateToItem(todayDayIndex,
+                            duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
+                      },
+                child: i18n.findToday.text(),
+              )
+        ],
+        makeA: (ctx, i) => i18n.weekOrderedName(number: i + 1).text(),
+        makeB: (ctx, i) => Weekday.fromIndex(i).l10n().text(),
+      ) ??
+      (initialWeekIndex, initialDayIndex);
+  $week.dispose();
+  $day.dispose();
+  return selectedWeek != null && selectedDay != null
+      ? TimetablePos(weekIndex: selectedWeek, weekday: Weekday.fromIndex(selectedDay))
+      : null;
 }

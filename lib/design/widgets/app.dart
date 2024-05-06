@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 
-import 'card.dart';
-
 class AppCard extends StatelessWidget {
   /// [SizedBox] by default.
   final Widget? view;
@@ -37,8 +35,8 @@ class AppCard extends StatelessWidget {
     final leftActions = this.leftActions ?? const <Widget>[];
     final rightActions = this.rightActions ?? const <Widget>[];
     final textTheme = context.textTheme;
-    return FilledCard(
-      clip: Clip.hardEdge,
+    return Card.filled(
+      clipBehavior: Clip.hardEdge,
       child: [
         Theme(
           data: context.theme.copyWith(

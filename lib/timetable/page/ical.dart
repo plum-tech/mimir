@@ -5,13 +5,16 @@ import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/duration_picker.dart';
+import 'package:sit/r.dart';
+import 'package:universal_platform/universal_platform.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import '../entity/timetable.dart';
 import "../i18n.dart";
 
 typedef TimetableICalAlarmConfig = ({
   Duration alarmBeforeClass,
   Duration alarmDuration,
-  bool isSoundAlarm,
+  bool isDisplayAlarm,
 });
 
 typedef TimetableICalConfig = ({
@@ -37,7 +40,7 @@ class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
   var alarmDuration = const Duration(minutes: 5);
   var alarmBeforeClass = const Duration(minutes: 15);
   var merged = true;
-  var isSoundAlarm = false;
+  var isDisplayAlarm = true;
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +64,22 @@ class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
           ]),
         ],
       ),
+      bottomNavigationBar: buildGetShortcut(),
+    );
+  }
+
+  Widget? buildGetShortcut() {
+    // only for iOS
+    if (!UniversalPlatform.isIOS) return null;
+    return BottomAppBar(
+      color: Colors.transparent,
+      surfaceTintColor: Colors.transparent,
+      child: PlatformTextButton(
+        child: i18n.export.iOSGetShortcutAction.text(),
+        onPressed: () {
+          launchUrlString(R.iosTimetableICalToCalendarShortcut);
+        },
+      ),
     );
   }
 
@@ -73,7 +92,7 @@ class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
               ? (
                   alarmBeforeClass: alarmBeforeClass,
                   alarmDuration: alarmDuration,
-                  isSoundAlarm: isSoundAlarm,
+                  isDisplayAlarm: isDisplayAlarm,
                 )
               : null,
           locale: context.locale,
@@ -140,23 +159,23 @@ class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
       subtitle: [
         ChoiceChip(
           label: i18n.export.alarmModeSound.text(),
-          selected: isSoundAlarm,
+          selected: !isDisplayAlarm,
           onSelected: !enableAlarm
               ? null
               : (value) {
                   setState(() {
-                    isSoundAlarm = true;
+                    isDisplayAlarm = false;
                   });
                 },
         ),
         ChoiceChip(
           label: i18n.export.alarmModeDisplay.text(),
-          selected: !isSoundAlarm,
+          selected: isDisplayAlarm,
           onSelected: !enableAlarm
               ? null
               : (value) {
                   setState(() {
-                    isSoundAlarm = false;
+                    isDisplayAlarm = true;
                   });
                 },
         ),
@@ -166,25 +185,23 @@ class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
 
   Widget buildAlarmDuration() {
     return ListTile(
-      enabled: enableAlarm,
+      enabled: enableAlarm && !isDisplayAlarm,
       title: i18n.export.alarmDuration.text(),
       subtitle: i18n.time.minuteFormat(alarmDuration.inMinutes.toString()).text(),
-      trailing: IconButton(
-        icon: Icon(context.icons.edit),
-        onPressed: !enableAlarm
-            ? null
-            : () async {
-                final newDuration = await showDurationPicker(
-                  context: context,
-                  initialTime: alarmDuration,
-                );
-                if (newDuration != null) {
-                  setState(() {
-                    alarmDuration = newDuration;
-                  });
-                }
-              },
-      ),
+      trailing: Icon(context.icons.edit),
+      onTap: !enableAlarm
+          ? null
+          : () async {
+              final newDuration = await showDurationPicker(
+                context: context,
+                initialTime: alarmDuration,
+              );
+              if (newDuration != null) {
+                setState(() {
+                  alarmDuration = newDuration;
+                });
+              }
+            },
     );
   }
 
@@ -193,22 +210,20 @@ class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
       enabled: enableAlarm,
       title: i18n.export.alarmBeforeClassBegins.text(),
       subtitle: i18n.export.alarmBeforeClassBeginsDesc(alarmBeforeClass).text(),
-      trailing: IconButton(
-        icon: Icon(context.icons.edit),
-        onPressed: !enableAlarm
-            ? null
-            : () async {
-                final newDuration = await showDurationPicker(
-                  context: context,
-                  initialTime: alarmBeforeClass,
-                );
-                if (newDuration != null) {
-                  setState(() {
-                    alarmBeforeClass = newDuration;
-                  });
-                }
-              },
-      ),
+      onTap: !enableAlarm
+          ? null
+          : () async {
+              final newDuration = await showDurationPicker(
+                context: context,
+                initialTime: alarmBeforeClass,
+              );
+              if (newDuration != null) {
+                setState(() {
+                  alarmBeforeClass = newDuration;
+                });
+              }
+            },
+      trailing: Icon(context.icons.edit),
     );
   }
 }

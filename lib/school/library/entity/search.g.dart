@@ -34,7 +34,7 @@ const _$SearchMethodEnumMap = {
 
 LibraryTrendsItem _$LibraryTrendsItemFromJson(Map<String, dynamic> json) => LibraryTrendsItem(
       keyword: json['keyword'] as String,
-      count: json['count'] as int,
+      count: (json['count'] as num).toInt(),
     );
 
 Map<String, dynamic> _$LibraryTrendsItemToJson(LibraryTrendsItem instance) => <String, dynamic>{

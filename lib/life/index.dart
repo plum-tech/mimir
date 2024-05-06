@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/credentials/entity/login_status.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/credentials/init.dart';
+import 'package:sit/entity/campus.dart';
 import 'package:sit/life/electricity/index.dart';
 import 'package:sit/life/expense_records/index.dart';
 import 'package:sit/settings/settings.dart';
@@ -10,47 +12,18 @@ import 'package:rettulf/rettulf.dart';
 import 'event.dart';
 import "i18n.dart";
 
-class LifePage extends StatefulWidget {
+class LifePage extends ConsumerStatefulWidget {
   const LifePage({super.key});
 
   @override
-  State<LifePage> createState() => _LifePageState();
+  ConsumerState<LifePage> createState() => _LifePageState();
 }
 
-class _LifePageState extends State<LifePage> {
-  LoginStatus? loginStatus;
-  final $campus = Settings.listenCampus();
-
-  @override
-  void initState() {
-    $campus.addListener(refresh);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    $campus.removeListener(refresh);
-    super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    final newLoginStatus = context.auth.loginStatus;
-    if (loginStatus != newLoginStatus) {
-      setState(() {
-        loginStatus = newLoginStatus;
-      });
-    }
-    super.didChangeDependencies();
-  }
-
-  void refresh() {
-    setState(() {});
-  }
-
+class _LifePageState extends ConsumerState<LifePage> {
   @override
   Widget build(BuildContext context) {
-    final campus = Settings.campus;
+    final loginStatus = ref.watch(CredentialsInit.storage.$oaLoginStatus);
+    final campus = ref.watch(Settings.$campus) ?? Campus.fengxian;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: NestedScrollView(

@@ -4,7 +4,7 @@ on: workflow_dispatch
 permissions: write-all
 
 env:
-  flutter_version: '3.19.4'
+  flutter_version: '3.19.6'
 
 jobs:
   build_android:
@@ -27,16 +27,16 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Install and set Flutter version
+      - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.flutter_version }}
           channel: stable
           cache: true
 
-      - name: Restore packages
+      - name: Setup Flutter
         run: |
-          flutter pub get
+          flutter config --no-cli-animations
 
       - name: Build APK
         run: |
@@ -71,7 +71,7 @@ jobs:
           path: build/upload-artifacts/SITLife-${{ steps.get_git_info.outputs.RESOLVED_VERSION }}.apk
 
   build_ios:
-    runs-on: macos-latest
+    runs-on: macos-14 # macos-latest is macos-12 actually, and iOS 17+ SDK not supported
     if: github.ref == 'refs/heads/master'
 
     steps:
@@ -105,16 +105,16 @@ jobs:
         mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
         cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
-    - name: Install and set Flutter version
+    - name: Install Flutter
       uses: subosito/flutter-action@v2
       with:
         flutter-version: ${{ env.flutter_version }}
         channel: stable
         cache: true
 
-    - name: Restore packages
+    - name: Setup Flutter
       run: |
-        flutter pub get
+        flutter config --no-cli-animations
 
     - name: Build iOS
       run: |
@@ -169,6 +169,7 @@ jobs:
           echo "RESOLVED_VERSION="$(git tag --sort=-v:refname | head -n 1) >> "$GITHUB_OUTPUT"
 
       - name: Get iOS Artifact
+        if: github.repository == 'liplum-dev/mimir'
         uses: actions/download-artifact@v4
         with:
           name: SITLife-iOS-release
@@ -187,3 +188,8 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           branch: ${{ github.ref }}
+
+      - name: Send Message to Group
+        continue-on-error: true
+        run: |
+          curl -G -s --connect-timeout 5 ${{ secrets.gocq_sendgroupmsg_url }} --data-urlencode "group_id=${{ secrets.gocq_group_number }}" --data-urlencode "message=新测试版(${{ steps.get_git_info.outputs.RESOLVED_VERSION }})已完成构建，请通过Github Actions下载。或等待开发者操作完成后，前往群文件/TestFlight下载。"

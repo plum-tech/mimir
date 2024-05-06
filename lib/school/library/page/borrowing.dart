@@ -47,7 +47,7 @@ class _LibraryBorrowingPageState extends State<LibraryBorrowingPage> {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;
@@ -124,7 +124,7 @@ class BorrowedBookCard extends StatelessWidget {
         "${context.formatYmdText(book.borrowDate)}–${context.formatYmdText(book.expireDate)}".text(),
       ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
       onTap: () async {
-        await context.show$Sheet$(
+        await context.showSheet(
           (ctx) => BookDetailsPage(
             book: BookModel.fromBorrowed(book),
             actions: [
@@ -138,6 +138,6 @@ class BorrowedBookCard extends StatelessWidget {
           ),
         );
       },
-    ).inAnyCard(clip: Clip.hardEdge, type: elevated ? CardType.plain : CardType.filled);
+    ).inAnyCard(clip: Clip.hardEdge, type: elevated ? CardVariant.elevated : CardVariant.filled);
   }
 }

@@ -10,6 +10,9 @@ class TimetableInit {
 
   static void init() {
     service = Dev.demoMode ? const DemoTimetableService() : const TimetableService();
+  }
+
+  static void initStorage() {
     storage = TimetableStorage();
   }
 }

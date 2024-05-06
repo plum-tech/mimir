@@ -2,14 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/login_status.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/game/2048/index.dart';
 import 'package:sit/game/index.dart';
-import 'package:sit/game/minesweeper/index.dart';
+import 'package:sit/game/minesweeper/page/index.dart';
+import 'package:sit/game/page/settings.dart';
 import 'package:sit/game/suika/index.dart';
 import 'package:sit/index.dart';
+import 'package:sit/life/page/settings.dart';
+import 'package:sit/lifecycle.dart';
 import 'package:sit/me/edu_email/page/login.dart';
 import 'package:sit/me/edu_email/page/outbox.dart';
 import 'package:sit/school/class2nd/entity/attended.dart';
@@ -24,9 +28,8 @@ import 'package:sit/school/ywb/page/service.dart';
 import 'package:sit/school/ywb/page/application.dart';
 import 'package:sit/settings/page/about.dart';
 import 'package:sit/settings/page/language.dart';
-import 'package:sit/settings/page/life.dart';
 import 'package:sit/settings/page/proxy.dart';
-import 'package:sit/settings/page/school.dart';
+import 'package:sit/school/page/settings.dart';
 import 'package:sit/settings/page/storage.dart';
 import 'package:sit/life/expense_records/page/records.dart';
 import 'package:sit/life/expense_records/page/statistics.dart';
@@ -36,11 +39,15 @@ import 'package:sit/me/edu_email/page/inbox.dart';
 import 'package:sit/network/page/index.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/page/theme_color.dart';
+import 'package:sit/timetable/entity/platte.dart';
+import 'package:sit/timetable/entity/timetable.dart';
 import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/page/p13n/background.dart';
 import 'package:sit/timetable/page/p13n/cell_style.dart';
-import 'package:sit/timetable/page/editor.dart';
+import 'package:sit/timetable/page/edit/editor.dart';
 import 'package:sit/timetable/page/p13n/palette_editor.dart';
+import 'package:sit/timetable/page/patch/patch.dart';
+import 'package:sit/timetable/page/settings.dart';
 import 'package:sit/widgets/not_found.dart';
 import 'package:sit/school/oa_announce/entity/announce.dart';
 import 'package:sit/school/oa_announce/page/details.dart';
@@ -58,7 +65,6 @@ import 'package:sit/settings/page/developer.dart';
 import 'package:sit/settings/page/index.dart';
 import 'package:sit/me/index.dart';
 import 'package:sit/school/index.dart';
-import 'package:sit/settings/page/timetable.dart';
 import 'package:sit/timetable/page/import.dart';
 import 'package:sit/timetable/page/index.dart';
 import 'package:sit/timetable/page/mine.dart';
@@ -66,7 +72,6 @@ import 'package:sit/timetable/page/p13n/palette.dart';
 import 'package:sit/widgets/image.dart';
 import 'package:sit/widgets/webview/page.dart';
 
-final $Key = GlobalKey<NavigatorState>();
 final $TimetableShellKey = GlobalKey<NavigatorState>();
 final $SchoolShellKey = GlobalKey<NavigatorState>();
 final $LifeShellKey = GlobalKey<NavigatorState>();
@@ -75,8 +80,9 @@ final $MeShellKey = GlobalKey<NavigatorState>();
 
 bool isLoginGuarded(BuildContext ctx) {
   if (Dev.demoMode) return false;
-  final auth = ctx.auth;
-  return auth.loginStatus != LoginStatus.validated && auth.credentials == null;
+  final loginStatus = ProviderScope.containerOf(ctx).read(CredentialsInit.storage.$oaLoginStatus);
+  final credentials = ProviderScope.containerOf(ctx).read(CredentialsInit.storage.$oaCredentials);
+  return loginStatus != LoginStatus.validated && credentials == null;
 }
 
 String? _loginRequired(BuildContext ctx, GoRouterState state) {
@@ -85,8 +91,9 @@ String? _loginRequired(BuildContext ctx, GoRouterState state) {
 }
 
 FutureOr<String?> _redirectRoot(BuildContext ctx, GoRouterState state) {
-  final auth = ctx.auth;
-  if (auth.loginStatus == LoginStatus.never) {
+  // `ctx.riverpod().read(CredentialsInit.storage.$oaLoginStatus)` would return `LoginStatus.never` after just logged in.
+  final loginStatus = CredentialsInit.storage.oaLoginStatus;
+  if (loginStatus == LoginStatus.never) {
 // allow to access settings page.
     if (state.matchedLocation.startsWith("/tools")) return null;
     if (state.matchedLocation.startsWith("/settings")) return null;
@@ -106,6 +113,24 @@ final _timetableShellRoute = GoRoute(
 // Timetable is the home page.
   builder: (ctx, state) => const TimetablePage(),
 );
+
+SitTimetable? _getTimetable(GoRouterState state) {
+  final extra = state.extra;
+  if (extra is SitTimetable) return extra;
+  final id = int.tryParse(state.pathParameters["id"] ?? "");
+  if (id == null) return null;
+  final timetable = TimetableInit.storage.timetable[id];
+  return timetable;
+}
+
+TimetablePalette? _getTimetablePalette(GoRouterState state) {
+  final extra = state.extra;
+  if (extra is TimetablePalette) return extra;
+  final id = int.tryParse(state.pathParameters["id"] ?? "");
+  if (id == null) return null;
+  final palette = TimetableInit.storage.palette[id];
+  return palette;
+}
 
 final _timetableRoutes = [
   GoRoute(
@@ -134,9 +159,7 @@ final _timetableRoutes = [
   GoRoute(
     path: "/timetable/palette/edit/:id",
     builder: (ctx, state) {
-      final id = int.tryParse(state.pathParameters["id"] ?? "");
-      if (id == null) throw 404;
-      final palette = TimetableInit.storage.palette[id];
+      final palette = _getTimetablePalette(state);
       if (palette == null) throw 404;
       return TimetablePaletteEditorPage(palette: palette);
     },
@@ -144,11 +167,17 @@ final _timetableRoutes = [
   GoRoute(
     path: "/timetable/edit/:id",
     builder: (ctx, state) {
-      final id = int.tryParse(state.pathParameters["id"] ?? "");
-      if (id == null) throw 404;
-      final timetable = TimetableInit.storage.timetable[id];
+      final timetable = _getTimetable(state);
       if (timetable == null) throw 404;
       return TimetableEditorPage(timetable: timetable);
+    },
+  ),
+  GoRoute(
+    path: "/timetable/patch/edit/:id",
+    builder: (ctx, state) {
+      final timetable = _getTimetable(state);
+      if (timetable == null) throw 404;
+      return TimetablePatchEditorPage(timetable: timetable);
     },
   ),
   GoRoute(
@@ -184,7 +213,7 @@ final _toolsRoutes = [
   ),
   GoRoute(
     path: "/tools/scanner",
-    parentNavigatorKey: $Key,
+    parentNavigatorKey: $key,
     builder: (ctx, state) => const ScannerPage(),
   ),
 ];
@@ -215,6 +244,10 @@ final _settingsRoute = GoRoute(
     GoRoute(
       path: "life",
       builder: (ctx, state) => const LifeSettingsPage(),
+    ),
+    GoRoute(
+      path: "game",
+      builder: (ctx, state) => const GameSettingsPage(),
     ),
     GoRoute(
       path: "about",
@@ -277,7 +310,7 @@ final _class2ndRoute = GoRoute(
       builder: (ctx, state) {
         final extra = state.extra;
         if (extra is Class2ndAttendedActivity) {
-          return Class2ndAttendDetailsPage(extra);
+          return Class2ndApplicationDetailsPage(extra);
         }
         throw 404;
       },
@@ -304,11 +337,11 @@ final _oaAnnounceRoute = GoRoute(
     ),
   ],
 );
+final _yellowPagesRoute = GoRoute(
+  path: "/yellow-pages",
+  builder: (ctx, state) => const YellowPagesListPage(),
+);
 final _eduEmailRoutes = [
-  GoRoute(
-    path: "/yellow-pages",
-    builder: (ctx, state) => const YellowPagesListPage(),
-  ),
   GoRoute(
     path: "/edu-email/login",
     builder: (ctx, state) => const EduEmailLoginPage(),
@@ -450,9 +483,10 @@ final _gameRoutes = [
 GoRouter buildRouter(ValueNotifier<RoutingConfig> $routingConfig) {
   return GoRouter.routingConfig(
     routingConfig: $routingConfig,
-    navigatorKey: $Key,
+    navigatorKey: $key,
     initialLocation: "/",
     debugLogDiagnostics: kDebugMode,
+    // onException: _onException,
     errorBuilder: _onError,
   );
 }
@@ -508,6 +542,7 @@ RoutingConfig buildCommonRoutingConfig() {
       _browserRoute,
       _expenseRoute,
       _settingsRoute,
+      _yellowPagesRoute,
       ..._toolsRoutes,
       _class2ndRoute,
       _oaAnnounceRoute,
@@ -541,6 +576,7 @@ RoutingConfig buildTimetableFocusRouter() {
       _browserRoute,
       _expenseRoute,
       _settingsRoute,
+      _yellowPagesRoute,
       ..._toolsRoutes,
       _class2ndRoute,
       _oaAnnounceRoute,

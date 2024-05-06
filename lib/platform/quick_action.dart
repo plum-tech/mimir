@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quick_actions/quick_actions.dart';
-import 'package:sit/route.dart';
+import 'package:sit/lifecycle.dart';
 
 class _Type {
   const _Type._();
@@ -14,7 +14,7 @@ class QuickAction {
   static const QuickActions _quickActions = QuickActions();
 
   static void quickActionHandler(String type) {
-    final ctx = $Key.currentContext;
+    final ctx = $key.currentContext;
     if (ctx == null) return;
     switch (type) {
       case _Type.examArrange:

@@ -3,12 +3,14 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
+import 'package:sit/utils/save.dart';
 
 import '../../entity/cell_style.dart';
 import '../../widgets/style.dart';
 import '../../i18n.dart';
 import 'palette.dart';
 
+/// It persists changes to storage before route popping
 class TimetableCellStyleEditor extends StatefulWidget {
   const TimetableCellStyleEditor({super.key});
 
@@ -18,35 +20,40 @@ class TimetableCellStyleEditor extends StatefulWidget {
 
 class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
   var cellStyle = Settings.timetable.cellStyle ?? const CourseCellStyle();
-
+  var canSave = false;
   @override
   Widget build(BuildContext context) {
     final old = Settings.timetable.cellStyle;
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar.medium(
-            title: i18n.p13n.cell.title.text(),
-            actions: [
-              PlatformTextButton(
-                onPressed: old == buildCellStyle() ? null : onSave,
-                child: i18n.save.text(),
-              ),
-            ],
-          ),
-          SliverToBoxAdapter(
-            child: TimetableStyleProv(
-              cellStyle: buildCellStyle(),
-              child: const TimetableP13nLivePreview(),
+    final canSave = old != buildCellStyle();
+    return PromptSaveBeforeQuitScope(
+      changed: canSave,
+      onSave: onSave,
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar.medium(
+              title: i18n.p13n.cell.title.text(),
+              actions: [
+                PlatformTextButton(
+                  onPressed: !canSave ? null : onSave,
+                  child: i18n.save.text(),
+                ),
+              ],
             ),
-          ),
-          SliverList.list(children: [
-            buildTeachersToggle(),
-            buildGrayOutPassedLesson(),
-            buildHarmonizeWithThemeColor(),
-            buildAlpha(),
-          ]),
-        ],
+            SliverToBoxAdapter(
+              child: TimetableStyleProv(
+                cellStyle: buildCellStyle(),
+                child: const TimetableP13nLivePreview(),
+              ),
+            ),
+            SliverList.list(children: [
+              buildTeachersToggle(),
+              buildGrayOutPassedLesson(),
+              buildHarmonizeWithThemeColor(),
+              buildAlpha(),
+            ]),
+          ],
+        ),
       ),
     );
   }
@@ -126,7 +133,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
         min: 0.0,
         max: 1.0,
         divisions: 255,
-        label: (value * 255).toInt().toString(),
+        label: "${(value * 100).toInt()}%",
         value: value,
         onChanged: (double value) {
           setState(() {

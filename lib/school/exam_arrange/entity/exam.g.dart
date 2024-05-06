@@ -17,7 +17,7 @@ ExamEntry _$ExamEntryFromJson(Map<String, dynamic> json) => ExamEntry(
           start: DateTime.parse($jsonValue['start'] as String),
         ),
       ),
-      seatNumber: json['seatNumber'] as int?,
+      seatNumber: (json['seatNumber'] as num?)?.toInt(),
       isRetake: json['isRetake'] as bool?,
     );
 
@@ -25,7 +25,7 @@ Map<String, dynamic> _$ExamEntryToJson(ExamEntry instance) => <String, dynamic>{
       'courseName': instance.courseName,
       'time': instance.time == null
           ? null
-          : {
+          : <String, dynamic>{
               'end': instance.time!.end.toIso8601String(),
               'start': instance.time!.start.toIso8601String(),
             },

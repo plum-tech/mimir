@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:sit/game/2048/save.dart';
+import 'package:sit/game/utils.dart';
 import 'package:uuid/uuid.dart';
 
 import '../entity/tile.dart';
@@ -126,7 +127,7 @@ class BoardManager extends StateNotifier<Board> {
     final candidates = Iterable.generate(16, (i) => i).toList();
     candidates.removeWhere((i) => indexes.contains(i));
     final index = candidates[rand.nextInt(candidates.length)];
-    return Tile(const Uuid().v4(), 2, index);
+    return Tile(id: const Uuid().v4(), value: 2, index: index);
   }
 
   //Merge tiles
@@ -147,7 +148,7 @@ class BoardManager extends StateNotifier<Board> {
         if (tile.nextIndex == next.nextIndex || tile.index == next.nextIndex && tile.nextIndex == null) {
           value = tile.value + next.value;
           merged = true;
-          HapticFeedback.lightImpact();
+          applyGameHapticFeedback();
           score += tile.value;
           i += 1;
         }
@@ -274,11 +275,18 @@ class BoardManager extends StateNotifier<Board> {
     return false;
   }
 
+  bool canSave() {
+    if (state.won || state.over) return false;
+    if (state.tiles.isEmpty) return false;
+    if (state.tiles.length == 1 && state.tiles.first.value == 2) return false;
+    return true;
+  }
+
   Future<void> save() async {
-    if (state.won || state.over) {
-      await Save2048.storage.delete();
-    } else {
+    if (canSave()) {
       await Save2048.storage.save(state.toSave());
+    } else {
+      await Save2048.storage.delete();
     }
   }
 }

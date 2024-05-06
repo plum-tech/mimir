@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:rettulf/rettulf.dart';
@@ -13,14 +14,14 @@ import '../i18n.dart';
 
 const _changePasswordUrl = "https://authserver.sit.edu.cn/authserver/passwordChange.do";
 
-class CredentialsPage extends StatefulWidget {
+class CredentialsPage extends ConsumerStatefulWidget {
   const CredentialsPage({super.key});
 
   @override
-  State<CredentialsPage> createState() => _CredentialsPageState();
+  ConsumerState<CredentialsPage> createState() => _CredentialsPageState();
 }
 
-class _CredentialsPageState extends State<CredentialsPage> {
+class _CredentialsPageState extends ConsumerState<CredentialsPage> {
   var showPassword = false;
 
   @override
@@ -42,7 +43,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
   }
 
   Widget buildBody() {
-    final credentials = context.auth.credentials;
+    final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
     final all = <WidgetBuilder>[];
     if (credentials != null) {
       all.add((_) => buildAccount(credentials));
@@ -82,7 +83,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
         subtitle: Text(!showPassword ? i18n.oaCredentials.savedOaPwdDesc : credential.password),
         leading: const Icon(Icons.password_rounded),
         trailing: [
-          IconButton(
+          PlatformIconButton(
             icon: Icon(context.icons.edit),
             onPressed: () async {
               final newPwd = await Editor.showStringEditor(
@@ -97,7 +98,7 @@ class _CredentialsPageState extends State<CredentialsPage> {
               }
             },
           ),
-          IconButton(
+          PlatformIconButton(
               onPressed: () {
                 setState(() {
                   showPassword = !showPassword;

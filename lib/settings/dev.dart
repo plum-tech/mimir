@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:sit/credentials/entity/credential.dart';
@@ -9,6 +8,7 @@ class _K {
   static const on = '$ns/on';
   static const savedOaCredentialsList = '$ns/savedOaCredentialsList';
   static const demoMode = '$ns/demoMode';
+  static const expenseUserOverride = '$ns/expenseUserOverride';
 }
 
 // ignore: non_constant_identifier_names
@@ -16,27 +16,33 @@ late DevSettingsImpl Dev;
 
 class DevSettingsImpl {
   final Box box;
+
   DevSettingsImpl(this.box);
 
   /// [false] by default.
-  bool get on => box.safeGet(_K.on) ?? false;
+  bool get on => box.safeGet<bool>(_K.on) ?? false;
 
-  set on(bool newV) => box.safePut(_K.on, newV);
+  set on(bool newV) => box.safePut<bool>(_K.on, newV);
 
-  ValueListenable<Box> listenDevMode() => box.listenable(keys: [_K.on]);
+  late final $on = box.providerWithDefault<bool>(_K.on, () => false);
 
   /// [false] by default.
-  bool get demoMode => box.safeGet(_K.demoMode) ?? false;
+  bool get demoMode => box.safeGet<bool>(_K.demoMode) ?? false;
 
-  set demoMode(bool newV) => box.safePut(_K.demoMode, newV);
+  set demoMode(bool newV) => box.safePut<bool>(_K.demoMode, newV);
 
-  ValueListenable<Box> listenDemoMode() => box.listenable(keys: [_K.demoMode]);
+  late final $demoMode = box.providerWithDefault<bool>(_K.demoMode, () => false);
 
-  List<Credentials>? getSavedOaCredentialsList() =>
-      (box.safeGet(_K.savedOaCredentialsList) as List?)?.cast<Credentials>();
+  String? get expenseUserOverride => box.safeGet<String>(_K.expenseUserOverride);
+
+  set expenseUserOverride(String? newV) => box.safePut<String>(_K.expenseUserOverride, newV);
+
+  late final $expenseUserOverride = box.provider<String>(_K.expenseUserOverride);
+
+  List<Credentials>? getSavedOaCredentialsList() => box.safeGet<List>(_K.savedOaCredentialsList)?.cast<Credentials>();
 
   Future<void> setSavedOaCredentialsList(List<Credentials>? newV) async {
     newV?.distinctBy((c) => c.account);
-    await box.safePut(_K.savedOaCredentialsList, newV);
+    await box.safePut<List>(_K.savedOaCredentialsList, newV);
   }
 }

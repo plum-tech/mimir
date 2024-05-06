@@ -10,6 +10,9 @@ class ExamArrangeInit {
 
   static void init() {
     service = Dev.demoMode ? const DemoExamArrangeService() : const ExamArrangeService();
+  }
+
+  static void initStorage() {
     storage = ExamArrangeStorage();
   }
 }

@@ -1,9 +1,7 @@
 import 'dart:math';
 
 import 'package:collection/collection.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/utils/hive.dart';
@@ -107,8 +105,9 @@ class _BoxSectionState extends State<BoxSection> {
     final boxNameStyle = ctx.textTheme.headlineSmall;
     final action = PullDownMenuButton(
       itemBuilder: (ctx) => [
-        PullDownItem.edit(
-          title: i18n.edit,
+        PullDownItem.delete(
+          icon: context.icons.delete,
+          title: i18n.delete,
           onTap: () async {
             final confirm = await _showDeleteBoxRequest(ctx);
             if (confirm == true) {
@@ -216,7 +215,7 @@ class _BoxItemListState extends State<BoxItemList> {
         });
       },
       totalPage: totalPage,
-      btnPerGroup: (ctx.mediaQuery.size.width / 50.w).round().clamp(1, totalPage),
+      btnPerGroup: (ctx.mediaQuery.size.width / 50).round().clamp(1, totalPage),
       currentPageIndex: currentPage + 1,
     );
   }
@@ -279,11 +278,12 @@ class _BoxItemState extends State<BoxItem> {
             final confirm = await context.showDialogRequest(
                 title: i18n.warning,
                 desc: i18n.dev.storage.emptyValueDesc,
-                yes: i18n.confirm,
-                no: i18n.cancel,
-                destructive: true);
+                primary: i18n.confirm,
+                secondary: i18n.cancel,
+                primaryDestructive: true);
             if (confirm == true) {
-              widget.box.safePut(key, _emptyValue(value));
+              // this is unsafe, because the type is unknown
+              widget.box.put(key, _emptyValue(value));
               if (!mounted) return;
               setState(() {});
             }
@@ -291,6 +291,7 @@ class _BoxItemState extends State<BoxItem> {
         ),
         PullDownItem.delete(
           title: i18n.delete,
+          icon: context.icons.delete,
           onTap: () async {
             ctx.pop();
             final confirm = await _showDeleteItemRequest(ctx);
@@ -309,7 +310,7 @@ class _BoxItemState extends State<BoxItem> {
     if (readonly || !Editor.isSupport(value)) {
       await Editor.showReadonlyEditor(context, desc: key, initial: value);
     } else {
-      final newValue = await Editor.showAnyEditor(context, value, desc: key);
+      final newValue = await Editor.showAnyEditor(context, initial: value, desc: key);
       if (newValue == null) return;
       bool isModified = value != newValue;
       if (isModified) {
@@ -369,6 +370,7 @@ class _StorageListLandscapeState extends State<StorageListLandscape> {
           itemBuilder: (ctx) => [
             PullDownItem.delete(
               title: i18n.clear,
+              icon: context.icons.clear,
               onTap: () async {
                 final confirm = await _showDeleteBoxRequest(ctx);
                 if (confirm == true) {
@@ -453,10 +455,20 @@ dynamic _emptyValue(dynamic value) {
 
 Future<bool?> _showDeleteBoxRequest(BuildContext ctx) async {
   return await ctx.showDialogRequest(
-      title: i18n.delete, desc: i18n.dev.storage.clearBoxDesc, yes: i18n.confirm, no: i18n.cancel, destructive: true);
+    title: i18n.delete,
+    desc: i18n.dev.storage.clearBoxDesc,
+    primary: i18n.confirm,
+    secondary: i18n.cancel,
+    primaryDestructive: true,
+  );
 }
 
 Future<bool?> _showDeleteItemRequest(BuildContext ctx) async {
   return await ctx.showDialogRequest(
-      title: i18n.delete, desc: i18n.dev.storage.deleteItemDesc, yes: i18n.delete, no: i18n.cancel, destructive: true);
+    title: i18n.delete,
+    desc: i18n.dev.storage.deleteItemDesc,
+    primary: i18n.delete,
+    secondary: i18n.cancel,
+    primaryDestructive: true,
+  );
 }

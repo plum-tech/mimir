@@ -49,9 +49,9 @@ Future<String?> searchRoom({
             final item = items[i];
             final full = stringify(item);
             final room = DormitoryRoom.fromFullString(full);
-            return SwipeToDismiss(
-              right: SwipeToDismissAction(
-                icon: Icon(ctx.icons.delete),
+            return WithSwipeAction(
+              right: SwipeAction.delete(
+                icon: ctx.icons.delete,
                 action: () {
                   final newList = List.of($searchHistory.value);
                   newList.removeAt(i);

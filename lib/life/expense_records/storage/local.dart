@@ -25,28 +25,29 @@ class ExpenseStorage {
   ExpenseStorage();
 
   /// 所有交易记录的索引，记录所有的交易时间，需要保证有序，以实现二分查找
-  List<DateTime>? get transactionTsList => (box.safeGet(_K.transactionTsList) as List?)?.cast<DateTime>();
+  List<DateTime>? get transactionTsList => box.safeGet<List>(_K.transactionTsList)?.cast<DateTime>();
 
-  set transactionTsList(List<DateTime>? newV) => box.safePut(_K.transactionTsList, newV);
+  set transactionTsList(List<DateTime>? newV) => box.safePut<List>(_K.transactionTsList, newV);
 
   ValueListenable<Box> listenTransactionTsList() => box.listenable(keys: [_K.transactionTsList]);
 
   /// 通过某个时刻来获得交易记录
-  Transaction? getTransactionByTs(DateTime ts) => box.safeGet(_K.transaction(ts));
+  Transaction? getTransactionByTs(DateTime ts) => box.safeGet<Transaction>(_K.transaction(ts));
 
-  setTransactionByTs(DateTime ts, Transaction? transaction) => box.safePut(_K.transaction(ts), transaction);
+  setTransactionByTs(DateTime ts, Transaction? transaction) =>
+      box.safePut<Transaction>(_K.transaction(ts), transaction);
 
-  Transaction? get lastTransaction => box.safeGet(_K.lastTransaction);
+  Transaction? get lastTransaction => box.safeGet<Transaction>(_K.lastTransaction);
 
-  set lastTransaction(Transaction? v) => box.safePut(_K.lastTransaction, v);
+  set lastTransaction(Transaction? v) => box.safePut<Transaction>(_K.lastTransaction, v);
 
   late final $lastTransaction = box.provider<Transaction>(_K.lastTransaction);
 
   ValueListenable<Box> listenLastTransaction() => box.listenable(keys: [_K.lastTransaction]);
 
-  DateTime? get lastUpdateTime => box.safeGet(_K.lastUpdateTime);
+  DateTime? get lastUpdateTime => box.safeGet<DateTime>(_K.lastUpdateTime);
 
-  set lastUpdateTime(DateTime? newV) => box.safePut(_K.lastUpdateTime, newV);
+  set lastUpdateTime(DateTime? newV) => box.safePut<DateTime>(_K.lastUpdateTime, newV);
 
   late final $lastUpdateTime = box.provider<DateTime>(_K.lastUpdateTime);
 

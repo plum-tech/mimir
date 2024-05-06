@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/l10n/common.dart';
 import 'package:sit/utils/error.dart';
@@ -124,17 +125,17 @@ class _WebViewPageState extends State<WebViewPage> {
   Widget build(BuildContext context) {
     final actions = <Widget>[
       if (widget.showRefreshButton)
-        IconButton(
+        PlatformIconButton(
           onPressed: _onRefresh,
           icon: Icon(context.icons.refresh),
         ),
       if (widget.showSharedButton)
-        IconButton(
+        PlatformIconButton(
           onPressed: _onShared,
           icon: Icon(context.icons.share),
         ),
       if (widget.showOpenInBrowser)
-        IconButton(
+        PlatformIconButton(
           onPressed: () => launchUrlString(
             widget.initialUrl,
             mode: LaunchMode.externalApplication,

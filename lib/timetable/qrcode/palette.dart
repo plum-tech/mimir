@@ -1,22 +1,36 @@
 import 'package:flutter/widgets.dart';
-import 'package:sit/qrcode/protocol.dart';
+import 'package:sit/qrcode/deep_link.dart';
+import 'package:sit/qrcode/utils.dart';
 import 'package:sit/r.dart';
 
 import '../entity/platte.dart';
 import '../page/p13n/palette.dart';
 
 class TimetablePaletteDeepLink implements DeepLinkHandlerProtocol {
-  static const path = "timetable-palette";
+  static const host = "timetable";
+  static const path = "/palette";
 
   const TimetablePaletteDeepLink();
 
-  Uri encode(TimetablePalette palette) => Uri(scheme: R.scheme, path: path, query: palette.encodeBase64());
+  Uri encode(TimetablePalette palette) => Uri(
+      scheme: R.scheme,
+      host: host,
+      path: path,
+      query: encodeBytesForUrl(
+        palette.encodeByteList(),
+        compress: false,
+      ));
 
-  TimetablePalette decode(Uri qrCodeData) => TimetablePalette.decodeFromBase64(qrCodeData.query);
+  TimetablePalette decode(Uri qrCodeData) => TimetablePalette.decodeFromByteList(decodeBytesFromUrl(
+        qrCodeData.query,
+        compress: false,
+      ));
 
   @override
   bool match(Uri encoded) {
-    return encoded.path == path;
+    // for backwards support
+    if (encoded.host.isEmpty && encoded.path == "timetable-palette") return true;
+    return encoded.host == host && encoded.path == path;
   }
 
   @override

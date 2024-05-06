@@ -26,9 +26,9 @@ class _Class2nd {
 
   const _Class2nd(this.box);
 
-  bool get autoRefresh => box.safeGet(_Class2ndK.autoRefresh) ?? _kClass2ndAutoRefresh;
+  bool get autoRefresh => box.safeGet<bool>(_Class2ndK.autoRefresh) ?? _kClass2ndAutoRefresh;
 
-  set autoRefresh(bool newV) => box.safePut(_Class2ndK.autoRefresh, newV);
+  set autoRefresh(bool newV) => box.safePut<bool>(_Class2ndK.autoRefresh, newV);
 }
 
 const _kExamResulShowResultPreview = true;
@@ -43,9 +43,9 @@ class _ExamResult {
 
   _ExamResult(this.box);
 
-  bool get showResultPreview => box.safeGet(_ExamResultK.showResultPreview) ?? _kExamResulShowResultPreview;
+  bool get showResultPreview => box.safeGet<bool>(_ExamResultK.showResultPreview) ?? _kExamResulShowResultPreview;
 
-  set showResultPreview(bool newV) => box.safePut(_ExamResultK.showResultPreview, newV);
+  set showResultPreview(bool newV) => box.safePut<bool>(_ExamResultK.showResultPreview, newV);
 
   Listenable listenShowResultPreview() => box.listenable(keys: [_ExamResultK.showResultPreview]);
 

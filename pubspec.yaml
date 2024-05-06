@@ -3,7 +3,7 @@ description: "A multiplatform app for SIT students."
 
 # The build version numbers is incremented automatically.
 # DO NOT DIRECTLY CHANGE IT
-version: 2.3.2+27
+version: 2.4.1+43
 
 homepage: https://github.com/liplum/mimir
 repository: https://github.com/liplum/mimir
@@ -11,10 +11,11 @@ issue_tracker: https://github.com/liplum/mimir/issues
 documentation: https://github.com/liplum/mimir#readme
 
 publish_to: none
-environment: { sdk: '>=3.3.0 <4.0.0', flutter: ^3.19.3 }
+environment: { sdk: '>=3.3.0 <4.0.0', flutter: ^3.19.6 }
 
 dependencies:
   flutter: { sdk: flutter }
+  meta: ^1.11.0
 
   # I18n
   easy_localization: ^3.0.5
@@ -23,20 +24,20 @@ dependencies:
 
   # Basic
   logger: ^2.2.0
-  device_info_plus: ^9.1.2
-  path_provider: ^2.1.2
+  device_info_plus: ^10.1.0
+  path_provider: ^2.1.3
   version: ^3.0.2
   yaml: ^3.1.2
   path: ^1.8.3
   collection: ^1.18.0
-  shared_preferences: ^2.2.2
+  shared_preferences: ^2.2.3
   flutter_riverpod: ^2.5.1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
-  json_annotation: ^4.8.1
+  json_annotation: ^4.9.0
   copy_with_extension: ^5.0.4
   freezed_annotation: ^2.4.1
-  get_it: ^7.6.7
+  get_it: ^7.7.0
   flutter_image_compress: ^2.2.0
 
   # Supporting scrolling screenshot on Android, like MIUI
@@ -50,22 +51,26 @@ dependencies:
   encrypt: ^5.0.1
   # Hash (MD5)
   crypto: ^3.0.3
+  # Codec
+  hashlib_codecs: ^2.2.0
   # UUID generator
-  uuid: ^4.3.3
+  uuid: ^4.4.0
+  # Statistics
+  statistics: ^1.1.0
 
   # HTML parser
   beautiful_soup_dart: ^0.3.0
   html: ^0.15.4
 
   # Dio (http client)
-  dio: ^5.4.2+1
+  dio: ^5.4.3+1
   dio_cookie_manager: ^3.1.1
 
   # WebView and browser related
   webview_flutter: ^4.7.0
   fk_user_agent: ^2.1.0
-  flutter_widget_from_html: ^0.14.11
-  chewie: ^1.7.5
+  flutter_widget_from_html: ^0.15.0
+  chewie: ^1.8.1
   cookie_jar: ^4.0.8
   flutter_html: ^3.0.0-beta.2
 
@@ -79,35 +84,38 @@ dependencies:
   # Android / iOS Home screen quick actions
   quick_actions: ^1.0.7
   # Deep links on Android and custom scheme links on iOS
-  app_links: ^4.0.1
+  app_links: ^6.0.1
   # Open with other APP/programs
   open_file: ^3.3.2
-  url_launcher: ^6.2.5
+  url_launcher: ^6.2.6
   # Open Android / iOS system image picker
-  image_picker: ^1.0.7
-  file_picker: ^8.0.0+1
-  share_plus: ^7.2.2
+  image_picker: ^1.1.1
+  file_picker: ^8.0.3
+  share_plus: ^9.0.0
   app_settings: ^5.1.1
+  web_browser_detect: ^2.0.3
+
   # Desktop support
   window_manager: ^0.3.8
-  win32_registry: ^1.1.2
+  win32_registry: ^1.1.3
   # Get package info (version)
-  package_info_plus: ^5.0.1
+  package_info_plus: ^8.0.0
   # Check VPN connection status
   check_vpn_connection: ^0.0.2
-  connectivity_plus: ^5.0.2
+  connectivity_plus: ^6.0.2
   vibration: ^1.8.4
   # qrcode scanner
-  mobile_scanner: 4.0.1
+  mobile_scanner: 5.1.0
   add_2_calendar: ^3.0.1
 
   # UI
-  go_router: ^13.2.2
+  go_router: ^14.0.2
   fl_chart: ^0.67.0
   flutter_svg: ^2.0.10+1
   flutter_svg_provider: ^1.0.7
+  visibility_detector: ^0.4.0+2
+  reorderables: ^0.6.0
   # Screen adaptation
-  flutter_screenutil: ^5.9.0
   flutter_adaptive_ui: ^0.8.0+1
   # Qr code generate
   qr_flutter: ^4.1.0
@@ -121,27 +129,30 @@ dependencies:
   animations: ^2.0.11
   dynamic_color: ^1.7.0
   unicons: ^2.1.1
+  simple_icons: ^10.1.3
   sliver_tools: ^0.2.12
   flutter_staggered_grid_view: ^0.7.0
   flex_color_picker: ^3.4.1
   flutter_swipe_action_cell: ^3.1.3
   bordered_text: ^2.0.0
   flutter_platform_widgets: ^6.1.0
-  pull_down_button: ^0.9.3
+  pull_down_button: ^0.9.4
   system_theme: ^2.3.1 # read system theme color
   cupertino_onboarding: ^1.2.0
   flutter_swipe_detector: ^2.0.0
   carousel_slider: ^4.2.1
   # iCalendar file generator
   enough_icalendar: ^0.16.0
-  super_context_menu: ^0.8.5
+  super_context_menu: ^0.8.12
+  animated_size_and_fade: ^4.0.0
+  dismissible_page: ^1.0.2
 
   # Utils
   # dart.io.Platform API for Web
   universal_platform: ^1.0.0+1
   rettulf: ^2.0.1
   # lock
-  synchronized: ^3.1.0+1
+  async_locks: ^3.4.0
   # parse stacktrace
   stack_trace: ^1.11.0
   email_validator: ^2.1.17
@@ -150,8 +161,8 @@ dependencies:
   screenshot: ^2.1.0
 
   # game
-  flame: ^1.16.0
-  flame_forge2d: ^0.17.0
+  flame: ^1.17.0
+  flame_forge2d: ^0.18.0
 
 dependency_overrides:
   intl: ^0.19.0
@@ -160,11 +171,12 @@ dev_dependencies:
   flutter_test: { sdk: flutter }
   flutter_lints: ^3.0.2
   build_runner: ^2.4.9
-  json_serializable: ^6.7.1
+  json_serializable: ^6.8.0
   hive_generator: ^2.0.0
-  freezed: ^2.4.7
+  freezed: ^2.5.2
   copy_with_extension_gen: ^5.0.4
   test: ^1.24.9
+  msix: ^3.16.7
 
 # ------------------------------------------------------------------------------
 
@@ -188,3 +200,17 @@ flutter:
 
 flutter_intl:
   enabled: true
+
+msix_config:
+  display_name: SIT Life
+  identity_name: life.mysit.SITLife
+  msix_version: 2.4.1.41
+  logo_path: android/app/src/main/res/mipmap/icon.png
+  capabilities: internetClient, microphone, webcam
+  languages: en,zh-hans,zh-hant
+  file_extension: .timetable
+  # life.mysit for backwards support
+  protocol_activation: sit-life, life.mysit
+  execution_alias: sitlife
+  output_name: SIT-Life
+  enable_at_startup: true

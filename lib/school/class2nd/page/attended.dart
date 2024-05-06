@@ -2,13 +2,13 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/animation/progress.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/widgets/list_tile.dart';
@@ -23,14 +23,14 @@ import '../entity/attended.dart';
 import '../init.dart';
 import '../i18n.dart';
 
-class AttendedActivityPage extends StatefulWidget {
+class AttendedActivityPage extends ConsumerStatefulWidget {
   const AttendedActivityPage({super.key});
 
   @override
-  State<AttendedActivityPage> createState() => _AttendedActivityPageState();
+  ConsumerState<AttendedActivityPage> createState() => _AttendedActivityPageState();
 }
 
-class _AttendedActivityPageState extends State<AttendedActivityPage> {
+class _AttendedActivityPageState extends ConsumerState<AttendedActivityPage> {
   List<Class2ndAttendedActivity>? attended = () {
     final applications = Class2ndInit.pointStorage.applicationList;
     final scores = Class2ndInit.pointStorage.pointItemList;
@@ -76,7 +76,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
       });
       $loadingProgress.value = 0;
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() => isFetching = false);
       $loadingProgress.value = 0;
@@ -84,7 +84,8 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
   }
 
   Class2ndPointsSummary getTargetScore() {
-    final admissionYear = int.tryParse(context.auth.credentials?.account.substring(0, 2) ?? "") ?? 2000;
+    final credentials = ref.read(CredentialsInit.storage.$oaCredentials);
+    final admissionYear = int.tryParse(credentials?.account.substring(0, 2) ?? "") ?? 2000;
     return getTargetScoreOf(admissionYear: admissionYear);
   }
 
@@ -106,7 +107,7 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                 floating: true,
                 title: i18n.attended.title.text(),
                 actions: [
-                  IconButton(
+                  PlatformIconButton(
                     onPressed: () async {
                       final result = await showSearch(
                         context: context,
@@ -161,7 +162,12 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
                     itemCount: filteredActivities.length,
                     itemBuilder: (ctx, i) {
                       final activity = filteredActivities[i];
-                      return AttendedActivityCard(activity);
+                      return ActivityApplicationCard(
+                        activity,
+                        onWithdrawn: () {
+                          refresh(active: false);
+                        },
+                      );
                     },
                   ),
             ],
@@ -232,60 +238,70 @@ class _AttendedActivityPageState extends State<AttendedActivityPage> {
   }
 }
 
-class AttendedActivityCard extends StatelessWidget {
+class ActivityApplicationCard extends StatelessWidget {
   final Class2ndAttendedActivity attended;
+  final VoidCallback? onWithdrawn;
 
-  const AttendedActivityCard(this.attended, {super.key});
+  const ActivityApplicationCard(
+    this.attended, {
+    super.key,
+    this.onWithdrawn,
+  });
 
   @override
   Widget build(BuildContext context) {
     final (:title, :tags) = separateTagsFromTitle(attended.title);
     final points = attended.calcTotalPoints();
-    return FilledCard(
-      clip: Clip.hardEdge,
+    return Card.filled(
+      clipBehavior: Clip.hardEdge,
       child: ListTile(
-          isThreeLine: true,
-          title: title.text(),
-          subtitleTextStyle: context.textTheme.bodyMedium,
-          subtitle: [
-            "${attended.category.l10nName()} #${attended.application.applicationId}".text(),
-            context.formatYmdhmsNum(attended.application.time).text(),
-            if (tags.isNotEmpty) TagsGroup(tags),
-          ].column(caa: CrossAxisAlignment.start),
-          trailing: points != null && points != 0
-              ? Text(
-                  _pointsText(points),
-                  style: context.textTheme.titleMedium?.copyWith(color: _pointsColor(context, points)),
-                )
-              : Text(
-                  attended.application.status.l10n(),
-                  style: context.textTheme.titleMedium?.copyWith(
-                      color: switch (attended.application.status) {
-                    Class2ndActivityApplicationStatus.approved => Colors.green,
-                    Class2ndActivityApplicationStatus.rejected => Colors.redAccent,
-                    _ => null,
-                  }),
-                ),
-          onTap: () async {
-            await context.push("/class2nd/attended-details", extra: attended);
-          }),
+        isThreeLine: true,
+        title: title.text(),
+        subtitleTextStyle: context.textTheme.bodyMedium,
+        subtitle: [
+          "${attended.category.l10nName()} #${attended.application.applicationId}".text(),
+          context.formatYmdhmsNum(attended.application.time).text(),
+          if (tags.isNotEmpty) TagsGroup(tags),
+        ].column(caa: CrossAxisAlignment.start),
+        trailing: points != null && points != 0
+            ? Text(
+                _pointsText(points),
+                style: context.textTheme.titleMedium?.copyWith(color: _pointsColor(context, points)),
+              )
+            : Text(
+                attended.application.status.l10n(),
+                style: context.textTheme.titleMedium?.copyWith(
+                    color: switch (attended.application.status) {
+                  Class2ndActivityApplicationStatus.approved => Colors.green,
+                  Class2ndActivityApplicationStatus.rejected => Colors.redAccent,
+                  _ => null,
+                }),
+              ),
+        onTap: () async {
+          final result = await context.push("/class2nd/attended-details", extra: attended);
+          if (result == "withdrawn") {
+            onWithdrawn?.call();
+          }
+        },
+      ),
     );
   }
 }
 
-class Class2ndAttendDetailsPage extends StatefulWidget {
+/// The navigation will pop with ["withdrawn"] when user withdrew this application.
+class Class2ndApplicationDetailsPage extends StatefulWidget {
   final Class2ndAttendedActivity activity;
 
-  const Class2ndAttendDetailsPage(
+  const Class2ndApplicationDetailsPage(
     this.activity, {
     super.key,
   });
 
   @override
-  State<Class2ndAttendDetailsPage> createState() => _Class2ndAttendDetailsPageState();
+  State<Class2ndApplicationDetailsPage> createState() => _Class2ndApplicationDetailsPageState();
 }
 
-class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
+class _Class2ndApplicationDetailsPageState extends State<Class2ndApplicationDetailsPage> {
   var withdrawing = false;
 
   @override
@@ -358,11 +374,10 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
   }
 
   Future<void> withdrawApplication() async {
-    final confirm = await context.showDialogRequest(
-      title: i18n.attended.withdrawApplication,
+    final confirm = await context.showActionRequest(
+      action: i18n.attended.withdrawApplication,
       desc: i18n.attended.withdrawApplicationDesc,
-      yes: i18n.yes,
-      no: i18n.cancel,
+      cancel: i18n.cancel,
     );
     if (confirm != true) return;
     setState(() {
@@ -374,8 +389,8 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
       withdrawing = false;
     });
     if (res) {
-      // go back to the list page to refresh
-      context.go("/class2nd/attended");
+      // pop with "withdrawn"
+      context.pop("withdrawn");
     }
   }
 }
@@ -463,7 +478,7 @@ class AttendedActivitySearchDelegate extends SearchDelegate {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return <Widget>[
-      IconButton(onPressed: () => query = '', icon: Icon(context.icons.clear)),
+      PlatformIconButton(onPressed: () => query = '', icon: Icon(context.icons.clear)),
     ];
   }
 
@@ -479,7 +494,7 @@ class AttendedActivitySearchDelegate extends SearchDelegate {
       itemCount: results.length,
       itemBuilder: (ctx, i) {
         final activity = results[i];
-        return AttendedActivityCard(activity);
+        return ActivityApplicationCard(activity);
       },
     );
   }

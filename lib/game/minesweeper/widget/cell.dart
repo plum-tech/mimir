@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import "package:flutter/foundation.dart";
 import 'package:logger/logger.dart';
-import '../model/cell.dart';
+import '../entity/cell.dart';
 import '../manager/logic.dart';
 import 'cell/button.dart';
 import 'cell/cover.dart';

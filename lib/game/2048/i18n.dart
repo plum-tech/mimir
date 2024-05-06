@@ -15,3 +15,9 @@ class _I18n with CommonI18nMixin, CommonGameI18nMixin {
 
   String get best => "$ns.best".tr();
 }
+
+class _Settings {
+  const _Settings();
+
+  static const ns = "${_I18n.ns}.settings";
+}

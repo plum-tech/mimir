@@ -93,7 +93,8 @@ class Class2ndActivityService {
     final map = <String, String>{};
     for (String line in lines) {
       List<String> result = line.split('：');
-      map.addAll({result[0]: result[1]});
+      // handle Tencent Meeting, for example: 活动地点："#腾讯会议：627-872-562"
+      map.addAll({result[0]: result.sublist(1).join('：')});
     }
     return map;
   }

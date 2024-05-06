@@ -5,8 +5,8 @@ import 'package:sit/init.dart';
 
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/exam_result/init.dart';
-import 'package:sit/session/gms.dart';
-import 'package:sit/session/jwxt.dart';
+import 'package:sit/session/pg_registration.dart';
+import 'package:sit/session/ug_registration.dart';
 import 'package:sit/settings/settings.dart';
 
 import '../entity/course.dart';
@@ -18,19 +18,19 @@ class TimetableService {
   static const _postgraduateTimetableUrl =
       'http://gms.sit.edu.cn/epstar/yjs/T_PYGL_KWGL_WSXK/T_PYGL_KWGL_WSXK_XSKB_NEW.jsp';
 
-  JwxtSession get _jwxtSession => Init.jwxtSession;
+  UgRegistrationSession get _ugRegSession => Init.ugRegSession;
 
-  GmsSession get _gmsSession => Init.gmsSession;
+  PgRegistrationSession get _pgRegSession => Init.pgRegSession;
 
   const TimetableService();
 
   Future<bool> checkConnectivity() {
-    return _jwxtSession.ssoSession.checkConnectivity();
+    return _ugRegSession.checkConnectivity();
   }
 
   /// 获取本科生课表
   Future<SitTimetable> fetchUgTimetable(SemesterInfo info) async {
-    final response = await _jwxtSession.request(
+    final response = await _ugRegSession.request(
       _undergraduateTimetableUrl,
       options: Options(
         method: "POST",
@@ -46,13 +46,16 @@ class TimetableService {
     final json = response.data;
     final List<dynamic> courseList = json['kbList'];
     final rawCourses = courseList.map((e) => UndergraduateCourseRaw.fromJson(e)).toList();
-    final timetableEntity = parseUndergraduateTimetableFromCourseRaw(rawCourses);
+    final timetableEntity = parseUndergraduateTimetableFromCourseRaw(
+      rawCourses,
+      defaultCampus: Settings.campus,
+    );
     return timetableEntity;
   }
 
   /// 获取研究生课表
   Future<SitTimetable> fetchPgTimetable(SemesterInfo info) async {
-    final timetableRes = await _gmsSession.request(
+    final timetableRes = await _pgRegSession.request(
       _postgraduateTimetableUrl,
       options: Options(
         method: "POST",
@@ -67,7 +70,7 @@ class TimetableService {
     completePostgraduateCourseRawsFromPostgraduateScoreRaws(courseList, scoreList);
     final timetableEntity = parsePostgraduateTimetableFromCourseRaw(
       courseList,
-      campus: Settings.campus,
+      defaultCampus: Settings.campus,
     );
     return timetableEntity;
   }
@@ -82,7 +85,7 @@ class TimetableService {
   }
 
   Future<({DateTime start, DateTime end})?> getUgSemesterSpan() async {
-    final res = await _jwxtSession.request(
+    final res = await _ugRegSession.request(
       "http://jwxt.sit.edu.cn/jwglxt/xtgl/index_cxAreaFive.html",
       options: Options(
         method: "POST",

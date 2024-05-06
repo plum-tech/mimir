@@ -18,9 +18,12 @@ class Class2ndInit {
 
   static void init() {
     pointService = Dev.demoMode ? const DemoClass2ndPointsService() : const Class2ndPointsService();
-    pointStorage = Class2ndPointsStorage();
     activityService = Dev.demoMode ? const DemoClass2ndActivityService() : const Class2ndActivityService();
-    activityStorage = const Class2ndActivityStorage();
     applicationService = Dev.demoMode ? const DemoClass2ndApplicationService() : const Class2ndApplicationService();
+  }
+
+  static void initStorage() {
+    pointStorage = Class2ndPointsStorage();
+    activityStorage = const Class2ndActivityStorage();
   }
 }

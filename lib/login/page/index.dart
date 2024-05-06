@@ -3,14 +3,13 @@ import 'dart:math';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/credentials/utils.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/init.dart';
@@ -20,6 +19,7 @@ import 'package:sit/school/widgets/campus.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 
 import '../aggregated.dart';
 import '../i18n.dart';
@@ -30,18 +30,18 @@ const i18n = OaLoginI18n();
 const _forgotLoginPasswordUrl =
     "https://authserver.sit.edu.cn/authserver/getBackPasswordMainPage.do?service=https%3A%2F%2Fmyportal.sit.edu.cn%3A443%2F";
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   final bool isGuarded;
 
   const LoginPage({super.key, required this.isGuarded});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  final $account = TextEditingController(text: Dev.demoMode ? R.demoModeOaAccount : null);
-  final $password = TextEditingController(text: Dev.demoMode ? R.demoModeOaPassword : null);
+class _LoginPageState extends ConsumerState<LoginPage> {
+  final $account = TextEditingController(text: Dev.demoMode ? R.demoModeOaCredentials.account : null);
+  final $password = TextEditingController(text: Dev.demoMode ? R.demoModeOaCredentials.password : null);
   final _formKey = GlobalKey<FormState>();
   bool isPasswordClear = false;
   bool isLoggingIn = false;
@@ -68,21 +68,11 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  @override
-  void didChangeDependencies() {
-    final oaCredential = context.auth.credentials;
-    if (oaCredential != null) {
-      $account.text = oaCredential.account;
-      $password.text = oaCredential.password;
-    }
-    super.didChangeDependencies();
-  }
-
   /// 用户点击登录按钮后
   Future<void> login() async {
     final account = $account.text;
     final password = $password.text;
-    if (account == R.demoModeOaAccount && password == R.demoModeOaPassword) {
+    if (account == R.demoModeOaCredentials.account && password == R.demoModeOaCredentials.password) {
       await loginDemoMode();
     } else {
       await loginWithCredentials(account, password, formatValid: (_formKey.currentState as FormState).validate());
@@ -95,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
     final rand = Random();
     await Future.delayed(Duration(milliseconds: rand.nextInt(2000)));
     Settings.lastSignature ??= "Liplum";
-    CredentialsInit.storage.oaCredentials = Credentials(account: R.demoModeOaAccount, password: R.demoModeOaPassword);
+    CredentialsInit.storage.oaCredentials = R.demoModeOaCredentials;
     CredentialsInit.storage.oaLoginStatus = LoginStatus.validated;
     CredentialsInit.storage.oaLastAuthTime = DateTime.now();
     CredentialsInit.storage.oaUserType = OaUserType.undergraduate;
@@ -106,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
     context.go("/");
   }
 
-  /// 用户点击登录按钮后
+  /// After the user clicks the login button
   Future<void> loginWithCredentials(
     String account,
     String password, {
@@ -117,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
       await context.showTip(
         title: i18n.formatError,
         desc: i18n.validateInputAccountPwdRequest,
-        ok: i18n.close,
+        primary: i18n.close,
         serious: true,
       );
       return;
@@ -126,13 +116,13 @@ class _LoginPageState extends State<LoginPage> {
     if (!mounted) return;
     setState(() => isLoggingIn = true);
     final connectionType = await Connectivity().checkConnectivity();
-    if (connectionType == ConnectivityResult.none) {
+    if (connectionType.contains(ConnectivityResult.none)) {
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       await context.showTip(
         title: i18n.network.error,
         desc: i18n.network.noAccessTip,
-        ok: i18n.close,
+        primary: i18n.close,
         serious: true,
       );
       return;
@@ -154,6 +144,13 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(CredentialsInit.storage.$oaCredentials, (pre, next) {
+      if (next != null) {
+        $account.text = next.account;
+        $password.text = next.password;
+      }
+    });
+
     return GestureDetector(
       onTap: () {
         // dismiss the keyboard when tap out of TextField.
@@ -163,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
         appBar: AppBar(
           title: widget.isGuarded ? i18n.loginRequired.text() : const CampusSelector(),
           actions: [
-            IconButton(
+            PlatformIconButton(
               icon: isCupertino ? const Icon(CupertinoIcons.settings) : const Icon(Icons.settings),
               onPressed: () {
                 context.push("/settings");
@@ -195,12 +192,12 @@ class _LoginPageState extends State<LoginPage> {
               style: context.textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-      Padding(padding: EdgeInsets.only(top: 40.h)),
+      const Padding(padding: EdgeInsets.only(top: 40)),
       // Form field: username and password.
       buildLoginForm(),
-      SizedBox(height: 10.h),
+      const SizedBox(height: 10),
       buildLoginButton(),
-    ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25.h).center();
+    ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25).center();
   }
 
   Widget buildLoginForm() {
@@ -247,7 +244,7 @@ class _LoginPageState extends State<LoginPage> {
                 labelText: i18n.credentials.oaPwd,
                 hintText: i18n.oaPwdHint,
                 icon: Icon(context.icons.lock),
-                suffixIcon: IconButton(
+                suffixIcon: PlatformIconButton(
                   icon: Icon(isPasswordClear ? context.icons.eyeSolid : context.icons.eyeSlashSolid),
                   onPressed: () {
                     setState(() {
@@ -279,14 +276,19 @@ class _LoginPageState extends State<LoginPage> {
                 label: i18n.login.text(),
               ),
       if (!widget.isGuarded)
-        OutlinedButton(
-          // Offline
-          onPressed: () {
-            CredentialsInit.storage.oaLoginStatus = LoginStatus.offline;
-            context.go("/");
-          },
-          child: i18n.offlineModeBtn.text(),
-        ),
+        $account >>
+            (ctx, account) =>
+                $password >>
+                (ctx, password) => OutlinedButton(
+                      // Offline
+                      onPressed: account.text.isNotEmpty || password.text.isNotEmpty
+                          ? null
+                          : () {
+                              CredentialsInit.storage.oaLoginStatus = LoginStatus.offline;
+                              context.go("/");
+                            },
+                      child: i18n.offlineModeBtn.text(),
+                    ),
     ].row(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.spaceAround);
   }
 }

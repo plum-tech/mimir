@@ -19,12 +19,13 @@ class LibrarySearchStorage {
 
   LibraryTrends? getTrends() => decodeJsonObject(box.safeGet<String>(_K.trends), (obj) => LibraryTrends.fromJson(obj));
 
-  Future<void> setTrends(LibraryTrends value) => box.safePut(_K.trends, encodeJsonObject(value));
+  Future<void> setTrends(LibraryTrends value) => box.safePut<String>(_K.trends, encodeJsonObject(value));
 
   List<SearchHistoryItem>? getSearchHistory() =>
       decodeJsonList(box.safeGet<String>(_K.searchHistory), (obj) => SearchHistoryItem.fromJson(obj));
 
-  Future<void> setSearchHistory(List<SearchHistoryItem>? value) => box.safePut(_K.searchHistory, encodeJsonList(value));
+  Future<void> setSearchHistory(List<SearchHistoryItem>? value) =>
+      box.safePut<String>(_K.searchHistory, encodeJsonList(value));
 
   ValueListenable<Box> listenSearchHistory() => box.listenable(keys: [_K.searchHistory]);
 }

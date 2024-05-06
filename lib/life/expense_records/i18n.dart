@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sit/l10n/common.dart';
 
+import 'entity/local.dart';
+
 const i18n = _I18n();
 
 class _I18n with CommonI18nMixin {
@@ -44,9 +46,51 @@ class _Stats {
 
   String get title => "$ns.title".tr();
 
-  String get categories => "$ns.categories".tr();
-
   String get total => "$ns.total".tr();
+
+  String get summary => "$ns.summary".tr();
+
+  String get details => "$ns.details".tr();
+
+  String averageSpendIn({
+    required String amount,
+    required TransactionType type,
+  }) =>
+      "$ns.averageSpendIn".tr(namedArgs: {
+        "amount": amount,
+        "type": type.l10n(),
+      });
+
+  String maxSpendOf({
+    required String amount,
+  }) =>
+      "$ns.maxSpendOf".tr(namedArgs: {
+        "amount": amount,
+      });
+
+  String get averageLineLabel => "$ns.averageLineLabel".tr();
+
+  String get hourlyAverage => "$ns.hourlyAverage".tr();
+
+  String get dailyAverage => "$ns.dailyAverage".tr();
+
+  String get monthlyAverage => "$ns.monthlyAverage".tr();
+
+  String get today => "$ns.today".tr();
+
+  String get yesterday => "$ns.yesterday".tr();
+
+  String get thisWeek => "$ns.thisWeek".tr();
+
+  String get lastWeek => "$ns.lastWeek".tr();
+
+  String get thisMonth => "$ns.thisMonth".tr();
+
+  String get lastMonth => "$ns.lastMonth".tr();
+
+  String get thisYear => "$ns.thisYear".tr();
+
+  String get lastYear => "$ns.lastYear".tr();
 }
 
 class _View {

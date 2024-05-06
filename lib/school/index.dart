@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/entity/user_type.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/school/class2nd/index.dart';
 import 'package:sit/school/event.dart';
 import 'package:sit/school/exam_arrange/index.dart';
@@ -15,33 +16,18 @@ import 'package:sit/school/ywb/index.dart';
 import 'package:rettulf/rettulf.dart';
 import 'i18n.dart';
 
-class SchoolPage extends StatefulWidget {
+class SchoolPage extends ConsumerStatefulWidget {
   const SchoolPage({super.key});
 
   @override
-  State<SchoolPage> createState() => _SchoolPageState();
+  ConsumerState<SchoolPage> createState() => _SchoolPageState();
 }
 
-class _SchoolPageState extends State<SchoolPage> {
-  LoginStatus? loginStatus;
-  OaUserType? userType;
-
-  @override
-  void didChangeDependencies() {
-    final auth = context.auth;
-    final newLoginStatus = auth.loginStatus;
-    final newUserType = auth.userType;
-    if (loginStatus != newLoginStatus || userType != newUserType) {
-      setState(() {
-        loginStatus = newLoginStatus;
-        userType = newUserType;
-      });
-    }
-    super.didChangeDependencies();
-  }
-
+class _SchoolPageState extends ConsumerState<SchoolPage> {
   @override
   Widget build(BuildContext context) {
+    final userType = ref.watch(CredentialsInit.storage.$oaUserType);
+    final loginStatus = ref.watch(CredentialsInit.storage.$oaLoginStatus);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: NestedScrollView(

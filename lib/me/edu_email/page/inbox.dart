@@ -1,5 +1,6 @@
 import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:rettulf/rettulf.dart';
@@ -10,49 +11,31 @@ import '../i18n.dart';
 import '../widgets/item.dart';
 
 // TODO: Send email
-class EduEmailInboxPage extends StatefulWidget {
+class EduEmailInboxPage extends ConsumerStatefulWidget {
   const EduEmailInboxPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _EduEmailInboxPageState();
+  ConsumerState<EduEmailInboxPage> createState() => _EduEmailInboxPageState();
 }
 
-class _EduEmailInboxPageState extends State<EduEmailInboxPage> {
+class _EduEmailInboxPageState extends ConsumerState<EduEmailInboxPage> {
   List<MimeMessage>? messages;
-  Credentials? credential = CredentialsInit.storage.eduEmailCredentials;
-  final onEduEmailChanged = CredentialsInit.storage.listenEduEmailChange();
 
   @override
-  void initState() {
+  initState() {
     super.initState();
-    onEduEmailChanged.addListener(updateCredential);
-    refresh();
-  }
-
-  @override
-  void dispose() {
-    onEduEmailChanged.removeListener(updateCredential);
-    super.dispose();
-  }
-
-  void updateCredential() {
-    final newCredential = CredentialsInit.storage.eduEmailCredentials;
-    setState(() {
-      credential = newCredential;
-    });
-    if (newCredential != null) {
-      refresh();
+    final credentials = ref.read(CredentialsInit.storage.$eduEmailCredentials);
+    if (credentials != null) {
+      refresh(credentials);
     }
   }
 
-  Future<void> refresh() async {
-    final credential = this.credential;
-    if (credential == null) return;
+  Future<void> refresh(Credentials credentials) async {
     if (!mounted) return;
     try {
-      await EduEmailInit.service.login(credential);
+      await EduEmailInit.service.login(credentials);
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       CredentialsInit.storage.eduEmailCredentials = null;
       return;
     }
@@ -68,12 +51,13 @@ class _EduEmailInboxPageState extends State<EduEmailInboxPage> {
         this.messages = messages;
       });
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final credentials = ref.watch(CredentialsInit.storage.$eduEmailCredentials);
     final messages = this.messages;
     return Scaffold(
       body: CustomScrollView(
@@ -81,7 +65,7 @@ class _EduEmailInboxPageState extends State<EduEmailInboxPage> {
           SliverAppBar(
             floating: true,
             title: i18n.inbox.title.text(),
-            bottom: credential != null && messages == null
+            bottom: credentials != null && messages == null
                 ? const PreferredSize(
                     preferredSize: Size.fromHeight(4),
                     child: LinearProgressIndicator(),

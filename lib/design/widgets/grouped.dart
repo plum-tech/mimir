@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 typedef HeaderBuilder = Widget Function(
+  BuildContext context,
   bool expanded,
   VoidCallback toggleExpand,
   Widget defaultTrailing,
@@ -38,6 +38,7 @@ class _GroupedSectionState extends State<GroupedSection> {
           child: Card(
             clipBehavior: Clip.hardEdge,
             child: widget.headerBuilder(
+              context,
               expanded,
               () {
                 setState(() {
@@ -117,8 +118,8 @@ class _AsyncGroupSectionState<T> extends State<AsyncGroupSection<T>> {
       pushPinnedChildren: true,
       children: [
         SliverPinnedHeader(
-          child: FilledCard(
-            clip: Clip.hardEdge,
+          child: Card.filled(
+            clipBehavior: Clip.hardEdge,
             child: ListTile(
               title: widget.title,
               subtitle: widget.subtitle,

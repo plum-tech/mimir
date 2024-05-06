@@ -1,8 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/life/expense_records/storage/local.dart';
@@ -43,22 +44,22 @@ class _ExpenseRecordsPageState extends ConsumerState<ExpenseRecordsPage> {
   }
 
   Future<void> refresh() async {
-    final oaCredential = context.auth.credentials;
-    if (oaCredential == null) return;
+    final credentials = ref.read(CredentialsInit.storage.$oaCredentials);
+    if (credentials == null) return;
     if (!mounted) return;
     setState(() {
       isFetching = true;
     });
     try {
       await ExpenseAggregated.fetchAndSaveTransactionUntilNow(
-        studentId: oaCredential.account,
+        oaAccount: credentials.account,
       );
       updateRecords(ExpenseRecordsInit.storage.getTransactionsByRange());
       setState(() {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       setState(() {
         isFetching = false;
       });
@@ -76,8 +77,12 @@ class _ExpenseRecordsPageState extends ConsumerState<ExpenseRecordsPage> {
             ? i18n.title.text()
             : i18n.balanceInCard(lastTransaction.balanceAfter.toStringAsFixed(2)).text(),
         actions: [
-          IconButton(
-            tooltip: i18n.delete,
+          PlatformIconButton(
+            material: (ctx, p) {
+              return MaterialIconButtonData(
+                tooltip: i18n.delete,
+              );
+            },
             icon: Icon(context.icons.delete),
             onPressed: () async {
               ExpenseRecordsInit.storage.clearIndex();

@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:sit/credentials/error.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/lifecycle.dart';
 import 'package:sit/login/i18n.dart';
 
 void debugPrintError(Object? error, [StackTrace? stackTrace]) {
@@ -30,15 +31,16 @@ void debugPrintError(Object? error, [StackTrace? stackTrace]) {
 
 const _i18n = CommonLoginI18n();
 
-Future<void> handleRequestError(BuildContext context, Object? error, [StackTrace? stackTrace]) async {
+Future<void> handleRequestError(Object? error, [StackTrace? stackTrace]) async {
   debugPrintError(error, stackTrace);
+  final context = $key.currentContext;
   if (error is CredentialsException) {
-    if (!context.mounted) return;
+    if (context == null || context.mounted) return;
     await context.showTip(
       serious: true,
       title: _i18n.failedWarn,
       desc: error.type.l10n(),
-      ok: _i18n.close,
+      primary: _i18n.close,
     );
     return;
   }

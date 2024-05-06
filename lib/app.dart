@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:animations/animations.dart';
@@ -7,76 +8,44 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:fit_system_screenshot/fit_system_screenshot.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/files.dart';
+import 'package:sit/file_type/handle.dart';
+import 'package:sit/lifecycle.dart';
 import 'package:sit/qrcode/handle.dart';
 import 'package:sit/r.dart';
 import 'package:sit/route.dart';
-import 'package:sit/session/widgets/scope.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/update/utils.dart';
 import 'package:sit/utils/color.dart';
 import 'package:system_theme/system_theme.dart';
 
-class MimirApp extends StatefulWidget {
+final $appLinks = StateProvider((ref) => <({Uri uri, DateTime ts})>[]);
+
+class MimirApp extends ConsumerStatefulWidget {
   const MimirApp({super.key});
 
   @override
-  State<MimirApp> createState() => _MimirAppState();
+  ConsumerState<MimirApp> createState() => _MimirAppState();
 }
 
-class _MimirAppState extends State<MimirApp> {
-  final $theme = Settings.theme.listenThemeChange();
+class _MimirAppState extends ConsumerState<MimirApp> {
   final $routingConfig = ValueNotifier(
     Settings.focusTimetable ? buildTimetableFocusRouter() : buildCommonRoutingConfig(),
   );
-  final $focusMode = Settings.listenFocusTimetable();
-  final $demoMode = Dev.listenDemoMode();
   late final router = buildRouter($routingConfig);
 
   @override
-  void initState() {
-    super.initState();
-    $theme.addListener(refresh);
-    $demoMode.addListener(refresh);
-    $focusMode.addListener(refreshFocusMode);
-    if (!kIsWeb) {
-      fitSystemScreenshot.init();
-    }
-  }
-
-  @override
-  void dispose() {
-    $theme.removeListener(refresh);
-    $demoMode.removeListener(refresh);
-    $focusMode.removeListener(refreshFocusMode);
-    fitSystemScreenshot.release();
-    super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    // precache timetable background file
-    if (Settings.timetable.backgroundImage?.enabled == true) {
-      precacheImage(FileImage(Files.timetable.backgroundFile), context);
-    }
-    super.didChangeDependencies();
-  }
-
-  void refresh() {
-    setState(() {});
-  }
-
-  void refreshFocusMode() {
-    $routingConfig.value = Settings.focusTimetable ? buildTimetableFocusRouter() : buildCommonRoutingConfig();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final themeColor = Settings.theme.themeColorFromSystem
+    final demoMode = ref.watch(Dev.$demoMode);
+    final themeColorFromSystem = ref.watch(Settings.theme.$themeColorFromSystem) ?? true;
+    ref.listen(Settings.$focusTimetable, (pre, next) {
+      $routingConfig.value = next ?? false ? buildTimetableFocusRouter() : buildCommonRoutingConfig();
+    });
+    final themeColor = themeColorFromSystem
         ? SystemTheme.accentColor.maybeAccent
-        : Settings.theme.themeColor ?? SystemTheme.accentColor.maybeAccent;
+        : ref.watch(Settings.theme.$themeColor) ?? SystemTheme.accentColor.maybeAccent;
 
     ThemeData bakeTheme(ThemeData origin) {
       return origin.copyWith(
@@ -88,7 +57,10 @@ class _MimirAppState extends State<MimirApp> {
                 brightness: origin.brightness,
               ),
         visualDensity: VisualDensity.comfortable,
-        splashFactory: InkSparkle.splashFactory,
+        splashFactory: kIsWeb ? null : InkSparkle.splashFactory,
+        navigationBarTheme: const NavigationBarThemeData(
+          height: 60,
+        ),
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
             TargetPlatform.android: ZoomPageTransitionsBuilder(),
@@ -105,19 +77,16 @@ class _MimirAppState extends State<MimirApp> {
       title: R.appName,
       onGenerateTitle: (ctx) => "appName".tr(),
       routerConfig: router,
-      debugShowCheckedModeBanner: !Dev.demoMode,
+      debugShowCheckedModeBanner: !demoMode,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      themeMode: Settings.theme.themeMode,
+      themeMode: ref.watch(Settings.theme.$themeMode),
       theme: bakeTheme(ThemeData.light()),
       darkTheme: bakeTheme(ThemeData.dark()),
-      builder: (ctx, child) => OaAuthManager(
-        child: OaOnlineManager(
-          child: _PostServiceRunner(
-            child: child ?? const SizedBox(),
-          ),
-        ),
+      builder: (ctx, child) => _PostServiceRunner(
+        key: const ValueKey("Post service runner"),
+        child: child ?? const SizedBox(),
       ),
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         dragDevices: {
@@ -132,44 +101,74 @@ class _MimirAppState extends State<MimirApp> {
   }
 }
 
-class _PostServiceRunner extends StatefulWidget {
+class _PostServiceRunner extends ConsumerStatefulWidget {
   final Widget child;
 
   const _PostServiceRunner({
+    super.key,
     required this.child,
   });
 
   @override
-  State<_PostServiceRunner> createState() => _PostServiceRunnerState();
+  ConsumerState<_PostServiceRunner> createState() => _PostServiceRunnerState();
 }
 
-class _PostServiceRunnerState extends State<_PostServiceRunner> {
+class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
   StreamSubscription? $appLink;
 
   @override
   void initState() {
     super.initState();
     if (!kIsWeb) {
+      fitSystemScreenshot.init();
+    }
+    if (!kIsWeb) {
       Future.delayed(Duration.zero).then((value) async {
         await checkAppUpdate(
-          context: $Key.currentContext!,
+          context: $key.currentContext!,
           delayAtLeast: const Duration(milliseconds: 3000),
           manually: false,
         );
       });
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      $appLink = AppLinks().allUriLinkStream.listen((uri) async {
-        final navigateCtx = $Key.currentContext;
+      $appLink = AppLinks().uriLinkStream.listen((uri) async {
+        ref.read($appLinks.notifier).state = [...ref.read($appLinks), (uri: uri, ts: DateTime.now())];
+        final navigateCtx = $key.currentContext;
         if (navigateCtx == null) return;
-        await onHandleQrCodeUriData(context: navigateCtx, qrCodeData: uri);
+        if (!kIsWeb) {
+          final maybePath = Uri.decodeFull(uri.toString());
+          final isFile = await File(maybePath).exists();
+          if (isFile) {
+            if (!navigateCtx.mounted) return;
+            await onHandleFilePath(context: navigateCtx, path: maybePath);
+            return;
+          }
+        }
+        if (!navigateCtx.mounted) return;
+        await onHandleDeepLink(context: navigateCtx, deepLink: uri);
       });
     });
   }
 
   @override
+  void didChangeDependencies() {
+    // precache timetable background file
+    final timetableBk = Settings.timetable.backgroundImage;
+    if (timetableBk != null && timetableBk.enabled) {
+      if (kIsWeb) {
+        precacheImage(NetworkImage(timetableBk.path), context);
+      } else {
+        precacheImage(FileImage(Files.timetable.backgroundFile), context);
+      }
+    }
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     $appLink?.cancel();
+    fitSystemScreenshot.release();
     super.dispose();
   }
 

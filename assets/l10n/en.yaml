@@ -13,6 +13,7 @@ timetable:
   mine:
     title: Your Timetables
     exportCalendar: Export calendar
+    patch: Patch
     deleteRequest: Confirm to delete?
     deleteRequestDesc: You will lose this timetable permanently
     emptyTip: Let's import a timetable!
@@ -30,13 +31,55 @@ timetable:
     timeslots:
       single: "Lesson {}"
       multiple: "From lesson {from} to {to}"
+  issue:
+    title: Timetable issue
+    resolve: Resolve
+    builtin:
+      empty:
+        title: Timetable is empty
+        desc: Check that you imported the correct one.
+      cbeCourse:
+        title: Credit by Exam (CBE) courses found
+        desc: You can hide CBE courses
+      patchOutOfRange:
+        title: Timetable patch out of date range
+        desc: The patch date is out of semester in which the timetable falls, so the patch will take no effect. Please check that you set the date correctly.
+      courseOverlaps:
+        title: Overlapping courses found
+        desc: You can hide one of them to avoid conflicts
+  patch:
+    title: Timetable patch
+    prefabs: Prefabs
+    defaultName: New Patch set
+    unpack: Unpack
+    noPatches: No patches
+    noPatchesTip: No patches here, how about adding a prefab?
+    patchSetName: Patch set name
+    dateOutOfRangeTip: One or more dates are out of semester in which the current timetable falls
+    removeDay: "Remove lessons on {day}"
+    swapDays: "Swap lessons on {a} with {b}"
+    copyDay: "Copy lessons from {source} to {target}"
+    moveDay: "Move lessons from {source} to {target}"
+    type:
+      moveDay: Move day
+      removeDay: Remove day
+      copyDay: Copy day
+      swapDays: Swap days
+    builtin:
+      sitVacationShift2024: 2024 SIT Vacation Shift
+    moveSource: The day was originally planned for lesson
+    moveTarget: The day lessons will now be held on
+    copySource: The day was planned for lesson
+    copyTarget: The day lessons will also be held on
+    swappedDay: One of the days to be swapped
+    removedDay: The day to be removed
   import:
     title: Import timetable
     import: Import
     fromFile: From File
     fromFileBtn: From file
     tryImportBtn: Try import
-    connectivityCheckerDesc: You need to check the access to school server before importing a timetable.
+    connectivityCheckerDesc: You need to check the access to Student registration system before importing a timetable.
     selectSemesterTip: Please select a semester first
     endTip: Please enter the info
     failed: Import Failed
@@ -48,6 +91,7 @@ timetable:
   export:
     title: Export to calendar
     export: Export
+    iOSGetShortcutAction: Get the shortcut to add events to calendar
     lessonMode:
       title: Lesson mode
       merged: Full
@@ -73,8 +117,11 @@ timetable:
       title: Show wallpaper
       desc: Show timetable wallpaper in the screenshot
   displayMode:
-    daily: Daily
-    weekly: Weekly
+    daily: D
+    weekly: W
+  dayLocMode:
+    pos: Position
+    date: Date
   weekIndexType:
     all: Every
     odd: Odd
@@ -94,25 +141,6 @@ timetable:
     findNearestDayWithClass: Find a day with class
   p13n:
     title: Palettes
-    builtinPalette:
-      classic:
-        name: Classic
-      americano:
-        name: Americano
-      candy:
-        name: Candy
-      sprint:
-        name: Sprint
-      summary:
-        name: Summary
-      fall:
-        name: Fall
-      winter:
-        name: Winter
-      thicket:
-        name: Thicket
-      creeksideBreeze:
-        name: Creekside Breeze
     palette:
       title: Palette
       name: Name
@@ -127,13 +155,29 @@ timetable:
       color: color
       details: Details
       fab: Palette
-      shareQrCode: Share QR code
       newPaletteName: New palette
       deleteRequest: Conform to delete?
       deleteRequestDesc: The palette will be deleted permanently without unless a QR code backup is saved
       addColor: Add a color
-      addFromQrCodeAction: Add palette
-      addFromQrCodeDesc: Confirm to add a timetable palette from QR code?
+      builtin:
+        classic:
+          name: Classic
+        americano:
+          name: Americano
+        candy:
+          name: Candy
+        sprint:
+          name: Sprint
+        summary:
+          name: Summary
+        fall:
+          name: Fall
+        winter:
+          name: Winter
+        thicket:
+          name: Thicket
+        creeksideBreeze:
+          name: Creekside Breeze
     cellStyle:
       title: Cell Style
       showTeachers:
@@ -150,6 +194,10 @@ timetable:
       title: Wallpaper
       opacity: Wallpaper opacity
       pickTip: Pick your favorite image
+      selectedImage: Selected image
+      imageURL: Image URL
+      invalidURL: Invalid URL
+      invalidURLDesc: Please enter a URL that begins with http or https
       repeat:
         title: Repeat image
         desc: Repeat image as a pattern to fill wallpaper
@@ -173,6 +221,22 @@ timetable:
         name: Tomorrow
         place: Lab
         teachers: Thomas
+  settings:
+    autoUseImported:
+      title: Auto-use imported
+      desc: Use the timetable just imported
+    palette:
+      title: Palettes
+      desc: Customize timetable colors
+    cellStyle:
+      title: Edit cell style
+      desc: How course cell looks like
+    background:
+      title: Wallpaper
+      desc: The background of timetable
+    quickLookLessonOnTap:
+      title: Tap to quick look a lesson
+      desc: Long press to see overall course in weekly timetable
 school:
   navigation: School
   semester:
@@ -185,6 +249,8 @@ school:
     classCode: Class code
     courseCode: Course code
     place: Place
+    campus: Campus
+    displayable: Display in timetable
     semester: Semester
     schoolYear: School year
     category: Course category
@@ -204,8 +270,26 @@ school:
     specializedElective: Specialized elective
     integratedPractice: Integrated Practice
     practicalInstruction: Practical instruction
+  settings:
+    class2nd:
+      autoRefresh:
+        title: Auto-refresh 2nd class scores
+        desc: Refresh scores when app is launched
+    examResult:
+      showResultPreview:
+        title: Show exam result preview
+        desc: Show the current semester's exam results in the card
 life:
   navigation: Life
+  settings:
+    electricity:
+      autoRefresh:
+        title: Auto-refresh electricity
+        desc: Refresh electricity when app is launched
+    expenseRecords:
+      autoRefresh:
+        title: Auto-refresh expense records
+        desc: Refresh expense records when app is launched
 me:
   navigation: Me
 class2nd:
@@ -362,6 +446,7 @@ electricity:
 eduEmail:
   title: Edu email
   action:
+    open: Open
     login: Login
     inbox: Inbox
     outbox: Outbox
@@ -429,68 +514,98 @@ expenseRecords:
   refreshFailedTip: Failed to refresh expense records
   lastUpdateTime: "Last update: {}"
   statsMode:
-    week: Week
-    month: Month
-    year: Year
+    day: D
+    week: W
+    month: M
+    year: Y
   view:
     balance: Balance
     rmb: RMB
   stats:
     title: Statistics
-    categories: Categories
     total: Total
+    summary: Summary
+    details: Details
+    averageSpendIn: "Average spent {amount} in {type}"
+    maxSpendOf: "with a max spend of {amount}"
+    averageLineLabel: avg
+    hourlyAverage: Hourly average
+    dailyAverage: Daily average
+    monthlyAverage: Monthly average
+    today: Today
+    yesterday: Yesterday
+    thisWeek: This week
+    lastWeek: Last week
+    thisMonth: This month
+    lastMonth: Last month
+    thisYear: This year
+    lastYear: Last year
   type:
     consume: Consume
     coffee: Café
     food: Canteen
-    store: Grocery Shopping
-    water: Hot Water
+    store: Grocery
+    water: Water
     library: Library
     shower: Shower
-    topUp: Top Up
+    topUp: Top up
     subsidy: Subsidy
     other: Stuff
 homepage:
   campusNetworkConnected: Campus network available
   campusNetworkUnconnected: Campus network unavailable
 networkChecker:
+  whereToCheck:
+    schoolServer: School server
+    studentReg: Student registration system
   testConnection:
     title: Test connection
-    desc: Test connecting to school server
+    desc: "Test connecting to {where}"
   button:
     connected: Continue
     connecting: Checking
     disconnected: Retry
     none: Check connection
   status:
-    connected: Right! You have connected to school server!
+    connected: "Right! You have connected to {where}!"
     connecting: It will take a few seconds, please ensure you have turned on the network on your device.
-    disconnected: Oops! You can't access the school server. Please check your network settings or use Easy Connect, then try again.
-    none: You need the access to school server to continue. Let's check it now.
+    disconnected: "Oops! You can't access {where}. Please click the troubleshooting below to see more."
+    none: "You need the access to {where} to continue. Let's check it out."
 network:
   error: Network error
-  ipAddress: IP Address
+  ipAddress: IP address
   connectionTimeoutError: Network timeout
   connectionTimeoutErrorDesc: "This function requires access to the campus network. NOTE: It also occurs when the school server is down for maintenance."
   openToolBtn: Open network tool
 networkTool:
   title: Network tool
   subtitle: Test connection to the school server
-  openWlanSettingsBtn: Open WLAN settings
-  noAccessTip: Unable to access network. Please check network settings on your device, then try again.
-  connectionFailedError: |
-    Unable to connect to campus network. Troubleshooting:
+  openWifiSettingsBtn: Open Wi-Fi settings
+  openInAppProxySettingsBtn: Open in-app proxy settings
+  campusNetworkConnected: Connected to campus network
+  campusNetworkNotConnected: Not connected to campus network
+  studentRegAvailable: Student registration system available
+  studentRegUnavailable: Student registration system unavailable
+  ugRegAvailableTip: |
+    You can import timetables from student registration system, and check your exam arrangements and exam results (including GPA).
+  ugRegUnavailableTip: |
+    You can't import timetables from student registration system. The only way to import timetables is to load them from a file on your device.
+    Your exam arrangements, and exam results (including GPA) can't be loaded and updated in time, but can still be viewed if you have already loaded them once.
+  pgRegAvailableTip: |
+    You can import timetables from student registration system, and check your exam results.
+  pgRegUnavailableTip: |
+    You can't import timetable from student registration system. The only way to import timetables is to load them from a file on your device.
+    Your exam results can't be loaded and updated in time, but can still be viewed if you have already loaded them once.
+  troubleshoot: Troubleshoot
+  studentRegTroubleshoot: |
     1. Attempt to connect to the school's Wi-Fi, "i-SIT","i-SIT-1x" or "eduroam".
     2. Attempt to launch "EasyConnect" VPN to connect to school.
     3. Attempt to use a self-built proxy server to connect to campus network via HTTP proxy.
     If they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
-  connectionFailedButCampusNetworkConnected: |
+    During the night, the school server may be temporarily shut down, so please wait until the morning of a weekday to try again.
+  studentRegUnavailableButCampusNetworkConnected: |
     The campus network has been connected, but school server is still inaccessible.
     It's probably due to school server downtime for maintenance or even crash, please try again later.
-  connectedByProxy: Connected to campus network by HTTP proxy
-  connectedByVpn: Connected to campus network by VPN
-  connectedByWlan: Connected to campus network by WLAN
-  connectedByEthernet: Connected to campus network by Ethernet
 login:
   login: Login
   forgotPwd: Forgot password?
@@ -587,40 +702,6 @@ settings:
     reload:
       title: Reload
       desc: Reload all modules
-  timetable:
-    title: Timetable
-    autoUseImported:
-      title: Auto-use imported
-      desc: Use the timetable just imported
-    palette:
-      title: Palettes
-      desc: Customize timetable colors
-    cellStyle:
-      title: Edit cell style
-      desc: How course cell looks like
-    background:
-      title: Wallpaper
-      desc: The background of timetable
-  school:
-    title: School
-    class2nd:
-      autoRefresh:
-        title: Auto-refresh 2nd class scores
-        desc: Refresh scores when app is launched
-    examResult:
-      showResultPreview:
-        title: Show exam result preview
-        desc: Show the current semester's exam results in the card
-  life:
-    title: Life
-    electricity:
-      autoRefresh:
-        title: Auto-refresh electricity
-        desc: Refresh electricity when app is launched
-    expenseRecords:
-      autoRefresh:
-        title: Auto-refresh expense records
-        desc: Refresh expense records when app is launched
   clearCache:
     title: Clear cache
     desc: Clear the offline cache during use
@@ -630,6 +711,7 @@ settings:
   proxy:
     title: Proxy
     desc: Proxy the access to campus network
+    enableAuth: Enable authentication
     authentication: Authentication
     protocol: Protocol
     hostname: Hostname
@@ -700,15 +782,15 @@ oaAnnounce:
     academicReport: Report
 yellowPages:
   title: Yellow pages
-scanner:
-  barcodeNotRecognized: No Barcode or QR code
 greeting:
   headerA: SIT has accompanied you
   headerB:
     one: 1 Day
     other: "{} Days"
 qrCode:
+  barcodeNotRecognizedTip: No Barcode or QR code
   hint: Please navigate to Me {me}, and click the Scanner {scan} on the right corner
+  unrecognizedQrCodeTip: Unrecognized QR code
 404:
   title: Not Found
   subtitle: The requested page was not found
@@ -717,7 +799,7 @@ update:
   onLatestTip: You are on the latest version
   newVersionAvailable: New version available!
   notNow: Not Now
-  skipThisVersion: Skip this version
+  skipThisVersionFor7Days: Skip this version for 7 days
   openAppStore: Open App Store
   installOnAppStoreInsteadTip: |
     SIT Life has published on App Store.
@@ -768,6 +850,10 @@ game:
   tryAgain: Try again
   youWin: You win
   gameOver: Game over
+  settings:
+    enableHapticFeedback:
+      title: Enable haptic feedback
+      desc: Feel a light vibration for some actions
   2048:
     title: 2048
     score: Score
@@ -777,6 +863,8 @@ game:
     timeSpent: "You spent {}"
     gameMode:
       easy: Easy
+      normal: Normal
+      hard: Hard
 permission:
   permissionDenied: Permission denied
   permissionDeniedDescOf: "{} permission was not granted. Please check the app settings."
@@ -784,6 +872,10 @@ permission:
   type:
     storage: Storage
     camera: Camera
+saveAndQuitPrompt:
+  request: You have unsaved changes, do you want to save them?
+  saveAndQuit: Save&Quit
+  discard: Discard
 dormitoryRoom: "Building {building} #{room}"
 open: Open
 delete: Delete
@@ -823,3 +915,7 @@ copyTip: "{} was copied"
 done: Done
 openInBrowser: Open in browser
 choose: Choose
+unspecified: Unspecified
+shareQrCode: Share QR code
+add: Add
+rename: Rename

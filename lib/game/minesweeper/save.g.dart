@@ -23,8 +23,8 @@ const _$CellStateEnumMap = {
 };
 
 SaveMinesweeper _$SaveMinesweeperFromJson(Map<String, dynamic> json) => SaveMinesweeper(
-      rows: json['rows'] as int? ?? 15,
-      columns: json['columns'] as int? ?? 8,
+      rows: (json['rows'] as num?)?.toInt() ?? 15,
+      columns: (json['columns'] as num?)?.toInt() ?? 8,
       cells: (json['cells'] as List<dynamic>?)?.map((e) => Cell4Save.fromJson(e as Map<String, dynamic>)).toList() ??
           _defaultCells(),
     );

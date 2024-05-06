@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/school/exam_result/entity/result.pg.dart';
@@ -15,11 +14,9 @@ class ExamResultPgStorage {
 
   ExamResultPgStorage();
 
-  List<ExamResultPg>? getResultList() => (box.safeGet(_K.resultList) as List?)?.cast<ExamResultPg>();
+  List<ExamResultPg>? getResultList() => box.safeGet<List>(_K.resultList)?.cast<ExamResultPg>();
 
-  Future<void> setResultList(List<ExamResultPg>? newV) => box.safePut(_K.resultList, newV);
+  Future<void> setResultList(List<ExamResultPg>? newV) => box.safePut<List>(_K.resultList, newV);
 
-  ValueListenable<Box> listenResultList() => box.listenable(keys: [_K.resultList]);
-
-  late final $resultList = box.provider<List<ExamResultPg>>(_K.resultList, getResultList);
+  late final $resultList = box.provider<List<ExamResultPg>>(_K.resultList, get: getResultList);
 }

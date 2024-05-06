@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:simple_icons/simple_icons.dart';
 import 'package:sit/r.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/update/entity/artifact.dart';
@@ -65,6 +66,7 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
       onPressed: () {
         if (ignore) {
           Settings.skippedVersion = info.version.toString();
+          Settings.lastSkipUpdateTime = DateTime.now();
         }
         context.pop();
       },
@@ -75,21 +77,22 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
   Widget buildDownloadButton() {
     final info = widget.info;
     if (R.debugCupertino || UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
-      return FilledButton(
+      return FilledButton.icon(
+        icon: const Icon(SimpleIcons.appstore),
         onPressed: ignore
             ? null
             : () async {
                 context.pop();
                 await launchUrlString(R.iosAppStoreUrl, mode: LaunchMode.externalApplication);
               },
-        child: i18n.openAppStore.text(),
+        label: i18n.openAppStore.text(),
       );
     }
     return FilledButton.icon(
       onPressed: ignore
           ? null
           : () async {
-              final download = info.downloadOf(R.currentVersion.platform);
+              final download = info.downloadOf(R.meta.platform);
               if (download == null) return;
               final url = download.defaultUrl;
               if (url == null) return;
@@ -109,7 +112,7 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
           ignore = value == true;
         });
       },
-      title: i18n.skipThisVersion.text(),
+      title: i18n.skipThisVersionFor7Days.text(),
     );
   }
 }

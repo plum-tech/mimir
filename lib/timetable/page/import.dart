@@ -1,14 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/user_type.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/animation/animated.dart';
-import 'package:sit/network/checker.dart';
+import 'package:sit/network/widgets/checker.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/utils.dart';
@@ -20,7 +20,7 @@ import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
-import 'editor.dart';
+import 'edit/editor.dart';
 
 enum ImportStatus {
   none,
@@ -29,14 +29,15 @@ enum ImportStatus {
   failed;
 }
 
-class ImportTimetablePage extends StatefulWidget {
+/// It doesn't persist changes to storage before route popping.
+class ImportTimetablePage extends ConsumerStatefulWidget {
   const ImportTimetablePage({super.key});
 
   @override
-  State<ImportTimetablePage> createState() => _ImportTimetablePageState();
+  ConsumerState<ImportTimetablePage> createState() => _ImportTimetablePageState();
 }
 
-class _ImportTimetablePageState extends State<ImportTimetablePage> {
+class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
   bool canImport = false;
   var _status = ImportStatus.none;
   late SemesterInfo initial = estimateCurrentSemester();
@@ -54,7 +55,10 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       appBar: AppBar(
         title: i18n.import.title.text(),
         actions: [
-          PlatformTextButton(onPressed: importFromFile, child: i18n.import.fromFileBtn.text()),
+          PlatformTextButton(
+            onPressed: importFromFile,
+            child: i18n.import.fromFileBtn.text(),
+          ),
         ],
         bottom: !isImporting
             ? null
@@ -71,11 +75,13 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   }
 
   Future<void> importFromFile() async {
-    final timetable = await readTimetableFromFileWithPrompt(context);
+    var timetable = await readTimetableFromPickedFileWithPrompt(context);
     if (timetable == null) return;
-    final id = TimetableInit.storage.timetable.add(timetable);
     if (!mounted) return;
-    context.pop((id: id, timetable: timetable));
+    timetable = await processImportedTimetable(context, timetable);
+    if (timetable == null) return;
+    if (!mounted) return;
+    context.pop(timetable);
   }
 
   Widget buildConnectivityChecker(BuildContext ctx, Key? key) {
@@ -84,6 +90,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
       iconSize: ctx.isPortrait ? 180 : 120,
       initialDesc: i18n.import.connectivityCheckerDesc,
       check: TimetableInit.service.checkConnectivity,
+      where: WhereToCheck.studentReg,
       onConnected: () {
         if (!mounted) return;
         setState(() {
@@ -109,10 +116,11 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
   }
 
   Widget buildImportPage({Key? key}) {
+    final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
     return [
       buildTip(context).padSymmetric(v: 30),
       SemesterSelector(
-        baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
+        baseYear: getAdmissionYearFromStudentId(credentials?.account),
         initial: initial,
         onSelected: (newSelection) {
           setState(() {
@@ -124,14 +132,15 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     ].column(key: key, maa: MainAxisAlignment.center, caa: CrossAxisAlignment.center);
   }
 
-  Future<({int id, SitTimetable timetable})?> handleTimetableData(
+  Future<SitTimetable?> handleTimetableData(
     SitTimetable timetable,
     SemesterInfo info,
   ) async {
     final SemesterInfo(:exactYear, :semester) = info;
     final defaultName = i18n.import.defaultName(semester.l10n(), exactYear.toString(), (exactYear + 1).toString());
     DateTime defaultStartDate = estimateStartDate(exactYear, semester);
-    if (context.auth.userType == OaUserType.undergraduate) {
+    final userType = ref.read(CredentialsInit.storage.$oaUserType);
+    if (userType == OaUserType.undergraduate) {
       final current = estimateCurrentSemester();
       if (info == current) {
         final span = await TimetableInit.service.getUgSemesterSpan();
@@ -140,22 +149,17 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
         }
       }
     }
-    if (!mounted) return null;
-    final newTimetable = await context.show$Sheet$<SitTimetable>(
-      (ctx) => TimetableEditorPage(
-        timetable: timetable.copyWith(
-          name: defaultName,
-          semester: semester,
-          startDate: defaultStartDate,
-          schoolYear: exactYear,
-          signature: Settings.lastSignature,
-        ),
-      ),
-      dismissible: false,
+    timetable = timetable.copyWith(
+      name: defaultName,
+      semester: semester,
+      startDate: defaultStartDate,
+      schoolYear: exactYear,
+      signature: Settings.lastSignature,
     );
+    if (!mounted) return null;
+    final newTimetable = await processImportedTimetable(context, timetable);
     if (newTimetable != null) {
-      final id = TimetableInit.storage.timetable.add(newTimetable);
-      return (id: id, timetable: timetable);
+      return newTimetable;
     }
     return null;
   }
@@ -175,11 +179,13 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     );
   }
 
-  Future<SitTimetable> getTimetable(SemesterInfo info) async {
-    return switch (context.auth.userType) {
+  Future<SitTimetable> fetchTimetable(SemesterInfo info) async {
+    final userType = ref.read(CredentialsInit.storage.$oaUserType);
+    return switch (userType) {
       OaUserType.undergraduate => TimetableInit.service.fetchUgTimetable(info),
       OaUserType.postgraduate => TimetableInit.service.fetchPgTimetable(info),
       OaUserType.other => throw Exception("Timetable importing not supported"),
+      _ => throw Exception("Timetable importing not supported"),
     };
   }
 
@@ -189,15 +195,14 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
     });
     try {
       final selected = this.selected;
-      final timetable = await getTimetable(selected);
+      final timetable = await fetchTimetable(selected);
       if (!mounted) return;
       setState(() {
         _status = ImportStatus.end;
       });
-      final id2timetable = await handleTimetableData(timetable, selected);
-      if (id2timetable == null) return;
+      final newTimetable = await handleTimetableData(timetable, selected);
       if (!mounted) return;
-      context.pop(id2timetable);
+      context.pop(newTimetable);
     } catch (e, stackTrace) {
       if (e is ParallelWaitError) {
         final inner = e.errors.$1 as AsyncError;
@@ -211,7 +216,7 @@ class _ImportTimetablePageState extends State<ImportTimetablePage> {
         _status = ImportStatus.failed;
       });
       if (!mounted) return;
-      await context.showTip(title: i18n.import.failed, desc: i18n.import.failedDesc, ok: i18n.ok);
+      await context.showTip(title: i18n.import.failed, desc: i18n.import.failedDesc, primary: i18n.ok);
     } finally {
       if (_status == ImportStatus.importing) {
         setState(() {
@@ -234,4 +239,19 @@ DateTime findFirstWeekdayInCurrentMonth(DateTime current, int weekday) {
   DateTime firstWeekdayInMonth = firstDayOfMonth.add(Duration(days: daysUntilWeekday));
 
   return firstWeekdayInMonth;
+}
+
+Future<SitTimetable?> processImportedTimetable(
+  BuildContext context,
+  SitTimetable timetable, {
+  bool useRootNavigator = false,
+}) async {
+  final newTimetable = await context.showSheet<SitTimetable>(
+    (ctx) => TimetableEditorPage(
+      timetable: timetable,
+    ),
+    useRootNavigator: true,
+    dismissible: false,
+  );
+  return newTimetable;
 }

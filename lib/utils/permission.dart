@@ -37,8 +37,8 @@ Future<void> showPermissionDeniedDialog({
   final confirm = await context.showDialogRequest(
     title: _i18n.permissionDenied,
     desc: _i18n.permissionDeniedDescOf(permission),
-    yes: _i18n.goSettings,
-    no: _i18n.cancel,
+    primary: _i18n.goSettings,
+    secondary: _i18n.cancel,
   );
   if (confirm == true) {
     await AppSettings.openAppSettings(type: AppSettingsType.settings);

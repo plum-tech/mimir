@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/menu.dart';
@@ -38,11 +38,11 @@ class EntryAction {
   const EntryAction.edit({
     required this.label,
     this.main = false,
+    this.oneShot = false,
     this.icon,
     required this.action,
     this.activator,
-  })  : oneShot = true,
-        type = EntryActionType.edit;
+  }) : type = EntryActionType.edit;
 
   const EntryAction.delete({
     required this.label,
@@ -69,7 +69,7 @@ class EntrySelectAction {
 class EntryCard extends StatelessWidget {
   final bool selected;
   final String title;
-  final List<Widget> Function(BuildContext context) itemBuilder;
+  final Widget Function(BuildContext context) itemBuilder;
   final Widget Function(BuildContext context, List<Widget> Function(BuildContext context)? actionsBuilder)
       detailsBuilder;
   final List<EntryAction> Function(BuildContext context) actions;
@@ -124,35 +124,29 @@ class EntryCard extends StatelessWidget {
     }
 
     Widget buildSecondaryActionPopup() {
-      return PopupMenuButton(
-        position: PopupMenuPosition.under,
-        padding: EdgeInsets.zero,
+      return PullDownMenuButton(
         itemBuilder: (ctx) {
-          final all = <PopupMenuEntry>[];
+          final all = <PullDownEntry>[];
           for (final action in secondaryActions) {
             final callback = action.action;
-            all.add(PopupMenuItem(
+            all.add(PullDownItem(
+              title: action.label,
+              icon: action.icon,
               onTap: () async {
                 await callback();
               },
-              child: ListTile(
-                leading: Icon(action.icon),
-                title: action.label.text(),
-              ),
             ));
           }
           final deleteAction = this.deleteAction;
           if (deleteAction != null) {
             final deleteActionWidget = deleteAction(context);
-            all.add(const PopupMenuDivider());
-            all.add(PopupMenuItem(
+            all.add(const PullDownDivider());
+            all.add(PullDownItem(
+              title: deleteActionWidget.label,
+              icon: deleteActionWidget.icon,
               onTap: () async {
                 await deleteActionWidget.action();
               },
-              child: ListTile(
-                leading: Icon(deleteActionWidget.icon),
-                title: deleteActionWidget.label.text(),
-              ),
             ));
           }
           return all;
@@ -160,9 +154,9 @@ class EntryCard extends StatelessWidget {
       );
     }
 
-    final body = InkWell(
+    return InkWell(
       child: [
-        ...itemBuilder(context),
+        itemBuilder(context),
         OverflowBar(
           alignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -172,16 +166,12 @@ class EntryCard extends StatelessWidget {
         ),
       ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15),
       onTap: () async {
-        await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions));
+        await context.showSheet((ctx) => detailsBuilder(context, buildDetailsActions));
       },
+    ).inAnyCard(
+      type: selected ? CardVariant.filled : CardVariant.outlined,
+      clip: Clip.hardEdge,
     );
-    return selected
-        ? body.inFilledCard(
-            clip: Clip.hardEdge,
-          )
-        : body.inOutlinedCard(
-            clip: Clip.hardEdge,
-          );
   }
 
   Widget buildCardWithContextMenu(BuildContext context) {
@@ -213,8 +203,8 @@ class EntryCard extends StatelessWidget {
     BuildContext context, {
     required EntrySelectAction? selectAction,
   }) {
-    Widget body = [
-      ...itemBuilder(context),
+    Widget widget = [
+      itemBuilder(context),
       OverflowBar(
         alignment: MainAxisAlignment.end,
         children: [
@@ -229,16 +219,32 @@ class EntryCard extends StatelessWidget {
         ],
       ),
     ].column(caa: CrossAxisAlignment.start).padOnly(t: 12, l: 12, r: 8, b: 4);
-    final widget = selected
-        ? body.inFilledCard(
-            clip: Clip.hardEdge,
-          )
-        : body.inOutlinedCard(
-            clip: Clip.hardEdge,
-          );
-    return widget.onTap(() async {
-      await context.show$Sheet$((ctx) => detailsBuilder(context, buildDetailsActions));
-    });
+    if (isCupertino) {
+      return GestureDetector(
+        onTap: () => showDetailsSheet(context),
+        child: selectedCard(
+          child: widget,
+        ),
+      );
+    } else {
+      return selectedCard(
+        child: InkWell(
+          onTap: () => showDetailsSheet(context),
+          child: widget,
+        ),
+      );
+    }
+  }
+
+  Widget selectedCard({required Widget child}) {
+    return child.inAnyCard(
+      type: selected ? CardVariant.filled : CardVariant.outlined,
+      clip: Clip.hardEdge,
+    );
+  }
+
+  Future<void> showDetailsSheet(BuildContext context) async {
+    await context.showSheet((ctx) => detailsBuilder(ctx, buildDetailsActions));
   }
 
   List<MenuAction> buildMenuActions(
@@ -289,8 +295,10 @@ class EntryCard extends StatelessWidget {
     if (editAction != null) {
       all.add(PlatformTextButton(
         onPressed: () async {
-          if (!context.mounted) return;
-          context.navigator.pop();
+          if (editAction.oneShot) {
+            if (!context.mounted) return;
+            context.navigator.pop();
+          }
           await editAction.action();
         },
         child: editAction.label.text(),
@@ -338,6 +346,7 @@ class EntryCard extends StatelessWidget {
             const PullDownDivider(),
             PullDownItem.delete(
               title: deleteAction.label,
+              icon: context.icons.delete,
               onTap: () async {
                 await deleteAction.action();
                 if (!context.mounted) return;

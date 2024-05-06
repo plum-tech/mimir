@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/game/minesweeper/model/cell.dart';
 import 'package:sit/game/storage/storage.dart';
 import 'package:version/version.dart';
 
-import 'model/mode.dart';
+import 'entity/mode.dart';
+import 'entity/cell.dart';
 
 part "save.g.dart";
 

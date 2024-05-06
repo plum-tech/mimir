@@ -79,7 +79,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;
@@ -107,7 +107,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
                   onPressed: () {
                     multiselect.clearSelection();
                   },
-                  child: Text(i18n.done),
+                  child: Text(i18n.cancel),
                 )
               ],
               bottom: isFetching
@@ -222,14 +222,14 @@ class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
     final isGroupNoneSelected = intersection.isEmpty;
     final isGroupAllSelected = intersection.length == indicesOfGroup.length;
     return GroupedSection(
-        headerBuilder: (expanded, toggleExpand, defaultTrailing) {
+        headerBuilder: (context, expanded, toggleExpand, defaultTrailing) {
           return ListTile(
             leading: Icon(expanded ? Icons.expand_less : Icons.expand_more),
             title: widget.semester.l10n().text(),
             subtitle: _buildGpaText(items: selectedItems).text(),
             titleTextStyle: context.textTheme.titleMedium,
             onTap: toggleExpand,
-            trailing: IconButton(
+            trailing: PlatformIconButton(
               icon: Icon(
                 isGroupNoneSelected
                     ? context.icons.checkBoxBlankOutlineRounded
@@ -260,7 +260,7 @@ class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
               scope.toggle(item.index);
             },
             onLongPress: () async {
-              await ctx.show$Sheet$((ctx) => ExamResultGpaItemDetailsPage(item));
+              await ctx.showSheet((ctx) => ExamResultGpaItemDetailsPage(item));
             },
           ).inFilledCard(clip: Clip.hardEdge);
         });

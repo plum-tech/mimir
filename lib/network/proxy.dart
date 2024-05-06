@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:sit/r.dart';
+import 'package:sit/settings/entity/proxy.dart';
 import 'package:sit/settings/settings.dart';
 
 class SitHttpOverrides extends HttpOverrides {
@@ -12,6 +13,9 @@ class SitHttpOverrides extends HttpOverrides {
     final client = super.createHttpClient(context);
     client.badCertificateCallback = (cert, host, port) => true;
     client.findProxy = (url) {
+      if (kDebugMode) {
+        print('Accessing "$url", captured by $SitHttpOverrides');
+      }
       final host = url.host;
       final isSchoolLanRequired = _isSchoolLanRequired(host);
       final profiles = _buildProxy(isSchoolLanRequired);
@@ -44,19 +48,19 @@ Map<String, String> _toEnvMap(({String? http, String? https, String? all}) profi
 
 ({String? http, String? https, String? all}) _buildProxy(bool isSchoolLanRequired) {
   return (
-    http: _buildProxyForType(ProxyType.http, isSchoolLanRequired),
-    https: _buildProxyForType(ProxyType.https, isSchoolLanRequired),
-    all: _buildProxyForType(ProxyType.all, isSchoolLanRequired),
+    http: _buildProxyForType(ProxyCat.http, isSchoolLanRequired),
+    https: _buildProxyForType(ProxyCat.https, isSchoolLanRequired),
+    all: _buildProxyForType(ProxyCat.all, isSchoolLanRequired),
   );
 }
 
-String? _buildProxyForType(ProxyType type, bool isSchoolLanRequired) {
-  final profile = Settings.proxy.resolve(type);
+String? _buildProxyForType(ProxyCat cat, bool isSchoolLanRequired) {
+  final profile = Settings.proxy.getProfileOf(cat);
+  if (profile == null) return null;
   final address = profile.address;
-  if (address == null) return null;
   if (!profile.enabled) return null;
-  if (profile.proxyMode == ProxyMode.global || !isSchoolLanRequired) return null;
-  return address;
+  if (profile.mode == ProxyMode.global || !isSchoolLanRequired) return null;
+  return address.toString();
 }
 
 bool _isSchoolLanRequired(String host) {

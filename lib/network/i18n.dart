@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sit/credentials/i18n.dart';
 import 'package:sit/l10n/common.dart';
+import 'package:sit/network/widgets/checker.dart';
 
 const i18n = _I18n();
 
@@ -11,26 +12,42 @@ class _I18n with CommonI18nMixin {
   final easyconnect = const _Easyconnect();
   final network = const NetworkI18n();
   final credentials = const OaCredentialsI18n();
+  final checker = const _NetworkCheckerI18n();
 
   String get title => "$ns.title".tr();
 
   String get subtitle => "$ns.subtitle".tr();
 
-  String get openWlanSettingsBtn => "$ns.openWlanSettingsBtn".tr();
+  String get openWifiSettingsBtn => "$ns.openWifiSettingsBtn".tr();
 
-  String get noAccessTip => "$ns.noAccessTip".tr();
+  String get openInAppProxySettingsBtn => "$ns.openInAppProxySettingsBtn".tr();
 
   String get connectionFailedError => "$ns.connectionFailedError".tr();
 
   String get connectionFailedButCampusNetworkConnected => "$ns.connectionFailedButCampusNetworkConnected".tr();
 
-  String get connectedByProxy => "$ns.connectedByProxy".tr();
+  String get studentRegAvailable => "$ns.studentRegAvailable".tr();
 
-  String get connectedByVpn => "$ns.connectedByVpn".tr();
+  String get studentRegUnavailable => "$ns.studentRegUnavailable".tr();
 
-  String get connectedByWlan => "$ns.connectedByWlan".tr();
+  String get ugRegAvailableTip => "$ns.ugRegAvailableTip".tr();
 
-  String get connectedByEthernet => "$ns.connectedByEthernet".tr();
+  String get ugRegUnavailableTip => "$ns.ugRegUnavailableTip".tr();
+
+  String get pgRegAvailableTip => "$ns.pgRegAvailableTip".tr();
+
+  String get pgRegUnavailableTip => "$ns.pgRegUnavailableTip".tr();
+
+  String get campusNetworkConnected => "$ns.campusNetworkConnected".tr();
+
+  String get campusNetworkNotConnected => "$ns.campusNetworkNotConnected".tr();
+
+  String get troubleshoot => "$ns.troubleshoot".tr();
+
+  String get studentRegTroubleshoot => "$ns.studentRegTroubleshoot".tr();
+
+  String get studentRegUnavailableButCampusNetworkConnected =>
+      "$ns.studentRegUnavailableButCampusNetworkConnected".tr();
 }
 
 class _Easyconnect {
@@ -43,4 +60,57 @@ class _Easyconnect {
   String get launchFailed => "$ns.launchFailed".tr();
 
   String get launchFailedDesc => "$ns.launchFailedDesc".tr();
+}
+
+class _NetworkCheckerI18n {
+  const _NetworkCheckerI18n();
+
+  static const ns = "networkChecker";
+
+  final button = const _NetworkCheckerButton();
+  final status = const _NetworkCheckerStatus();
+
+  String get testConnection => "$ns.testConnection.title".tr();
+
+  String testConnectionDesc(WhereToCheck where) => "$ns.testConnection.desc".tr(namedArgs: {
+        "where": where.l10n(),
+      });
+}
+
+class _NetworkCheckerButton {
+  final String ns = "${_NetworkCheckerI18n.ns}.button";
+
+  const _NetworkCheckerButton();
+
+  String get connected => "$ns.connected".tr();
+
+  String get connecting => "$ns.connecting".tr();
+
+  String get disconnected => "$ns.disconnected".tr();
+
+  String get none => "$ns.none".tr();
+}
+
+class _NetworkCheckerStatus {
+  final String ns = "${_NetworkCheckerI18n.ns}.status";
+
+  const _NetworkCheckerStatus();
+
+  String connected(WhereToCheck where) => "$ns.connected".tr(namedArgs: {
+        "where": where.l10n(),
+      });
+
+  String connecting(WhereToCheck where) => "$ns.connecting".tr();
+
+  String disconnected(WhereToCheck where) => "$ns.disconnected".tr(namedArgs: {
+        "where": where.l10n(),
+      });
+
+  String none(WhereToCheck where) => "$ns.none".tr(namedArgs: {
+        "where": where.l10n(),
+      });
+}
+
+extension WhereToCheckI18nX on WhereToCheck {
+  String l10n() => "${_NetworkCheckerI18n.ns}.whereToCheck.$name".tr();
 }

@@ -17,13 +17,16 @@ class YwbApplicationStorage {
   YwbApplicationStorage();
 
   List<YwbApplication>? getApplicationListOf(YwbApplicationType type) =>
-      (box.safeGet(_K.applicationListOf(type)) as List?)?.cast<YwbApplication>();
+      box.safeGet<List>(_K.applicationListOf(type))?.cast<YwbApplication>();
 
   Future<void> setApplicationListOf(YwbApplicationType type, List<YwbApplication>? newV) =>
-      box.safePut(_K.applicationListOf(type), newV);
+      box.safePut<List>(_K.applicationListOf(type), newV);
 
   Listenable listenApplicationListOf(YwbApplicationType type) => box.listenable(keys: [_K.applicationListOf(type)]);
 
-  late final $applicationFamily =
-      box.providerFamily<List<YwbApplication>, YwbApplicationType>(_K.applicationListOf, getApplicationListOf);
+  late final $applicationOf = box.providerFamily<List<YwbApplication>, YwbApplicationType>(
+    _K.applicationListOf,
+    get: getApplicationListOf,
+    set: setApplicationListOf,
+  );
 }

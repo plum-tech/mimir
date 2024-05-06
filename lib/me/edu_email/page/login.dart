@@ -1,7 +1,6 @@
 import 'package:email_validator/email_validator.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/init.dart';
@@ -10,6 +9,8 @@ import 'package:sit/login/utils.dart';
 import 'package:sit/login/widgets/forgot_pwd.dart';
 import 'package:sit/r.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/settings/dev.dart';
+import 'package:sit/utils/error.dart';
 import '../init.dart';
 import '../i18n.dart';
 
@@ -64,9 +65,9 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
   Widget buildBody() {
     return [
       buildForm(),
-      SizedBox(height: 10.h),
+      SizedBox(height: 10),
       buildLoginButton(),
-    ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25.h).center();
+    ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25).center();
   }
 
   Widget buildForm() {
@@ -80,7 +81,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
               controller: $username,
               textInputAction: TextInputAction.next,
               autofocus: true,
-              readOnly: !kDebugMode && initialAccount != null,
+              readOnly: !Dev.on && initialAccount != null,
               autocorrect: false,
               enableSuggestions: false,
               validator: (username) {
@@ -117,7 +118,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
                 labelText: i18n.login.credentials.pwd,
                 icon: Icon(context.icons.lock),
                 hintText: i18n.login.passwordHint,
-                suffixIcon: IconButton(
+                suffixIcon: PlatformIconButton(
                   icon: Icon(isPasswordClear ? context.icons.eyeSolid : context.icons.eyeSlashSolid),
                   onPressed: () {
                     setState(() {
@@ -163,6 +164,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
       setState(() => isLoggingIn = false);
       context.replace("/edu-email/inbox");
     } catch (error, stackTrace) {
+      debugPrintError(error, stackTrace);
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       if (error is Exception) {

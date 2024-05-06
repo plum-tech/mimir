@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/storage/hive/init.dart';
@@ -16,16 +15,14 @@ class LibraryBorrowStorage {
 
   LibraryBorrowStorage();
 
-  List<BorrowedBookItem>? getBorrowedBooks() => (box.safeGet(_K.borrowed) as List<dynamic>?)?.cast<BorrowedBookItem>();
+  List<BorrowedBookItem>? getBorrowedBooks() => box.safeGet<List>(_K.borrowed)?.cast<BorrowedBookItem>();
 
-  Future<void> setBorrowedBooks(List<BorrowedBookItem>? value) => box.safePut(_K.borrowed, value);
+  Future<void> setBorrowedBooks(List<BorrowedBookItem>? value) => box.safePut<List>(_K.borrowed, value);
 
-  late final $borrowed = box.provider<List<BorrowedBookItem>>(_K.borrowed, getBorrowedBooks);
-
-  Listenable listenBorrowedBooks() => box.listenable(keys: [_K.borrowed]);
+  late final $borrowed = box.provider<List<BorrowedBookItem>>(_K.borrowed, get: getBorrowedBooks);
 
   List<BookBorrowingHistoryItem>? getBorrowHistory() =>
-      (box.safeGet(_K.borrowHistory) as List<dynamic>?)?.cast<BookBorrowingHistoryItem>();
+      box.safeGet<List>(_K.borrowHistory)?.cast<BookBorrowingHistoryItem>();
 
-  Future<void> setBorrowHistory(List<BookBorrowingHistoryItem>? value) => box.safePut(_K.borrowHistory, value);
+  Future<void> setBorrowHistory(List<BookBorrowingHistoryItem>? value) => box.safePut<List>(_K.borrowHistory, value);
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/build_context.dart';
-import '../../model/cell.dart';
+import 'package:sit/game/utils.dart';
+import '../../entity/cell.dart';
 import '../../manager/logic.dart';
 
 class CellButton extends ConsumerWidget {
@@ -47,7 +47,7 @@ class CellButton extends ConsumerWidget {
                       // Click a Cover Cell => Blank
                       if (!flagVisible) {
                         manager.dig(cell: cell);
-                        HapticFeedback.lightImpact();
+                        applyGameHapticFeedback();
                       } else {
                         // Click a Flag Cell => Cancel Flag (Covered)
                         manager.removeFlag(cell: cell);
@@ -61,7 +61,7 @@ class CellButton extends ConsumerWidget {
                       anyChanged |= manager.digAroundBesidesFlagged(cell: cell);
                       anyChanged |= manager.flagRestCovered(cell: cell);
                       if (anyChanged) {
-                        HapticFeedback.lightImpact();
+                        applyGameHapticFeedback();
                       }
                       refresh();
                     },
@@ -69,14 +69,14 @@ class CellButton extends ConsumerWidget {
                   ? null
                   : () {
                       manager.toggleFlag(cell: cell);
-                      HapticFeedback.lightImpact();
+                      applyGameHapticFeedback();
                       refresh();
                     },
               onSecondaryTap: !coverVisible
                   ? null
                   : () {
                       manager.toggleFlag(cell: cell);
-                      HapticFeedback.lightImpact();
+                      applyGameHapticFeedback();
                       refresh();
                     },
             ),

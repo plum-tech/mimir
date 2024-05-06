@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/list_tile.dart';
@@ -58,7 +59,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       return;
     }
     if (!mounted) return;
@@ -115,7 +116,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                 subtitle: book.title,
                 trailing: onSearchTap == null
                     ? null
-                    : IconButton(
+                    : PlatformIconButton(
                         icon: Icon(context.icons.search),
                         onPressed: () {
                           onSearchTap.call(SearchMethod.title, book.title);
@@ -127,7 +128,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                 subtitle: book.author,
                 trailing: onSearchTap == null
                     ? null
-                    : IconButton(
+                    : PlatformIconButton(
                         icon: Icon(context.icons.search),
                         onPressed: () {
                           onSearchTap.call(SearchMethod.author, book.author);
@@ -148,7 +149,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                   subtitle: publisher,
                   trailing: onSearchTap == null
                       ? null
-                      : IconButton(
+                      : PlatformIconButton(
                           icon: const Icon(Icons.youtube_searched_for),
                           onPressed: () {
                             onSearchTap.call(SearchMethod.publisher, publisher);
@@ -233,7 +234,7 @@ class _BookCollectionPreviewListState extends State<BookCollectionPreviewList> {
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       return;
     }
     if (!mounted) return;

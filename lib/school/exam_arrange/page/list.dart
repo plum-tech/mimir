@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
-import 'package:sit/design/widgets/card.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/utils.dart';
@@ -13,14 +13,14 @@ import '../i18n.dart';
 import '../init.dart';
 import '../widgets/exam.dart';
 
-class ExamArrangementListPage extends StatefulWidget {
+class ExamArrangementListPage extends ConsumerStatefulWidget {
   const ExamArrangementListPage({super.key});
 
   @override
-  State<StatefulWidget> createState() => _ExamArrangementListPageState();
+  ConsumerState<ExamArrangementListPage> createState() => _ExamArrangementListPageState();
 }
 
-class _ExamArrangementListPageState extends State<ExamArrangementListPage> {
+class _ExamArrangementListPageState extends ConsumerState<ExamArrangementListPage> {
   List<ExamEntry>? examList;
   bool isFetching = false;
   late SemesterInfo initial = ExamArrangeInit.storage.lastSemesterInfo ?? estimateCurrentSemester();
@@ -49,7 +49,7 @@ class _ExamArrangementListPageState extends State<ExamArrangementListPage> {
         });
       }
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;
@@ -83,7 +83,7 @@ class _ExamArrangementListPageState extends State<ExamArrangementListPage> {
                 itemCount: examList.length,
                 itemBuilder: (ctx, i) {
                   final exam = examList[i];
-                  return FilledCard(
+                  return Card.filled(
                     child: ExamCardContent(
                       exam,
                       enableAddEvent: exam.time?.end.isAfter(now) ?? false,
@@ -103,9 +103,10 @@ class _ExamArrangementListPageState extends State<ExamArrangementListPage> {
   }
 
   Widget buildSemesterSelector() {
+    final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
     return SemesterSelector(
       initial: initial,
-      baseYear: getAdmissionYearFromStudentId(context.auth.credentials?.account),
+      baseYear: getAdmissionYearFromStudentId(credentials?.account),
       onSelected: (newSelection) {
         setState(() {
           selected = newSelection;

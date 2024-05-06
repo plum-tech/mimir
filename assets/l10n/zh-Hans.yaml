@@ -13,6 +13,7 @@ timetable:
   mine:
     title: 你的课程表
     exportCalendar: 导出日历
+    patch: 调课
     deleteRequest: 确定删除？
     deleteRequestDesc: 这个课程表将被永久删除
     emptyTip: 快去导入一个课程表吧！
@@ -30,13 +31,55 @@ timetable:
     timeslots:
       single: "第 {} 节"
       multiple: "从第 {from} 节到第 {to} 节"
+  issue:
+    title: 课程表问题
+    resolve: 解决
+    builtin:
+      empty:
+        title: 课表为空
+        desc: 请检查你是否导入了正确的课表
+      cbeCourse:
+        title: 发现免听课程
+        desc: 你可以在课表中隐藏免听课程
+      patchOutOfRange:
+        title: 调课不在课程表的时间范围内
+        desc: 调课不在当前课程表所处学期的时间范围内，调课将不会生效。请检查你是否设置了正确的日期
+      courseOverlaps:
+        title: 发现课程时间冲突
+        desc: 你可以隐藏其中一个课程以避免冲突
+  patch:
+    title: 调课
+    prefabs: 预制
+    defaultName: 新的调课组合
+    unpack: 拆散
+    noPatches: 没有调课
+    noPatchesTip: 没有调课，添加一个预制的如何？
+    patchSetName: 调课组合名称
+    dateOutOfRangeTip: 一个或多个日期不在当前课程表所处学期的时间范围内
+    removeDay: "删除 {day} 的课"
+    swapDays: "交换 {a} 和 {b} 的课"
+    copyDay: "{target} 上与 {source} 相同的课"
+    moveDay: "{target} 改为上 {source} 的课"
+    type:
+      moveDay: 移动某天
+      removeDay: 删除某天
+      copyDay: 复制某天
+      swapDays: 交换某天
+    builtin:
+      sitVacationShift2024: 2024年上应大放假调休
+    moveSource: 原本要上课的日子
+    moveTarget: 修改后要上课的日子
+    copySource: 上课的日子
+    copyTarget: 修改后要上相同课的日子
+    swappedDay: 要交换的其中一天
+    removedDay: 要删除的日子
   import:
     title: 导入课程表
     import: 导入
     fromFile: 从文件
     tryImportBtn: 尝试导入
     fromFileBtn: 从文件导入
-    connectivityCheckerDesc: 在导入课程表之前，需要先检查你是否能访问校园网。
+    connectivityCheckerDesc: 在导入课程表之前，需要先检查你是否能访问教务系统。
     selectSemesterTip: 请先选择学年与学期
     endTip: 请完善课程表的信息。
     failed: 导入失败
@@ -48,6 +91,7 @@ timetable:
   export:
     title: 导出选项
     export: 导出
+    iOSGetShortcutAction: 获取快捷指令将事项添加到日历
     lessonMode:
       title: 课程模式
       merged: 完整
@@ -75,6 +119,9 @@ timetable:
   displayMode:
     daily: 日
     weekly: 周
+  dayLocMode:
+    pos: 位置
+    date: 日期
   weekIndexType:
     all: 每周
     odd: 单周
@@ -94,25 +141,6 @@ timetable:
     findNearestDayWithClass: 找到有课的一天
   p13n:
     title: 配色方案
-    builtinPalette:
-      classic:
-        name: 经典
-      americano:
-        name: 美式复古
-      candy:
-        name: 糖果幻境
-      sprint:
-        name: 兰时
-      summary:
-        name: 时夏
-      fall:
-        name: 萧辰
-      winter:
-        name: 北陆
-      thicket:
-        name: 小森林
-      creeksideBreeze:
-        name: 溪畔听风
     palette:
       title: 配色方案
       name: 名称
@@ -127,13 +155,29 @@ timetable:
       color: 颜色
       details: 详情
       fab: 配色方案
-      shareQrCode: 分享二维码
       newPaletteName: 新的配色方案
       deleteRequest: 确定删除？
       deleteRequestDesc: 推荐先保存二维码备份再删除
       addColor: 添加一种配色
-      addFromQrCodeAction: 添加配色方案
-      addFromQrCodeDesc: 确定从读取的二维码中添加配色方案？
+      builtin:
+        classic:
+          name: 经典
+        americano:
+          name: 美式复古
+        candy:
+          name: 糖果幻境
+        sprint:
+          name: 兰时
+        summary:
+          name: 时夏
+        fall:
+          name: 萧辰
+        winter:
+          name: 北陆
+        thicket:
+          name: 小森林
+        creeksideBreeze:
+          name: 溪畔听风
     cellStyle:
       title: 单元格风格
       showTeachers:
@@ -150,6 +194,10 @@ timetable:
       title: 壁纸
       opacity: 背景不透明度
       pickTip: 选择你喜欢的图片
+      selectedImage: 选择的图片
+      imageURL: 图片 URL
+      invalidURL: 无效的 URL
+      invalidURLDesc: 请输入以 http 或 https 开头的 URL
       repeat:
         title: 重复图像
         desc: 重复图像作为填充壁纸的图案
@@ -173,6 +221,22 @@ timetable:
         name: 明天的
         place: 实验室
         teachers: 刘老师
+  settings:
+    autoUseImported:
+      title: 自动使用新课程表
+      desc: 自动使用新导入的课程表
+    palette:
+      title: 配色方案
+      desc: 自定义课程表的颜色
+    cellStyle:
+      title: 编辑单元格风格
+      desc: 课程单元格如何显示
+    background:
+      title: 壁纸
+      desc: 课程表的背景
+    quickLookLessonOnTap:
+      title: 点击快速查看一节课
+      desc: 在周课程表中长按查看完整课程
 school:
   navigation: 学校
   semester:
@@ -185,6 +249,8 @@ school:
     classCode: 教学班
     courseCode: 课程代码
     place: 地点
+    campus: 校区
+    displayable: 在课程表中显示
     semester: 学期
     schoolYear: 学年
     credit: 学分
@@ -201,8 +267,26 @@ school:
     specializedElective: 专业选修课
     integratedPractice: 综合实践
     practicalInstruction: 实践教学
+  settings:
+    class2nd:
+      autoRefresh:
+        title: 第二课堂分自动刷新
+        desc: 启动时刷新第二课堂分
+    examResult:
+      showResultPreview:
+        title: 显示考试成绩预览
+        desc: 在卡片中显示当前学期的考试成绩
 life:
   navigation: 生活
+  settings:
+    electricity:
+      autoRefresh:
+        title: 电费余额自动刷新
+        desc: 启动时刷新电费余额
+    expenseRecords:
+      autoRefresh:
+        title: 消费记录自动刷新
+        desc: 启动时刷新消费记录
 me:
   navigation: 个人
 class2nd:
@@ -359,6 +443,7 @@ electricity:
 eduEmail:
   title: 教育邮箱
   action:
+    open: 打开
     login: 登录
     inbox: 收件箱
     outbox: 发件箱
@@ -426,6 +511,7 @@ expenseRecords:
   refreshFailedTip: 消费记录刷新失败
   lastUpdateTime: "上次更新：{}"
   statsMode:
+    day: 日
     week: 周
     month: 月
     year: 年
@@ -434,8 +520,23 @@ expenseRecords:
     rmb: 元
   stats:
     title: 消费统计
-    categories: 消费名目
     total: 总计
+    summary: 摘要
+    details: 详情
+    averageSpendIn: "在{type}上平均消费{amount}"
+    maxSpendOf: "最大消费为 {amount}"
+    averageLineLabel: 平均
+    hourlyAverage: 时均
+    dailyAverage: 日均
+    monthlyAverage: 月均
+    today: 今天
+    yesterday: 昨天
+    thisWeek: 本周
+    lastWeek: 上周
+    thisMonth: 本月
+    lastMonth: 上月
+    thisYear: 今年
+    lastYear: 去年
   type:
     consume: 消费
     coffee: 咖啡
@@ -451,19 +552,22 @@ homepage:
   campusNetworkConnected: 已连接校园网
   campusNetworkUnconnected: 未连接校园网
 networkChecker:
+  whereToCheck:
+    schoolServer: 学校服务器
+    studentReg: 教务系统
   testConnection:
     title: 测试连接
-    desc: 测试与学校服务器的连接
+    desc: "测试与{where}的连接"
   button:
     connected: 继续
     connecting: 检查中
     disconnected: 重试
     none: 检查网络连接
   status:
-    connected: 好耶！你能够访问学校服务器！
-    connecting: 这可能需要几秒钟，请确保你在设备上已经打开了网络连接。
-    disconnected: 糟糕！你无法访问学校服务器，请检查你的网络设置，然后再试一次。
-    none: 你需要访问学校服务器才能继续，现在就检查一下吧。
+    connected: "好耶！你能够访问{where}！"
+    connecting: "这可能需要几秒钟，请确保你在设备上已经打开了网络连接。"
+    disconnected: "糟糕！你无法访问{where}，请点击下方的疑难解答以了解更多。"
+    none: "你需要访问{where}才能继续，现在就检查一下吧。"
 network:
   error: 网络错误
   ipAddress: IP 地址
@@ -473,21 +577,32 @@ network:
 networkTool:
   title: 网络工具
   subtitle: 测试与学校服务器的连接
-  openWlanSettingsBtn: 打开 WLAN 设置
-  noAccessTip: 无法连接到网络，请检查你设备的网络设置后再试。
-  connectionFailedError: |
-    无法连接到校园网。疑难解答:
+  openWifiSettingsBtn: 打开 Wi-Fi 设置
+  openInAppProxySettingsBtn: 打开应用内代理设置
+  campusNetworkConnected: 已连接到校园网
+  campusNetworkNotConnected: 未连接校园网
+  studentRegAvailable: 可以访问教务系统
+  studentRegUnavailable: 无法访问教务系统
+  ugRegAvailableTip: |
+    你可以从教务系统中导入课程表，并查看考试安排和考试成绩（包括绩点）
+  ugRegUnavailableTip: |
+    你无法从教务系统中导入课程表，唯一的导入方法是从你的设备上的文件中加载。
+    你的考试安排和考试成绩（包括绩点）无法加载和及时更新，但如果你已经加载过一次，则仍可查看。
+  pgRegAvailableTip: |
+    你可以从教务系统中导入课程表，并查看考试成绩
+  pgRegUnavailableTip: |
+    你无法从教务系统中导入课程表，唯一的导入方法是从你的设备上的文件中加载。
+    你的考试成绩无法加载和及时更新，但如果你已经加载过一次，则仍可查看。
+  troubleshoot: 疑难解答
+  studentRegTroubleshoot: |
     1. 尝试连接学校的Wi-Fi: "i-SIT","i-SIT-1x" 或 "eduroam"。
     2. 尝试使用"EasyConnect" VPN 连接校园网。
     3. 尝试通过自行搭建的代理服务器使用 HTTP 代理连接校园网。
     如果以上都不起作用, 可能因为是学校服务器停机维护或崩溃，请一段时间后重试。
-  connectionFailedButCampusNetworkConnected: |
+    夜间，学校服务器可能会暂时关闭，因此请等到工作日早上再试。
+  studentRegUnavailableButCampusNetworkConnected: |
     已经连接至校园网，但仍然无法访问学校服务器。
     可能因为是学校服务器停机维护或崩溃，请一段时间后重试。
-  connectedByProxy: 已通过 HTTP 代理连接到校园网
-  connectedByVpn: 已通过 VPN 连接到校园网
-  connectedByWlan: 已通过 WLAN 连接到校园网
-  connectedByEthernet: 已通过以太网连接到校园网
 login:
   login: 登录
   forgotPwd: 忘记密码？
@@ -587,40 +702,6 @@ settings:
     reload:
       title: 重新加载
       desc: 重新加载所有模块
-  timetable:
-    title: 课程表
-    autoUseImported:
-      title: 自动使用新课程表
-      desc: 自动使用新导入的课程表
-    palette:
-      title: 配色方案
-      desc: 自定义课程表的颜色
-    cellStyle:
-      title: 编辑单元格风格
-      desc: 课程单元格如何显示
-    background:
-      title: 壁纸
-      desc: 课程表的背景
-  school:
-    title: 学校
-    class2nd:
-      autoRefresh:
-        title: 第二课堂分自动刷新
-        desc: 启动时刷新第二课堂分
-    examResult:
-      showResultPreview:
-        title: 显示考试成绩预览
-        desc: 在卡片中显示当前学期的考试成绩
-  life:
-    title: 生活
-    electricity:
-      autoRefresh:
-        title: 电费余额自动刷新
-        desc: 启动时刷新电费余额
-    expenseRecords:
-      autoRefresh:
-        title: 消费记录自动刷新
-        desc: 启动时刷新消费记录
   clearCache:
     title: 清空缓存
     desc: 清空使用过程中产生的离线缓存
@@ -630,6 +711,7 @@ settings:
   proxy:
     title: 代理
     desc: 代理校园网连接
+    enableAuth: 启用身份验证
     authentication: 身份验证
     protocol: 协议
     hostname: 主机名
@@ -700,15 +782,15 @@ oaAnnounce:
     academicReport: 学术报告
 yellowPages:
   title: 学校黄页
-scanner:
-  barcodeNotRecognized: 未识别到条形码或二维码
 greeting:
   headerA: 今天是你在上应大的
   headerB:
     one: 第 1 天
     other: "第 {} 天"
 qrCode:
+  barcodeNotRecognized: 未识别到条形码或二维码
   hint: 请切换至 个人{me}，然后点击右上角的 扫一扫{scan}
+  unrecognizedQrCodeTip: 无法识别的二维码
 404:
   title: 找不到页面
   subtitle: 未找到请求的页面
@@ -717,10 +799,10 @@ update:
   onLatestTip: 你使用的是最新版本
   newVersionAvailable: 有新版本可用！
   notNow: 再等等
-  skipThisVersion: 跳过这个版本
+  skipThisVersionFor7Days: 跳过此版本七天
   openAppStore: 打开 App Store
   installOnAppStoreInsteadTip: |
-    小应生活已经在 App Store 上发布。
+    小应生活已上架 App Store。
     为获得更好的体验，请考虑移步至 App Store上安装。
 weekday:
   0: 周一
@@ -768,6 +850,10 @@ game:
   tryAgain: 再试一次
   youWin: 你赢了！
   gameOver: 游戏结束
+  settings:
+    enableHapticFeedback:
+      title: 开启触觉反馈
+      desc: 部分操作时轻微震动设备
   2048:
     title: 2048
     score: 分数
@@ -777,6 +863,8 @@ game:
     timeSpent: "用时 {}"
     gameMode:
       easy: 简单
+      normal: 普通
+      hard: 困难
 permission:
   permissionDenied: 没有权限
   permissionDeniedDescOf: "{}权限未被授权，请检查应用的设置。"
@@ -784,6 +872,10 @@ permission:
   type:
     storage: 存储
     camera: 相机
+saveAndQuitPrompt:
+  request: 您有未保存的更改，想要保存吗？
+  saveAndQuit: 保存并退出
+  discard: 丢弃
 dormitoryRoom: "{building}号楼 #{room}"
 open: 打开
 delete: 删除
@@ -823,3 +915,7 @@ copyTip: "已复制 {} 到剪贴板了"
 done: 完成
 openInBrowser: 在浏览器中打开
 choose: 挑选
+unspecified: 未指定
+shareQrCode: 分享二维码
+add: 添加
+rename: 重命名

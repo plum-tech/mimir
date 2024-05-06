@@ -11,8 +11,8 @@ BookCirculateType _$BookCirculateTypeFromJson(Map<String, dynamic> json) => Book
       json['libcode'] as String,
       json['name'] as String,
       json['descripe'] as String,
-      json['loanNumSign'] as int,
-      json['isPreviService'] as int,
+      (json['loanNumSign'] as num).toInt(),
+      (json['isPreviService'] as num).toInt(),
     );
 
 Map<String, dynamic> _$BookCirculateTypeToJson(BookCirculateType instance) => <String, dynamic>{
@@ -25,7 +25,7 @@ Map<String, dynamic> _$BookCirculateTypeToJson(BookCirculateType instance) => <S
     };
 
 BookCollectionState _$BookCollectionStateFromJson(Map<String, dynamic> json) => BookCollectionState(
-      json['stateType'] as int,
+      (json['stateType'] as num).toInt(),
       json['stateName'] as String,
     );
 
@@ -35,9 +35,9 @@ Map<String, dynamic> _$BookCollectionStateToJson(BookCollectionState instance) =
     };
 
 BookCollectionItem _$BookCollectionItemFromJson(Map<String, dynamic> json) => BookCollectionItem(
-      bookRecordId: json['recno'] as int,
-      bookId: json['bookrecno'] as int,
-      stateType: json['state'] as int,
+      bookRecordId: (json['recno'] as num).toInt(),
+      bookId: (json['bookrecno'] as num).toInt(),
+      stateType: (json['state'] as num).toInt(),
       barcode: json['barcode'] as String,
       callNumber: json['callno'] as String,
       originLibraryCode: json['orglib'] as String,

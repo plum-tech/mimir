@@ -1,33 +1,49 @@
+import 'dart:async';
+
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:simple_icons/simple_icons.dart';
+import 'package:sit/app.dart';
 import 'package:sit/credentials/entity/credential.dart';
+import 'package:sit/credentials/entity/login_status.dart';
+import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/credentials/utils.dart';
+import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
 import 'package:sit/init.dart';
+import 'package:sit/l10n/extension.dart';
 import 'package:sit/login/aggregated.dart';
 import 'package:sit/login/utils.dart';
+import 'package:sit/qrcode/handle.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/design/widgets/navigation.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/settings/settings.dart';
+import 'package:sit/update/init.dart';
+import 'package:sit/utils/guard_launch.dart';
 import '../i18n.dart';
 
-class DeveloperOptionsPage extends StatefulWidget {
+class DeveloperOptionsPage extends ConsumerStatefulWidget {
   const DeveloperOptionsPage({
     super.key,
   });
 
   @override
-  State<DeveloperOptionsPage> createState() => _DeveloperOptionsPageState();
+  ConsumerState<DeveloperOptionsPage> createState() => _DeveloperOptionsPageState();
 }
 
-class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
+class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
   @override
   Widget build(BuildContext context) {
-    final oaCredentials = CredentialsInit.storage.oaCredentials;
+    final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
+    final demoMode = ref.watch(Dev.$demoMode);
     return Scaffold(
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
@@ -49,11 +65,54 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
                 path: "/settings/developer/local-storage",
               ),
               buildReload(),
-              if (oaCredentials != null)
+              const DebugExpenseUserOverrideTile(),
+              if (credentials != null)
                 SwitchOaUserTile(
-                  currentCredentials: oaCredentials,
+                  currentCredentials: credentials,
                 ),
+              if (demoMode && credentials != R.demoModeOaCredentials)
+                ListTile(
+                  leading: const Icon(Icons.adb),
+                  title: "Login demo account".text(),
+                  trailing: const Icon(Icons.login),
+                  onTap: () async {
+                    Settings.lastSignature ??= "Liplum";
+                    CredentialsInit.storage.oaCredentials = R.demoModeOaCredentials;
+                    CredentialsInit.storage.oaLoginStatus = LoginStatus.validated;
+                    CredentialsInit.storage.oaLastAuthTime = DateTime.now();
+                    CredentialsInit.storage.oaUserType = OaUserType.undergraduate;
+                    await Init.initModules();
+                    if (!context.mounted) return;
+                    context.go("/");
+                  },
+                ),
+              const ReceivedDeepLinksTile(),
               const DebugGoRouteTile(),
+              const DebugWebViewTile(),
+              const DebugDeepLinkTile(),
+              DebugFetchVersionTile(
+                title: "Official".text(),
+                fetch: () async {
+                  final info = await UpdateInit.service.getLatestVersionFromOfficial();
+                  return info.version.toString();
+                },
+              ),
+              DebugFetchVersionTile(
+                leading: const Icon(SimpleIcons.apple),
+                title: "App Store CN".text(),
+                fetch: () async {
+                  final info = await UpdateInit.service.getLatestVersionFromAppStore();
+                  return "${info!}";
+                },
+              ),
+              DebugFetchVersionTile(
+                leading: const Icon(SimpleIcons.apple),
+                title: "App Store".text(),
+                fetch: () async {
+                  final info = await UpdateInit.service.getLatestVersionFromAppStore(iosAppStoreRegion: null);
+                  return "${info!}";
+                },
+              ),
             ]),
           ),
         ],
@@ -62,35 +121,30 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
   }
 
   Widget buildDevModeToggle() {
-    return StatefulBuilder(
-      builder: (ctx, setState) => ListTile(
-        title: i18n.dev.devMode.text(),
-        leading: const Icon(Icons.developer_mode_outlined),
-        trailing: Switch.adaptive(
-          value: Dev.on,
-          onChanged: (newV) {
-            setState(() {
-              Dev.on = newV;
-            });
-          },
-        ),
+    final on = ref.watch(Dev.$on);
+    return ListTile(
+      title: i18n.dev.devMode.text(),
+      leading: const Icon(Icons.developer_mode_outlined),
+      trailing: Switch.adaptive(
+        value: on,
+        onChanged: (newV) {
+          ref.read(Dev.$on.notifier).set(newV);
+        },
       ),
     );
   }
 
   Widget buildDemoModeToggle() {
-    return StatefulBuilder(
-      builder: (ctx, setState) => ListTile(
-        title: i18n.dev.demoMode.text(),
-        trailing: Switch.adaptive(
-          value: Dev.demoMode,
-          onChanged: (newV) async {
-            setState(() {
-              Dev.demoMode = newV;
-            });
-            await Init.initModules();
-          },
-        ),
+    final demoMode = ref.watch(Dev.$demoMode);
+    return ListTile(
+      leading: const Icon(Icons.adb),
+      title: i18n.dev.demoMode.text(),
+      trailing: Switch.adaptive(
+        value: demoMode,
+        onChanged: (newV) async {
+          ref.read(Dev.$demoMode.notifier).set(newV);
+          await Init.initModules();
+        },
       ),
     );
   }
@@ -112,45 +166,161 @@ class _DeveloperOptionsPageState extends State<DeveloperOptionsPage> {
   }
 }
 
-class DebugGoRouteTile extends StatefulWidget {
+class ReceivedDeepLinksTile extends ConsumerWidget {
+  const ReceivedDeepLinksTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final appLinks = ref.watch($appLinks);
+    return AnimatedExpansionTile(
+      leading: const Icon(Icons.link),
+      title: "Deep links".text(),
+      children: appLinks
+          .map((uri) => ListTile(
+                title: context.formatYmdhmsNum(uri.ts).text(),
+                subtitle: Uri.decodeFull(uri.uri.toString()).text(),
+              ))
+          .toList(),
+    );
+  }
+}
+
+class DebugGoRouteTile extends StatelessWidget {
   const DebugGoRouteTile({super.key});
 
   @override
-  State<DebugGoRouteTile> createState() => _DebugGoRouteTileState();
+  Widget build(BuildContext context) {
+    return TextInputActionTile(
+      leading: const Icon(Icons.route_outlined),
+      title: "Go route".text(),
+      canSubmit: (route) => route.isNotEmpty,
+      hintText: "/anyway",
+      onSubmit: (route) {
+        if (!route.startsWith("/")) {
+          route = "/$route";
+        }
+        context.push(route);
+        return true;
+      },
+    );
+  }
 }
 
-class _DebugGoRouteTileState extends State<DebugGoRouteTile> {
-  final $route = TextEditingController();
+class DebugWebViewTile extends StatelessWidget {
+  const DebugWebViewTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextInputActionTile(
+      leading: const Icon(Icons.web),
+      title: "Type URL".text(),
+      hintText: "https://www.google.com",
+      canSubmit: (url) {
+        if (url.isEmpty) return false;
+        final uri = Uri.tryParse(url);
+        if (uri == null) return false;
+        if (uri.isScheme("http") || uri.isScheme("https")) return true;
+        return false;
+      },
+      onSubmit: (url) {
+        guardLaunchUrlString(context, url);
+        return true;
+      },
+    );
+  }
+}
+
+class DebugDeepLinkTile extends StatelessWidget {
+  const DebugDeepLinkTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextInputActionTile(
+      leading: const Icon(Icons.link),
+      title: "Deep Link".text(),
+      hintText: "${R.scheme}://",
+      canSubmit: (url) {
+        if (url.isEmpty) return false;
+        final uri = Uri.tryParse(url);
+        if (uri == null) return false;
+        if (!uri.isScheme(R.scheme)) return false;
+        return getFirstDeepLinkHandler(deepLink: uri) != null;
+      },
+      onSubmit: (uri) async {
+        await onHandleDeepLink(context: context, deepLink: Uri.parse(uri));
+        return true;
+      },
+    );
+  }
+}
+
+class TextInputActionTile extends StatefulWidget {
+  final Widget? title;
+  final Widget? leading;
+  final String? hintText;
+
+  /// return true to consume the text
+  final FutureOr<bool> Function(String text) onSubmit;
+  final bool Function(String text)? canSubmit;
+
+  const TextInputActionTile({
+    super.key,
+    this.title,
+    this.leading,
+    required this.onSubmit,
+    this.canSubmit,
+    this.hintText,
+  });
+
+  @override
+  State<TextInputActionTile> createState() => _TextInputActionTileState();
+}
+
+class _TextInputActionTileState extends State<TextInputActionTile> {
+  final $text = TextEditingController();
 
   @override
   void dispose() {
-    $route.dispose();
+    $text.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final canSubmit = widget.canSubmit;
     return ListTile(
       isThreeLine: true,
-      leading: const Icon(Icons.route_outlined),
-      title: "Go route".text(),
+      leading: widget.leading,
+      title: widget.title,
       subtitle: TextField(
-        controller: $route,
-        decoration: const InputDecoration(
-          hintText: "/anywhere",
+        controller: $text,
+        textInputAction: TextInputAction.go,
+        onSubmitted: (text) {
+          if (widget.canSubmit?.call(text) != false) {
+            onSubmit();
+          }
+        },
+        decoration: InputDecoration(
+          hintText: widget.hintText,
         ),
       ),
-      trailing: [
-        $route >>
-            (ctx, route) => IconButton(
-                onPressed: route.text.isEmpty
-                    ? null
-                    : () {
-                        context.push(route.text);
-                      },
-                icon: const Icon(Icons.arrow_forward))
-      ].row(mas: MainAxisSize.min),
+      trailing: $text >>
+          (ctx, text) => PlatformIconButton(
+                onPressed: canSubmit == null
+                    ? onSubmit
+                    : canSubmit(text.text)
+                        ? onSubmit
+                        : null,
+                icon: const Icon(Icons.arrow_forward),
+              ),
     );
+  }
+
+  Future<void> onSubmit() async {
+    final result = await widget.onSubmit($text.text);
+    if (result) {
+      $text.clear();
+    }
   }
 }
 
@@ -187,8 +357,8 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
             )
           : null,
       children: [
-        ...credentialsList.map(buildCredentialsHistoryTile),
-        buildLoginNewTile(),
+        ...credentialsList.map(buildCredentialsHistoryTile).map((e) => e.padOnly(l: 32)),
+        buildLoginNewTile().padOnly(l: 32),
       ],
     );
   }
@@ -204,7 +374,11 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
       onTap: () async {
         await loginWith(credentials);
       },
-    ).padH(12);
+      onLongPress: () async {
+        context.showSnackBar(content: i18n.copyTipOf(i18n.oaCredentials.oaAccount).text());
+        await Clipboard.setData(ClipboardData(text: credentials.account));
+      },
+    );
   }
 
   Widget buildLoginNewTile() {
@@ -214,12 +388,12 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
       onTap: () async {
         final credentials = await await Editor.showAnyEditor(
           context,
-          Credentials(account: "", password: ""),
+          initial: const Credentials(account: "", password: ""),
         );
         if (credentials == null) return;
         await loginWith(credentials);
       },
-    ).padH(12);
+    );
   }
 
   Future<void> loginWith(Credentials credentials) async {
@@ -238,5 +412,91 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
       setState(() => isLoggingIn = false);
       await handleLoginException(context: context, error: error, stackTrace: stackTrace);
     }
+  }
+}
+
+class DebugExpenseUserOverrideTile extends ConsumerWidget {
+  const DebugExpenseUserOverrideTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = ref.watch(Dev.$expenseUserOverride);
+    return ListTile(
+      leading: Icon(context.icons.person),
+      title: "Expense user".text(),
+      subtitle: user?.text(),
+      onTap: () async {
+        final res = await Editor.showStringEditor(
+          context,
+          desc: "OA account",
+          initial: user ?? "",
+        );
+        if (res == null) return;
+        if (res.isEmpty) {
+          ref.read(Dev.$expenseUserOverride.notifier).set(null);
+          return;
+        }
+        if (estimateOaUserType(res) == null) {
+          if (!context.mounted) return;
+          await context.showTip(
+            title: "Error",
+            desc: "Invalid OA account format.",
+            primary: "OK",
+          );
+        } else {
+          ref.read(Dev.$expenseUserOverride.notifier).set(res);
+        }
+      },
+      trailing: Icon(context.icons.edit),
+    );
+  }
+}
+
+class DebugFetchVersionTile extends StatefulWidget {
+  final Widget? title;
+  final Widget? leading;
+  final Future<String> Function() fetch;
+
+  const DebugFetchVersionTile({
+    super.key,
+    this.title,
+    this.leading,
+    required this.fetch,
+  });
+
+  @override
+  State<DebugFetchVersionTile> createState() => _DebugFetchVersionTileState();
+}
+
+class _DebugFetchVersionTileState extends State<DebugFetchVersionTile> {
+  String? version;
+  var isFetching = false;
+
+  @override
+  void initState() {
+    super.initState();
+    fetch();
+  }
+
+  Future<void> fetch() async {
+    setState(() {
+      isFetching = true;
+    });
+    final v = await widget.fetch();
+    if (!mounted) return;
+    setState(() {
+      version = v;
+      isFetching = false;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: widget.title,
+      leading: widget.leading,
+      subtitle: version?.text(),
+      trailing: isFetching ? const CircularProgressIndicator.adaptive() : null,
+    );
   }
 }

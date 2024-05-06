@@ -2,10 +2,10 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/color.dart';
+import 'package:sit/utils/save.dart';
 import 'package:system_theme/system_theme.dart';
 import '../i18n.dart';
 
@@ -24,43 +24,48 @@ class _ThemeColorPageState extends State<ThemeColorPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        physics: const RangeMaintainingScrollPhysics(),
-        slivers: <Widget>[
-          SliverAppBar.large(
-            pinned: true,
-            snap: false,
-            floating: false,
-            title: i18n.themeColor.text(),
-            actions: [
-              PlatformTextButton(
-                onPressed: canSave() ? onSave : null,
-                child: i18n.save.text(),
-              )
-            ],
-          ),
-          SliverList.list(
-            children: [
-              buildFromSystemToggle(),
-              buildThemeColorTile(),
-              ListTile(
-                title: i18n.preview.text(),
-              )
-            ],
-          ),
-          SliverToBoxAdapter(
-            child: Theme(
-              data: context.theme.copyWith(
-                colorScheme: ColorScheme.fromSeed(
-                  seedColor: fromSystem ? getDefaultThemeColor() : themeColor,
-                  brightness: context.theme.brightness,
+    final canSave = this.canSave();
+    return PromptSaveBeforeQuitScope(
+      changed: canSave,
+      onSave: onSave,
+      child: Scaffold(
+        body: CustomScrollView(
+          physics: const RangeMaintainingScrollPhysics(),
+          slivers: <Widget>[
+            SliverAppBar.large(
+              pinned: true,
+              snap: false,
+              floating: false,
+              title: i18n.themeColor.text(),
+              actions: [
+                PlatformTextButton(
+                  onPressed: canSave ? onSave : null,
+                  child: i18n.save.text(),
+                )
+              ],
+            ),
+            SliverList.list(
+              children: [
+                buildFromSystemToggle(),
+                buildThemeColorTile(),
+                ListTile(
+                  title: i18n.preview.text(),
+                )
+              ],
+            ),
+            SliverToBoxAdapter(
+              child: Theme(
+                data: context.theme.copyWith(
+                  colorScheme: ColorScheme.fromSeed(
+                    seedColor: fromSystem ? getDefaultThemeColor() : themeColor,
+                    brightness: context.theme.brightness,
+                  ),
                 ),
-              ),
-              child: const ThemeColorPreview(),
-            ).padSymmetric(h: 12),
-          )
-        ],
+                child: const ThemeColorPreview(),
+              ).padSymmetric(h: 12),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -102,9 +107,9 @@ class _ThemeColorPageState extends State<ThemeColorPage> {
       title: i18n.themeColor.text(),
       subtitle: "#${themeColor.hexAlpha}".text(),
       onTap: selectNewThemeColor,
-      trailing: FilledCard(
+      trailing: Card.filled(
         color: fromSystem ? context.theme.disabledColor : themeColor,
-        clip: Clip.hardEdge,
+        clipBehavior: Clip.hardEdge,
         child: const SizedBox(
           width: 32,
           height: 32,
@@ -151,7 +156,7 @@ class ThemeColorPreview extends StatelessWidget {
           ),
         ),
       ),
-      FilledCard(
+      Card.filled(
           child: _PreviewTile(
         trailing: (v, f) => Switch.adaptive(
           value: v,

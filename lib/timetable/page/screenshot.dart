@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:open_file/open_file.dart';
 import 'package:rettulf/rettulf.dart';
@@ -7,11 +8,12 @@ import 'package:screenshot/screenshot.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/files.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/timetable/entity/timetable.dart';
+
 import "../i18n.dart";
 import '../widgets/style.dart';
-import '../widgets/timetable/board.dart';
+import '../widgets/timetable/background.dart';
 import '../widgets/timetable/weekly.dart';
+import '../entity/timetable_entity.dart';
 
 typedef TimetableScreenshotConfig = ({
   String signature,
@@ -21,12 +23,12 @@ typedef TimetableScreenshotConfig = ({
 
 class TimetableScreenshotConfigEditor extends StatefulWidget {
   final SitTimetableEntity timetable;
-  final bool initialGrayOut;
+  final bool initialGrayOutTakenLessons;
 
   const TimetableScreenshotConfigEditor({
     super.key,
     required this.timetable,
-    this.initialGrayOut = false,
+    this.initialGrayOutTakenLessons = false,
   });
 
   @override
@@ -35,7 +37,7 @@ class TimetableScreenshotConfigEditor extends StatefulWidget {
 
 class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotConfigEditor> {
   late final $signature = TextEditingController(text: widget.timetable.signature);
-  late bool grayOutTakenLessons = widget.initialGrayOut;
+  late bool grayOutTakenLessons = widget.initialGrayOutTakenLessons;
   var enableBackground = true;
 
   @override
@@ -57,7 +59,7 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
           ),
           SliverList.list(children: [
             buildSignatureInput(),
-            buildGrayOut(),
+            buildGrayOutTakenLessons(),
             buildEnableBackground(),
           ]),
         ],
@@ -93,7 +95,7 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
     );
   }
 
-  Widget buildGrayOut() {
+  Widget buildGrayOutTakenLessons() {
     return ListTile(
       leading: const Icon(Icons.timelapse),
       title: i18n.p13n.cell.grayOut.text(),
@@ -147,7 +149,10 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
     if (config.enableBackground && background.enabled) {
       return [
         Positioned.fill(
-          child: TimetableBackground(background: background),
+          child: TimetableBackground(
+            background: background,
+            fade: false,
+          ),
         ),
         buildBody(context, style),
       ].stack();
@@ -156,7 +161,6 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
   }
 
   Widget buildBody(BuildContext context, TimetableStyleData style) {
-    final today = DateTime.now();
     return [
       buildTitle().text(style: context.textTheme.titleLarge).padSymmetric(v: 10),
       TimetableOneWeek(
@@ -168,7 +172,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
             style: style,
             timetable: timetable,
             course: lesson.course,
-            grayOut: config.grayOutTakenLessons ? lesson.type.endTime.isBefore(today) : false,
+            isLessonTaken: lesson.type.endTime.isBefore(DateTime.now()),
           );
         },
       ),
@@ -190,27 +194,30 @@ Future<void> takeTimetableScreenshot({
   required SitTimetableEntity timetable,
   required int weekIndex,
 }) async {
-  final config = await context.show$Sheet$<TimetableScreenshotConfig>((ctx) => TimetableScreenshotConfigEditor(
-        timetable: timetable,
-        initialGrayOut: TimetableStyle.of(context).cellStyle.grayOutTakenLessons,
-      ));
+  final config = await context.showSheet<TimetableScreenshotConfig>(
+    (ctx) => TimetableScreenshotConfigEditor(
+      timetable: timetable,
+      initialGrayOutTakenLessons: Settings.timetable.cellStyle?.grayOutTakenLessons ?? false,
+    ),
+  );
   if (config == null) return;
   if (!context.mounted) return;
   var fullSize = context.mediaQuery.size;
-  fullSize = Size(fullSize.width, fullSize.height);
   final screenshotController = ScreenshotController();
   final screenshot = await screenshotController.captureFromLongWidget(
     InheritedTheme.captureAll(
       context,
-      MediaQuery(
-        data: MediaQueryData(size: fullSize),
-        child: Material(
-          child: TimetableStyleProv(
-            child: TimetableWeeklyScreenshotFilm(
-              config: config,
-              timetable: timetable,
-              weekIndex: weekIndex,
-              fullSize: fullSize,
+      ProviderScope(
+        child: MediaQuery(
+          data: MediaQueryData(size: fullSize),
+          child: Material(
+            child: TimetableStyleProv(
+              child: TimetableWeeklyScreenshotFilm(
+                config: config,
+                timetable: timetable,
+                weekIndex: weekIndex,
+                fullSize: fullSize,
+              ),
             ),
           ),
         ),
@@ -223,5 +230,5 @@ Future<void> takeTimetableScreenshot({
   final imgFi = Files.timetable.screenshotFile;
   await imgFi.writeAsBytes(screenshot);
 
-  await OpenFile.open(imgFi.path, type: "image/png");
+  await OpenFile.open(imgFi.path, type: "image/png", uti: "public.png");
 }

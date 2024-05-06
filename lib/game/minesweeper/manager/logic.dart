@@ -1,12 +1,12 @@
 import 'package:sit/game/minesweeper/save.dart';
 
-import '../model/mode.dart';
-import '../model/screen.dart';
+import '../entity/mode.dart';
+import '../entity/screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:flutter/foundation.dart";
 import 'package:logger/logger.dart';
-import '../model/board.dart';
-import '../model/cell.dart';
+import '../entity/board.dart';
+import '../entity/cell.dart';
 
 // Debug Tool
 final logger = Logger();
@@ -19,7 +19,7 @@ class GameLogic extends StateNotifier<GameStates> {
   bool firstClick = true;
   int mineNum = -1;
 
-  void initGame({required GameMode gameMode}) {
+  void initGame({required GameMode gameMode, bool notify = true}) {
     state.mode = gameMode;
     state.gameOver = false;
     state.goodGame = false;
@@ -28,6 +28,9 @@ class GameLogic extends StateNotifier<GameStates> {
     firstClick = true;
     if (kDebugMode) {
       logger.log(Level.info, "Game Init Finished");
+    }
+    if (notify) {
+      ref.notifyListeners();
     }
   }
 

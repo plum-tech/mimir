@@ -1,22 +1,20 @@
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/dash_decoration.dart';
-import 'package:sit/design/widgets/card.dart';
-import 'package:sit/l10n/time.dart';
 import 'package:sit/school/utils.dart';
-import 'package:sit/timetable/platte.dart';
+import 'package:sit/settings/settings.dart';
+import 'package:sit/timetable/palette.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/utils/color.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import '../../events.dart';
 import '../../entity/timetable.dart';
-import '../../page/details.dart';
+import '../../entity/timetable_entity.dart';
+import 'course_sheet.dart';
 import '../../utils.dart';
 import '../free.dart';
 import 'header.dart';
@@ -147,18 +145,27 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
       return cache;
     } else {
       final style = TimetableStyle.of(context);
-      final today = DateTime.now();
+      final now = DateTime.now();
       Widget buildCell({
         required BuildContext context,
         required SitTimetableLessonPart lesson,
         required SitTimetableEntity timetable,
       }) {
-        return InteractiveCourseCell(
+        final inClassNow = lesson.type.startTime.isBefore(now) && lesson.type.endTime.isAfter(now);
+        final passed = lesson.type.endTime.isBefore(now);
+        Widget cell = InteractiveCourseCell(
           lesson: lesson,
           style: style,
           timetable: timetable,
-          grayOut: style.cellStyle.grayOutTakenLessons ? lesson.type.endTime.isBefore(today) : false,
+          isLessonTaken: passed,
         );
+        if (inClassNow) {
+          // cell = Card.outlined(
+          //   margin: const EdgeInsets.all(1),
+          //   child: cell.padAll(1),
+          // );
+        }
+        return cell;
       }
 
       final res = LayoutBuilder(
@@ -202,7 +209,7 @@ class TimetableOneWeek extends StatelessWidget {
   Widget build(BuildContext context) {
     final todayPos = timetable.type.locate(DateTime.now());
     final cellSize = Size(fullSize.width / 7.62, fullSize.height / 11);
-    final timetableWeek = timetable.weeks[weekIndex];
+    final timetableWeek = timetable.getWeek(weekIndex);
 
     final view = buildSingleWeekView(
       timetableWeek,
@@ -211,7 +218,7 @@ class TimetableOneWeek extends StatelessWidget {
       fullSize: fullSize,
       todayPos: todayPos,
     );
-    if (showFreeTip && timetableWeek.isFree()) {
+    if (showFreeTip && timetableWeek.isFree) {
       // free week
       return [
         view,
@@ -277,25 +284,24 @@ class TimetableOneWeek extends StatelessWidget {
     required TimetablePos todayPos,
   }) {
     final cells = <Widget>[];
-    final weekday = Weekday.fromIndex(day.index);
     cells.add(Container(
       width: cellSize.width,
       decoration: BoxDecoration(
-        color: todayPos.weekIndex == weekIndex && todayPos.weekday == weekday
+        color: todayPos.weekIndex == weekIndex && todayPos.weekday == day.weekday
             ? context.colorScheme.secondaryContainer
             : null,
         border: Border(bottom: getTimetableBorderSide(context)),
       ),
       child: HeaderCellTextBox(
         weekIndex: weekIndex,
-        weekday: weekday,
+        weekday: day.weekday,
         startDate: timetable.type.startDate,
       ),
     ));
     for (int timeslot = 0; timeslot < day.timeslot2LessonSlot.length; timeslot++) {
       final lessonSlot = day.timeslot2LessonSlot[timeslot];
 
-      /// TODO: Multi-layer lessonSlot
+      /// TODO: Multi-layer lesson slot
       final lesson = lessonSlot.lessonAt(0);
       if (lesson == null) {
         cells.add(DashLined(
@@ -325,25 +331,73 @@ class TimetableOneWeek extends StatelessWidget {
   }
 }
 
-class InteractiveCourseCell extends StatefulWidget {
+class InteractiveCourseCell extends ConsumerWidget {
   final SitTimetableLessonPart lesson;
   final SitTimetableEntity timetable;
-  final bool grayOut;
+  final bool isLessonTaken;
   final TimetableStyleData style;
 
   const InteractiveCourseCell({
     super.key,
     required this.lesson,
     required this.timetable,
-    this.grayOut = false,
+    this.isLessonTaken = false,
     required this.style,
   });
 
   @override
-  State<InteractiveCourseCell> createState() => _InteractiveCourseCellState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final quickLookLessonOnTap = ref.watch(Settings.timetable.$quickLookLessonOnTap) ?? true;
+    if (quickLookLessonOnTap) {
+      return InteractiveCourseCellWithTooltip(
+        timetable: timetable,
+        isLessonTaken: isLessonTaken,
+        style: style,
+        lesson: lesson,
+      );
+    }
+    final course = lesson.course;
+    return StyledCourseCell(
+      timetable: timetable,
+      course: course,
+      isLessonTaken: isLessonTaken,
+      style: style,
+      innerBuilder: (ctx, child) => InkWell(
+        onTap: () async {
+          if (!context.mounted) return;
+          await context.showSheet(
+            (ctx) => TimetableCourseSheetPage(
+              courseCode: course.courseCode,
+              timetable: timetable,
+              highlightedCourseKey: course.courseKey,
+            ),
+          );
+        },
+        child: child,
+      ),
+    );
+  }
 }
 
-class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
+class InteractiveCourseCellWithTooltip extends StatefulWidget {
+  final SitTimetableLessonPart lesson;
+  final SitTimetableEntity timetable;
+  final bool isLessonTaken;
+  final TimetableStyleData style;
+
+  const InteractiveCourseCellWithTooltip({
+    super.key,
+    required this.lesson,
+    required this.timetable,
+    this.isLessonTaken = false,
+    required this.style,
+  });
+
+  @override
+  State<InteractiveCourseCellWithTooltip> createState() => _InteractiveCourseCellWithTooltipState();
+}
+
+class _InteractiveCourseCellWithTooltipState extends State<InteractiveCourseCellWithTooltip> {
   final $tooltip = GlobalKey<TooltipState>(debugLabel: "tooltip");
 
   @override
@@ -351,7 +405,7 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
     return StyledCourseCell(
       timetable: widget.timetable,
       course: widget.lesson.course,
-      grayOut: widget.grayOut,
+      isLessonTaken: widget.isLessonTaken,
       style: widget.style,
       innerBuilder: (ctx, child) => Tooltip(
         key: $tooltip,
@@ -365,24 +419,29 @@ class _InteractiveCourseCellState extends State<InteractiveCourseCell> {
               : () async {
                   $tooltip.currentState?.ensureTooltipVisible();
                 },
-          onLongPress: () async {
-            await context.show$Sheet$(
-              (ctx) => TimetableCourseDetailsSheet(
-                courseCode: widget.lesson.course.courseCode,
-                timetable: widget.timetable,
-              ),
-            );
-          },
+          // onDoubleTap: showDetailsSheet,
+          onLongPress: showDetailsSheet,
           child: child,
         ),
       ),
     );
   }
 
-  String buildTooltipMessage() {
-    final lessons = widget.lesson.course.calcBeginEndTimePointForEachLesson();
-    final lessonTimeTip = lessons.map((time) => "${time.begin.l10n(context)}–${time.end.l10n(context)}").join("\n");
+  Future<void> showDetailsSheet() async {
     final course = widget.lesson.course;
+    await context.showSheet(
+      (ctx) => TimetableCourseSheetPage(
+        courseCode: course.courseCode,
+        timetable: widget.timetable,
+        highlightedCourseKey: course.courseKey,
+      ),
+    );
+  }
+
+  String buildTooltipMessage() {
+    final course = widget.lesson.course;
+    final classTimes = calcBeginEndTimePointForEachLesson(course.timeslots, widget.timetable.campus, course.place);
+    final lessonTimeTip = classTimes.map((time) => "${time.begin.l10n(context)}–${time.end.l10n(context)}").join("\n");
     var tooltip = "${i18n.course.courseCode} ${course.courseCode}";
     if (course.classCode.isNotEmpty) {
       tooltip += "\n${i18n.course.classCode} ${course.classCode}";
@@ -418,10 +477,10 @@ class CourseCell extends StatelessWidget {
       teachers: teachers,
       // textColor: color.resolveTextColorForReadability(),
     ).center();
-    return FilledCard(
-      clip: Clip.hardEdge,
+    return Card.filled(
+      clipBehavior: Clip.hardEdge,
       color: color,
-      margin: EdgeInsets.all(0.5.w),
+      margin: const EdgeInsets.all(0.5),
       child: innerBuilder != null ? innerBuilder(context, info) : info,
     );
   }
@@ -430,7 +489,7 @@ class CourseCell extends StatelessWidget {
 class StyledCourseCell extends StatelessWidget {
   final SitCourse course;
   final SitTimetableEntity timetable;
-  final bool grayOut;
+  final bool isLessonTaken;
   final Widget Function(BuildContext context, Widget child)? innerBuilder;
   final TimetableStyleData style;
 
@@ -438,7 +497,7 @@ class StyledCourseCell extends StatelessWidget {
     super.key,
     required this.timetable,
     required this.course,
-    required this.grayOut,
+    required this.isLessonTaken,
     required this.style,
     this.innerBuilder,
   });
@@ -446,16 +505,11 @@ class StyledCourseCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var color = timetable.resolveColor(style.platte, course).byTheme(context.theme);
-    if (style.cellStyle.harmonizeWithThemeColor) {
-      color = color.harmonizeWith(context.colorScheme.primary);
-    }
-    if (grayOut) {
-      color = color.monochrome();
-    }
-    final alpha = style.cellStyle.alpha;
-    if (alpha < 1.0) {
-      color = color.withOpacity(color.opacity * alpha);
-    }
+    color = style.cellStyle.decorateColor(
+      color,
+      themeColor: context.colorScheme.primary,
+      isLessonTaken: isLessonTaken,
+    );
     return CourseCell(
       courseName: course.courseName,
       color: color,

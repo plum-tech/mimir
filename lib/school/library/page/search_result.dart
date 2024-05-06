@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/school/library/page/details.model.dart';
 import 'package:sit/school/library/widgets/book.dart';
@@ -86,7 +85,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;
@@ -138,7 +137,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
             book: book,
             onSearchTap: onSearchTap,
             onTap: () async {
-              await context.show$Sheet$(
+              await context.showSheet(
                 (ctx) => BookDetailsPage(
                   book: BookModel.fromBook(book),
                   onSearchTap: onSearchTap == null
@@ -188,8 +187,8 @@ class BookTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final book = this.book;
-    return FilledCard(
-      clip: Clip.hardEdge,
+    return Card.filled(
+      clipBehavior: Clip.hardEdge,
       child: InkWell(
         onTap: onTap,
         child: [

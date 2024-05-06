@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 
 import '../entity/contact.dart';
@@ -12,7 +13,7 @@ class YellowPageSearchDelegate extends SearchDelegate<SchoolContact> {
   @override
   List<Widget>? buildActions(BuildContext context) {
     return <Widget>[
-      IconButton(
+      PlatformIconButton(
         icon: Icon(context.icons.clear),
         onPressed: () => query = "",
       ),

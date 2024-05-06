@@ -9,8 +9,8 @@ Future<void> renewBorrowedBook(BuildContext context, String barcode) async {
   try {
     final result = await LibraryInit.borrowService.renewBook(barcodeList: [barcode]);
     if (!context.mounted) return;
-    await context.showTip(title: i18n.borrowing.renew, ok: i18n.ok, desc: result);
+    await context.showTip(title: i18n.borrowing.renew, primary: i18n.ok, desc: result);
   } catch (error, stackTrace) {
-    handleRequestError(context, error, stackTrace);
+    handleRequestError(error, stackTrace);
   }
 }

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/files.dart';
-import 'package:sit/timetable/entity/background.dart';
 import 'package:sit/timetable/widgets/style.dart';
 
 import '../../entity/display.dart';
 import '../../entity/pos.dart';
-import '../../entity/timetable.dart';
+import '../../entity/timetable_entity.dart';
+import 'background.dart';
 import 'daily.dart';
 import 'weekly.dart';
 
@@ -31,7 +30,9 @@ class TimetableBoard extends StatelessWidget {
     if (background.enabled) {
       return [
         Positioned.fill(
-          child: TimetableBackground(background: background),
+          child: TimetableBackground(
+            background: background,
+          ),
         ),
         buildBoard(),
       ].stack();
@@ -53,63 +54,5 @@ class TimetableBoard extends StatelessWidget {
                       timetable: timetable,
                     ),
             );
-  }
-}
-
-class TimetableBackground extends StatefulWidget {
-  final BackgroundImage background;
-
-  const TimetableBackground({
-    super.key,
-    required this.background,
-  });
-
-  @override
-  State<TimetableBackground> createState() => _TimetableBackgroundState();
-}
-
-class _TimetableBackgroundState extends State<TimetableBackground> with SingleTickerProviderStateMixin {
-  late final AnimationController $opacity;
-
-  @override
-  void initState() {
-    super.initState();
-    $opacity = AnimationController(vsync: this, value: 0);
-  }
-
-  @override
-  void dispose() {
-    $opacity.dispose();
-    super.dispose();
-  }
-
-  @override
-  void didUpdateWidget(covariant TimetableBackground oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    $opacity.animateTo(
-      widget.background.opacity,
-      duration: Durations.medium1,
-    );
-  }
-
-  @override
-  void didChangeDependencies() {
-    $opacity.animateTo(
-      widget.background.opacity,
-      duration: Durations.medium1,
-    );
-    super.didChangeDependencies();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final bk = widget.background;
-    return Image.file(
-      key: ValueKey(bk.path),
-      Files.timetable.backgroundFile,
-      opacity: $opacity,
-      filterQuality: bk.antialias ? FilterQuality.low : FilterQuality.none,
-      repeat: bk.repeat ? ImageRepeat.repeat : ImageRepeat.noRepeat,
-    );
   }
 }

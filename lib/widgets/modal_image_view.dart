@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 
 class ModalImageViewer extends StatelessWidget {
+  final Widget child;
+  final Color backgroundColor;
+  final Object? hereTag;
+
   const ModalImageViewer({
     super.key,
     required this.child,
     this.backgroundColor = Colors.black,
+    this.hereTag,
   });
-
-  final Widget child;
-  final Color backgroundColor;
 
   @override
   Widget build(BuildContext context) {
-    final UniqueKey tag = UniqueKey();
+    final tag = hereTag ?? UniqueKey();
     return Hero(
       tag: tag,
       child: GestureDetector(
@@ -25,7 +29,7 @@ class ModalImageViewer extends StatelessWidget {
               opaque: false,
               pageBuilder: (BuildContext context, _, __) {
                 return FullScreenViewer(
-                  tag: tag,
+                  heroTag: tag,
                   backgroundColor: backgroundColor,
                   child: child,
                 );
@@ -40,21 +44,21 @@ class ModalImageViewer extends StatelessWidget {
 }
 
 class FullScreenViewer extends StatelessWidget {
+  final Widget child;
+  final Color backgroundColor;
+  final Object heroTag;
+
   const FullScreenViewer({
     super.key,
     required this.child,
-    required this.tag,
+    required this.heroTag,
     this.backgroundColor = Colors.black,
   });
-
-  final Widget child;
-  final Color backgroundColor;
-  final UniqueKey tag;
 
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: tag,
+      tag: heroTag,
       child: Scaffold(
         backgroundColor: backgroundColor,
         body: Stack(
@@ -62,7 +66,7 @@ class FullScreenViewer extends StatelessWidget {
             Positioned.fill(
               child: GestureDetector(
                 onDoubleTap: () {
-                  Navigator.of(context).pop();
+                  context.pop();
                 },
                 child: InteractiveViewer(
                   maxScale: 5,
@@ -74,7 +78,7 @@ class FullScreenViewer extends StatelessWidget {
             ),
             Align(
               alignment: Alignment.topRight,
-              child: IconButton(
+              child: PlatformIconButton(
                 icon: Icon(
                   context.icons.clear,
                 ),

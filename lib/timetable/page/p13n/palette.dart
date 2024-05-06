@@ -1,23 +1,21 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/entry_card.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/timetable/entity/timetable.dart';
 import 'package:sit/timetable/init.dart';
-import 'package:sit/timetable/platte.dart';
-import 'package:sit/utils/color.dart';
+import 'package:sit/timetable/palette.dart';
 import 'package:sit/utils/format.dart';
 import 'package:text_scroll/text_scroll.dart';
 
@@ -28,7 +26,7 @@ import '../../widgets/timetable/weekly.dart';
 import 'palette_editor.dart';
 import '../preview.dart';
 
-class TimetableP13nPage extends StatefulWidget {
+class TimetableP13nPage extends ConsumerStatefulWidget {
   final int? tab;
 
   const TimetableP13nPage({
@@ -37,7 +35,7 @@ class TimetableP13nPage extends StatefulWidget {
   }) : assert(tab == null || (0 <= tab && tab < TimetableP13nTab.length), "#$tab tab not found");
 
   @override
-  State<TimetableP13nPage> createState() => _TimetableP13nPageState();
+  ConsumerState<TimetableP13nPage> createState() => _TimetableP13nPageState();
 }
 
 class TimetableP13nTab {
@@ -46,17 +44,12 @@ class TimetableP13nTab {
   static const builtin = 1;
 }
 
-class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTickerProviderStateMixin {
-  final $paletteList = TimetableInit.storage.palette.$any;
+class _TimetableP13nPageState extends ConsumerState<TimetableP13nPage> with SingleTickerProviderStateMixin {
   late final TabController tabController;
-  final $selected = TimetableInit.storage.timetable.$selected;
-  var selectedTimetable = TimetableInit.storage.timetable.selectedRow;
 
   @override
   void initState() {
     super.initState();
-    $selected.addListener(refresh);
-    $paletteList.addListener(refresh);
     tabController = TabController(vsync: this, length: TimetableP13nTab.length);
     final selectedId = TimetableInit.storage.palette.selectedId;
     final forceTab = widget.tab;
@@ -69,34 +62,18 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
 
   @override
   void dispose() {
-    $paletteList.removeListener(refresh);
     tabController.dispose();
-    $selected.removeListener(refresh);
     super.dispose();
-  }
-
-  void refresh() {
-    setState(() {
-      selectedTimetable = TimetableInit.storage.timetable.selectedRow;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final palettes = ref.watch(TimetableInit.storage.palette.$rows);
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         label: i18n.p13n.palette.fab.text(),
         icon: Icon(context.icons.add),
-        onPressed: () async {
-          final palette = TimetablePalette(
-            name: i18n.p13n.palette.newPaletteName,
-            author: "",
-            colors: [],
-            lastModified: DateTime.now(),
-          );
-          TimetableInit.storage.palette.add(palette);
-          tabController.index = TimetableP13nTab.custom;
-        },
+        onPressed: addPalette,
       ),
       body: NestedScrollView(
         floatHeaderSlivers: true,
@@ -124,7 +101,7 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
         body: TabBarView(
           controller: tabController,
           children: [
-            buildPaletteList(TimetableInit.storage.palette.getRows()),
+            buildPaletteList(palettes),
             buildPaletteList(BuiltinTimetablePalettes.all.map((e) => (id: e.id, row: e)).toList()),
           ],
         ),
@@ -132,19 +109,21 @@ class _TimetableP13nPageState extends State<TimetableP13nPage> with SingleTicker
     );
   }
 
+  Future<void> addPalette() async {
+    final palette = TimetablePalette(
+      name: i18n.p13n.palette.newPaletteName,
+      author: "",
+      colors: [],
+      lastModified: DateTime.now(),
+    );
+    TimetableInit.storage.palette.add(palette);
+    tabController.index = TimetableP13nTab.custom;
+  }
+
   Widget buildPaletteList(List<({int id, TimetablePalette row})> palettes) {
-    final selectedId = TimetableInit.storage.palette.selectedId ?? BuiltinTimetablePalettes.classic.id;
-    palettes.sort((a, b) {
-      final $a = a.row.lastModified;
-      final $b = b.row.lastModified;
-      if ($a == $b) return 0;
-      if ($a == null) {
-        return 1;
-      } else if ($b == null) {
-        return -1;
-      }
-      return $b.compareTo($a);
-    });
+    final selectedId = ref.watch(TimetableInit.storage.palette.$selectedId) ?? BuiltinTimetablePalettes.classic.id;
+    final selectedTimetable = ref.watch(TimetableInit.storage.timetable.$selectedRow);
+    palettes.sort((a, b) => b.row.lastModified.compareTo(a.row.lastModified));
     return CustomScrollView(
       slivers: [
         SliverList.builder(
@@ -188,7 +167,6 @@ class PaletteCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.theme;
     final timetable = this.timetable;
     return EntryCard(
       title: palette.name,
@@ -211,9 +189,9 @@ class PaletteCard extends StatelessWidget {
                   final confirm = await ctx.showDialogRequest(
                     title: i18n.p13n.palette.deleteRequest,
                     desc: i18n.p13n.palette.deleteRequestDesc,
-                    yes: i18n.delete,
-                    no: i18n.cancel,
-                    destructive: true,
+                    primary: i18n.delete,
+                    secondary: i18n.cancel,
+                    primaryDestructive: true,
                   );
                   if (confirm == true) {
                     TimetableInit.storage.palette.delete(id);
@@ -228,8 +206,17 @@ class PaletteCard extends StatelessWidget {
             icon: context.icons.edit,
             activator: const SingleActivator(LogicalKeyboardKey.keyE),
             action: () async {
-              final newPalette = await context.push<TimetablePalette>("/timetable/palette/edit/$id");
+              var newPalette = await context.push<TimetablePalette>("/timetable/palette/edit/$id");
               if (newPalette != null) {
+                final newName = allocValidFileName(newPalette.name);
+                if (newName != newPalette.name) {
+                  newPalette = newPalette
+                      .copyWith(
+                        name: newName,
+                        colors: List.of(newPalette.colors),
+                      )
+                      .markModified();
+                }
                 TimetableInit.storage.palette[id] = newPalette;
               }
             },
@@ -240,13 +227,10 @@ class PaletteCard extends StatelessWidget {
             icon: isCupertino ? CupertinoIcons.eye : Icons.preview,
             activator: const SingleActivator(LogicalKeyboardKey.keyP),
             action: () async {
-              await context.show$Sheet$(
-                (context) => TimetableStyleProv(
-                  palette: palette,
-                  child: TimetablePreviewPage(
-                    timetable: timetable,
-                  ),
-                ),
+              await previewTimetable(
+                context,
+                timetable: timetable,
+                palette: palette,
               );
             },
           ),
@@ -256,11 +240,13 @@ class PaletteCard extends StatelessWidget {
           oneShot: true,
           activator: const SingleActivator(LogicalKeyboardKey.keyD),
           action: () async {
-            final duplicate = palette.copyWith(
-              name: getDuplicateFileName(palette.name, all: allPaletteNames),
-              author: palette.author,
-              lastModified: DateTime.now(),
-            );
+            final duplicate = palette
+                .copyWith(
+                  name: allocValidFileName(palette.name, all: allPaletteNames),
+                  author: palette.author,
+                  colors: List.of(palette.colors),
+                )
+                .markModified();
             TimetableInit.storage.palette.add(duplicate);
             onDuplicate?.call();
           },
@@ -268,11 +254,11 @@ class PaletteCard extends StatelessWidget {
         // Uint64 is not supporting on web
         if (!kIsWeb)
           EntryAction(
-            label: i18n.p13n.palette.shareQrCode,
+            label: i18n.shareQrCode,
             icon: context.icons.qrcode,
             action: () async {
               final qrCodeData = const TimetablePaletteDeepLink().encode(palette);
-              await ctx.show$Sheet$(
+              await ctx.showSheet(
                 (context) => QrCodePage(
                   title: palette.name.text(),
                   data: qrCodeData.toString(),
@@ -282,6 +268,7 @@ class PaletteCard extends StatelessWidget {
           ),
         if (kDebugMode)
           EntryAction(
+            icon: context.icons.copy,
             label: "Copy Dart code",
             action: () async {
               final code = palette.colors.toString();
@@ -291,23 +278,43 @@ class PaletteCard extends StatelessWidget {
           ),
       ],
       detailsBuilder: (ctx, actions) {
-        return PaletteDetailsPage(id: id, palette: palette, actions: actions?.call(ctx));
+        return PaletteDetailsPage(
+          id: id,
+          palette: palette,
+          actions: actions?.call(ctx),
+        );
       },
-      itemBuilder: (ctx) => [
-        palette.name.text(style: theme.textTheme.titleLarge),
-        if (palette.author.isNotEmpty)
-          palette.author.text(
-            style: const TextStyle(
-              fontStyle: FontStyle.italic,
-            ),
-          ),
-        PaletteColorsPreview(palette.colors),
-      ],
+      itemBuilder: (ctx) {
+        return PaletteInfo(palette: palette);
+      },
     );
   }
 }
 
-class PaletteDetailsPage extends StatefulWidget {
+class PaletteInfo extends StatelessWidget {
+  final TimetablePalette palette;
+
+  const PaletteInfo({
+    super.key,
+    required this.palette,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      palette.name.text(style: context.textTheme.titleLarge),
+      if (palette.author.isNotEmpty)
+        palette.author.text(
+          style: const TextStyle(
+            fontStyle: FontStyle.italic,
+          ),
+        ),
+      PaletteColorsPreview(palette.colors),
+    ].column(caa: CrossAxisAlignment.start);
+  }
+}
+
+class PaletteDetailsPage extends ConsumerWidget {
   final int id;
   final TimetablePalette palette;
   final List<Widget>? actions;
@@ -320,41 +327,8 @@ class PaletteDetailsPage extends StatefulWidget {
   });
 
   @override
-  State<PaletteDetailsPage> createState() => _PaletteDetailsPageState();
-}
-
-class _PaletteDetailsPageState extends State<PaletteDetailsPage> {
-  late final $row = TimetableInit.storage.palette.listenRowChange(widget.id);
-  late TimetablePalette palette = widget.palette;
-
-  @override
-  void initState() {
-    super.initState();
-    $row.addListener(refresh);
-  }
-
-  @override
-  void dispose() {
-    $row.removeListener(refresh);
-    super.dispose();
-  }
-
-  void refresh() {
-    final palette = TimetableInit.storage.palette[widget.id];
-    if (palette == null) {
-      context.pop();
-      return;
-    } else {
-      setState(() {
-        this.palette = palette;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final palette = this.palette;
-    final actions = widget.actions;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final palette = ref.watch(TimetableInit.storage.palette.$rowOf(id)) ?? this.palette;
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -406,13 +380,12 @@ class PaletteColorsPreview extends StatelessWidget {
     return colors
         .map((c) {
           final color = c.byBrightness(brightness);
-          return OutlinedCard(
-            color: brightness == Brightness.light ? Colors.black : Colors.white,
+          return Card.outlined(
             margin: EdgeInsets.zero,
             child: TweenAnimationBuilder(
               tween: ColorTween(begin: color, end: color),
               duration: const Duration(milliseconds: 300),
-              builder: (ctx, value, child) => FilledCard(
+              builder: (ctx, value, child) => Card.filled(
                 margin: EdgeInsets.zero,
                 color: value,
                 child: const SizedBox(
@@ -459,16 +432,7 @@ class TimetableP13nLivePreview extends StatelessWidget {
       bool grayOut = false,
     }) {
       var color = palette.safeGetColor(colorId).byTheme(context.theme);
-      if (cellStyle.harmonizeWithThemeColor) {
-        color = color.harmonizeWith(themeColor);
-      }
-      if (grayOut) {
-        color = color.monochrome();
-      }
-      final alpha = cellStyle.alpha;
-      if (alpha < 1.0) {
-        color = color.withOpacity(alpha);
-      }
+      color = cellStyle.decorateColor(color, themeColor: themeColor, isLessonTaken: grayOut);
       return TweenAnimationBuilder(
         tween: ColorTween(begin: color, end: color),
         duration: const Duration(milliseconds: 300),
@@ -553,13 +517,13 @@ Future<void> onTimetablePaletteFromQrCode({
   required BuildContext context,
   required TimetablePalette palette,
 }) async {
-  final confirm = await context.showActionRequest(
-    desc: i18n.p13n.palette.addFromQrCodeDesc,
-    action: i18n.p13n.palette.addFromQrCodeAction,
-    cancel: i18n.cancel,
+  final newPalette = await context.showSheet<TimetablePalette>(
+    (ctx) => TimetablePaletteEditorPage(palette: palette),
+    dismissible: false,
+    useRootNavigator: true,
   );
-  if (confirm != true) return;
-  TimetableInit.storage.palette.add(palette);
+  if (newPalette == null) return;
+  TimetableInit.storage.palette.add(newPalette);
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
   context.push("/timetable/p13n/custom");

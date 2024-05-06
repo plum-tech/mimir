@@ -11,7 +11,7 @@ class Credentials {
   @HiveField(1)
   final String password;
 
-  Credentials({
+  const Credentials({
     required this.account,
     required this.password,
   });
@@ -28,5 +28,5 @@ class Credentials {
   }
 
   @override
-  int get hashCode => toString().hashCode;
+  int get hashCode => Object.hash(account, password);
 }

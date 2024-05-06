@@ -1,5 +1,9 @@
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -20,14 +24,14 @@ class ScannerPage extends StatefulWidget {
   State<ScannerPage> createState() => _ScannerPageState();
 }
 
-const _iconSize = 32.0;
-
-class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStateMixin {
+class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
   final controller = MobileScannerController(
     torchEnabled: false,
     formats: [BarcodeFormat.qrCode],
     facing: CameraFacing.back,
   );
+  StreamSubscription<Object?>? _subscription;
+  bool isReturned = false;
 
   @override
   void initState() {
@@ -36,7 +40,33 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
-    startCamera();
+    // Start listening to lifecycle changes.
+    WidgetsBinding.instance.addObserver(this);
+
+    // Start listening to the barcode events.
+    _subscription = controller.barcodes.listen(_handleBarcode);
+
+    // Finally, start the scanner itself.
+    unawaited(startCamera());
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    // Stop listening to lifecycle changes.
+    WidgetsBinding.instance.removeObserver(this);
+    // Stop listening to the barcode events.
+    unawaited(_subscription?.cancel());
+    _subscription = null;
+    // Dispose the widget itself.
+    super.dispose();
+    // Finally, dispose of the controller.
+    unawaited(controller.dispose());
   }
 
   Future<void> startCamera() async {
@@ -51,16 +81,35 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
     }
   }
 
-  @override
-  void dispose() {
-    controller.dispose();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
-    super.dispose();
+  Future<void> _handleBarcode(BarcodeCapture capture) async {
+    if (kDebugMode) {
+      print("Recognized: ${capture.barcodes.map((code) => code.rawValue)}");
+    }
+
+    /// prevent accidentally multiple pop.
+    if (!context.mounted || isReturned) return;
+
+    final qrcode = capture.barcodes.firstOrNull;
+    if (qrcode != null) {
+      isReturned = true;
+      context.pop(qrcode.rawValue);
+      await HapticFeedback.heavyImpact();
+    }
+  }
+
+  Future<void> recognizeFromFile() async {
+    final ImagePicker picker = ImagePicker();
+    // Pick an image
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      final result = await controller.analyzeImage(image.path);
+      if (result != null) {
+        await _handleBarcode(result);
+      } else {
+        if (!mounted) return;
+        context.showSnackBar(content: i18n.barcodeNotRecognizedTip.text());
+      }
+    }
   }
 
   @override
@@ -81,15 +130,6 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
     return MobileScanner(
       controller: controller,
       fit: BoxFit.contain,
-      onDetect: (captured) async {
-        final qrcode = captured.barcodes.firstOrNull;
-        if (qrcode != null) {
-          context.pop(qrcode.rawValue);
-          // dispose the controller to stop scanning
-          controller.dispose();
-          await HapticFeedback.heavyImpact();
-        }
-      },
     );
   }
 
@@ -105,44 +145,61 @@ class _ScannerPageState extends State<ScannerPage> with SingleTickerProviderStat
   }
 
   Widget buildImagePicker() {
-    return IconButton(
+    return PlatformIconButton(
       icon: const Icon(Icons.image),
-      iconSize: _iconSize,
-      onPressed: () async {
-        final ImagePicker picker = ImagePicker();
-        // Pick an image
-        final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-        if (image != null) {
-          if (!await controller.analyzeImage(image.path)) {
-            if (!mounted) return;
-            context.showSnackBar(content: i18n.barcodeNotRecognized.text());
-          }
-        }
-      },
+      onPressed: recognizeFromFile,
     );
   }
 
   Widget buildSwitchButton() {
-    return IconButton(
-      iconSize: _iconSize,
+    return PlatformIconButton(
       icon: Icon(context.icons.switchCamera),
       onPressed: () => controller.switchCamera(),
     );
   }
 
   Widget buildTorchButton() {
-    return IconButton(
-      iconSize: _iconSize,
-      icon: controller.torchState >>
-          (context, state) {
-            switch (state) {
-              case TorchState.off:
-                return const Icon(Icons.flash_off, color: Colors.grey);
-              case TorchState.on:
-                return const Icon(Icons.flash_on, color: Colors.yellow);
-            }
-          },
-      onPressed: () => controller.toggleTorch(),
-    );
+    return controller >>
+        (context, state) => switch (state.torchState) {
+              TorchState.off => PlatformIconButton(
+                  icon: const Icon(Icons.flash_off),
+                  onPressed: controller.toggleTorch,
+                ),
+              TorchState.on => PlatformIconButton(
+                  icon: const Icon(Icons.flash_on, color: Colors.yellow),
+                  onPressed: controller.toggleTorch,
+                ),
+              TorchState.unavailable => PlatformIconButton(
+                  icon: const Icon(Icons.flash_off),
+                ),
+              TorchState.auto => PlatformIconButton(
+                  icon: const Icon(Icons.flash_on),
+                  onPressed: controller.toggleTorch,
+                ),
+            };
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    switch (state) {
+      case AppLifecycleState.detached:
+      case AppLifecycleState.hidden:
+      case AppLifecycleState.paused:
+        return;
+      case AppLifecycleState.resumed:
+        // Restart the scanner when the app is resumed.
+        // Don't forget to resume listening to the barcode events.
+        _subscription = controller.barcodes.listen(_handleBarcode);
+
+        unawaited(controller.start());
+      case AppLifecycleState.inactive:
+        // Stop the scanner when the app is paused.
+        // Also stop the barcode events subscription.
+        unawaited(_subscription?.cancel());
+        _subscription = null;
+        unawaited(controller.stop());
+    }
   }
 }

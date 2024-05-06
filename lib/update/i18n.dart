@@ -18,7 +18,7 @@ class _I18n with CommonI18nMixin {
 
   String get notNow => "$ns.notNow".tr();
 
-  String get skipThisVersion => "$ns.skipThisVersion".tr();
+  String get skipThisVersionFor7Days => "$ns.skipThisVersionFor7Days".tr();
 
   String get openAppStore => "$ns.openAppStore".tr();
 }

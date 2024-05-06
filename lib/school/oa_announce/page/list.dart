@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:sit/credentials/widgets/oa_scope.dart';
-import 'package:sit/design/widgets/card.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/design/widgets/common.dart';
 
 import 'package:sit/school/oa_announce/widget/tile.dart';
@@ -15,17 +15,18 @@ import '../entity/announce.dart';
 import '../init.dart';
 import '../i18n.dart';
 
-class OaAnnounceListPage extends StatefulWidget {
+class OaAnnounceListPage extends ConsumerStatefulWidget {
   const OaAnnounceListPage({super.key});
 
   @override
-  State<OaAnnounceListPage> createState() => _OaAnnounceListPageState();
+  ConsumerState<OaAnnounceListPage> createState() => _OaAnnounceListPageState();
 }
 
-class _OaAnnounceListPageState extends State<OaAnnounceListPage> {
+class _OaAnnounceListPageState extends ConsumerState<OaAnnounceListPage> {
   @override
   Widget build(BuildContext context) {
-    final cats = OaAnnounceCat.resolve(context.auth.userType);
+    final userType = ref.watch(CredentialsInit.storage.$oaUserType);
+    final cats = OaAnnounceCat.resolve(userType);
     return OaAnnounceListPageInternal(cats: cats);
   }
 }
@@ -167,8 +168,8 @@ class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with Auto
               SliverList.builder(
                 itemCount: announcements.length,
                 itemBuilder: (ctx, index) {
-                  return FilledCard(
-                    clip: Clip.hardEdge,
+                  return Card.filled(
+                    clipBehavior: Clip.hardEdge,
                     child: OaAnnounceTile(announcements[index]),
                   );
                 },
@@ -201,7 +202,7 @@ class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with Auto
       });
       widget.onLoadingChanged(false);
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;

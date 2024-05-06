@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/library/init.dart';
@@ -44,7 +43,7 @@ class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistor
         isFetching = false;
       });
     } catch (error, stackTrace) {
-      handleRequestError(context, error, stackTrace);
+      handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
         isFetching = false;
@@ -98,8 +97,8 @@ class BookBorrowHistoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FilledCard(
-      clip: Clip.hardEdge,
+    return Card.filled(
+      clipBehavior: Clip.hardEdge,
       child: ListTile(
         leading: AsyncBookImage(isbn: book.isbn),
         title: book.title.text(),
@@ -111,7 +110,7 @@ class BookBorrowHistoryCard extends StatelessWidget {
         ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
         trailing: book.operation.l10n().text(),
         onTap: () async {
-          await context.show$Sheet$(
+          await context.showSheet(
             (ctx) => BookDetailsPage(
               book: BookModel.fromBorrowHistory(book),
             ),

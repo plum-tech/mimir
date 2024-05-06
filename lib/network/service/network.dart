@@ -9,22 +9,35 @@ bool _toBool(int num) => num != 0;
 
 @JsonSerializable(createToJson: false)
 class CampusNetworkStatus {
-  // 1：已登录
-  // 0：未登录
+  /// 1：logged in
+  /// 0：not logged in
   @JsonKey(name: "result", fromJson: _toBool)
   final bool loggedIn;
 
-  // 当前的校园网ip
+  /// Currently assigned IP in the campus network
   @JsonKey(name: 'v46ip')
   final String ip;
 
-  // 当前登录学号
+  /// the student ID currently logged in with
   @JsonKey(name: "uid")
-  String? studentId;
+  final String? studentId;
 
-  CampusNetworkStatus(this.loggedIn, this.ip, {this.studentId});
+  const CampusNetworkStatus({
+    required this.loggedIn,
+    required this.ip,
+    this.studentId,
+  });
 
   factory CampusNetworkStatus.fromJson(Map<String, dynamic> json) => _$CampusNetworkStatusFromJson(json);
+
+  @override
+  String toString() {
+    return {
+      "loggedIn": loggedIn,
+      "ip": ip,
+      "studentId": studentId,
+    }.toString();
+  }
 }
 
 @JsonSerializable(createToJson: false)

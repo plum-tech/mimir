@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:sit/credentials/i18n.dart';
+import 'package:sit/l10n/app.dart';
 import 'package:sit/l10n/common.dart';
+import 'package:sit/settings/entity/proxy.dart';
 
 const i18n = _I18n();
 
@@ -10,10 +12,8 @@ class _I18n with CommonI18nMixin {
   final oaCredentials = const _OaCredentials();
   final proxy = const _Proxy();
   final dev = const _DevOptions();
-  final timetable = const _Timetable();
-  final school = const _School();
-  final life = const _Life();
   final about = const _About();
+  final app = const AppI18n();
 
   static const ns = "settings";
 
@@ -67,6 +67,8 @@ class _Proxy {
 
   String get port => "$ns.port".tr();
 
+  String get enableAuth => "$ns.enableAuth".tr();
+
   String get authentication => "$ns.authentication".tr();
 
   String get username => "$ns.username".tr();
@@ -78,70 +80,6 @@ class _Proxy {
   String get setFromQrCodeAction => "$ns.setFromQrCodeAction".tr();
 
   String get setFromQrCodeDesc => "$ns.setFromQrCodeDesc".tr();
-}
-
-class _Timetable {
-  const _Timetable();
-
-  static const ns = "${_I18n.ns}.timetable";
-
-  String get title => "$ns.title".tr();
-
-  String get autoUseImported => "$ns.autoUseImported.title".tr();
-
-  String get autoUseImportedDesc => "$ns.autoUseImported.desc".tr();
-
-  String get palette => "$ns.palette.title".tr();
-
-  String get paletteDesc => "$ns.palette.desc".tr();
-
-  String get cellStyle => "$ns.cellStyle.title".tr();
-
-  String get cellStyleDesc => "$ns.cellStyle.desc".tr();
-
-  String get background => "$ns.background.title".tr();
-
-  String get backgroundDesc => "$ns.background.desc".tr();
-}
-
-class _School {
-  const _School();
-
-  static const ns = "${_I18n.ns}.school";
-  final class2nd = const _Class2nd();
-  final examResult = const _ExamResult();
-
-  String get title => "$ns.title".tr();
-}
-
-class _Class2nd {
-  static const ns = "${_School.ns}.class2nd";
-
-  const _Class2nd();
-
-  String get autoRefresh => "$ns.autoRefresh.title".tr();
-
-  String get autoRefreshDesc => "$ns.autoRefresh.desc".tr();
-}
-
-class _ExamResult {
-  static const ns = "${_School.ns}.examResult";
-
-  const _ExamResult();
-
-  String get showResultPreview => "$ns.showResultPreview.title".tr();
-
-  String get showResultPreviewDesc => "$ns.showResultPreview.desc".tr();
-}
-
-class _Life {
-  const _Life();
-
-  final electricity = const _Electricity();
-  final expense = const _Expense();
-  static const ns = "${_I18n.ns}.life";
-
-  String get title => "$ns.title".tr();
 }
 
 class _About {
@@ -160,26 +98,6 @@ class _About {
   String get privacyPolicy => "$ns.privacyPolicy".tr();
 
   String get checkUpdate => "$ns.checkUpdate".tr();
-}
-
-class _Electricity {
-  static const ns = "${_Life.ns}.electricity";
-
-  const _Electricity();
-
-  String get autoRefresh => "$ns.autoRefresh.title".tr();
-
-  String get autoRefreshDesc => "$ns.autoRefresh.desc".tr();
-}
-
-class _Expense {
-  static const ns = "${_Life.ns}.expenseRecords";
-
-  const _Expense();
-
-  String get autoRefresh => "$ns.autoRefresh.title".tr();
-
-  String get autoRefreshDesc => "$ns.autoRefresh.desc".tr();
 }
 
 class _DevOptions {
@@ -230,4 +148,14 @@ class _OaCredentials extends OaCredentialsI18n {
   String get testLoginOa => "$ns.testLoginOa.title".tr();
 
   String get testLoginOaDesc => "$ns.testLoginOa.desc".tr();
+}
+
+extension ProxyTypeI18nX on ProxyCat {
+  String l10n() => "settings.proxy.proxyType.$name".tr();
+}
+
+extension ProxyModeI18nX on ProxyMode {
+  String l10nName() => "settings.proxy.proxyMode.$name.name".tr();
+
+  String l10nTip() => "settings.proxy.proxyMode.$name.tip".tr();
 }
