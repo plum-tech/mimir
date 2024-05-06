@@ -1,3 +1,4 @@
+import 'package:sit/settings/entity/proxy.dart';
 import 'package:sit/settings/settings.dart';
 
 import 'connectivity.dart';

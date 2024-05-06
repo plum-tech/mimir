@@ -58,6 +58,9 @@ class _MimirAppState extends ConsumerState<MimirApp> {
               ),
         visualDensity: VisualDensity.comfortable,
         splashFactory: kIsWeb ? null : InkSparkle.splashFactory,
+        navigationBarTheme: const NavigationBarThemeData(
+          height: 60,
+        ),
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
             TargetPlatform.android: ZoomPageTransitionsBuilder(),
@@ -129,7 +132,7 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
       });
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      $appLink = AppLinks().allUriLinkStream.listen((uri) async {
+      $appLink = AppLinks().uriLinkStream.listen((uri) async {
         ref.read($appLinks.notifier).state = [...ref.read($appLinks), (uri: uri, ts: DateTime.now())];
         final navigateCtx = $key.currentContext;
         if (navigateCtx == null) return;
@@ -143,7 +146,7 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
           }
         }
         if (!navigateCtx.mounted) return;
-        await onHandleQrCodeUriData(context: navigateCtx, qrCodeData: uri);
+        await onHandleDeepLink(context: navigateCtx, deepLink: uri);
       });
     });
   }

@@ -16,11 +16,13 @@ class YwbServiceStorage {
 
   const YwbServiceStorage();
 
-  YwbServiceDetails? getServiceDetails(String applicationId) => box.safeGet(_K.details(applicationId));
+  YwbServiceDetails? getServiceDetails(String applicationId) =>
+      box.safeGet<YwbServiceDetails>(_K.details(applicationId));
 
-  void setMetaDetails(String applicationId, YwbServiceDetails? newV) => box.safePut(_K.details(applicationId), newV);
+  void setMetaDetails(String applicationId, YwbServiceDetails? newV) =>
+      box.safePut<YwbServiceDetails>(_K.details(applicationId), newV);
 
-  List<YwbService>? get serviceList => (box.safeGet(_K.serviceList) as List?)?.cast<YwbService>();
+  List<YwbService>? get serviceList => box.safeGet<List>(_K.serviceList)?.cast<YwbService>();
 
-  set serviceList(List<YwbService>? newV) => box.safePut(_K.serviceList, newV);
+  set serviceList(List<YwbService>? newV) => box.safePut<List>(_K.serviceList, newV);
 }

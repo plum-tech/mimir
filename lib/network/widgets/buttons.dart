@@ -1,5 +1,6 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
@@ -22,9 +23,9 @@ class LaunchEasyConnectButton extends StatelessWidget {
           final confirm = await context.showDialogRequest(
             title: i18n.easyconnect.launchFailed,
             desc: i18n.easyconnect.launchFailedDesc,
-            yes: i18n.download,
-            no: i18n.cancel,
-            destructive: true,
+            primary: i18n.download,
+            secondary: i18n.cancel,
+            primaryDestructive: true,
           );
           if (confirm == true) {
             if (!context.mounted) return;
@@ -46,6 +47,20 @@ class OpenWifiSettingsButton extends StatelessWidget {
         AppSettings.openAppSettings(type: AppSettingsType.wifi);
       },
       child: i18n.openWifiSettingsBtn.text(),
+    );
+  }
+}
+
+class OpenInAppProxyButton extends StatelessWidget {
+  const OpenInAppProxyButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton(
+      onPressed: () {
+        context.push("/settings/proxy");
+      },
+      child: i18n.openInAppProxySettingsBtn.text(),
     );
   }
 }

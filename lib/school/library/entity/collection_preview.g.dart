@@ -7,13 +7,13 @@ part of 'collection_preview.dart';
 // **************************************************************************
 
 BookCollectionItem _$BookCollectionItemFromJson(Map<String, dynamic> json) => BookCollectionItem(
-      bookId: json['bookrecno'] as int,
+      bookId: (json['bookrecno'] as num).toInt(),
       barcode: json['barcode'] as String,
       callNumber: json['callno'] as String,
       currentLibrary: json['curlibName'] as String,
       currentLocation: json['curlocalName'] as String,
-      copyCount: json['copycount'] as int,
-      loanableCount: json['loanableCount'] as int,
+      copyCount: (json['copycount'] as num).toInt(),
+      loanableCount: (json['loanableCount'] as num).toInt(),
     );
 
 Map<String, dynamic> _$BookCollectionItemToJson(BookCollectionItem instance) => <String, dynamic>{

@@ -1,10 +1,12 @@
 import 'dart:math';
 
+import 'package:async_locks/async_locks.dart';
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:collection/collection.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' hide Key;
+import 'package:logger/logger.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/error.dart';
 import 'package:sit/credentials/init.dart';
@@ -15,7 +17,6 @@ import 'package:sit/r.dart';
 import 'package:sit/session/auth.dart';
 import 'package:sit/utils/error.dart';
 import 'package:sit/utils/riverpod.dart';
-import 'package:synchronized/synchronized.dart';
 import 'package:encrypt/encrypt.dart';
 
 import '../utils/dio.dart';
@@ -46,6 +47,16 @@ const _neededHeaders = {
   "Referer": "https://authserver.sit.edu.cn/authserver/login",
 };
 
+final networkLogger = Logger(
+  printer: PrettyPrinter(
+    methodCount: 8,
+    // Number of method calls to be displayed
+    errorMethodCount: 8,
+    // Print an emoji for each log message
+    printTime: true, // Should each log print contain a timestamp
+  ),
+);
+
 /// Single Sign-On
 class SsoSession {
   static const String _authServerUrl = 'https://authserver.sit.edu.cn/authserver';
@@ -57,39 +68,39 @@ class SsoSession {
   final Dio dio;
   final CookieJar cookieJar;
 
-  /// Session错误拦截器
-  final void Function(Object error, StackTrace stackTrace)? onError;
-
   /// Input captcha manually
   final Future<String?> Function(Uint8List imageBytes) inputCaptcha;
 
   /// Lock it to prevent simultaneous login.
-  final _loginLock = Lock();
+  static final _loginLock = Lock();
+
+  /// Lock all requests through SSO.
+  static final _ssoLock = Lock();
 
   SsoSession({
     required this.dio,
     required this.cookieJar,
     required this.inputCaptcha,
-    this.onError,
   });
 
   /// - User try to log in actively on a login page.
   Future<Response> loginLocked(Credentials credentials) async {
-    return await _loginLock.synchronized(() async {
+    return await _loginLock.run(() async {
+      networkLogger.i("loginLocked ${DateTime.now().toIso8601String()}");
       try {
-        final autoCaptcha = await _login(
+        final byAutoCaptcha = await _login(
           credentials: credentials,
           inputCaptcha: (captchaImage) => AuthSession.recognizeOaCaptcha(captchaImage),
         );
-        return autoCaptcha;
+        return byAutoCaptcha;
       } catch (error, stackTrace) {
         debugPrintError(error, stackTrace);
       }
-      final manuallyCaptcha = await _login(
+      final byManualCaptcha = await _login(
         credentials: credentials,
         inputCaptcha: inputCaptcha,
       );
-      return manuallyCaptcha;
+      return byManualCaptcha;
     });
   }
 
@@ -102,8 +113,6 @@ class SsoSession {
     ProgressCallback? onReceiveProgress,
   }) async {
     options ??= Options();
-
-    /// 正常地请求
     Future<Response> requestNormally() async {
       final response = await dio.request(
         url,
@@ -118,11 +127,17 @@ class SsoSession {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      // 处理重定向
-      return await processRedirect(dio, response, headers: _neededHeaders);
+      final debugDepths = <Response>[];
+      final finalResponse = await processRedirect(
+        dio,
+        response,
+        headers: _neededHeaders,
+        debugDepths: debugDepths,
+      );
+      return finalResponse;
     }
 
-    // 第一次先正常请求
+    // request normally at first
     final firstResponse = await requestNormally();
 
     // check if the response is the login page. if so, login it first.
@@ -166,7 +181,7 @@ class SsoSession {
     final Response response;
     try {
       // 首先获取AuthServer首页
-      final html = await _getAuthServerHtml();
+      final html = await _fetchAuthServerHtml();
       var captcha = '';
       if (await isCaptchaRequired(credentials.account)) {
         final captchaImage = await getCaptcha();
@@ -179,9 +194,9 @@ class SsoSession {
         }
       }
       // 获取casTicket
-      final casTicket = _getCasTicketFromAuthHtml(html);
+      final casTicket = _extractCasTicketFromAuthHtml(html);
       // 获取salt
-      final salt = _getSaltFromAuthHtml(html);
+      final salt = _extractSaltFromAuthHtml(html);
       // 加密密码
       final hashedPwd = _hashPassword(salt, credentials.password);
       // 登录系统，获得cookie
@@ -234,8 +249,8 @@ class SsoSession {
     return CredentialsErrorType.accountPassword;
   }
 
-  /// 提取认证页面中的加密盐
-  String _getSaltFromAuthHtml(String htmlText) {
+  /// Extract the Salt from the auth page
+  String _extractSaltFromAuthHtml(String htmlText) {
     final a = RegExp(r'var pwdDefaultEncryptSalt = "(.*?)";');
     final matchResult = a.firstMatch(htmlText)!.group(0)!;
     final salt = matchResult.substring(29, matchResult.length - 2);
@@ -243,8 +258,8 @@ class SsoSession {
     return salt;
   }
 
-  /// 提取认证页面中的Cas Ticket
-  String _getCasTicketFromAuthHtml(String htmlText) {
+  /// Extract the CAS ticket from the auth page
+  String _extractCasTicketFromAuthHtml(String htmlText) {
     final a = RegExp(r'<input type="hidden" name="lt" value="(.*?)"');
     final matchResult = a.firstMatch(htmlText)!.group(0)!;
     final casTicket = matchResult.substring(38, matchResult.length - 1);
@@ -252,8 +267,8 @@ class SsoSession {
     return casTicket;
   }
 
-  /// 获取认证页面内容
-  Future<String> _getAuthServerHtml() async {
+  /// Fetch the auth page, where the account, password and captcha box are.
+  Future<String> _fetchAuthServerHtml() async {
     final response = await dio.get(
       _loginUrl,
       options: Options(headers: Map.from(_neededHeaders)..remove('Referer')),
@@ -261,7 +276,7 @@ class SsoSession {
     return response.data;
   }
 
-  /// 判断是否需要验证码
+  /// check if captcha is required for this logging in
   Future<bool> isCaptchaRequired(String username) async {
     final response = await dio.get(
       _needCaptchaUrl,
@@ -276,7 +291,6 @@ class SsoSession {
     return needCaptcha;
   }
 
-  /// 获取验证码
   Future<Uint8List> getCaptcha() async {
     final response = await dio.get(
       _captchaUrl,
@@ -289,30 +303,38 @@ class SsoSession {
     return captchaData;
   }
 
-  /// 登录统一认证平台
+  /// Login the single sign-on
   Future<Response> _postLoginRequest(String username, String hashedPassword, String captcha, String casTicket) async {
-    // 登录系统
-    final res = await dio.post(_loginUrl,
-        data: {
-          'username': username,
-          'password': hashedPassword,
-          'captchaResponse': captcha,
-          'lt': casTicket,
-          'dllt': 'userNamePasswordLogin',
-          'execution': 'e1s1',
-          '_eventId': 'submit',
-          'rmShown': '1',
+    // Login
+    final res = await dio.post(
+      _loginUrl,
+      data: {
+        'username': username,
+        'password': hashedPassword,
+        'captchaResponse': captcha,
+        'lt': casTicket,
+        'dllt': 'userNamePasswordLogin',
+        'execution': 'e1s1',
+        '_eventId': 'submit',
+        'rmShown': '1',
+      },
+      options: Options(
+        contentType: Headers.formUrlEncodedContentType,
+        followRedirects: false,
+        validateStatus: (status) {
+          return status! < 400;
         },
-        options: Options(
-          contentType: Headers.formUrlEncodedContentType,
-          followRedirects: false,
-          validateStatus: (status) {
-            return status! < 400;
-          },
-          headers: _neededHeaders,
-        ));
-    // 处理重定向
-    return await processRedirect(dio, res, headers: _neededHeaders);
+        headers: _neededHeaders,
+      ),
+    );
+    final debugDepths = <Response>[];
+    final finalResponse = await processRedirect(
+      dio,
+      res,
+      headers: _neededHeaders,
+      debugDepths: debugDepths,
+    );
+    return finalResponse;
   }
 
   Future<Response> request(
@@ -323,17 +345,21 @@ class SsoSession {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    try {
-      return await _request(
-        url,
-        queryParameters: para,
-        data: data,
-        options: options,
-      );
-    } catch (error, stackTrace) {
-      onError?.call(error, stackTrace);
-      rethrow;
-    }
+    networkLogger.i("$SsoSession.request ${DateTime.now().toIso8601String()}");
+    return await _ssoLock.run<Response>(() async {
+      networkLogger.i("$SsoSession.request-locked ${DateTime.now().toIso8601String()}");
+      try {
+        return await _request(
+          url,
+          queryParameters: para,
+          data: data,
+          options: options,
+        );
+      } catch (error, stackTrace) {
+        debugPrintError(error, stackTrace);
+        rethrow;
+      }
+    });
   }
 }
 

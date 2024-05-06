@@ -28,6 +28,10 @@ class CourseI18n {
 
   String get place => "$ns.place".tr();
 
+  String get campus => "$ns.campus".tr();
+
+  String get displayable => "$ns.displayable".tr();
+
   String teacher(int count) => "$ns.teacher".plural(count);
 
   String get credit => "$ns.credit".tr();

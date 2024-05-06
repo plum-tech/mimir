@@ -4,7 +4,6 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/entity/login_status.dart';
@@ -108,7 +107,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       await context.showTip(
         title: i18n.formatError,
         desc: i18n.validateInputAccountPwdRequest,
-        ok: i18n.close,
+        primary: i18n.close,
         serious: true,
       );
       return;
@@ -117,13 +116,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     if (!mounted) return;
     setState(() => isLoggingIn = true);
     final connectionType = await Connectivity().checkConnectivity();
-    if (connectionType == ConnectivityResult.none) {
+    if (connectionType.contains(ConnectivityResult.none)) {
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       await context.showTip(
         title: i18n.network.error,
         desc: i18n.network.noAccessTip,
-        ok: i18n.close,
+        primary: i18n.close,
         serious: true,
       );
       return;
@@ -193,12 +192,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               style: context.textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-      Padding(padding: EdgeInsets.only(top: 40.h)),
+      const Padding(padding: EdgeInsets.only(top: 40)),
       // Form field: username and password.
       buildLoginForm(),
-      SizedBox(height: 10.h),
+      const SizedBox(height: 10),
       buildLoginButton(),
-    ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25.h).center();
+    ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25).center();
   }
 
   Widget buildLoginForm() {
@@ -277,14 +276,19 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 label: i18n.login.text(),
               ),
       if (!widget.isGuarded)
-        OutlinedButton(
-          // Offline
-          onPressed: () {
-            CredentialsInit.storage.oaLoginStatus = LoginStatus.offline;
-            context.go("/");
-          },
-          child: i18n.offlineModeBtn.text(),
-        ),
+        $account >>
+            (ctx, account) =>
+                $password >>
+                (ctx, password) => OutlinedButton(
+                      // Offline
+                      onPressed: account.text.isNotEmpty || password.text.isNotEmpty
+                          ? null
+                          : () {
+                              CredentialsInit.storage.oaLoginStatus = LoginStatus.offline;
+                              context.go("/");
+                            },
+                      child: i18n.offlineModeBtn.text(),
+                    ),
     ].row(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.spaceAround);
   }
 }

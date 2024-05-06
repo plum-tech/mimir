@@ -12,10 +12,9 @@ import 'package:sit/game/widget/card.dart';
 import 'package:sit/me/edu_email/index.dart';
 import 'package:sit/me/widgets/greeting.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/qrcode/handle.dart';
+import 'package:sit/qrcode/utils.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/utils/error.dart';
-import 'package:sit/utils/guard_launch.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import "i18n.dart";
@@ -86,12 +85,13 @@ class _MePageState extends ConsumerState<MePage> {
       title: "QQ交流群".text(),
       subtitle: _qGroupNumber.text(),
       trailing: PlatformIconButton(
+        padding: EdgeInsets.zero,
         onPressed: () async {
           try {
             if (UniversalPlatform.isIOS || UniversalPlatform.isAndroid) {
               await launchUrlString(_joinQGroupMobileUri);
             } else {
-              await launchUrlString(_joinQGroupDesktopUri, mode: LaunchMode.externalApplication);
+              await launchUrlString(_joinQGroupDesktopUri, mode: LaunchMode.externalNonBrowserApplication);
             }
           } catch (error, stackTrace) {
             debugPrintError(error, stackTrace);
@@ -111,6 +111,7 @@ class _MePageState extends ConsumerState<MePage> {
       title: "微信公众号".text(),
       subtitle: "小应生活".text(),
       trailing: PlatformIconButton(
+        padding: EdgeInsets.zero,
         onPressed: () async {
           try {
             await launchUrlString(_wechatUri);
@@ -126,28 +127,7 @@ class _MePageState extends ConsumerState<MePage> {
   Widget buildScannerAction() {
     return PlatformIconButton(
       onPressed: () async {
-        final res = await context.push("/tools/scanner");
-        if (!mounted) return;
-        if (Dev.on) {
-          await context.showTip(title: "Result", desc: res.toString(), ok: i18n.ok);
-        }
-        if (!mounted) return;
-        if (res == null) return;
-        if (res is String) {
-          final result = await onHandleQrCodeUriStringData(context: context, data: res);
-          if (result == QrCodeHandleResult.success) {
-            return;
-          }
-          if (!mounted) return;
-          final maybeUri = Uri.tryParse(res);
-          if (maybeUri != null) {
-            await guardLaunchUrlString(context, res);
-            return;
-          }
-          await context.showTip(title: "Result", desc: res.toString(), ok: i18n.ok);
-        } else {
-          await context.showTip(title: "Result", desc: res.toString(), ok: i18n.ok);
-        }
+        await recognizeQrCode(context);
       },
       icon: const Icon(Icons.qr_code_scanner_outlined),
     );

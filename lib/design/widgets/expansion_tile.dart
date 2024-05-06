@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // thanks to "https://github.com/simplewidgets/rounded_expansion_tile"
-const _kDefaultDuration = Duration(milliseconds: 300);
+const _kDefaultDuration = Durations.medium4;
 
 class AnimatedExpansionTile extends StatefulWidget {
   final List<Widget> children;

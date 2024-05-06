@@ -22,12 +22,20 @@ class MainStagePage extends StatefulWidget {
 typedef _NavigationDest = ({Widget icon, Widget activeIcon, String label});
 
 extension _NavigationDestX on _NavigationDest {
-  BottomNavigationBarItem toBarItem() {
-    return BottomNavigationBarItem(icon: icon, activeIcon: activeIcon, label: label);
+  NavigationDestination toBarItem() {
+    return NavigationDestination(
+      icon: icon,
+      selectedIcon: activeIcon,
+      label: label,
+    );
   }
 
   NavigationRailDestination toRailDest() {
-    return NavigationRailDestination(icon: icon, selectedIcon: activeIcon, label: label.text());
+    return NavigationRailDestination(
+      icon: icon,
+      selectedIcon: activeIcon,
+      label: label.text(),
+    );
   }
 }
 
@@ -83,7 +91,7 @@ class _MainStagePageState extends State<MainStagePage> {
     if (context.isPortrait) {
       return Scaffold(
         body: widget.navigationShell,
-        bottomNavigationBar: buildButtonNavigationBar(),
+        bottomNavigationBar: buildNavigationBar(),
       );
     } else {
       return Scaffold(
@@ -96,16 +104,11 @@ class _MainStagePageState extends State<MainStagePage> {
     }
   }
 
-  Widget buildButtonNavigationBar() {
-    return BottomNavigationBar(
-      useLegacyColorScheme: false,
-      showUnselectedLabels: false,
-      enableFeedback: true,
-      type: BottomNavigationBarType.fixed,
-      landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
-      currentIndex: getSelectedIndex(),
-      onTap: onItemTapped,
-      items: items.map((e) => e.item.toBarItem()).toList(),
+  Widget buildNavigationBar() {
+    return NavigationBar(
+      selectedIndex: getSelectedIndex(),
+      onDestinationSelected: onItemTapped,
+      destinations: items.map((e) => e.item.toBarItem()).toList(),
     );
   }
 

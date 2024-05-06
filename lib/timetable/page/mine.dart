@@ -1,8 +1,9 @@
 import 'package:collection/collection.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/menu.dart';
@@ -12,90 +13,46 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/entry_card.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:sit/l10n/extension.dart';
+import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/route.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/page/ical.dart';
-import 'package:sit/timetable/platte.dart';
+import 'package:sit/timetable/palette.dart';
+import 'package:sit/timetable/qrcode/timetable.dart';
 import 'package:sit/timetable/widgets/course.dart';
 import 'package:sit/utils/format.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import '../entity/platte.dart';
+import '../entity/timetable_entity.dart';
 import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
 import '../utils.dart';
 import '../widgets/focus.dart';
 import '../widgets/style.dart';
+import 'import.dart';
 import 'preview.dart';
 
-class MyTimetableListPage extends StatefulWidget {
+class MyTimetableListPage extends ConsumerStatefulWidget {
   const MyTimetableListPage({super.key});
 
   @override
-  State<MyTimetableListPage> createState() => _MyTimetableListPageState();
+  ConsumerState<MyTimetableListPage> createState() => _MyTimetableListPageState();
 }
 
-class _MyTimetableListPageState extends State<MyTimetableListPage> {
-  final $timetableList = TimetableInit.storage.timetable.$any;
+class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
   final scrollController = ScrollController();
 
   @override
-  void initState() {
-    super.initState();
-    $timetableList.addListener(refresh);
-  }
-
-  @override
-  void dispose() {
-    $timetableList.removeListener(refresh);
-    super.dispose();
-  }
-
-  void refresh() {
-    setState(() {});
-  }
-
-  /// Import a new timetable.
-  /// Updates the selected timetable id.
-  /// If [TimetableSettings.autoUseImported] is enabled, the newly-imported will be used.
-  Future<void> goImport() async {
-    final ({int id, SitTimetable timetable})? result;
-    if (isLoginGuarded(context)) {
-      result = await importFromFile();
-    } else {
-      result = await importFromSchoolServer();
-    }
-
-    if (result != null) {
-      if (Settings.timetable.autoUseImported) {
-        TimetableInit.storage.timetable.selectedId = result.id;
-      } else {
-        // use this timetable if no one else
-        TimetableInit.storage.timetable.selectedId ??= result.id;
-      }
-    }
-  }
-
-  Future<({int id, SitTimetable timetable})?> importFromSchoolServer() async {
-    return await context.push<({int id, SitTimetable timetable})>("/timetable/import");
-  }
-
-  Future<({int id, SitTimetable timetable})?> importFromFile() async {
-    final timetable = await readTimetableFromPickedFileWithPrompt(context);
-    if (timetable == null) return null;
-    final id = TimetableInit.storage.timetable.add(timetable);
-    if (!mounted) return null;
-    return (id: id, timetable: timetable);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final timetables = TimetableInit.storage.timetable.getRows();
+    final storage = TimetableInit.storage.timetable;
+    final timetables = ref.watch(storage.$rows);
+    final selectedId = ref.watch(storage.$selectedId);
     timetables.sort((a, b) => b.row.lastModified.compareTo(a.row.lastModified));
-    final selectedId = TimetableInit.storage.timetable.selectedId;
     final actions = [
       if (Settings.focusTimetable)
         buildMoreActionsButton()
@@ -153,6 +110,54 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
     );
   }
 
+  /// Import a new timetable.
+  /// Updates the selected timetable id.
+  /// If [TimetableSettings.autoUseImported] is enabled, the newly-imported will be used.
+  Future<void> goImport() async {
+    SitTimetable? timetable;
+    final fromFile = isLoginGuarded(context);
+    if (fromFile) {
+      timetable = await importFromFile();
+    } else {
+      timetable = await importFromSchoolServer();
+    }
+    if (timetable == null) return;
+    // process timetable imported from file
+    // if (fromFile) {
+    //   if (!mounted) return;
+    //   final newTimetable = await processImportedTimetable(context, timetable);
+    //   if (newTimetable == null) return;
+    //   timetable = newTimetable;
+    // }
+
+    // prevent duplicate names
+    // timetable = timetable.copyWith(
+    //   name: allocValidFileName(
+    //     timetable.name,
+    //     all: TimetableInit.storage.timetable.getRows().map((e) => e.row.name).toList(growable: false),
+    //   ),
+    // );
+    final id = TimetableInit.storage.timetable.add(timetable);
+
+    if (Settings.timetable.autoUseImported) {
+      TimetableInit.storage.timetable.selectedId = id;
+    } else {
+      // use this timetable if no one else
+      TimetableInit.storage.timetable.selectedId ??= id;
+    }
+  }
+
+  Future<SitTimetable?> importFromSchoolServer() async {
+    return await context.push<SitTimetable>("/timetable/import");
+  }
+
+  Future<SitTimetable?> importFromFile() async {
+    final timetable = await readTimetableFromPickedFileWithPrompt(context);
+    if (timetable == null) return null;
+    if (!mounted) return null;
+    return timetable;
+  }
+
   Widget buildMoreActionsButton() {
     final focusMode = Settings.focusTimetable;
     return PullDownMenuButton(
@@ -192,6 +197,15 @@ class _MyTimetableListPageState extends State<MyTimetableListPage> {
   }
 }
 
+Future<void> editTimetablePatch({
+  required BuildContext context,
+  required int id,
+}) async {
+  var timetable = await context.push<SitTimetable>("/timetable/patch/edit/$id");
+  if (timetable == null) return;
+  TimetableInit.storage.timetable[id] = timetable.markModified();
+}
+
 class TimetableCard extends StatelessWidget {
   final SitTimetable timetable;
   final int id;
@@ -208,10 +222,6 @@ class TimetableCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final year = '${timetable.schoolYear}–${timetable.schoolYear + 1}';
-    final semester = timetable.semester.l10n();
-    final textTheme = context.textTheme;
-
     return EntryCard(
       title: timetable.name,
       selected: selected,
@@ -249,12 +259,9 @@ class TimetableCard extends StatelessWidget {
             activator: const SingleActivator(LogicalKeyboardKey.keyP),
             action: () async {
               if (!ctx.mounted) return;
-              await context.show$Sheet$(
-                (context) => TimetableStyleProv(
-                  child: TimetablePreviewPage(
-                    timetable: timetable,
-                  ),
-                ),
+              await previewTimetable(
+                context,
+                timetable: timetable,
               );
             },
           ),
@@ -264,13 +271,12 @@ class TimetableCard extends StatelessWidget {
           activator: const SingleActivator(LogicalKeyboardKey.keyE),
           action: () async {
             var newTimetable = await ctx.push<SitTimetable>("/timetable/edit/$id");
-            if (newTimetable != null) {
-              final newName = allocValidFileName(newTimetable.name);
-              if (newName != newTimetable.name) {
-                newTimetable = newTimetable.copyWith(name: newName);
-              }
-              TimetableInit.storage.timetable[id] = newTimetable;
+            if (newTimetable == null) return;
+            final newName = allocValidFileName(newTimetable.name);
+            if (newName != newTimetable.name) {
+              newTimetable = newTimetable.copyWith(name: newName);
             }
+            TimetableInit.storage.timetable[id] = newTimetable.markModified();
           },
         ),
         // share_plus: sharing files is not supported on Linux
@@ -291,6 +297,37 @@ class TimetableCard extends StatelessWidget {
           },
         ),
         EntryAction(
+          label: i18n.mine.patch,
+          icon: Icons.dashboard_customize,
+          action: () async {
+            await editTimetablePatch(context: ctx, id: id);
+          },
+        ),
+        if (kDebugMode)
+          EntryAction(
+            icon: context.icons.copy,
+            label: "[Dart] Timetable",
+            action: () async {
+              final code = timetable.toDartCode();
+              debugPrint(code);
+              await Clipboard.setData(ClipboardData(text: code));
+            },
+          ),
+        if (!kIsWeb && Dev.on)
+          EntryAction(
+            icon: context.icons.qrcode,
+            label: i18n.shareQrCode,
+            action: () async {
+              final qrCodeData = const TimetableDeepLink().encode(timetable);
+              await context.showSheet(
+                (context) => QrCodePage(
+                  title: TextScroll(timetable.name),
+                  data: qrCodeData.toString(),
+                ),
+              );
+            },
+          ),
+        EntryAction(
           label: i18n.duplicate,
           oneShot: true,
           icon: context.icons.copy,
@@ -303,20 +340,26 @@ class TimetableCard extends StatelessWidget {
         ),
       ],
       detailsBuilder: (ctx, actions) {
-        return TimetableDetailsPage(id: id, timetable: timetable, actions: actions?.call(ctx));
+        return TimetableStyleProv(
+          child: TimetableDetailsPage(
+            id: id,
+            timetable: timetable,
+            actions: actions?.call(ctx),
+          ),
+        );
       },
-      itemBuilder: (ctx) => [
-        timetable.name.text(style: textTheme.titleLarge),
-        "$year, $semester".text(style: textTheme.titleMedium),
-        if (timetable.signature.isNotEmpty) timetable.signature.text(style: textTheme.bodyMedium),
-        "${i18n.startWith} ${context.formatYmdText(timetable.startDate)}".text(style: textTheme.bodyMedium),
-      ],
+      itemBuilder: (ctx) {
+        return TimetableInfo(timetable: timetable);
+      },
     );
   }
 
   Future<void> onExportCalendar(BuildContext context, SitTimetable timetable) async {
-    final config =
-        await context.show$Sheet$<TimetableICalConfig>((context) => TimetableICalConfigEditor(timetable: timetable));
+    final config = await context.showSheet<TimetableICalConfig>(
+      (context) => TimetableICalConfigEditor(
+        timetable: timetable,
+      ),
+    );
     if (config == null) return;
     if (!context.mounted) return;
     await exportTimetableAsICalendarAndOpen(
@@ -327,7 +370,30 @@ class TimetableCard extends StatelessWidget {
   }
 }
 
-class TimetableDetailsPage extends StatefulWidget {
+class TimetableInfo extends StatelessWidget {
+  final SitTimetable timetable;
+
+  const TimetableInfo({
+    super.key,
+    required this.timetable,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = context.textTheme;
+    final year = '${timetable.schoolYear}–${timetable.schoolYear + 1}';
+    final semester = timetable.semester.l10n();
+
+    return [
+      timetable.name.text(style: textTheme.titleLarge),
+      "$year, $semester".text(style: textTheme.titleMedium),
+      if (timetable.signature.isNotEmpty) timetable.signature.text(style: textTheme.bodyMedium),
+      "${i18n.startWith} ${context.formatYmdText(timetable.startDate)}".text(style: textTheme.bodyMedium),
+    ].column(caa: CrossAxisAlignment.start);
+  }
+}
+
+class TimetableDetailsPage extends ConsumerWidget {
   final int id;
   final SitTimetable timetable;
   final List<Widget>? actions;
@@ -340,45 +406,12 @@ class TimetableDetailsPage extends StatefulWidget {
   });
 
   @override
-  State<TimetableDetailsPage> createState() => _TimetableDetailsPageState();
-}
-
-class _TimetableDetailsPageState extends State<TimetableDetailsPage> {
-  late final $row = TimetableInit.storage.timetable.listenRowChange(widget.id);
-  late var timetable = widget.timetable;
-  late var resolver = SitTimetablePaletteResolver(timetable);
-
-  @override
-  void initState() {
-    super.initState();
-    $row.addListener(refresh);
-  }
-
-  @override
-  void dispose() {
-    $row.removeListener(refresh);
-    super.dispose();
-  }
-
-  void refresh() {
-    final timetable = TimetableInit.storage.timetable[widget.id];
-    if (timetable == null) {
-      context.pop();
-      return;
-    } else {
-      setState(() {
-        this.timetable = timetable;
-        resolver = SitTimetablePaletteResolver(timetable);
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final timetable = this.timetable;
-    final actions = widget.actions;
-    final palette = TimetableInit.storage.palette.selectedRow ?? BuiltinTimetablePalettes.classic;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final timetable = ref.watch(TimetableInit.storage.timetable.$rowOf(id)) ?? this.timetable;
+    final resolver = SitTimetablePaletteResolver(timetable);
+    final palette = ref.watch(TimetableInit.storage.palette.$selectedRow) ?? BuiltinTimetablePalettes.classic;
     final code2Courses = timetable.courses.values.groupListsBy((c) => c.courseCode).entries.toList();
+    final style = TimetableStyle.of(context);
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -402,19 +435,21 @@ class _TimetableDetailsPageState extends State<TimetableDetailsPage> {
               title: i18n.signature.text(),
               subtitle: timetable.signature.text(),
             ),
-            const Divider(),
           ]),
+          if (code2Courses.isNotEmpty) const SliverToBoxAdapter(child: Divider()),
           SliverList.builder(
             itemCount: code2Courses.length,
             itemBuilder: (ctx, i) {
               final MapEntry(value: courses) = code2Courses[i];
               final template = courses.first;
+              final color = resolver.resolveColor(palette, template).byTheme(context.theme);
               return TimetableCourseCard(
                 courses: courses,
                 courseName: template.courseName,
                 courseCode: template.courseCode,
                 classCode: template.classCode,
-                color: resolver.resolveColor(palette, template).byTheme(context.theme),
+                campus: timetable.campus,
+                color: style.cellStyle.decorateColor(color, themeColor: ctx.colorScheme.primary),
               );
             },
           )
@@ -428,13 +463,18 @@ Future<void> onTimetableFromFile({
   required BuildContext context,
   required SitTimetable timetable,
 }) async {
-  final confirm = await context.showActionRequest(
-    desc: i18n.mine.addFromFileDesc,
-    action: i18n.mine.addFromFileAction,
-    cancel: i18n.cancel,
+  final newTimetable = await processImportedTimetable(
+    context,
+    timetable,
+    useRootNavigator: true,
   );
-  if (confirm != true) return;
-  TimetableInit.storage.timetable.add(timetable);
+  if (newTimetable == null) return;
+  final id = TimetableInit.storage.timetable.add(timetable);
+  if (Settings.timetable.autoUseImported) {
+    TimetableInit.storage.timetable.selectedId = id;
+  } else {
+    TimetableInit.storage.timetable.selectedId ??= id;
+  }
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
   context.push("/timetable/mine");

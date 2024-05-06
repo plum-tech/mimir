@@ -1,15 +1,18 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sit/game/settings.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/school/settings.dart';
-import 'package:sit/storage/hive/type_id.dart';
 import 'package:sit/timetable/settings.dart';
+import 'package:sit/utils/json.dart';
+import 'package:sit/utils/riverpod.dart';
+import 'package:statistics/statistics.dart';
 
 import '../life/settings.dart';
-
-part "settings.g.dart";
+import 'entity/proxy.dart';
 
 class _K {
   static const ns = "/settings";
@@ -35,6 +38,7 @@ class SettingsImpl {
   late final life = LifeSettings(box);
   late final timetable = TimetableSettings(box);
   late final school = SchoolSettings(box);
+  late final game = GameSettings(box);
   late final theme = _Theme(box);
   late final proxy = _Proxy(box);
 
@@ -86,7 +90,7 @@ class _Theme {
   }
 
   set themeColor(Color? v) {
-    box.safePut(_ThemeK.themeColor, v?.value);
+    box.safePut<int>(_ThemeK.themeColor, v?.value);
   }
 
   late final $themeColor = box.provider<Color>(
@@ -95,202 +99,121 @@ class _Theme {
     set: (v) => themeColor = v,
   );
 
-  bool get themeColorFromSystem => box.safeGet(_ThemeK.themeColorFromSystem) ?? true;
+  bool get themeColorFromSystem => box.safeGet<bool>(_ThemeK.themeColorFromSystem) ?? true;
 
-  set themeColorFromSystem(bool value) => box.safePut(_ThemeK.themeColorFromSystem, value);
+  set themeColorFromSystem(bool value) => box.safePut<bool>(_ThemeK.themeColorFromSystem, value);
 
   late final $themeColorFromSystem = box.provider<bool>(_ThemeK.themeColorFromSystem);
 
   /// [ThemeMode.system] by default.
-  ThemeMode get themeMode => box.safeGet(_ThemeK.themeMode) ?? ThemeMode.system;
+  ThemeMode get themeMode => box.safeGet<ThemeMode>(_ThemeK.themeMode) ?? ThemeMode.system;
 
-  set themeMode(ThemeMode value) => box.safePut(_ThemeK.themeMode, value);
+  set themeMode(ThemeMode value) => box.safePut<ThemeMode>(_ThemeK.themeMode, value);
 
   late final $themeMode = box.provider<ThemeMode>(_ThemeK.themeMode);
-}
-
-enum ProxyType {
-  http(
-    defaultHost: "localhost",
-    defaultPort: 3128,
-    supportedProtocols: [
-      "http",
-      "https",
-    ],
-    defaultProtocol: "http",
-  ),
-  https(
-    defaultHost: "localhost",
-    defaultPort: 443,
-    supportedProtocols: [
-      "http",
-      "https",
-    ],
-    defaultProtocol: "https",
-  ),
-  all(
-    defaultHost: "localhost",
-    defaultPort: 1080,
-    supportedProtocols: [
-      "socks5",
-    ],
-    defaultProtocol: "socks5",
-  );
-
-  final String defaultHost;
-  final int defaultPort;
-  final List<String> supportedProtocols;
-  final String defaultProtocol;
-
-  String l10n() => "settings.proxy.proxyType.$name".tr();
-
-  const ProxyType({
-    required this.defaultHost,
-    required this.defaultPort,
-    required this.supportedProtocols,
-    required this.defaultProtocol,
-  });
-
-  Uri buildDefaultUri() => Uri(scheme: defaultProtocol, host: defaultHost, port: defaultPort);
-
-  bool isDefaultUri(Uri uri) {
-    if (uri.scheme != defaultProtocol) return false;
-    if (uri.host != defaultHost) return false;
-    if (uri.port != defaultPort) return false;
-    if (uri.hasQuery) return false;
-    if (uri.hasFragment) return false;
-    if (uri.userInfo.isNotEmpty) return false;
-    return true;
-  }
-}
-
-@HiveType(typeId: CoreHiveType.proxyMode)
-enum ProxyMode {
-  @HiveField(0)
-  global,
-  @HiveField(1)
-  schoolOnly;
-
-  String l10nName() => "settings.proxy.proxyMode.$name.name".tr();
-
-  String l10nTip() => "settings.proxy.proxyMode.$name.tip".tr();
 }
 
 class _ProxyK {
   static const ns = '/proxy';
 
-  static String address(ProxyType type) => "$ns/${type.name}/address";
-
-  static String enabled(ProxyType type) => "$ns/${type.name}/enabled";
-
-  static String proxyMode(ProxyType type) => "$ns/${type.name}/proxyMode";
-}
-
-typedef ProxyProfileRecords = ({String? address, bool enabled, ProxyMode proxyMode});
-
-class ProxyProfile {
-  final Box box;
-  final ProxyType type;
-
-  ProxyProfile(this.box, String ns, this.type);
-
-  String? get address => box.safeGet(_ProxyK.address(type));
-
-  set address(String? newV) => box.safePut(_ProxyK.address(type), newV);
-
-  /// [false] by default.
-  bool get enabled => box.safeGet(_ProxyK.enabled(type)) ?? false;
-
-  set enabled(bool newV) => box.safePut(_ProxyK.enabled(type), newV);
-
-  /// [ProxyMode.schoolOnly] by default.
-  ProxyMode get proxyMode => box.safeGet(_ProxyK.proxyMode(type)) ?? ProxyMode.schoolOnly;
-
-  set proxyMode(ProxyMode newV) => box.safePut(_ProxyK.proxyMode(type), newV);
-
-  bool get isDefaultAddress {
-    final address = this.address;
-    if (address == null) return true;
-    final uri = Uri.tryParse(address);
-    if (uri == null) return true;
-    return type.isDefaultUri(uri);
-  }
+  static String keyOf(ProxyCat type) => "$ns/${type.name}";
 }
 
 class _Proxy {
   final Box box;
 
-  _Proxy(this.box)
-      : http = ProxyProfile(box, _ProxyK.ns, ProxyType.http),
-        https = ProxyProfile(box, _ProxyK.ns, ProxyType.https),
-        all = ProxyProfile(box, _ProxyK.ns, ProxyType.all);
+  _Proxy(this.box);
 
-  final ProxyProfile http;
-  final ProxyProfile https;
-  final ProxyProfile all;
+  ProxyProfile? getProfileOf(ProxyCat cat) =>
+      decodeJsonObject(box.safeGet<String>(_ProxyK.keyOf(cat)), (obj) => ProxyProfile.fromJson(obj));
 
-  ProxyProfile resolve(ProxyType type) {
-    return switch (type) {
-      ProxyType.http => http,
-      ProxyType.https => https,
-      ProxyType.all => all,
-    };
+  Future<void> setProfileOf(ProxyCat cat, ProxyProfile? newV) async =>
+      await box.safePut<String>(_ProxyK.keyOf(cat), encodeJsonObject(newV));
+
+  ProxyProfile? get http => getProfileOf(ProxyCat.http);
+
+  ProxyProfile? get https => getProfileOf(ProxyCat.https);
+
+  ProxyProfile? get all => getProfileOf(ProxyCat.all);
+
+  set http(ProxyProfile? profile) => setProfileOf(ProxyCat.http, profile);
+
+  set https(ProxyProfile? profile) => setProfileOf(ProxyCat.https, profile);
+
+  set all(ProxyProfile? profile) => setProfileOf(ProxyCat.all, profile);
+
+  List<ProxyProfile> get profiles {
+    final http = this.http;
+    final https = this.https;
+    final all = this.all;
+    return [
+      if (http != null) http,
+      if (https != null) https,
+      if (all != null) all,
+    ];
   }
 
-  void setProfile(ProxyType type, ProxyProfileRecords value) {
-    final profile = resolve(type);
-    profile.address = value.address;
-    profile.enabled = value.enabled;
-    profile.proxyMode = value.proxyMode;
-  }
-
-  bool get anyEnabled => http.enabled || https.enabled || all.enabled;
-
-  set anyEnabled(bool value) {
-    http.enabled = value;
-    https.enabled = value;
-    all.enabled = value;
-  }
-
-  Listenable listenAnyEnabled() => box.listenable(keys: ProxyType.values.map((type) => _ProxyK.enabled(type)).toList());
-
-  /// return null if their proxy mode are not identical.
-  ProxyMode? getIntegratedProxyMode() {
-    final httpMode = http.proxyMode;
-    final httpsMode = https.proxyMode;
-    final allMode = all.proxyMode;
-    if (httpMode == httpsMode && httpMode == allMode) {
-      return httpMode;
-    } else {
-      return null;
+  FutureOr<void> applyForeach(
+    FutureOr<void> Function(
+      ProxyCat cat,
+      ProxyProfile? profile,
+      Future<void> Function(ProxyProfile?) set,
+    ) func,
+  ) async {
+    for (final cat in ProxyCat.values) {
+      await func(cat, getProfileOf(cat), (newV) => setProfileOf(cat, newV));
     }
   }
 
-  setIntegratedProxyMode(ProxyMode mode) {
-    http.proxyMode = mode;
-    https.proxyMode = mode;
-    all.proxyMode = mode;
+  bool get anyEnabled => profiles.any((profile) => profile.enabled);
+
+  set anyEnabled(bool value) {
+    applyForeach((cat, profile, set) {
+      if (profile != null) {
+        set(profile.copyWith(enabled: value));
+      }
+    });
+  }
+
+  /// return null if their proxy mode are not identical.
+  ProxyMode? get integratedProxyMode {
+    final profiles = this.profiles;
+    return profiles.all((profile) => profile.mode == ProxyMode.schoolOnly)
+        ? ProxyMode.schoolOnly
+        : profiles.all((profile) => profile.mode == ProxyMode.global)
+            ? ProxyMode.global
+            : null;
+  }
+
+  set integratedProxyMode(ProxyMode? mode) {
+    applyForeach((cat, profile, set) {
+      if (profile != null) {
+        set(profile.copyWith(mode: mode));
+      }
+    });
   }
 
   /// return null if their proxy mode are not identical.
   bool hasAnyProxyMode(ProxyMode mode) {
-    return http.proxyMode == mode || https.proxyMode == mode || all.proxyMode == mode;
+    return http?.mode == mode || https?.mode == mode || all?.mode == mode;
   }
 
-  Listenable listenProxyMode() =>
-      box.listenable(keys: ProxyType.values.map((type) => _ProxyK.proxyMode(type)).toList());
+  late final $profileOf = box.providerFamily<ProxyProfile, ProxyCat>(
+    _ProxyK.keyOf,
+    get: getProfileOf,
+    set: setProfileOf,
+  );
 
-  Listenable listenAnyChange({bool address = true, bool enabled = true, ProxyType? type}) {
-    if (type == null) {
-      return box.listenable(keys: [
-        if (address) ProxyType.values.map((type) => _ProxyK.address(type)),
-        if (enabled) ProxyType.values.map((type) => _ProxyK.enabled(type)),
-      ]);
-    } else {
-      return box.listenable(keys: [
-        if (address) _ProxyK.address(type),
-        if (enabled) _ProxyK.enabled(type),
-      ]);
-    }
-  }
+  late final profilesListenable = box.listenable(
+    keys: ProxyCat.values.map((cat) => _ProxyK.keyOf(cat)).toList(),
+  );
+
+  late final $anyEnabled = profilesListenable.provider<bool>(
+    get: () => anyEnabled,
+    set: (newV) => anyEnabled = newV,
+  );
+  late final $integratedProxyMode = profilesListenable.provider<ProxyMode?>(
+    get: () => integratedProxyMode,
+    set: (newV) => integratedProxyMode = newV,
+  );
 }

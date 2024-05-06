@@ -1,4 +1,5 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:flutter/painting.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'background.g.dart';
@@ -29,6 +30,9 @@ class BackgroundImage {
   }) : path = "";
 
   bool get enabled => path.isNotEmpty;
+
+  ImageRepeat get imageRepeat => repeat ? ImageRepeat.repeat : ImageRepeat.noRepeat;
+  FilterQuality get filterQuality => antialias ? FilterQuality.low : FilterQuality.none;
 
   factory BackgroundImage.fromJson(Map<String, dynamic> json) => _$BackgroundImageFromJson(json);
 

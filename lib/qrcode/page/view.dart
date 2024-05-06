@@ -1,24 +1,17 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/l10n/tr.dart';
+import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/settings/dev.dart';
 
-class _I18n {
-  const _I18n();
-
-  static const ns = "qrCode";
-
-  List<InlineSpan> get hint => "$ns.hint".trSpan(args: {
-        "me": const WidgetSpan(child: Icon(Icons.person)),
-        "scan": const WidgetSpan(child: Icon(Icons.qr_code_scanner)),
-      });
-}
-
-const _i18n = _I18n();
+import '../i18n.dart';
 
 class QrCodePage extends StatelessWidget {
   final String data;
@@ -34,47 +27,53 @@ class QrCodePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final hugeQrCode = data.length > 512;
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            title: title,
+      appBar: AppBar(
+        title: title,
+      ),
+      body: [
+        LayoutBuilder(
+          builder: (ctx, box) {
+            final side = min(box.maxWidth, maxSize ?? double.infinity);
+            return PlainQrCodeView(
+              data: data,
+              size: side,
+            ).center().padSymmetric(h: hugeQrCode ? 0 : 16);
+          },
+        ),
+        RichText(
+          text: TextSpan(
+            style: context.textTheme.bodyLarge,
+            children: i18n.hint,
           ),
-          SliverToBoxAdapter(
-            child: LayoutBuilder(
-              builder: (ctx, box) {
-                final side = min(box.maxWidth, maxSize ?? 256.0);
-                return SizedBox(
-                  width: side,
-                  height: side,
-                  child: PlainQrCodeView(
-                    data: data,
-                  ),
-                ).center();
+        ).padAll(10),
+        if (Dev.on) ...[
+          ListTile(
+            title: "Text length: ${data.length}".text(),
+            trailing: PlatformIconButton(
+              icon: Icon(context.icons.copy),
+              onPressed: () async {
+                context.showSnackBar(content: "Copied".text());
+                await Clipboard.setData(ClipboardData(text: data));
               },
             ),
           ),
-          SliverToBoxAdapter(
-            child: RichText(
-              text: TextSpan(
-                style: context.textTheme.bodyLarge,
-                children: _i18n.hint,
-              ),
-            ).padAll(10),
-          )
+          SelectableText(data).padAll(10),
         ],
-      ),
+      ].column(),
     );
   }
 }
 
 class PlainQrCodeView extends StatelessWidget {
   final String data;
+  final double? size;
 
   const PlainQrCodeView({
     super.key,
     required this.data,
+    this.size,
   });
 
   @override
@@ -82,6 +81,7 @@ class PlainQrCodeView extends StatelessWidget {
     return QrImageView(
       backgroundColor: context.colorScheme.surface,
       data: data,
+      size: size,
       eyeStyle: QrEyeStyle(
         eyeShape: QrEyeShape.square,
         color: context.colorScheme.onSurface,

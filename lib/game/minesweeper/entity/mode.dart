@@ -13,15 +13,15 @@ class GameMode {
   );
   static const normal = GameMode._(
     name: "normal",
-    gameRows: 15,
-    gameColumns: 8,
-    gameMines: 18,
+    gameRows: defaultRows,
+    gameColumns: defaultColumns,
+    gameMines: 30,
   );
   static const hard = GameMode._(
     name: "hard",
-    gameRows: 15,
-    gameColumns: 8,
-    gameMines: 18,
+    gameRows: defaultRows,
+    gameColumns: defaultColumns,
+    gameMines: 43,
   );
 
   static final name2mode = {
@@ -29,6 +29,12 @@ class GameMode {
     "normal": normal,
     "hard": hard,
   };
+
+  static final all = [
+    easy,
+    normal,
+    hard,
+  ];
 
   const GameMode._({
     required this.name,

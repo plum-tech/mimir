@@ -1,26 +1,45 @@
+import 'dart:typed_data';
+
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
 import 'package:sit/entity/campus.dart';
-import 'package:sit/l10n/time.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/entity/timetable.dart';
-import 'package:sit/school/utils.dart';
-import 'package:sit/timetable/entity/platte.dart';
+import 'package:sit/settings/settings.dart';
+import 'package:sit/timetable/utils.dart';
+import 'package:sit/utils/byte_io/byte_io.dart';
+import 'package:statistics/statistics.dart';
 
-import '../utils.dart';
+import 'patch.dart';
 
 part 'timetable.g.dart';
 
 DateTime _kLastModified() => DateTime.now();
 
+List<TimetablePatchEntry> _patchesFromJson(List? list) {
+  return list
+          ?.map((e) => TimetablePatchEntry.fromJson(e as Map<String, dynamic>))
+          .where((patch) => patch is TimetablePatch ? patch.type != TimetablePatchType.unknown : true)
+          .toList() ??
+      const <TimetablePatchEntry>[];
+}
+
+Campus _defaultCampus() {
+  return Settings.campus;
+}
+
 @JsonSerializable()
 @CopyWith(skipFields: true)
+@immutable
 class SitTimetable {
   @JsonKey()
   final String name;
   @JsonKey()
   final DateTime startDate;
+  @JsonKey(unknownEnumValue: Campus.fengxian, defaultValue: _defaultCampus)
+  final Campus campus;
   @JsonKey()
   final int schoolYear;
   @JsonKey()
@@ -40,19 +59,35 @@ class SitTimetable {
   @JsonKey()
   final int version;
 
+  /// Timetable patches will be processed in list order.
+  @JsonKey(fromJson: _patchesFromJson)
+  final List<TimetablePatchEntry> patches;
+
   const SitTimetable({
     required this.courses,
     required this.lastCourseKey,
     required this.name,
     required this.startDate,
+    required this.campus,
     required this.schoolYear,
     required this.semester,
     required this.lastModified,
+    this.patches = const [],
     this.signature = "",
     this.version = 1,
   });
 
-  SitTimetableEntity resolve() => _resolveTimetableEntity(this);
+  SitTimetable markModified() {
+    return copyWith(
+      lastModified: DateTime.now(),
+    );
+  }
+
+  DateTime get endDate => startDate.copyWith(day: startDate.day + maxWeekLength * 7);
+
+  bool inRange(DateTime date) {
+    return startDate.isBefore(date) && date.isBefore(endDate);
+  }
 
   @override
   String toString() {
@@ -63,16 +98,135 @@ class SitTimetable {
       "semester": semester,
       "lastModified": lastModified,
       "signature": signature,
+      "patches": patches,
     }.toString();
   }
+
+  String toDartCode() {
+    return "SitTimetable("
+        'name:"$name",'
+        'signature:"$signature",'
+        "campus:$campus,"
+        'startDate:DateTime.parse("$startDate"),'
+        'lastModified:DateTime.now(),'
+        "courses:${courses.map((key, value) => MapEntry('"$key"', value.toDartCode()))},"
+        "schoolYear:$schoolYear,"
+        "semester:$semester,"
+        "lastCourseKey:$lastCourseKey,"
+        "version:$version,"
+        "patches:${patches.map((p) => p.toDartCode()).toList()},"
+        ")";
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SitTimetable &&
+        runtimeType == other.runtimeType &&
+        lastCourseKey == other.lastCourseKey &&
+        version == other.version &&
+        campus == other.campus &&
+        schoolYear == other.schoolYear &&
+        semester == other.semester &&
+        name == other.name &&
+        signature == other.signature &&
+        startDate == other.startDate &&
+        lastModified == other.lastModified &&
+        courses.equalsKeysValues(courses.keys, other.courses) &&
+        patches.equalsElements(other.patches);
+  }
+
+  @override
+  int get hashCode => Object.hash(
+        name,
+        signature,
+        lastCourseKey,
+        campus,
+        schoolYear,
+        semester,
+        startDate,
+        lastModified,
+        Object.hashAllUnordered(courses.entries.map((e) => (e.key, e.value))),
+        Object.hashAll(patches),
+        version,
+      );
 
   factory SitTimetable.fromJson(Map<String, dynamic> json) => _$SitTimetableFromJson(json);
 
   Map<String, dynamic> toJson() => _$SitTimetableToJson(this);
+
+  void serialize(ByteWriter writer) {
+    writer.uint8(version);
+    writer.strUtf8(name, ByteLength.bit8);
+    writer.strUtf8(signature, ByteLength.bit8);
+    writer.uint8(campus.index);
+    writer.uint8(schoolYear);
+    writer.uint8(semester.index);
+    writer.uint8(lastCourseKey);
+    writer.datePacked(startDate, 2000);
+    writer.uint8(courses.length);
+    for (final course in courses.values) {
+      course.serialize(writer);
+    }
+    writer.uint8(patches.length);
+    for (final patch in patches) {
+      TimetablePatchEntry.serialize(patch, writer);
+    }
+  }
+
+  static SitTimetable deserialize(ByteReader reader) {
+    // ignore: unused_local_variable
+    final revision = reader.uint8();
+    return SitTimetable(
+      name: reader.strUtf8(ByteLength.bit8),
+      signature: reader.strUtf8(ByteLength.bit8),
+      campus: Campus.values[reader.uint8()],
+      schoolYear: reader.uint8(),
+      semester: Semester.values[reader.uint8()],
+      lastCourseKey: reader.uint8(),
+      startDate: reader.datePacked(2000),
+      courses: Map.fromEntries(List.generate(reader.uint8(), (index) {
+        final course = SitCourse.deserialize(reader);
+        return MapEntry("${course.courseKey}", course);
+      })),
+      patches: List.generate(reader.uint8(), (index) {
+        return TimetablePatchEntry.deserialize(reader);
+      }),
+      lastModified: DateTime.now(),
+    );
+  }
+
+  static SitTimetable decodeByteList(Uint8List bytes) {
+    final reader = ByteReader(bytes);
+    return deserialize(reader);
+  }
+
+  static Uint8List encodeByteList(SitTimetable entry) {
+    final writer = ByteWriter(4096);
+    entry.serialize(writer);
+    return writer.build();
+  }
+}
+
+TimetableWeekIndices _weekIndicesFromJson(dynamic json) {
+  // for backwards support
+  if (json is Map) {
+    return TimetableWeekIndices(
+      (json['indices'] as List<dynamic>).map((e) => TimetableWeekIndex.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  } else {
+    return TimetableWeekIndices(
+      (json as List<dynamic>).map((e) => TimetableWeekIndex.fromJson(e as Map<String, dynamic>)).toList(),
+    );
+  }
+}
+
+dynamic _weekIndicesToJson(TimetableWeekIndices indices) {
+  return indices;
 }
 
 @JsonSerializable()
 @CopyWith(skipFields: true)
+@immutable
 class SitCourse {
   @JsonKey()
   final int courseKey;
@@ -82,12 +236,11 @@ class SitCourse {
   final String courseCode;
   @JsonKey()
   final String classCode;
-  @JsonKey(unknownEnumValue: Campus.fengxian)
-  final Campus campus;
+
   @JsonKey()
   final String place;
 
-  @JsonKey()
+  @JsonKey(fromJson: _weekIndicesFromJson, toJson: _weekIndicesToJson)
   final TimetableWeekIndices weekIndices;
 
   /// e.g.: (start:1, end: 3) means `2nd slot to 4th slot`.
@@ -104,54 +257,136 @@ class SitCourse {
   @JsonKey()
   final List<String> teachers;
 
+  @JsonKey()
+  final bool hidden;
+
   const SitCourse({
     required this.courseKey,
     required this.courseName,
     required this.courseCode,
     required this.classCode,
-    required this.campus,
     required this.place,
     required this.weekIndices,
     required this.timeslots,
     required this.courseCredit,
     required this.dayIndex,
     required this.teachers,
+    this.hidden = false,
   });
 
   @override
-  String toString() => "[$courseKey] $courseName";
+  String toString() => "#$courseKey($courseName: $place)";
 
   factory SitCourse.fromJson(Map<String, dynamic> json) => _$SitCourseFromJson(json);
 
   Map<String, dynamic> toJson() => _$SitCourseToJson(this);
+
+  String toDartCode() {
+    return "SitCourse("
+        "courseKey:$courseKey,"
+        'courseName:"$courseName",'
+        'courseCode:"$courseCode",'
+        'classCode:"$classCode",'
+        'place:"$place",'
+        "weekIndices:${weekIndices.toDartCode()},"
+        "timeslots:$timeslots,"
+        "courseCredit:$courseCredit,"
+        "dayIndex:$dayIndex,"
+        "teachers:${teachers.map((t) => '"$t"').toList(growable: false)},"
+        "hidden:$hidden,"
+        ")";
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is SitCourse &&
+        runtimeType == other.runtimeType &&
+        courseKey == other.courseKey &&
+        courseName == other.courseName &&
+        courseCode == other.courseCode &&
+        place == other.place &&
+        weekIndices == other.weekIndices &&
+        timeslots == other.timeslots &&
+        courseCredit == other.courseCredit &&
+        dayIndex == other.dayIndex &&
+        teachers.equalsElements(other.teachers) &&
+        hidden == other.hidden;
+  }
+
+  @override
+  int get hashCode => Object.hash(
+        courseKey,
+        courseName,
+        courseCode,
+        place,
+        weekIndices,
+        timeslots,
+        courseCredit,
+        dayIndex,
+        Object.hashAll(teachers),
+        hidden,
+      );
+
+  void serialize(ByteWriter writer) {
+    writer.uint8(courseKey);
+    writer.strUtf8(courseName, ByteLength.bit8);
+    writer.strUtf8(courseCode, ByteLength.bit8);
+    writer.strUtf8(classCode, ByteLength.bit8);
+    writer.strUtf8(place, ByteLength.bit8);
+    weekIndices.serialize(writer);
+    writer.uint8(timeslots.packedInt8());
+    writer.uint8((courseCredit * 10).toInt());
+    writer.uint8(dayIndex);
+    writer.uint8(teachers.length);
+    for (final teacher in teachers) {
+      writer.strUtf8(teacher, ByteLength.bit8);
+    }
+    writer.b(hidden);
+  }
+
+  static SitCourse deserialize(ByteReader reader) {
+    return SitCourse(
+      courseKey: reader.uint8(),
+      courseName: reader.strUtf8(ByteLength.bit8),
+      courseCode: reader.strUtf8(ByteLength.bit8),
+      classCode: reader.strUtf8(ByteLength.bit8),
+      place: reader.strUtf8(ByteLength.bit8),
+      weekIndices: TimetableWeekIndices.deserialize(reader),
+      timeslots: _unpackedInt8(reader.uint8()),
+      courseCredit: reader.uint8() * 0.1,
+      dayIndex: reader.uint8(),
+      teachers: List.generate(reader.uint8(), (index) {
+        return reader.strUtf8(ByteLength.bit8);
+      }),
+      hidden: reader.b(),
+    );
+  }
 }
 
-extension SitCourseEx on SitCourse {
-  List<ClassTime> get buildingTimetable => getTeachingBuildingTimetable(campus, place);
+List<ClassTime> buildingTimetableOf(Campus campus, [String? place]) => getTeachingBuildingTimetable(campus, place);
 
-  /// Based on [SitCourse.timeslots], compose a full-length class time.
-  /// Starts with the first part starts.
-  /// Ends with the last part ends.
-  ClassTime calcBeginEndTimePoint() {
-    final timetable = buildingTimetable;
-    final (:start, :end) = timeslots;
-    return (begin: timetable[start].begin, end: timetable[end].end);
-  }
+/// Based on [SitCourse.timeslots], compose a full-length class time.
+/// Starts with the first part starts.
+/// Ends with the last part ends.
+ClassTime calcBeginEndTimePoint(({int start, int end}) timeslots, Campus campus, [String? place]) {
+  final timetable = buildingTimetableOf(campus, place);
+  final (:start, :end) = timeslots;
+  return (begin: timetable[start].begin, end: timetable[end].end);
+}
 
-  List<ClassTime> calcBeginEndTimePointForEachLesson() {
-    final timetable = buildingTimetable;
-    final (:start, :end) = timeslots;
-    final result = <ClassTime>[];
-    for (var timeslot = start; timeslot <= end; timeslot++) {
-      result.add(timetable[timeslot]);
-    }
-    return result;
+List<ClassTime> calcBeginEndTimePointForEachLesson(({int start, int end}) timeslots, Campus campus, [String? place]) {
+  final timetable = buildingTimetableOf(campus, place);
+  final (:start, :end) = timeslots;
+  final result = <ClassTime>[];
+  for (var timeslot = start; timeslot <= end; timeslot++) {
+    result.add(timetable[timeslot]);
   }
+  return result;
+}
 
-  ClassTime calcBeginEndTimePointOfLesson(int timeslot) {
-    final timetable = buildingTimetable;
-    return timetable[timeslot];
-  }
+ClassTime calcBeginEndTimePointOfLesson(int timeslot, Campus campus, [String? place]) {
+  final timetable = buildingTimetableOf(campus, place);
+  return timetable[timeslot];
 }
 
 @JsonEnum()
@@ -172,6 +407,7 @@ enum TimetableWeekIndexType {
 
 @JsonSerializable()
 @CopyWith(skipFields: true)
+@immutable
 class TimetableWeekIndex {
   @JsonKey()
   final TimetableWeekIndexType type;
@@ -221,18 +457,42 @@ class TimetableWeekIndex {
     }
   }
 
+  void serialize(ByteWriter writer) {
+    writer.uint8(type.index);
+    writer.uint8(range.packedInt8());
+  }
+
+  static TimetableWeekIndex deserialize(ByteReader reader) {
+    return TimetableWeekIndex(
+      type: TimetableWeekIndexType.values[reader.uint8()],
+      range: _unpackedInt8(reader.uint8()),
+    );
+  }
+
+  String toDartCode() {
+    return "TimetableWeekIndex("
+        "type:$type,"
+        "range:$range,"
+        ")";
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is TimetableWeekIndex &&
+        runtimeType == other.runtimeType &&
+        type == other.type &&
+        range == other.range;
+  }
+
+  @override
+  int get hashCode => Object.hash(type, range);
+
   factory TimetableWeekIndex.fromJson(Map<String, dynamic> json) => _$TimetableWeekIndexFromJson(json);
 
   Map<String, dynamic> toJson() => _$TimetableWeekIndexToJson(this);
 }
 
-@JsonSerializable()
-class TimetableWeekIndices {
-  @JsonKey()
-  final List<TimetableWeekIndex> indices;
-
-  const TimetableWeekIndices(this.indices);
-
+extension type const TimetableWeekIndices(List<TimetableWeekIndex> indices) implements List<TimetableWeekIndex> {
   bool match(int weekIndex) {
     for (final index in indices) {
       if (index.match(weekIndex)) return true;
@@ -288,9 +548,28 @@ class TimetableWeekIndices {
     return res;
   }
 
-  factory TimetableWeekIndices.fromJson(Map<String, dynamic> json) => _$TimetableWeekIndicesFromJson(json);
+  void serialize(ByteWriter writer) {
+    writer.uint8(indices.length);
+    for (final index in indices) {
+      index.serialize(writer);
+    }
+  }
 
-  Map<String, dynamic> toJson() => _$TimetableWeekIndicesToJson(this);
+  static TimetableWeekIndices deserialize(ByteReader reader) {
+    return TimetableWeekIndices(List.generate(reader.uint8(), (index) {
+      return TimetableWeekIndex.deserialize(reader);
+    }));
+  }
+
+  // factory TimetableWeekIndices.fromJson(Map<String, dynamic> json) => _$TimetableWeekIndicesFromJson(json);
+  //
+  // Map<String, dynamic> toJson() => _$TimetableWeekIndicesToJson(this);
+
+  String toDartCode() {
+    return "TimetableWeekIndices("
+        "${indices.map((i) => i.toDartCode()).toList(growable: false)}"
+        ")";
+  }
 }
 
 /// If [range] is "1-8", the output will be `(start:0, end: 7)`.
@@ -327,27 +606,28 @@ String rangeToString(({int start, int end}) range) {
   }
 }
 
-class SitTimetableEntity with SitTimetablePaletteResolver {
-  @override
-  final SitTimetable type;
+extension _RangeX on ({int start, int end}) {
+  int packedInt8() {
+    return start << 4 | end;
+  }
+}
 
-  /// The Default number of weeks is 20.
-  final List<SitTimetableWeek> weeks;
+({int start, int end}) _unpackedInt8(int packed) {
+  return (start: packed >> 4 & 0xF, end: packed & 0xF);
+}
+
+abstract mixin class CourseCodeIndexer {
+  Iterable<SitCourse> get courses;
 
   final _courseCode2CoursesCache = <String, List<SitCourse>>{};
 
-  SitTimetableEntity({
-    required this.type,
-    required this.weeks,
-  });
-
-  List<SitCourse> findAndCacheCoursesByCourseCode(String courseCode) {
+  List<SitCourse> getCoursesByCourseCode(String courseCode) {
     final found = _courseCode2CoursesCache[courseCode];
     if (found != null) {
       return found;
     } else {
       final res = <SitCourse>[];
-      for (final course in type.courses.values) {
+      for (final course in courses) {
         if (course.courseCode == courseCode) {
           res.add(course);
         }
@@ -355,257 +635,5 @@ class SitTimetableEntity with SitTimetablePaletteResolver {
       _courseCode2CoursesCache[courseCode] = res;
       return res;
     }
-  }
-
-  String get name => type.name;
-
-  DateTime get startDate => type.startDate;
-
-  int get schoolYear => type.schoolYear;
-
-  Semester get semester => type.semester;
-
-  String get signature => type.signature;
-}
-
-class SitTimetableWeek {
-  final int index;
-
-  /// The 7 days in a week
-  final List<SitTimetableDay> days;
-
-  SitTimetableWeek({
-    required this.index,
-    required this.days,
-  });
-
-  factory SitTimetableWeek.$7days(int weekIndex) {
-    return SitTimetableWeek(
-      index: weekIndex,
-      days: List.generate(7, (index) => SitTimetableDay.$11slots(index)),
-    );
-  }
-
-  bool isFree() {
-    return days.every((day) => day.isFree());
-  }
-
-  @override
-  String toString() => "$days";
-
-  SitTimetableDay operator [](Weekday weekday) => days[weekday.index];
-
-  operator []=(Weekday weekday, SitTimetableDay day) => days[weekday.index] = day;
-}
-
-/// Lessons in the same Timeslot.
-class SitTimetableLessonSlot {
-  final List<SitTimetableLessonPart> lessons;
-
-  SitTimetableLessonSlot({required this.lessons});
-
-  SitTimetableLessonPart? lessonAt(int index) {
-    return lessons.elementAtOrNull(index);
-  }
-}
-
-class SitTimetableDay {
-  final int index;
-
-  /// The Default number of lesson in one day is 11. But the length of lessons can be more.
-  /// When two lessons are overlapped, it can be 12+.
-  /// A Timeslot contain one or more lesson.
-  final List<SitTimetableLessonSlot> timeslot2LessonSlot;
-
-  SitTimetableDay({
-    required this.index,
-    required this.timeslot2LessonSlot,
-  });
-
-  factory SitTimetableDay.$11slots(int dayIndex) {
-    return SitTimetableDay(
-      index: dayIndex,
-      timeslot2LessonSlot: List.generate(11, (index) => SitTimetableLessonSlot(lessons: [])),
-    );
-  }
-
-  bool isFree() {
-    return timeslot2LessonSlot.every((lessonSlot) => lessonSlot.lessons.isEmpty);
-  }
-
-  void add({required SitTimetableLessonPart lesson, required int at}) {
-    assert(0 <= at && at < timeslot2LessonSlot.length);
-    if (0 <= at && at < timeslot2LessonSlot.length) {
-      final lessonSlot = timeslot2LessonSlot[at];
-      lessonSlot.lessons.add(lesson);
-    }
-  }
-
-  /// At all lessons [layer]
-  Iterable<SitTimetableLessonPart> browseLessonsAt({required int layer}) sync* {
-    for (final lessonSlot in timeslot2LessonSlot) {
-      if (0 <= layer && layer < lessonSlot.lessons.length) {
-        yield lessonSlot.lessons[layer];
-      }
-    }
-  }
-
-  bool hasAnyLesson() {
-    for (final lessonSlot in timeslot2LessonSlot) {
-      if (lessonSlot.lessons.isNotEmpty) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  @override
-  String toString() => "$timeslot2LessonSlot";
-}
-
-class SitTimetableLesson {
-  /// The start index of this lesson in a [SitTimetableWeek]
-  final int startIndex;
-
-  /// The end index of this lesson in a [SitTimetableWeek]
-  final int endIndex;
-  final DateTime startTime;
-  final DateTime endTime;
-
-  /// A lesson may last two or more time slots.
-  /// If current [SitTimetableLessonPart] is a part of the whole lesson, they all have the same [courseKey].
-  final SitCourse course;
-
-  /// How many timeslots this lesson takes.
-  /// It's at least 1 timeslot.
-  int get timeslotDuration => endIndex - startIndex + 1;
-
-  SitTimetableLesson({
-    required this.course,
-    required this.startIndex,
-    required this.endIndex,
-    required this.startTime,
-    required this.endTime,
-  });
-}
-
-class SitTimetableLessonPart {
-  final SitTimetableLesson type;
-
-  /// The start index of this lesson in a [SitTimetableWeek]
-  final int index;
-
-  final DateTime startTime;
-  final DateTime endTime;
-
-  SitCourse get course => type.course;
-
-  const SitTimetableLessonPart({
-    required this.type,
-    required this.index,
-    required this.startTime,
-    required this.endTime,
-  });
-
-  @override
-  String toString() => "$course at $index";
-}
-
-SitTimetableEntity _resolveTimetableEntity(SitTimetable timetable) {
-  final weeks = List.generate(20, (index) => SitTimetableWeek.$7days(index));
-
-  for (final course in timetable.courses.values) {
-    final timeslots = course.timeslots;
-    for (final weekIndex in course.weekIndices.getWeekIndices()) {
-      assert(
-        0 <= weekIndex && weekIndex < maxWeekLength,
-        "Week index is more out of range [0,$maxWeekLength) but $weekIndex.",
-      );
-      if (0 <= weekIndex && weekIndex < maxWeekLength) {
-        final week = weeks[weekIndex];
-        final day = week.days[course.dayIndex];
-        final thatDay = reflectWeekDayIndexToDate(
-          weekIndex: week.index,
-          weekday: Weekday.fromIndex(day.index),
-          startDate: timetable.startDate,
-        );
-        final fullClassTime = course.calcBeginEndTimePoint();
-        final lesson = SitTimetableLesson(
-          course: course,
-          startIndex: timeslots.start,
-          endIndex: timeslots.end,
-          startTime: thatDay.addTimePoint(fullClassTime.begin),
-          endTime: thatDay.addTimePoint(fullClassTime.end),
-        );
-        for (int slot = timeslots.start; slot <= timeslots.end; slot++) {
-          final classTime = course.calcBeginEndTimePointOfLesson(slot);
-          day.add(
-            at: slot,
-            lesson: SitTimetableLessonPart(
-              type: lesson,
-              index: slot,
-              startTime: thatDay.addTimePoint(classTime.begin),
-              endTime: thatDay.addTimePoint(classTime.end),
-            ),
-          );
-        }
-      }
-    }
-  }
-  return SitTimetableEntity(
-    type: timetable,
-    weeks: weeks,
-  );
-}
-
-sealed class TimetableIssue {}
-
-class TimetableEmptyIssue implements TimetableIssue {
-  const TimetableEmptyIssue();
-}
-
-class TimetableCourseOverlapIssue implements TimetableIssue {
-  final List<String> courseKeys;
-  final int weekIndex;
-  final Weekday weekday;
-  final ({int start, int end}) timeslots;
-
-  const TimetableCourseOverlapIssue({
-    required this.courseKeys,
-    required this.weekIndex,
-    required this.weekday,
-    required this.timeslots,
-  });
-}
-
-/// Two or more lessons in the same course overlap.
-class TimetableDuplicateCourseOverlapIssue implements TimetableIssue {
-  const TimetableDuplicateCourseOverlapIssue();
-}
-
-extension SitTimetableX on SitTimetable {
-  List<TimetableIssue> inspect() {
-    final issues = <TimetableIssue>[];
-    // check if
-    if (courses.isEmpty) {
-      issues.add(const TimetableEmptyIssue());
-    }
-    final entity = resolve();
-    for (final week in entity.weeks) {
-      for (final day in week.days) {
-        for (var timeslot = 0; timeslot < day.timeslot2LessonSlot.length; timeslot++) {
-          final lessonSlot = day.timeslot2LessonSlot[timeslot];
-          if (lessonSlot.lessons.length >= 2) {
-            issues.add(TimetableCourseOverlapIssue(
-              courseKeys: lessonSlot.lessons.map((l) => l.course.courseCode).toList(),
-              weekIndex: week.index,
-              weekday: Weekday.values[day.index],
-              timeslots: (start: timeslot, end: timeslot),
-            ));
-          }
-        }
-      }
-    }
-    return issues;
   }
 }

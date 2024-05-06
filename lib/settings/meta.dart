@@ -14,11 +14,11 @@ class MetaImpl {
 
   const MetaImpl(this.box);
 
-  DateTime? get lastLaunchTime => box.safeGet(_K.lastLaunchTime);
+  DateTime? get lastLaunchTime => box.safeGet<DateTime>(_K.lastLaunchTime);
 
-  set lastLaunchTime(DateTime? newV) => box.safePut(_K.lastLaunchTime, newV);
+  set lastLaunchTime(DateTime? newV) => box.safePut<DateTime>(_K.lastLaunchTime, newV);
 
-  DateTime? get thisLaunchTime => box.safeGet(_K.thisLaunchTime);
+  DateTime? get thisLaunchTime => box.safeGet<DateTime>(_K.thisLaunchTime);
 
-  set thisLaunchTime(DateTime? newV) => box.safePut(_K.thisLaunchTime, newV);
+  set thisLaunchTime(DateTime? newV) => box.safePut<DateTime>(_K.thisLaunchTime, newV);
 }

@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
@@ -16,11 +15,13 @@ import 'package:sit/files.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/entity/background.dart';
+import 'package:sit/utils/images.dart';
+import 'package:sit/utils/save.dart';
 import 'package:sit/widgets/modal_image_view.dart';
 import 'package:universal_platform/universal_platform.dart';
 import "../../i18n.dart";
 
-/// Persist changes to storage before route popping
+/// It persists changes to storage before route popping
 class TimetableBackgroundEditor extends StatefulWidget {
   const TimetableBackgroundEditor({super.key});
 
@@ -62,31 +63,36 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
   @override
   Widget build(BuildContext context) {
     final rawPath = this.rawPath;
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar.medium(
-            title: i18n.p13n.background.title.text(),
-            actions: [
-              PlatformTextButton(
-                onPressed: buildBackgroundImage() == Settings.timetable.backgroundImage ? null : onSave,
-                child: i18n.save.text(),
-              ),
-            ],
-          ),
-          SliverList.list(children: [
-            buildImage().padH(10),
-            buildToolBar().padV(4),
-            if (rawPath != null && (Dev.on || (UniversalPlatform.isDesktop || kIsWeb)))
-              ListTile(
-                title: i18n.p13n.background.selectedImage.text(),
-                subtitle: rawPath.text(),
-              ),
-            buildOpacity(),
-            buildRepeat(),
-            buildAntialias(),
-          ]),
-        ],
+    final canSave = buildBackgroundImage() != Settings.timetable.backgroundImage;
+    return PromptSaveBeforeQuitScope(
+      changed: canSave,
+      onSave: onSave,
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar.medium(
+              title: i18n.p13n.background.title.text(),
+              actions: [
+                PlatformTextButton(
+                  onPressed: !canSave ? null : onSave,
+                  child: i18n.save.text(),
+                ),
+              ],
+            ),
+            SliverList.list(children: [
+              buildImage().padH(10),
+              buildToolBar().padV(4),
+              if (rawPath != null && (Dev.on || (UniversalPlatform.isDesktop || kIsWeb)))
+                ListTile(
+                  title: i18n.p13n.background.selectedImage.text(),
+                  subtitle: rawPath.text(),
+                ),
+              buildOpacity(),
+              buildRepeat(),
+              buildAntialias(),
+            ]),
+          ],
+        ),
       ),
     );
   }
@@ -130,29 +136,16 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     if (renderImageFile == null) return;
     Settings.timetable.backgroundImage = background;
     if (renderImageFile.path != Files.timetable.backgroundFile.path) {
-      await copyCompressedImageToTarget(source: renderImageFile, target: Files.timetable.backgroundFile.path);
+      await copyCompressedImageToTarget(
+        source: renderImageFile,
+        target: Files.timetable.backgroundFile.path,
+      );
       await img.evict();
       if (!mounted) return;
       await precacheImage(img, context);
     }
     if (!mounted) return;
     context.pop(background);
-  }
-
-  Future<void> copyCompressedImageToTarget({
-    required File source,
-    required String target,
-  }) async {
-    if (source.path == target) return;
-    if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
-      FlutterImageCompress.validator.ignoreCheckExtName = true;
-      await FlutterImageCompress.compressAndGetFile(
-        source.path,
-        target,
-      );
-    } else {
-      source.copy(target);
-    }
   }
 
   Future<void> chooseImage() async {
@@ -176,7 +169,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
       await context.showTip(
         title: i18n.p13n.background.invalidURL,
         desc: i18n.p13n.background.invalidURLDesc,
-        ok: i18n.ok,
+        primary: i18n.ok,
       );
       return;
     }
@@ -247,6 +240,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     final filterQuality = antialias ? FilterQuality.low : FilterQuality.none;
     if (renderImageFile != null) {
       return ModalImageViewer(
+        hereTag: rawPath,
         child: Image.file(
           renderImageFile,
           opacity: $opacity,
@@ -256,6 +250,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
       );
     } else if (kIsWeb && rawPath != null) {
       return ModalImageViewer(
+        hereTag: rawPath,
         child: Image.network(
           rawPath,
           opacity: $opacity,

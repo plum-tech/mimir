@@ -19,24 +19,28 @@ Future<Response> processRedirect(
   Dio dio,
   Response response, {
   Map<String, dynamic>? headers,
+  List<Response>? debugDepths,
 }) async {
-  //Prevent the redirect being processed by HttpClient, with the 302 response caught manually.
+  debugDepths?.add(response);
+  // Prevent the redirect being processed by HttpClient, with the 302 response caught manually.
   if (response.statusCode == 302 && response.headers['location'] != null && response.headers['location']!.isNotEmpty) {
     String location = response.headers['location']![0];
     if (location.isEmpty) return response;
     if (!Uri.parse(location).isAbsolute) {
       location = '${response.requestOptions.uri.origin}/$location';
     }
+    final redirectedResponse = await dio.get(
+      location,
+      options: disableRedirectFormEncodedOptions(
+        responseType: response.requestOptions.responseType,
+        headers: headers,
+      ),
+    );
     return processRedirect(
       dio,
-      await dio.get(
-        location,
-        options: disableRedirectFormEncodedOptions(
-          responseType: response.requestOptions.responseType,
-          headers: headers,
-        ),
-      ),
+      redirectedResponse,
       headers: headers,
+      debugDepths: debugDepths,
     );
   } else {
     return response;

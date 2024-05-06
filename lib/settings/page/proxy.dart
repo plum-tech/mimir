@@ -3,30 +3,35 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/list_tile.dart';
+import 'package:sit/init.dart';
 import 'package:sit/network/widgets/checker.dart';
 import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/dev.dart';
+import 'package:sit/utils/error.dart';
+import 'package:sit/utils/save.dart';
+import '../entity/proxy.dart';
 import '../i18n.dart';
 import '../qrcode/proxy.dart';
 
-class ProxySettingsPage extends StatefulWidget {
+class ProxySettingsPage extends ConsumerStatefulWidget {
   const ProxySettingsPage({
     super.key,
   });
 
   @override
-  State<ProxySettingsPage> createState() => _ProxySettingsPageState();
+  ConsumerState<ProxySettingsPage> createState() => _ProxySettingsPageState();
 }
 
-class _ProxySettingsPageState extends State<ProxySettingsPage> {
+class _ProxySettingsPageState extends ConsumerState<ProxySettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,20 +50,23 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
               buildProxyModeSwitcher(),
               const Divider(),
               buildProxyTypeTile(
-                ProxyType.http,
+                ProxyCat.http,
                 icon: const Icon(Icons.http),
               ),
               buildProxyTypeTile(
-                ProxyType.https,
+                ProxyCat.https,
                 icon: const Icon(Icons.https),
               ),
               if (Dev.on)
                 buildProxyTypeTile(
-                  ProxyType.all,
+                  ProxyCat.all,
                   icon: const Icon(Icons.public),
                 ),
               const Divider(),
-              const TestConnectionTile(),
+              TestConnectionTile(
+                where: WhereToCheck.studentReg,
+                check: () async => await Init.ugRegSession.checkConnectivity(),
+              ),
               const ProxyShareQrCodeTile(),
             ]),
           ),
@@ -68,50 +76,56 @@ class _ProxySettingsPageState extends State<ProxySettingsPage> {
   }
 
   Widget buildProxyTypeTile(
-    ProxyType type, {
+    ProxyCat type, {
     required Widget icon,
   }) {
-    return Settings.proxy.listenAnyChange(type: type) >>
-        (ctx) {
-          final profile = Settings.proxy.resolve(type);
-          return ListTile(
-            leading: icon,
-            title: type.l10n().text(),
-            subtitle: profile.address?.text(),
-            trailing: const Icon(Icons.open_in_new),
-            onTap: () async {
-              final profile =
-                  await context.show$Sheet$<ProxyProfileRecords>((ctx) => ProxyProfileEditorPage(type: type));
-              if (profile != null) {
-                Settings.proxy.setProfile(type, profile);
-              }
-            },
-          );
-        };
+    final ProxyProfile? profile;
+    try {
+      profile = ref.watch(Settings.proxy.$profileOf(type));
+    } catch (error, stackTrace) {
+      debugPrintError(error, stackTrace);
+      rethrow;
+    }
+    return ListTile(
+      leading: icon,
+      title: type.l10n().text(),
+      subtitle: profile?.address.toString().text(),
+      trailing: const Icon(Icons.open_in_new),
+      onTap: () async {
+        final profile = await context.showSheet<dynamic>(
+          (ctx) => ProxyProfileEditorPage(type: type),
+        );
+        if (profile is ProxyProfile) {
+          ref.read(Settings.proxy.$profileOf(type).notifier).set(profile);
+        } else if (profile == ProxyProfile.clear) {
+          ref.read(Settings.proxy.$profileOf(type).notifier).set(null);
+        }
+      },
+    );
   }
 
   Widget buildEnableProxyToggle() {
-    return Settings.proxy.listenAnyEnabled() >>
-        (ctx) => _EnableProxyToggleTile(
-              enabled: Settings.proxy.anyEnabled,
-              onChanged: (newV) {
-                setState(() {
-                  Settings.proxy.anyEnabled = newV;
-                });
-              },
-            );
+    final anyEnabled = ref.watch(Settings.proxy.$anyEnabled);
+    return _EnableProxyToggleTile(
+      enabled: anyEnabled,
+      onChanged: (newV) {
+        setState(() {
+          ref.read(Settings.proxy.$anyEnabled.notifier).set?.call(newV);
+        });
+      },
+    );
   }
 
   Widget buildProxyModeSwitcher() {
-    return Settings.proxy.listenProxyMode() >>
-        (ctx) => _ProxyModeSwitcherTile(
-              proxyMode: Settings.proxy.getIntegratedProxyMode(),
-              onChanged: (value) {
-                setState(() {
-                  Settings.proxy.setIntegratedProxyMode(value);
-                });
-              },
-            );
+    final integratedProxyMode = ref.watch(Settings.proxy.$integratedProxyMode);
+    return _ProxyModeSwitcherTile(
+      proxyMode: integratedProxyMode,
+      onChanged: (value) {
+        setState(() {
+          ref.watch(Settings.proxy.$integratedProxyMode.notifier).set?.call(value);
+        });
+      },
+    );
   }
 }
 
@@ -123,7 +137,7 @@ Uri? _validateProxyUri(String uriString) {
   return uri;
 }
 
-Uri? _validateProxyUriForType(String uriString, ProxyType type) {
+Uri? _validateProxyUriForType(String uriString, ProxyCat type) {
   final uri = _validateProxyUri(uriString);
   if (uri == null) return null;
   return !type.supportedProtocols.contains(uri.scheme) ? null : uri;
@@ -144,11 +158,11 @@ class ProxyShareQrCodeTile extends StatelessWidget {
       onTap: () async {
         final proxy = Settings.proxy;
         final qrCodeData = const ProxyDeepLink().encode(
-          http: proxy.http.isDefaultAddress ? null : proxy.http.address,
-          https: proxy.https.isDefaultAddress ? null : proxy.https.address,
-          all: proxy.all.isDefaultAddress ? null : proxy.all.address,
+          http: proxy.http,
+          https: proxy.https,
+          all: proxy.all,
         );
-        context.show$Sheet$(
+        context.showSheet(
           (context) => QrCodePage(
             title: i18n.proxy.title.text(),
             data: qrCodeData.toString(),
@@ -161,9 +175,9 @@ class ProxyShareQrCodeTile extends StatelessWidget {
 
 Future<void> onProxyFromQrCode({
   required BuildContext context,
-  required Uri? http,
-  required Uri? https,
-  required Uri? all,
+  required ProxyProfile? http,
+  required ProxyProfile? https,
+  required ProxyProfile? all,
 }) async {
   final confirm = await context.showActionRequest(
     desc: i18n.proxy.setFromQrCodeDesc,
@@ -171,30 +185,41 @@ Future<void> onProxyFromQrCode({
     cancel: i18n.cancel,
   );
   if (confirm != true) return;
-  bool isValid(Uri? uri, ProxyType type) {
+  bool isValid(Uri? uri, ProxyCat type) {
     return uri == null ? true : _validateProxyUriForType(uri.toString(), type) != null;
   }
 
-  var valid = isValid(http, ProxyType.http) && isValid(https, ProxyType.https) && isValid(all, ProxyType.all);
+  var valid = isValid(http?.address, ProxyCat.http) &&
+      isValid(https?.address, ProxyCat.https) &&
+      isValid(all?.address, ProxyCat.all);
   if (!valid) {
     if (!context.mounted) return;
     context.showTip(
       title: i18n.error,
       desc: i18n.proxy.invalidProxyFormatTip,
-      ok: i18n.close,
+      primary: i18n.close,
     );
     return;
   }
-  if (http != null) Settings.proxy.resolve(ProxyType.http).address = http.toString();
-  if (https != null) Settings.proxy.resolve(ProxyType.https).address = https.toString();
-  if (all != null) Settings.proxy.resolve(ProxyType.all).address = all.toString();
+  final cat2Address = {
+    ProxyCat.http: http,
+    ProxyCat.https: https,
+    ProxyCat.all: all,
+  };
+  Settings.proxy.applyForeach((cat, profile, set) {
+    final profile = cat2Address[cat];
+    if (profile != null) {
+      set(profile);
+    }
+  });
+
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
   context.push("/settings/proxy");
 }
 
-class ProxyProfileEditorPage extends StatefulWidget {
-  final ProxyType type;
+class ProxyProfileEditorPage extends ConsumerStatefulWidget {
+  final ProxyCat type;
 
   const ProxyProfileEditorPage({
     super.key,
@@ -202,54 +227,77 @@ class ProxyProfileEditorPage extends StatefulWidget {
   });
 
   @override
-  State<ProxyProfileEditorPage> createState() => _ProxyProfileEditorPageState();
+  ConsumerState<ProxyProfileEditorPage> createState() => _ProxyProfileEditorPageState();
 }
 
-class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
-  late final profile = Settings.proxy.resolve(widget.type);
-  late var uri = (profile.address == null ? null : Uri.tryParse(profile.address!)) ?? type.buildDefaultUri();
-  late var enabled = profile.enabled;
-  late var globalMode = profile.proxyMode;
+class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage> {
+  late final profile = Settings.proxy.getProfileOf(widget.type);
+  late var uri = profile?.address;
+  late var enabled = profile?.enabled ?? false;
+  late var proxyMode = profile?.mode ?? ProxyMode.schoolOnly;
+  late var enableAuth = uri?.userInfo.isNotEmpty == true;
 
-  ProxyType get type => widget.type;
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  ProxyCat get type => widget.type;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            title: widget.type.l10n().text(),
-            actions: [
-              buildSaveAction(),
-            ],
-          ),
-          SliverList.list(children: [
-            buildEnableProxyToggle(),
-            buildProxyModeSwitcher(),
-            buildProxyUrlTile(),
-            const Divider(),
-            buildProxyProtocolTile(),
-            buildProxyHostTile(),
-            buildProxyPortTile(),
-            buildProxyAuthTile(),
-          ]),
-        ],
+    return PromptSaveBeforeQuitScope(
+      changed: buildProfile() != profile,
+      onSave: onSave,
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              title: widget.type.l10n().text(),
+              actions: [
+                PlatformTextButton(
+                  onPressed: uri?.toString().isNotEmpty == true
+                      ? () {
+                          setState(() {
+                            uri = null;
+                            enableAuth = false;
+                          });
+                        }
+                      : null,
+                  child: i18n.clear.text(),
+                ),
+                PlatformTextButton(
+                  onPressed: onSave,
+                  child: i18n.save.text(),
+                ),
+              ],
+            ),
+            SliverList.list(children: [
+              buildEnableProxyToggle(),
+              buildProxyModeSwitcher(),
+              buildProxyUrlTile(),
+              const Divider(),
+              buildProxyProtocolTile(),
+              buildProxyHostTile(),
+              buildProxyPortTile(),
+              buildEnableAuth(),
+              if (enableAuth) buildProxyAuthTile().padOnly(l: 32),
+            ]),
+          ],
+        ),
       ),
     );
   }
 
-  Widget buildSaveAction() {
-    return PlatformTextButton(
-      child: i18n.save.text(),
-      onPressed: () {
-        context.pop((address: uri.toString(), enabled: enabled, proxyMode: globalMode));
-      },
+  void onSave() {
+    context.pop(buildProfile() ?? ProxyProfile.clear);
+  }
+
+  ProxyProfile? buildProfile() {
+    var uri = this.uri;
+    if (uri == null) return null;
+    if (!enableAuth) {
+      uri = uri.replace(userInfo: "");
+    }
+    return ProxyProfile(
+      address: uri,
+      enabled: enabled,
+      mode: proxyMode,
     );
   }
 
@@ -258,50 +306,40 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
     return DetailListTile(
       leading: const Icon(Icons.link),
       title: "URL",
-      subtitle: uri.toString(),
-      trailing: [
-        if (!type.isDefaultUri(uri))
-          PlatformIconButton(
-            onPressed: () {
-              setState(() {
-                this.uri = type.buildDefaultUri();
-              });
-            },
-            icon: Icon(context.icons.delete),
-          ),
-        PlatformIconButton(
-          icon: Icon(context.icons.edit),
-          onPressed: () async {
-            var newFullProxy = await Editor.showStringEditor(
-              context,
-              desc: i18n.proxy.title,
-              initial: uri.toString(),
+      subtitle: uri?.toString(),
+      trailing: PlatformIconButton(
+        icon: Icon(context.icons.edit),
+        onPressed: () async {
+          var newFullProxy = await Editor.showStringEditor(
+            context,
+            desc: i18n.proxy.title,
+            initial: uri?.toString() ?? type.buildDefaultUri().toString(),
+          );
+          if (newFullProxy == null) return;
+          newFullProxy = newFullProxy.trim();
+          final newUri = _validateProxyUriForType(newFullProxy, type);
+          if (newUri == null) {
+            if (!mounted) return;
+            context.showTip(
+              title: i18n.error,
+              desc: i18n.proxy.invalidProxyFormatTip,
+              primary: i18n.close,
             );
-            if (newFullProxy == null) return;
-            newFullProxy = newFullProxy.trim();
-            final newUri = _validateProxyUriForType(newFullProxy, type);
-            if (newUri == null) {
-              if (!mounted) return;
-              context.showTip(
-                title: i18n.error,
-                desc: i18n.proxy.invalidProxyFormatTip,
-                ok: i18n.close,
-              );
-              return;
-            }
-            if (newUri != uri) {
-              setState(() {
-                this.uri = newUri;
-              });
-            }
-          },
-        ),
-      ].wrap(),
+            return;
+          }
+          if (newUri != uri) {
+            setState(() {
+              this.uri = newUri;
+              enableAuth = newUri.userInfo.isNotEmpty;
+            });
+          }
+        },
+      ),
     );
   }
 
   Widget buildProxyProtocolTile() {
-    final scheme = uri.scheme.toLowerCase();
+    final scheme = uri?.scheme.toLowerCase();
     return ListTile(
       isThreeLine: true,
       leading: const Icon(Icons.https),
@@ -312,7 +350,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
                 selected: protocol == scheme,
                 onSelected: (value) {
                   setState(() {
-                    uri = uri.replace(
+                    uri = uri?.replace(
                       scheme: protocol.toLowerCase(),
                     );
                   });
@@ -324,7 +362,7 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
   }
 
   Widget buildProxyHostTile() {
-    final host = uri.host;
+    final host = uri?.host;
     return DetailListTile(
       leading: const Icon(Icons.link),
       title: i18n.proxy.hostname,
@@ -335,13 +373,13 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
           final newHostRaw = await Editor.showStringEditor(
             context,
             desc: i18n.proxy.hostname,
-            initial: host,
+            initial: host ?? type.defaultHost,
           );
           if (newHostRaw == null) return;
           final newHost = newHostRaw.trim();
           if (newHost != host) {
             setState(() {
-              uri = uri.replace(
+              uri = uri?.replace(
                 host: newHost,
               );
             });
@@ -352,23 +390,23 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
   }
 
   Widget buildProxyPortTile() {
-    int port = uri.port;
+    final port = uri?.port;
     return DetailListTile(
       leading: const Icon(Icons.settings_input_component_outlined),
       title: i18n.proxy.port,
-      subtitle: port.toString(),
+      subtitle: port?.toString(),
       trailing: PlatformIconButton(
         icon: Icon(context.icons.edit),
         onPressed: () async {
           final newPort = await Editor.showIntEditor(
             context,
             desc: i18n.proxy.port,
-            initial: port,
+            initial: port ?? type.defaultPort,
           );
           if (newPort == null) return;
           if (newPort != port) {
             setState(() {
-              uri = uri.replace(
+              uri = uri?.replace(
                 port: newPort,
               );
             });
@@ -378,48 +416,54 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
     );
   }
 
-  Widget buildProxyAuthTile() {
-    final userInfoParts = uri.userInfo.split(":");
-    final auth = userInfoParts.length == 2 ? (username: userInfoParts[0], password: userInfoParts[1]) : null;
-    final text = auth != null ? "${auth.username}:${auth.password}" : null;
+  Widget buildEnableAuth() {
     return ListTile(
       leading: const Icon(Icons.key),
-      title: i18n.proxy.authentication.text(),
-      subtitle: text?.text(),
-      trailing: [
-        if (auth != null)
-          PlatformIconButton(
-            onPressed: () {
-              setState(() {
-                uri = uri.replace(userInfo: "");
-              });
-            },
-            icon: Icon(context.icons.delete),
-          ),
-        PlatformIconButton(
-          icon: Icon(context.icons.edit),
-          onPressed: () async {
-            final newAuth = await showAdaptiveDialog<({String username, String password})>(
-              context: context,
-              builder: (_) => StringsEditor(
-                fields: [
-                  (name: "username", initial: auth?.username ?? ""),
-                  (name: "password", initial: auth?.password ?? ""),
-                ],
-                title: i18n.proxy.authentication,
-                ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
-              ),
-            );
-            if (newAuth != null && newAuth != auth) {
-              setState(() {
-                uri = uri.replace(
-                    userInfo:
-                        newAuth.password.isNotEmpty ? "${newAuth.username}:${newAuth.password}" : newAuth.username);
-              });
-            }
-          },
-        ),
-      ].wrap(),
+      title: i18n.proxy.enableAuth.text(),
+      trailing: Switch.adaptive(
+        value: enableAuth,
+        onChanged: (newV) {
+          setState(() {
+            enableAuth = newV;
+          });
+        },
+      ),
+    );
+  }
+
+  Widget buildProxyAuthTile() {
+    final userInfoParts = uri?.userInfo.split(":");
+    final auth = userInfoParts == null
+        ? null
+        : userInfoParts.length == 2
+            ? (username: userInfoParts[0], password: userInfoParts[1])
+            : null;
+    final text = auth != null ? "${auth.username}:${auth.password}" : null;
+    return DetailListTile(
+      title: i18n.proxy.authentication,
+      subtitle: text,
+      trailing: PlatformIconButton(
+        icon: Icon(context.icons.edit),
+        onPressed: () async {
+          final newAuth = await showAdaptiveDialog<({String username, String password})>(
+            context: context,
+            builder: (_) => StringsEditor(
+              fields: [
+                (name: "username", initial: auth?.username ?? ""),
+                (name: "password", initial: auth?.password ?? ""),
+              ],
+              title: i18n.proxy.authentication,
+              ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
+            ),
+          );
+          if (newAuth != null && newAuth != auth) {
+            setState(() {
+              uri = uri?.replace(
+                  userInfo: newAuth.password.isNotEmpty ? "${newAuth.username}:${newAuth.password}" : newAuth.username);
+            });
+          }
+        },
+      ),
     );
   }
 
@@ -436,10 +480,10 @@ class _ProxyProfileEditorPageState extends State<ProxyProfileEditorPage> {
 
   Widget buildProxyModeSwitcher() {
     return _ProxyModeSwitcherTile(
-      proxyMode: globalMode,
+      proxyMode: proxyMode,
       onChanged: (value) {
         setState(() {
-          globalMode = value;
+          proxyMode = value;
         });
       },
     );
@@ -451,7 +495,6 @@ class _EnableProxyToggleTile extends StatelessWidget {
   final ValueChanged<bool> onChanged;
 
   const _EnableProxyToggleTile({
-    super.key,
     required this.enabled,
     required this.onChanged,
   });
@@ -475,7 +518,6 @@ class _ProxyModeSwitcherTile extends StatelessWidget {
   final ValueChanged<ProxyMode> onChanged;
 
   const _ProxyModeSwitcherTile({
-    super.key,
     required this.proxyMode,
     required this.onChanged,
   });

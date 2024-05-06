@@ -20,7 +20,7 @@ import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
-import 'editor.dart';
+import 'edit/editor.dart';
 
 enum ImportStatus {
   none,
@@ -29,6 +29,7 @@ enum ImportStatus {
   failed;
 }
 
+/// It doesn't persist changes to storage before route popping.
 class ImportTimetablePage extends ConsumerStatefulWidget {
   const ImportTimetablePage({super.key});
 
@@ -54,7 +55,10 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
       appBar: AppBar(
         title: i18n.import.title.text(),
         actions: [
-          PlatformTextButton(onPressed: importFromFile, child: i18n.import.fromFileBtn.text()),
+          PlatformTextButton(
+            onPressed: importFromFile,
+            child: i18n.import.fromFileBtn.text(),
+          ),
         ],
         bottom: !isImporting
             ? null
@@ -71,11 +75,13 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
   }
 
   Future<void> importFromFile() async {
-    final timetable = await readTimetableFromPickedFileWithPrompt(context);
+    var timetable = await readTimetableFromPickedFileWithPrompt(context);
     if (timetable == null) return;
-    final id = TimetableInit.storage.timetable.add(timetable);
     if (!mounted) return;
-    context.pop((id: id, timetable: timetable));
+    timetable = await processImportedTimetable(context, timetable);
+    if (timetable == null) return;
+    if (!mounted) return;
+    context.pop(timetable);
   }
 
   Widget buildConnectivityChecker(BuildContext ctx, Key? key) {
@@ -84,6 +90,7 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
       iconSize: ctx.isPortrait ? 180 : 120,
       initialDesc: i18n.import.connectivityCheckerDesc,
       check: TimetableInit.service.checkConnectivity,
+      where: WhereToCheck.studentReg,
       onConnected: () {
         if (!mounted) return;
         setState(() {
@@ -125,7 +132,7 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
     ].column(key: key, maa: MainAxisAlignment.center, caa: CrossAxisAlignment.center);
   }
 
-  Future<({int id, SitTimetable timetable})?> handleTimetableData(
+  Future<SitTimetable?> handleTimetableData(
     SitTimetable timetable,
     SemesterInfo info,
   ) async {
@@ -142,22 +149,17 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
         }
       }
     }
-    if (!mounted) return null;
-    final newTimetable = await context.show$Sheet$<SitTimetable>(
-      (ctx) => TimetableEditorPage(
-        timetable: timetable.copyWith(
-          name: defaultName,
-          semester: semester,
-          startDate: defaultStartDate,
-          schoolYear: exactYear,
-          signature: Settings.lastSignature,
-        ),
-      ),
-      dismissible: false,
+    timetable = timetable.copyWith(
+      name: defaultName,
+      semester: semester,
+      startDate: defaultStartDate,
+      schoolYear: exactYear,
+      signature: Settings.lastSignature,
     );
+    if (!mounted) return null;
+    final newTimetable = await processImportedTimetable(context, timetable);
     if (newTimetable != null) {
-      final id = TimetableInit.storage.timetable.add(newTimetable);
-      return (id: id, timetable: timetable);
+      return newTimetable;
     }
     return null;
   }
@@ -177,7 +179,7 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
     );
   }
 
-  Future<SitTimetable> getTimetable(SemesterInfo info) async {
+  Future<SitTimetable> fetchTimetable(SemesterInfo info) async {
     final userType = ref.read(CredentialsInit.storage.$oaUserType);
     return switch (userType) {
       OaUserType.undergraduate => TimetableInit.service.fetchUgTimetable(info),
@@ -193,15 +195,14 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
     });
     try {
       final selected = this.selected;
-      final timetable = await getTimetable(selected);
+      final timetable = await fetchTimetable(selected);
       if (!mounted) return;
       setState(() {
         _status = ImportStatus.end;
       });
-      final id2timetable = await handleTimetableData(timetable, selected);
-      if (id2timetable == null) return;
+      final newTimetable = await handleTimetableData(timetable, selected);
       if (!mounted) return;
-      context.pop(id2timetable);
+      context.pop(newTimetable);
     } catch (e, stackTrace) {
       if (e is ParallelWaitError) {
         final inner = e.errors.$1 as AsyncError;
@@ -215,7 +216,7 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
         _status = ImportStatus.failed;
       });
       if (!mounted) return;
-      await context.showTip(title: i18n.import.failed, desc: i18n.import.failedDesc, ok: i18n.ok);
+      await context.showTip(title: i18n.import.failed, desc: i18n.import.failedDesc, primary: i18n.ok);
     } finally {
       if (_status == ImportStatus.importing) {
         setState(() {
@@ -238,4 +239,19 @@ DateTime findFirstWeekdayInCurrentMonth(DateTime current, int weekday) {
   DateTime firstWeekdayInMonth = firstDayOfMonth.add(Duration(days: daysUntilWeekday));
 
   return firstWeekdayInMonth;
+}
+
+Future<SitTimetable?> processImportedTimetable(
+  BuildContext context,
+  SitTimetable timetable, {
+  bool useRootNavigator = false,
+}) async {
+  final newTimetable = await context.showSheet<SitTimetable>(
+    (ctx) => TimetableEditorPage(
+      timetable: timetable,
+    ),
+    useRootNavigator: true,
+    dismissible: false,
+  );
+  return newTimetable;
 }

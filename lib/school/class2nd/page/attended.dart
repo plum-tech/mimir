@@ -162,7 +162,12 @@ class _AttendedActivityPageState extends ConsumerState<AttendedActivityPage> {
                     itemCount: filteredActivities.length,
                     itemBuilder: (ctx, i) {
                       final activity = filteredActivities[i];
-                      return AttendedActivityCard(activity);
+                      return ActivityApplicationCard(
+                        activity,
+                        onWithdrawn: () {
+                          refresh(active: false);
+                        },
+                      );
                     },
                   ),
             ],
@@ -233,10 +238,15 @@ class _AttendedActivityPageState extends ConsumerState<AttendedActivityPage> {
   }
 }
 
-class AttendedActivityCard extends StatelessWidget {
+class ActivityApplicationCard extends StatelessWidget {
   final Class2ndAttendedActivity attended;
+  final VoidCallback? onWithdrawn;
 
-  const AttendedActivityCard(this.attended, {super.key});
+  const ActivityApplicationCard(
+    this.attended, {
+    super.key,
+    this.onWithdrawn,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -245,48 +255,53 @@ class AttendedActivityCard extends StatelessWidget {
     return Card.filled(
       clipBehavior: Clip.hardEdge,
       child: ListTile(
-          isThreeLine: true,
-          title: title.text(),
-          subtitleTextStyle: context.textTheme.bodyMedium,
-          subtitle: [
-            "${attended.category.l10nName()} #${attended.application.applicationId}".text(),
-            context.formatYmdhmsNum(attended.application.time).text(),
-            if (tags.isNotEmpty) TagsGroup(tags),
-          ].column(caa: CrossAxisAlignment.start),
-          trailing: points != null && points != 0
-              ? Text(
-                  _pointsText(points),
-                  style: context.textTheme.titleMedium?.copyWith(color: _pointsColor(context, points)),
-                )
-              : Text(
-                  attended.application.status.l10n(),
-                  style: context.textTheme.titleMedium?.copyWith(
-                      color: switch (attended.application.status) {
-                    Class2ndActivityApplicationStatus.approved => Colors.green,
-                    Class2ndActivityApplicationStatus.rejected => Colors.redAccent,
-                    _ => null,
-                  }),
-                ),
-          onTap: () async {
-            await context.push("/class2nd/attended-details", extra: attended);
-          }),
+        isThreeLine: true,
+        title: title.text(),
+        subtitleTextStyle: context.textTheme.bodyMedium,
+        subtitle: [
+          "${attended.category.l10nName()} #${attended.application.applicationId}".text(),
+          context.formatYmdhmsNum(attended.application.time).text(),
+          if (tags.isNotEmpty) TagsGroup(tags),
+        ].column(caa: CrossAxisAlignment.start),
+        trailing: points != null && points != 0
+            ? Text(
+                _pointsText(points),
+                style: context.textTheme.titleMedium?.copyWith(color: _pointsColor(context, points)),
+              )
+            : Text(
+                attended.application.status.l10n(),
+                style: context.textTheme.titleMedium?.copyWith(
+                    color: switch (attended.application.status) {
+                  Class2ndActivityApplicationStatus.approved => Colors.green,
+                  Class2ndActivityApplicationStatus.rejected => Colors.redAccent,
+                  _ => null,
+                }),
+              ),
+        onTap: () async {
+          final result = await context.push("/class2nd/attended-details", extra: attended);
+          if (result == "withdrawn") {
+            onWithdrawn?.call();
+          }
+        },
+      ),
     );
   }
 }
 
-class Class2ndAttendDetailsPage extends StatefulWidget {
+/// The navigation will pop with ["withdrawn"] when user withdrew this application.
+class Class2ndApplicationDetailsPage extends StatefulWidget {
   final Class2ndAttendedActivity activity;
 
-  const Class2ndAttendDetailsPage(
+  const Class2ndApplicationDetailsPage(
     this.activity, {
     super.key,
   });
 
   @override
-  State<Class2ndAttendDetailsPage> createState() => _Class2ndAttendDetailsPageState();
+  State<Class2ndApplicationDetailsPage> createState() => _Class2ndApplicationDetailsPageState();
 }
 
-class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
+class _Class2ndApplicationDetailsPageState extends State<Class2ndApplicationDetailsPage> {
   var withdrawing = false;
 
   @override
@@ -374,8 +389,8 @@ class _Class2ndAttendDetailsPageState extends State<Class2ndAttendDetailsPage> {
       withdrawing = false;
     });
     if (res) {
-      // go back to the list page to refresh
-      context.go("/class2nd/attended");
+      // pop with "withdrawn"
+      context.pop("withdrawn");
     }
   }
 }
@@ -479,7 +494,7 @@ class AttendedActivitySearchDelegate extends SearchDelegate {
       itemCount: results.length,
       itemBuilder: (ctx, i) {
         final activity = results[i];
-        return AttendedActivityCard(activity);
+        return ActivityApplicationCard(activity);
       },
     );
   }

@@ -9,12 +9,14 @@ import 'package:sit/utils/json.dart';
 import 'entity/cell_style.dart';
 
 const _kAutoUseImported = true;
+const _kQuickLookCourseOnTap = true;
 
 class _K {
   static const ns = "/timetable";
   static const autoUseImported = "$ns/autoUseImported";
   static const backgroundImage = "$ns/backgroundImage";
   static const cellStyle = "$ns/cellStyle";
+  static const quickLookLessonOnTap = "$ns/quickLookLessonOnTap";
 }
 
 class TimetableSettings {
@@ -25,6 +27,8 @@ class TimetableSettings {
   bool get autoUseImported => box.safeGet<bool>(_K.autoUseImported) ?? _kAutoUseImported;
 
   set autoUseImported(bool newV) => box.safePut<bool>(_K.autoUseImported, newV);
+
+  late final $autoUseImported = box.provider<bool>(_K.autoUseImported);
 
   CourseCellStyle? get cellStyle =>
       decodeJsonObject(box.safeGet<String>(_K.cellStyle), (obj) => CourseCellStyle.fromJson(obj));
@@ -52,4 +56,10 @@ class TimetableSettings {
   );
 
   ValueListenable listenBackgroundImage() => box.listenable(keys: [_K.backgroundImage]);
+
+  bool get quickLookLessonOnTap => box.safeGet<bool>(_K.quickLookLessonOnTap) ?? _kQuickLookCourseOnTap;
+
+  set quickLookLessonOnTap(bool newV) => box.safePut<bool>(_K.quickLookLessonOnTap, newV);
+
+  late final $quickLookLessonOnTap = box.provider<bool>(_K.quickLookLessonOnTap);
 }

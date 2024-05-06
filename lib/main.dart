@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sit/files.dart';
@@ -22,7 +21,7 @@ import 'package:sit/school/yellow_pages/entity/contact.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sit/settings/meta.dart';
 import 'package:sit/settings/dev.dart';
-import 'package:sit/entity/version.dart';
+import 'package:sit/entity/meta.dart';
 import 'package:sit/storage/prefs.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:version/version.dart';
@@ -42,7 +41,9 @@ void main() async {
   final lastSize = prefs.getLastWindowSize();
   await DesktopInit.init(size: lastSize);
   await WindowsInit.registerCustomScheme(R.scheme);
-  if (prefs.getInstallTime() == null) {
+  final installationTime = prefs.getInstallTime();
+  debugPrint("First installation time: $installationTime");
+  if (installationTime == null) {
     await prefs.setInstallTime(DateTime.now());
   }
   // Initialize the window size before others for a better experience when loading.
@@ -62,14 +63,16 @@ void main() async {
   }
   await Files.init();
   // Perform migrations
-  R.currentVersion = await getCurrentVersion();
-  final currentVersion = R.currentVersion.version;
+  R.meta = await getCurrentVersion();
+  final currentVersion = R.meta.version;
   final lastVersionRaw = prefs.getLastVersion();
   final lastVersion = lastVersionRaw != null ? Version.parse(lastVersionRaw) : currentVersion;
+  debugPrint("Last version: $lastVersion");
+  await prefs.setLastVersion(currentVersion.toString());
   final migrations = Migrations.match(from: lastVersion, to: currentVersion);
+  // final migrations = Migrations.match(from: Version(2, 3, 2), to: currentVersion);
 
   await migrations.perform(MigrationPhrase.beforeHive);
-  await prefs.setLastVersion(lastVersion.toString());
 
   R.roomList = await _loadRoomNumberList();
   R.userAgentList = await _loadUserAgents();
@@ -93,12 +96,13 @@ void main() async {
   // The last time when user launch this app
   Meta.lastLaunchTime = Meta.thisLaunchTime;
   Meta.thisLaunchTime = DateTime.now();
-  await migrations.perform(MigrationPhrase.afterHive);
   Init.registerCustomEditor();
+  await migrations.perform(MigrationPhrase.afterHive);
   HttpOverrides.global = SitHttpOverrides();
   await Init.initNetwork();
-  await Init.initStorage();
   await Init.initModules();
+  await Init.initStorage();
+  await migrations.perform(MigrationPhrase.afterInitStorage);
   runApp(
     ProviderScope(
       child: EasyLocalization(
@@ -107,14 +111,7 @@ void main() async {
         fallbackLocale: R.defaultLocale,
         useFallbackTranslations: true,
         assetLoader: _yamlAssetsLoader,
-        child: ScreenUtilInit(
-          designSize: const Size(360, 690),
-          minTextAdapt: true,
-          splitScreenMode: true,
-          builder: (context, child) {
-            return const MimirApp();
-          },
-        ),
+        child: const MimirApp(),
       ),
     ),
   );

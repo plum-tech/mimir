@@ -179,7 +179,7 @@ class _ExpenseBarChartWidgetState extends State<ExpenseBarChartWidget> {
                   final res = BarChartRodStackItem(
                     c,
                     c + e.value.total,
-                    e.key.color,
+                    e.key.resolveColor(context),
                   );
                   c += e.value.total;
                   return res;

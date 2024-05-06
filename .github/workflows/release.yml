@@ -56,10 +56,12 @@ jobs:
             --arg apk_sha256 "$apk_sha256" \
             --arg apk_url1 "$apk_url" \
             --arg apk_url2 "https://mirror.ghproxy.com/$apk_url" \
+            --arg apk_url3 "https://temp.sitmc.club/prepare-download/v$version/$apk_name" \
             --arg ipa_name "$ipa_name" \
             --arg ipa_sha256 "$ipa_sha256" \
             --arg ipa_url1 "$ipa_url" \
             --arg ipa_url2 "https://mirror.ghproxy.com/$ipa_url" \
+            --arg ipa_url3 "https://temp.sitmc.club/prepare-download/v$version/$ipa_name" \
             '
               {
                 "version": $version,
@@ -68,19 +70,21 @@ jobs:
                 "downloads": {
                   "Android": {
                     "name": $apk_name,
-                    "default": "mirror",
+                    "default": "official",
                     "sha256": $apk_sha256,
                     "url": {
-                      "official": $apk_url1,
+                      "official": $apk_url3,
+                      "github": $apk_url1,
                       "mirror": $apk_url2,
                     },
                   },
                   "iOS": {
                     "name": $ipa_name,
-                    "default": "mirror",
+                    "default": "official",
                     "sha256": $ipa_sha256,
                     "url": {
-                      "official": $ipa_url1,
+                      "official": $ipa_url3,
+                      "github": $ipa_url1,
                       "mirror": $ipa_url2,
                     }
                   }

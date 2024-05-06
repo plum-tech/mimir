@@ -80,6 +80,14 @@ mixin class CommonI18nMixin {
   String get openInBrowser => "openInBrowser".tr();
 
   String get choose => "choose".tr();
+
+  String get unspecified => "unspecified".tr();
+
+  String get shareQrCode => "shareQrCode".tr();
+
+  String get add => "add".tr();
+
+  String get rename => "rename".tr();
 }
 
 class CommonI18n with CommonI18nMixin {

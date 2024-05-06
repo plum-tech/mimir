@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:math';
@@ -6,6 +7,7 @@ import 'cell.dart';
 part "board.g.dart";
 
 const _nearbyDelta = [(-1, 1), (0, 1), (1, 1), (-1, 0), /*(0,0)*/ (1, 0), (-1, -1), (0, -1), (1, -1)];
+const _nearbyDeltaAndThis = [..._nearbyDelta, (0, 0)];
 
 abstract class ICellBoard<TCell extends Cell> {
   int get rows;
@@ -207,24 +209,30 @@ class _CellBoardBuilder extends ICellBoard<_CellBuilder> {
     required rowExclude,
     required columnExclude,
   }) {
-    this.mines = mines;
-    int beginSafeRow = rowExclude - 1 < 0 ? 0 : rowExclude - 1;
-    int endSafeRow = rowExclude + 1 >= rows ? rows - 1 : rowExclude + 1;
-    int beginSafeCol = columnExclude - 1 < 0 ? 0 : columnExclude - 1;
-    int endSafeCol = columnExclude + 1 >= columns ? columns - 1 : columnExclude + 1;
-    var cnt = 0;
-    while (cnt < mines) {
-      var value = Random().nextInt(columns * rows);
-      var col = value % columns;
-      var row = (value / columns).floor();
-      final cell = cells[row * columns + col];
-      if (!cell.mine && !((row >= beginSafeRow && row <= endSafeRow) && (col >= beginSafeCol && col <= endSafeCol))) {
+    final rand = Random();
+    final candidates = List.generate(rows * columns, (index) => (row: index ~/ columns, column: index % columns));
+    // Clicked cell and one-cell nearby cells can't be mines.
+    for (final (dx, dy) in _nearbyDeltaAndThis) {
+      final row = clickRow + dx;
+      final column = clickCol + dy;
+      candidates.remove((row: row, column: column));
+    }
+    final maxMines = candidates.length - 1;
+    assert(number <= maxMines, "The max mine is $maxMines, but $number is given.");
+    remaining = min<int>(number, maxMines);
+    this.mines = remaining;
+    while (candidates.isNotEmpty && remaining > 0) {
+      final index = rand.nextInt(candidates.length);
+      final (:row, :column) = candidates[index];
+      final cell = getCell(row: row, col: column);
+      if (!cell.mine) {
         cell.mine = true;
+        // count as mine created
         for (final neighbor in iterateAround(row: row, column: col)) {
           neighbor.minesAround += 1;
         }
-        addRoundCellMineNum(row: row, column: col); // count as mine created
-        cnt += 1;
+        remaining--;
+        candidates.removeAt(index);
       }
     }
   }

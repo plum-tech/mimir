@@ -106,12 +106,8 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
     final state = ref.watch(minesweeperState);
     // Get Your Screen Size
     final screenSize = MediaQuery.of(context).size;
-    final screen = Screen(
-      height: screenSize.height,
-      width: screenSize.width,
-      gameRows: state.rows,
-      gameColumns: state.columns,
-    );
+    final mode = ref.watch(boardManager).mode;
+    initScreen(screenSize: screenSize, gameMode: mode);
     // Build UI From Screen Size
 
     return Scaffold(
@@ -144,102 +140,6 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
           ),
         ],
       ),
-    );
-  }
-}
-
-class MinesAndFlags extends StatelessWidget {
-  final int flags;
-  final int mines;
-
-  const MinesAndFlags({
-    super.key,
-    required this.flags,
-    required this.mines,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = context.textTheme;
-    return Row(
-      children: [
-        Text(
-          " $flags ",
-          style: textTheme.bodyLarge,
-        ),
-        const Icon(
-          Icons.flag_outlined,
-          color: flagColor,
-        ),
-        Text(
-          "/ $mines ",
-          style: textTheme.bodyLarge,
-        ),
-        const Icon(
-          Icons.gps_fixed,
-          color: mineColor,
-        ),
-      ],
-    );
-  }
-}
-
-class GameHud extends ConsumerWidget {
-  final GameTimer timer;
-  final GameMode mode;
-
-  const GameHud({
-    super.key,
-    required this.mode,
-    required this.timer,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final board = ref.read(minesweeperState);
-    final textTheme = context.textTheme;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-              color: context.colorScheme.secondaryContainer,
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(8), bottomLeft: Radius.circular(8))),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Icon(Icons.videogame_asset_outlined),
-              board.state == GameState.running
-                  ? MinesAndFlags(
-                      flags: ref.read(minesweeperState).board.countAllByState(state: CellState.flag),
-                      mines: ref.read(minesweeperState).board.mines,
-                    )
-                  : Text(
-                      mode.l10n(),
-                      style: textTheme.bodyLarge,
-                    ),
-            ],
-          ),
-        ),
-        Container(
-          decoration: BoxDecoration(
-              color: context.colorScheme.tertiaryContainer,
-              borderRadius: BorderRadius.only(
-                topRight: Radius.circular(8),
-                bottomRight: Radius.circular(8),
-              )),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Icon(Icons.alarm),
-              Text(
-                timer.getTimeCost(),
-                style: textTheme.bodyLarge,
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

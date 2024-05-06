@@ -16,19 +16,21 @@ class OaAnnounceStorage {
   Box get box => HiveInit.oaAnnounce;
 
   const OaAnnounceStorage();
-  List<String>? getAnnounceIdList(OaAnnounceCat type) => box.safeGet(_K.announceIdList(type));
+
+  List<String>? getAnnounceIdList(OaAnnounceCat type) => box.safeGet<List<String>>(_K.announceIdList(type));
 
   Future<void> setAnnounceIdList(OaAnnounceCat type, List<String>? announceIdList) =>
-      box.safePut(_K.announceIdList(type), announceIdList);
+      box.safePut<List<String>>(_K.announceIdList(type), announceIdList);
 
-  OaAnnounceRecord? getAnnounce(String uuid) => box.safeGet(_K.announce(uuid));
+  OaAnnounceRecord? getAnnounce(String uuid) => box.safeGet<OaAnnounceRecord>(_K.announce(uuid));
 
-  Future<void> setAnnounce(String uuid, OaAnnounceRecord? announce) => box.safePut(_K.announce(uuid), announce);
+  Future<void> setAnnounce(String uuid, OaAnnounceRecord? announce) =>
+      box.safePut<OaAnnounceRecord>(_K.announce(uuid), announce);
 
-  OaAnnounceDetails? getAnnounceDetails(String uuid) => box.safeGet(_K.announceDetails(uuid));
+  OaAnnounceDetails? getAnnounceDetails(String uuid) => box.safeGet<OaAnnounceDetails>(_K.announceDetails(uuid));
 
   Future<void> setAnnounceDetails(String uuid, OaAnnounceDetails? details) =>
-      box.safePut(_K.announceDetails(uuid), details);
+      box.safePut<OaAnnounceDetails>(_K.announceDetails(uuid), details);
 
   List<OaAnnounceRecord>? getAnnouncements(OaAnnounceCat type) {
     final idList = getAnnounceIdList(type);

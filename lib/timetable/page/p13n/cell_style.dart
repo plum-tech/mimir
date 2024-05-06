@@ -3,13 +3,14 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
+import 'package:sit/utils/save.dart';
 
 import '../../entity/cell_style.dart';
 import '../../widgets/style.dart';
 import '../../i18n.dart';
 import 'palette.dart';
 
-/// Persist changes to storage before route popping
+/// It persists changes to storage before route popping
 class TimetableCellStyleEditor extends StatefulWidget {
   const TimetableCellStyleEditor({super.key});
 
@@ -19,41 +20,42 @@ class TimetableCellStyleEditor extends StatefulWidget {
 
 class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
   var cellStyle = Settings.timetable.cellStyle ?? const CourseCellStyle();
-
+  var canSave = false;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar.medium(
-            title: i18n.p13n.cell.title.text(),
-            actions: [
-              PlatformTextButton(
-                onPressed: !canSave() ? null : onSave,
-                child: i18n.save.text(),
-              ),
-            ],
-          ),
-          SliverToBoxAdapter(
-            child: TimetableStyleProv(
-              cellStyle: buildCellStyle(),
-              child: const TimetableP13nLivePreview(),
+    final old = Settings.timetable.cellStyle;
+    final canSave = old != buildCellStyle();
+    return PromptSaveBeforeQuitScope(
+      changed: canSave,
+      onSave: onSave,
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar.medium(
+              title: i18n.p13n.cell.title.text(),
+              actions: [
+                PlatformTextButton(
+                  onPressed: !canSave ? null : onSave,
+                  child: i18n.save.text(),
+                ),
+              ],
             ),
-          ),
-          SliverList.list(children: [
-            buildTeachersToggle(),
-            buildGrayOutPassedLesson(),
-            buildHarmonizeWithThemeColor(),
-            buildAlpha(),
-          ]),
-        ],
+            SliverToBoxAdapter(
+              child: TimetableStyleProv(
+                cellStyle: buildCellStyle(),
+                child: const TimetableP13nLivePreview(),
+              ),
+            ),
+            SliverList.list(children: [
+              buildTeachersToggle(),
+              buildGrayOutPassedLesson(),
+              buildHarmonizeWithThemeColor(),
+              buildAlpha(),
+            ]),
+          ],
+        ),
       ),
     );
-  }
-
-  bool canSave() {
-    final old = Settings.timetable.cellStyle;
-    return old == buildCellStyle();
   }
 
   void onSave() {

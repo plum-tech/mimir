@@ -11,9 +11,10 @@ import 'multiplatform.dart';
 const _kDialogAlpha = 0.89;
 
 extension $BuildContextEx$ on BuildContext {
-  Future<T?> show$Sheet$<T>(
+  Future<T?> showSheet<T>(
     WidgetBuilder builder, {
     bool dismissible = true,
+    bool useRootNavigator = false,
   }) async {
     if (isCupertino) {
       return await showCupertinoModalBottomSheet<T>(
@@ -21,6 +22,7 @@ extension $BuildContextEx$ on BuildContext {
         builder: builder,
         animationCurve: Curves.fastEaseInToSlowEaseOut,
         isDismissible: dismissible,
+        useRootNavigator: useRootNavigator,
       );
     } else {
       // dismissible not working with CustomScrollView
@@ -33,6 +35,7 @@ extension $BuildContextEx$ on BuildContext {
         useSafeArea: true,
         // It's a workaround
         showDragHandle: true,
+        useRootNavigator: useRootNavigator,
       );
     }
   }

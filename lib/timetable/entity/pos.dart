@@ -1,10 +1,14 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/l10n/time.dart';
+import 'package:sit/utils/byte_io/byte_io.dart';
 
 import 'timetable.dart';
+import '../i18n.dart';
 
 part "pos.g.dart";
 
+@JsonSerializable()
 @CopyWith(skipFields: true)
 class TimetablePos {
   /// starts with 0
@@ -17,6 +21,26 @@ class TimetablePos {
     required this.weekIndex,
     required this.weekday,
   });
+
+  const TimetablePos.fromDayIndex(int dayIndex)
+      : this(
+          weekIndex: dayIndex ~/ 7,
+          weekday: dayIndex % 7 == 0
+              ? Weekday.monday
+              : dayIndex % 7 == 1
+                  ? Weekday.tuesday
+                  : dayIndex % 7 == 2
+                      ? Weekday.wednesday
+                      : dayIndex % 7 == 3
+                          ? Weekday.thursday
+                          : dayIndex % 7 == 4
+                              ? Weekday.friday
+                              : dayIndex % 7 == 5
+                                  ? Weekday.saturday
+                                  : dayIndex % 7 == 6
+                                      ? Weekday.sunday
+                                      : Weekday.monday,
+        );
 
   static const initial = TimetablePos(weekIndex: 0, weekday: Weekday.monday);
 
@@ -37,6 +61,29 @@ class TimetablePos {
       return fallback ?? initial;
     }
   }
+
+  void serialize(ByteWriter writer) {
+    writer.uint8(weekIndex);
+    writer.uint8(weekday.index);
+  }
+
+  static TimetablePos deserialize(ByteReader reader) {
+    final weekIndex = reader.uint8();
+    final weekdayIndex = reader.uint8();
+    return TimetablePos(weekIndex: weekIndex, weekday: Weekday.fromIndex(weekdayIndex));
+  }
+
+  String l10n() {
+    return "${i18n.weekOrderedName(number: weekIndex + 1)} ${weekday.l10n()}";
+  }
+
+  String toDartCode() {
+    return "TimetablePos(weekIndex:$weekIndex,weekday:$weekday)";
+  }
+
+  factory TimetablePos.fromJson(Map<String, dynamic> json) => _$TimetablePosFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TimetablePosToJson(this);
 
   @override
   bool operator ==(Object other) {
@@ -67,7 +114,8 @@ extension TimetableX on SitTimetable {
   }
 }
 
-class TimetableLessonLoc {
+// TODO: finish timetable lesson pos
+class TimetableLessonPos {
   final String courseCode;
 
   /// starts with 0
@@ -76,7 +124,7 @@ class TimetableLessonLoc {
   /// starts with 0
   final Weekday weekday;
 
-  const TimetableLessonLoc({
+  const TimetableLessonPos({
     required this.courseCode,
     required this.weekIndex,
     required this.weekday,

@@ -124,7 +124,7 @@ class BorrowedBookCard extends StatelessWidget {
         "${context.formatYmdText(book.borrowDate)}–${context.formatYmdText(book.expireDate)}".text(),
       ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start),
       onTap: () async {
-        await context.show$Sheet$(
+        await context.showSheet(
           (ctx) => BookDetailsPage(
             book: BookModel.fromBorrowed(book),
             actions: [

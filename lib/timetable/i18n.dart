@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:sit/l10n/common.dart';
 import 'package:sit/school/i18n.dart';
 
+import 'entity/issue.dart';
+
 const i18n = _I18n();
 
 class _I18n with CommonI18nMixin {
@@ -12,10 +14,12 @@ class _I18n with CommonI18nMixin {
   final mine = const _Mine();
   final p13n = const _P13n();
   final import = const _Import();
-  final course = const CourseI18n();
   final export = const _Export();
+  final course = const CourseI18n();
   final screenshot = const _Screenshot();
   final editor = const _Editor();
+  final issue = const _Issue();
+  final patch = const _Patch();
   final freeTip = const _FreeTip();
   final campus = const CampusI10n();
   final settings = const _Settings();
@@ -52,7 +56,7 @@ class _Mine {
 
   String get exportCalendar => "$ns.exportCalendar".tr();
 
-  String get add2Calendar => "$ns.add2Calendar".tr();
+  String get patch => "$ns.patch".tr();
 
   String get deleteRequest => "$ns.deleteRequest".tr();
 
@@ -61,10 +65,6 @@ class _Mine {
   String get emptyTip => "$ns.emptyTip".tr();
 
   String get details => "$ns.details".tr();
-
-  String get addFromFileAction => "$ns.addFromFileAction".tr();
-
-  String get addFromFileDesc => "$ns.addFromFileDesc".tr();
 }
 
 class _P13n {
@@ -125,8 +125,6 @@ class _Palette {
 
   String get colorsTab => "$ns.tab.colors".tr();
 
-  String get shareQrCode => "$ns.shareQrCode".tr();
-
   String get newPaletteName => "$ns.newPaletteName".tr();
 
   String get deleteRequest => "$ns.deleteRequest".tr();
@@ -146,10 +144,6 @@ class _Palette {
   String get color => "$ns.color".tr();
 
   String get details => "$ns.details".tr();
-
-  String get addFromQrCodeAction => "$ns.addFromQrCodeAction".tr();
-
-  String get addFromQrCodeDesc => "$ns.addFromQrCodeDesc".tr();
 }
 
 class _Background {
@@ -272,6 +266,75 @@ class _Editor {
   String timeslotsSpanSingle(String at) => "$ns.timeslots.single".tr(args: [at]);
 }
 
+class _Issue {
+  const _Issue();
+
+  static const ns = "${_I18n.ns}.issue";
+
+  String get title => "$ns.title".tr();
+
+  String get resolve => "$ns.resolve".tr();
+}
+
+extension TimetableIssueTypeI18nX on TimetableIssueType {
+  String l10n() => "${_Issue.ns}.builtin.$name.title".tr();
+
+  String l10nDesc() => "${_Issue.ns}.builtin.$name.desc".tr();
+}
+
+class _Patch {
+  const _Patch();
+
+  static const ns = "${_I18n.ns}.patch";
+
+  String get title => "$ns.title".tr();
+
+  String get prefabs => "$ns.prefabs".tr();
+
+  String get defaultName => "$ns.defaultName".tr();
+
+  String get unpack => "$ns.unpack".tr();
+
+  String get noPatches => "$ns.noPatches".tr();
+
+  String get noPatchesTip => "$ns.noPatchesTip".tr();
+
+  String get patchSetName => "$ns.patchSetName".tr();
+
+  String get dateOutOfRangeTip => "$ns.dateOutOfRangeTip".tr();
+
+  String removeDay(String day) => "$ns.removeDay".tr(namedArgs: {
+        "day": day,
+      });
+
+  String swapDays(String a, String b) => "$ns.swapDays".tr(namedArgs: {
+        "a": a,
+        "b": b,
+      });
+
+  String copyDay(String source, String target) => "$ns.copyDay".tr(namedArgs: {
+        "source": source,
+        "target": target,
+      });
+
+  String moveDay(String source, String target) => "$ns.moveDay".tr(namedArgs: {
+        "source": source,
+        "target": target,
+      });
+
+  String get moveSource => "$ns.moveSource".tr();
+
+  String get moveTarget => "$ns.moveTarget".tr();
+
+  String get copySource => "$ns.copySource".tr();
+
+  String get copyTarget => "$ns.copyTarget".tr();
+
+  String get swappedDay => "$ns.swappedDay".tr();
+
+  String get removedDay => "$ns.removedDay".tr();
+}
+
 class _Export {
   const _Export();
 
@@ -280,6 +343,8 @@ class _Export {
   String get title => "$ns.title".tr();
 
   String get export => "$ns.export".tr();
+
+  String get iOSGetShortcutAction => "$ns.iOSGetShortcutAction".tr();
 
   String get lessonMode => "$ns.lessonMode.title".tr();
 
@@ -350,4 +415,8 @@ class _Settings {
   String get background => "$ns.background.title".tr();
 
   String get backgroundDesc => "$ns.background.desc".tr();
+
+  String get quickLookLessonOnTap => "$ns.quickLookLessonOnTap.title".tr();
+
+  String get quickLookLessonOnTapDesc => "$ns.quickLookLessonOnTap.desc".tr();
 }

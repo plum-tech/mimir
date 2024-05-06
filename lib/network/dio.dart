@@ -18,6 +18,12 @@ class DioInit {
     if (!kIsWeb) {
       dio.interceptors.add(CookieManager(cookieJar));
     }
+    if (kDebugMode && R.debugNetwork) {
+      dio.interceptors.add(LogInterceptor());
+    }
+    if (kDebugMode && R.debugNetwork && R.poorNetworkSimulation) {
+      dio.interceptors.add(PoorNetworkDioInterceptor());
+    }
     if (config != null) {
       dio.options = config;
     }
@@ -42,5 +48,38 @@ class DioInit {
       // Desktop端将进入该异常
       dio.options.headers['User-Agent'] = getRandomUa();
     }
+  }
+}
+
+final _debugRequests = <RequestOptions>[];
+final _debugResponses = <Response>[];
+
+class PoorNetworkDioInterceptor extends Interceptor {
+  @override
+  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    if (kDebugMode) {
+      _debugRequests.add(options);
+    }
+    if (options.path == "http://sc.sit.edu.cn//public/init/index.action" ||
+        options.path == "http://sc.sit.edu.cn/public/init/index.action") {
+      print("!!!!!!!!!!");
+    }
+    final duration = Duration(milliseconds: _rand.nextInt(2000));
+    debugPrint("Start to request ${options.uri}");
+    await Future.delayed(duration);
+    debugPrint("Delayed Request ${options.uri} $duration");
+    handler.next(options);
+  }
+
+  @override
+  Future<void> onResponse(Response response, ResponseInterceptorHandler handler) async {
+    if (kDebugMode) {
+      _debugResponses.add(response);
+    }
+    final duration = Duration(milliseconds: _rand.nextInt(2000));
+    debugPrint("Start to response ${response.realUri}");
+    await Future.delayed(duration);
+    debugPrint("Delayed Response ${response.realUri} $duration");
+    handler.next(response);
   }
 }

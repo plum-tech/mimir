@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import 'foundation.dart';
-import 'multiplatform.dart';
 
 typedef PickerActionWidgetBuilder = Widget Function(BuildContext context, int? selectedIndex);
 typedef DualPickerActionWidgetBuilder = Widget Function(BuildContext context, int? selectedIndexA, int? selectedIndexB);
@@ -13,25 +13,25 @@ typedef DualPickerActionWidgetBuilder = Widget Function(BuildContext context, in
 extension DialogEx on BuildContext {
   /// return: whether the button was hit
   Future<bool> showTip({
-    required String title,
+    String? title,
     required String desc,
-    required String ok,
+    required String primary,
     bool highlight = false,
     bool serious = false,
   }) async {
     return showAnyTip(
       title: title,
       make: (_) => desc.text(style: const TextStyle()),
-      ok: ok,
+      primary: primary,
       highlight: false,
       serious: serious,
     );
   }
 
   Future<bool> showAnyTip({
-    required String title,
+    String? title,
     required WidgetBuilder make,
-    required String ok,
+    required String primary,
     bool highlight = false,
     bool serious = false,
   }) async {
@@ -43,7 +43,7 @@ extension DialogEx on BuildContext {
           make: make,
           primary: $Action$(
             warning: highlight,
-            text: ok,
+            text: primary,
             onPressed: () {
               ctx.navigator.pop(true);
             },
@@ -55,17 +55,22 @@ extension DialogEx on BuildContext {
   Future<bool?> showDialogRequest({
     String? title,
     required String desc,
-    required String yes,
-    required String no,
-    bool destructive = false,
+    required String primary,
+    required String secondary,
+    bool dismissible = false,
+    bool serious = false,
+    bool primaryDestructive = false,
+    bool secondaryDestructive = false,
   }) async {
     return await showAnyRequest(
       title: title,
+      dismissible: dismissible,
       make: (_) => desc.text(style: const TextStyle()),
-      yes: yes,
-      no: no,
-      highlight: destructive,
-      serious: destructive,
+      primary: primary,
+      secondary: secondary,
+      serious: serious,
+      primaryDestructive: primaryDestructive,
+      secondaryDestructive: secondaryDestructive,
     );
   }
 
@@ -75,10 +80,10 @@ extension DialogEx on BuildContext {
     required String cancel,
     bool destructive = false,
   }) async {
-    if (isCupertino) {
+    if (UniversalPlatform.isIOS) {
       return showCupertinoActionRequest(
         desc: desc,
-        yes: action,
+        action: action,
         cancel: cancel,
         destructive: destructive,
       );
@@ -86,9 +91,9 @@ extension DialogEx on BuildContext {
     return await showAnyRequest(
       title: action,
       make: (_) => desc.text(style: const TextStyle()),
-      yes: action,
-      no: cancel,
-      highlight: destructive,
+      primary: action,
+      secondary: cancel,
+      primaryDestructive: destructive,
       serious: destructive,
     );
   }
@@ -96,7 +101,7 @@ extension DialogEx on BuildContext {
   Future<bool?> showCupertinoActionRequest({
     String? title,
     required String desc,
-    required String yes,
+    required String action,
     required String cancel,
     bool destructive = false,
   }) async {
@@ -111,7 +116,7 @@ extension DialogEx on BuildContext {
             onPressed: () {
               ctx.pop(true);
             },
-            child: yes.text(),
+            child: action.text(),
           ),
         ],
         cancelButton: CupertinoActionSheetAction(
@@ -127,26 +132,30 @@ extension DialogEx on BuildContext {
   Future<bool?> showAnyRequest({
     String? title,
     required WidgetBuilder make,
-    required String yes,
-    required String no,
-    bool highlight = false,
+    required String primary,
+    required String secondary,
+    bool dismissible = false,
     bool serious = false,
+    bool primaryDestructive = false,
+    bool secondaryDestructive = false,
   }) async {
     return await showAdaptiveDialog(
       context: this,
+      barrierDismissible: dismissible,
       builder: (ctx) => $Dialog$(
         title: title,
         serious: serious,
         make: make,
         primary: $Action$(
-          warning: highlight,
-          text: yes,
+          warning: primaryDestructive,
+          text: primary,
           onPressed: () {
             ctx.navigator.pop(true);
           },
         ),
         secondary: $Action$(
-          text: no,
+          text: secondary,
+          warning: secondaryDestructive,
           onPressed: () {
             ctx.navigator.pop(false);
           },
@@ -393,7 +402,7 @@ class _DualPickerState extends State<DualPicker> {
 extension SnackBarX on BuildContext {
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showSnackBar({
     required Widget content,
-    Duration duration = const Duration(milliseconds: 1000),
+    Duration duration = Durations.extralong4,
     SnackBarAction? action,
     VoidCallback? onVisible,
     SnackBarBehavior? behavior,

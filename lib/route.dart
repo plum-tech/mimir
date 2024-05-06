@@ -8,7 +8,8 @@ import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/game/2048/index.dart';
 import 'package:sit/game/index.dart';
-import 'package:sit/game/minesweeper/index.dart';
+import 'package:sit/game/minesweeper/page/index.dart';
+import 'package:sit/game/page/settings.dart';
 import 'package:sit/game/suika/index.dart';
 import 'package:sit/index.dart';
 import 'package:sit/life/page/settings.dart';
@@ -38,13 +39,15 @@ import 'package:sit/me/edu_email/page/inbox.dart';
 import 'package:sit/network/page/index.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/page/theme_color.dart';
+import 'package:sit/timetable/entity/platte.dart';
+import 'package:sit/timetable/entity/timetable.dart';
 import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/page/p13n/background.dart';
 import 'package:sit/timetable/page/p13n/cell_style.dart';
-import 'package:sit/timetable/page/editor.dart';
+import 'package:sit/timetable/page/edit/editor.dart';
 import 'package:sit/timetable/page/p13n/palette_editor.dart';
+import 'package:sit/timetable/page/patch/patch.dart';
 import 'package:sit/timetable/page/settings.dart';
-import 'package:sit/utils/riverpod.dart';
 import 'package:sit/widgets/not_found.dart';
 import 'package:sit/school/oa_announce/entity/announce.dart';
 import 'package:sit/school/oa_announce/page/details.dart';
@@ -88,7 +91,8 @@ String? _loginRequired(BuildContext ctx, GoRouterState state) {
 }
 
 FutureOr<String?> _redirectRoot(BuildContext ctx, GoRouterState state) {
-  final loginStatus = ctx.riverpod().read(CredentialsInit.storage.$oaLoginStatus);
+  // `ctx.riverpod().read(CredentialsInit.storage.$oaLoginStatus)` would return `LoginStatus.never` after just logged in.
+  final loginStatus = CredentialsInit.storage.oaLoginStatus;
   if (loginStatus == LoginStatus.never) {
 // allow to access settings page.
     if (state.matchedLocation.startsWith("/tools")) return null;
@@ -109,6 +113,24 @@ final _timetableShellRoute = GoRoute(
 // Timetable is the home page.
   builder: (ctx, state) => const TimetablePage(),
 );
+
+SitTimetable? _getTimetable(GoRouterState state) {
+  final extra = state.extra;
+  if (extra is SitTimetable) return extra;
+  final id = int.tryParse(state.pathParameters["id"] ?? "");
+  if (id == null) return null;
+  final timetable = TimetableInit.storage.timetable[id];
+  return timetable;
+}
+
+TimetablePalette? _getTimetablePalette(GoRouterState state) {
+  final extra = state.extra;
+  if (extra is TimetablePalette) return extra;
+  final id = int.tryParse(state.pathParameters["id"] ?? "");
+  if (id == null) return null;
+  final palette = TimetableInit.storage.palette[id];
+  return palette;
+}
 
 final _timetableRoutes = [
   GoRoute(
@@ -137,9 +159,7 @@ final _timetableRoutes = [
   GoRoute(
     path: "/timetable/palette/edit/:id",
     builder: (ctx, state) {
-      final id = int.tryParse(state.pathParameters["id"] ?? "");
-      if (id == null) throw 404;
-      final palette = TimetableInit.storage.palette[id];
+      final palette = _getTimetablePalette(state);
       if (palette == null) throw 404;
       return TimetablePaletteEditorPage(palette: palette);
     },
@@ -147,11 +167,17 @@ final _timetableRoutes = [
   GoRoute(
     path: "/timetable/edit/:id",
     builder: (ctx, state) {
-      final id = int.tryParse(state.pathParameters["id"] ?? "");
-      if (id == null) throw 404;
-      final timetable = TimetableInit.storage.timetable[id];
+      final timetable = _getTimetable(state);
       if (timetable == null) throw 404;
       return TimetableEditorPage(timetable: timetable);
+    },
+  ),
+  GoRoute(
+    path: "/timetable/patch/edit/:id",
+    builder: (ctx, state) {
+      final timetable = _getTimetable(state);
+      if (timetable == null) throw 404;
+      return TimetablePatchEditorPage(timetable: timetable);
     },
   ),
   GoRoute(
@@ -220,6 +246,10 @@ final _settingsRoute = GoRoute(
       builder: (ctx, state) => const LifeSettingsPage(),
     ),
     GoRoute(
+      path: "game",
+      builder: (ctx, state) => const GameSettingsPage(),
+    ),
+    GoRoute(
       path: "about",
       builder: (ctx, state) => const AboutSettingsPage(),
     ),
@@ -280,7 +310,7 @@ final _class2ndRoute = GoRoute(
       builder: (ctx, state) {
         final extra = state.extra;
         if (extra is Class2ndAttendedActivity) {
-          return Class2ndAttendDetailsPage(extra);
+          return Class2ndApplicationDetailsPage(extra);
         }
         throw 404;
       },
@@ -456,6 +486,7 @@ GoRouter buildRouter(ValueNotifier<RoutingConfig> $routingConfig) {
     navigatorKey: $key,
     initialLocation: "/",
     debugLogDiagnostics: kDebugMode,
+    // onException: _onException,
     errorBuilder: _onError,
   );
 }

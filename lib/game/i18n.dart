@@ -7,6 +7,8 @@ const _ns = "game";
 class _I18n with CommonI18nMixin {
   const _I18n();
 
+  final settings = const _Settings();
+
   String get navigation => "$_ns.navigation".tr();
 
   String get newGame => "$_ns.newGame".tr();
@@ -24,10 +26,12 @@ mixin class CommonGameI18nMixin {
   String get gameOver => "$_ns.gameOver".tr();
 }
 
-mixin class CommonGameSettingsI18nMixin {
+class _Settings {
   static const ns = "$_ns.settings";
 
-  String get enableHapticFeedback => "$ns.enableHapticFeedback".tr();
+  const _Settings();
 
-  String get enableHapticFeedbackDesc => "$ns.enableHapticFeedbackDesc".tr();
+  String get enableHapticFeedback => "$ns.enableHapticFeedback.title".tr();
+
+  String get enableHapticFeedbackDesc => "$ns.enableHapticFeedback.desc".tr();
 }

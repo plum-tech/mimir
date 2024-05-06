@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/color.dart';
+import 'package:sit/utils/save.dart';
 import 'package:system_theme/system_theme.dart';
 import '../i18n.dart';
 
@@ -23,43 +24,48 @@ class _ThemeColorPageState extends State<ThemeColorPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        physics: const RangeMaintainingScrollPhysics(),
-        slivers: <Widget>[
-          SliverAppBar.large(
-            pinned: true,
-            snap: false,
-            floating: false,
-            title: i18n.themeColor.text(),
-            actions: [
-              PlatformTextButton(
-                onPressed: canSave() ? onSave : null,
-                child: i18n.save.text(),
-              )
-            ],
-          ),
-          SliverList.list(
-            children: [
-              buildFromSystemToggle(),
-              buildThemeColorTile(),
-              ListTile(
-                title: i18n.preview.text(),
-              )
-            ],
-          ),
-          SliverToBoxAdapter(
-            child: Theme(
-              data: context.theme.copyWith(
-                colorScheme: ColorScheme.fromSeed(
-                  seedColor: fromSystem ? getDefaultThemeColor() : themeColor,
-                  brightness: context.theme.brightness,
+    final canSave = this.canSave();
+    return PromptSaveBeforeQuitScope(
+      changed: canSave,
+      onSave: onSave,
+      child: Scaffold(
+        body: CustomScrollView(
+          physics: const RangeMaintainingScrollPhysics(),
+          slivers: <Widget>[
+            SliverAppBar.large(
+              pinned: true,
+              snap: false,
+              floating: false,
+              title: i18n.themeColor.text(),
+              actions: [
+                PlatformTextButton(
+                  onPressed: canSave ? onSave : null,
+                  child: i18n.save.text(),
+                )
+              ],
+            ),
+            SliverList.list(
+              children: [
+                buildFromSystemToggle(),
+                buildThemeColorTile(),
+                ListTile(
+                  title: i18n.preview.text(),
+                )
+              ],
+            ),
+            SliverToBoxAdapter(
+              child: Theme(
+                data: context.theme.copyWith(
+                  colorScheme: ColorScheme.fromSeed(
+                    seedColor: fromSystem ? getDefaultThemeColor() : themeColor,
+                    brightness: context.theme.brightness,
+                  ),
                 ),
-              ),
-              child: const ThemeColorPreview(),
-            ).padSymmetric(h: 12),
-          )
-        ],
+                child: const ThemeColorPreview(),
+              ).padSymmetric(h: 12),
+            )
+          ],
+        ),
       ),
     );
   }

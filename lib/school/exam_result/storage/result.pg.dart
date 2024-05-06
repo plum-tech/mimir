@@ -14,9 +14,9 @@ class ExamResultPgStorage {
 
   ExamResultPgStorage();
 
-  List<ExamResultPg>? getResultList() => (box.safeGet(_K.resultList) as List?)?.cast<ExamResultPg>();
+  List<ExamResultPg>? getResultList() => box.safeGet<List>(_K.resultList)?.cast<ExamResultPg>();
 
-  Future<void> setResultList(List<ExamResultPg>? newV) => box.safePut(_K.resultList, newV);
+  Future<void> setResultList(List<ExamResultPg>? newV) => box.safePut<List>(_K.resultList, newV);
 
   late final $resultList = box.provider<List<ExamResultPg>>(_K.resultList, get: getResultList);
 }

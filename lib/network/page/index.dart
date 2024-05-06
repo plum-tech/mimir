@@ -7,6 +7,7 @@ import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/design/animation/animated.dart';
 import 'package:sit/design/widgets/card.dart';
+import 'package:sit/design/widgets/icon.dart';
 import 'package:sit/init.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/network/service/network.dart';
@@ -102,7 +103,6 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
               ).padSymmetric(v: 16, h: 8).inOutlinedCard().animatedSized(),
               CampusNetworkConnectivityInfo(
                 status: campusNetworkStatus,
-                useVpn: connectivityStatus?.vpnEnabled == true,
               ).padSymmetric(v: 16, h: 8).inOutlinedCard().animatedSized(),
               StudentRegConnectivityInfo(
                 connected: studentRegAvailable,
@@ -117,8 +117,8 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
                     .inOutlinedCard(),
               if (studentRegAvailable == false)
                 [
-                  i18n.troubleshooting.text(style: context.textTheme.titleMedium),
-                  i18n.studentRegTroubleshooting.text(
+                  i18n.troubleshoot.text(style: context.textTheme.titleMedium),
+                  i18n.studentRegTroubleshoot.text(
                     style: context.textTheme.bodyMedium,
                   )
                 ].column().padSymmetric(v: 16, h: 8).inOutlinedCard(),
@@ -134,6 +134,8 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
             LaunchEasyConnectButton(),
             SizedBox(width: 8),
             OpenWifiSettingsButton(),
+            SizedBox(width: 8),
+            OpenInAppProxyButton(),
           ],
         ),
       ),
@@ -153,12 +155,9 @@ class ConnectivityInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final status = this.status;
     return [
-      Icon(
-        status == null
-            ? Icons.public_off
-            : status.vpnEnabled
-                ? Icons.vpn_key
-                : getConnectionTypeIcon(status),
+      DualIcon(
+        primary: status == null ? Icons.public_off : getConnectionTypeIcon(status, ignoreVpn: true),
+        secondary: status?.vpnEnabled == true ? Icons.vpn_key : null,
         size: 120,
       ),
     ].column(caa: CrossAxisAlignment.center);
@@ -177,9 +176,14 @@ class StudentRegConnectivityInfo extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userType = ref.watch(CredentialsInit.storage.$oaUserType);
     final widgets = <Widget>[];
-    final connected = this.connected != false;
+    final connected = this.connected;
     final textTheme = context.textTheme;
-    widgets.add((connected ? i18n.studentRegAvailable : i18n.studentRegUnavailable).text(
+    widgets.add((switch (connected) {
+      null => i18n.checker.button.connecting,
+      true => i18n.studentRegAvailable,
+      false => i18n.studentRegUnavailable,
+    })
+        .text(
       style: textTheme.titleMedium,
     ));
     Widget buildTip(String tip) {
@@ -189,18 +193,20 @@ class StudentRegConnectivityInfo extends ConsumerWidget {
       );
     }
 
-    if (connected) {
-      if (userType == OaUserType.undergraduate) {
-        widgets.add(buildTip(i18n.ugRegAvailableTip));
-      } else if (userType == OaUserType.postgraduate) {
-        widgets.add(buildTip(i18n.pgRegAvailableTip));
-      }
-    } else {
-      if (userType == OaUserType.undergraduate) {
-        widgets.add(buildTip(i18n.ugRegUnavailableTip));
-      } else if (userType == OaUserType.postgraduate) {
-        widgets.add(buildTip(i18n.pgRegUnavailableTip));
-      }
+    switch (connected) {
+      case true:
+        if (userType == OaUserType.undergraduate) {
+          widgets.add(buildTip(i18n.ugRegAvailableTip));
+        } else if (userType == OaUserType.postgraduate) {
+          widgets.add(buildTip(i18n.pgRegAvailableTip));
+        }
+      case false:
+        if (userType == OaUserType.undergraduate) {
+          widgets.add(buildTip(i18n.ugRegUnavailableTip));
+        } else if (userType == OaUserType.postgraduate) {
+          widgets.add(buildTip(i18n.pgRegUnavailableTip));
+        }
+      case null:
     }
     return widgets.column(caa: CrossAxisAlignment.center);
   }
@@ -208,12 +214,10 @@ class StudentRegConnectivityInfo extends ConsumerWidget {
 
 class CampusNetworkConnectivityInfo extends StatelessWidget {
   final CampusNetworkStatus? status;
-  final bool useVpn;
 
   const CampusNetworkConnectivityInfo({
     super.key,
     this.status,
-    required this.useVpn,
   });
 
   @override
@@ -227,12 +231,7 @@ class CampusNetworkConnectivityInfo extends StatelessWidget {
       studentId = status.studentId ?? i18n.unknown;
     }
     return [
-      (status == null
-              ? i18n.campusNetworkNotConnected
-              : useVpn
-                  ? i18n.campusNetworkConnectedByVpn
-                  : i18n.campusNetworkConnected)
-          .text(
+      (status == null ? i18n.campusNetworkNotConnected : i18n.campusNetworkConnected).text(
         style: context.textTheme.titleMedium,
       ),
       if (studentId != null) "${i18n.credentials.studentId}: $studentId".text(style: style),

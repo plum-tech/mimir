@@ -1,22 +1,20 @@
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/school/entity/timetable.dart';
 import 'package:sit/school/widgets/course.dart';
-import 'package:sit/timetable/page/details.dart';
-import 'package:sit/timetable/platte.dart';
+import 'package:sit/timetable/widgets/timetable/course_sheet.dart';
+import 'package:sit/timetable/palette.dart';
 import 'package:sit/timetable/widgets/free.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/utils/color.dart';
 
 import '../../entity/timetable.dart';
 import '../../events.dart';
+import '../../entity/timetable_entity.dart';
 import '../../utils.dart';
 import '../../i18n.dart';
 import '../style.dart';
@@ -166,8 +164,7 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
 
   Widget buildPage(BuildContext ctx) {
     int weekIndex = widget.weekIndex;
-    final week = widget.timetable.weeks[weekIndex];
-    final day = week[widget.weekday];
+    final day = widget.timetable.getDay(weekIndex, widget.weekday);
     if (!day.hasAnyLesson()) {
       return FreeDayTip(
         timetable: widget.timetable,
@@ -228,17 +225,12 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
     final style = TimetableStyle.of(context);
 
     var color = timetable.resolveColor(style.platte, course).byTheme(context.theme);
-    if (style.cellStyle.harmonizeWithThemeColor) {
-      color = color.harmonizeWith(context.colorScheme.primary);
-    }
-    if (style.cellStyle.grayOutTakenLessons && lesson.endTime.isBefore(DateTime.now())) {
-      color = color.monochrome();
-    }
-    final alpha = style.cellStyle.alpha;
-    if (alpha < 1.0) {
-      color = color.withOpacity(color.opacity * alpha);
-    }
-    final classTime = course.buildingTimetable[timeslot];
+    color = style.cellStyle.decorateColor(
+      color,
+      themeColor: context.colorScheme.primary,
+      isLessonTaken: lesson.endTime.isBefore(DateTime.now()),
+    );
+    final classTime = calcBeginEndTimePointOfLesson(timeslot, timetable.campus, course.place);
     return [
       ClassTimeCard(
         color: color,
@@ -301,8 +293,12 @@ class LessonCard extends StatelessWidget {
         leading: CourseIcon(courseName: course.courseName),
         onTap: () async {
           if (!context.mounted) return;
-          await context.show$Sheet$(
-            (ctx) => TimetableCourseDetailsSheet(courseCode: course.courseCode, timetable: timetable),
+          await context.showSheet(
+            (ctx) => TimetableCourseSheetPage(
+              courseCode: course.courseCode,
+              timetable: timetable,
+              highlightedCourseKey: course.courseKey,
+            ),
           );
         },
         title: AutoSizeText(
@@ -336,7 +332,7 @@ class ClassTimeCard extends StatelessWidget {
       margin: 10,
       child: [
         classTime.begin.l10n(context).text(style: const TextStyle(fontWeight: FontWeight.bold)),
-        SizedBox(height: 5.h),
+        const SizedBox(height: 5),
         classTime.end.l10n(context).text(),
       ].column(),
     );
@@ -364,7 +360,7 @@ class LessonOverlapGroup extends StatelessWidget {
       final lesson = lessonsInSlot[lessonIndex];
       final course = lesson.course;
       final color = timetable.resolveColor(TimetableStyle.of(context).platte, course).byTheme(context.theme);
-      classTime = course.buildingTimetable[timeslot];
+      classTime = calcBeginEndTimePointOfLesson(timeslot, timetable.campus, course.place);
       final row = LessonCard(
         lesson: lesson,
         course: course,

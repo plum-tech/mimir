@@ -1,10 +1,10 @@
-import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/utils/byte_io.dart';
+import 'package:sit/utils/byte_io/byte_io.dart';
 
 import 'timetable.dart';
 
@@ -41,7 +41,9 @@ List _colorsToJson(List<Color2Mode> colors) {
 DateTime _kLastModified() => DateTime.now();
 
 @JsonSerializable()
+@CopyWith()
 class TimetablePalette {
+  static const version = 1;
   @JsonKey()
   final String name;
   @JsonKey()
@@ -51,7 +53,7 @@ class TimetablePalette {
   @JsonKey(defaultValue: _kLastModified)
   final DateTime lastModified;
 
-  static const defaultColor = (light: Colors.white30, dark: Colors.black12);
+  static const defaultColor = (light: Colors.white, dark: Colors.black);
 
   const TimetablePalette({
     required this.name,
@@ -64,23 +66,34 @@ class TimetablePalette {
 
   Map<String, dynamic> toJson() => _$TimetablePaletteToJson(this);
 
-  static TimetablePalette decodeFromBase64(String encoded) {
-    final bytes = base64Decode(encoded);
-    return decodeFromByteList(bytes);
+  Uint8List encodeByteList() => _encodeByteList(this);
+
+  static Uint8List _encodeByteList(TimetablePalette obj) {
+    final writer = ByteWriter(256);
+    writer.uint8(version);
+    writer.strUtf8(obj.name, ByteLength.bit8);
+    writer.strUtf8(obj.author, ByteLength.bit8);
+    writer.uint16(obj.colors.length);
+    for (var color in obj.colors) {
+      writer.uint32(color.light.value);
+      writer.uint32(color.dark.value);
+    }
+
+    return writer.build();
   }
 
-  static decodeFromByteList(Uint8List bytes) {
+  static TimetablePalette decodeFromByteList(Uint8List bytes) {
     final reader = ByteReader(bytes);
-    final name = reader.strUtf8();
-    final author = reader.strUtf8();
-    final colorLen = reader.uint32();
+    // ignore: unused_local_variable
+    final revision = reader.uint8();
+    final name = reader.strUtf8(ByteLength.bit8);
+    final author = reader.strUtf8(ByteLength.bit8);
 
-    List<Color2Mode> colors = [];
-    for (int i = 0; i < colorLen; i++) {
+    final colors = List.generate(reader.uint16(), (index) {
       Color light = Color(reader.uint32());
       Color dark = Color(reader.uint32());
-      colors.add((light: light, dark: dark));
-    }
+      return (light: light, dark: dark);
+    });
 
     return TimetablePalette(
       name: name,
@@ -92,37 +105,10 @@ class TimetablePalette {
 }
 
 extension TimetablePaletteX on TimetablePalette {
-  TimetablePalette copyWith({
-    String? name,
-    List<Color2Mode>? colors,
-    String? author,
-    DateTime? lastModified,
-  }) {
-    return TimetablePalette(
-      name: name ?? this.name,
-      colors: colors ?? List.of(this.colors),
-      author: author ?? this.author,
-      lastModified: lastModified ?? this.lastModified,
+  TimetablePalette markModified() {
+    return copyWith(
+      lastModified: DateTime.now(),
     );
-  }
-
-  String encodeBase64() {
-    final bytes = encodeByteList();
-    final encoded = base64Encode(bytes);
-    return encoded;
-  }
-
-  List<int> encodeByteList() {
-    final writer = ByteWriter(1024);
-    writer.strUtf8(name);
-    writer.strUtf8(author);
-    writer.uint32(colors.length);
-    for (var color in colors) {
-      writer.uint32(color.light.value);
-      writer.uint32(color.dark.value);
-    }
-
-    return writer.build();
   }
 }
 
@@ -133,12 +119,13 @@ class BuiltinTimetablePalette implements TimetablePalette {
   final String? authorOverride;
 
   @override
-  String get name => nameOverride ?? "timetable.p13n.builtinPalette.$key.name".tr();
+  String get name => nameOverride ?? "timetable.p13n.palette.builtin.$key.name".tr();
 
   @override
-  String get author => authorOverride ?? "timetable.p13n.builtinPalette.$key.author".tr();
+  String get author => authorOverride ?? "timetable.p13n.palette.builtin.$key.author".tr();
   @override
   final List<Color2Mode> colors;
+
   @override
   DateTime get lastModified => DateTime.now();
 
@@ -157,6 +144,9 @@ class BuiltinTimetablePalette implements TimetablePalette {
         "author": author,
         "colors": _colorsToJson(colors),
       };
+
+  @override
+  Uint8List encodeByteList() => TimetablePalette._encodeByteList(this);
 }
 
 abstract mixin class SitTimetablePaletteResolver {

@@ -1,12 +1,37 @@
-# Changes
+# Changelog
+
+## v2.4.1
+- Changed the custom URL and provided backward compatibility:
+  - scheme: from `life.mysit` to `sit-life`.
+  - Added host, `timetable`, for timetable-related data.
+- Changed timetable file format and provided backward compatibility.
+- Fixed QR code scanner issue.
+- [Dev] Added debug deep link tile in developer options.
+- Timetable *Out of Range* issue.
 
 ## v2.4.0
 - Redesigned the expense statistics page.
 - Redesigned the network tool page.
 - Changed duration of skipping update up to 7 days.
 - Changed web icons.
-- Timetable wallpaper support on web.
+- Timetable background support on web.
+- Fixed: Gif image not working in timetable wallpaper
 - Allowed to join QQ group on desktop and web.
+- [Demo mode] Attended activity mock service in class 2nd.
+- Timetable issue inspection.
+- Prompt user to save changes before quit.
+- Timetable courses can be hidden now.
+- Toggle haptic feedback in game settings.
+- Toggle quick look lesson on tap feature in timetable settings.
+- Improved zh-Hans and zh-Hant localization.
+- Timetable patch for moving, copying, swapping and removing lessons of days.
+- Shrunk the size of .ics file exported from timetable.
+- Redesigned entities of proxy.
+- [BREAKING CHANGES] New QR code formats of timetable palette and proxy.
+- Share timetable in QR code.
+- [Migration] Proxy settings and timetable background.
+- [iOS] Shortcut for importing .ics file to Calendar app.
+- Redesigned pull down menu.
 
 ## v2.3.0
 - The 2048 game supports save/load feature.

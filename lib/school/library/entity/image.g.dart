@@ -54,7 +54,7 @@ BookImage _$BookImageFromJson(Map<String, dynamic> json) => BookImage(
       isbn: json['isbn'] as String,
       coverUrl: json['coverlink'] as String,
       resourceUrl: json['resourceLink'] as String,
-      status: json['status'] as int,
+      status: (json['status'] as num).toInt(),
     );
 
 Map<String, dynamic> _$BookImageToJson(BookImage instance) => <String, dynamic>{

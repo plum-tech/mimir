@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
@@ -28,7 +29,8 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
           ),
           SliverList.list(
             children: [
-              buildAutoUseImportedToggle(),
+              const AutoUseImportedTile(),
+              const QuickLookCourseOnTapTile(),
               const Divider(),
               buildCellStyle(),
               buildP13n(),
@@ -36,22 +38,6 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
             ],
           ),
         ],
-      ),
-    );
-  }
-
-  Widget buildAutoUseImportedToggle() {
-    return ListTile(
-      title: i18n.settings.autoUseImported.text(),
-      subtitle: i18n.settings.autoUseImportedDesc.text(),
-      leading: const Icon(Icons.auto_mode_outlined),
-      trailing: Switch.adaptive(
-        value: Settings.timetable.autoUseImported,
-        onChanged: (newV) {
-          setState(() {
-            Settings.timetable.autoUseImported = newV;
-          });
-        },
       ),
     );
   }
@@ -89,6 +75,46 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
       onTap: () async {
         await context.push("/timetable/background");
       },
+    );
+  }
+}
+
+class QuickLookCourseOnTapTile extends ConsumerWidget {
+  const QuickLookCourseOnTapTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final on = ref.watch(Settings.timetable.$quickLookLessonOnTap) ?? true;
+    return ListTile(
+      leading: const Icon(Icons.touch_app),
+      title: i18n.settings.quickLookLessonOnTap.text(),
+      subtitle: i18n.settings.quickLookLessonOnTapDesc.text(),
+      trailing: Switch.adaptive(
+        value: on,
+        onChanged: (newV) {
+          ref.read(Settings.timetable.$quickLookLessonOnTap.notifier).set(newV);
+        },
+      ),
+    );
+  }
+}
+
+class AutoUseImportedTile extends ConsumerWidget {
+  const AutoUseImportedTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final on = ref.watch(Settings.timetable.$autoUseImported) ?? true;
+    return ListTile(
+      title: i18n.settings.autoUseImported.text(),
+      subtitle: i18n.settings.autoUseImportedDesc.text(),
+      leading: const Icon(Icons.auto_mode_outlined),
+      trailing: Switch.adaptive(
+        value: on,
+        onChanged: (newV) {
+          ref.read(Settings.timetable.$autoUseImported.notifier).set(newV);
+        },
+      ),
     );
   }
 }

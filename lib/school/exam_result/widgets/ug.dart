@@ -35,7 +35,7 @@ class ExamResultUgTile extends StatelessWidget {
       ),
       trailing: score != null ? score.toString().text() : i18n.courseNotEval.text(),
       onTap: () async {
-        context.show$Sheet$((ctx) => ExamResultUgDetailsPage(result));
+        context.showSheet((ctx) => ExamResultUgDetailsPage(result));
       },
     );
   }

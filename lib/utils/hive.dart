@@ -5,7 +5,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:logger/logger.dart';
 
-final _log = Logger();
+final _log = Logger(
+  printer: PrettyPrinter(
+    methodCount: 8,
+    // Number of method calls to be displayed
+    errorMethodCount: 8,
+    // Print an emoji for each log message
+    printTime: true, // Should each log print contain a timestamp
+  ),
+);
 
 extension BoxX on Box {
   T? safeGet<T>(dynamic key, {T? defaultValue}) {
@@ -148,67 +156,67 @@ class BoxFieldStreamNotifier<T> extends StateNotifier<T?> {
 
 extension BoxProviderX on Box {
   /// For generic class, like [List] or [Map], please specify the [get] for type conversion.
-  AutoDisposeStateNotifierProvider<BoxFieldNotifier<T>, T?> provider<T>(
+  StateNotifierProvider<BoxFieldNotifier<T>, T?> provider<T>(
     dynamic key, {
     T? Function()? get,
     FutureOr<void> Function(T? v)? set,
   }) {
-    return StateNotifierProvider.autoDispose<BoxFieldNotifier<T>, T?>((ref) {
+    return StateNotifierProvider<BoxFieldNotifier<T>, T?>((ref) {
       return BoxFieldNotifier(
-        get?.call() ?? safeGet<T>(key),
+        get != null ? get.call() : safeGet<T>(key),
         listenable(keys: [key]),
-        () => get?.call() ?? safeGet<T>(key),
-        (v) => set?.call(v) ?? safePut<T>(key, v),
+        () => get != null ? get.call() : safeGet<T>(key),
+        (v) => set != null ? set.call(v) : safePut<T>(key, v),
       );
     });
   }
 
   /// For generic class, like [List] or [Map], please specify the [get] for type conversion.
-  AutoDisposeStateNotifierProvider<BoxFieldWithDefaultNotifier<T>, T> providerWithDefault<T>(
+  StateNotifierProvider<BoxFieldWithDefaultNotifier<T>, T> providerWithDefault<T>(
     dynamic key,
     T Function() getDefault, {
     T? Function()? get,
     FutureOr<void> Function(T? v)? set,
   }) {
-    return StateNotifierProvider.autoDispose<BoxFieldWithDefaultNotifier<T>, T>((ref) {
+    return StateNotifierProvider<BoxFieldWithDefaultNotifier<T>, T>((ref) {
       return BoxFieldWithDefaultNotifier(
-        get?.call() ?? safeGet<T>(key) ?? getDefault(),
+        (get != null ? get.call() : safeGet<T>(key)) ?? getDefault(),
         listenable(keys: [key]),
-        () => get?.call() ?? safeGet<T>(key),
-        (v) => set?.call(v) ?? safePut<T>(key, v),
+        () => get != null ? get.call() : safeGet<T>(key),
+        (v) => set != null ? set.call(v) : safePut<T>(key, v),
         getDefault,
       );
     });
   }
 
   /// For generic class, like [List] or [Map], please specify the [get] for type conversion.
-  AutoDisposeStateNotifierProviderFamily<BoxFieldNotifier<T>, T?, Arg> providerFamily<T, Arg>(
+  StateNotifierProviderFamily<BoxFieldNotifier<T>, T?, Arg> providerFamily<T, Arg>(
     dynamic Function(Arg arg) keyOf, {
     T? Function(Arg arg)? get,
     FutureOr<void> Function(Arg arg, T? v)? set,
   }) {
-    return StateNotifierProvider.autoDispose.family<BoxFieldNotifier<T>, T?, Arg>((ref, arg) {
+    return StateNotifierProvider.family<BoxFieldNotifier<T>, T?, Arg>((ref, arg) {
       return BoxFieldNotifier(
-        get?.call(arg) ?? safeGet<T>(arg),
+        get != null ? get.call(arg) : safeGet<T>(arg),
         listenable(keys: [keyOf(arg)]),
-        () => get?.call(arg) ?? safeGet<T>(arg),
-        (v) => set?.call(arg, v) ?? safePut<T>(arg, v),
+        () => get != null ? get.call(arg) : safeGet<T>(arg),
+        (v) => set != null ? set.call(arg, v) : safePut<T>(arg, v),
       );
     });
   }
 
-  AutoDisposeChangeNotifierProvider changeProvider(
+  ChangeNotifierProvider changeProvider(
     List<dynamic> keys,
   ) {
-    return ChangeNotifierProvider.autoDispose((ref) {
+    return ChangeNotifierProvider((ref) {
       return BoxChangeNotifier(listenable(keys: keys));
     });
   }
 
-  AutoDisposeStateNotifierProvider<BoxFieldExistsChangeNotifier, bool> existsChangeProvider(
+  StateNotifierProvider<BoxFieldExistsChangeNotifier, bool> existsChangeProvider(
     dynamic key,
   ) {
-    return StateNotifierProvider.autoDispose((ref) {
+    return StateNotifierProvider((ref) {
       return BoxFieldExistsChangeNotifier(
         containsKey(key),
         listenable(keys: [key]),
@@ -217,9 +225,10 @@ extension BoxProviderX on Box {
     });
   }
 
-  AutoDisposeStateNotifierProviderFamily<BoxFieldExistsChangeNotifier, bool, Arg> existsChangeProviderFamily<Arg>(
-      dynamic Function(Arg arg) keyOf) {
-    return StateNotifierProvider.autoDispose.family((ref, arg) {
+  StateNotifierProviderFamily<BoxFieldExistsChangeNotifier, bool, Arg> existsChangeProviderFamily<Arg>(
+    dynamic Function(Arg arg) keyOf,
+  ) {
+    return StateNotifierProvider.family((ref, arg) {
       return BoxFieldExistsChangeNotifier(
         containsKey(keyOf(arg)),
         listenable(keys: [keyOf(arg)]),
@@ -228,20 +237,20 @@ extension BoxProviderX on Box {
     });
   }
 
-  AutoDisposeChangeNotifierProvider streamChangeProvider({
+  ChangeNotifierProvider streamChangeProvider({
     BoxEventFilter? filter,
   }) {
-    return ChangeNotifierProvider.autoDispose((ref) {
+    return ChangeNotifierProvider((ref) {
       return BoxChangeStreamNotifier(watch(), filter);
     });
   }
 
-  AutoDisposeStateNotifierProvider<BoxFieldStreamNotifier<T>, T?> streamProvider<T>({
-    required T? initial,
+  StateNotifierProvider<BoxFieldStreamNotifier<T>, T?> streamProvider<T>({
+    required T? Function() initial,
     BoxEventFilter? filter,
   }) {
-    return StateNotifierProvider.autoDispose<BoxFieldStreamNotifier<T>, T?>((ref) {
-      return BoxFieldStreamNotifier(initial, watch(), filter);
+    return StateNotifierProvider<BoxFieldStreamNotifier<T>, T?>((ref) {
+      return BoxFieldStreamNotifier(initial(), watch(), filter);
     });
   }
 

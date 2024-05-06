@@ -25,9 +25,9 @@ class ElectricityStorage {
 
   late final $lastBalance = box.provider<ElectricityBalance>(_K.lastBalance);
 
-  ElectricityBalance? get lastBalance => box.safeGet(_K.lastBalance);
+  ElectricityBalance? get lastBalance => box.safeGet<ElectricityBalance>(_K.lastBalance);
 
-  set lastBalance(ElectricityBalance? newV) => box.safePut(_K.lastBalance, newV);
+  set lastBalance(ElectricityBalance? newV) => box.safePut<ElectricityBalance>(_K.lastBalance, newV);
 
   List<String>? get searchHistory => box.safeGet(_K.searchHistory);
 
@@ -38,9 +38,9 @@ class ElectricityStorage {
     box.safePut(_K.searchHistory, newV);
   }
 
-  DateTime? get lastUpdateTime => box.safeGet(_K.lastUpdateTime);
+  DateTime? get lastUpdateTime => box.safeGet<DateTime>(_K.lastUpdateTime);
 
-  set lastUpdateTime(DateTime? newV) => box.safePut(_K.lastUpdateTime, newV);
+  set lastUpdateTime(DateTime? newV) => box.safePut<DateTime>(_K.lastUpdateTime, newV);
 
   late final $lastUpdateTime = box.provider<DateTime>(_K.lastUpdateTime);
 

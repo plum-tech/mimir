@@ -107,7 +107,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
                   onPressed: () {
                     multiselect.clearSelection();
                   },
-                  child: Text(i18n.done),
+                  child: Text(i18n.cancel),
                 )
               ],
               bottom: isFetching
@@ -260,7 +260,7 @@ class _ExamResultGroupBySemesterState extends State<ExamResultGroupBySemester> {
               scope.toggle(item.index);
             },
             onLongPress: () async {
-              await ctx.show$Sheet$((ctx) => ExamResultGpaItemDetailsPage(item));
+              await ctx.showSheet((ctx) => ExamResultGpaItemDetailsPage(item));
             },
           ).inFilledCard(clip: Clip.hardEdge);
         });

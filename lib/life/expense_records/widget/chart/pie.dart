@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,7 +50,7 @@ class _ExpensePieChartState extends State<ExpensePieChart> {
         .sortedBy<num>((e) => -e.value.total)
         .map((record) {
           final MapEntry(key: type, value: (records: _, :total, proportion: _)) = record;
-          final color = type.color.harmonizeWith(context.colorScheme.primary);
+          final color = type.resolveColor(context);
           return Chip(
             avatar: Icon(type.icon, color: color),
             labelStyle: TextStyle(color: color),
@@ -121,7 +120,7 @@ class _PieChartWidgetState extends ConsumerState<ExpensePieChartWidget> {
         sections: delegate.type2Stats.entries.mapIndexed((i, entry) {
           final isTouched = i == touchedIndex;
           final MapEntry(key: type, value: (records: _, :total, :proportion)) = entry;
-          final color = type.color.harmonizeWith(context.colorScheme.primary);
+          final color = type.resolveColor(context);
           return PieChartSectionData(
             color: color.withOpacity(isTouched ? 1 : 0.8),
             value: total,
@@ -152,7 +151,7 @@ class ExpenseAverageTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(type.icon, color: type.color),
+      leading: Icon(type.icon, color: type.resolveColor(context)),
       title: i18n.stats.averageSpendIn(amount: "¥${average.toStringAsFixed(2)}", type: type).text(),
       subtitle: i18n.stats.maxSpendOf(amount: "¥${max.toStringAsFixed(2)}").text(),
     );

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:sit/credentials/i18n.dart';
 import 'package:sit/l10n/app.dart';
 import 'package:sit/l10n/common.dart';
+import 'package:sit/settings/entity/proxy.dart';
 
 const i18n = _I18n();
 
@@ -65,6 +66,8 @@ class _Proxy {
   String get hostname => "$ns.hostname".tr();
 
   String get port => "$ns.port".tr();
+
+  String get enableAuth => "$ns.enableAuth".tr();
 
   String get authentication => "$ns.authentication".tr();
 
@@ -145,4 +148,14 @@ class _OaCredentials extends OaCredentialsI18n {
   String get testLoginOa => "$ns.testLoginOa.title".tr();
 
   String get testLoginOaDesc => "$ns.testLoginOa.desc".tr();
+}
+
+extension ProxyTypeI18nX on ProxyCat {
+  String l10n() => "settings.proxy.proxyType.$name".tr();
+}
+
+extension ProxyModeI18nX on ProxyMode {
+  String l10nName() => "settings.proxy.proxyMode.$name.name".tr();
+
+  String l10nTip() => "settings.proxy.proxyMode.$name.tip".tr();
 }

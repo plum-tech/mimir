@@ -1,27 +1,63 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 
-extension BuildContextPromptX on BuildContext {
-  void Function() promptSaveBeforeQuit({
-    required FutureOr<void> Function() save,
-    required FutureOr<void> Function() quit,
-  }) {
-    return () async {
-      final confirmSave = await showDialogRequest(
-        desc: 'You have unsaved changes, do you want to save them?',
-        yes: 'Save&Quit',
-        no: 'Abort',
-      );
-      if (confirmSave == true) {
-        await save();
-        await quit();
-      } else if (confirmSave == false) {
-        await quit();
-      } else {
-        // do nothing when dismiss
-      }
-    };
+const _i18n = _I18n();
+
+class PromptSaveBeforeQuitScope extends StatelessWidget {
+  final bool changed;
+  final FutureOr<void> Function() onSave;
+  final Widget child;
+
+  const PromptSaveBeforeQuitScope({
+    super.key,
+    required this.changed,
+    required this.onSave,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (didPop) {
+          return;
+        }
+        if (!changed) {
+          context.pop();
+          return;
+        }
+        final confirmSave = await context.showDialogRequest(
+          desc: _i18n.request,
+          primary: _i18n.saveAndQuit,
+          secondary: _i18n.discard,
+          secondaryDestructive: true,
+          dismissible: true,
+        );
+        if (confirmSave == true) {
+          await onSave();
+        } else if (confirmSave == false) {
+          if (!context.mounted) return;
+          context.pop();
+        }
+      },
+      child: child,
+    );
   }
+}
+
+class _I18n {
+  const _I18n();
+
+  static const ns = "saveAndQuitPrompt";
+
+  String get request => "$ns.request".tr();
+
+  String get saveAndQuit => "$ns.saveAndQuit".tr();
+
+  String get discard => "$ns.discard".tr();
 }

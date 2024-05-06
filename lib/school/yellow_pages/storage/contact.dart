@@ -19,13 +19,13 @@ class YellowPagesStorage {
     this.maxHistoryLength = 2,
   });
 
-  List<SchoolContact>? get interactHistory => (box.safeGet(_K.history) as List?)?.cast<SchoolContact>();
+  List<SchoolContact>? get interactHistory => box.safeGet<List>(_K.history)?.cast<SchoolContact>();
 
   set interactHistory(List<SchoolContact>? newV) {
     if (newV != null) {
       newV = newV.sublist(0, min(newV.length, maxHistoryLength));
     }
-    box.safePut(_K.history, newV);
+    box.safePut<List>(_K.history, newV);
   }
 
   ValueListenable<Box> listenHistory() => box.listenable(keys: [_K.history]);
