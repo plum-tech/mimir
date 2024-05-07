@@ -5,8 +5,6 @@ import '../entity/screen.dart';
 import '../manager/timer.dart';
 import 'cell.dart';
 import '../page/game.dart';
-import '../i18n.dart';
-
 
 class GameBoard extends ConsumerWidget {
   final Screen screen;
@@ -51,18 +49,14 @@ class GameBoard extends ConsumerWidget {
             return Positioned(
               left: col * cellWidth,
               top: row * cellWidth,
-              child: CellWidget(
-                row: row,
-                col: col,
-                refresh: refresh,
-              )
-                  .clipRRect(
-                      borderRadius: BorderRadius.all(
-                    Radius.circular(
-                      screen.getBoardRadius(),
-                    ),
-                  ))
-                  .sizedAll(cellWidth),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                child: CellWidget(
+                  row: row,
+                  col: col,
+                  refresh: refresh,
+                ).sizedAll(cellWidth),
+              ),
             );
           },
         ),

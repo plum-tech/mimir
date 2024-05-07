@@ -10,7 +10,7 @@ enum CellState {
   @JsonValue(1)
   blank(showCover: false, showFlag: false),
   @JsonValue(2)
-  flag(showCover: true, showFlag: false);
+  flag(showCover: true, showFlag: true);
 
   final bool showCover;
   final bool showFlag;
@@ -41,4 +41,9 @@ class Cell {
   Map<String, dynamic> toJson() => _$CellToJson(this);
 
   factory Cell.fromJson(Map<String, dynamic> json) => _$CellFromJson(json);
+
+  @override
+  String toString() {
+    return "[$row,$column] ${mine ? "X" : ""} $state with $minesAround mines";
+  }
 }

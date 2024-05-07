@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import "package:flutter/foundation.dart";
-import 'package:logger/logger.dart';
 import 'package:rettulf/rettulf.dart';
 import '../entity/cell.dart';
-import '../manager/logic.dart';
 import 'cell/button.dart';
 import 'cell/cover.dart';
 import 'cell/flag.dart';
@@ -29,6 +26,30 @@ class CellWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final manager = ref.watch(minesweeperState.notifier);
     final cell = manager.getCell(row: row, col: col);
+    return CellButton(
+      cell: cell,
+      refresh: refresh,
+      child: CellContent(
+        cell: cell,
+        refresh: refresh,
+      ),
+    );
+  }
+}
+
+class CellContent extends ConsumerWidget {
+  final Cell cell;
+  final void Function() refresh;
+
+  const CellContent({
+    super.key,
+    required this.cell,
+    required this.refresh,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final manager = ref.watch(minesweeperState.notifier);
     final bottom = buildBottom(cell);
     return Stack(
       children: [
@@ -38,12 +59,6 @@ class CellWidget extends ConsumerWidget {
           child: CellCover(visible: cell.state.showCover),
         ),
         CellFlag(visible: cell.state.showFlag),
-        CellButton(
-          cell: cell,
-          coverVisible: cell.state.showCover,
-          flagVisible: cell.state.showFlag,
-          refresh: refresh,
-        ),
       ],
     );
   }
