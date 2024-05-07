@@ -10,7 +10,7 @@ import 'cell/cover.dart';
 import 'cell/flag.dart';
 import 'cell/mine.dart';
 import 'cell/number.dart';
-import '../game.dart';
+import '../page/game.dart';
 
 class CellWidget extends ConsumerWidget {
   final int row;
@@ -41,10 +41,6 @@ class CellWidget extends ConsumerWidget {
       case CellState.flag:
         coverVisible = true;
         flagVisible = true;
-      default:
-        if (kDebugMode) {
-          logger.log(Level.error, "Wrong Cell State");
-        }
     }
 
     return Stack(

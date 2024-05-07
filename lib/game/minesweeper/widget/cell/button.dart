@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/build_context.dart';
 import 'package:sit/game/utils.dart';
 import '../../entity/cell.dart';
-import '../../game.dart';
+import '../../page/game.dart';
 
 class CellButton extends ConsumerWidget {
   const CellButton({

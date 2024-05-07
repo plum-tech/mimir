@@ -2,9 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/game/entity/game_state.dart';
 import '../manager/timer.dart';
+import '../page/game.dart';
 import '../theme.dart';
 import '../i18n.dart';
-import '../game.dart';
 
 class GameOverModal extends ConsumerWidget {
   const GameOverModal({

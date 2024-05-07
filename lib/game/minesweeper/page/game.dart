@@ -6,17 +6,17 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/game/entity/game_state.dart';
 import 'package:sit/game/minesweeper/save.dart';
-import 'entity/cell.dart';
-import 'entity/mode.dart';
-import 'entity/screen.dart';
-import 'entity/state.dart';
-import 'widget/info.dart';
-import 'manager/logic.dart';
-import 'widget/board.dart';
 import "package:flutter/foundation.dart";
-import 'manager/timer.dart';
-import 'theme.dart';
-import 'i18n.dart';
+
+import '../entity/mode.dart';
+import '../entity/screen.dart';
+import '../entity/state.dart';
+import '../manager/logic.dart';
+import '../manager/timer.dart';
+import '../widget/board.dart';
+import '../widget/hud.dart';
+import '../widget/info.dart';
+import '../i18n.dart';
 
 final minesweeperState = StateNotifierProvider<GameLogic, GameStateMinesweeper>((ref) {
   if (kDebugMode) {
@@ -106,10 +106,13 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
     final state = ref.watch(minesweeperState);
     // Get Your Screen Size
     final screenSize = MediaQuery.of(context).size;
-    final mode = ref.watch(boardManager).mode;
-    initScreen(screenSize: screenSize, gameMode: mode);
-    // Build UI From Screen Size
-
+    final mode = ref.watch(minesweeperState).mode;
+    final screen = Screen(
+      height: screenSize.height,
+      width: screenSize.width,
+      gameRows: state.rows,
+      gameColumns: state.columns,
+    );
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -126,10 +129,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          GameHud(
-            mode: state.mode,
-            timer: timer,
-          ),
+          GameHud(mode: state.mode, timer: timer),
           Center(
             child: Stack(
               children: [

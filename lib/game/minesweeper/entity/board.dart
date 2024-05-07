@@ -213,22 +213,22 @@ class _CellBoardBuilder extends ICellBoard<_CellBuilder> {
     final candidates = List.generate(rows * columns, (index) => (row: index ~/ columns, column: index % columns));
     // Clicked cell and one-cell nearby cells can't be mines.
     for (final (dx, dy) in _nearbyDeltaAndThis) {
-      final row = clickRow + dx;
-      final column = clickCol + dy;
+      final row = rowExclude + dx;
+      final column = columnExclude + dy;
       candidates.remove((row: row, column: column));
     }
     final maxMines = candidates.length - 1;
-    assert(number <= maxMines, "The max mine is $maxMines, but $number is given.");
-    remaining = min<int>(number, maxMines);
+    assert(mines <= maxMines, "The max mine is $maxMines, but $mines is given.");
+    var remaining = min<int>(mines, maxMines);
     this.mines = remaining;
     while (candidates.isNotEmpty && remaining > 0) {
       final index = rand.nextInt(candidates.length);
       final (:row, :column) = candidates[index];
-      final cell = getCell(row: row, col: column);
+      final cell = getCell(row: row, column: column);
       if (!cell.mine) {
         cell.mine = true;
         // count as mine created
-        for (final neighbor in iterateAround(row: row, column: col)) {
+        for (final neighbor in iterateAround(row: row, column: column)) {
           neighbor.minesAround += 1;
         }
         remaining--;

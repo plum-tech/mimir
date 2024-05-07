@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import '../entity/screen.dart';
 import '../manager/timer.dart';
-import '../manager/logic.dart';
 import 'cell.dart';
-import '../game.dart';
+import '../page/game.dart';
+import '../i18n.dart';
+
 
 class GameBoard extends ConsumerWidget {
   final Screen screen;
