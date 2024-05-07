@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rettulf/rettulf.dart';
 import '../../entity/timer.dart';
 import '../theme.dart';
 import '../i18n.dart';
@@ -15,22 +16,21 @@ class GameStateModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Opacity(
-      opacity: 0.75,
-      child: Container(
-        decoration: BoxDecoration(
-          color: gameOverColor,
-        ),
-        child: MaterialButton(
-          onPressed: () {
-            resetGame();
-          },
+    return Positioned.fill(
+      child: InkWell(
+        onTap: () {
+          resetGame();
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: gameOverColor.withOpacity(0.68),
+          ),
           child: Text(
             i18n.gameOver,
-            style: TextStyle(
-              color: gameOverTextColor,
+            style: const TextStyle(
+              fontSize: 64.0,
             ),
-          ),
+          ).center(),
         ),
       ),
     );
@@ -49,11 +49,10 @@ class VictoryModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Opacity(
-      opacity: 0.75,
+    return Positioned.fill(
       child: Container(
         decoration: BoxDecoration(
-          color: goodGameColor,
+          color: goodGameColor.withOpacity(0.68),
         ),
         child: MaterialButton(
           onPressed: () {
@@ -61,7 +60,9 @@ class VictoryModal extends StatelessWidget {
           },
           child: Text(
             "${i18n.youWin}\n${i18n.timeSpent(timer.getTimeCost())}",
-            style: TextStyle(color: goodGameTextColor),
+            style: const TextStyle(
+              fontSize: 64.0,
+            ),
           ),
         ),
       ),
