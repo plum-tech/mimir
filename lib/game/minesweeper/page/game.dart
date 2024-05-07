@@ -47,8 +47,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
       if (!widget.newGame) {
         final save = SaveMinesweeper.storage.load();
         if (save != null) {
-          // ref.read(boardManager.notifier).fromSave(CellBoard.fromSave(save));
-          ref.read(minesweeperState.notifier).initGame(gameMode: GameMode.easy);
+          ref.read(minesweeperState.notifier).fromSave(save);
         } else {
           ref.read(minesweeperState.notifier).initGame(gameMode: GameMode.easy);
         }

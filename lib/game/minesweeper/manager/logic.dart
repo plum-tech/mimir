@@ -23,14 +23,8 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
     }
   }
 
-  // TODO: finish this
-  void fromSave(CellBoard save) {
-    // state.mode = GameMode.easy;
-    // state.board = save;
-    // mineNum = save.mines;
-    // if (kDebugMode) {
-    //   logger.log(Level.info, "Game from save");
-    // }
+  void fromSave(SaveMinesweeper save) {
+    state = GameStateMinesweeper.fromSave(save);
   }
 
   Duration get playTime => state.playTime;
@@ -174,9 +168,9 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
 
   Future<void> save() async {
     if (state.state.shouldSave) {
-      await SaveMinesweeper.storage.delete();
-    } else {
       await SaveMinesweeper.storage.save(state.toSave());
+    } else {
+      await SaveMinesweeper.storage.delete();
     }
   }
 }
