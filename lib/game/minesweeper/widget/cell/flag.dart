@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rettulf/rettulf.dart';
 import '../../theme.dart';
 
 class CellFlag extends ConsumerWidget {
@@ -11,26 +12,26 @@ class CellFlag extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final flagSize = 16.0;
     return AnimatedPositioned(
       left: 0,
       top: visible ? 0 : -40,
       duration: duration,
       curve: curve,
       child: AnimatedOpacity(
-          opacity: visible ? 1 : 0,
+        opacity: visible ? 1 : 0,
+        duration: duration,
+        curve: curve,
+        child: AnimatedScale(
+          scale: visible ? 1 : 0.2,
           duration: duration,
           curve: curve,
-          child: AnimatedScale(
-            scale: visible ? 1 : 0.2,
-            duration: duration,
-            curve: curve,
-            child: Icon(
-              Icons.flag,
-              size: flagSize,
-              color: flagColor,
-            ),
-          )),
+          child: const Icon(
+            Icons.flag,
+            size: flagSize,
+            color: flagColor,
+          ),
+        ),
+      ).center(),
     );
   }
 }

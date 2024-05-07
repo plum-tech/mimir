@@ -5,6 +5,10 @@ final gameOverColor = Colors.red[600];
 final gameOverTextColor = Colors.blue[900];
 final goodGameColor = Colors.green[600];
 final goodGameTextColor = Colors.yellow[800];
+const iconSize = 42.0;
+const numberSize = iconSize  * 0.7;
+const mineSize = iconSize * 0.7;
+const flagSize = iconSize;
 
 // Cell Color
 const mineColor = Colors.red;

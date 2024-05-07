@@ -13,7 +13,6 @@ class MinesAroundNumber extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final numberSize = 16 * 0.7;
     return Text(
       minesAround.toString(),
       textAlign: TextAlign.center,

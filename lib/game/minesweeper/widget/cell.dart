@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import "package:flutter/foundation.dart";
 import 'package:logger/logger.dart';
+import 'package:rettulf/rettulf.dart';
 import '../entity/cell.dart';
 import '../manager/logic.dart';
 import 'cell/button.dart';
@@ -42,10 +43,10 @@ class CellWidget extends ConsumerWidget {
         coverVisible = true;
         flagVisible = true;
     }
-
+    final bottom = buildBottom(cell);
     return Stack(
       children: [
-        if (cell.mine) const Mine() else if (cell.minesAround > 0) MinesAroundNumber(minesAround: cell.minesAround),
+        if (bottom != null) bottom.center(),
         Opacity(
           opacity: manager.gameOver && cell.mine ? 0.5 : 1.0,
           child: CellCover(visible: coverVisible),
@@ -59,5 +60,14 @@ class CellWidget extends ConsumerWidget {
         ),
       ],
     );
+  }
+
+  Widget? buildBottom(Cell cell) {
+    if (cell.mine) {
+      return const Mine();
+    } else if (cell.minesAround > 0) {
+      return MinesAroundNumber(minesAround: cell.minesAround);
+    }
+    return null;
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rettulf/rettulf.dart';
 
 import '../../manager/logic.dart';
 import '../../theme.dart';
@@ -10,10 +11,7 @@ class Mine extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final screen = ref.read(boardManager).screen;
-    // final cellWidth = screen.getCellWidth();
-    final mineSize = 16 * 0.7;
-    return Icon(
+    return const Icon(
       Icons.gps_fixed,
       size: mineSize,
       color: mineColor,
