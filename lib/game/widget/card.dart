@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/widgets/app.dart';
 
-import '../storage/storage.dart';
+import '../storage/save.dart';
 import '../i18n.dart';
 
 class OfflineGameAppCard extends ConsumerStatefulWidget {
@@ -13,7 +13,7 @@ class OfflineGameAppCard extends ConsumerStatefulWidget {
   final String baseRoute;
   final bool supportHistory;
   final bool supportLeaderboard;
-  final GameStorageBox? storage;
+  final GameSaveStorage? storage;
 
   const OfflineGameAppCard({
     super.key,

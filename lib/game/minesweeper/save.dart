@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/game/storage/storage.dart';
+import 'package:sit/game/storage/save.dart';
 import 'package:sit/storage/hive/init.dart';
 
 import 'entity/mode.dart';
@@ -52,10 +52,9 @@ class SaveMinesweeper {
 
   factory SaveMinesweeper.fromJson(Map<String, dynamic> json) => _$SaveMinesweeperFromJson(json);
 
-  static final storage = GameStorageBox<SaveMinesweeper>(
+  static final storage = GameSaveStorage<SaveMinesweeper>(
     () => HiveInit.gameMinesweeper,
-    name: "minesweeper",
-    version: 1,
+    prefix: "/minesweeper/1",
     serialize: (save) => save.toJson(),
     deserialize: SaveMinesweeper.fromJson,
   );
