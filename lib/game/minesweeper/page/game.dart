@@ -85,7 +85,8 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
 
   void resetGame() {
     timer.reset();
-    ref.read(minesweeperState.notifier).initGame(gameMode: GameMode.easy);
+    final gameMode = ref.watch(minesweeperState.select((state) => state.mode));
+    ref.read(minesweeperState.notifier).initGame(gameMode: gameMode);
   }
 
   void startTimer() {
