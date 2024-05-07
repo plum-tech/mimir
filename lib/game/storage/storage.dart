@@ -4,12 +4,11 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/utils/hive.dart';
-import 'package:version/version.dart';
 
 class GameStorageBox<TSave> {
   Box Function() _box;
   final String name;
-  final Version version;
+  final int version;
   final TSave Function(Map<String, dynamic> json) deserialize;
   final Map<String, dynamic> Function(TSave save) serialize;
 
