@@ -1,9 +1,6 @@
-import 'dart:async';
-import 'dart:convert';
-
-import 'package:flutter/cupertino.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/game/entity/record.dart';
+import 'package:sit/storage/hive/table.dart';
 import 'package:sit/utils/hive.dart';
 
 class GameRecordStorage<TRecord extends GameRecord> {
@@ -12,58 +9,39 @@ class GameRecordStorage<TRecord extends GameRecord> {
   final TRecord Function(Map<String, dynamic> json) deserialize;
   final Map<String, dynamic> Function(TRecord save) serialize;
 
+  final String _prefix;
+
   GameRecordStorage(
     this._box, {
     required this.prefix,
     required this.serialize,
     required this.deserialize,
-  });
+  }) : _prefix = "$prefix/record";
 
-  String get _prefix => "$prefix/save";
+  late final table = HiveTable<TRecord>(
+    base: _prefix,
+    box: _box(),
+    useJson: (fromJson: deserialize, toJson: serialize),
+  );
 
-  Future<void> save(TRecord save, {int slot = 0}) async {
-    final json = serialize(save);
-    final str = jsonEncode(json);
-    await _box().safePut<String>("$_prefix/$slot", str);
+  int add(TRecord save) {
+    final id = table.add(save);
+    return id;
   }
 
-  Future<void> delete({int slot = 0}) async {
-    await _box().delete("$_prefix/$slot");
+  void delete({required int id}) {
+    table.delete(id);
   }
 
-  TRecord? load({int slot = 0}) {
-    final str = _box().safeGet<String>("$_prefix/$slot");
-    if (str == null) return null;
-    try {
-      final json = jsonDecode(str);
-      final save = deserialize(json);
-      return save;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  bool exists({int slot = 0}) {
-    return _box().containsKey("$_prefix/$slot");
-  }
-
-  late final $saveOf = _box().providerFamily<TRecord, int>(
-    (slot) => "$_prefix/$slot",
-    get: (slot) => load(slot: slot),
-    set: (slot, v) async {
+  late final $recordOf = _box().providerFamily<TRecord, int>(
+    (id) => "$_prefix/$id",
+    get: (id) => table[id],
+    set: (id, v) async {
       if (v == null) {
-        await delete(slot: slot);
+        delete(id: id);
       } else {
-        await save(v, slot: slot);
+        table[id] = v;
       }
     },
   );
-
-  late final $saveExistsOf = _box().existsChangeProviderFamily<int>(
-    (slot) => "$_prefix/$slot",
-  );
-
-  Listenable listen({int slot = 0}) {
-    return _box().listenable(keys: ["$_prefix/$slot"]);
-  }
 }
