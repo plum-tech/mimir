@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/game/entity/game_state.dart';
 import '../entity/cell.dart';
 import 'cell/button.dart';
 import 'cell/cover.dart';
@@ -49,7 +50,7 @@ class CellContent extends ConsumerWidget {
       children: [
         if (bottom != null) bottom.center(),
         Opacity(
-          opacity: manager.gameOver && cell.mine ? 0.5 : 1.0,
+          opacity: manager.gameState == GameState.gameOver && cell.mine ? 0.5 : 1.0,
           child: CellCover(visible: cell.state.showCover),
         ),
         CellFlag(visible: cell.state.showFlag),

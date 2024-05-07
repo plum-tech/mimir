@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sit/game/entity/game_state.dart';
 import 'package:sit/game/utils.dart';
 import '../../entity/cell.dart';
 import '../../page/game.dart';
@@ -21,8 +22,9 @@ class CellButton extends ConsumerWidget {
     if (state == CellState.blank && cell.minesAround == 0) {
       return child;
     }
+    final running = manager.gameState == GameState.running || manager.gameState == GameState.idle;
     return GestureDetector(
-      onTap: !state.showCover
+      onTap: running && !state.showCover
           ? null
           : () {
               // Click a Cover Cell => Blank
@@ -34,7 +36,7 @@ class CellButton extends ConsumerWidget {
                 manager.removeFlag(cell: cell);
               }
             },
-      onDoubleTap: state.showCover
+      onDoubleTap: running && state.showCover
           ? null
           : () {
               bool anyChanged = false;
@@ -44,13 +46,13 @@ class CellButton extends ConsumerWidget {
                 applyGameHapticFeedback();
               }
             },
-      onLongPress: !state.showCover
+      onLongPress: running && !state.showCover
           ? null
           : () {
               manager.toggleFlag(cell: cell);
               applyGameHapticFeedback();
             },
-      onSecondaryTap: !state.showCover
+      onSecondaryTap: running && !state.showCover
           ? null
           : () {
               manager.toggleFlag(cell: cell);

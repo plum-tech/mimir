@@ -1,7 +1,6 @@
 import 'package:sit/game/minesweeper/save.dart';
 
 import '../entity/mode.dart';
-import '../entity/screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:flutter/foundation.dart";
 import 'package:logger/logger.dart';
@@ -34,7 +33,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
     // }
   }
 
-  bool get gameOver => state.state == GameState.gameOver;
+  GameState get gameState => state.state;
 
   Cell getCell({required row, required col}) {
     return state.board.getCell(row: row, column: col);
