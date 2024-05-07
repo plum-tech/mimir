@@ -8,12 +8,10 @@ class CellButton extends ConsumerWidget {
   const CellButton({
     super.key,
     required this.cell,
-    required this.refresh,
     required this.child,
   });
 
   final Cell cell;
-  final void Function() refresh;
   final Widget child;
 
   @override
@@ -35,7 +33,6 @@ class CellButton extends ConsumerWidget {
                 // Click a Flag Cell => Cancel Flag (Covered)
                 manager.removeFlag(cell: cell);
               }
-              refresh();
             },
       onDoubleTap: state.showCover
           ? null
@@ -46,21 +43,18 @@ class CellButton extends ConsumerWidget {
               if (anyChanged) {
                 applyGameHapticFeedback();
               }
-              refresh();
             },
       onLongPress: !state.showCover
           ? null
           : () {
               manager.toggleFlag(cell: cell);
               applyGameHapticFeedback();
-              refresh();
             },
       onSecondaryTap: !state.showCover
           ? null
           : () {
               manager.toggleFlag(cell: cell);
               applyGameHapticFeedback();
-              refresh();
             },
       child: child,
     );

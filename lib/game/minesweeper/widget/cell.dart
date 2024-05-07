@@ -13,13 +13,11 @@ import '../page/game.dart';
 class CellWidget extends ConsumerWidget {
   final int row;
   final int col;
-  final void Function() refresh;
 
   const CellWidget({
     super.key,
     required this.row,
     required this.col,
-    required this.refresh,
   });
 
   @override
@@ -28,10 +26,8 @@ class CellWidget extends ConsumerWidget {
     final cell = manager.getCell(row: row, col: col);
     return CellButton(
       cell: cell,
-      refresh: refresh,
       child: CellContent(
         cell: cell,
-        refresh: refresh,
       ),
     );
   }
@@ -39,12 +35,10 @@ class CellWidget extends ConsumerWidget {
 
 class CellContent extends ConsumerWidget {
   final Cell cell;
-  final void Function() refresh;
 
   const CellContent({
     super.key,
     required this.cell,
-    required this.refresh,
   });
 
   @override

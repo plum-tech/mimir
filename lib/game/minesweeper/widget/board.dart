@@ -11,12 +11,10 @@ class GameBoard extends ConsumerWidget {
 
   const GameBoard({
     super.key,
-    required this.refresh,
     required this.timer,
     required this.screen,
   });
 
-  final void Function() refresh;
   final GameTimer timer;
 
   @override
@@ -54,7 +52,6 @@ class GameBoard extends ConsumerWidget {
                 child: CellWidget(
                   row: row,
                   col: col,
-                  refresh: refresh,
                 ).sizedAll(cellWidth),
               ),
             );

@@ -44,7 +44,9 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    timer = GameTimer(refresh: updateGame);
+    timer = GameTimer(refresh: () {
+      setState(() {});
+    });
     Future.delayed(Duration.zero).then((value) {
       if (!widget.newGame) {
         final save = SaveMinesweeper.storage.load();
@@ -85,13 +87,6 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
     if (!timer.timerStart && ref.read(minesweeperState).state == GameState.running) {
       timer.startTimer();
     }
-    if (!context.mounted) return;
-    setState(() {
-      if (kDebugMode) {
-        // ref.read(boardManager).gameOver ? logger.log(Level.info, "Game Over!") : null;
-        // ref.read(boardManager).goodGame ? logger.log(Level.info, "Good Game!") : null;
-      }
-    });
   }
 
   void resetGame() {
@@ -99,6 +94,31 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
     timer = GameTimer(refresh: updateGame);
     ref.read(minesweeperState.notifier).initGame(gameMode: GameMode.easy);
     updateGame();
+  }
+
+  void startTimer() {
+    if (!timer.timerStart) {
+      timer.startTimer();
+    }
+  }
+
+  void stopTimer() {
+    if (timer.timerStart) {
+      timer.stopTimer();
+    }
+  }
+
+  void onGameStateChange(GameStateMinesweeper? former, GameStateMinesweeper current) {
+    switch (current.state) {
+      case GameState.running:
+        startTimer();
+      case GameState.idle:
+        stopTimer();
+      case GameState.gameOver:
+        stopTimer();
+      case GameState.victory:
+        stopTimer();
+    }
   }
 
   @override
@@ -113,6 +133,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
       gameRows: state.rows,
       gameColumns: state.columns,
     );
+    ref.listen(minesweeperState, onGameStateChange);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -133,7 +154,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
           Center(
             child: Stack(
               children: [
-                GameBoard(screen: screen, refresh: updateGame, timer: timer),
+                GameBoard(screen: screen, timer: timer),
                 GameOverModal(resetGame: resetGame, timer: timer),
               ],
             ),
