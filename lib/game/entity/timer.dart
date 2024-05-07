@@ -6,7 +6,9 @@ class GameTimer extends StateNotifier<Duration> {
 
   bool get timerStart => _timer != null;
 
-  GameTimer() : super(Duration.zero);
+  GameTimer({
+    Duration initial = Duration.zero,
+  }) : super(initial);
 
   void startTimer() {
     assert(_timer == null, "Timer already started");
@@ -26,7 +28,7 @@ class GameTimer extends StateNotifier<Duration> {
   }
 
   void resume() {
-    assert(_timer!.isPaused, "Timer not yet paused");
+    assert(_timer?.isPaused != false, "Timer not yet paused");
     _timer?.start();
   }
 

@@ -104,11 +104,11 @@ extension $CellCopyWith on Cell {
 // **************************************************************************
 
 Cell _$CellFromJson(Map<String, dynamic> json) => Cell(
-      row: json['row'] as int,
-      column: json['column'] as int,
+      row: (json['row'] as num).toInt(),
+      column: (json['column'] as num).toInt(),
       mine: json['mine'] as bool? ?? false,
       state: $enumDecodeNullable(_$CellStateEnumMap, json['state']) ?? CellState.covered,
-      minesAround: json['minesAround'] as int,
+      minesAround: (json['minesAround'] as num).toInt(),
     );
 
 Map<String, dynamic> _$CellToJson(Cell instance) => <String, dynamic>{

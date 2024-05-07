@@ -73,9 +73,9 @@ extension $CellBoardCopyWith on CellBoard {
 // **************************************************************************
 
 CellBoard _$CellBoardFromJson(Map<String, dynamic> json) => CellBoard(
-      mines: json['mines'] as int,
-      rows: json['rows'] as int,
-      columns: json['columns'] as int,
+      mines: (json['mines'] as num).toInt(),
+      rows: (json['rows'] as num).toInt(),
+      columns: (json['columns'] as num).toInt(),
       cells: (json['cells'] as List<dynamic>).map((e) => Cell.fromJson(e as Map<String, dynamic>)).toList(),
     );
 

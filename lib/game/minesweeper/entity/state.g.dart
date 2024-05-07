@@ -67,7 +67,7 @@ extension $GameStateMinesweeperCopyWith on GameStateMinesweeper {
 // **************************************************************************
 
 GameStateMinesweeper _$GameStateMinesweeperFromJson(Map<String, dynamic> json) => GameStateMinesweeper(
-      state: $enumDecode(_$GameStateEnumMap, json['state']),
+      state: $enumDecodeNullable(_$GameStateEnumMap, json['state']) ?? GameState.idle,
       mode: GameMode.fromJson(json['mode'] as String),
       board: CellBoard.fromJson(json['board'] as Map<String, dynamic>),
     );

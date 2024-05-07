@@ -165,14 +165,14 @@ abstract interface class WithTimetableDayLoc {
   Iterable<TimetableDayLoc> get allLoc;
 }
 
-extension WithTimetableDayLocX on WithTimetableDayLoc{
-  bool allLocInRange(SitTimetable timetable){
+extension WithTimetableDayLocX on WithTimetableDayLoc {
+  bool allLocInRange(SitTimetable timetable) {
     return allLoc.every((loc) => loc.mode == TimetableDayLocMode.date ? timetable.inRange(loc.date) : true);
   }
 }
 
 /// To opt-in [JsonSerializable], please specify `toJson` parameter to [TimetablePatch.toJson].
- sealed  class TimetablePatch extends TimetablePatchEntry {
+sealed class TimetablePatch extends TimetablePatchEntry {
   @JsonKey()
   TimetablePatchType get type;
 

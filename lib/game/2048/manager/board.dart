@@ -290,4 +290,3 @@ class BoardManager extends StateNotifier<Board> {
     }
   }
 }
-
