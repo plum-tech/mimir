@@ -11,11 +11,8 @@ class GameBoard extends ConsumerWidget {
 
   const GameBoard({
     super.key,
-    required this.timer,
     required this.screen,
   });
-
-  final GameTimer timer;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

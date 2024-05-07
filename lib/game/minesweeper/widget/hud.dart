@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/game/entity/game_state.dart';
+import 'package:sit/utils/state_notifier.dart';
 import '../entity/cell.dart';
 import '../entity/mode.dart';
 import '../manager/timer.dart';
@@ -30,7 +31,7 @@ class GameHud extends ConsumerWidget {
         Container(
           decoration: BoxDecoration(
             color: context.colorScheme.secondaryContainer,
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(8),
               bottomLeft: Radius.circular(8),
             ),
@@ -51,7 +52,7 @@ class GameHud extends ConsumerWidget {
         Container(
           decoration: BoxDecoration(
             color: context.colorScheme.tertiaryContainer,
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topRight: Radius.circular(8),
               bottomRight: Radius.circular(8),
             ),
@@ -60,10 +61,11 @@ class GameHud extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               const Icon(Icons.alarm),
-              Text(
-                timer.getTimeCost(),
-                style: textTheme.bodyLarge,
-              ),
+              timer >>
+                  (ctx, v) => Text(
+                        timer.getTimeCost(),
+                        style: textTheme.bodyLarge,
+                      ),
             ],
           ),
         ),

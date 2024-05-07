@@ -44,9 +44,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    timer = GameTimer(refresh: () {
-      setState(() {});
-    });
+    timer = GameTimer();
     Future.delayed(Duration.zero).then((value) {
       if (!widget.newGame) {
         final save = SaveMinesweeper.storage.load();
@@ -83,17 +81,10 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
     super.dispose();
   }
 
-  void updateGame() {
-    if (!timer.timerStart && ref.read(minesweeperState).state == GameState.running) {
-      timer.startTimer();
-    }
-  }
-
   void resetGame() {
     timer.stopTimer();
-    timer = GameTimer(refresh: updateGame);
+    timer = GameTimer();
     ref.read(minesweeperState.notifier).initGame(gameMode: GameMode.easy);
-    updateGame();
   }
 
   void startTimer() {
@@ -154,7 +145,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
           Center(
             child: Stack(
               children: [
-                GameBoard(screen: screen, timer: timer),
+                GameBoard(screen: screen),
                 GameOverModal(resetGame: resetGame, timer: timer),
               ],
             ),

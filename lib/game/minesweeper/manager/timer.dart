@@ -1,39 +1,34 @@
 import 'dart:async';
 
-class GameTimer {
-  final void Function() refresh;
+import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class GameTimer extends StateNotifier<Duration> {
   Timer? _timer;
 
   bool get timerStart => _timer != null;
-  int cntNow = 0;
 
-  GameTimer({required this.refresh});
+  GameTimer() : super(Duration.zero);
 
   void startTimer() {
-    _timer = Timer.periodic(const Duration(milliseconds: 1000), (timer) {
-      if (cntNow >= 0 && cntNow < 60 * 60 - 1) {
-        cntNow += 1;
-      } else {
-        cntNow = 0;
-      }
-      refresh();
+    assert(_timer == null, "Timer already started");
+    _timer ??= Timer.periodic(const Duration(milliseconds: 1000), (timer) {
+      debugPrint("${timer.tick}");
+      state = state + const Duration(milliseconds: 1000);
     });
+  }
+
+  void reset() {
+    state = Duration.zero;
   }
 
   void stopTimer() {
     _timer?.cancel();
-  }
-
-  bool checkValueTime({required int val}) {
-    return cntNow > val;
-  }
-
-  int getTimerValue() {
-    return cntNow;
+    _timer = null;
   }
 
   String getTimeCost() {
-    int time = cntNow;
+    int time = state.inSeconds;
     int minute = (time / 60).floor();
     int second = time % 60;
     String min = minute < 10 ? '0$minute' : minute.toString();
