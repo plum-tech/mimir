@@ -10,11 +10,8 @@ import '../theme.dart';
 import '../page/game.dart';
 
 class GameHud extends ConsumerWidget {
-  final GameMode mode;
-
   const GameHud({
     super.key,
-    required this.mode,
   });
 
   @override
@@ -37,7 +34,7 @@ class GameHud extends ConsumerWidget {
                     flags: state.board.countAllByState(state: CellState.flag),
                     mines: state.board.mines,
                   )
-                : buildGameModeButton(context, ref),
+                : buildGameModeButton(context, ref, state.mode),
           ].row(maa: MainAxisAlignment.spaceAround),
         ).expanded(),
         Container(
@@ -56,7 +53,7 @@ class GameHud extends ConsumerWidget {
     );
   }
 
-  Widget buildGameModeButton(BuildContext context, WidgetRef ref) {
+  Widget buildGameModeButton(BuildContext context, WidgetRef ref, GameMode mode) {
     return OutlinedButton.icon(
       icon: const Icon(Icons.mode),
       onPressed: () async {

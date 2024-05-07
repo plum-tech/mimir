@@ -40,7 +40,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     timer = GameTimer();
-    Future.delayed(Duration.zero).then((value) {
+    WidgetsBinding.instance.endOfFrame.then((_) {
       timer.addListener((state) {
         ref.read(minesweeperState.notifier).playTime = state;
       });
@@ -141,7 +141,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          GameHud(mode: state.mode).padH(8),
+          const GameHud().padH(8),
           ClipRRect(
             borderRadius: const BorderRadius.all(Radius.circular(12)),
             child: Center(

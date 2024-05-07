@@ -132,7 +132,12 @@ class CellBoard extends ICellBoard<Cell> {
             ..state = cell.state,
         )
         .toList();
-    final builder = _CellBoardBuilder(rows: save.rows, columns: save.columns, cells: cells);
+    final builder = _CellBoardBuilder(
+      rows: save.rows,
+      columns: save.columns,
+      cells: cells,
+    );
+    builder.updateCells();
     return builder.build();
   }
 
@@ -207,13 +212,25 @@ class _CellBoardBuilder extends ICellBoard<_CellBuilder> {
         );
   }
 
-  void addRoundCellMineNum({required row, required column}) {
+  void updateCells() {
+    for (final cell in cells) {
+      cell.minesAround = 0;
+    }
+    for (final cell in cells) {
+      if (cell.mine) {
+        _addRoundCellMineNum(row: cell.row, column: cell.column);
+      }
+    }
+    _countMines();
+  }
+
+  void _addRoundCellMineNum({required row, required column}) {
     for (final neighbor in iterateAround(row: row, column: column)) {
       neighbor.minesAround += 1;
     }
   }
 
-  void countMines() {
+  void _countMines() {
     mines = cells.where((cell) => cell.mine).length;
   }
 
