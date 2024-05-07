@@ -41,6 +41,9 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
     WidgetsBinding.instance.addObserver(this);
     timer = GameTimer();
     Future.delayed(Duration.zero).then((value) {
+      timer.addListener((state) {
+        ref.read(minesweeperState.notifier).playTime = state;
+      });
       if (!widget.newGame) {
         final save = SaveMinesweeper.storage.load();
         if (save != null) {
@@ -77,13 +80,12 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
   void dispose() {
     //Remove the Observer for the Lifecycles of the App
     WidgetsBinding.instance.removeObserver(this);
-    timer.stopTimer();
+    timer.dispose();
     super.dispose();
   }
 
   void resetGame() {
-    timer.stopTimer();
-    timer = GameTimer();
+    timer.reset();
     ref.read(minesweeperState.notifier).initGame(gameMode: GameMode.easy);
   }
 
@@ -139,22 +141,23 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          GameHud(mode: state.mode, timer: timer).padH(8),
-          Center(
-            child: Stack(
-              children: [
-                GameBoard(screen: screen),
-                if (state.state == GameState.gameOver)
-                  GameStateModal(
-                    timer: timer,
-                    resetGame: resetGame,
-                  )
-                else if (state.state == GameState.victory)
-                  VictoryModal(
-                    resetGame: resetGame,
-                    timer: timer,
-                  ),
-              ],
+          GameHud(mode: state.mode).padH(8),
+          ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            child: Center(
+              child: Stack(
+                children: [
+                  GameBoard(screen: screen),
+                  if (state.state == GameState.gameOver)
+                    GameStateModal(
+                      resetGame: resetGame,
+                    )
+                  else if (state.state == GameState.victory)
+                    VictoryModal(
+                      resetGame: resetGame,
+                    ),
+                ],
+              ),
             ),
           ),
         ],

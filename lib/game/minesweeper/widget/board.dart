@@ -29,7 +29,6 @@ class GameBoard extends ConsumerWidget {
           color: context.colorScheme.onSurfaceVariant,
           width: borderWidth,
         ),
-        borderRadius: const BorderRadius.all(Radius.circular(12)),
       ),
       duration: Durations.extralong4,
       child: Stack(

@@ -3,22 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/game/entity/game_state.dart';
-import 'package:sit/utils/state_notifier.dart';
 import '../entity/cell.dart';
 import '../entity/mode.dart';
-import '../../entity/timer.dart';
 import '../i18n.dart';
 import '../theme.dart';
 import '../page/game.dart';
 
 class GameHud extends ConsumerWidget {
-  final GameTimer timer;
   final GameMode mode;
 
   const GameHud({
     super.key,
     required this.mode,
-    required this.timer,
   });
 
   @override
@@ -50,11 +46,10 @@ class GameHud extends ConsumerWidget {
           ),
           child: [
             const Icon(Icons.alarm),
-            timer >>
-                (ctx, v) => Text(
-                      timer.getTimeCost(),
-                      style: textTheme.bodyLarge,
-                    ),
+            Text(
+              state.playTime.getTimeCost(),
+              style: textTheme.bodyLarge,
+            ),
           ].row(maa: MainAxisAlignment.spaceAround),
         ).expanded(),
       ].row(maa: MainAxisAlignment.center, caa: CrossAxisAlignment.stretch).sized(h: 50),

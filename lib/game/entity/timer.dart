@@ -18,6 +18,9 @@ class GameTimer extends StateNotifier<Duration> {
       ..start();
   }
 
+  @override
+  Duration get state => super.state;
+
   void reset() {
     _timer?.reset();
     state = Duration.zero;
@@ -37,9 +40,9 @@ class GameTimer extends StateNotifier<Duration> {
     _timer = null;
   }
 
-  String getTimeCost() {
-    final min = state.inMinutes.toString();
-    final sec = state.inSeconds.remainder(60).toString();
-    return '${min.padLeft(2, "0")}:${sec.padLeft(2, "0")}';
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 }

@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
-import '../../entity/timer.dart';
+import 'package:sit/game/minesweeper/page/game.dart';
 import '../theme.dart';
 import '../i18n.dart';
 
-class GameStateModal extends StatelessWidget {
-  final GameTimer timer;
+class GameStateModal extends ConsumerWidget {
   final void Function() resetGame;
 
   const GameStateModal({
     super.key,
-    required this.timer,
     required this.resetGame,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
     return Positioned.fill(
       child: InkWell(
         onTap: () {
@@ -37,18 +36,17 @@ class GameStateModal extends StatelessWidget {
   }
 }
 
-class VictoryModal extends StatelessWidget {
+class VictoryModal extends ConsumerWidget {
   final void Function() resetGame;
-  final GameTimer timer;
 
   const VictoryModal({
     super.key,
     required this.resetGame,
-    required this.timer,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
+    final playTime =  ref.watch(minesweeperState.select((state) => state.playTime));
     return Positioned.fill(
       child: Container(
         decoration: BoxDecoration(
@@ -59,7 +57,7 @@ class VictoryModal extends StatelessWidget {
             resetGame();
           },
           child: Text(
-            "${i18n.youWin}\n${i18n.timeSpent(timer.getTimeCost())}",
+            "${i18n.youWin}\n${i18n.timeSpent(playTime.getTimeCost())}",
             style: const TextStyle(
               fontSize: 64.0,
             ),
