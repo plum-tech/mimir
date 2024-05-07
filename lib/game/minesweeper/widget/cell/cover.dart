@@ -3,21 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
 
 class CellCover extends ConsumerWidget {
+  final bool visible;
+
   const CellCover({
     super.key,
     required this.visible,
   });
 
-  final duration = Durations.medium4;
-  final curve = Curves.ease;
-  final bool visible;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AnimatedOpacity(
       opacity: visible ? 1 : 0,
-      curve: curve,
-      duration: duration,
+      curve: Curves.ease,
+      duration: Durations.medium4,
       child: Container(
         decoration: BoxDecoration(
           color: context.colorScheme.surfaceVariant,

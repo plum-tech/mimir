@@ -6,11 +6,19 @@ part "cell.g.dart";
 @JsonEnum()
 enum CellState {
   @JsonValue(0)
-  covered,
+  covered(showCover: true, showFlag: false),
   @JsonValue(1)
-  blank,
+  blank(showCover: false, showFlag: false),
   @JsonValue(2)
-  flag;
+  flag(showCover: true, showFlag: false);
+
+  final bool showCover;
+  final bool showFlag;
+
+  const CellState({
+    required this.showCover,
+    required this.showFlag,
+  });
 }
 
 @JsonSerializable()

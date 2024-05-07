@@ -29,33 +29,19 @@ class CellWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final manager = ref.watch(minesweeperState.notifier);
     final cell = manager.getCell(row: row, col: col);
-    var coverVisible = true;
-    var flagVisible = false;
-
-    switch (cell.state) {
-      case CellState.blank:
-        coverVisible = false;
-        flagVisible = false;
-      case CellState.covered:
-        coverVisible = true;
-        flagVisible = false;
-      case CellState.flag:
-        coverVisible = true;
-        flagVisible = true;
-    }
     final bottom = buildBottom(cell);
     return Stack(
       children: [
         if (bottom != null) bottom.center(),
         Opacity(
           opacity: manager.gameOver && cell.mine ? 0.5 : 1.0,
-          child: CellCover(visible: coverVisible),
+          child: CellCover(visible: cell.state.showCover),
         ),
-        CellFlag(visible: flagVisible),
+        CellFlag(visible: cell.state.showFlag),
         CellButton(
           cell: cell,
-          coverVisible: coverVisible,
-          flagVisible: flagVisible,
+          coverVisible: cell.state.showCover,
+          flagVisible: cell.state.showFlag,
           refresh: refresh,
         ),
       ],
