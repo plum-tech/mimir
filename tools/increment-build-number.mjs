@@ -26,8 +26,8 @@ async function main() {
   const buildNumber = getBuildNumber(filedata)
 
   // Generate new version and print information
-  const oldVersion = version + '+' + buildNumber
-  const newVersion = version + '+' + buildNumber + 1
+  const oldVersion = `${version}+${buildNumber}`
+  const newVersion = `${version}+${buildNumber + 1}`
   console.log(`new version: ${newVersion}`)
   console.log(`build bumber: ${buildNumber} -> ${buildNumber + 1}`)
 
