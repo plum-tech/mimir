@@ -12,7 +12,8 @@ class GameTimer extends StateNotifier<Duration> {
     assert(_timer == null, "Timer already started");
     _timer ??= PausableTimer.periodic(const Duration(milliseconds: 1000), () {
       state = state + const Duration(milliseconds: 1000);
-    })..start();
+    })
+      ..start();
   }
 
   void reset() {
@@ -20,12 +21,11 @@ class GameTimer extends StateNotifier<Duration> {
     state = Duration.zero;
   }
 
-  void pause(){
+  void pause() {
     _timer?.pause();
   }
 
-  void resume(){
-    assert(_timer == null, "Timer not yet started");
+  void resume() {
     assert(_timer!.isPaused, "Timer not yet paused");
     _timer?.start();
   }
@@ -36,11 +36,8 @@ class GameTimer extends StateNotifier<Duration> {
   }
 
   String getTimeCost() {
-    int time = state.inSeconds;
-    int minute = (time / 60).floor();
-    int second = time % 60;
-    String min = minute < 10 ? '0$minute' : minute.toString();
-    String sec = second < 10 ? '0$second' : second.toString();
-    return ("$min:$sec");
+    final min = state.inMinutes.toString();
+    final sec = state.inSeconds.remainder(60).toString();
+    return '${min.padLeft(2, "0")}:${sec.padLeft(2, "0")}';
   }
 }
