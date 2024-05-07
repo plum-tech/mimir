@@ -33,17 +33,19 @@ class Cell4Save {
 
 @JsonSerializable()
 class SaveMinesweeper {
-  @JsonKey(defaultValue: GameMode.defaultRows)
   final int rows;
-  @JsonKey(defaultValue: GameMode.defaultColumns)
   final int columns;
   @JsonKey(defaultValue: _defaultCells)
   final List<Cell4Save> cells;
+  final Duration playTime;
+  final GameMode mode;
 
   const SaveMinesweeper({
-    required this.rows,
-    required this.columns,
+    this.rows = GameMode.defaultRows,
+    this.columns = GameMode.defaultColumns,
     required this.cells,
+    this.playTime = Duration.zero,
+    this.mode = GameMode.easy,
   });
 
   Map<String, dynamic> toJson() => _$SaveMinesweeperToJson(this);

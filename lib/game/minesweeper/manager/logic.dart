@@ -1,80 +1,80 @@
 import 'package:sit/game/minesweeper/save.dart';
 
 import '../entity/mode.dart';
-import '../entity/screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import "package:flutter/foundation.dart";
 import 'package:logger/logger.dart';
 import '../entity/board.dart';
 import '../entity/cell.dart';
+import '../entity/state.dart';
+import 'package:sit/game/entity/game_state.dart';
 
 // Debug Tool
 final logger = Logger();
 
-class GameLogic extends StateNotifier<GameStates> {
-  GameLogic(this.ref) : super(GameStates());
-  final StateNotifierProviderRef ref;
+class GameLogic extends StateNotifier<GameStateMinesweeper> {
+  GameLogic() : super(GameStateMinesweeper.byDefault());
 
-  // Generating Mines When First Click
-  bool firstClick = true;
-  int mineNum = -1;
-
-  void initGame({required GameMode gameMode, bool notify = true}) {
-    state.mode = gameMode;
-    state.gameOver = false;
-    state.goodGame = false;
-    state.board = Board(rows: state.mode.gameRows, columns: state.mode.gameColumns);
-    mineNum = state.mode.gameMines;
-    firstClick = true;
+  void initGame({required GameMode gameMode}) {
+    final board = CellBoard.empty(rows: state.mode.gameRows, columns: state.mode.gameColumns);
+    state = GameStateMinesweeper(mode: gameMode, board: board);
     if (kDebugMode) {
       logger.log(Level.info, "Game Init Finished");
     }
-    if (notify) {
-      ref.notifyListeners();
-    }
   }
 
-  // TODO: finish this
-  void fromSave(Board save) {
-    state.mode = GameMode.easy;
-    state.gameOver = false;
-    state.goodGame = false;
-    state.board = save;
-    mineNum = save.mines;
-    firstClick = true;
-    if (kDebugMode) {
-      logger.log(Level.info, "Game from save");
-    }
+  void fromSave(SaveMinesweeper save) {
+    state = GameStateMinesweeper.fromSave(save);
   }
 
-  bool get gameOver => state.gameOver;
+  Duration get playtime => state.playtime;
 
-  void initScreen({required width, required, height, required mode}) {
-    state.screen = Screen(screenWidth: width, screenHeight: height, gameMode: mode);
-  }
+  set playtime(Duration playtime) => state = state.copyWith(
+        playtime: playtime,
+      );
 
   Cell getCell({required row, required col}) {
-    return state.board.getCell(row: row, col: col);
+    return state.board.getCell(row: row, column: col);
   }
 
   void _changeCell({required Cell cell, required CellState state}) {
-    this.state.board.changeCell(row: cell.row, col: cell.col, state: state);
+    this.state = this.state.copyWith(
+          board: this.state.board.changeCell(
+                row: cell.row,
+                column: cell.column,
+                state: state,
+              ),
+        );
   }
 
   void dig({required Cell cell}) {
-    if (firstClick) {
-      state.board.randomMines(number: mineNum, clickRow: cell.row, clickCol: cell.col);
-      firstClick = false;
+    // Generating mines on first dig
+    if (state.state == GameState.idle) {
+      final mode = state.mode;
+      state = state.copyWith(
+        state: GameState.running,
+        board: CellBoard.withMines(
+          rows: mode.gameRows,
+          columns: mode.gameColumns,
+          mines: mode.gameMines,
+          rowExclude: cell.row,
+          columnExclude: cell.column,
+        ),
+      );
     }
     if (cell.state == CellState.covered) {
       _changeCell(cell: cell, state: CellState.blank);
       // Check Game State
       if (cell.mine) {
-        state.gameOver = true;
+        state = state.copyWith(
+          state: GameState.gameOver,
+        );
       } else {
         _digAroundIfSafe(cell: cell);
         if (checkWin()) {
-          state.goodGame = true;
+          state = state.copyWith(
+            state: GameState.victory,
+          );
         }
       }
     } else {
@@ -84,7 +84,7 @@ class GameLogic extends StateNotifier<GameStates> {
 
   void _digAroundIfSafe({required Cell cell}) {
     if (cell.minesAround == 0) {
-      for (final neighbor in state.board.iterateAround(cell: cell)) {
+      for (final neighbor in state.board.iterateAround(row: cell.row, column: cell.column)) {
         if (neighbor.state == CellState.covered && neighbor.minesAround == 0) {
           _changeCell(cell: neighbor, state: CellState.blank);
           _digAroundIfSafe(cell: neighbor);
@@ -98,7 +98,7 @@ class GameLogic extends StateNotifier<GameStates> {
   bool digAroundBesidesFlagged({required Cell cell}) {
     bool digAny = false;
     if (state.board.countAroundByState(cell: cell, state: CellState.flag) >= cell.minesAround) {
-      for (final neighbor in state.board.iterateAround(cell: cell)) {
+      for (final neighbor in state.board.iterateAround(row: cell.row, column: cell.column)) {
         if (neighbor.state == CellState.covered) {
           dig(cell: neighbor);
           digAny = true;
@@ -114,7 +114,7 @@ class GameLogic extends StateNotifier<GameStates> {
     if (coveredCount == 0) return false;
     final flagCount = state.board.countAroundByState(cell: cell, state: CellState.flag);
     if (coveredCount + flagCount == cell.minesAround) {
-      for (final neighbor in state.board.iterateAround(cell: cell)) {
+      for (final neighbor in state.board.iterateAround(row: cell.row, column: cell.column)) {
         if (neighbor.state == CellState.covered) {
           flag(cell: neighbor);
           flagAny = true;
@@ -134,7 +134,7 @@ class GameLogic extends StateNotifier<GameStates> {
         "mines: $mineCells, covers: $coveredCells, flags: $flagCells",
       );
     }
-    if (coveredCells + flagCells == mineCells) {
+    if (coveredCells + flagCells == mineCells || flagCells >= mineCells) {
       return true;
     }
     return false;
@@ -167,25 +167,10 @@ class GameLogic extends StateNotifier<GameStates> {
   }
 
   Future<void> save() async {
-    if (state.goodGame || state.gameOver) {
-      await SaveMinesweeper.storage.delete();
+    if (state.state.shouldSave) {
+      await SaveMinesweeper.storage.save(state.toSave());
     } else {
-      await SaveMinesweeper.storage.save(state.board.toSave());
+      await SaveMinesweeper.storage.delete();
     }
   }
 }
-
-class GameStates {
-  late bool gameOver;
-  late bool goodGame;
-  late GameMode mode;
-  late Screen screen;
-  late Board board;
-}
-
-final boardManager = StateNotifierProvider<GameLogic, GameStates>((ref) {
-  if (kDebugMode) {
-    logger.log(Level.info, "GameLogic Init Finished");
-  }
-  return GameLogic(ref);
-});

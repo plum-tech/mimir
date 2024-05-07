@@ -1,24 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../manager/logic.dart';
 import '../../theme.dart';
 
-class Mine extends ConsumerWidget {
+class Mine extends StatelessWidget {
   const Mine({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final screen = ref.read(boardManager).screen;
-    final cellWidth = screen.getCellWidth();
-    final mineSize = cellWidth * 0.7;
-    return SizedBox(
-        width: cellWidth,
-        height: cellWidth,
-        child: Icon(
-          Icons.gps_fixed,
-          size: mineSize,
-          color: mineColor,
-        ));
+  Widget build(BuildContext context) {
+    return const Icon(
+      Icons.gps_fixed,
+      size: mineSize,
+      color: mineColor,
+    );
   }
 }

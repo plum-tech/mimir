@@ -1,19 +1,24 @@
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/game/entity/game_state.dart';
 import 'package:sit/game/minesweeper/save.dart';
-import '../entity/board.dart';
+
 import '../entity/mode.dart';
-import '../widget/hud.dart';
-import '../widget/info.dart';
+import '../entity/screen.dart';
+import '../entity/state.dart';
 import '../manager/logic.dart';
+import '../../entity/timer.dart';
 import '../widget/board.dart';
-import "package:flutter/foundation.dart";
-import '../manager/timer.dart';
+import '../widget/hud.dart';
+import '../widget/modal.dart';
 import '../i18n.dart';
+
+final minesweeperState = StateNotifierProvider.autoDispose<GameLogic, GameStateMinesweeper>((ref) {
+  return GameLogic();
+});
 
 class GameMinesweeper extends ConsumerStatefulWidget {
   final bool newGame;
@@ -34,83 +39,94 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    timer = GameTimer(refresh: updateGame);
-    ref.read(boardManager.notifier).initGame(gameMode: GameMode.easy,notify: false);
+    timer = GameTimer();
     WidgetsBinding.instance.endOfFrame.then((_) {
+      timer.addListener((state) {
+        ref.read(minesweeperState.notifier).playtime = state;
+      });
       if (!widget.newGame) {
         final save = SaveMinesweeper.storage.load();
         if (save != null) {
-          ref.read(boardManager.notifier).fromSave(Board.fromSave(save));
+          ref.read(minesweeperState.notifier).fromSave(save);
+          timer.state = ref.read(minesweeperState).playtime;
         } else {
-          ref.read(boardManager.notifier).initGame(gameMode: GameMode.easy);
+          ref.read(minesweeperState.notifier).initGame(gameMode: GameMode.easy);
+          timer.state = ref.read(minesweeperState).playtime;
         }
       }
     });
-    if (kDebugMode) {
-      logger.log(Level.info, "GameState Init Finished");
-    }
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     //Save current state when the app becomes inactive
     if (state == AppLifecycleState.inactive) {
-      ref.read(boardManager.notifier).save();
+      ref.read(minesweeperState.notifier).save();
+      timer.pause();
+      logger.i("Minesweeper paused");
+    } else if (state == AppLifecycleState.resumed) {
+      timer.resume();
+      logger.i("Minesweeper resumed");
     }
     super.didChangeAppLifecycleState(state);
   }
 
   @override
   void deactivate() {
+    ref.read(minesweeperState.notifier).save();
     super.deactivate();
-    ref.read(boardManager.notifier).save();
   }
 
   @override
   void dispose() {
     //Remove the Observer for the Lifecycles of the App
     WidgetsBinding.instance.removeObserver(this);
-    timer.stopTimer();
+    timer.dispose();
     super.dispose();
   }
 
-  void updateGame() {
-    if (!timer.timerStart && !ref.read(boardManager.notifier).firstClick) {
+  void resetGame() {
+    timer.reset();
+    final gameMode = ref.watch(minesweeperState.select((state) => state.mode));
+    ref.read(minesweeperState.notifier).initGame(gameMode: gameMode);
+  }
+
+  void startTimer() {
+    if (!timer.timerStart) {
       timer.startTimer();
     }
-    if (!context.mounted) return;
-    setState(() {
-      if (kDebugMode) {
-        ref.read(boardManager).gameOver ? logger.log(Level.info, "Game Over!") : null;
-        ref.read(boardManager).goodGame ? logger.log(Level.info, "Good Game!") : null;
-      }
-    });
   }
 
-  void resetGame({gameMode = GameMode.easy}) {
-    timer.stopTimer();
-    timer = GameTimer(refresh: updateGame);
-    ref.read(boardManager.notifier).initGame(gameMode: gameMode);
-    updateGame();
+  void stopTimer() {
+    if (timer.timerStart) {
+      timer.stopTimer();
+    }
   }
 
-  void initScreen({required screenSize, required gameMode}) {
-    // The Appbar Height 56
-    ref.read(boardManager.notifier).initScreen(
-          width: screenSize.width,
-          height: screenSize.height - 56,
-          mode: gameMode,
-        );
+  void onGameStateChange(GameStateMinesweeper? former, GameStateMinesweeper current) {
+    switch (current.state) {
+      case GameState.running:
+        startTimer();
+      case GameState.idle:
+        stopTimer();
+      case GameState.gameOver:
+        stopTimer();
+      case GameState.victory:
+        stopTimer();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    // Get Your Screen Size
+    final state = ref.watch(minesweeperState);
+    ref.listen(minesweeperState, onGameStateChange);
     final screenSize = MediaQuery.of(context).size;
-    final mode = ref.watch(boardManager).mode;
-    initScreen(screenSize: screenSize, gameMode: mode);
-    // Build UI From Screen Size
-
+    final screen = Screen(
+      height: screenSize.height,
+      width: screenSize.width,
+      gameRows: state.rows,
+      gameColumns: state.columns,
+    );
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -127,16 +143,23 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          GameHud(
-            mode: mode,
-            timer: timer,
-          ),
-          Center(
-            child: Stack(
-              children: [
-                GameBoard(refresh: updateGame, timer: timer),
-                GameOverModal(resetGame: resetGame, timer: timer),
-              ],
+          const GameHud().padH(8),
+          ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            child: Center(
+              child: Stack(
+                children: [
+                  GameBoard(screen: screen),
+                  if (state.state == GameState.gameOver)
+                    GameStateModal(
+                      resetGame: resetGame,
+                    )
+                  else if (state.state == GameState.victory)
+                    VictoryModal(
+                      resetGame: resetGame,
+                    ),
+                ],
+              ),
             ),
           ),
         ],

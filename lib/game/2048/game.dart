@@ -14,6 +14,10 @@ import 'theme.dart';
 import 'manager/board.dart';
 import 'i18n.dart';
 
+final state2048 = StateNotifierProvider<BoardManager, Board>((ref) {
+  return BoardManager(ref);
+});
+
 class Game2048 extends ConsumerStatefulWidget {
   final bool newGame;
 
@@ -34,7 +38,7 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
   )..addStatusListener((status) {
       //When the movement finishes merge the tiles and start the scale animation which gives the pop effect.
       if (status == AnimationStatus.completed) {
-        ref.read(boardManager.notifier).merge();
+        ref.read(state2048.notifier).merge();
         _scaleController.forward(from: 0.0);
       }
     });
@@ -52,7 +56,7 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
   )..addStatusListener((status) {
       //When the scale animation finishes end the round and if there is a queued movement start the move controller again for the next direction.
       if (status == AnimationStatus.completed) {
-        if (ref.read(boardManager.notifier).endRound()) {
+        if (ref.read(state2048.notifier).endRound()) {
           _moveController.forward(from: 0.0);
         }
       }
@@ -73,13 +77,13 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
     WidgetsBinding.instance.addObserver(this);
     Future.delayed(Duration.zero).then((value) {
       if (widget.newGame) {
-        ref.read(boardManager.notifier).newGame();
+        ref.read(state2048.notifier).newGame();
       } else {
         final save = Save2048.storage.load();
         if (save != null) {
-          ref.read(boardManager.notifier).fromSave(Board.fromSave(save));
+          ref.read(state2048.notifier).fromSave(Board.fromSave(save));
         } else {
-          ref.read(boardManager.notifier).newGame();
+          ref.read(state2048.notifier).newGame();
         }
       }
     });
@@ -89,7 +93,7 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
   void didChangeAppLifecycleState(AppLifecycleState state) {
     //Save current state when the app becomes inactive
     if (state == AppLifecycleState.inactive) {
-      ref.read(boardManager.notifier).save();
+      ref.read(state2048.notifier).save();
     }
     super.didChangeAppLifecycleState(state);
   }
@@ -97,7 +101,7 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
   @override
   void deactivate() {
     super.deactivate();
-    ref.read(boardManager.notifier).save();
+    ref.read(state2048.notifier).save();
   }
 
   @override
@@ -122,7 +126,7 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
         actions: [
           PlatformIconButton(
             onPressed: () {
-              ref.read(boardManager.notifier).newGame();
+              ref.read(state2048.notifier).newGame();
             },
             icon: Icon(context.icons.refresh),
           )
@@ -134,13 +138,13 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
         onKeyEvent: (event) {
           //Move the tile with the arrows on the keyboard on Desktop
           if (!_moveController.isCompleted) return;
-          if (ref.read(boardManager.notifier).onKey(event)) {
+          if (ref.read(state2048.notifier).onKey(event)) {
             _moveController.forward(from: 0.0);
           }
         },
         child: SwipeDetector(
           onSwipe: (direction, offset) {
-            if (ref.read(boardManager.notifier).move(direction)) {
+            if (ref.read(state2048.notifier).move(direction)) {
               _moveController.forward(from: 0.0);
             }
           },

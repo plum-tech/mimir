@@ -144,7 +144,7 @@ List<Transaction> _generate(int count, Random rand) {
   double balance = 100;
   DateTime time = DateTime.now();
   for (var i = 0; i < count; i++) {
-    final type = randomChoice(_type2weight.types,_type2weight.weights);
+    final type = randomChoice(_type2weight.types, _type2weight.weights);
     final entries = _type2info[type];
     if (entries == null) continue;
     final entry = entries[rand.nextInt(entries.length)];

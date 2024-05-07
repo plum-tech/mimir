@@ -16,12 +16,10 @@ import 'dart:math' show Random;
 /// ```
 T randomChoice<T>(Iterable<T> options, [Iterable<double> weights = const []]) {
   if (options.isEmpty) {
-    throw ArgumentError.value(
-        options.toString(), 'options', 'must be non-empty');
+    throw ArgumentError.value(options.toString(), 'options', 'must be non-empty');
   }
   if (weights.isNotEmpty && options.length != weights.length) {
-    throw ArgumentError.value(weights.toString(), 'weights',
-        'must be empty or match length of options');
+    throw ArgumentError.value(weights.toString(), 'weights', 'must be empty or match length of options');
   }
 
   if (weights.isEmpty) {

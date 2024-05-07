@@ -17,7 +17,7 @@ class _GameAppCardMinesweeperState extends State<GameAppCardMinesweeper> {
     return OfflineGameAppCard(
       name: i18n.title,
       baseRoute: "/minesweeper",
-      // storage: SaveMinesweeper.storage,
+      storage: SaveMinesweeper.storage,
     );
   }
 }
