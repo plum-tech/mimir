@@ -12,7 +12,7 @@ function getVersion(pubspec) {
 }
 
 function getBuildNumber(pubspec) {
-  const buildNumberMatch = filedata.match(/version: \d+.\d+.\d+(\+\d+)/)
+  const buildNumberMatch = pubspec.match(/version: \d+.\d+.\d+(\+\d+)/)
   return buildNumberMatch ? parseInt(buildNumberMatch[1].slice(1)) : 0
 }
 
