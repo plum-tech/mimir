@@ -31,11 +31,15 @@ class HiveInit {
       electricity,
       meta,
       cookies,
-      dev,
-      game;
+      dev;
+
+  static late Box //
+      game2048,
+      gameMinesweeper;
 
   static late Map<String, Box> name2Box;
   static late List<Box> cacheBoxes;
+  static late List<Box> gameBoxes;
 
   static Future<void> initLocalStorage({
     required Directory coreDir,
@@ -63,7 +67,6 @@ class HiveInit {
       ...cacheBoxes = [
         yellowPages = await cache.openBox('yellow-pages'),
         eduEmail = await cache.openBox('edu-email'),
-        game = await core.openBox("game"),
         if (!kIsWeb) cookies = await cache.openBox('cookies'),
         if (!kIsWeb) expense = await cache.openBox('expense'),
         if (!kIsWeb) library = await cache.openBox('library'),
@@ -74,6 +77,10 @@ class HiveInit {
         if (!kIsWeb) ywb = await cache.openBox('ywb'),
         if (!kIsWeb) electricity = await cache.openBox('electricity'),
       ],
+      ...gameBoxes=[
+        game2048 = await core.openBox("game-2048"),
+        gameMinesweeper = await core.openBox("game-minesweeper"),
+      ]
     ]);
     Settings = SettingsImpl(settings);
     Dev = DevSettingsImpl(dev);
