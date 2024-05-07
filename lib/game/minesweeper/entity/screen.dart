@@ -1,7 +1,5 @@
 import 'dart:ui';
 
-import 'mode.dart';
-
 class Screen {
   final double width;
   final double height;
@@ -17,14 +15,6 @@ class Screen {
 
   double getBorderWidth() {
     return (getCellWidth() / 8).floorToDouble();
-  }
-
-  double getBoardRadius() {
-    return 12;
-  }
-
-  double getInfoHeight() {
-    return (height - getBoardSize().height) * 0.2;
   }
 
   double getCellWidth() {

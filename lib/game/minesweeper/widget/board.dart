@@ -15,11 +15,11 @@ class GameBoard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final boardRows = ref.read(minesweeperState).mode.gameRows;
-    final boardCols = ref.read(minesweeperState).mode.gameColumns;
+    final state = ref.read(minesweeperState);
+    final rows = state.board.rows;
+    final columns = state.board.columns;
     final borderWidth = screen.getBorderWidth();
     final cellWidth = screen.getCellWidth();
-    final boardRadius = screen.getBoardRadius();
 
     return AnimatedContainer(
       width: screen.getBoardSize().width,
@@ -29,17 +29,15 @@ class GameBoard extends ConsumerWidget {
           color: context.colorScheme.onSurfaceVariant,
           width: borderWidth,
         ),
-        borderRadius: BorderRadius.all(
-          Radius.circular(boardRadius),
-        ),
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
       ),
       duration: Durations.extralong4,
       child: Stack(
         children: List.generate(
-          boardRows * boardCols,
+          rows * columns,
           (i) {
-            var col = i % boardCols;
-            var row = (i / boardCols).floor();
+            var col = i % columns;
+            var row = i ~/ columns;
             return Positioned(
               left: col * cellWidth,
               top: row * cellWidth,
