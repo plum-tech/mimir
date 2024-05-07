@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../../theme.dart';
 
-class MinesAroundNumber extends ConsumerWidget {
+class MinesAroundNumber extends StatelessWidget {
   final int minesAround;
 
   const MinesAroundNumber({
@@ -12,7 +10,7 @@ class MinesAroundNumber extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return Text(
       minesAround.toString(),
       textAlign: TextAlign.center,

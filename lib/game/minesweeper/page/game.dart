@@ -13,7 +13,7 @@ import '../manager/logic.dart';
 import '../../entity/timer.dart';
 import '../widget/board.dart';
 import '../widget/hud.dart';
-import '../widget/info.dart';
+import '../widget/modal.dart';
 import '../i18n.dart';
 
 final minesweeperState = StateNotifierProvider.autoDispose<GameLogic, GameStateMinesweeper>((ref) {
@@ -146,7 +146,16 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
             child: Stack(
               children: [
                 GameBoard(screen: screen),
-                GameOverModal(resetGame: resetGame, timer: timer),
+                if (state.state == GameState.gameOver)
+                  GameStateModal(
+                    timer: timer,
+                    resetGame: resetGame,
+                  )
+                else if (state.state == GameState.victory)
+                  VictoryModal(
+                    resetGame: resetGame,
+                    timer: timer,
+                  ),
               ],
             ),
           ),

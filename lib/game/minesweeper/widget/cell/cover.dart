@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
 
-class CellCover extends ConsumerWidget {
+class CellCover extends StatelessWidget {
   final bool visible;
 
   const CellCover({
@@ -11,7 +10,7 @@ class CellCover extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return AnimatedOpacity(
       opacity: visible ? 1 : 0,
       curve: Curves.ease,
