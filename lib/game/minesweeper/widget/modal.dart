@@ -14,7 +14,7 @@ class GameStateModal extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Positioned.fill(
       child: InkWell(
         onTap: () {
@@ -45,8 +45,8 @@ class VictoryModal extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
-    final playTime =  ref.watch(minesweeperState.select((state) => state.playTime));
+  Widget build(BuildContext context, WidgetRef ref) {
+    final playTime = ref.watch(minesweeperState.select((state) => state.playtime));
     return Positioned.fill(
       child: Container(
         decoration: BoxDecoration(

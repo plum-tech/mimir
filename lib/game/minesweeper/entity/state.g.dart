@@ -17,7 +17,7 @@ abstract class _$GameStateMinesweeperCWProxy {
     GameState? state,
     GameMode? mode,
     CellBoard? board,
-    Duration? playTime,
+    Duration? playtime,
   });
 }
 
@@ -39,7 +39,7 @@ class _$GameStateMinesweeperCWProxyImpl implements _$GameStateMinesweeperCWProxy
     Object? state = const $CopyWithPlaceholder(),
     Object? mode = const $CopyWithPlaceholder(),
     Object? board = const $CopyWithPlaceholder(),
-    Object? playTime = const $CopyWithPlaceholder(),
+    Object? playtime = const $CopyWithPlaceholder(),
   }) {
     return GameStateMinesweeper(
       state: state == const $CopyWithPlaceholder() || state == null
@@ -54,10 +54,10 @@ class _$GameStateMinesweeperCWProxyImpl implements _$GameStateMinesweeperCWProxy
           ? _value.board
           // ignore: cast_nullable_to_non_nullable
           : board as CellBoard,
-      playTime: playTime == const $CopyWithPlaceholder() || playTime == null
-          ? _value.playTime
+      playtime: playtime == const $CopyWithPlaceholder() || playtime == null
+          ? _value.playtime
           // ignore: cast_nullable_to_non_nullable
-          : playTime as Duration,
+          : playtime as Duration,
     );
   }
 }
@@ -76,14 +76,14 @@ GameStateMinesweeper _$GameStateMinesweeperFromJson(Map<String, dynamic> json) =
       state: $enumDecodeNullable(_$GameStateEnumMap, json['state']) ?? GameState.idle,
       mode: GameMode.fromJson(json['mode'] as String),
       board: CellBoard.fromJson(json['board'] as Map<String, dynamic>),
-      playTime: json['playTime'] == null ? Duration.zero : Duration(microseconds: (json['playTime'] as num).toInt()),
+      playtime: json['playtime'] == null ? Duration.zero : Duration(microseconds: (json['playtime'] as num).toInt()),
     );
 
 Map<String, dynamic> _$GameStateMinesweeperToJson(GameStateMinesweeper instance) => <String, dynamic>{
       'state': _$GameStateEnumMap[instance.state]!,
       'mode': instance.mode,
       'board': instance.board,
-      'playTime': instance.playTime.inMicroseconds,
+      'playtime': instance.playtime.inMicroseconds,
     };
 
 const _$GameStateEnumMap = {

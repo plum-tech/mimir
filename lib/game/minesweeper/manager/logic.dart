@@ -27,10 +27,10 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
     state = GameStateMinesweeper.fromSave(save);
   }
 
-  Duration get playTime => state.playTime;
+  Duration get playtime => state.playtime;
 
-  set playTime(Duration time) => state = state.copyWith(
-        playTime: time,
+  set playtime(Duration playtime) => state = state.copyWith(
+        playtime: playtime,
       );
 
   Cell getCell({required row, required col}) {

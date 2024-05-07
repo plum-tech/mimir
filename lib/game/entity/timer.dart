@@ -21,6 +21,9 @@ class GameTimer extends StateNotifier<Duration> {
   @override
   Duration get state => super.state;
 
+  @override
+  set state(Duration state) => super.state = state;
+
   void reset() {
     _timer?.reset();
     state = Duration.zero;

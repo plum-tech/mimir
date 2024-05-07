@@ -16,19 +16,19 @@ class GameStateMinesweeper {
   final GameState state;
   final GameMode mode;
   final CellBoard board;
-  final Duration playTime;
+  final Duration playtime;
 
   const GameStateMinesweeper({
     this.state = GameState.idle,
     required this.mode,
     required this.board,
-    this.playTime = Duration.zero,
+    this.playtime = Duration.zero,
   });
 
   GameStateMinesweeper.byDefault()
       : state = GameState.idle,
         mode = GameMode.easy,
-        playTime = Duration.zero,
+        playtime = Duration.zero,
         board = CellBoard.empty(rows: GameMode.easy.gameRows, columns: GameMode.easy.gameColumns);
 
   int get rows => board.rows;
@@ -44,7 +44,8 @@ class GameStateMinesweeper {
     return GameStateMinesweeper(
       mode: save.mode,
       board: board,
-      playTime: save.playTime,
+      playtime: save.playTime,
+      state: GameState.running,
     );
   }
 
@@ -53,7 +54,7 @@ class GameStateMinesweeper {
       rows: rows,
       columns: columns,
       cells: board.cells.map((cell) => Cell4Save(mine: cell.mine, state: cell.state)).toList(),
-      playTime: playTime,
+      playTime: playtime,
       mode: mode,
     );
   }

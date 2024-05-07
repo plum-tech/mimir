@@ -44,7 +44,7 @@ class GameHud extends ConsumerWidget {
           child: [
             const Icon(Icons.alarm),
             Text(
-              state.playTime.getTimeCost(),
+              state.playtime.getTimeCost(),
               style: textTheme.bodyLarge,
             ),
           ].row(maa: MainAxisAlignment.spaceAround),
