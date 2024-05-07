@@ -27,7 +27,7 @@ SaveMinesweeper _$SaveMinesweeperFromJson(Map<String, dynamic> json) => SaveMine
       columns: (json['columns'] as num?)?.toInt() ?? GameMode.defaultColumns,
       cells: (json['cells'] as List<dynamic>?)?.map((e) => Cell4Save.fromJson(e as Map<String, dynamic>)).toList() ??
           _defaultCells(),
-      duration: json['duration'] == null ? Duration.zero : Duration(microseconds: (json['duration'] as num).toInt()),
+      playTime: json['playTime'] == null ? Duration.zero : Duration(microseconds: (json['playTime'] as num).toInt()),
       mode: json['mode'] == null ? GameMode.easy : GameMode.fromJson(json['mode'] as String),
     );
 
@@ -35,6 +35,6 @@ Map<String, dynamic> _$SaveMinesweeperToJson(SaveMinesweeper instance) => <Strin
       'rows': instance.rows,
       'columns': instance.columns,
       'cells': instance.cells,
-      'duration': instance.duration.inMicroseconds,
+      'playTime': instance.playTime.inMicroseconds,
       'mode': instance.mode,
     };

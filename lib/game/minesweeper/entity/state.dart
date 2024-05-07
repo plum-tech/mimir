@@ -13,22 +13,22 @@ part "state.g.dart";
 @CopyWith(skipFields: true)
 @immutable
 class GameStateMinesweeper {
-  @JsonKey()
   final GameState state;
-  @JsonKey()
   final GameMode mode;
-  @JsonKey()
   final CellBoard board;
+  final Duration playTime;
 
   const GameStateMinesweeper({
     this.state = GameState.idle,
     required this.mode,
     required this.board,
+    this.playTime = Duration.zero,
   });
 
   GameStateMinesweeper.byDefault()
       : state = GameState.idle,
         mode = GameMode.easy,
+        playTime = Duration.zero,
         board = CellBoard.empty(rows: GameMode.easy.gameRows, columns: GameMode.easy.gameColumns);
 
   int get rows => board.rows;
@@ -44,6 +44,7 @@ class GameStateMinesweeper {
     return GameStateMinesweeper(
       mode: save.mode,
       board: board,
+      playTime: save.playTime,
     );
   }
 
@@ -52,7 +53,7 @@ class GameStateMinesweeper {
       rows: rows,
       columns: columns,
       cells: board.cells.map((cell) => Cell4Save(mine: cell.mine, state: cell.state)).toList(),
-      duration: Duration.zero,
+      playTime: playTime,
     );
   }
 }

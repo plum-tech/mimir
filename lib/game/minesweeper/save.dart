@@ -37,14 +37,14 @@ class SaveMinesweeper {
   final int columns;
   @JsonKey(defaultValue: _defaultCells)
   final List<Cell4Save> cells;
-  final Duration duration;
+  final Duration playTime;
   final GameMode mode;
 
   const SaveMinesweeper({
     this.rows = GameMode.defaultRows,
     this.columns = GameMode.defaultColumns,
     required this.cells,
-    this.duration = Duration.zero,
+    this.playTime = Duration.zero,
     this.mode = GameMode.easy,
   });
 
