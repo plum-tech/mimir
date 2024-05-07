@@ -6,7 +6,7 @@ import 'package:sit/game/entity/game_state.dart';
 import 'package:sit/utils/state_notifier.dart';
 import '../entity/cell.dart';
 import '../entity/mode.dart';
-import '../manager/timer.dart';
+import '../../entity/timer.dart';
 import '../i18n.dart';
 import '../theme.dart';
 import '../page/game.dart';

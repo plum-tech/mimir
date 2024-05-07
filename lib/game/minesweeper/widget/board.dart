@@ -2,7 +2,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import '../entity/screen.dart';
-import '../manager/timer.dart';
 import 'cell.dart';
 import '../page/game.dart';
 

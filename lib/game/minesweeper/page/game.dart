@@ -1,27 +1,22 @@
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/game/entity/game_state.dart';
 import 'package:sit/game/minesweeper/save.dart';
-import "package:flutter/foundation.dart";
 
 import '../entity/mode.dart';
 import '../entity/screen.dart';
 import '../entity/state.dart';
 import '../manager/logic.dart';
-import '../manager/timer.dart';
+import '../../entity/timer.dart';
 import '../widget/board.dart';
 import '../widget/hud.dart';
 import '../widget/info.dart';
 import '../i18n.dart';
 
-final minesweeperState = StateNotifierProvider<GameLogic, GameStateMinesweeper>((ref) {
-  if (kDebugMode) {
-    logger.log(Level.info, "GameLogic Init Finished");
-  }
+final minesweeperState = StateNotifierProvider.autoDispose<GameLogic, GameStateMinesweeper>((ref) {
   return GameLogic();
 });
 
@@ -63,14 +58,19 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
     //Save current state when the app becomes inactive
     if (state == AppLifecycleState.inactive) {
       ref.read(minesweeperState.notifier).save();
+      timer.pause();
+      logger.i("Minesweeper paused");
+    } else if (state == AppLifecycleState.resumed) {
+      timer.resume();
+      logger.i("Minesweeper resumed");
     }
     super.didChangeAppLifecycleState(state);
   }
 
   @override
   void deactivate() {
-    super.deactivate();
     ref.read(minesweeperState.notifier).save();
+    super.deactivate();
   }
 
   @override

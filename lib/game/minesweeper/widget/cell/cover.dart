@@ -15,7 +15,7 @@ class CellCover extends ConsumerWidget {
     return AnimatedOpacity(
       opacity: visible ? 1 : 0,
       curve: Curves.ease,
-      duration: Durations.medium4,
+      duration: Durations.long1,
       child: Container(
         decoration: BoxDecoration(
           color: context.colorScheme.surfaceVariant,

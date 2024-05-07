@@ -136,7 +136,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
         "mines: $mineCells, covers: $coveredCells, flags: $flagCells",
       );
     }
-    if (coveredCells + flagCells == mineCells) {
+    if (coveredCells + flagCells == mineCells || flagCells >= mineCells) {
       return true;
     }
     return false;
