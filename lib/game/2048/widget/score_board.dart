@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../game.dart';
+import '../page/game.dart';
 import '../i18n.dart';
 
 import '../theme.dart';

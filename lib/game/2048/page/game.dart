@@ -5,14 +5,15 @@ import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 
-import 'entity/board.dart';
-import 'save.dart';
-import 'widget/empty_board.dart';
-import 'widget/score_board.dart';
-import 'widget/tile_board.dart';
-import 'theme.dart';
-import 'manager/board.dart';
-import 'i18n.dart';
+import '../entity/board.dart';
+import '../save.dart';
+import '../widget/empty_board.dart';
+import '../widget/game_over.dart';
+import '../widget/score_board.dart';
+import '../widget/tile_board.dart';
+import '../theme.dart';
+import '../manager/board.dart';
+import '../i18n.dart';
 
 final state2048 = StateNotifierProvider<BoardManager, Board>((ref) {
   return BoardManager(ref);
@@ -120,6 +121,7 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
 
   @override
   Widget build(BuildContext context) {
+    final board = ref.watch(state2048);
     return Scaffold(
       appBar: AppBar(
         title: i18n.title.text(),
@@ -173,7 +175,14 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
                 Stack(
                   children: [
                     const EmptyBoardWidget(),
-                    TileBoardWidget(moveAnimation: _moveAnimation, scaleAnimation: _scaleAnimation)
+                    TileBoardWidget(
+                      moveAnimation: _moveAnimation,
+                      scaleAnimation: _scaleAnimation,
+                    ),
+                    if (board.over)
+                      const Positioned.fill(
+                        child: GameOverModal(),
+                      ),
                   ],
                 )
               ],

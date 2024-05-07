@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/init.dart';
-import 'package:sit/game/2048/index.dart';
+import 'package:sit/game/2048/page/index.dart';
 import 'package:sit/game/index.dart';
 import 'package:sit/game/minesweeper/page/index.dart';
 import 'package:sit/game/page/settings.dart';
