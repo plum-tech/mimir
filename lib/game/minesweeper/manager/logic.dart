@@ -33,8 +33,6 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
     // }
   }
 
-  GameState get gameState => state.state;
-
   Cell getCell({required row, required col}) {
     return state.board.getCell(row: row, column: col);
   }

@@ -15,9 +15,9 @@ class GameBoard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.read(minesweeperState);
-    final rows = state.board.rows;
-    final columns = state.board.columns;
+    final board = ref.read(minesweeperState.select((state) => state.board));
+    final rows = board.rows;
+    final columns = board.columns;
     final borderWidth = screen.getBorderWidth();
     final cellWidth = screen.getCellWidth();
 
@@ -36,16 +36,15 @@ class GameBoard extends ConsumerWidget {
         children: List.generate(
           rows * columns,
           (i) {
-            var col = i % columns;
-            var row = i ~/ columns;
+            final row = i ~/ columns;
+            final column = i % columns;
             return Positioned(
-              left: col * cellWidth,
+              left: column * cellWidth,
               top: row * cellWidth,
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
                 child: CellWidget(
-                  row: row,
-                  col: col,
+                  cell: board.getCell(row: row, column: column),
                 ).sizedAll(cellWidth),
               ),
             );

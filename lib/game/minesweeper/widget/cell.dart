@@ -12,19 +12,15 @@ import 'cell/number.dart';
 import '../page/game.dart';
 
 class CellWidget extends ConsumerWidget {
-  final int row;
-  final int col;
+  final Cell cell;
 
   const CellWidget({
     super.key,
-    required this.row,
-    required this.col,
+    required this.cell,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final manager = ref.watch(minesweeperState.notifier);
-    final cell = manager.getCell(row: row, col: col);
     return CellButton(
       cell: cell,
       child: CellContent(
@@ -44,13 +40,13 @@ class CellContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final manager = ref.watch(minesweeperState.notifier);
+    final gameState = ref.watch(minesweeperState.select((state) => state.state));
     final bottom = buildBottom(cell);
     return Stack(
       children: [
         if (bottom != null) bottom.center(),
         Opacity(
-          opacity: manager.gameState == GameState.gameOver && cell.mine ? 0.5 : 1.0,
+          opacity: gameState == GameState.gameOver && cell.mine ? 0.5 : 1.0,
           child: CellCover(visible: cell.state.showCover),
         ),
         CellFlag(visible: cell.state.showFlag),
