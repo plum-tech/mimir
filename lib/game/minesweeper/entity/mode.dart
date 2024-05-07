@@ -1,3 +1,6 @@
+import 'package:json_annotation/json_annotation.dart';
+
+@JsonSerializable(createToJson: false, createFactory: false)
 class GameMode {
   final String name;
   final int gameRows;
@@ -43,7 +46,7 @@ class GameMode {
     required this.gameMines,
   });
 
-  static String toJson(GameMode mode) => mode.name;
+  String toJson() => name;
 
-  static GameMode fromJson(String name) => name2mode[name] ?? easy;
+  factory GameMode.fromJson(String name) => name2mode[name] ?? easy;
 }

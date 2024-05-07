@@ -74,7 +74,7 @@ GameStateMinesweeper _$GameStateMinesweeperFromJson(Map<String, dynamic> json) =
 
 Map<String, dynamic> _$GameStateMinesweeperToJson(GameStateMinesweeper instance) => <String, dynamic>{
       'state': _$GameStateEnumMap[instance.state]!,
-      'mode': GameMode.toJson(instance.mode),
+      'mode': instance.mode,
       'board': instance.board,
     };
 

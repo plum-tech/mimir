@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:math';
+import '../save.dart';
 import 'cell.dart';
 
 part "board.g.dart";
@@ -120,6 +121,18 @@ class CellBoard extends ICellBoard<Cell> {
   }) {
     final builder = _CellBoardBuilder(rows: rows, columns: columns);
     builder.randomMines(mines: mines, rowExclude: rowExclude, columnExclude: columnExclude);
+    return builder.build();
+  }
+
+  factory CellBoard.fromSave(SaveMinesweeper save) {
+    final cells = save.cells
+        .mapIndexed(
+          (index, cell) => _CellBuilder(row: index ~/ save.columns, column: index % save.columns)
+            ..mine = cell.mine
+            ..state = cell.state,
+        )
+        .toList();
+    final builder = _CellBoardBuilder(rows: save.rows, columns: save.columns, cells: cells);
     return builder.build();
   }
 

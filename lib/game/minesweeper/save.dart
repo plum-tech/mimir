@@ -38,12 +38,14 @@ class SaveMinesweeper {
   @JsonKey(defaultValue: _defaultCells)
   final List<Cell4Save> cells;
   final Duration duration;
+  final GameMode mode;
 
   const SaveMinesweeper({
     this.rows = GameMode.defaultRows,
     this.columns = GameMode.defaultColumns,
     required this.cells,
     this.duration = Duration.zero,
+    this.mode = GameMode.easy,
   });
 
   Map<String, dynamic> toJson() => _$SaveMinesweeperToJson(this);

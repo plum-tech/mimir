@@ -172,7 +172,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
     if (state.state.shouldSave) {
       await SaveMinesweeper.storage.delete();
     } else {
-      // await SaveMinesweeper.storage.save(state.board.toSave());
+      await SaveMinesweeper.storage.save(state.toSave());
     }
   }
 }
