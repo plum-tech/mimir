@@ -115,16 +115,14 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(minesweeperState);
-    // Get Your Screen Size
+    ref.listen(minesweeperState, onGameStateChange);
     final screenSize = MediaQuery.of(context).size;
-    final mode = ref.watch(minesweeperState).mode;
     final screen = Screen(
       height: screenSize.height,
       width: screenSize.width,
       gameRows: state.rows,
       gameColumns: state.columns,
     );
-    ref.listen(minesweeperState, onGameStateChange);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -141,7 +139,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          GameHud(mode: state.mode, timer: timer),
+          GameHud(mode: state.mode, timer: timer).padH(8),
           Center(
             child: Stack(
               children: [

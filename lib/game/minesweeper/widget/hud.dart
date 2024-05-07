@@ -23,53 +23,41 @@ class GameHud extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final board = ref.read(minesweeperState);
+    final state = ref.watch(minesweeperState);
     final textTheme = context.textTheme;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+    return ClipRRect(
+      borderRadius: const BorderRadius.all(
+        Radius.circular(12),
+      ),
+      child: [
         Container(
           decoration: BoxDecoration(
             color: context.colorScheme.secondaryContainer,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(8),
-              bottomLeft: Radius.circular(8),
-            ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Icon(Icons.videogame_asset_outlined),
-              board.state == GameState.running
-                  ? MinesAndFlags(
-                      flags: ref.read(minesweeperState).board.countAllByState(state: CellState.flag),
-                      mines: ref.read(minesweeperState).board.mines,
-                    )
-                  : buildGameModeButton(context, ref),
-            ],
-          ),
-        ),
+          child: [
+            const Icon(Icons.videogame_asset_outlined),
+            state.state == GameState.running
+                ? MinesAndFlags(
+                    flags: state.board.countAllByState(state: CellState.flag),
+                    mines: state.board.mines,
+                  )
+                : buildGameModeButton(context, ref),
+          ].row(maa: MainAxisAlignment.spaceAround),
+        ).expanded(),
         Container(
           decoration: BoxDecoration(
             color: context.colorScheme.tertiaryContainer,
-            borderRadius: const BorderRadius.only(
-              topRight: Radius.circular(8),
-              bottomRight: Radius.circular(8),
-            ),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              const Icon(Icons.alarm),
-              timer >>
-                  (ctx, v) => Text(
-                        timer.getTimeCost(),
-                        style: textTheme.bodyLarge,
-                      ),
-            ],
-          ),
-        ),
-      ],
+          child: [
+            const Icon(Icons.alarm),
+            timer >>
+                (ctx, v) => Text(
+                      timer.getTimeCost(),
+                      style: textTheme.bodyLarge,
+                    ),
+          ].row(maa: MainAxisAlignment.spaceAround),
+        ).expanded(),
+      ].row(maa: MainAxisAlignment.center, caa: CrossAxisAlignment.stretch).sized(h: 50),
     );
   }
 
