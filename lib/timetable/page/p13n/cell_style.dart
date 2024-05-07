@@ -20,13 +20,13 @@ class TimetableCellStyleEditor extends StatefulWidget {
 
 class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
   var cellStyle = Settings.timetable.cellStyle ?? const CourseCellStyle();
-  var canSave = false;
+
   @override
   Widget build(BuildContext context) {
-    final old = Settings.timetable.cellStyle;
-    final canSave = old != buildCellStyle();
+    final old = Settings.timetable.cellStyle ?? const CourseCellStyle();
+    final anyChanged = old != buildCellStyle();
     return PromptSaveBeforeQuitScope(
-      changed: canSave,
+      changed: anyChanged,
       onSave: onSave,
       child: Scaffold(
         body: CustomScrollView(
@@ -35,7 +35,7 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
               title: i18n.p13n.cell.title.text(),
               actions: [
                 PlatformTextButton(
-                  onPressed: !canSave ? null : onSave,
+                  onPressed: onSave,
                   child: i18n.save.text(),
                 ),
               ],
