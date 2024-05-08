@@ -1,0 +1,275 @@
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+import 'package:rettulf/build_context.dart';
+import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sudoku_solver_generator/sudoku_solver_generator.dart';
+
+import '../widget/difficulty.dart';
+import '../widget/game_over.dart';
+import '../widget/numbers.dart';
+import '../board_style.dart';
+
+class GameSudoku extends StatefulWidget {
+  const GameSudoku({super.key});
+
+  @override
+  State<StatefulWidget> createState() => GameSudokuState();
+}
+
+class GameSudokuState extends State<GameSudoku> {
+  bool firstRun = true;
+  bool gameOver = false;
+  int timesCalled = 0;
+  bool isButtonDisabled = false;
+  late List<List<List<int>>> gameList;
+  late List<List<int>> game;
+  late List<List<int>> gameCopy;
+  late List<List<int>> gameSolved;
+  static String difficulty = AlertDifficulty.defaultDifficulty;
+
+  @override
+  void initState() {
+    super.initState();
+    newGame(difficulty);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('Sudoku'),
+      ),
+      body: Builder(builder: (builder) {
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: createRows(),
+          ),
+        );
+      }),
+      floatingActionButton: FloatingActionButton(
+        onPressed: showOptionModalSheet,
+        child: const Icon(Icons.menu_rounded),
+      ),
+    );
+  }
+
+
+  Future<void> checkResult() async {
+    try {
+      if (SudokuUtilities.isSolved(game)) {
+        isButtonDisabled = !isButtonDisabled;
+        gameOver = true;
+        await context.showDialog(
+          (_) => const AlertGameOver(),
+        );
+        if (AlertGameOver.newGame) {
+          newGame();
+          AlertGameOver.newGame = false;
+        } else if (AlertGameOver.restartGame) {
+          restartGame();
+          AlertGameOver.restartGame = false;
+        }
+      }
+    } on InvalidSudokuConfigurationException {
+      return;
+    }
+  }
+
+  static Future<List<List<List<int>>>> getNewGame([String difficulty = 'easy']) async {
+    final emptySquares = switch (difficulty) {
+      'test' => 2,
+      'beginner' => 18,
+      'easy' => 27,
+      'medium' => 36,
+      'hard' => 54,
+      _ => 2,
+    };
+    SudokuGenerator generator = SudokuGenerator(emptySquares: emptySquares);
+    return [generator.newSudoku, generator.newSudokuSolved];
+  }
+
+  static List<List<int>> copyGrid(List<List<int>> grid) {
+    return grid.map((row) => [...row]).toList();
+  }
+
+  void setGame(int mode, [String difficulty = 'easy']) async {
+    if (mode == 1) {
+      game = List.filled(9, [0, 0, 0, 0, 0, 0, 0, 0, 0]);
+      gameCopy = List.filled(9, [0, 0, 0, 0, 0, 0, 0, 0, 0]);
+      gameSolved = List.filled(9, [0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    } else {
+      gameList = await getNewGame(difficulty);
+      game = gameList[0];
+      gameCopy = copyGrid(game);
+      gameSolved = gameList[1];
+    }
+  }
+
+  void showSolution() {
+    setState(() {
+      game = copyGrid(gameSolved);
+      isButtonDisabled = !isButtonDisabled ? !isButtonDisabled : isButtonDisabled;
+      gameOver = true;
+    });
+  }
+
+  void newGame([String difficulty = 'easy']) {
+    setState(() {
+      setGame(2, difficulty);
+      isButtonDisabled = isButtonDisabled ? !isButtonDisabled : isButtonDisabled;
+      gameOver = false;
+    });
+  }
+
+  void restartGame() {
+    setState(() {
+      game = copyGrid(gameCopy);
+      isButtonDisabled = isButtonDisabled ? !isButtonDisabled : isButtonDisabled;
+      gameOver = false;
+    });
+  }
+
+  List<SizedBox> createButtons() {
+    if (firstRun) {
+      setGame(1);
+      firstRun = false;
+    }
+
+    List<SizedBox> buttonList = List<SizedBox>.filled(9, const SizedBox());
+    for (var i = 0; i <= 8; i++) {
+      var k = timesCalled;
+      buttonList[i] = SizedBox(
+        key: Key('grid-button-$k-$i'),
+        width: 38,
+        height: 38,
+        child: TextButton(
+          onPressed: isButtonDisabled || gameCopy[k][i] != 0
+              ? null
+              : () async {
+                  await context.showDialog(
+                    (_) => const AlertNumbersState(),
+                  );
+                  callback([k, i], AlertNumbersState.number);
+                  AlertNumbersState.number = null;
+                },
+          onLongPress: isButtonDisabled || gameCopy[k][i] != 0 ? null : () => callback([k, i], 0),
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.resolveWith<Color>((Set<MaterialState> states) {
+              if (states.contains(MaterialState.disabled)) {
+                return gameCopy[k][i] == 0
+                    ? gameOver
+                        ? Colors.red
+                        : Colors.green
+                    : Colors.white;
+              }
+              return game[k][i] == 0 ? Colors.grey : Colors.green;
+            }),
+            shape: MaterialStateProperty.all<OutlinedBorder>(RoundedRectangleBorder(
+              borderRadius: buttonEdgeRadius(k, i),
+            )),
+            side: MaterialStateProperty.all<BorderSide>(BorderSide(
+              width: 1,
+              style: BorderStyle.solid,
+              color: context.colorScheme.onSurface,
+            )),
+          ),
+          child: Text(
+            game[k][i] != 0 ? game[k][i].toString() : ' ',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16),
+          ),
+        ),
+      );
+    }
+    timesCalled++;
+    if (timesCalled == 9) {
+      timesCalled = 0;
+    }
+    return buttonList;
+  }
+
+  Row oneRow() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: createButtons(),
+    );
+  }
+
+  List<Row> createRows() {
+    List<Row> rowList = List<Row>.generate(9, (i) => oneRow());
+    return rowList;
+  }
+
+  void callback(List<int> index, int? number) {
+    setState(() {
+      if (number == null) {
+        return;
+      } else if (number == 0) {
+        game[index[0]][index[1]] = number;
+      } else {
+        game[index[0]][index[1]] = number;
+        checkResult();
+      }
+    });
+  }
+
+  Future<void> showOptionModalSheet() async {
+    await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(10),
+        ),
+      ),
+      builder: (context) {
+        return Wrap(
+          children: [
+            ListTile(
+              leading: Icon(Icons.refresh),
+              title: Text('Restart Game'),
+              onTap: () {
+                Navigator.pop(context);
+                restartGame();
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.add_rounded),
+              title: Text('New Game'),
+              onTap: () {
+                Navigator.pop(context);
+                newGame(difficulty);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.lightbulb_outline_rounded),
+              title: Text('Show Solution'),
+              onTap: () {
+                Navigator.pop(context);
+                showSolution();
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.build_outlined),
+              title: Text('Set Difficulty'),
+              onTap: () async {
+                Navigator.pop(context);
+                await context.showDialog(
+                  (_) => AlertDifficulty(initial: difficulty),
+                );
+                if (AlertDifficulty.difficulty != null) {
+                  newGame(AlertDifficulty.difficulty ?? 'test');
+                  difficulty = AlertDifficulty.difficulty ?? AlertDifficulty.defaultDifficulty;
+                  AlertDifficulty.difficulty = null;
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+}

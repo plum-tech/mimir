@@ -10,6 +10,7 @@ import 'package:sit/game/2048/page/index.dart';
 import 'package:sit/game/index.dart';
 import 'package:sit/game/minesweeper/page/index.dart';
 import 'package:sit/game/page/settings.dart';
+import 'package:sit/game/sudoku/page/index.dart';
 import 'package:sit/game/suika/index.dart';
 import 'package:sit/index.dart';
 import 'package:sit/life/page/settings.dart';
@@ -477,6 +478,10 @@ final _gameRoutes = [
   GoRoute(
     path: "/game/suika",
     builder: (ctx, state) => const GameSuikaPage(),
+  ),
+  GoRoute(
+    path: "/game/sudoku",
+    builder: (ctx, state) => const GameSudokuPage(),
   ),
 ];
 

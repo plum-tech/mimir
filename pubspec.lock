@@ -2018,6 +2018,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  sudoku_solver_generator:
+    dependency: "direct main"
+    description:
+      name: sudoku_solver_generator
+      sha256: "4b34a681a4e113e034a12f6d2dba4ce15a6e3b99255d7f8a3a01b3bcec481741"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0+1"
   super_context_menu:
     dependency: "direct main"
     description:
