@@ -46,7 +46,7 @@ class CellContent extends ConsumerWidget {
       children: [
         if (bottom != null) bottom.center(),
         Opacity(
-          opacity: gameState == GameState.gameOver && cell.mine ? 0.5 : 1.0,
+          opacity: (gameState == GameState.gameOver || gameState == GameState.victory) && cell.mine ? 0.5 : 1.0,
           child: CellCover(visible: cell.state.showCover),
         ),
         CellFlag(visible: cell.state.showFlag),
