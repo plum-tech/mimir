@@ -1,0 +1,69 @@
+import 'package:collection/collection.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:sit/game/minesweeper/utils.dart';
+
+void main() {
+  group("Minesweeper", () {
+    test("Test generate symmetric range", () {
+      assert(generateSymmetricRange(5, 8).toList().equals([-7, -6, -5, 5, 6, 7]));
+      assert(generateSymmetricRange(0, 8).toList().equals([-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7]));
+      assert(generateSymmetricRange(0, 0).toList().equals([]));
+      assert(generateSymmetricRange(0, 1).toList().equals([0]));
+      assert(generateSymmetricRange(0, 2).toList().equals([-1, 0, 1]));
+      assert(generateSymmetricRange(10, 10).toList().equals([]));
+      assert(generateSymmetricRange(9, 10).toList().equals([-9, 9]));
+    });
+    test("Test generateCoord", () {
+      assert(generateCoord(1).toList().equals([(0, 0)]));
+      assert(generateCoord(2)
+          .toList()
+          .equals([(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 0), (0, 1), (1, -1), (1, 0), (1, 1)]));
+      assert(generateCoord(3).toList().equals([
+        (-2, -2),
+        (-2, -1),
+        (-2, 0),
+        (-2, 1),
+        (-2, 2),
+        (-1, -2),
+        (-1, -1),
+        (-1, 0),
+        (-1, 1),
+        (-1, 2),
+        (0, -2),
+        (0, -1),
+        (0, 0),
+        (0, 1),
+        (0, 2),
+        (1, -2),
+        (1, -1),
+        (1, 0),
+        (1, 1),
+        (1, 2),
+        (2, -2),
+        (2, -1),
+        (2, 0),
+        (2, 1),
+        (2, 2)
+      ]));
+    });
+    assert(generateCoord(3, startWith: 2).toList().equals([(-2, -2), (-2, 2), (2, -2), (2, 2)]));
+    assert(generateCoord(5, startWith: 3).toList().equals([
+      (-4, -4),
+      (-4, -3),
+      (-4, 3),
+      (-4, 4),
+      (-3, -4),
+      (-3, -3),
+      (-3, 3),
+      (-3, 4),
+      (3, -4),
+      (3, -3),
+      (3, 3),
+      (3, 4),
+      (4, -4),
+      (4, -3),
+      (4, 3),
+      (4, 4)
+    ]));
+  });
+}
