@@ -7,5 +7,5 @@ enum GameState {
   gameOver,
   victory;
 
-  bool get shouldSave => this != gameOver || this != victory;
+  bool get shouldSave => this != gameOver && this != victory;
 }
