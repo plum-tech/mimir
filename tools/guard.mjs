@@ -1,5 +1,9 @@
 import { extractVersionAndBuildNumberFromTag, getLargestTag } from "./git.mjs"
 
+/**
+ *
+ * @param {string | [string,int]} newVersionFull
+ */
 export async function guardVersioning(newVersionFull) {
   let newVersion, newBuildNumber
   if (typeof newVersionFull === "string") {
@@ -15,7 +19,7 @@ export async function guardVersioning(newVersionFull) {
   if (upgradeDelta <= 0) {
     throw new Error(`${newVersionFull} is larger than ${largestTag}`)
   }
-  if(upgradeDelta > 1){
+  if (upgradeDelta > 1) {
     throw new Error(`${newVersionFull} upgrades more than one build numbers than ${largestTag}`)
   }
 }

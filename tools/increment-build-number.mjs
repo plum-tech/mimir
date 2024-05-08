@@ -1,6 +1,6 @@
 import fs from 'fs/promises' // For file system operations
 import { execSync } from 'child_process' // For shell commands
-import { getVersion, getBuildNumber } from './pubspec.mjs'
+import { extractVersion, extractBuildNumber } from './pubspec.mjs'
 import { simpleGit } from 'simple-git'
 import { guardVersioning } from './guard.mjs'
 const pubspecPath = 'pubspec.yaml'
@@ -26,9 +26,9 @@ async function main() {
   const filedata = await fs.readFile(pubspecPath, 'utf-8')
 
   // Extract version and build number
-  const version = getVersion(filedata)
+  const version = extractVersion(filedata)
 
-  const buildNumber = getBuildNumber(filedata)
+  const buildNumber = extractBuildNumber(filedata)
 
   // Generate new version and print information
   const oldVersion = `${version}+${buildNumber}`

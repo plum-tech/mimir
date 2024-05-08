@@ -2,6 +2,11 @@ import { simpleGit } from 'simple-git'
 
 const git = simpleGit()
 
+/**
+ * Extract the version and build number from a full version string like "v1.0.0+1" or "2.0.0+18"
+ * @param {string} tag
+ * @returns {[string, int]}
+ */
 export function extractVersionAndBuildNumberFromTag(tag) {
   const versionMatch = tag.match(/(\d+.\d+.\d+)/)
   const buildNumberMatch = tag.match(/\d+.\d+.\d+(\+\d+)/)
@@ -13,6 +18,10 @@ export function extractVersionAndBuildNumberFromTag(tag) {
   return [version, buildNumber]
 }
 
+/**
+ * Get the largest version and build number from current git repository
+ * @returns {Promise<[string, int]>}
+ */
 export async function getLargestTag() {
   const tags = await git.tags()
   // in ascending order
