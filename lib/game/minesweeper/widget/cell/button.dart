@@ -36,7 +36,7 @@ class CellButton extends ConsumerWidget {
               }
             }
           : null,
-      onDoubleTap: gameState == GameState.running && cellState.showCover
+      onDoubleTap: gameState == GameState.running && !cellState.showCover
           ? () {
               final manager = ref.read(minesweeperState.notifier);
               bool anyChanged = false;
