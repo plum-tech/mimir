@@ -1,8 +1,6 @@
-import { simpleGit } from "simple-git"
+import { guardVersioning } from "./guard.mjs"
 async function main() {
-  const git = simpleGit()
-  const tags = await git.tags()
-  console.log(tags)
+  await guardVersioning("v2.4.1+445")
 }
 
 main()

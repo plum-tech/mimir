@@ -2,6 +2,7 @@ import fs from 'fs/promises' // For file system operations
 import { execSync } from 'child_process' // For shell commands
 import { getVersion, getBuildNumber } from './pubspec.mjs'
 import { simpleGit } from 'simple-git'
+import { guardVersioning } from './guard.mjs'
 const pubspecPath = 'pubspec.yaml'
 
 async function pushAndTagChanges(newVersion) {
@@ -32,6 +33,8 @@ async function main() {
   // Generate new version and print information
   const oldVersion = `${version}+${buildNumber}`
   const newVersion = `${version}+${buildNumber + 1}`
+  await guardVersioning(newVersion)
+
   console.log(`new version: ${newVersion}`)
   console.log(`build bumber: ${buildNumber} -> ${buildNumber + 1}`)
 
