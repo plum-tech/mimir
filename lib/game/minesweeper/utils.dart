@@ -24,6 +24,7 @@ Iterable<(int, int)> generateCoord(int extensionStep, {int startWith = 0}) sync*
   }
 }
 
+// TODO: generating a game without guesswork
 void randomGenerateMines(
   CellBoardBuilder board, {
   required int mines,
