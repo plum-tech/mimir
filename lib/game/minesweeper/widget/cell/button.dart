@@ -22,11 +22,9 @@ class CellButton extends ConsumerWidget {
       return child;
     }
     final gameState = ref.watch(minesweeperState.select((state) => state.state));
-    final running = gameState == GameState.running || gameState == GameState.idle;
     return GestureDetector(
-      onTap: running && !cellState.showCover
-          ? null
-          : () {
+      onTap: (gameState == GameState.running || gameState == GameState.idle) && cellState.showCover
+          ? () {
               final manager = ref.read(minesweeperState.notifier);
               // Click a Cover Cell => Blank
               if (!cellState.showFlag) {
@@ -36,10 +34,10 @@ class CellButton extends ConsumerWidget {
                 // Click a Flag Cell => Cancel Flag (Covered)
                 manager.removeFlag(cell: cell);
               }
-            },
-      onDoubleTap: running && cellState.showCover
-          ? null
-          : () {
+            }
+          : null,
+      onDoubleTap: gameState == GameState.running && cellState.showCover
+          ? () {
               final manager = ref.read(minesweeperState.notifier);
               bool anyChanged = false;
               anyChanged |= manager.digAroundBesidesFlagged(cell: cell);
@@ -47,21 +45,22 @@ class CellButton extends ConsumerWidget {
               if (anyChanged) {
                 applyGameHapticFeedback();
               }
-            },
-      onLongPress: running && !cellState.showCover
-          ? null
-          : () {
+            }
+          : null,
+      onLongPress: gameState == GameState.running && cellState.showCover
+          ? () {
               final manager = ref.read(minesweeperState.notifier);
               manager.toggleFlag(cell: cell);
               applyGameHapticFeedback();
-            },
-      onSecondaryTap: running && !cellState.showCover
-          ? null
-          : () {
+            }
+          : null,
+      onSecondaryTap: gameState == GameState.running && cellState.showCover
+          ? () {
               final manager = ref.read(minesweeperState.notifier);
               manager.toggleFlag(cell: cell);
               applyGameHapticFeedback();
-            },
+            }
+          : null,
       child: child,
     );
   }

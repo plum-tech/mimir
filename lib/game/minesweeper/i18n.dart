@@ -23,6 +23,6 @@ extension DurationI18nX on Duration {
   String getTimeCost() {
     final min = inMinutes.toString();
     final sec = inSeconds.remainder(60).toString();
-    return '${min.padLeft(2, "0")}:${sec.padLeft(2, "0")}';
+    return '$min:${sec.padLeft(2, "0")}';
   }
 }
