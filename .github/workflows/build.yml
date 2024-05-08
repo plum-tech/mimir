@@ -86,7 +86,7 @@ jobs:
 
     - name: Change Develop to Distribution
       run: |
-        python3 ./build-tools/toDistribution.py
+        node ./tools/to-distro.mjs
 
     - name: Install Apple Certificate
       uses: apple-actions/import-codesign-certs@v2
@@ -106,7 +106,7 @@ jobs:
         cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
     - name: Install Flutter
-      uses: subosito/flutter-action@v2
+      uses: subosito/flutoDistributiontter-action@v2
       with:
         flutter-version: ${{ env.flutter_version }}
         channel: stable

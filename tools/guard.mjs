@@ -16,6 +16,6 @@ export async function guardVersioning(newVersionFull) {
     throw new Error(`${newVersionFull} is larger than ${largestTag}`)
   }
   if(upgradeDelta > 1){
-    throw new Error(`${newVersionFull} upgrades more than one build number than ${largestTag}`)
+    throw new Error(`${newVersionFull} upgrades more than one build numbers than ${largestTag}`)
   }
 }
