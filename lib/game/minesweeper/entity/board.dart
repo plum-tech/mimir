@@ -3,12 +3,17 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'dart:math';
 import '../save.dart';
+import '../utils.dart';
 import 'cell.dart';
 
 part "board.g.dart";
 
-const _nearbyDelta = [(-1, 1), (0, 1), (1, 1), (-1, 0), /*(0,0)*/ (1, 0), (-1, -1), (0, -1), (1, -1)];
-const _nearbyDeltaAndThis = [..._nearbyDelta, (0, 0)];
+typedef MinesweeperBoardGenerator = void Function(
+  CellBoardBuilder board, {
+  required int mines,
+  required int rowFirstClick,
+  required int columnFirstClick,
+});
 
 abstract class ICellBoard<TCell extends Cell> {
   int get rows;
@@ -28,7 +33,7 @@ abstract class ICellBoard<TCell extends Cell> {
   }
 
   Iterable<TCell> iterateAround({required int row, required int column}) sync* {
-    for (final (dx, dy) in _nearbyDelta) {
+    for (final (dx, dy) in CellBoard.nearbyDelta) {
       final nearbyRow = row + dx;
       final nearbyCol = column + dy;
       if (inRange(row: nearbyRow, col: nearbyCol)) {
@@ -83,6 +88,8 @@ abstract class ICellBoard<TCell extends Cell> {
 @JsonSerializable()
 @CopyWith(skipFields: true)
 class CellBoard extends ICellBoard<Cell> {
+  static const nearbyDelta = [(-1, 1), (0, 1), (1, 1), (-1, 0), /*(0,0)*/ (1, 0), (-1, -1), (0, -1), (1, -1)];
+  static const nearbyDeltaAndThis = [...nearbyDelta, (0, 0)];
   final int mines;
   @override
   final int rows;
@@ -108,7 +115,7 @@ class CellBoard extends ICellBoard<Cell> {
     required int rows,
     required int columns,
   }) {
-    final builder = _CellBoardBuilder(rows: rows, columns: columns);
+    final builder = CellBoardBuilder(rows: rows, columns: columns);
     return builder.build();
   }
 
@@ -119,20 +126,20 @@ class CellBoard extends ICellBoard<Cell> {
     required int rowExclude,
     required int columnExclude,
   }) {
-    final builder = _CellBoardBuilder(rows: rows, columns: columns);
-    builder.randomMines(mines: mines, rowExclude: rowExclude, columnExclude: columnExclude);
+    final builder = CellBoardBuilder(rows: rows, columns: columns);
+    builder.randomMines(mines: mines, rowFirstClick: rowExclude, columnFirstClick: columnExclude);
     return builder.build();
   }
 
   factory CellBoard.fromSave(SaveMinesweeper save) {
     final cells = save.cells
         .mapIndexed(
-          (index, cell) => _CellBuilder(row: index ~/ save.columns, column: index % save.columns)
+          (index, cell) => CellBuilder(row: index ~/ save.columns, column: index % save.columns)
             ..mine = cell.mine
             ..state = cell.state,
         )
         .toList();
-    final builder = _CellBoardBuilder(
+    final builder = CellBoardBuilder(
       rows: save.rows,
       columns: save.columns,
       cells: cells,
@@ -153,7 +160,7 @@ class CellBoard extends ICellBoard<Cell> {
   factory CellBoard.fromJson(Map<String, dynamic> json) => _$CellBoardFromJson(json);
 }
 
-class _CellBuilder implements Cell {
+class CellBuilder implements Cell {
   @override
   final int row;
   @override
@@ -165,7 +172,7 @@ class _CellBuilder implements Cell {
   @override
   var minesAround = 0;
 
-  _CellBuilder({
+  CellBuilder({
     required this.row,
     required this.column,
   });
@@ -186,26 +193,26 @@ class _CellBuilder implements Cell {
   }
 }
 
-class _CellBoardBuilder extends ICellBoard<_CellBuilder> {
+class CellBoardBuilder extends ICellBoard<CellBuilder> {
   @override
-  late final List<_CellBuilder> cells;
+  late final List<CellBuilder> cells;
   @override
   final int columns;
   @override
   final int rows;
   int mines = 0;
 
-  _CellBoardBuilder({
+  CellBoardBuilder({
     required this.rows,
     required this.columns,
-    List<_CellBuilder>? cells,
+    List<CellBuilder>? cells,
   })  : assert(rows > 0),
         assert(columns > 0),
         assert(cells == null || cells.length == rows * columns) {
     this.cells = cells ??
         List.generate(
           rows * columns,
-          (index) => _CellBuilder(
+          (index) => CellBuilder(
             row: index ~/ columns,
             column: index % columns,
           ),
@@ -234,17 +241,31 @@ class _CellBoardBuilder extends ICellBoard<_CellBuilder> {
     mines = cells.where((cell) => cell.mine).length;
   }
 
+  void generate({
+    MinesweeperBoardGenerator generator = randomGenerateMines,
+    required int mines,
+    required int rowFirstClick,
+    required int columnFirstClick,
+  }) {
+    generator(
+      this,
+      mines: mines,
+      rowFirstClick: rowFirstClick,
+      columnFirstClick: columnFirstClick,
+    );
+  }
+
   void randomMines({
-    required mines,
-    required rowExclude,
-    required columnExclude,
+    required int mines,
+    required int rowFirstClick,
+    required int columnFirstClick,
   }) {
     final rand = Random();
     final candidates = List.generate(rows * columns, (index) => (row: index ~/ columns, column: index % columns));
     // Clicked cell and one-cell nearby cells can't be mines.
-    for (final (dx, dy) in _nearbyDeltaAndThis) {
-      final row = rowExclude + dx;
-      final column = columnExclude + dy;
+    for (final (dx, dy) in CellBoard.nearbyDeltaAndThis) {
+      final row = rowFirstClick + dx;
+      final column = columnFirstClick + dy;
       candidates.remove((row: row, column: column));
     }
     final maxMines = candidates.length - 1;
