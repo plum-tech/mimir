@@ -23,23 +23,16 @@ class Board {
   //Whether the game is won or not
   final bool won;
 
+  /// Create a model for a new game.
   const Board({
-    required this.score,
-    required this.best,
+    this.score = 0,
     required this.tiles,
+    this.best = 0,
     this.over = false,
     this.won = false,
   });
 
-  //Create a model for a new game.
-  const Board.newGame({
-    required this.best,
-    required this.tiles,
-  })  : score = 0,
-        over = false,
-        won = false;
-
-  // Create a Board from json data
+  /// Create a Board from json data
   factory Board.fromSave(Save2048 save) {
     final tiles = <Tile>[];
     for (var i = 0; i < save.tiles.length; i++) {

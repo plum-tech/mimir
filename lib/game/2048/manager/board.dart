@@ -19,11 +19,11 @@ class BoardManager extends StateNotifier<Board> {
 
   final StateNotifierProviderRef ref;
 
-  BoardManager(this.ref) : super(Board.newGame(best: 0, tiles: []));
+  BoardManager(this.ref) : super(const Board(tiles: []));
 
   // Start New Game
   void newGame() {
-    state = Board.newGame(best: max(state.best, state.score), tiles: [random([])]);
+    state = Board(best: max(state.best, state.score), tiles: [random([])]);
   }
 
   // Continue from save
