@@ -28,7 +28,4 @@ async function main() {
   await fs.writeFile(projectPbxprojPath, filedata);
 }
 
-main().catch(error => {
-  console.error(error);
-  process.exit(1);
-});
+main()

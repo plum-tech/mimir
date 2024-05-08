@@ -28,7 +28,7 @@ async function main() {
   // Create artifact directory
   await fs.mkdir(artifactPath, { recursive: true })
 
-  
+
 
   // Generate artifact data
   const artifactData = {
@@ -105,7 +105,4 @@ async function downloadAndHash(url) {
   return hash
 }
 
-main().catch(error => {
-  console.error(error)
-  process.exit(1)
-})
+main()
