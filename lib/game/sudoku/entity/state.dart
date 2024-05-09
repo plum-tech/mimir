@@ -1,5 +1,5 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:sit/game/entity/game_state.dart';
 

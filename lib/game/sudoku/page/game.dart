@@ -5,6 +5,7 @@ import 'package:rettulf/build_context.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sudoku_solver_generator/sudoku_solver_generator.dart';
 
+import '../entity/mode.dart';
 import '../widget/difficulty.dart';
 import '../widget/game_over.dart';
 import '../widget/numbers.dart';
@@ -26,12 +27,12 @@ class GameSudokuState extends State<GameSudoku> {
   late List<List<int>> game;
   late List<List<int>> gameCopy;
   late List<List<int>> gameSolved;
-  static String difficulty = AlertDifficulty.defaultDifficulty;
+  var gameMode = GameMode.easy;
 
   @override
   void initState() {
     super.initState();
-    newGame(difficulty);
+    newGame(gameMode);
   }
 
   @override
@@ -77,16 +78,8 @@ class GameSudokuState extends State<GameSudoku> {
     }
   }
 
-  static Future<({List<List<int>> puzzle, List<List<int>> solved})> getNewGame([String difficulty = 'easy']) async {
-    final emptySquares = switch (difficulty) {
-      'test' => 2,
-      'beginner' => 18,
-      'easy' => 27,
-      'medium' => 36,
-      'hard' => 54,
-      _ => 2,
-    };
-    SudokuGenerator generator = SudokuGenerator(emptySquares: emptySquares);
+  static Future<({List<List<int>> puzzle, List<List<int>> solved})> getNewGame([GameMode gameMode = GameMode.easy]) async {
+    SudokuGenerator generator = SudokuGenerator(emptySquares: gameMode.blanks);
     return (puzzle: generator.newSudoku, solved: generator.newSudokuSolved);
   }
 
@@ -94,13 +87,13 @@ class GameSudokuState extends State<GameSudoku> {
     return grid.map((row) => [...row]).toList();
   }
 
-  void setGame(int mode, [String difficulty = 'easy']) async {
+  void setGame(int mode, [GameMode gameMode = GameMode.easy]) async {
     if (mode == 1) {
       game = List.filled(9, [0, 0, 0, 0, 0, 0, 0, 0, 0]);
       gameCopy = List.filled(9, [0, 0, 0, 0, 0, 0, 0, 0, 0]);
       gameSolved = List.filled(9, [0, 0, 0, 0, 0, 0, 0, 0, 0]);
     } else {
-      gameList = await getNewGame(difficulty);
+      gameList = await getNewGame(gameMode);
       game = gameList.puzzle;
       gameCopy = copyGrid(game);
       gameSolved = gameList.solved;
@@ -115,9 +108,10 @@ class GameSudokuState extends State<GameSudoku> {
     });
   }
 
-  void newGame([String difficulty = 'easy']) {
+  void newGame([GameMode gameMode = GameMode.easy]) {
     setState(() {
-      setGame(2, difficulty);
+      this.gameMode = gameMode;
+      setGame(2, gameMode);
       isButtonDisabled = isButtonDisabled ? !isButtonDisabled : isButtonDisabled;
       gameOver = false;
     });
@@ -240,7 +234,7 @@ class GameSudokuState extends State<GameSudoku> {
               title: Text('New Game'),
               onTap: () {
                 Navigator.pop(context);
-                newGame(difficulty);
+                newGame(gameMode);
               },
             ),
             ListTile(
@@ -253,16 +247,14 @@ class GameSudokuState extends State<GameSudoku> {
             ),
             ListTile(
               leading: Icon(Icons.build_outlined),
-              title: Text('Set Difficulty'),
+              title: Text('Game mode'),
               onTap: () async {
                 Navigator.pop(context);
-                await context.showDialog(
-                  (_) => AlertDifficulty(initial: difficulty),
+                final newGameMode = await context.showDialog(
+                  (_) => GameModeDialog(initial: gameMode),
                 );
-                if (AlertDifficulty.difficulty != null) {
-                  newGame(AlertDifficulty.difficulty ?? 'test');
-                  difficulty = AlertDifficulty.difficulty ?? AlertDifficulty.defaultDifficulty;
-                  AlertDifficulty.difficulty = null;
+                if(newGameMode != null){
+                  newGame(newGameMode);
                 }
               },
             ),

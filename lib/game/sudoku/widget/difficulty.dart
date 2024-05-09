@@ -1,47 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:rettulf/rettulf.dart';
+import 'package:sit/game/sudoku/i18n.dart';
 
-class AlertDifficulty extends StatefulWidget {
-  final String initial;
+import '../entity/mode.dart';
 
-  const AlertDifficulty({
+class GameModeDialog extends StatefulWidget {
+  final GameMode initial;
+
+  const GameModeDialog({
     required this.initial,
     super.key,
   });
 
   @override
-  State<AlertDifficulty> createState() => AlertDifficultyState();
-  static String? difficulty;
-  static const String defaultDifficulty = "easy";
+  State<GameModeDialog> createState() => GameModeDialogState();
 }
 
-const _difficulties = ['beginner', 'easy', 'medium', 'hard'];
-
-class AlertDifficultyState extends State<AlertDifficulty> {
-  late String currentDifficultyLevel = widget.initial;
+class GameModeDialogState extends State<GameModeDialog> {
+  late GameMode selected = widget.initial;
 
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      title: Center(
-          child: Text(
-        'Select Difficulty Level',
-      )),
+      title: Center(child: Text('Select game mode')),
       contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
       children: <Widget>[
-        for (String level in _difficulties)
+        for (final mode in GameMode.all)
           SimpleDialogOption(
             onPressed: () {
-              if (level != currentDifficultyLevel) {
+              if (mode != selected) {
                 setState(() {
-                  AlertDifficulty.difficulty = level;
+                  selected = mode;
                 });
               }
               Navigator.pop(context);
             },
             child: ListTile(
-              title: Text(level[0].toUpperCase() + level.substring(1)),
-              selected: level == currentDifficultyLevel,
+              title: mode.l10n().text(),
+              selected: mode == selected,
             ),
           ),
       ],
