@@ -22,7 +22,7 @@ class GameSudokuState extends State<GameSudoku> {
   bool gameOver = false;
   int timesCalled = 0;
   bool isButtonDisabled = false;
-  late List<List<List<int>>> gameList;
+  late ({List<List<int>> puzzle, List<List<int>> solved}) gameList;
   late List<List<int>> game;
   late List<List<int>> gameCopy;
   late List<List<int>> gameSolved;
@@ -78,7 +78,7 @@ class GameSudokuState extends State<GameSudoku> {
     }
   }
 
-  static Future<List<List<List<int>>>> getNewGame([String difficulty = 'easy']) async {
+  static Future<({List<List<int>> puzzle, List<List<int>> solved})> getNewGame([String difficulty = 'easy']) async {
     final emptySquares = switch (difficulty) {
       'test' => 2,
       'beginner' => 18,
@@ -88,7 +88,7 @@ class GameSudokuState extends State<GameSudoku> {
       _ => 2,
     };
     SudokuGenerator generator = SudokuGenerator(emptySquares: emptySquares);
-    return [generator.newSudoku, generator.newSudokuSolved];
+    return (puzzle: generator.newSudoku,solved: generator.newSudokuSolved);
   }
 
   static List<List<int>> copyGrid(List<List<int>> grid) {
@@ -102,9 +102,9 @@ class GameSudokuState extends State<GameSudoku> {
       gameSolved = List.filled(9, [0, 0, 0, 0, 0, 0, 0, 0, 0]);
     } else {
       gameList = await getNewGame(difficulty);
-      game = gameList[0];
+      game = gameList.puzzle;
       gameCopy = copyGrid(game);
-      gameSolved = gameList[1];
+      gameSolved = gameList.solved;
     }
   }
 
