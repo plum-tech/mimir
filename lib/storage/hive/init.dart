@@ -77,7 +77,7 @@ class HiveInit {
         if (!kIsWeb) ywb = await cache.openBox('ywb'),
         if (!kIsWeb) electricity = await cache.openBox('electricity'),
       ],
-      ...gameBoxes=[
+      ...gameBoxes = [
         game2048 = await core.openBox("game-2048"),
         gameMinesweeper = await core.openBox("game-minesweeper"),
       ]
