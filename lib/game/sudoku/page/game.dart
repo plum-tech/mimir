@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/build_context.dart';
 import 'package:sit/design/adaptive/foundation.dart';
+import 'package:sit/game/ability/ability.dart';
+import 'package:sit/game/ability/autosave.dart';
+import 'package:sit/game/ability/timer.dart';
+import 'package:sit/game/entity/timer.dart';
 import 'package:sudoku_solver_generator/sudoku_solver_generator.dart';
 
 import '../entity/mode.dart';
@@ -25,7 +29,7 @@ class GameSudoku extends ConsumerStatefulWidget {
   ConsumerState<GameSudoku> createState() => GameSudokuState();
 }
 
-class GameSudokuState extends ConsumerState<GameSudoku> {
+class GameSudokuState extends ConsumerState<GameSudoku>  with WidgetsBindingObserver, GameWidgetAbilityMixin {
   bool firstRun = true;
   bool gameOver = false;
   int timesCalled = 0;
@@ -37,6 +41,15 @@ class GameSudokuState extends ConsumerState<GameSudoku> {
   late List<List<int>> gameCopy;
   late List<List<int>> gameSolved;
   var gameMode = GameMode.easy;
+  late TimerWidgetAbility timerAbility;
+
+  GameTimer get timer => timerAbility.timer;
+
+  @override
+  List<GameWidgetAbility> createAbility() => [
+    AutoSaveWidgetAbility(onSave: onSave),
+    timerAbility = TimerWidgetAbility(),
+  ];
 
   @override
   void initState() {
@@ -272,5 +285,9 @@ class GameSudokuState extends ConsumerState<GameSudoku> {
         );
       },
     );
+  }
+
+  void onSave() {
+    ref.read(sudokuState.notifier).save();
   }
 }
