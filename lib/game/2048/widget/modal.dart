@@ -23,6 +23,7 @@ class GameOverModal extends ConsumerWidget {
           ),
           ButtonWidget(
             text: board.won ? i18n.newGame : i18n.tryAgain,
+            backgroundColor: buttonColor,
             onPressed: () {
               ref.read(state2048.notifier).newGame();
             },
