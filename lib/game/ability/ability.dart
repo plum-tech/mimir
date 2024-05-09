@@ -16,7 +16,7 @@ abstract class GameAbility {
   void onAppResumed() {}
 }
 
-mixin GameAbilityMixin on State, WidgetsBindingObserver {
+mixin GameAbilityMixin<T extends StatefulWidget> on State<T>, WidgetsBindingObserver {
   late final List<GameAbility> abilities;
 
   /// This will be called in [initState].
@@ -43,10 +43,12 @@ mixin GameAbilityMixin on State, WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    for (final ability in abilities) {
-      if (state == AppLifecycleState.inactive) {
+    if (state == AppLifecycleState.inactive) {
+      for (final ability in abilities) {
         ability.onAppInactive();
-      } else if (state == AppLifecycleState.resumed) {
+      }
+    } else if (state == AppLifecycleState.resumed) {
+      for (final ability in abilities) {
         ability.onAppResumed();
       }
     }

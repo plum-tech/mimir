@@ -6,25 +6,26 @@ part of 'state.dart';
 // CopyWithGenerator
 // **************************************************************************
 
-abstract class _$StateSudokuCWProxy {
+abstract class _$GameStateSudokuCWProxy {
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored.
   ///
   /// Usage
   /// ```dart
-  /// StateSudoku(...).copyWith(id: 12, name: "My name")
+  /// GameStateSudoku(...).copyWith(id: 12, name: "My name")
   /// ````
-  StateSudoku call({
+  GameStateSudoku call({
     GameState? state,
     GameMode? mode,
     SudokuBoard? board,
+    Duration? playtime,
   });
 }
 
-/// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfStateSudoku.copyWith(...)`.
-class _$StateSudokuCWProxyImpl implements _$StateSudokuCWProxy {
-  const _$StateSudokuCWProxyImpl(this._value);
+/// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfGameStateSudoku.copyWith(...)`.
+class _$GameStateSudokuCWProxyImpl implements _$GameStateSudokuCWProxy {
+  const _$GameStateSudokuCWProxyImpl(this._value);
 
-  final StateSudoku _value;
+  final GameStateSudoku _value;
 
   @override
 
@@ -32,14 +33,15 @@ class _$StateSudokuCWProxyImpl implements _$StateSudokuCWProxy {
   ///
   /// Usage
   /// ```dart
-  /// StateSudoku(...).copyWith(id: 12, name: "My name")
+  /// GameStateSudoku(...).copyWith(id: 12, name: "My name")
   /// ````
-  StateSudoku call({
+  GameStateSudoku call({
     Object? state = const $CopyWithPlaceholder(),
     Object? mode = const $CopyWithPlaceholder(),
     Object? board = const $CopyWithPlaceholder(),
+    Object? playtime = const $CopyWithPlaceholder(),
   }) {
-    return StateSudoku(
+    return GameStateSudoku(
       state: state == const $CopyWithPlaceholder() || state == null
           ? _value.state
           // ignore: cast_nullable_to_non_nullable
@@ -52,30 +54,36 @@ class _$StateSudokuCWProxyImpl implements _$StateSudokuCWProxy {
           ? _value.board
           // ignore: cast_nullable_to_non_nullable
           : board as SudokuBoard,
+      playtime: playtime == const $CopyWithPlaceholder() || playtime == null
+          ? _value.playtime
+          // ignore: cast_nullable_to_non_nullable
+          : playtime as Duration,
     );
   }
 }
 
-extension $StateSudokuCopyWith on StateSudoku {
-  /// Returns a callable class that can be used as follows: `instanceOfStateSudoku.copyWith(...)`.
+extension $GameStateSudokuCopyWith on GameStateSudoku {
+  /// Returns a callable class that can be used as follows: `instanceOfGameStateSudoku.copyWith(...)`.
   // ignore: library_private_types_in_public_api
-  _$StateSudokuCWProxy get copyWith => _$StateSudokuCWProxyImpl(this);
+  _$GameStateSudokuCWProxy get copyWith => _$GameStateSudokuCWProxyImpl(this);
 }
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-StateSudoku _$StateSudokuFromJson(Map<String, dynamic> json) => StateSudoku(
-      state: $enumDecode(_$GameStateEnumMap, json['state']),
+GameStateSudoku _$GameStateSudokuFromJson(Map<String, dynamic> json) => GameStateSudoku(
+      state: $enumDecodeNullable(_$GameStateEnumMap, json['state']) ?? GameState.idle,
       mode: GameMode.fromJson(json['mode'] as String),
       board: SudokuBoard.fromJson(json['board']),
+      playtime: json['playtime'] == null ? Duration.zero : Duration(microseconds: (json['playtime'] as num).toInt()),
     );
 
-Map<String, dynamic> _$StateSudokuToJson(StateSudoku instance) => <String, dynamic>{
+Map<String, dynamic> _$GameStateSudokuToJson(GameStateSudoku instance) => <String, dynamic>{
       'state': _$GameStateEnumMap[instance.state]!,
       'mode': instance.mode,
       'board': instance.board,
+      'playtime': instance.playtime.inMicroseconds,
     };
 
 const _$GameStateEnumMap = {

@@ -46,13 +46,9 @@ class GameMode {
 
   @override
   bool operator ==(Object other) {
-    return other is GameMode &&
-        runtimeType == other.runtimeType &&
-        name == other.name &&
-        blanks == other.blanks;
+    return other is GameMode && runtimeType == other.runtimeType && name == other.name && blanks == other.blanks;
   }
 
   @override
   int get hashCode => Object.hash(name, blanks);
-
 }

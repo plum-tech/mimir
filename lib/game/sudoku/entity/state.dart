@@ -30,7 +30,7 @@ class GameStateSudoku {
         playtime = Duration.zero,
         board = SudokuBoard.byDefault();
 
-  factory GameStateSudoku.fromJson(Map<String, dynamic> json) => _$StateSudokuFromJson(json);
+  factory GameStateSudoku.fromJson(Map<String, dynamic> json) => _$GameStateSudokuFromJson(json);
 
-  Map<String, dynamic> toJson() => _$StateSudokuToJson(this);
+  Map<String, dynamic> toJson() => _$GameStateSudokuToJson(this);
 }

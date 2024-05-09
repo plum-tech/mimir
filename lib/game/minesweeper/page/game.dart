@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/game/ability/ability.dart';
+import 'package:sit/game/ability/autosave.dart';
+import 'package:sit/game/ability/timer.dart';
 import 'package:sit/game/entity/game_state.dart';
 import 'package:sit/game/minesweeper/save.dart';
 
@@ -32,14 +35,21 @@ class GameMinesweeper extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _MinesweeperState();
 }
 
-class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindingObserver {
-  late GameTimer timer;
+class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindingObserver, GameAbilityMixin {
+  late TimerAbility timerAbility;
+  GameTimer get timer => timerAbility.timer;
+  @override
+  List<GameAbility> createAbility() {
+    return [
+      AutoSaveAbility(onSave: onSave),
+      timerAbility = TimerAbility(),
+    ];
+  }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    timer = GameTimer();
     WidgetsBinding.instance.endOfFrame.then((_) {
       timer.addListener((state) {
         ref.read(minesweeperState.notifier).playtime = state;
@@ -57,32 +67,8 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
     });
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    //Save current state when the app becomes inactive
-    if (state == AppLifecycleState.inactive) {
-      ref.read(minesweeperState.notifier).save();
-      timer.pause();
-      logger.i("Minesweeper paused");
-    } else if (state == AppLifecycleState.resumed) {
-      timer.resume();
-      logger.i("Minesweeper resumed");
-    }
-    super.didChangeAppLifecycleState(state);
-  }
-
-  @override
-  void deactivate() {
+  void onSave() {
     ref.read(minesweeperState.notifier).save();
-    super.deactivate();
-  }
-
-  @override
-  void dispose() {
-    //Remove the Observer for the Lifecycles of the App
-    WidgetsBinding.instance.removeObserver(this);
-    timer.dispose();
-    super.dispose();
   }
 
   void resetGame() {
