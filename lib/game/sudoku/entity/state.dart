@@ -15,12 +15,20 @@ class StateSudoku {
   final GameState state;
   final GameMode mode;
   final SudokuBoard board;
+  final Duration playtime;
 
   const StateSudoku({
     required this.state,
     required this.mode,
     required this.board,
+    this.playtime = Duration.zero,
   });
+
+  StateSudoku.byDefault()
+      : state = GameState.idle,
+        mode = GameMode.easy,
+        playtime = Duration.zero,
+        board = SudokuBoard.byDefault();
 
   factory StateSudoku.fromJson(Map<String, dynamic> json) => _$StateSudokuFromJson(json);
 

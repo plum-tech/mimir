@@ -1,29 +1,38 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/build_context.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sudoku_solver_generator/sudoku_solver_generator.dart';
 
 import '../entity/mode.dart';
+import '../entity/state.dart';
+import '../manager/logic.dart';
 import '../widget/difficulty.dart';
 import '../widget/game_over.dart';
 import '../widget/numbers.dart';
 import '../board_style.dart';
 
-class GameSudoku extends StatefulWidget {
+final sudokuState = StateNotifierProvider.autoDispose<GameLogic, StateSudoku>((ref) {
+  return GameLogic();
+});
+
+class GameSudoku extends ConsumerStatefulWidget {
   const GameSudoku({super.key});
 
   @override
-  State<StatefulWidget> createState() => GameSudokuState();
+  ConsumerState<GameSudoku> createState() => GameSudokuState();
 }
 
-class GameSudokuState extends State<GameSudoku> {
+class GameSudokuState extends ConsumerState<GameSudoku> {
   bool firstRun = true;
   bool gameOver = false;
   int timesCalled = 0;
   bool isButtonDisabled = false;
+
   late ({List<List<int>> puzzle, List<List<int>> solved}) gameList;
+
   late List<List<int>> game;
   late List<List<int>> gameCopy;
   late List<List<int>> gameSolved;
@@ -78,7 +87,8 @@ class GameSudokuState extends State<GameSudoku> {
     }
   }
 
-  static Future<({List<List<int>> puzzle, List<List<int>> solved})> getNewGame([GameMode gameMode = GameMode.easy]) async {
+  static Future<({List<List<int>> puzzle, List<List<int>> solved})> getNewGame(
+      [GameMode gameMode = GameMode.easy]) async {
     SudokuGenerator generator = SudokuGenerator(emptySquares: gameMode.blanks);
     return (puzzle: generator.newSudoku, solved: generator.newSudokuSolved);
   }
@@ -253,7 +263,7 @@ class GameSudokuState extends State<GameSudoku> {
                 final newGameMode = await context.showDialog(
                   (_) => GameModeDialog(initial: gameMode),
                 );
-                if(newGameMode != null){
+                if (newGameMode != null) {
                   newGame(newGameMode);
                 }
               },

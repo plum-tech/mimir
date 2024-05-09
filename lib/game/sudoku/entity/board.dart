@@ -58,12 +58,24 @@ extension type const SudokuBoard(List2D<SudokuCell> cells) {
     final generator = SudokuGenerator(emptySquares: emptySquares);
     final puzzle = generator.newSudoku;
     final solved = generator.newSudokuSolved;
-    return SudokuBoard(List2D.generate(sudokuSides, sudokuSides, (row, column) {
-      return SudokuCell(
+    return SudokuBoard(List2D.generate(
+      sudokuSides,
+      sudokuSides,
+      (row, column) => SudokuCell(
         userInput: puzzle[row][column] == 0 ? 0 : -1,
         correctValue: solved[row][column],
-      );
-    }));
+      ),
+    ));
+  }
+
+  factory SudokuBoard.byDefault() {
+    return SudokuBoard(
+      List2D.generate(
+        sudokuSides,
+        sudokuSides,
+        (row, column) => const SudokuCell.generated(correctValue: 0),
+      ),
+    );
   }
 
   factory SudokuBoard.fromJson(dynamic json) {

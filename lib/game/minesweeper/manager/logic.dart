@@ -13,7 +13,7 @@ import 'package:sit/game/entity/game_state.dart';
 final logger = Logger();
 
 class GameLogic extends StateNotifier<GameStateMinesweeper> {
-  GameLogic() : super(GameStateMinesweeper.byDefault());
+  GameLogic([GameStateMinesweeper? initial]) : super(initial ?? GameStateMinesweeper.byDefault());
 
   void initGame({required GameMode gameMode}) {
     final board = CellBoard.empty(rows: state.mode.gameRows, columns: state.mode.gameColumns);
