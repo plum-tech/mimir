@@ -1,6 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sit/game/minesweeper/utils.dart';
+import 'package:sudoku_solver_generator/sudoku_solver_generator.dart';
 
 void main() {
   group("Minesweeper", () {
@@ -65,5 +66,13 @@ void main() {
       (4, 3),
       (4, 4)
     ]));
+  });
+
+  group("Sudoku", () {
+    test("Test generating", (){
+      final generator = SudokuGenerator(emptySquares: 18);
+      print(generator.newSudoku);
+      print(generator.newSudokuSolved);
+    });
   });
 }
