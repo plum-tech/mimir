@@ -55,4 +55,12 @@ mixin GameAbilityMixin<T extends StatefulWidget> on State<T>, WidgetsBindingObse
 
     super.didChangeAppLifecycleState(state);
   }
+
+  @override
+  void deactivate() {
+    for (final ability in abilities) {
+      ability.deactivate();
+    }
+    super.deactivate();
+  }
 }

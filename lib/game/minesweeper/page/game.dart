@@ -49,7 +49,6 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.endOfFrame.then((_) {
       timer.addListener((state) {
         ref.read(minesweeperState.notifier).playtime = state;
