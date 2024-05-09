@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'list2d.g.dart';
@@ -24,6 +26,23 @@ class List2D<T> with Iterable<T> {
           _rowOf(index, columns),
           _columnOf(index, columns),
         ),
+      ),
+    );
+  }
+
+  factory List2D.from(List<List<T>> list2d) {
+    final rows = list2d.length;
+    var columns = list2d.firstOrNull?.length ?? 0;
+    for (final row in list2d) {
+      assert(columns == row.length, "The length of each row should be the same.");
+      columns = min(columns, row.length);
+    }
+    return List2D(
+      rows,
+      columns,
+      List.generate(
+        rows * columns,
+        (index) => list2d[_rowOf(index, columns)][_columnOf(index, columns)],
       ),
     );
   }
