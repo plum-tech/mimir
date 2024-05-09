@@ -56,7 +56,6 @@ class GameSudokuState extends State<GameSudoku> {
     );
   }
 
-
   Future<void> checkResult() async {
     try {
       if (SudokuUtilities.isSolved(game)) {
@@ -88,7 +87,7 @@ class GameSudokuState extends State<GameSudoku> {
       _ => 2,
     };
     SudokuGenerator generator = SudokuGenerator(emptySquares: emptySquares);
-    return (puzzle: generator.newSudoku,solved: generator.newSudokuSolved);
+    return (puzzle: generator.newSudoku, solved: generator.newSudokuSolved);
   }
 
   static List<List<int>> copyGrid(List<List<int>> grid) {

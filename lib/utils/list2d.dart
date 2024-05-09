@@ -13,8 +13,8 @@ class List2D<T> with Iterable<T> {
   const List2D([
     this.rows = 0,
     this.columns = 0,
-    this._internal = const [],
-  ]);
+    List<T> internal = const [],
+  ]) : _internal = internal;
 
   factory List2D.generate(int rows, int columns, T Function(int row, int column) generator) {
     return List2D(

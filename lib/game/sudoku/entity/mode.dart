@@ -7,7 +7,8 @@ class GameMode {
   static const beginner = GameMode._(
     name: "beginner",
     blanks: 18,
-  );  static const easy = GameMode._(
+  );
+  static const easy = GameMode._(
     name: "easy",
     blanks: 27,
   );
@@ -42,4 +43,16 @@ class GameMode {
   String toJson() => name;
 
   factory GameMode.fromJson(String name) => name2mode[name] ?? easy;
+
+  @override
+  bool operator ==(Object other) {
+    return other is GameMode &&
+        runtimeType == other.runtimeType &&
+        name == other.name &&
+        blanks == other.blanks;
+  }
+
+  @override
+  int get hashCode => Object.hash(name, blanks);
+
 }

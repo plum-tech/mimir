@@ -69,7 +69,7 @@ void main() {
   });
 
   group("Sudoku", () {
-    test("Test generating", (){
+    test("Test generating", () {
       final generator = SudokuGenerator(emptySquares: 18);
       print(generator.newSudoku);
       print(generator.newSudokuSolved);

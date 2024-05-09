@@ -6,7 +6,7 @@ class ButtonWidget extends ConsumerWidget {
   final Color backgroundColor;
   final VoidCallback onPressed;
 
-  const ButtonWidget( {
+  const ButtonWidget({
     super.key,
     required this.text,
     required this.onPressed,
