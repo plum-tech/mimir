@@ -16,4 +16,3 @@ class _I18n with CommonI18nMixin, CommonGameI18nMixin {
 extension GameModeI18nX on GameMode {
   String l10n() => "${_I18n.ns}.gameMode.$name".tr();
 }
-
