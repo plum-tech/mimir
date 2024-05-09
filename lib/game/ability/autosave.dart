@@ -1,9 +1,9 @@
 import 'ability.dart';
 
-class AutoSaveAbility extends GameAbility {
+class AutoSaveWidgetAbility extends GameWidgetAbility {
   final void Function() onSave;
 
-  const AutoSaveAbility({required this.onSave});
+  const AutoSaveWidgetAbility({required this.onSave});
 
   @override
   void onAppInactive() {

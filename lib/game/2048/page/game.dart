@@ -33,7 +33,7 @@ class Game2048 extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _GameState();
 }
 
-class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, WidgetsBindingObserver , GameAbilityMixin {
+class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, WidgetsBindingObserver , GameWidgetAbilityMixin {
 
   //The controller used to move the the tiles
   late final AnimationController _moveController = AnimationController(
@@ -73,7 +73,7 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
   );
   final $focus = FocusNode();
   @override
-  List<GameAbility> createAbility()  => [AutoSaveAbility(onSave: onSave)];
+  List<GameWidgetAbility> createAbility()  => [AutoSaveWidgetAbility(onSave: onSave)];
   @override
   void initState() {
     super.initState();

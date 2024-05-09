@@ -2,8 +2,8 @@ library ability;
 
 import 'package:flutter/cupertino.dart';
 
-abstract class GameAbility {
-  const GameAbility();
+abstract class GameWidgetAbility {
+  const GameWidgetAbility();
 
   void initState() {}
 
@@ -16,11 +16,11 @@ abstract class GameAbility {
   void onAppResumed() {}
 }
 
-mixin GameAbilityMixin<T extends StatefulWidget> on State<T>, WidgetsBindingObserver {
-  late final List<GameAbility> abilities;
+mixin GameWidgetAbilityMixin<T extends StatefulWidget> on State<T>, WidgetsBindingObserver {
+  late final List<GameWidgetAbility> abilities;
 
   /// This will be called in [initState].
-  List<GameAbility> createAbility();
+  List<GameWidgetAbility> createAbility();
 
   @override
   void initState() {
