@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../theme.dart';
-
 class ButtonWidget extends ConsumerWidget {
   final String text;
+  final Color backgroundColor;
   final VoidCallback onPressed;
 
-  const ButtonWidget({
+  const ButtonWidget( {
     super.key,
     required this.text,
     required this.onPressed,
+    required this.backgroundColor,
   });
 
   @override
@@ -18,8 +18,8 @@ class ButtonWidget extends ConsumerWidget {
     //Button Widget with text for New Game and Try Again button.
     return ElevatedButton(
       style: ButtonStyle(
-          padding: MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(12.0)),
-          backgroundColor: MaterialStateProperty.all<Color>(buttonColor)),
+        backgroundColor: MaterialStateProperty.all<Color>(backgroundColor),
+      ),
       onPressed: onPressed,
       child: Text(
         text,

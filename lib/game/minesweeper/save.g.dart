@@ -23,17 +23,13 @@ const _$CellStateEnumMap = {
 };
 
 SaveMinesweeper _$SaveMinesweeperFromJson(Map<String, dynamic> json) => SaveMinesweeper(
-      rows: (json['rows'] as num?)?.toInt() ?? GameMode.defaultRows,
-      columns: (json['columns'] as num?)?.toInt() ?? GameMode.defaultColumns,
-      cells: (json['cells'] as List<dynamic>?)?.map((e) => Cell4Save.fromJson(e as Map<String, dynamic>)).toList() ??
-          _defaultCells(),
+      cells:
+          json['cells'] == null ? _defaultCells() : List2D<Cell4Save>.fromJson(json['cells'] as Map<String, dynamic>),
       playTime: json['playTime'] == null ? Duration.zero : Duration(microseconds: (json['playTime'] as num).toInt()),
       mode: json['mode'] == null ? GameMode.easy : GameMode.fromJson(json['mode'] as String),
     );
 
 Map<String, dynamic> _$SaveMinesweeperToJson(SaveMinesweeper instance) => <String, dynamic>{
-      'rows': instance.rows,
-      'columns': instance.columns,
       'cells': instance.cells,
       'playTime': instance.playTime.inMicroseconds,
       'mode': instance.mode,

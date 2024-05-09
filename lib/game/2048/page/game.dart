@@ -8,7 +8,7 @@ import 'package:sit/design/adaptive/multiplatform.dart';
 import '../entity/board.dart';
 import '../save.dart';
 import '../widget/empty_board.dart';
-import '../widget/game_over.dart';
+import '../widget/modal.dart';
 import '../widget/score_board.dart';
 import '../widget/tile_board.dart';
 import '../theme.dart';

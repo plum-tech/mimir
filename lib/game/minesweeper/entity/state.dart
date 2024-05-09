@@ -51,9 +51,7 @@ class GameStateMinesweeper {
 
   SaveMinesweeper toSave() {
     return SaveMinesweeper(
-      rows: rows,
-      columns: columns,
-      cells: board.cells.map((cell) => Cell4Save(mine: cell.mine, state: cell.state)).toList(),
+      cells: board.cells.map((cell) => Cell4Save(mine: cell.mine, state: cell.state)),
       playTime: playtime,
       mode: mode,
     );

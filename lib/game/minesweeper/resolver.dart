@@ -9,7 +9,5 @@ class MinesweeperResolver {
     required this.columClick,
   });
 
-  void resolve(CellBoard bord){
-    
-  }
+  void resolve(CellBoard bord) {}
 }

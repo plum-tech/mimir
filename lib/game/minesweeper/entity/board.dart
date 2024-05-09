@@ -1,6 +1,6 @@
-import 'package:collection/collection.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sit/utils/list2d.dart';
 import 'dart:math';
 import '../save.dart';
 import '../utils.dart';
@@ -20,7 +20,7 @@ abstract class ICellBoard<TCell extends Cell> {
 
   int get columns;
 
-  List<TCell> get cells;
+  List2D<TCell> get cells;
 
   const ICellBoard();
 
@@ -29,7 +29,7 @@ abstract class ICellBoard<TCell extends Cell> {
   }
 
   TCell getCell({required int row, required int column}) {
-    return cells[indexOf(row: row, column: column)];
+    return cells.get(row, column);
   }
 
   Iterable<TCell> iterateAround({required int row, required int column}) sync* {
@@ -92,30 +92,28 @@ class CellBoard extends ICellBoard<Cell> {
   static const nearbyDeltaAndThis = [...nearbyDelta, (0, 0)];
   final int mines;
   @override
-  final int rows;
+  final List2D<Cell> cells;
+
   @override
-  final int columns;
+  int get rows => cells.rows;
+
   @override
-  final List<Cell> cells;
+  int get columns => cells.columns;
 
   const CellBoard({
     required this.mines,
-    required this.rows,
-    required this.columns,
     required this.cells,
   });
 
   const CellBoard.byDefault()
       : mines = 0,
-        rows = 0,
-        columns = 0,
-        cells = const [];
+        cells = const List2D();
 
   factory CellBoard.empty({
     required int rows,
     required int columns,
   }) {
-    final builder = CellBoardBuilder(rows: rows, columns: columns);
+    final builder = CellBoardBuilder.generate(rows: rows, columns: columns);
     return builder.build();
   }
 
@@ -126,22 +124,18 @@ class CellBoard extends ICellBoard<Cell> {
     required int rowExclude,
     required int columnExclude,
   }) {
-    final builder = CellBoardBuilder(rows: rows, columns: columns);
+    final builder = CellBoardBuilder.generate(rows: rows, columns: columns);
     builder.randomMines(mines: mines, rowFirstClick: rowExclude, columnFirstClick: columnExclude);
     return builder.build();
   }
 
   factory CellBoard.fromSave(SaveMinesweeper save) {
-    final cells = save.cells
-        .mapIndexed(
-          (index, cell) => CellBuilder(row: index ~/ save.columns, column: index % save.columns)
-            ..mine = cell.mine
-            ..state = cell.state,
-        )
-        .toList();
+    final cells = save.cells.mapIndexed(
+      (row, column, cell) => CellBuilder(row: row, column: column)
+        ..mine = cell.mine
+        ..state = cell.state,
+    );
     final builder = CellBoardBuilder(
-      rows: save.rows,
-      columns: save.columns,
       cells: cells,
     );
     builder.updateCells();
@@ -149,9 +143,8 @@ class CellBoard extends ICellBoard<Cell> {
   }
 
   CellBoard changeCell({required row, required column, required state}) {
-    final newCells = List.of(cells);
-    final index = indexOf(row: row, column: column);
-    newCells[index] = cells[index].copyWith(state: state);
+    final newCells = cells.clone();
+    newCells.set(row, column, cells.get(row, column).copyWith(state: state));
     return copyWith(cells: newCells);
   }
 
@@ -195,29 +188,32 @@ class CellBuilder implements Cell {
 
 class CellBoardBuilder extends ICellBoard<CellBuilder> {
   @override
-  late final List<CellBuilder> cells;
-  @override
-  final int columns;
-  @override
-  final int rows;
+  late final List2D<CellBuilder> cells;
   int mines = 0;
 
-  CellBoardBuilder({
-    required this.rows,
-    required this.columns,
-    List<CellBuilder>? cells,
+  @override
+  int get rows => cells.rows;
+
+  @override
+  int get columns => cells.columns;
+
+  CellBoardBuilder.generate({
+    required int rows,
+    required int columns,
   })  : assert(rows > 0),
         assert(columns > 0),
-        assert(cells == null || cells.length == rows * columns) {
-    this.cells = cells ??
-        List.generate(
-          rows * columns,
-          (index) => CellBuilder(
-            row: index ~/ columns,
-            column: index % columns,
+        cells = List2D.generate(
+          rows,
+          columns,
+          (row, column) => CellBuilder(
+            row: row,
+            column: column,
           ),
         );
-  }
+
+  CellBoardBuilder({
+    required this.cells,
+  });
 
   void updateCells() {
     for (final cell in cells) {
@@ -291,9 +287,7 @@ class CellBoardBuilder extends ICellBoard<CellBuilder> {
   CellBoard build() {
     return CellBoard(
       mines: mines,
-      rows: rows,
-      columns: columns,
-      cells: cells.map((e) => e.build()).toList(),
+      cells: cells.map((e) => e.build()),
     );
   }
 }

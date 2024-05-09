@@ -22,7 +22,7 @@ class GameStateModal extends ConsumerWidget {
         },
         child: Container(
           decoration: BoxDecoration(
-            color: gameOverColor.withOpacity(0.68),
+            color: gameOverColor.withOpacity(0.5),
           ),
           child: Text(
             i18n.gameOver,
@@ -50,7 +50,7 @@ class VictoryModal extends ConsumerWidget {
     return Positioned.fill(
       child: Container(
         decoration: BoxDecoration(
-          color: goodGameColor.withOpacity(0.68),
+          color: goodGameColor.withOpacity(0.5),
         ),
         child: MaterialButton(
           onPressed: () {

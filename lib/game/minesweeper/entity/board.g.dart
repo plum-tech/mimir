@@ -15,9 +15,7 @@ abstract class _$CellBoardCWProxy {
   /// ````
   CellBoard call({
     int? mines,
-    int? rows,
-    int? columns,
-    List<Cell>? cells,
+    List2D<Cell>? cells,
   });
 }
 
@@ -37,8 +35,6 @@ class _$CellBoardCWProxyImpl implements _$CellBoardCWProxy {
   /// ````
   CellBoard call({
     Object? mines = const $CopyWithPlaceholder(),
-    Object? rows = const $CopyWithPlaceholder(),
-    Object? columns = const $CopyWithPlaceholder(),
     Object? cells = const $CopyWithPlaceholder(),
   }) {
     return CellBoard(
@@ -46,18 +42,10 @@ class _$CellBoardCWProxyImpl implements _$CellBoardCWProxy {
           ? _value.mines
           // ignore: cast_nullable_to_non_nullable
           : mines as int,
-      rows: rows == const $CopyWithPlaceholder() || rows == null
-          ? _value.rows
-          // ignore: cast_nullable_to_non_nullable
-          : rows as int,
-      columns: columns == const $CopyWithPlaceholder() || columns == null
-          ? _value.columns
-          // ignore: cast_nullable_to_non_nullable
-          : columns as int,
       cells: cells == const $CopyWithPlaceholder() || cells == null
           ? _value.cells
           // ignore: cast_nullable_to_non_nullable
-          : cells as List<Cell>,
+          : cells as List2D<Cell>,
     );
   }
 }
@@ -74,14 +62,10 @@ extension $CellBoardCopyWith on CellBoard {
 
 CellBoard _$CellBoardFromJson(Map<String, dynamic> json) => CellBoard(
       mines: (json['mines'] as num).toInt(),
-      rows: (json['rows'] as num).toInt(),
-      columns: (json['columns'] as num).toInt(),
-      cells: (json['cells'] as List<dynamic>).map((e) => Cell.fromJson(e as Map<String, dynamic>)).toList(),
+      cells: List2D<Cell>.fromJson(json['cells'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$CellBoardToJson(CellBoard instance) => <String, dynamic>{
       'mines': instance.mines,
-      'rows': instance.rows,
-      'columns': instance.columns,
       'cells': instance.cells,
     };

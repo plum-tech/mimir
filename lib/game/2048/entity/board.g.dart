@@ -15,8 +15,8 @@ abstract class _$BoardCWProxy {
   /// ````
   Board call({
     int? score,
-    int? best,
     List<Tile>? tiles,
+    int? best,
     bool? over,
     bool? won,
   });
@@ -38,8 +38,8 @@ class _$BoardCWProxyImpl implements _$BoardCWProxy {
   /// ````
   Board call({
     Object? score = const $CopyWithPlaceholder(),
-    Object? best = const $CopyWithPlaceholder(),
     Object? tiles = const $CopyWithPlaceholder(),
+    Object? best = const $CopyWithPlaceholder(),
     Object? over = const $CopyWithPlaceholder(),
     Object? won = const $CopyWithPlaceholder(),
   }) {
@@ -48,14 +48,14 @@ class _$BoardCWProxyImpl implements _$BoardCWProxy {
           ? _value.score
           // ignore: cast_nullable_to_non_nullable
           : score as int,
-      best: best == const $CopyWithPlaceholder() || best == null
-          ? _value.best
-          // ignore: cast_nullable_to_non_nullable
-          : best as int,
       tiles: tiles == const $CopyWithPlaceholder() || tiles == null
           ? _value.tiles
           // ignore: cast_nullable_to_non_nullable
           : tiles as List<Tile>,
+      best: best == const $CopyWithPlaceholder() || best == null
+          ? _value.best
+          // ignore: cast_nullable_to_non_nullable
+          : best as int,
       over: over == const $CopyWithPlaceholder() || over == null
           ? _value.over
           // ignore: cast_nullable_to_non_nullable

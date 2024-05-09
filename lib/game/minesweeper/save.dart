@@ -1,16 +1,18 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/game/storage/save.dart';
 import 'package:sit/storage/hive/init.dart';
+import 'package:sit/utils/list2d.dart';
 
 import 'entity/mode.dart';
 import 'entity/cell.dart';
 
 part "save.g.dart";
 
-List<Cell4Save> _defaultCells() {
-  return List.generate(
-    GameMode.defaultRows * GameMode.defaultColumns,
-    (index) => const Cell4Save(mine: false, state: CellState.covered),
+List2D<Cell4Save> _defaultCells() {
+  return List2D.generate(
+    GameMode.defaultRows,
+    GameMode.defaultColumns,
+    (row, column) => const Cell4Save(mine: false, state: CellState.covered),
   );
 }
 
@@ -33,16 +35,12 @@ class Cell4Save {
 
 @JsonSerializable()
 class SaveMinesweeper {
-  final int rows;
-  final int columns;
   @JsonKey(defaultValue: _defaultCells)
-  final List<Cell4Save> cells;
+  final List2D<Cell4Save> cells;
   final Duration playTime;
   final GameMode mode;
 
   const SaveMinesweeper({
-    this.rows = GameMode.defaultRows,
-    this.columns = GameMode.defaultColumns,
     required this.cells,
     this.playTime = Duration.zero,
     this.mode = GameMode.easy,
