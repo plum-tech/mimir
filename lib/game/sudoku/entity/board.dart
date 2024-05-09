@@ -80,7 +80,7 @@ extension type const SudokuBoard(List2D<SudokuCell> cells) {
 
   factory SudokuBoard.fromJson(dynamic json) {
     return SudokuBoard(
-      List2D<SudokuCell>.fromJson(json),
+      List2D<SudokuCell>.fromJson(json, (value) => SudokuCell.fromJson(value as Map<String, dynamic>)),
     );
   }
 

@@ -4,8 +4,9 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'list2d.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(genericArgumentFactories: true)
 class List2D<T> with Iterable<T> {
+  @JsonKey(name: "internal", includeFromJson: true, includeToJson: true)
   final List<T> _internal;
   final int rows;
   final int columns;
@@ -13,8 +14,8 @@ class List2D<T> with Iterable<T> {
   const List2D([
     this.rows = 0,
     this.columns = 0,
-    List<T> internal = const [],
-  ]) : _internal = internal;
+    this._internal = const [],
+  ]);
 
   factory List2D.generate(int rows, int columns, T Function(int row, int column) generator) {
     return List2D(
@@ -68,6 +69,9 @@ class List2D<T> with Iterable<T> {
   }
 
   T get(int row, int column) {
+    if (_internal.isEmpty) {
+      print(StackTrace.current);
+    }
     return _internal[_indexOf(row, column, columns)];
   }
 
@@ -95,9 +99,16 @@ class List2D<T> with Iterable<T> {
     );
   }
 
-  Map<String, dynamic> toJson() => _$List2DToJson(this);
+  Map<String, dynamic> toJson(
+    Object? Function(T value) toJsonT,
+  ) =>
+      _$List2DToJson<T>(this, toJsonT);
 
-  factory List2D.fromJson(Map<String, dynamic> json) => _$List2DFromJson(json);
+  factory List2D.fromJson(
+    Map<String, dynamic> json,
+    T Function(Object? json) fromJsonT,
+  ) =>
+      _$List2DFromJson<T>(json, fromJsonT);
 }
 
 extension List2dX<T> on List2D<T> {
