@@ -29,7 +29,7 @@ class GameSudoku extends ConsumerStatefulWidget {
   ConsumerState<GameSudoku> createState() => GameSudokuState();
 }
 
-class GameSudokuState extends ConsumerState<GameSudoku>  with WidgetsBindingObserver, GameWidgetAbilityMixin {
+class GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObserver, GameWidgetAbilityMixin {
   bool firstRun = true;
   bool gameOver = false;
   int timesCalled = 0;
@@ -47,9 +47,9 @@ class GameSudokuState extends ConsumerState<GameSudoku>  with WidgetsBindingObse
 
   @override
   List<GameWidgetAbility> createAbility() => [
-    AutoSaveWidgetAbility(onSave: onSave),
-    timerAbility = TimerWidgetAbility(),
-  ];
+        AutoSaveWidgetAbility(onSave: onSave),
+        timerAbility = TimerWidgetAbility(),
+      ];
 
   @override
   void initState() {

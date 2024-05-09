@@ -14,7 +14,7 @@ abstract class _$GameStateMinesweeperCWProxy {
   /// GameStateMinesweeper(...).copyWith(id: 12, name: "My name")
   /// ````
   GameStateMinesweeper call({
-    GameState? state,
+    GameStatus? status,
     GameMode? mode,
     CellBoard? board,
     Duration? playtime,
@@ -36,16 +36,16 @@ class _$GameStateMinesweeperCWProxyImpl implements _$GameStateMinesweeperCWProxy
   /// GameStateMinesweeper(...).copyWith(id: 12, name: "My name")
   /// ````
   GameStateMinesweeper call({
-    Object? state = const $CopyWithPlaceholder(),
+    Object? status = const $CopyWithPlaceholder(),
     Object? mode = const $CopyWithPlaceholder(),
     Object? board = const $CopyWithPlaceholder(),
     Object? playtime = const $CopyWithPlaceholder(),
   }) {
     return GameStateMinesweeper(
-      state: state == const $CopyWithPlaceholder() || state == null
-          ? _value.state
+      status: status == const $CopyWithPlaceholder() || status == null
+          ? _value.status
           // ignore: cast_nullable_to_non_nullable
-          : state as GameState,
+          : status as GameStatus,
       mode: mode == const $CopyWithPlaceholder() || mode == null
           ? _value.mode
           // ignore: cast_nullable_to_non_nullable
@@ -73,22 +73,22 @@ extension $GameStateMinesweeperCopyWith on GameStateMinesweeper {
 // **************************************************************************
 
 GameStateMinesweeper _$GameStateMinesweeperFromJson(Map<String, dynamic> json) => GameStateMinesweeper(
-      state: $enumDecodeNullable(_$GameStateEnumMap, json['state']) ?? GameState.idle,
+      status: $enumDecodeNullable(_$GameStatusEnumMap, json['status']) ?? GameStatus.idle,
       mode: GameMode.fromJson(json['mode'] as String),
       board: CellBoard.fromJson(json['board'] as Map<String, dynamic>),
       playtime: json['playtime'] == null ? Duration.zero : Duration(microseconds: (json['playtime'] as num).toInt()),
     );
 
 Map<String, dynamic> _$GameStateMinesweeperToJson(GameStateMinesweeper instance) => <String, dynamic>{
-      'state': _$GameStateEnumMap[instance.state]!,
+      'status': _$GameStatusEnumMap[instance.status]!,
       'mode': instance.mode,
       'board': instance.board,
       'playtime': instance.playtime.inMicroseconds,
     };
 
-const _$GameStateEnumMap = {
-  GameState.running: 'running',
-  GameState.idle: 'idle',
-  GameState.gameOver: 'gameOver',
-  GameState.victory: 'victory',
+const _$GameStatusEnumMap = {
+  GameStatus.running: 'running',
+  GameStatus.idle: 'idle',
+  GameStatus.gameOver: 'gameOver',
+  GameStatus.victory: 'victory',
 };

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/game/entity/game_state.dart';
+import 'package:sit/game/entity/game_status.dart';
 import '../entity/cell.dart';
 import 'cell/button.dart';
 import 'cell/cover.dart';
@@ -40,13 +40,13 @@ class CellContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final gameState = ref.watch(minesweeperState.select((state) => state.state));
+    final gameStatus = ref.watch(minesweeperState.select((state) => state.status));
     final bottom = buildBottom(cell);
     return Stack(
       children: [
         if (bottom != null) bottom.center(),
         Opacity(
-          opacity: (gameState == GameState.gameOver || gameState == GameState.victory) && cell.mine ? 0.5 : 1.0,
+          opacity: (gameStatus == GameStatus.gameOver || gameStatus == GameStatus.victory) && cell.mine ? 0.5 : 1.0,
           child: CellCover(visible: cell.state.showCover),
         ),
         CellFlag(visible: cell.state.showFlag),

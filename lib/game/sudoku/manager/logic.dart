@@ -13,8 +13,7 @@ class GameLogic extends StateNotifier<GameStateSudoku> {
   }
 
   Future<void> save() async {
-    if (state.state.shouldSave) {
-    } else {
-    }
+    if (state.status.shouldSave) {
+    } else {}
   }
 }

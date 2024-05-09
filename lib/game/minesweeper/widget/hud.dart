@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/game/entity/game_state.dart';
+import 'package:sit/game/entity/game_status.dart';
 import '../entity/cell.dart';
 import '../entity/mode.dart';
 import '../i18n.dart';
@@ -29,7 +29,7 @@ class GameHud extends ConsumerWidget {
           ),
           child: [
             const Icon(Icons.videogame_asset_outlined),
-            state.state == GameState.running
+            state.status == GameStatus.running
                 ? MinesAndFlags(
                     flags: state.board.countAllByState(state: CellState.flag),
                     mines: state.board.mines,

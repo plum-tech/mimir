@@ -7,7 +7,7 @@ import 'package:logger/logger.dart';
 import '../entity/board.dart';
 import '../entity/cell.dart';
 import '../entity/state.dart';
-import 'package:sit/game/entity/game_state.dart';
+import 'package:sit/game/entity/game_status.dart';
 
 // Debug Tool
 final logger = Logger();
@@ -48,12 +48,12 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   void dig({required Cell cell}) {
-    assert(state.state != GameState.gameOver && state.state != GameState.victory, "Game is already over");
+    assert(state.status != GameStatus.gameOver && state.status != GameStatus.victory, "Game is already over");
     // Generating mines on first dig
-    if (state.state == GameState.idle) {
+    if (state.status == GameStatus.idle) {
       final mode = state.mode;
       state = state.copyWith(
-        state: GameState.running,
+        status: GameStatus.running,
         board: CellBoard.withMines(
           rows: mode.gameRows,
           columns: mode.gameColumns,
@@ -68,13 +68,13 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
       // Check Game State
       if (cell.mine) {
         state = state.copyWith(
-          state: GameState.gameOver,
+          status: GameStatus.gameOver,
         );
       } else {
         _digAroundIfSafe(cell: cell);
         if (checkWin()) {
           state = state.copyWith(
-            state: GameState.victory,
+            status: GameStatus.victory,
           );
         }
       }
@@ -97,7 +97,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   bool digAroundBesidesFlagged({required Cell cell}) {
-    assert(state.state == GameState.running, "Game not yet started");
+    assert(state.status == GameStatus.running, "Game not yet started");
     bool digAny = false;
     if (state.board.countAroundByState(cell: cell, state: CellState.flag) >= cell.minesAround) {
       for (final neighbor in state.board.iterateAround(row: cell.row, column: cell.column)) {
@@ -111,7 +111,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   bool flagRestCovered({required Cell cell}) {
-    assert(state.state == GameState.running, "Game not yet started");
+    assert(state.status == GameStatus.running, "Game not yet started");
     bool flagAny = false;
     final coveredCount = state.board.countAroundByState(cell: cell, state: CellState.covered);
     if (coveredCount == 0) return false;
@@ -144,7 +144,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   void toggleFlag({required Cell cell}) {
-    assert(state.state == GameState.running, "Game not yet started");
+    assert(state.status == GameStatus.running, "Game not yet started");
     if (cell.state == CellState.flag) {
       _changeCell(cell: cell, state: CellState.covered);
     } else if (cell.state == CellState.covered) {
@@ -155,7 +155,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   void flag({required Cell cell}) {
-    assert(state.state == GameState.running, "Game not yet started");
+    assert(state.status == GameStatus.running, "Game not yet started");
     if (cell.state == CellState.covered) {
       _changeCell(cell: cell, state: CellState.flag);
     } else {
@@ -164,7 +164,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   void removeFlag({required Cell cell}) {
-    assert(state.state == GameState.running, "Game not yet started");
+    assert(state.status == GameStatus.running, "Game not yet started");
     if (cell.state == CellState.flag) {
       _changeCell(cell: cell, state: CellState.covered);
     } else {
@@ -173,7 +173,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   Future<void> save() async {
-    if (state.state.shouldSave) {
+    if (state.status.shouldSave) {
       await SaveMinesweeper.storage.save(state.toSave());
     } else {
       await SaveMinesweeper.storage.delete();

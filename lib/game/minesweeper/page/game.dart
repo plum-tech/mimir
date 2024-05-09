@@ -6,7 +6,7 @@ import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/game/ability/ability.dart';
 import 'package:sit/game/ability/autosave.dart';
 import 'package:sit/game/ability/timer.dart';
-import 'package:sit/game/entity/game_state.dart';
+import 'package:sit/game/entity/game_status.dart';
 import 'package:sit/game/minesweeper/save.dart';
 
 import '../entity/mode.dart';
@@ -89,14 +89,14 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
   }
 
   void onGameStateChange(GameStateMinesweeper? former, GameStateMinesweeper current) {
-    switch (current.state) {
-      case GameState.running:
+    switch (current.status) {
+      case GameStatus.running:
         startTimer();
-      case GameState.idle:
+      case GameStatus.idle:
         stopTimer();
-      case GameState.gameOver:
+      case GameStatus.gameOver:
         stopTimer();
-      case GameState.victory:
+      case GameStatus.victory:
         stopTimer();
     }
   }
@@ -135,11 +135,11 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
               child: Stack(
                 children: [
                   GameBoard(screen: screen),
-                  if (state.state == GameState.gameOver)
+                  if (state.status == GameStatus.gameOver)
                     GameStateModal(
                       resetGame: resetGame,
                     )
-                  else if (state.state == GameState.victory)
+                  else if (state.status == GameStatus.victory)
                     VictoryModal(
                       resetGame: resetGame,
                     ),
