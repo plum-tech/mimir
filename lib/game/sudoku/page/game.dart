@@ -14,7 +14,7 @@ import '../widget/game_over.dart';
 import '../widget/numbers.dart';
 import '../board_style.dart';
 
-final sudokuState = StateNotifierProvider.autoDispose<GameLogic, StateSudoku>((ref) {
+final sudokuState = StateNotifierProvider.autoDispose<GameLogic, GameStateSudoku>((ref) {
   return GameLogic();
 });
 

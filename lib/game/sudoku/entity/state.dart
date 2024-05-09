@@ -11,26 +11,26 @@ part "state.g.dart";
 @immutable
 @JsonSerializable()
 @CopyWith(skipFields: true)
-class StateSudoku {
+class GameStateSudoku {
   final GameState state;
   final GameMode mode;
   final SudokuBoard board;
   final Duration playtime;
 
-  const StateSudoku({
-    required this.state,
+  const GameStateSudoku({
+    this.state = GameState.idle,
     required this.mode,
     required this.board,
     this.playtime = Duration.zero,
   });
 
-  StateSudoku.byDefault()
+  GameStateSudoku.byDefault()
       : state = GameState.idle,
         mode = GameMode.easy,
         playtime = Duration.zero,
         board = SudokuBoard.byDefault();
 
-  factory StateSudoku.fromJson(Map<String, dynamic> json) => _$StateSudokuFromJson(json);
+  factory GameStateSudoku.fromJson(Map<String, dynamic> json) => _$StateSudokuFromJson(json);
 
   Map<String, dynamic> toJson() => _$StateSudokuToJson(this);
 }
