@@ -37,14 +37,14 @@ class GameMinesweeper extends ConsumerStatefulWidget {
 
 class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindingObserver, GameAbilityMixin {
   late TimerAbility timerAbility;
+
   GameTimer get timer => timerAbility.timer;
+
   @override
-  List<GameAbility> createAbility() {
-    return [
-      AutoSaveAbility(onSave: onSave),
-      timerAbility = TimerAbility(),
-    ];
-  }
+  List<GameAbility> createAbility() => [
+        AutoSaveAbility(onSave: onSave),
+        timerAbility = TimerAbility(),
+      ];
 
   @override
   void initState() {

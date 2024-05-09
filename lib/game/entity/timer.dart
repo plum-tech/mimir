@@ -34,6 +34,7 @@ class GameTimer extends StateNotifier<Duration> {
   }
 
   void resume() {
+    assert(_timer?.isPaused != false, "Timer not yet paused");
     _timer?.start();
   }
 
