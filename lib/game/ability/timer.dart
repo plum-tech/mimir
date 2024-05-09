@@ -1,7 +1,7 @@
 import '../entity/timer.dart';
 import 'ability.dart';
 
-class TimerAbility extends GameAbility {
+class TimerWidgetAbility extends GameWidgetAbility {
   late final GameTimer timer;
 
   @override
