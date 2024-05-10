@@ -21,19 +21,21 @@ class SudokuCell {
   final int correctValue;
 
   const SudokuCell({
-    required this.userInput,
-    required this.correctValue,
-  });
-
-  const SudokuCell.generated({
-    required this.correctValue,
-  }) : userInput = -1;
+    this.userInput = -1,
+    this.correctValue = 0,
+  }) : assert(correctValue == 0 || (1 <= correctValue && correctValue <= 9),
+            "The puzzle should generate correct value in [1,9]");
 
   bool get canUserInput => userInput < 0;
 
   bool get emptyInput {
     assert(userInput >= 0, "Developer should check `canUserInput` before access this");
     return userInput == 0;
+  }
+
+  bool get isSolved {
+    assert(userInput >= 0, "Developer should check `canUserInput` before access this");
+    return userInput == correctValue;
   }
 
   @override
@@ -73,9 +75,17 @@ extension type const SudokuBoard(List2D<SudokuCell> cells) {
       List2D.generate(
         sudokuSides,
         sudokuSides,
-        (row, column) => const SudokuCell.generated(correctValue: 0),
+        (row, column) => const SudokuCell(),
       ),
     );
+  }
+
+  bool get isSolved {
+    for (final cell in cells) {
+      if (!cell.canUserInput) continue;
+      if (!cell.isSolved) return false;
+    }
+    return true;
   }
 
   factory SudokuBoard.fromJson(dynamic json) {

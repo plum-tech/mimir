@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sit/game/entity/game_status.dart';
 import 'package:sit/game/sudoku/entity/state.dart';
 
 import '../entity/mode.dart';
@@ -13,7 +14,14 @@ class GameLogic extends StateNotifier<GameStateSudoku> {
   }
 
   Future<void> save() async {
-    if (state.status.shouldSave) {
-    } else {}
+    if (state.status.shouldSave) {} else {}
+  }
+
+  void checkWin() {
+    if (state.board.isSolved) {
+      state = state.copyWith(
+          status: GameStatus.victory,
+      );
+    }
   }
 }
