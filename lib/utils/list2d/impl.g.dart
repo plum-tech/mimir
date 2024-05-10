@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'list2d.dart';
+part of 'impl.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

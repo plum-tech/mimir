@@ -1,9 +1,13 @@
 import 'dart:math';
 
+import 'package:meta/meta.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'list2d.g.dart';
+import 'view.dart';
 
+part 'impl.g.dart';
+
+@immutable
 @JsonSerializable(genericArgumentFactories: true)
 class List2D<T> with Iterable<T> {
   @JsonKey(name: "internal", includeFromJson: true, includeToJson: true)
@@ -69,9 +73,6 @@ class List2D<T> with Iterable<T> {
   }
 
   T get(int row, int column) {
-    if (_internal.isEmpty) {
-      print(StackTrace.current);
-    }
     return _internal[_indexOf(row, column, columns)];
   }
 
@@ -79,16 +80,31 @@ class List2D<T> with Iterable<T> {
     _internal[_indexOf(row, column, columns)] = value;
   }
 
+  @override
+  Iterator<T> get iterator => _internal.iterator;
+
+  List2DView<T> subview({
+   int rowStart = 0,
+   int columnStart = 0,
+   required int rows,
+   required int columns,
+  }) {
+    return List2DView(
+      parent: this,
+      rowStart: rowStart,
+      columnStart: columnStart,
+      rowEnd: rows,
+      columnEnd: columns,
+    );
+  }
+
   List2D<T> clone() {
     return List2D(
       rows,
       columns,
-      List.of(_internal),
+      List.of(this),
     );
   }
-
-  @override
-  Iterator<T> get iterator => _internal.iterator;
 
   @override
   List2D<E> map<E>(E Function(T e) toElement) {
@@ -110,6 +126,8 @@ class List2D<T> with Iterable<T> {
   ) =>
       _$List2DFromJson<T>(json, fromJsonT);
 }
+
+mixin List2DBase<T> {}
 
 extension List2dX<T> on List2D<T> {
   List2D<E> mapIndexed<E>(E Function(int row, int column, T e) toElement) {

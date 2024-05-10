@@ -1,6 +1,6 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/utils/list2d.dart';
+import 'package:sit/utils/list2d/list2d.dart';
 import 'dart:math';
 import '../save.dart';
 import '../utils.dart';
