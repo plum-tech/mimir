@@ -10,7 +10,7 @@ class GameLogic extends StateNotifier<GameStateSudoku> {
 
   void initGame({required GameMode gameMode}) {
     final board = SudokuBoard.generate(emptySquares: gameMode.blanks);
-    state = GameStateSudoku(mode: gameMode, board: board);
+    state = GameStateSudoku.newGame(mode: gameMode, board: board);
   }
 
   Future<void> save() async {
