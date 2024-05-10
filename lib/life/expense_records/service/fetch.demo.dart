@@ -26,14 +26,14 @@ final _type2info = {
   TransactionType.food: ([
     (
       name: "小应食堂",
-      notes: [
+      records: [
         "一号窗口",
         "一号窗口",
       ],
     ),
     (
       name: "KFC",
-      notes: [
+      records: [
         "疯狂星期四",
         "v我50",
       ],
@@ -42,7 +42,7 @@ final _type2info = {
   TransactionType.water: ([
     (
       name: "小应饮水机",
-      notes: [
+      records: [
         "热水",
         "冰水",
       ],
@@ -51,7 +51,7 @@ final _type2info = {
   TransactionType.coffee: ([
     (
       name: "小应咖啡吧",
-      notes: [
+      records: [
         "美式(冰)",
         "生椰拿铁",
         "意式浓缩",
@@ -61,7 +61,7 @@ final _type2info = {
   TransactionType.store: ([
     (
       name: "小应商店",
-      notes: [
+      records: [
         "百事可乐",
         "东方树叶",
         "RIO",
@@ -71,7 +71,7 @@ final _type2info = {
   TransactionType.library: ([
     (
       name: "小应图书&咖啡",
-      notes: [
+      records: [
         "逾期罚款",
         "咖啡",
       ],
@@ -80,14 +80,14 @@ final _type2info = {
   TransactionType.shower: ([
     (
       name: "小应澡堂",
-      notes: [
+      records: [
         "男",
         "女",
       ],
     ),
     (
       name: "小应按摩沙龙·免费果盘",
-      notes: [
+      records: [
         "328套餐",
         "198套餐",
       ],
@@ -96,14 +96,14 @@ final _type2info = {
   TransactionType.other: [
     (
       name: "小应加油站",
-      notes: [
+      records: [
         "#92",
         "#95",
       ],
     ),
     (
       name: "小应充电桩",
-      notes: [
+      records: [
         "直流快充",
         "交流慢充",
       ],
@@ -152,7 +152,7 @@ List<Transaction> _generate(int count, Random rand) {
     res.add(_make(
       type: type,
       deviceName: entry.name,
-      note: entry.notes[rand.nextInt(entry.notes.length)],
+      note: entry.records[rand.nextInt(entry.records.length)],
       time: time,
       balance: balance,
       delta: -cost,

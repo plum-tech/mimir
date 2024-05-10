@@ -24,17 +24,19 @@ class SudokuCell {
     this.userInput = -1,
     this.correctValue = 0,
   }) : assert(correctValue == 0 || (1 <= correctValue && correctValue <= 9),
-            "The puzzle should generate correct value in [1,9]");
+            "The puzzle should generate correct value in [1,9] but $correctValue");
 
-  bool get canUserInput => userInput < 0;
+  bool get isPuzzle => userInput < 0;
+
+  bool get canUserInput => userInput >= 0;
 
   bool get emptyInput {
-    assert(userInput >= 0, "Developer should check `canUserInput` before access this");
+    assert(userInput >= 0, "Developer should check `isPuzzle` before access this");
     return userInput == 0;
   }
 
   bool get isSolved {
-    assert(userInput >= 0, "Developer should check `canUserInput` before access this");
+    assert(userInput >= 0, "Developer should check `isPuzzle` before access this");
     return userInput == correctValue;
   }
 
@@ -82,7 +84,7 @@ extension type const SudokuBoard(List2D<SudokuCell> cells) {
 
   bool get isSolved {
     for (final cell in cells) {
-      if (!cell.canUserInput) continue;
+      if (cell.isPuzzle) continue;
       if (!cell.isSolved) return false;
     }
     return true;

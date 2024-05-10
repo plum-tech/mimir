@@ -57,11 +57,11 @@ class SudokuState  {
 
   // sudoku 填写记录
   @HiveField(6)
-  late List<int> record;
+  late List<int> records;
 
   // 笔记
   @HiveField(7)
-  late List<List<bool>> mark;
+  late List<List<bool>> notes;
 
   // 是否完成
   bool get isComplete {
@@ -72,7 +72,7 @@ class SudokuState  {
     for (int i = 0; i < 81; ++i) {
       value = sudoku!.puzzle[i];
       if (value == -1) {
-        value = record[i];
+        value = records[i];
       }
       if (value == -1) {
         return false;
@@ -98,8 +98,8 @@ class SudokuState  {
     this.timing = 0;
     this.life = _Default.life;
     this.hint = _Default.hint;
-    this.record = List.generate(81, (index) => -1);
-    this.mark =
+    this.records = List.generate(81, (index) => -1);
+    this.notes =
         List.generate(81, (index) => List.generate(10, (index) => false));
     notifyListeners();
   }
@@ -140,11 +140,11 @@ class SudokuState  {
     List<int> puzzle = this.sudoku!.puzzle;
 
     if (puzzle[index] != -1) {
-      this.record[index] = -1;
+      this.records[index] = -1;
       notifyListeners();
       return;
     }
-    this.record[index] = num;
+    this.records[index] = num;
     // 清空笔记
     cleanMark(index);
 
@@ -174,7 +174,7 @@ class SudokuState  {
     }
     List<int> puzzle = this.sudoku!.puzzle;
     if (puzzle[index] == -1) {
-      this.record[index] = -1;
+      this.records[index] = -1;
     }
     notifyListeners();
   }
@@ -191,7 +191,7 @@ class SudokuState  {
     if (sudoku!.puzzle[index] != -1) {
       return;
     }
-    if (record[index] == num) {
+    if (records[index] == num) {
       cleanRecord(index);
     } else {
       setRecord(index, num);
@@ -208,7 +208,7 @@ class SudokuState  {
     }
 
     if (sudoku!.puzzle[index] != -1) {
-      this.mark[index] = List.generate(10, (index) => false);
+      this.notes[index] = List.generate(10, (index) => false);
       notifyListeners();
       return;
     }
@@ -216,9 +216,9 @@ class SudokuState  {
     // 清空数字
     cleanRecord(index);
 
-    List<bool> markPoint = this.mark[index];
+    List<bool> markPoint = this.notes[index];
     markPoint[num] = true;
-    this.mark[index] = markPoint;
+    this.notes[index] = markPoint;
     notifyListeners();
   }
 
@@ -227,13 +227,13 @@ class SudokuState  {
       throw new ArgumentError(
           'index border [0,80], input index:$index out of the border');
     }
-    List<bool> markPoint = this.mark[index];
+    List<bool> markPoint = this.notes[index];
     if (num == null) {
       markPoint = List.generate(10, (index) => false);
     } else {
       markPoint[num] = false;
     }
-    this.mark[index] = markPoint;
+    this.notes[index] = markPoint;
     notifyListeners();
   }
 
@@ -246,7 +246,7 @@ class SudokuState  {
       throw new ArgumentError("num must be [1,9]");
     }
 
-    List<bool> markPoint = this.mark[index];
+    List<bool> markPoint = this.notes[index];
     if (!markPoint[num]) {
       setMark(index, num);
     } else {
@@ -275,7 +275,7 @@ class SudokuState  {
       throw new ArgumentError("can't check num stock in \"initialize\" status");
     }
     int puzzleLength = sudoku!.puzzle.where((element) => element == num).length;
-    int recordLength = record.where((element) => element == num).length;
+    int recordLength = records.where((element) => element == num).length;
     return 9 > (puzzleLength + recordLength);
   }
 
