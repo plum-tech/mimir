@@ -1,7 +1,7 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
-import 'package:sit/utils/list2d.dart';
+import 'package:sit/utils/list2d/list2d.dart';
 import 'package:sudoku_solver_generator/sudoku_solver_generator.dart';
 
 part "board.g.dart";
