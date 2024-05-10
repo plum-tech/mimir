@@ -31,6 +31,7 @@ class List2D<T> with Iterable<T> {
           _rowOf(index, columns),
           _columnOf(index, columns),
         ),
+        growable: false,
       ),
     );
   }
@@ -64,14 +65,6 @@ class List2D<T> with Iterable<T> {
     return row * columns + column;
   }
 
-  operator []((int, int) index) {
-    return get(index.$1, index.$2);
-  }
-
-  operator []=((int, int) index, T value) {
-    return set(index.$1, index.$2, value);
-  }
-
   T get(int row, int column) {
     return _internal[_indexOf(row, column, columns)];
   }
@@ -82,29 +75,6 @@ class List2D<T> with Iterable<T> {
 
   @override
   Iterator<T> get iterator => _internal.iterator;
-
-  List2DView<T> subview({
-   int rowStart = 0,
-   int columnStart = 0,
-   required int rows,
-   required int columns,
-  }) {
-    return List2DView(
-      parent: this,
-      rowStart: rowStart,
-      columnStart: columnStart,
-      rowEnd: rows,
-      columnEnd: columns,
-    );
-  }
-
-  List2D<T> clone() {
-    return List2D(
-      rows,
-      columns,
-      List.of(this),
-    );
-  }
 
   @override
   List2D<E> map<E>(E Function(T e) toElement) {
@@ -135,6 +105,59 @@ extension List2dX<T> on List2D<T> {
       rows,
       columns,
       (row, column) => toElement(row, column, get(row, column)),
+    );
+  }
+
+  List2D<T> clone() {
+    return List2D(
+      rows,
+      columns,
+      List.of(this, growable: false),
+    );
+  }
+
+  List2DView<T> subview({
+    int rowStart = 0,
+    int columnStart = 0,
+    required int rows,
+    required int columns,
+  }) {
+    return List2DView(
+      parent: this,
+      rowStart: rowStart,
+      columnStart: columnStart,
+      rowEnd: rows,
+      columnEnd: columns,
+    );
+  }
+
+  operator []((int, int) index) {
+    return get(index.$1, index.$2);
+  }
+
+  operator []=((int, int) index, T value) {
+    return set(index.$1, index.$2, value);
+  }
+
+  Iterable<T> rowAt(int row) sync* {
+    for (var c = 0; c < columns; c++) {
+      yield _internal[List2D._indexOf(row, c, columns)];
+    }
+  }
+
+  Iterable<T> columnAt(int column) sync* {
+    for (var r = 0; r < rows; r++) {
+      yield _internal[List2D._indexOf(r, column, columns)];
+    }
+  }
+
+  List<List<T>> to2DList({bool growable = true}) {
+    return List.generate(
+      rows,
+      (row) => rowAt(row).toList(
+        growable: growable,
+      ),
+      growable: growable,
     );
   }
 }

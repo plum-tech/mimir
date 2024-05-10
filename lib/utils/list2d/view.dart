@@ -51,32 +51,7 @@ class List2DView<T> with Iterable<T> implements List2D<T> {
   }
 
   @override
-  List2DView<T> subview({
-    int rowStart = 0,
-    int columnStart = 0,
-    required int rows,
-    required int columns,
-  }) {
-    return List2DView(
-      parent: this,
-      rowStart: rowStart,
-      columnStart: columnStart,
-      rowEnd: rows,
-      columnEnd: columns,
-    );
-  }
-
-  @override
   Iterator<T> get iterator => List2DViewIterator(this);
-
-  @override
-  List2D<T> clone() {
-    return List2D(
-      rows,
-      columns,
-      List.of(this),
-    );
-  }
 
   @override
   Map<String, dynamic> toJson(Object? Function(T value) toJsonT) {
@@ -88,18 +63,8 @@ class List2DView<T> with Iterable<T> implements List2D<T> {
     return List2D.generate(
       rows,
       columns,
-      (row, column) => toElement(get(rowStart + row, columnStart + column)),
+      (row, column) => toElement(get(row, column)),
     );
-  }
-
-  @override
-  operator []((int, int) index) {
-    return get(index.$1, index.$2);
-  }
-
-  @override
-  operator []=((int, int) index, T value) {
-    return set(index.$1, index.$2, value);
   }
 }
 

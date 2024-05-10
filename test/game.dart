@@ -1,9 +1,20 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sit/game/minesweeper/utils.dart';
+import 'package:sit/utils/list2d/impl.dart';
 import 'package:sudoku_solver_generator/sudoku_solver_generator.dart';
 
 void main() {
+  group("List2D", () {
+    test("Test subview", (){
+      final map = List2D.generate(9, 9, (row, column) => (row,column));
+      final map2d = map.to2DList();
+      for(final row in map2d){
+        print(row);
+      }
+    });
+  });
+
   group("Minesweeper", () {
     test("Test generate symmetric range", () {
       assert(generateSymmetricRange(5, 8).toList().equals([-7, -6, -5, 5, 6, 7]));
@@ -75,4 +86,5 @@ void main() {
       print(generator.newSudokuSolved);
     });
   });
+
 }
