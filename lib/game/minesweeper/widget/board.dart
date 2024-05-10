@@ -15,7 +15,7 @@ class GameBoard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final board = ref.read(minesweeperState.select((state) => state.board));
+    final board = ref.read(stateMinesweeper.select((state) => state.board));
     final rows = board.rows;
     final columns = board.columns;
     final borderWidth = screen.getBorderWidth();

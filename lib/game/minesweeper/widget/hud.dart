@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/game/entity/game_status.dart';
+import 'package:sit/game/i18n.dart';
 import '../entity/cell.dart';
 import '../entity/mode.dart';
 import '../i18n.dart';
@@ -16,7 +17,7 @@ class GameHud extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(minesweeperState);
+    final state = ref.watch(stateMinesweeper);
     final textTheme = context.textTheme;
     return ClipRRect(
       borderRadius: const BorderRadius.all(
@@ -44,7 +45,7 @@ class GameHud extends ConsumerWidget {
           child: [
             const Icon(Icons.alarm),
             Text(
-              state.playtime.getTimeCost(),
+              state.playtime.formatPlaytime(),
               style: textTheme.bodyLarge,
             ),
           ].row(maa: MainAxisAlignment.spaceAround),
@@ -68,7 +69,7 @@ class GameHud extends ConsumerWidget {
         controller.dispose();
         final newMode = GameMode.all[controller.selectedItem];
         if (newMode != mode) {
-          ref.read(minesweeperState.notifier).initGame(gameMode: newMode);
+          ref.read(stateMinesweeper.notifier).initGame(gameMode: newMode);
         }
       },
       label: Text(

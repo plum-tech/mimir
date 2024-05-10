@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/game/i18n.dart';
 import 'package:sit/game/sudoku/i18n.dart';
 
 import '../entity/mode.dart';
+import '../page/game2.dart';
 
 class GameHudLife extends StatelessWidget {
   final int lifeCount;
@@ -37,65 +40,64 @@ class GameHudHint extends StatelessWidget {
   }
 }
 
-class GameHudTimer extends StatelessWidget {
+class GameHudTimer extends ConsumerWidget {
   final GameMode gameMode;
-  final String time;
 
   const GameHudTimer({
     super.key,
     required this.gameMode,
-    required this.time,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
+    final playTime = ref.watch(stateSudoku.select((state) => state.playtime));
     return Text(
-      "${gameMode.l10n()} - $time",
+      "${gameMode.l10n()} - ${playTime.formatPlaytime()}",
     );
   }
 }
 
 class GameHud extends StatelessWidget {
-  final int life;
-  final int hint;
+  final int? lifeCount;
+  final int? hintCount;
   final GameMode gameMode;
-  final String time;
 
   const GameHud({
     super.key,
-    required this.life,
-    required this.hint,
+    this.lifeCount,
+    this.hintCount,
     required this.gameMode,
-    required this.time,
   });
 
   @override
   Widget build(BuildContext context) {
+    final lifeCount = this.lifeCount;
+    final hintCount = this.hintCount;
     return Card.filled(
       child: [
-        Expanded(
-          flex: 1,
-          child: GameHudLife(lifeCount: life).align(
-            at: Alignment.centerLeft,
+        if (lifeCount != null)
+          Expanded(
+            flex: 1,
+            child: GameHudLife(lifeCount: lifeCount).align(
+              at: Alignment.centerLeft,
+            ),
           ),
-        ),
         // indicator
         Expanded(
           flex: 2,
           child: GameHudTimer(
             gameMode: gameMode,
-            time: time,
           ).align(
             at: Alignment.center,
           ),
         ),
-        // tips
-        Expanded(
-          flex: 1,
-          child: GameHudHint(hintCount: hint).align(
-            at: Alignment.centerRight,
-          ),
-        )
+        if (hintCount != null)
+          Expanded(
+            flex: 1,
+            child: GameHudHint(hintCount: hintCount).align(
+              at: Alignment.centerRight,
+            ),
+          )
       ].row().padSymmetric(v: 8, h: 16),
     );
   }

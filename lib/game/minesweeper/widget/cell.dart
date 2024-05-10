@@ -40,7 +40,7 @@ class CellContent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final gameStatus = ref.watch(minesweeperState.select((state) => state.status));
+    final gameStatus = ref.watch(stateMinesweeper.select((state) => state.status));
     final bottom = buildBottom(cell);
     return Stack(
       children: [

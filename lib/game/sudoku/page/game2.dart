@@ -23,7 +23,7 @@ import '../widget/hud.dart';
 import '../widget/tool.dart';
 
 final Logger log = Logger();
-final sudokuState = StateNotifierProvider.autoDispose<GameLogic, GameStateSudoku>((ref) {
+final stateSudoku = StateNotifierProvider.autoDispose<GameLogic, GameStateSudoku>((ref) {
   return GameLogic();
 });
 
@@ -117,16 +117,12 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
   }
 
   Widget buildBody() {
+    final state = ref.watch(stateSudoku);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          GameHud(
-            life: _state.life,
-            hint: _state.hint,
-            gameMode: _state.level!,
-            time: _state.timer,
-          ),
+          GameHud(gameMode: state.mode),
           buildCells(),
           buildToolBar(),
           buildFiller(),
