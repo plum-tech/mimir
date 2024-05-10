@@ -126,8 +126,8 @@ extension List2dX<T> on List2D<T> {
       parent: this,
       rowStart: rowStart,
       columnStart: columnStart,
-      rowEnd: rows,
-      columnEnd: columns,
+      rows: rows,
+      columns: columns,
     );
   }
 
@@ -141,13 +141,13 @@ extension List2dX<T> on List2D<T> {
 
   Iterable<T> rowAt(int row) sync* {
     for (var c = 0; c < columns; c++) {
-      yield _internal[List2D._indexOf(row, c, columns)];
+      yield get(row, c);
     }
   }
 
   Iterable<T> columnAt(int column) sync* {
     for (var r = 0; r < rows; r++) {
-      yield _internal[List2D._indexOf(r, column, columns)];
+      yield get(r, column);
     }
   }
 

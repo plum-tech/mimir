@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:meta/meta.dart';
 
 import 'impl.dart';
@@ -20,14 +18,16 @@ class List2DView<T> with Iterable<T> implements List2D<T> {
   /// The [rows] should be in [4, ]
   List2DView({
     required this.parent,
-    required int rowStart,
-    required int columnStart,
-    required int rowEnd,
-    required int columnEnd,
-  })  : rowStart = max(rowStart, 0),
-        columnStart = max(columnStart, 0),
-        rows = max(0, min(rowEnd, parent.rows) - rowStart),
-        columns = max(0, min(columnEnd, parent.columns) - columnStart);
+    required this.rowStart,
+    required this.columnStart,
+    required this.rows,
+    required this.columns,
+  }){
+    assert(rowStart >= 0);
+    assert(columnStart >= 0);
+    assert(rows <= parent.rows - rowStart);
+    assert(columns <= parent.columns - columnStart);
+  }
 
   void _checkRange(int row, int column) {
     if (!(0 <= row && row <= rows)) {
