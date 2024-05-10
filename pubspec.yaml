@@ -167,6 +167,7 @@ dependencies:
   flame: ^1.17.0
   flame_forge2d: ^0.18.0
   sudoku_solver_generator: ^2.1.0+1
+  sudoku_dart: ^1.1.0
 
 dependency_overrides:
   intl: ^0.19.0

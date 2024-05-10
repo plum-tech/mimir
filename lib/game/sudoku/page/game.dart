@@ -26,10 +26,10 @@ class GameSudoku extends ConsumerStatefulWidget {
   const GameSudoku({super.key});
 
   @override
-  ConsumerState<GameSudoku> createState() => GameSudokuState();
+  ConsumerState<GameSudoku> createState() => _GameSudokuState();
 }
 
-class GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObserver, GameWidgetAbilityMixin {
+class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObserver, GameWidgetAbilityMixin {
   bool firstRun = true;
   bool gameOver = false;
   int timesCalled = 0;
