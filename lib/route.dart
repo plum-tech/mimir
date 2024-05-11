@@ -481,7 +481,10 @@ final _gameRoutes = [
   ),
   GoRoute(
     path: "/game/sudoku",
-    builder: (ctx, state) => const GameSudokuPage(),
+    builder: (ctx, state) {
+      final continueGame = state.uri.queryParameters["continue"] != null;
+      return GameSudokuPage(newGame: !continueGame);
+    },
   ),
 ];
 
