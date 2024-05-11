@@ -11,7 +11,7 @@ class GamePrefSudoku {
   final GameMode mode;
 
   const GamePrefSudoku({
-    required this.mode,
+    this.mode = GameMode.easy,
   });
 
   @override

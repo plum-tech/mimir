@@ -55,7 +55,7 @@ class BoxFieldWithDefaultNotifier<T> extends StateNotifier<T> {
   final Listenable listenable;
   final T? Function() get;
   final T Function() getDefault;
-  final FutureOr<void> Function(T? v) set;
+  final FutureOr<void> Function(T v) set;
 
   BoxFieldWithDefaultNotifier(super._state, this.listenable, this.get, this.set, this.getDefault) {
     listenable.addListener(_refresh);
@@ -176,7 +176,7 @@ extension BoxProviderX on Box {
     dynamic key,
     T Function() getDefault, {
     T? Function()? get,
-    FutureOr<void> Function(T? v)? set,
+    FutureOr<void> Function(T v)? set,
   }) {
     return StateNotifierProvider<BoxFieldWithDefaultNotifier<T>, T>((ref) {
       return BoxFieldWithDefaultNotifier(

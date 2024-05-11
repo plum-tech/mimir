@@ -11,10 +11,10 @@ import 'package:sit/game/entity/game_status.dart';
 import 'package:sit/game/entity/timer.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../entity/mode.dart';
 import '../entity/state.dart';
 import '../manager/logic.dart';
 import '../save.dart';
+import '../settings.dart';
 import '../widget/cell.dart';
 import '../widget/filler.dart';
 import '../widget/hud.dart';
@@ -59,7 +59,7 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
       });
       final logic = ref.read(stateSudoku.notifier);
       if (widget.newGame) {
-        logic.initGame(gameMode: GameMode.easy);
+        logic.initGame(gameMode: SettingsSudoku.$.pref.mode);
         logic.startGame();
       } else {
         final save = SaveSudoku.storage.load();
@@ -67,7 +67,7 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
           logic.fromSave(save);
           timer.state = ref.read(stateSudoku).playtime;
         } else {
-          logic.initGame(gameMode: GameMode.easy);
+          logic.initGame(gameMode: SettingsSudoku.$.pref.mode);
           timer.state = ref.read(stateSudoku).playtime;
         }
       }

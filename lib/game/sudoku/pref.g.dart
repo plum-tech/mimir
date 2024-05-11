@@ -55,7 +55,7 @@ extension $GamePrefSudokuCopyWith on GamePrefSudoku {
 // **************************************************************************
 
 GamePrefSudoku _$GamePrefSudokuFromJson(Map<String, dynamic> json) => GamePrefSudoku(
-      mode: GameMode.fromJson(json['mode'] as String),
+      mode: json['mode'] == null ? GameMode.easy : GameMode.fromJson(json['mode'] as String),
     );
 
 Map<String, dynamic> _$GamePrefSudokuToJson(GamePrefSudoku instance) => <String, dynamic>{

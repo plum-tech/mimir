@@ -8,15 +8,17 @@ import 'package:sit/design/widgets/app.dart';
 import '../storage/save.dart';
 import '../i18n.dart';
 
-class OfflineGameAppCard extends ConsumerStatefulWidget {
+class OfflineGameAppCard extends ConsumerWidget {
   final String name;
   final String baseRoute;
+  final Widget? view;
   final bool supportHistory;
   final bool supportLeaderboard;
   final GameSaveStorage? storage;
 
   const OfflineGameAppCard({
     super.key,
+    this.view,
     required this.baseRoute,
     required this.name,
     this.supportHistory = false,
@@ -25,54 +27,50 @@ class OfflineGameAppCard extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<OfflineGameAppCard> createState() => _OfflineGameAppCardState();
-}
-
-class _OfflineGameAppCardState extends ConsumerState<OfflineGameAppCard> {
-  @override
-  Widget build(BuildContext context) {
-    final storage = widget.storage;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final storage = this.storage;
     var hasSave = false;
     if (storage != null) {
       hasSave |= ref.watch(storage.$saveExistsOf(0));
     }
     return AppCard(
-      title: widget.name.text(),
+      title: name.text(),
+      view: view,
       leftActions: [
         if (hasSave != true)
           FilledButton(
             onPressed: () {
-              context.push("/game${widget.baseRoute}");
+              context.push("/game$baseRoute");
             },
             child: i18n.newGame.text(),
           )
         else ...[
           FilledButton(
             onPressed: () {
-              context.push("/game${widget.baseRoute}?continue");
+              context.push("/game$baseRoute?continue");
             },
             child: i18n.continueGame.text(),
           ),
           OutlinedButton(
             onPressed: () {
-              context.push("/game${widget.baseRoute}");
+              context.push("/game$baseRoute");
             },
             child: i18n.newGame.text(),
           )
         ],
       ],
       rightActions: [
-        if (widget.supportHistory)
+        if (supportHistory)
           PlatformIconButton(
             onPressed: () {
-              context.push("/game${widget.baseRoute}/history");
+              context.push("/game$baseRoute/history");
             },
             icon: const Icon(Icons.history),
           ),
-        if (widget.supportLeaderboard)
+        if (supportLeaderboard)
           PlatformIconButton(
             onPressed: () {
-              context.push("/game${widget.baseRoute}/leaderboard");
+              context.push("/game$baseRoute/leaderboard");
             },
             icon: const Icon(Icons.leaderboard),
           ),
