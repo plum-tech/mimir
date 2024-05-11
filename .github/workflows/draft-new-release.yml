@@ -1,9 +1,9 @@
 name: 2.Draft New Release
 
-on: 
+on:
   workflow_dispatch:
     inputs:
-      ipa-publish: 
+      ipa-publish:
         description: 'Publish the ipa file'
         required: true
         default: false
@@ -70,43 +70,43 @@ jobs:
       - name: Release
         uses: softprops/action-gh-release@v2
         env:
-            RESOLVED_VERSION: ${{ steps.get_git_info.outputs.RESOLVED_VERSION }}
-            PREVIOUS_TAG: ${{ steps.get_git_info.outputs.PREVIOUS_TAG }}
+          RESOLVED_VERSION: ${{ steps.get_git_info.outputs.RESOLVED_VERSION }}
+          PREVIOUS_TAG: ${{ steps.get_git_info.outputs.PREVIOUS_TAG }}
         with:
           files: |
             new-build-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.apk
             new-build-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.ipa
           tag_name: ${{ env.RESOLVED_VERSION }}
           body: |
-              ## Changes
-              ### Features
-                - Foo
-              ### Bug fixes
-                - Bar
+            ## Changes
+            ### Features
+              - Foo
+            ### Bug fixes
+              - Bar
 
-              ## 更改
-              ### 新功能
-                - Foo
-              ### Bug 修复
-                - Bar
+            ## 更改
+            ### 新功能
+              - Foo
+            ### Bug 修复
+              - Bar
 
-              ## How to download
-                <!-- Android:main -->
-                <!-- - `Android`: Click the .apk files below.-->
-                <!-- iOS:main -->
-                <!-- - `iOS`: [Download on the App Store](https://apps.apple.com/cn/app/id6468989112).-->
-                <!-- iOS:TestFlight -->
-                <!-- - `iOS`: [Join the Test Flight](https://testflight.apple.com/join/ecafeulK).-->
-                <!-- iOS:Debug -->
-                <!-- - `iOS`: Click the .ipa files below.-->
+            ## How to download
+              <!-- Android:main -->
+              <!-- - `Android`: Click the .apk files below.-->
+              <!-- iOS:main -->
+              <!-- - `iOS`: [Download on the App Store](https://apps.apple.com/cn/app/id6468989112).-->
+              <!-- iOS:TestFlight -->
+              <!-- - `iOS`: [Join the Test Flight](https://testflight.apple.com/join/ecafeulK).-->
+              <!-- iOS:Debug -->
+              <!-- - `iOS`: Click the .ipa files below.-->
 
-                - `Android`: Click the .apk files below.
-                - `iOS`: [Download on the App Store](https://apps.apple.com/cn/app/id6468989112).
+              - `Android`: Click the .apk files below.
+              - `iOS`: [Download on the App Store](https://apps.apple.com/cn/app/id6468989112).
 
-              ## Checksum (sha256)
-              ${{ steps.builds.outputs.APK_SHA256 }}
-              ${{ steps.builds.outputs.IPA_SHA256 }}
+            ## Checksum (sha256)
+            ${{ steps.builds.outputs.APK_SHA256 }}
+            ${{ steps.builds.outputs.IPA_SHA256 }}
 
-              Full Changelog: https://github.com/${{ github.repository }}/compare/${{ env.PREVIOUS_TAG }}...${{ env.RESOLVED_VERSION }}
+            Full Changelog: https://github.com/${{ github.repository }}/compare/${{ env.PREVIOUS_TAG }}...${{ env.RESOLVED_VERSION }}
           draft: true
           prerelease: false

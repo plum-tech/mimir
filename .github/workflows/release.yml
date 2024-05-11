@@ -2,11 +2,11 @@ name: 3.Release New Version
 
 on:
   release:
-    types: [released]
+    types: [ released ]
 
-permissions: 
-    contents: read
-    packages: write
+permissions:
+  contents: read
+  packages: write
 
 jobs:
   main:
@@ -45,9 +45,9 @@ jobs:
           fi
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
+
           mkdir -p "artifact/"
-          
+
           jq -n \
             --arg version "$version" \
             --arg release_time "$release_time" \
@@ -91,11 +91,10 @@ jobs:
                 }
               }
             ' > "artifact/$version.json"
-          
+
           rm -f artifact/latest.json
           ln -s "$version.json" "artifact/latest.json"
-          
+
           git add --all
           git commit -m "Release New Version: $version"
           git push "git@github.com:Amazefcc233/mimir-docs" main:main
-  
