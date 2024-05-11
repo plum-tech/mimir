@@ -6,26 +6,27 @@ part of 'state.dart';
 // CopyWithGenerator
 // **************************************************************************
 
-abstract class _$GameStateMinesweeperCWProxy {
+abstract class _$GameStateSudokuCWProxy {
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored.
   ///
   /// Usage
   /// ```dart
-  /// GameStateMinesweeper(...).copyWith(id: 12, name: "My name")
+  /// GameStateSudoku(...).copyWith(id: 12, name: "My name")
   /// ````
-  GameStateMinesweeper call({
+  GameStateSudoku call({
     GameStatus? status,
     GameMode? mode,
-    CellBoard? board,
+    SudokuBoard? board,
     Duration? playtime,
+    List<SudokuCellNote>? notes,
   });
 }
 
-/// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfGameStateMinesweeper.copyWith(...)`.
-class _$GameStateMinesweeperCWProxyImpl implements _$GameStateMinesweeperCWProxy {
-  const _$GameStateMinesweeperCWProxyImpl(this._value);
+/// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfGameStateSudoku.copyWith(...)`.
+class _$GameStateSudokuCWProxyImpl implements _$GameStateSudokuCWProxy {
+  const _$GameStateSudokuCWProxyImpl(this._value);
 
-  final GameStateMinesweeper _value;
+  final GameStateSudoku _value;
 
   @override
 
@@ -33,15 +34,16 @@ class _$GameStateMinesweeperCWProxyImpl implements _$GameStateMinesweeperCWProxy
   ///
   /// Usage
   /// ```dart
-  /// GameStateMinesweeper(...).copyWith(id: 12, name: "My name")
+  /// GameStateSudoku(...).copyWith(id: 12, name: "My name")
   /// ````
-  GameStateMinesweeper call({
+  GameStateSudoku call({
     Object? status = const $CopyWithPlaceholder(),
     Object? mode = const $CopyWithPlaceholder(),
     Object? board = const $CopyWithPlaceholder(),
     Object? playtime = const $CopyWithPlaceholder(),
+    Object? notes = const $CopyWithPlaceholder(),
   }) {
-    return GameStateMinesweeper(
+    return GameStateSudoku(
       status: status == const $CopyWithPlaceholder() || status == null
           ? _value.status
           // ignore: cast_nullable_to_non_nullable
@@ -53,37 +55,43 @@ class _$GameStateMinesweeperCWProxyImpl implements _$GameStateMinesweeperCWProxy
       board: board == const $CopyWithPlaceholder() || board == null
           ? _value.board
           // ignore: cast_nullable_to_non_nullable
-          : board as CellBoard,
+          : board as SudokuBoard,
       playtime: playtime == const $CopyWithPlaceholder() || playtime == null
           ? _value.playtime
           // ignore: cast_nullable_to_non_nullable
           : playtime as Duration,
+      notes: notes == const $CopyWithPlaceholder() || notes == null
+          ? _value.notes
+          // ignore: cast_nullable_to_non_nullable
+          : notes as List<SudokuCellNote>,
     );
   }
 }
 
-extension $GameStateMinesweeperCopyWith on GameStateMinesweeper {
-  /// Returns a callable class that can be used as follows: `instanceOfGameStateMinesweeper.copyWith(...)`.
+extension $GameStateSudokuCopyWith on GameStateSudoku {
+  /// Returns a callable class that can be used as follows: `instanceOfGameStateSudoku.copyWith(...)`.
   // ignore: library_private_types_in_public_api
-  _$GameStateMinesweeperCWProxy get copyWith => _$GameStateMinesweeperCWProxyImpl(this);
+  _$GameStateSudokuCWProxy get copyWith => _$GameStateSudokuCWProxyImpl(this);
 }
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-GameStateMinesweeper _$GameStateMinesweeperFromJson(Map<String, dynamic> json) => GameStateMinesweeper(
+GameStateSudoku _$GameStateSudokuFromJson(Map<String, dynamic> json) => GameStateSudoku(
       status: $enumDecodeNullable(_$GameStatusEnumMap, json['status']) ?? GameStatus.idle,
       mode: GameMode.fromJson(json['mode'] as String),
-      board: CellBoard.fromJson(json['board'] as Map<String, dynamic>),
+      board: SudokuBoard.fromJson(json['board']),
       playtime: json['playtime'] == null ? Duration.zero : Duration(microseconds: (json['playtime'] as num).toInt()),
+      notes: (json['notes'] as List<dynamic>).map(SudokuCellNote.fromJson).toList(),
     );
 
-Map<String, dynamic> _$GameStateMinesweeperToJson(GameStateMinesweeper instance) => <String, dynamic>{
+Map<String, dynamic> _$GameStateSudokuToJson(GameStateSudoku instance) => <String, dynamic>{
       'status': _$GameStatusEnumMap[instance.status]!,
       'mode': instance.mode,
       'board': instance.board,
       'playtime': instance.playtime.inMicroseconds,
+      'notes': instance.notes,
     };
 
 const _$GameStatusEnumMap = {

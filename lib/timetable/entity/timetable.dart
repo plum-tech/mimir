@@ -207,23 +207,6 @@ class SitTimetable {
   }
 }
 
-TimetableWeekIndices _weekIndicesFromJson(dynamic json) {
-  // for backwards support
-  if (json is Map) {
-    return TimetableWeekIndices(
-      (json['indices'] as List<dynamic>).map((e) => TimetableWeekIndex.fromJson(e as Map<String, dynamic>)).toList(),
-    );
-  } else {
-    return TimetableWeekIndices(
-      (json as List<dynamic>).map((e) => TimetableWeekIndex.fromJson(e as Map<String, dynamic>)).toList(),
-    );
-  }
-}
-
-dynamic _weekIndicesToJson(TimetableWeekIndices indices) {
-  return indices;
-}
-
 @JsonSerializable()
 @CopyWith(skipFields: true)
 @immutable
@@ -240,7 +223,7 @@ class SitCourse {
   @JsonKey()
   final String place;
 
-  @JsonKey(fromJson: _weekIndicesFromJson, toJson: _weekIndicesToJson)
+  @JsonKey()
   final TimetableWeekIndices weekIndices;
 
   /// e.g.: (start:1, end: 3) means `2nd slot to 4th slot`.
@@ -561,9 +544,22 @@ extension type const TimetableWeekIndices(List<TimetableWeekIndex> indices) impl
     }));
   }
 
-  // factory TimetableWeekIndices.fromJson(Map<String, dynamic> json) => _$TimetableWeekIndicesFromJson(json);
-  //
-  // Map<String, dynamic> toJson() => _$TimetableWeekIndicesToJson(this);
+  factory TimetableWeekIndices.fromJson(dynamic json) {
+    // for backwards support
+    if (json is Map) {
+      return TimetableWeekIndices(
+        (json['indices'] as List<dynamic>).map((e) => TimetableWeekIndex.fromJson(e as Map<String, dynamic>)).toList(),
+      );
+    } else {
+      return TimetableWeekIndices(
+        (json as List<dynamic>).map((e) => TimetableWeekIndex.fromJson(e as Map<String, dynamic>)).toList(),
+      );
+    }
+  }
+
+  dynamic toJson() {
+    return indices;
+  }
 
   String toDartCode() {
     return "TimetableWeekIndices("

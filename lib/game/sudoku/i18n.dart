@@ -8,11 +8,9 @@ const i18n = _I18n();
 class _I18n with CommonI18nMixin, CommonGameI18nMixin {
   const _I18n();
 
-  static const ns = "game.minesweeper";
+  static const ns = "game.sudoku";
 
   String get title => "$ns.title".tr();
-
-  String timeSpent(String time) => "$ns.timeSpent".tr(args: [time]);
 }
 
 extension GameModeI18nX on GameMode {

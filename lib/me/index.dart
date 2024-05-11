@@ -17,7 +17,6 @@ import 'package:sit/settings/dev.dart';
 import 'package:sit/utils/error.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import "i18n.dart";
 
 const _qGroupNumber = "917740212";
 const _joinQGroupMobileUri =
@@ -67,6 +66,11 @@ class _MePageState extends ConsumerState<MePage> {
                 const OfflineGameAppCard(
                   name: "SIT Suika",
                   baseRoute: "/suika",
+                ),
+              if (devMode)
+                const OfflineGameAppCard(
+                  name: "Sudoku",
+                  baseRoute: "/sudoku",
                 ),
             ],
           ),

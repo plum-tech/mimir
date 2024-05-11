@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sit/game/entity/game_state.dart';
+import 'package:sit/game/entity/game_status.dart';
 import 'package:sit/game/utils.dart';
 import '../../entity/cell.dart';
 import '../../page/game.dart';
@@ -21,11 +21,11 @@ class CellButton extends ConsumerWidget {
     if (cellState == CellState.blank && cell.minesAround == 0) {
       return child;
     }
-    final gameState = ref.watch(minesweeperState.select((state) => state.state));
+    final gameState = ref.watch(stateMinesweeper.select((state) => state.status));
     return GestureDetector(
-      onTap: (gameState == GameState.running || gameState == GameState.idle) && cellState.showCover
+      onTap: (gameState == GameStatus.running || gameState == GameStatus.idle) && cellState.showCover
           ? () {
-              final manager = ref.read(minesweeperState.notifier);
+              final manager = ref.read(stateMinesweeper.notifier);
               // Click a Cover Cell => Blank
               if (!cellState.showFlag) {
                 manager.dig(cell: cell);
@@ -36,9 +36,9 @@ class CellButton extends ConsumerWidget {
               }
             }
           : null,
-      onDoubleTap: gameState == GameState.running && !cellState.showCover
+      onDoubleTap: gameState == GameStatus.running && !cellState.showCover
           ? () {
-              final manager = ref.read(minesweeperState.notifier);
+              final manager = ref.read(stateMinesweeper.notifier);
               bool anyChanged = false;
               anyChanged |= manager.digAroundBesidesFlagged(cell: cell);
               anyChanged |= manager.flagRestCovered(cell: cell);
@@ -47,16 +47,16 @@ class CellButton extends ConsumerWidget {
               }
             }
           : null,
-      onLongPress: gameState == GameState.running && cellState.showCover
+      onLongPress: gameState == GameStatus.running && cellState.showCover
           ? () {
-              final manager = ref.read(minesweeperState.notifier);
+              final manager = ref.read(stateMinesweeper.notifier);
               manager.toggleFlag(cell: cell);
               applyGameHapticFeedback();
             }
           : null,
-      onSecondaryTap: gameState == GameState.running && cellState.showCover
+      onSecondaryTap: gameState == GameStatus.running && cellState.showCover
           ? () {
-              final manager = ref.read(minesweeperState.notifier);
+              final manager = ref.read(stateMinesweeper.notifier);
               manager.toggleFlag(cell: cell);
               applyGameHapticFeedback();
             }

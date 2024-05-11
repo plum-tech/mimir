@@ -39,6 +39,19 @@ extension $BuildContextEx$ on BuildContext {
       );
     }
   }
+
+  Future<T?> showDialog<T>(
+    WidgetBuilder builder, {
+    bool dismissible = true,
+    bool useRootNavigator = false,
+  }) async {
+    return showAdaptiveDialog(
+      context: this,
+      builder: builder,
+      barrierDismissible: dismissible,
+      useRootNavigator: useRootNavigator,
+    );
+  }
 }
 
 class $Action$ {

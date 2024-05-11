@@ -1,9 +1,16 @@
+// Thanks to "https://github.com/einsitang/sudoku-flutter"
+// LICENSE: https://github.com/einsitang/sudoku-flutter/blob/fc31c063d84ba272bf30219ea08724272167b8ef/LICENSE
+// Modifications copyright©️2023–2024 Liplum Dev.
+
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/game/entity/game_state.dart';
+import 'package:sit/game/ability/ability.dart';
+import 'package:sit/game/ability/autosave.dart';
+import 'package:sit/game/ability/timer.dart';
+import 'package:sit/game/entity/game_status.dart';
 import 'package:sit/game/minesweeper/save.dart';
 
 import '../entity/mode.dart';
@@ -16,7 +23,7 @@ import '../widget/hud.dart';
 import '../widget/modal.dart';
 import '../i18n.dart';
 
-final minesweeperState = StateNotifierProvider.autoDispose<GameLogic, GameStateMinesweeper>((ref) {
+final stateMinesweeper = StateNotifierProvider.autoDispose<GameLogic, GameStateMinesweeper>((ref) {
   return GameLogic();
 });
 
@@ -32,63 +39,47 @@ class GameMinesweeper extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _MinesweeperState();
 }
 
-class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindingObserver {
-  late GameTimer timer;
+class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindingObserver, GameWidgetAbilityMixin {
+  late TimerWidgetAbility timerAbility;
+
+  GameTimer get timer => timerAbility.timer;
+
+  @override
+  List<GameWidgetAbility> createAbility() => [
+        AutoSaveWidgetAbility(onSave: onSave),
+        timerAbility = TimerWidgetAbility(),
+      ];
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    timer = GameTimer();
     WidgetsBinding.instance.endOfFrame.then((_) {
       timer.addListener((state) {
-        ref.read(minesweeperState.notifier).playtime = state;
+        ref.read(stateMinesweeper.notifier).playtime = state;
       });
-      if (!widget.newGame) {
+      if (widget.newGame) {
+        ref.read(stateMinesweeper.notifier).initGame(gameMode: GameMode.easy);
+      } else {
         final save = SaveMinesweeper.storage.load();
         if (save != null) {
-          ref.read(minesweeperState.notifier).fromSave(save);
-          timer.state = ref.read(minesweeperState).playtime;
+          ref.read(stateMinesweeper.notifier).fromSave(save);
+          timer.state = ref.read(stateMinesweeper).playtime;
         } else {
-          ref.read(minesweeperState.notifier).initGame(gameMode: GameMode.easy);
-          timer.state = ref.read(minesweeperState).playtime;
+          ref.read(stateMinesweeper.notifier).initGame(gameMode: GameMode.easy);
+          timer.state = ref.read(stateMinesweeper).playtime;
         }
       }
     });
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    //Save current state when the app becomes inactive
-    if (state == AppLifecycleState.inactive) {
-      ref.read(minesweeperState.notifier).save();
-      timer.pause();
-      logger.i("Minesweeper paused");
-    } else if (state == AppLifecycleState.resumed) {
-      timer.resume();
-      logger.i("Minesweeper resumed");
-    }
-    super.didChangeAppLifecycleState(state);
-  }
-
-  @override
-  void deactivate() {
-    ref.read(minesweeperState.notifier).save();
-    super.deactivate();
-  }
-
-  @override
-  void dispose() {
-    //Remove the Observer for the Lifecycles of the App
-    WidgetsBinding.instance.removeObserver(this);
-    timer.dispose();
-    super.dispose();
+  void onSave() {
+    ref.read(stateMinesweeper.notifier).save();
   }
 
   void resetGame() {
     timer.reset();
-    final gameMode = ref.watch(minesweeperState.select((state) => state.mode));
-    ref.read(minesweeperState.notifier).initGame(gameMode: gameMode);
+    final gameMode = ref.watch(stateMinesweeper.select((state) => state.mode));
+    ref.read(stateMinesweeper.notifier).initGame(gameMode: gameMode);
   }
 
   void startTimer() {
@@ -104,22 +95,22 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
   }
 
   void onGameStateChange(GameStateMinesweeper? former, GameStateMinesweeper current) {
-    switch (current.state) {
-      case GameState.running:
+    switch (current.status) {
+      case GameStatus.running:
         startTimer();
-      case GameState.idle:
+      case GameStatus.idle:
         stopTimer();
-      case GameState.gameOver:
+      case GameStatus.gameOver:
         stopTimer();
-      case GameState.victory:
+      case GameStatus.victory:
         stopTimer();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(minesweeperState);
-    ref.listen(minesweeperState, onGameStateChange);
+    final state = ref.watch(stateMinesweeper);
+    ref.listen(stateMinesweeper, onGameStateChange);
     final screenSize = MediaQuery.of(context).size;
     final screen = Screen(
       height: screenSize.height,
@@ -150,11 +141,11 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
               child: Stack(
                 children: [
                   GameBoard(screen: screen),
-                  if (state.state == GameState.gameOver)
+                  if (state.status == GameStatus.gameOver)
                     GameStateModal(
                       resetGame: resetGame,
                     )
-                  else if (state.state == GameState.victory)
+                  else if (state.status == GameStatus.victory)
                     VictoryModal(
                       resetGame: resetGame,
                     ),

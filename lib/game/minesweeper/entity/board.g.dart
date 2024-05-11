@@ -62,10 +62,13 @@ extension $CellBoardCopyWith on CellBoard {
 
 CellBoard _$CellBoardFromJson(Map<String, dynamic> json) => CellBoard(
       mines: (json['mines'] as num).toInt(),
-      cells: List2D<Cell>.fromJson(json['cells'] as Map<String, dynamic>),
+      cells: List2D<Cell>.fromJson(
+          json['cells'] as Map<String, dynamic>, (value) => Cell.fromJson(value as Map<String, dynamic>)),
     );
 
 Map<String, dynamic> _$CellBoardToJson(CellBoard instance) => <String, dynamic>{
       'mines': instance.mines,
-      'cells': instance.cells,
+      'cells': instance.cells.toJson(
+        (value) => value,
+      ),
     };

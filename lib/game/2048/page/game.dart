@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/game/ability/ability.dart';
+import 'package:sit/game/ability/autosave.dart';
 
 import '../entity/board.dart';
 import '../save.dart';
@@ -31,7 +33,8 @@ class Game2048 extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _GameState();
 }
 
-class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, WidgetsBindingObserver {
+class _GameState extends ConsumerState<Game2048>
+    with TickerProviderStateMixin, WidgetsBindingObserver, GameWidgetAbilityMixin {
   //The controller used to move the the tiles
   late final AnimationController _moveController = AnimationController(
     duration: const Duration(milliseconds: 100),
@@ -68,15 +71,14 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
     parent: _scaleController,
     curve: Curves.easeInOut,
   );
-
   final $focus = FocusNode();
-
+  @override
+  List<GameWidgetAbility> createAbility() => [AutoSaveWidgetAbility(onSave: onSave)];
   @override
   void initState() {
     super.initState();
     //Add an Observer for the Lifecycles of the App
-    WidgetsBinding.instance.addObserver(this);
-    Future.delayed(Duration.zero).then((value) {
+    WidgetsBinding.instance.endOfFrame.then((_) {
       if (widget.newGame) {
         ref.read(state2048.notifier).newGame();
       } else {
@@ -91,25 +93,7 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    //Save current state when the app becomes inactive
-    if (state == AppLifecycleState.inactive) {
-      ref.read(state2048.notifier).save();
-    }
-    super.didChangeAppLifecycleState(state);
-  }
-
-  @override
-  void deactivate() {
-    super.deactivate();
-    ref.read(state2048.notifier).save();
-  }
-
-  @override
   void dispose() {
-    //Remove the Observer for the Lifecycles of the App
-    WidgetsBinding.instance.removeObserver(this);
-
     $focus.dispose();
     //Dispose the animations.
     _moveAnimation.dispose();
@@ -117,6 +101,10 @@ class _GameState extends ConsumerState<Game2048> with TickerProviderStateMixin, 
     _moveController.dispose();
     _scaleController.dispose();
     super.dispose();
+  }
+
+  void onSave() {
+    ref.read(state2048.notifier).save();
   }
 
   @override

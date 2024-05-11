@@ -49,4 +49,17 @@ class GameMode {
   String toJson() => name;
 
   factory GameMode.fromJson(String name) => name2mode[name] ?? easy;
+
+  @override
+  bool operator ==(Object other) {
+    return other is GameMode &&
+        runtimeType == other.runtimeType &&
+        name == other.name &&
+        gameRows == other.gameRows &&
+        gameColumns == other.gameColumns &&
+        gameMines == other.gameMines;
+  }
+
+  @override
+  int get hashCode => Object.hash(name, gameRows, gameColumns, gameMines);
 }
