@@ -1,8 +1,13 @@
+// Thanks to "https://github.com/einsitang/sudoku-flutter"
+// LICENSE: https://github.com/einsitang/sudoku-flutter/blob/fc31c063d84ba272bf30219ea08724272167b8ef/LICENSE
+// Modifications copyright©️2023–2024 Liplum Dev.
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/game/ability/ability.dart';
 import 'package:sit/game/ability/autosave.dart';
 import 'package:sit/game/ability/timer.dart';
+import 'package:sit/game/entity/game_status.dart';
 import 'package:sit/game/entity/timer.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -51,23 +56,41 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
       timer.addListener((state) {
         ref.read(stateSudoku.notifier).playtime = state;
       });
+      final logic = ref.read(stateSudoku.notifier);
       if (widget.newGame) {
-        ref.read(stateSudoku.notifier).initGame(gameMode: GameMode.easy);
+        logic.initGame(gameMode: GameMode.easy);
+        logic.startGame();
       } else {
         // final save = SaveSudoku.storage.load();
         // if (save != null) {
-        //   ref.read(stateSudoku.notifier).fromSave(save);
+        //   logic.fromSave(save);
         //   timer.state = ref.read(stateSudoku).playtime;
         // } else {
-        //   ref.read(stateSudoku.notifier).initGame(gameMode: GameMode.easy);
+        //   logic.initGame(gameMode: GameMode.easy);
         //   timer.state = ref.read(stateSudoku).playtime;
         // }
       }
     });
   }
 
+  void onGameStateChange(GameStateSudoku? former, GameStateSudoku current) {
+    switch (current.status) {
+      case GameStatus.running:
+        if (!timer.timerStart) {
+          timer.startTimer();
+        }
+      case GameStatus.idle:
+      case GameStatus.gameOver:
+      case GameStatus.victory:
+        if (timer.timerStart) {
+          timer.stopTimer();
+        }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    ref.listen(stateSudoku, onGameStateChange);
     return Scaffold(
       appBar: AppBar(title: Text("Sudoku")),
       body: buildBody(),
@@ -124,14 +147,17 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
 
   Widget buildFiller() {
     final board = ref.watch(stateSudoku.select((state) => state.board));
+    final gameStatus = ref.watch(stateSudoku.select((state) => state.status));
     return NumberFillerArea(
-      onNumberTap: (int number) {
-        return board.canFill(number: number, cellIndex: selectedCellIndex)
-            ? () {
-                fillNumber(number);
-              }
-            : null;
-      },
+      onNumberTap: gameStatus.canPlay
+          ? (int number) {
+              return board.canFill(number: number, cellIndex: selectedCellIndex)
+                  ? () {
+                      fillNumber(number);
+                    }
+                  : null;
+            }
+          : null,
     );
   }
 

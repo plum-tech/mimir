@@ -14,6 +14,10 @@ class GameLogic extends StateNotifier<GameStateSudoku> {
     state = GameStateSudoku.newGame(mode: gameMode, board: board);
   }
 
+  void startGame() {
+    state = state.copyWith(status: GameStatus.running);
+  }
+
   Duration get playtime => state.playtime;
 
   set playtime(Duration playtime) => state = state.copyWith(
@@ -33,6 +37,7 @@ class GameLogic extends StateNotifier<GameStateSudoku> {
       notes: newNotes,
     );
   }
+
   /// Clear both note and filled number.
   void clearCell(int cellIndex) {
     clearNote(cellIndex);

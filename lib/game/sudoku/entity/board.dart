@@ -97,6 +97,8 @@ extension type const SudokuBoard(List2D<SudokuCell> _cells) {
     required int cellIndex,
     required int number,
   }) {
+    final cell = _cells.getByIndex(cellIndex);
+    if(!cell.canUserInput) return false;
     return true;
   }
 

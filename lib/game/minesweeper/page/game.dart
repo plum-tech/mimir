@@ -1,7 +1,3 @@
-// Thanks to "https://github.com/einsitang/sudoku-flutter"
-// LICENSE: https://github.com/einsitang/sudoku-flutter/blob/fc31c063d84ba272bf30219ea08724272167b8ef/LICENSE
-// Modifications copyright©️2023–2024 Liplum Dev.
-
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
@@ -57,15 +53,16 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
       timer.addListener((state) {
         ref.read(stateMinesweeper.notifier).playtime = state;
       });
+      final logic = ref.read(stateMinesweeper.notifier);
       if (widget.newGame) {
-        ref.read(stateMinesweeper.notifier).initGame(gameMode: GameMode.easy);
+        logic.initGame(gameMode: GameMode.easy);
       } else {
         final save = SaveMinesweeper.storage.load();
         if (save != null) {
-          ref.read(stateMinesweeper.notifier).fromSave(save);
+          logic.fromSave(save);
           timer.state = ref.read(stateMinesweeper).playtime;
         } else {
-          ref.read(stateMinesweeper.notifier).initGame(gameMode: GameMode.easy);
+          logic.initGame(gameMode: GameMode.easy);
           timer.state = ref.read(stateMinesweeper).playtime;
         }
       }
@@ -82,28 +79,18 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
     ref.read(stateMinesweeper.notifier).initGame(gameMode: gameMode);
   }
 
-  void startTimer() {
-    if (!timer.timerStart) {
-      timer.startTimer();
-    }
-  }
-
-  void stopTimer() {
-    if (timer.timerStart) {
-      timer.stopTimer();
-    }
-  }
-
   void onGameStateChange(GameStateMinesweeper? former, GameStateMinesweeper current) {
     switch (current.status) {
       case GameStatus.running:
-        startTimer();
+        if (!timer.timerStart) {
+          timer.startTimer();
+        }
       case GameStatus.idle:
-        stopTimer();
       case GameStatus.gameOver:
-        stopTimer();
       case GameStatus.victory:
-        stopTimer();
+      if (timer.timerStart) {
+        timer.stopTimer();
+      }
     }
   }
 

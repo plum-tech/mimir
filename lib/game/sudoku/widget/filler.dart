@@ -29,22 +29,23 @@ class NumberFillerButton extends StatelessWidget {
 }
 
 class NumberFillerArea extends StatelessWidget {
-  final VoidCallback? Function(int number) onNumberTap;
+  final VoidCallback? Function(int number)? onNumberTap;
 
   const NumberFillerArea({
     super.key,
-    required this.onNumberTap,
+    this.onNumberTap,
   });
 
   @override
   Widget build(BuildContext context) {
+    final onNumberTap = this.onNumberTap;
     return List.generate(9, (index) => index + 1)
         .map((number) {
           return Expanded(
             flex: 1,
             child: NumberFillerButton(
               number: number,
-              onTap: onNumberTap(number),
+              onTap: onNumberTap?.call(number),
             ),
           );
         })
