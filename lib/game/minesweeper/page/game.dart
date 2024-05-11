@@ -82,15 +82,13 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
   void onGameStateChange(GameStateMinesweeper? former, GameStateMinesweeper current) {
     switch (current.status) {
       case GameStatus.running:
-        if (!timer.timerStart) {
-          timer.startTimer();
-        }
+        if (!timer.timerStart) timer.startTimer();
+        break;
       case GameStatus.idle:
       case GameStatus.gameOver:
       case GameStatus.victory:
-        if (timer.timerStart) {
-          timer.stopTimer();
-        }
+        if (timer.timerStart) timer.stopTimer();
+        break;
     }
   }
 
