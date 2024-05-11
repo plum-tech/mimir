@@ -84,7 +84,8 @@ class CellWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Container(
+      child: AnimatedContainer(
+        duration: Durations.short4,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: getCellBgColor(

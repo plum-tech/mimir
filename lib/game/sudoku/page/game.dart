@@ -162,9 +162,10 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
   }
 
   Widget buildToolBar() {
+    final selectedCell = ref.watch(stateSudoku.select((state) => state.board)).getCellByIndex(selectedCellIndex);
     return [
       ClearNumberButton(
-        onTap: clearSelected,
+        onTap: selectedCell.canUserInput ? clearSelected : null,
       ),
       // HintButton(
       //   onTap: _state.hint > 0 ? hint : null,
