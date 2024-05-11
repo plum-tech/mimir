@@ -132,8 +132,8 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
           },
           child: CellWidget(
             cell: cell,
-            edgeAgainstZone: zone.cellOnWhichEdge(cell),
-            edgeAgainstBorder: board.cellOnWhichEdge(cell),
+            zone:zone,
+            board: board,
             selectedIndex: selectedCellIndex,
             child: note.anyNoted
                 ? CellNotes(

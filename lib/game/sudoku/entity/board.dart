@@ -31,7 +31,6 @@ class SudokuCell {
     this.correctValue = SudokuCell.emptyInputNumber,
   }) : assert(correctValue == 0 || (1 <= correctValue && correctValue <= 9),
             "The puzzle should generate correct value in [1,9] but $correctValue");
-
   bool get isPuzzle => userInput < 0;
 
   bool get canUserInput => userInput >= 0;
@@ -116,6 +115,9 @@ extension type const SudokuBoard(List2D<SudokuCell> _cells) {
     return _cells.getByIndex(cellIndex);
   }
 
+static int getRowFrom(int cellIndex) => cellIndex ~/ sudokuSides;
+  static int getColumnFrom(int cellIndex) => cellIndex % sudokuSides;
+
   SudokuBoard changeCell(int cellIndex, int userInput) {
     final oldCells = _cells;
     final newCell = oldCells.getByIndex(cellIndex).copyWith(
@@ -136,6 +138,10 @@ extension type const SudokuBoard(List2D<SudokuCell> _cells) {
   SudokuBoardZone getZoneWhereCell(SudokuCell cell) {
     final zoneIndex = SudokuBoardZone.getZoneIndexByIndex(cell.index);
     return getZone(zoneIndex);
+  }
+
+  int getZoneIndexWhereCell(SudokuCell cell) {
+    return SudokuBoardZone.getZoneIndexByIndex(cell.index);
   }
 
   Edge2D? cellOnWhichEdge(SudokuCell cell) {
@@ -183,8 +189,8 @@ class SudokuBoardZone {
   }
 
   ({int localRow, int localColumn}) mapBoardIndexToLocal(int boardIndex) {
-    final parentRow = parent._cells.getRowFrom(boardIndex);
-    final parentColumn = parent._cells.getColumnFrom(boardIndex);
+    final parentRow = SudokuBoard.getRowFrom(boardIndex);
+    final parentColumn = SudokuBoard.getColumnFrom(boardIndex);
     final localRow = (parentRow - parentRowOffset) % 3;
     final localColumn = (parentColumn - parentColumnOffset) % 3;
     assert(0 <= localRow && localRow < 3, "$localRow not in [0,3)");

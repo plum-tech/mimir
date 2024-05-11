@@ -69,16 +69,16 @@ class CellNumber extends StatelessWidget {
 
 class CellWidget extends StatelessWidget {
   final SudokuCell cell;
-  final Edge2D? edgeAgainstZone;
-  final Edge2D? edgeAgainstBorder;
+  final SudokuBoard board;
+  final SudokuBoardZone zone;
   final int selectedIndex;
   final Widget child;
 
   const CellWidget({
     super.key,
     required this.cell,
-    required this.edgeAgainstZone,
-    required this.edgeAgainstBorder,
+    required this.board,
+    required this.zone,
     required this.selectedIndex,
     required this.child,
   });
@@ -87,22 +87,24 @@ class CellWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final borderColor = context.colorScheme.onBackground;
     const borderRadius = Radius.circular(12);
-    final edgeAgainstZone = this.edgeAgainstZone;
-    final edgeAgainstBorder = this.edgeAgainstBorder;
+    final edgeAgainstZone = zone.cellOnWhichEdge(cell);
+    final edgeAgainstBoard = board.cellOnWhichEdge(cell);
     const innerWidth = 0.15;
     const edgeWidth = 1.0;
     return AnimatedContainer(
       duration: Durations.short4,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        borderRadius: edgeAgainstBorder == null ? null: BorderRadius.only(
-          topLeft: edgeAgainstBorder == Edge2D.topLeft ? borderRadius : Radius.zero,
-          topRight: edgeAgainstBorder == Edge2D.topRight ? borderRadius : Radius.zero,
-          bottomLeft: edgeAgainstBorder == Edge2D.bottomLeft ? borderRadius : Radius.zero,
-          bottomRight: edgeAgainstBorder == Edge2D.bottomRight ? borderRadius : Radius.zero,
+        borderRadius: edgeAgainstBoard == null ? null: BorderRadius.only(
+          topLeft: edgeAgainstBoard == Edge2D.topLeft ? borderRadius : Radius.zero,
+          topRight: edgeAgainstBoard == Edge2D.topRight ? borderRadius : Radius.zero,
+          bottomLeft: edgeAgainstBoard == Edge2D.bottomLeft ? borderRadius : Radius.zero,
+          bottomRight: edgeAgainstBoard == Edge2D.bottomRight ? borderRadius : Radius.zero,
         ),
         color: getCellBgColor(
-          index: cell.index,
+          cell: cell,
+          board: board,
+          zone: zone,
           selectedIndex: selectedIndex,
           context: context,
         ),
