@@ -117,7 +117,7 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
-          GameHud(gameMode: state.mode),
+          const GameHud(),
           buildCells(),
           buildToolBar(),
           buildFiller(),
@@ -127,21 +127,20 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
   }
 
   Widget buildCells() {
+    final notes = ref.watch(stateSudoku.select((state) => state.notes));
     return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: 81,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9),
       itemBuilder: (context, index) {
-        // 用户做标记
-        bool isNoted = _state.sudoku!.puzzle[index] == -1 && _state.records[index].any((element) => element);
         return CellWidget(
           index: index,
           onTap: () {
             onSelectedCell(index);
           },
           selectedIndex: selectedIndex,
-          child: isNoted ? buildNotes(index) : buildNumber(index),
+          child: notes[index].hasNote ? buildNotes(index) : buildNumber(index),
         );
       },
     );

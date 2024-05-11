@@ -1,6 +1,12 @@
 extension type const SudokuCellNote(int _notes) {
   const SudokuCellNote.empty() : _notes = 0;
 
+  factory SudokuCellNote.fromJson(dynamic json) {
+    return SudokuCellNote((json as num).toInt());
+  }
+
+  int toJson() => _notes;
+
   // Setter for a specific note (1-9)
   SudokuCellNote setNote(int note, bool value) {
     if (note < 1 || note > 9) {
@@ -25,5 +31,10 @@ extension type const SudokuCellNote(int _notes) {
 
     final int bitPosition = note - 1;
     return (_notes & (1 << bitPosition)) != 0;
+  }
+
+  bool get hasNote {
+    // 0b111111111
+    return (_notes & 0x1FF) != 0;
   }
 }

@@ -94,7 +94,6 @@ class SudokuState {
     this.notes = List.generate(81, (index) => List.generate(10, (index) => false));
   }
 
-
   String get timer => sprintf("%02i:%02i", [timing ~/ 60, timing % 60]);
 
   void lifeLoss() {

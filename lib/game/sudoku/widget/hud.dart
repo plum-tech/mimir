@@ -4,7 +4,6 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/game/i18n.dart';
 import 'package:sit/game/sudoku/i18n.dart';
 
-import '../entity/mode.dart';
 import '../page/game2.dart';
 
 class GameHudLife extends StatelessWidget {
@@ -41,38 +40,29 @@ class GameHudHint extends StatelessWidget {
 }
 
 class GameHudTimer extends ConsumerWidget {
-  final GameMode gameMode;
-
   const GameHudTimer({
     super.key,
-    required this.gameMode,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final playTime = ref.watch(stateSudoku.select((state) => state.playtime));
+    final gameMode = ref.watch(stateSudoku.select((state) => state.mode));
     return Text(
       "${gameMode.l10n()} - ${playTime.formatPlaytime()}",
     );
   }
 }
 
-class GameHud extends StatelessWidget {
-  final int? lifeCount;
-  final int? hintCount;
-  final GameMode gameMode;
-
+class GameHud extends ConsumerWidget {
   const GameHud({
     super.key,
-    this.lifeCount,
-    this.hintCount,
-    required this.gameMode,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final lifeCount = this.lifeCount;
-    final hintCount = this.hintCount;
+  Widget build(BuildContext context, WidgetRef ref) {
+    const int? lifeCount = null;
+    const int? hintCount = null;
     return Card.filled(
       child: [
         if (lifeCount != null)
@@ -85,9 +75,7 @@ class GameHud extends StatelessWidget {
         // indicator
         Expanded(
           flex: 2,
-          child: GameHudTimer(
-            gameMode: gameMode,
-          ).align(
+          child: const GameHudTimer().align(
             at: Alignment.center,
           ),
         ),

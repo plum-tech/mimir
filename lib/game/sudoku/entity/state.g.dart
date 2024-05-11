@@ -73,3 +73,30 @@ extension $GameStateSudokuCopyWith on GameStateSudoku {
   // ignore: library_private_types_in_public_api
   _$GameStateSudokuCWProxy get copyWith => _$GameStateSudokuCWProxyImpl(this);
 }
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+GameStateSudoku _$GameStateSudokuFromJson(Map<String, dynamic> json) => GameStateSudoku(
+      status: $enumDecodeNullable(_$GameStatusEnumMap, json['status']) ?? GameStatus.idle,
+      mode: GameMode.fromJson(json['mode'] as String),
+      board: SudokuBoard.fromJson(json['board']),
+      playtime: json['playtime'] == null ? Duration.zero : Duration(microseconds: (json['playtime'] as num).toInt()),
+      notes: (json['notes'] as List<dynamic>).map(SudokuCellNote.fromJson).toList(),
+    );
+
+Map<String, dynamic> _$GameStateSudokuToJson(GameStateSudoku instance) => <String, dynamic>{
+      'status': _$GameStatusEnumMap[instance.status]!,
+      'mode': instance.mode,
+      'board': instance.board,
+      'playtime': instance.playtime.inMicroseconds,
+      'notes': instance.notes,
+    };
+
+const _$GameStatusEnumMap = {
+  GameStatus.running: 'running',
+  GameStatus.idle: 'idle',
+  GameStatus.gameOver: 'gameOver',
+  GameStatus.victory: 'victory',
+};
