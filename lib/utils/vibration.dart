@@ -14,7 +14,10 @@ class Vibration implements VibrationProtocol, TimedProtocol {
   final int milliseconds;
   final int amplitude;
 
-  const Vibration({this.milliseconds = 500, this.amplitude = -1});
+  const Vibration({
+    this.milliseconds = 50,
+    this.amplitude = -1,
+  });
 
   @override
   Future<void> emit() async {

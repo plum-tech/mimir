@@ -1,4 +1,5 @@
 import 'package:sit/game/minesweeper/save.dart';
+import 'package:sit/game/utils.dart';
 
 import '../entity/mode.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -70,6 +71,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
         state = state.copyWith(
           status: GameStatus.gameOver,
         );
+        applyGameHapticFeedback(HapticFeedbackIntensity.heavy);
       } else {
         _digAroundIfSafe(cell: cell);
         if (checkWin()) {
