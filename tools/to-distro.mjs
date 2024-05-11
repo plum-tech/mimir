@@ -14,7 +14,7 @@ async function main() {
   let filedata = await fs.readFile(projectPbxprojPath, 'utf-8')
 
   for (const [origin, replacement] of Object.entries(mapping)) {
-    filedata = filedata.replace(origin, replacement)
+    filedata = filedata.replaceAll(origin, replacement)
   }
 
   // Write updated file content back to the file
