@@ -162,24 +162,6 @@ class SudokuState {
     notifyListeners();
   }
 
-  void switchRecord(int index, int num) {
-    log.d('switchRecord $index - $num');
-    if (index < 0 || index > 80 || num < 0 || num > 9) {
-      throw new ArgumentError('index border [0,80] num border [0,9] , input index:$index | num:$num out of the border');
-    }
-    if (this.status == SudokuGameStatus.initialize) {
-      throw new ArgumentError("can't update record in \"initialize\" status");
-    }
-    if (sudoku!.puzzle[index] != -1) {
-      return;
-    }
-    if (records[index] == num) {
-      cleanRecord(index);
-    } else {
-      setRecord(index, num);
-    }
-  }
-
   void setMark(int index, int num) {
     if (index < 0 || index > 80) {
       throw new ArgumentError('index border [0,80], input index:$index out of the border');
@@ -215,22 +197,6 @@ class SudokuState {
     }
     this.notes[index] = markPoint;
     notifyListeners();
-  }
-
-  void switchMark(int index, int num) {
-    if (index < 0 || index > 80) {
-      throw new ArgumentError('index border [0,80], input index:$index out of the border');
-    }
-    if (num < 1 || num > 9) {
-      throw new ArgumentError("num must be [1,9]");
-    }
-
-    List<bool> markPoint = this.notes[index];
-    if (!markPoint[num]) {
-      setMark(index, num);
-    } else {
-      cleanMark(index, num: num);
-    }
   }
 
   void updateSudoku(Sudoku sudoku) {

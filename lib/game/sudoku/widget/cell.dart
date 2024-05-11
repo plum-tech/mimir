@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/board.dart';
+import '../entity/note.dart';
 import '../utils.dart';
 
 class CellNotes extends StatelessWidget {
-  final Set<int> notes;
+  final SudokuCellNote note;
   final bool cellSelected;
 
   const CellNotes({
     super.key,
-    required this.notes,
+    required this.note,
     this.cellSelected = false,
   });
 
@@ -23,7 +24,7 @@ class CellNotes extends StatelessWidget {
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
       itemBuilder: (BuildContext context, int index) {
         final number = index + 1;
-        final notedThis = notes.contains(number);
+        final notedThis = note.getNoted(number);
         return Text(
           notedThis ? "$number" : "",
           textAlign: TextAlign.center,
@@ -39,15 +40,12 @@ class CellNotes extends StatelessWidget {
 
 class CellNumber extends StatelessWidget {
   final SudokuCell cell;
+  final bool cellSelected;
 
-  CellNumber({
-    required int userInput,
-    required int correctValue,
-  }) : this._(cell: SudokuCell(userInput: userInput, correctValue: correctValue));
-
-  const CellNumber._({
+  const CellNumber({
     super.key,
     required this.cell,
+    this.cellSelected = false,
   });
 
   @override

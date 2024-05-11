@@ -24,6 +24,32 @@ class GameLogic extends StateNotifier<GameStateSudoku> {
     } else {}
   }
 
+  void setNoted(int cellIndex, int number, bool noted) {
+    final oldNotes = state.notes;
+    final newNotes = List.of(oldNotes)..[cellIndex] = oldNotes[cellIndex].setNoted(number, noted);
+    state = state.copyWith(
+      notes: newNotes,
+    );
+  }
+
+  bool getNoted(int cellIndex, int number) {
+    return state.notes[cellIndex].getNoted(number);
+  }
+
+  void fillCell(int cellIndex, int number) {
+    final oldBoard = state.board;
+    final oldCell = oldBoard.getCellByIndex(cellIndex);
+     number = oldCell.userInput == number ? SudokuCell.emptyInputNumber : number;
+    final newBoard = oldBoard.changeCell(cellIndex, number);
+    state = state.copyWith(
+      board: newBoard,
+    );
+  }
+
+  int getFilled(int cellIndex) {
+    return state.board.getCellByIndex(cellIndex).userInput;
+  }
+
   void checkWin() {
     if (state.board.isSolved) {
       state = state.copyWith(
