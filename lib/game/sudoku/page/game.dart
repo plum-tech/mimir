@@ -167,6 +167,8 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
       final isNoted = logic.getNoted(cellIndex, number);
       logic.setNoted(cellIndex, number, !isNoted);
       return;
+    } else {
+      logic.clearNote(cellIndex);
     }
     // Fill the number or toggle the number
     logic.fillCell(cellIndex, number);

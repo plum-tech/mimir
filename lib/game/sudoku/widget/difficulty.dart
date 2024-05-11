@@ -23,7 +23,7 @@ class GameModeDialogState extends State<GameModeDialog> {
   Widget build(BuildContext context) {
     return SimpleDialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      title: Center(child: Text('Select game mode')),
+      title: Text('Select game mode'),
       contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
       children: <Widget>[
         for (final mode in GameMode.all)
