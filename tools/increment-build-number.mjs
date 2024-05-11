@@ -2,6 +2,7 @@ import fs from 'fs/promises' // For file system operations
 import { execSync } from 'child_process' // For shell commands
 import { extractVersion, extractBuildNumber } from './pubspec.mjs'
 import { simpleGit } from 'simple-git'
+import { git } from "./git.mjs"
 import { guardVersioning } from './guard.mjs'
 const pubspecPath = 'pubspec.yaml'
 
@@ -12,13 +13,15 @@ async function pushAndTagChanges(newVersion) {
   const runId = process.argv[4]
   const runAttempt = process.argv[5]
 
-  const git = simpleGit()
   await git.add(".")
   await git.commit(`build: ${newVersion}`)
-  await git.tag({
-    "a": `v${newVersion}`,
-    "m": `v${newVersion}\nrun id: ${runId}\nrun_attempt(should be 1): ${runAttempt}\n${serverUrl}/${repository}/actions/runs/${runId}`,
-  })
+  await git.tag([
+    "-a", `v${newVersion}`,
+    "-m", `v${newVersion}
+    run id: ${runId}
+    run_attempt(should be 1): ${runAttempt}
+    ${serverUrl}/${repository}/actions/runs/${runId}`,
+  ])
 }
 
 async function main() {

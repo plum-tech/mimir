@@ -1,6 +1,9 @@
-import { guardVersioning } from "./guard.mjs"
+import { git } from "./git.mjs"
 async function main() {
-  await guardVersioning("v2.5.0+442")
+  console.log(`v{newVersion}
+  run id: {runId}
+  run_attempt(should be 1): {runAttempt}
+  {serverUrl}/{repository}/actions/runs/{runId}`)
 }
 
 main()
