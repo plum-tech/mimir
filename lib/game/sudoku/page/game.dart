@@ -126,7 +126,8 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
         final zone = board.getZoneWhereCell(cell);
         return CellWidget(
           cell: cell,
-          edge: zone.cellOnWhichEdge(cell),
+          edgeAgainstZone: zone.cellOnWhichEdge(cell),
+          edgeAgainstBorder: board.cellOnWhichEdge(cell),
           onTap: () {
             setState(() {
               selectedCellIndex = index;

@@ -69,7 +69,8 @@ class CellNumber extends StatelessWidget {
 
 class CellWidget extends StatelessWidget {
   final SudokuCell cell;
-  final Edge2D? edge;
+  final Edge2D? edgeAgainstZone;
+  final Edge2D? edgeAgainstBorder;
   final int selectedIndex;
   final VoidCallback onTap;
   final Widget child;
@@ -77,7 +78,8 @@ class CellWidget extends StatelessWidget {
   const CellWidget({
     super.key,
     required this.cell,
-    required this.edge,
+    required this.edgeAgainstZone,
+    required this.edgeAgainstBorder,
     required this.onTap,
     required this.selectedIndex,
     required this.child,
@@ -86,7 +88,9 @@ class CellWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final borderColor = context.colorScheme.onBackground;
-    final edge = this.edge;
+    const borderRadius = Radius.circular(12);
+    final edgeAgainstZone = this.edgeAgainstZone;
+    final edgeAgainstBorder = this.edgeAgainstBorder;
     const innerWidth = 0.15;
     const edgeWidth = 1.0;
     return InkWell(
@@ -95,12 +99,18 @@ class CellWidget extends StatelessWidget {
         duration: Durations.short4,
         alignment: Alignment.center,
         decoration: BoxDecoration(
+          borderRadius: edgeAgainstBorder == null ? null: BorderRadius.only(
+            topLeft: edgeAgainstBorder == Edge2D.topLeft ? borderRadius : Radius.zero,
+            topRight: edgeAgainstBorder == Edge2D.topRight ? borderRadius : Radius.zero,
+            bottomLeft: edgeAgainstBorder == Edge2D.bottomLeft ? borderRadius : Radius.zero,
+            bottomRight: edgeAgainstBorder == Edge2D.bottomRight ? borderRadius : Radius.zero,
+          ),
           color: getCellBgColor(
             index: cell.index,
             selectedIndex: selectedIndex,
             context: context,
           ),
-          border: edge == null
+          border: edgeAgainstZone == null
               ? Border.all(
                   color: borderColor,
                   width: innerWidth,
@@ -108,19 +118,19 @@ class CellWidget extends StatelessWidget {
               : Border(
                   top: BorderSide(
                     color: borderColor,
-                    width: edge.top ? edgeWidth : innerWidth,
+                    width: edgeAgainstZone.top ? edgeWidth : innerWidth,
                   ),
                   right: BorderSide(
                     color: borderColor,
-                    width: edge.right ? edgeWidth : innerWidth,
+                    width: edgeAgainstZone.right ? edgeWidth : innerWidth,
                   ),
                   bottom: BorderSide(
                     color: borderColor,
-                    width: edge.bottom ? edgeWidth : innerWidth,
+                    width: edgeAgainstZone.bottom ? edgeWidth : innerWidth,
                   ),
                   left: BorderSide(
                     color: borderColor,
-                    width: edge.left ? edgeWidth : innerWidth,
+                    width: edgeAgainstZone.left ? edgeWidth : innerWidth,
                   ),
                 ),
         ),

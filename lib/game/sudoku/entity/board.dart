@@ -138,6 +138,10 @@ extension type const SudokuBoard(List2D<SudokuCell> _cells) {
     return getZone(zoneIndex);
   }
 
+  Edge2D? cellOnWhichEdge(SudokuCell cell) {
+    return _cells.onWhichEdge(_cells.getRowFrom(cell.index), _cells.getColumnFrom(cell.index));
+  }
+
   factory SudokuBoard.fromJson(dynamic json) {
     return SudokuBoard(
       List2D<SudokuCell>.fromJson(json, (value) => SudokuCell.fromJson(value as Map<String, dynamic>)),
