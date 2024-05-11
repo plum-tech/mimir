@@ -98,7 +98,7 @@ extension type const SudokuBoard(List2D<SudokuCell> _cells) {
     required int number,
   }) {
     final cell = _cells.getByIndex(cellIndex);
-    if(!cell.canUserInput) return false;
+    if (!cell.canUserInput) return false;
     return true;
   }
 
@@ -113,6 +113,10 @@ extension type const SudokuBoard(List2D<SudokuCell> _cells) {
         );
     final newCells = List2D.of(oldCells)..setByIndex(cellIndex, newCell);
     return SudokuBoard(newCells);
+  }
+
+  bool isCellOnEdge(int cellIndex) {
+    return _cells.onEdge(_cells.getRowFrom(cellIndex), _cells.getColumnFrom(cellIndex));
   }
 
   factory SudokuBoard.fromJson(dynamic json) {

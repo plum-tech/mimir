@@ -93,19 +93,22 @@ class List2D<T> with Iterable<T> {
       _$List2DFromJson<T>(json, fromJsonT);
 }
 
+@pragma("vm:prefer-inline")
 int _rowOf(int index, int columns) {
   return index ~/ columns;
 }
 
+@pragma("vm:prefer-inline")
 int _columnOf(int index, int columns) {
   return index % columns;
 }
 
+@pragma("vm:prefer-inline")
 int _indexBy(int row, int column, int columns) {
   return row * columns + column;
 }
 
-extension List2dX<T> on List2D<T> {
+extension List2dImplX<T> on List2D<T> {
   List2D<E> mapIndexed<E>(E Function(int row, int column, T e) toElement) {
     return List2D.generate(
       rows,
@@ -129,10 +132,12 @@ extension List2dX<T> on List2D<T> {
     );
   }
 
+  @pragma("vm:prefer-inline")
   operator []((int, int) index) {
     return get(index.$1, index.$2);
   }
 
+  @pragma("vm:prefer-inline")
   operator []=((int, int) index, T value) {
     return set(index.$1, index.$2, value);
   }
@@ -159,11 +164,19 @@ extension List2dX<T> on List2D<T> {
     );
   }
 
+  @pragma("vm:prefer-inline")
+  int getRowFrom(int index1D) => _rowOf(index1D, columns);
+
+  @pragma("vm:prefer-inline")
+  int getColumnFrom(int index1D) => _columnOf(index1D, columns);
+
+  @pragma("vm:prefer-inline")
   T getByIndex(int index1D) {
-    return get(_rowOf(index1D, columns), _columnOf(index1D, columns));
+    return get(getRowFrom(index1D), getColumnFrom(index1D));
   }
 
+  @pragma("vm:prefer-inline")
   void setByIndex(int index1D, T value) {
-    return set(_rowOf(index1D, columns), _columnOf(index1D, columns), value);
+    return set(getRowFrom(index1D), getColumnFrom(index1D), value);
   }
 }

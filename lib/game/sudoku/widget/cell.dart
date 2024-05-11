@@ -57,7 +57,7 @@ class CellNumber extends StatelessWidget {
         fontSize: 25,
         fontWeight: cell.isPuzzle ? FontWeight.w800 : FontWeight.normal,
         color: cell.isPuzzle
-            ? context.colorScheme.onSurfaceVariant.withOpacity(0.5)
+            ? context.colorScheme.onSurfaceVariant
             : cell.isSolved
                 ? context.colorScheme.onPrimaryContainer
                 : Colors.red,
@@ -93,7 +93,10 @@ class CellWidget extends StatelessWidget {
             selectedIndex: selectedIndex,
             context: context,
           ),
-          border: Border.all(color: context.colorScheme.onBackground),
+          border: Border.all(
+            color: context.colorScheme.onBackground,
+            width: 0.1,
+          ),
         ),
         child: child,
       ),
