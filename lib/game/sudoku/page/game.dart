@@ -77,15 +77,13 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
   void onGameStateChange(GameStateSudoku? former, GameStateSudoku current) {
     switch (current.status) {
       case GameStatus.running:
-        if (!timer.timerStart) {
-          timer.startTimer();
-        }
+        if (!timer.timerStart) timer.startTimer();
+        break;
       case GameStatus.idle:
       case GameStatus.gameOver:
       case GameStatus.victory:
-        if (timer.timerStart) {
-          timer.stopTimer();
-        }
+        if (timer.timerStart) timer.stopTimer();
+        break;
     }
   }
 
