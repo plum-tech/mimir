@@ -119,15 +119,15 @@ extension List2dImplX<T> on List2D<T> {
   }
 
   List2DView<T> subview({
-    int rowStart = 0,
-    int columnStart = 0,
+    int rowOffset = 0,
+    int columnOffset = 0,
     required int rows,
     required int columns,
   }) {
     return List2DView(
       parent: this,
-      rowStart: rowStart,
-      columnStart: columnStart,
+      rowOffset: rowOffset,
+      columnOffset: columnOffset,
       rows: rows,
       columns: columns,
     );

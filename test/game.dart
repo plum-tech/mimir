@@ -15,7 +15,7 @@ void main() {
     });
     test("Test subview", () {
       final map = List2D.generate(9, 9, (row, column, index) => (row, column));
-      final sub = map.subview(rows: 5, columns: 5, rowStart: 3, columnStart: 3);
+      final sub = map.subview(rows: 5, columns: 5, rowOffset: 3, columnOffset: 3);
       final sub2d = sub.to2DList();
       for (final row in sub2d) {
         print(row);

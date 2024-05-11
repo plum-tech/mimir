@@ -88,9 +88,9 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
       case GameStatus.idle:
       case GameStatus.gameOver:
       case GameStatus.victory:
-      if (timer.timerStart) {
-        timer.stopTimer();
-      }
+        if (timer.timerStart) {
+          timer.stopTimer();
+        }
     }
   }
 

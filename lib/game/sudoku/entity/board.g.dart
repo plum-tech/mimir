@@ -14,6 +14,7 @@ abstract class _$SudokuCellCWProxy {
   /// SudokuCell(...).copyWith(id: 12, name: "My name")
   /// ````
   SudokuCell call({
+    int? index,
     int? userInput,
     int? correctValue,
   });
@@ -34,10 +35,15 @@ class _$SudokuCellCWProxyImpl implements _$SudokuCellCWProxy {
   /// SudokuCell(...).copyWith(id: 12, name: "My name")
   /// ````
   SudokuCell call({
+    Object? index = const $CopyWithPlaceholder(),
     Object? userInput = const $CopyWithPlaceholder(),
     Object? correctValue = const $CopyWithPlaceholder(),
   }) {
     return SudokuCell(
+      index: index == const $CopyWithPlaceholder() || index == null
+          ? _value.index
+          // ignore: cast_nullable_to_non_nullable
+          : index as int,
       userInput: userInput == const $CopyWithPlaceholder() || userInput == null
           ? _value.userInput
           // ignore: cast_nullable_to_non_nullable
@@ -61,11 +67,13 @@ extension $SudokuCellCopyWith on SudokuCell {
 // **************************************************************************
 
 SudokuCell _$SudokuCellFromJson(Map<String, dynamic> json) => SudokuCell(
-      userInput: (json['userInput'] as num?)?.toInt() ?? -1,
-      correctValue: (json['correctValue'] as num?)?.toInt() ?? 0,
+      index: (json['index'] as num).toInt(),
+      userInput: (json['userInput'] as num?)?.toInt() ?? SudokuCell.disableInputNumber,
+      correctValue: (json['correctValue'] as num?)?.toInt() ?? SudokuCell.emptyInputNumber,
     );
 
 Map<String, dynamic> _$SudokuCellToJson(SudokuCell instance) => <String, dynamic>{
+      'index': instance.index,
       'userInput': instance.userInput,
       'correctValue': instance.correctValue,
     };

@@ -5,8 +5,8 @@ import 'impl.dart';
 @immutable
 class List2DView<T> with Iterable<T> implements List2D<T> {
   final List2D<T> parent;
-  final int rowStart;
-  final int columnStart;
+  final int rowOffset;
+  final int columnOffset;
   @override
   final int rows;
   @override
@@ -18,15 +18,15 @@ class List2DView<T> with Iterable<T> implements List2D<T> {
   /// The [rows] should be in [4, ]
   List2DView({
     required this.parent,
-    required this.rowStart,
-    required this.columnStart,
+    required this.rowOffset,
+    required this.columnOffset,
     required this.rows,
     required this.columns,
   }) {
-    assert(rowStart >= 0);
-    assert(columnStart >= 0);
-    assert(rows <= parent.rows - rowStart);
-    assert(columns <= parent.columns - columnStart);
+    assert(rowOffset >= 0);
+    assert(columnOffset >= 0);
+    assert(rows <= parent.rows - rowOffset);
+    assert(columns <= parent.columns - columnOffset);
   }
 
   void _checkRange(int row, int column) {
@@ -41,13 +41,13 @@ class List2DView<T> with Iterable<T> implements List2D<T> {
   @override
   T get(int row, int column) {
     _checkRange(row, column);
-    return parent.get(rowStart + row, columnStart + column);
+    return parent.get(rowOffset + row, columnOffset + column);
   }
 
   @override
   void set(int row, int column, T value) {
     _checkRange(row, column);
-    parent.set(rowStart + row, columnStart + column, value);
+    parent.set(rowOffset + row, columnOffset + column, value);
   }
 
   @override

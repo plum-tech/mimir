@@ -67,14 +67,16 @@ class CellNumber extends StatelessWidget {
 }
 
 class CellWidget extends StatelessWidget {
-  final int index;
+  final SudokuCell cell;
+  final bool onEdge;
   final int selectedIndex;
   final VoidCallback onTap;
   final Widget child;
 
   const CellWidget({
     super.key,
-    required this.index,
+    required this.cell,
+    required this.onEdge,
     required this.onTap,
     required this.selectedIndex,
     required this.child,
@@ -89,13 +91,13 @@ class CellWidget extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: getCellBgColor(
-            index: index,
+            index: cell.index,
             selectedIndex: selectedIndex,
             context: context,
           ),
           border: Border.all(
-            color: context.colorScheme.onBackground,
-            width: 0.1,
+            color:  context.colorScheme.onBackground,
+            width: onEdge ? 1 : 0.1,
           ),
         ),
         child: child,
