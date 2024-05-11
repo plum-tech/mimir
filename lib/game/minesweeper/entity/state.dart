@@ -44,7 +44,7 @@ class GameStateMinesweeper {
     return GameStateMinesweeper(
       mode: save.mode,
       board: board,
-      playtime: save.playTime,
+      playtime: save.playtime,
       status: GameStatus.running,
     );
   }
@@ -52,7 +52,7 @@ class GameStateMinesweeper {
   SaveMinesweeper toSave() {
     return SaveMinesweeper(
       cells: board.cells.map((cell) => Cell4Save(mine: cell.mine, state: cell.state)),
-      playTime: playtime,
+      playtime: playtime,
       mode: mode,
     );
   }

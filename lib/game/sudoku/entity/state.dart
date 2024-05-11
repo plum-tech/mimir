@@ -32,14 +32,14 @@ class GameStateSudoku {
     required this.board,
   })  : status = GameStatus.idle,
         playtime = Duration.zero,
-        notes = List.generate(81, (index) => const SudokuCellNote.empty());
+        notes = List.generate(sudokuSides * sudokuSides, (index) => const SudokuCellNote.empty());
 
   GameStateSudoku.byDefault()
       : status = GameStatus.idle,
         mode = GameMode.easy,
         playtime = Duration.zero,
         board = SudokuBoard.byDefault(),
-        notes = List.generate(81, (index) => const SudokuCellNote.empty());
+        notes = List.generate(sudokuSides * sudokuSides, (index) => const SudokuCellNote.empty());
 
   factory GameStateSudoku.fromJson(Map<String, dynamic> json) => _$GameStateSudokuFromJson(json);
 

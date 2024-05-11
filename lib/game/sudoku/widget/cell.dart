@@ -95,12 +95,14 @@ class CellWidget extends StatelessWidget {
       duration: Durations.short4,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        borderRadius: edgeAgainstBoard == null ? null: BorderRadius.only(
-          topLeft: edgeAgainstBoard == Edge2D.topLeft ? borderRadius : Radius.zero,
-          topRight: edgeAgainstBoard == Edge2D.topRight ? borderRadius : Radius.zero,
-          bottomLeft: edgeAgainstBoard == Edge2D.bottomLeft ? borderRadius : Radius.zero,
-          bottomRight: edgeAgainstBoard == Edge2D.bottomRight ? borderRadius : Radius.zero,
-        ),
+        borderRadius: edgeAgainstBoard == null
+            ? null
+            : BorderRadius.only(
+                topLeft: edgeAgainstBoard == Edge2D.topLeft ? borderRadius : Radius.zero,
+                topRight: edgeAgainstBoard == Edge2D.topRight ? borderRadius : Radius.zero,
+                bottomLeft: edgeAgainstBoard == Edge2D.bottomLeft ? borderRadius : Radius.zero,
+                bottomRight: edgeAgainstBoard == Edge2D.bottomRight ? borderRadius : Radius.zero,
+              ),
         color: getCellBgColor(
           cell: cell,
           board: board,

@@ -5,6 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/utils/hive.dart';
 
+Map<String, dynamic> _defaultToJson(dynamic obj) {
+  return obj.toJson();
+}
+
 class GameSaveStorage<TSave> {
   final Box Function() _box;
   final String prefix;
@@ -14,7 +18,7 @@ class GameSaveStorage<TSave> {
   GameSaveStorage(
     this._box, {
     required this.prefix,
-    required this.serialize,
+    this.serialize = _defaultToJson,
     required this.deserialize,
   });
 

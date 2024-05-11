@@ -115,7 +115,7 @@ extension type const SudokuBoard(List2D<SudokuCell> _cells) {
     return _cells.getByIndex(cellIndex);
   }
 
-static int getRowFrom(int cellIndex) => cellIndex ~/ sudokuSides;
+  static int getRowFrom(int cellIndex) => cellIndex ~/ sudokuSides;
   static int getColumnFrom(int cellIndex) => cellIndex % sudokuSides;
 
   SudokuBoard changeCell(int cellIndex, int userInput) {
