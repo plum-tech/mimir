@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/game/2048/card.dart';
 import 'package:sit/game/minesweeper/card.dart';
+import 'package:sit/game/sudoku/card.dart';
 import 'package:sit/settings/dev.dart';
 
 import "i18n.dart";
@@ -45,10 +46,7 @@ class _GamePageState extends ConsumerState<GamePage> {
                     name: "SIT Suika",
                     baseRoute: "/suika",
                   ),
-                const OfflineGameAppCard(
-                  name: "Sudoku",
-                  baseRoute: "/sudoku",
-                ),
+                const GameAppCardSudoku(),
               ],
             ),
           ],

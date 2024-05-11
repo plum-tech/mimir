@@ -68,14 +68,14 @@ class _MainStagePageState extends State<MainStagePage> {
           label: $life.i18n.navigation,
         )
       ),
-    // (
-    //   route: "/game",
-    //   item: (
-    //     icon: const Icon(Icons.videogame_asset_outlined),
-    //     activeIcon: const Icon(Icons.videogame_asset),
-    //     label: $game.i18n.navigation,
-    //   )
-    // ),
+    (
+      route: "/game",
+      item: (
+        icon: const Icon(Icons.videogame_asset_outlined),
+        activeIcon: const Icon(Icons.videogame_asset),
+        label: $game.i18n.navigation,
+      )
+    ),
     (
       route: "/me",
       item: (

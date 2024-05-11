@@ -31,6 +31,7 @@ class SudokuCell {
     this.correctValue = SudokuCell.emptyInputNumber,
   }) : assert(correctValue == 0 || (1 <= correctValue && correctValue <= 9),
             "The puzzle should generate correct value in [1,9] but $correctValue");
+
   bool get isPuzzle => userInput < 0;
 
   bool get canUserInput => userInput >= 0;
@@ -195,8 +196,6 @@ class SudokuBoardZone {
     final localColumn = (parentColumn - parentColumnOffset) % 3;
     assert(0 <= localRow && localRow < 3, "$localRow not in [0,3)");
     assert(0 <= localColumn && localColumn < 3, "$localColumn not in [0,3)");
-    print(
-        "The cell #$boardIndex at ($parentRow,$parentColumn) on parent is at ($localRow,$localColumn) on zone#$zoneIndex");
     return (localRow: localRow, localColumn: localColumn);
   }
 

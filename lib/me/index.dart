@@ -6,14 +6,10 @@ import 'package:go_router/go_router.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/game/2048/card.dart';
-import 'package:sit/game/minesweeper/card.dart';
-import 'package:sit/game/widget/card.dart';
 import 'package:sit/me/edu_email/index.dart';
 import 'package:sit/me/widgets/greeting.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/qrcode/utils.dart';
-import 'package:sit/settings/dev.dart';
 import 'package:sit/utils/error.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -35,7 +31,6 @@ class MePage extends ConsumerStatefulWidget {
 class _MePageState extends ConsumerState<MePage> {
   @override
   Widget build(BuildContext context) {
-    final devMode = ref.watch(Dev.$on);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: CustomScrollView(
@@ -57,21 +52,6 @@ class _MePageState extends ConsumerState<MePage> {
           ),
           const SliverToBoxAdapter(
             child: EduEmailAppCard(),
-          ),
-          SliverList.list(
-            children: [
-              const GameAppCard2048(),
-              const GameAppCardMinesweeper(),
-              if (devMode)
-                const OfflineGameAppCard(
-                  name: "SIT Suika",
-                  baseRoute: "/suika",
-                ),
-              const OfflineGameAppCard(
-                name: "Sudoku",
-                baseRoute: "/sudoku",
-              ),
-            ],
           ),
           SliverList.list(children: [
             buildQQGroupTile(),
