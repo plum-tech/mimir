@@ -63,7 +63,7 @@ class List2DView<T> with Iterable<T> implements List2D<T> {
     return List2D.generate(
       rows,
       columns,
-      (row, column) => toElement(get(row, column)),
+      (row, column, index) => toElement(get(row, column)),
     );
   }
 }

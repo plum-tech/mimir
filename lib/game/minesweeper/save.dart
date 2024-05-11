@@ -12,7 +12,7 @@ List2D<Cell4Save> _defaultCells() {
   return List2D.generate(
     GameMode.defaultRows,
     GameMode.defaultColumns,
-    (row, column) => const Cell4Save(mine: false, state: CellState.covered),
+    (row, column, index) => const Cell4Save(mine: false, state: CellState.covered),
   );
 }
 

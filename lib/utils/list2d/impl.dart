@@ -21,7 +21,7 @@ class List2D<T> with Iterable<T> {
     this._internal = const [],
   ]);
 
-  factory List2D.generate(int rows, int columns, T Function(int row, int column) generator) {
+  factory List2D.generate(int rows, int columns, T Function(int row, int column, int index) generator) {
     return List2D(
       rows,
       columns,
@@ -30,6 +30,7 @@ class List2D<T> with Iterable<T> {
         (index) => generator(
           _rowOf(index, columns),
           _columnOf(index, columns),
+          index,
         ),
         growable: false,
       ),
@@ -77,7 +78,7 @@ class List2D<T> with Iterable<T> {
     return List2D.generate(
       rows,
       columns,
-      (row, column) => toElement(get(row, column)),
+      (row, column, index) => toElement(get(row, column)),
     );
   }
 
@@ -113,7 +114,7 @@ extension List2dImplX<T> on List2D<T> {
     return List2D.generate(
       rows,
       columns,
-      (row, column) => toElement(row, column, get(row, column)),
+      (row, column, index) => toElement(row, column, get(row, column)),
     );
   }
 

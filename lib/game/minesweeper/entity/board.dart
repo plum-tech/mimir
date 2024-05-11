@@ -205,7 +205,7 @@ class CellBoardBuilder extends ICellBoard<CellBuilder> {
         cells = List2D.generate(
           rows,
           columns,
-          (row, column) => CellBuilder(
+          (row, column, index) => CellBuilder(
             row: row,
             column: column,
           ),
