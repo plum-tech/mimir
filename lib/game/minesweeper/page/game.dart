@@ -75,8 +75,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
 
   void resetGame() {
     timer.reset();
-    final gameMode = ref.watch(stateMinesweeper.select((state) => state.mode));
-    ref.read(stateMinesweeper.notifier).initGame(gameMode: gameMode);
+    ref.read(stateMinesweeper.notifier).initGame(gameMode: ref.read(stateMinesweeper).mode);
   }
 
   void onGameStateChange(GameStateMinesweeper? former, GameStateMinesweeper current) {
@@ -127,7 +126,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
                 children: [
                   GameBoard(screen: screen),
                   if (state.status == GameStatus.gameOver)
-                    GameStateModal(
+                    GameOverModal(
                       resetGame: resetGame,
                     )
                   else if (state.status == GameStatus.victory)

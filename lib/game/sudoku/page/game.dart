@@ -18,6 +18,7 @@ import '../settings.dart';
 import '../widget/cell.dart';
 import '../widget/filler.dart';
 import '../widget/hud.dart';
+import '../widget/modal.dart';
 import '../widget/tool.dart';
 
 final stateSudoku = StateNotifierProvider.autoDispose<GameLogic, GameStateSudoku>((ref) {
@@ -74,6 +75,11 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
     });
   }
 
+  void resetGame() {
+    timer.reset();
+    ref.read(stateSudoku.notifier).initGame(gameMode: ref.read(stateSudoku).mode);
+  }
+
   void onGameStateChange(GameStateSudoku? former, GameStateSudoku current) {
     switch (current.status) {
       case GameStatus.running:
@@ -89,10 +95,17 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
 
   @override
   Widget build(BuildContext context) {
+    final gameStatus = ref.watch(stateSudoku.select((state) => state.status));
     ref.listen(stateSudoku, onGameStateChange);
     return Scaffold(
-      appBar: AppBar(title: Text("Sudoku")),
-      body: buildBody(),
+      appBar: AppBar(title: const Text("Sudoku")),
+      body: [
+        buildBody(),
+        if (gameStatus == GameStatus.victory)
+          VictoryModal(resetGame: resetGame)
+        else if (gameStatus == GameStatus.gameOver)
+          GameOverModal(resetGame: resetGame),
+      ].stack(),
     );
   }
 

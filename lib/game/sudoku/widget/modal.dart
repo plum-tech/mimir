@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/game/i18n.dart' show DurationI18nX;
-import 'package:sit/game/minesweeper/page/game.dart';
-import '../theme.dart';
+import 'package:sit/game/sudoku/page/game.dart';
 import '../i18n.dart';
 
 class GameOverModal extends ConsumerWidget {
@@ -23,7 +22,7 @@ class GameOverModal extends ConsumerWidget {
         },
         child: Container(
           decoration: BoxDecoration(
-            color: gameOverColor.withOpacity(0.5),
+            color: Colors.red[600]!.withOpacity(0.5),
           ),
           child: Text(
             i18n.gameOver,
@@ -47,18 +46,18 @@ class VictoryModal extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final playTime = ref.watch(stateMinesweeper.select((state) => state.playtime));
+    final playTime = ref.watch(stateSudoku.select((state) => state.playtime));
     return Positioned.fill(
       child: Container(
         decoration: BoxDecoration(
-          color: victoryColor.withOpacity(0.5),
+          color: Colors.green[600]!.withOpacity(0.5),
         ),
         child: MaterialButton(
           onPressed: () {
             resetGame();
           },
           child: Text(
-            "${i18n.youWin}\n${i18n.timeSpent(playTime.formatPlaytime())}",
+            "${i18n.youWin}\n${playTime.formatPlaytime()}",
             style: const TextStyle(
               fontSize: 64.0,
             ),

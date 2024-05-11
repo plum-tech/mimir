@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 // GameInfo Color
 final gameOverColor = Colors.red[600]!;
-final goodGameColor = Colors.green[600]!;
+final victoryColor = Colors.green[600]!;
 const iconSize = 42.0;
 const numberSize = iconSize * 0.7;
 const mineSize = iconSize * 0.7;
