@@ -18,6 +18,7 @@ abstract class _$GameStateSudokuCWProxy {
     GameMode? mode,
     SudokuBoard? board,
     Duration? playtime,
+    List<SudokuCellNote>? notes,
   });
 }
 
@@ -40,6 +41,7 @@ class _$GameStateSudokuCWProxyImpl implements _$GameStateSudokuCWProxy {
     Object? mode = const $CopyWithPlaceholder(),
     Object? board = const $CopyWithPlaceholder(),
     Object? playtime = const $CopyWithPlaceholder(),
+    Object? notes = const $CopyWithPlaceholder(),
   }) {
     return GameStateSudoku(
       status: status == const $CopyWithPlaceholder() || status == null
@@ -58,6 +60,10 @@ class _$GameStateSudokuCWProxyImpl implements _$GameStateSudokuCWProxy {
           ? _value.playtime
           // ignore: cast_nullable_to_non_nullable
           : playtime as Duration,
+      notes: notes == const $CopyWithPlaceholder() || notes == null
+          ? _value.notes
+          // ignore: cast_nullable_to_non_nullable
+          : notes as List<SudokuCellNote>,
     );
   }
 }
@@ -77,6 +83,7 @@ GameStateSudoku _$GameStateSudokuFromJson(Map<String, dynamic> json) => GameStat
       mode: GameMode.fromJson(json['mode'] as String),
       board: SudokuBoard.fromJson(json['board']),
       playtime: json['playtime'] == null ? Duration.zero : Duration(microseconds: (json['playtime'] as num).toInt()),
+      notes: (json['notes'] as List<dynamic>).map(SudokuCellNote.fromJson).toList(),
     );
 
 Map<String, dynamic> _$GameStateSudokuToJson(GameStateSudoku instance) => <String, dynamic>{
@@ -84,6 +91,7 @@ Map<String, dynamic> _$GameStateSudokuToJson(GameStateSudoku instance) => <Strin
       'mode': instance.mode,
       'board': instance.board,
       'playtime': instance.playtime.inMicroseconds,
+      'notes': instance.notes,
     };
 
 const _$GameStatusEnumMap = {

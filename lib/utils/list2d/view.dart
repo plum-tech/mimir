@@ -22,7 +22,7 @@ class List2DView<T> with Iterable<T> implements List2D<T> {
     required this.columnStart,
     required this.rows,
     required this.columns,
-  }){
+  }) {
     assert(rowStart >= 0);
     assert(columnStart >= 0);
     assert(rows <= parent.rows - rowStart);

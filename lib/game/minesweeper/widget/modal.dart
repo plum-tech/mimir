@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/game/i18n.dart' show DurationI18nX;
 import 'package:sit/game/minesweeper/page/game.dart';
 import '../theme.dart';
 import '../i18n.dart';
@@ -46,7 +47,7 @@ class VictoryModal extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final playTime = ref.watch(minesweeperState.select((state) => state.playtime));
+    final playTime = ref.watch(stateMinesweeper.select((state) => state.playtime));
     return Positioned.fill(
       child: Container(
         decoration: BoxDecoration(
@@ -57,7 +58,7 @@ class VictoryModal extends ConsumerWidget {
             resetGame();
           },
           child: Text(
-            "${i18n.youWin}\n${i18n.timeSpent(playTime.getTimeCost())}",
+            "${i18n.youWin}\n${i18n.timeSpent(playTime.formatPlaytime())}",
             style: const TextStyle(
               fontSize: 64.0,
             ),

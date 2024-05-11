@@ -36,6 +36,14 @@ class List2D<T> with Iterable<T> {
     );
   }
 
+  factory List2D.of(List2D<T> others) {
+    return List2D(
+      others.rows,
+      others.columns,
+      List.of(others._internal, growable: false),
+    );
+  }
+
   factory List2D.from(List<List<T>> list2d) {
     final rows = list2d.length;
     var columns = list2d.firstOrNull?.length ?? 0;
@@ -53,24 +61,12 @@ class List2D<T> with Iterable<T> {
     );
   }
 
-  static int _rowOf(int index, int columns) {
-    return index ~/ columns;
-  }
-
-  static int _columnOf(int index, int columns) {
-    return index % columns;
-  }
-
-  static int _indexOf(int row, int column, int columns) {
-    return row * columns + column;
-  }
-
   T get(int row, int column) {
-    return _internal[_indexOf(row, column, columns)];
+    return _internal[_indexBy(row, column, columns)];
   }
 
   void set(int row, int column, T value) {
-    _internal[_indexOf(row, column, columns)] = value;
+    _internal[_indexBy(row, column, columns)] = value;
   }
 
   @override
@@ -97,7 +93,17 @@ class List2D<T> with Iterable<T> {
       _$List2DFromJson<T>(json, fromJsonT);
 }
 
-mixin List2DBase<T> {}
+int _rowOf(int index, int columns) {
+  return index ~/ columns;
+}
+
+int _columnOf(int index, int columns) {
+  return index % columns;
+}
+
+int _indexBy(int row, int column, int columns) {
+  return row * columns + column;
+}
 
 extension List2dX<T> on List2D<T> {
   List2D<E> mapIndexed<E>(E Function(int row, int column, T e) toElement) {
@@ -105,14 +111,6 @@ extension List2dX<T> on List2D<T> {
       rows,
       columns,
       (row, column) => toElement(row, column, get(row, column)),
-    );
-  }
-
-  List2D<T> clone() {
-    return List2D(
-      rows,
-      columns,
-      List.of(this, growable: false),
     );
   }
 
@@ -159,5 +157,13 @@ extension List2dX<T> on List2D<T> {
       ),
       growable: growable,
     );
+  }
+
+  T getByIndex(int index1D) {
+    return get(_rowOf(index1D, columns), _columnOf(index1D, columns));
+  }
+
+  void setByIndex(int index1D, T value) {
+    return set(_rowOf(index1D, columns), _columnOf(index1D, columns), value);
   }
 }

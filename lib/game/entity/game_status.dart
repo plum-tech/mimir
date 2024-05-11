@@ -8,4 +8,5 @@ enum GameStatus {
   victory;
 
   bool get shouldSave => this != gameOver && this != victory;
+  bool get canPlay => this != gameOver && this != victory;
 }

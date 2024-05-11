@@ -19,7 +19,7 @@ import '../widget/hud.dart';
 import '../widget/modal.dart';
 import '../i18n.dart';
 
-final minesweeperState = StateNotifierProvider.autoDispose<GameLogic, GameStateMinesweeper>((ref) {
+final stateMinesweeper = StateNotifierProvider.autoDispose<GameLogic, GameStateMinesweeper>((ref) {
   return GameLogic();
 });
 
@@ -51,29 +51,31 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
     super.initState();
     WidgetsBinding.instance.endOfFrame.then((_) {
       timer.addListener((state) {
-        ref.read(minesweeperState.notifier).playtime = state;
+        ref.read(stateMinesweeper.notifier).playtime = state;
       });
-      if (!widget.newGame) {
+      if (widget.newGame) {
+        ref.read(stateMinesweeper.notifier).initGame(gameMode: GameMode.easy);
+      } else {
         final save = SaveMinesweeper.storage.load();
         if (save != null) {
-          ref.read(minesweeperState.notifier).fromSave(save);
-          timer.state = ref.read(minesweeperState).playtime;
+          ref.read(stateMinesweeper.notifier).fromSave(save);
+          timer.state = ref.read(stateMinesweeper).playtime;
         } else {
-          ref.read(minesweeperState.notifier).initGame(gameMode: GameMode.easy);
-          timer.state = ref.read(minesweeperState).playtime;
+          ref.read(stateMinesweeper.notifier).initGame(gameMode: GameMode.easy);
+          timer.state = ref.read(stateMinesweeper).playtime;
         }
       }
     });
   }
 
   void onSave() {
-    ref.read(minesweeperState.notifier).save();
+    ref.read(stateMinesweeper.notifier).save();
   }
 
   void resetGame() {
     timer.reset();
-    final gameMode = ref.watch(minesweeperState.select((state) => state.mode));
-    ref.read(minesweeperState.notifier).initGame(gameMode: gameMode);
+    final gameMode = ref.watch(stateMinesweeper.select((state) => state.mode));
+    ref.read(stateMinesweeper.notifier).initGame(gameMode: gameMode);
   }
 
   void startTimer() {
@@ -103,8 +105,8 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(minesweeperState);
-    ref.listen(minesweeperState, onGameStateChange);
+    final state = ref.watch(stateMinesweeper);
+    ref.listen(stateMinesweeper, onGameStateChange);
     final screenSize = MediaQuery.of(context).size;
     final screen = Screen(
       height: screenSize.height,

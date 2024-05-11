@@ -18,11 +18,3 @@ class _I18n with CommonI18nMixin, CommonGameI18nMixin {
 extension GameModeI18nX on GameMode {
   String l10n() => "${_I18n.ns}.gameMode.$name".tr();
 }
-
-extension DurationI18nX on Duration {
-  String getTimeCost() {
-    final min = inMinutes.toString();
-    final sec = inSeconds.remainder(60).toString();
-    return '$min:${sec.padLeft(2, "0")}';
-  }
-}

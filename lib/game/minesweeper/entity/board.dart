@@ -143,7 +143,7 @@ class CellBoard extends ICellBoard<Cell> {
   }
 
   CellBoard changeCell({required row, required column, required state}) {
-    final newCells = cells.clone();
+    final newCells = List2D.of(cells);
     newCells.set(row, column, cells.get(row, column).copyWith(state: state));
     return copyWith(cells: newCells);
   }
