@@ -53,7 +53,9 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
       timer.addListener((state) {
         ref.read(stateMinesweeper.notifier).playtime = state;
       });
-      if (!widget.newGame) {
+      if (widget.newGame) {
+        ref.read(stateMinesweeper.notifier).initGame(gameMode: GameMode.easy);
+      } else {
         final save = SaveMinesweeper.storage.load();
         if (save != null) {
           ref.read(stateMinesweeper.notifier).fromSave(save);

@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sudoku_dart/sudoku_dart.dart';
 
-/// 计算网格背景色
 Color getCellBgColor({
   required BuildContext context,
   required int index,
@@ -16,7 +15,7 @@ Color getCellBgColor({
   // same columns
   List<int> colIndexes = Matrix.getColIndexes(Matrix.getCol(index));
 
-  Set indexSet = Set();
+  final indexSet = <int>{};
   indexSet.addAll(zoneIndexes);
   indexSet.addAll(rowIndexes);
   indexSet.addAll(colIndexes);

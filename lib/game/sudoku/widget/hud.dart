@@ -4,7 +4,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/game/i18n.dart';
 import 'package:sit/game/sudoku/i18n.dart';
 
-import '../page/game2.dart';
+import '../page/game.dart';
 
 class GameHudMistake extends StatelessWidget {
   final int mistakes;
