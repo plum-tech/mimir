@@ -866,11 +866,13 @@ game:
       normal: Normal
       hard: Hard
   sudoku:
+    title: Sudoku
     gameMode:
       beginner: Beginner
       easy: Easy
       medium: Medium
       hard: Hard
+      master: Master
 permission:
   permissionDenied: Permission denied
   permissionDeniedDescOf: "{} permission was not granted. Please check the app settings."

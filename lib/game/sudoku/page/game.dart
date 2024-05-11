@@ -59,7 +59,7 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
       });
       final logic = ref.read(stateSudoku.notifier);
       if (widget.newGame) {
-        logic.initGame(gameMode: GameMode.hard);
+        logic.initGame(gameMode: GameMode.easy);
         logic.startGame();
       } else {
         final save = SaveSudoku.storage.load();

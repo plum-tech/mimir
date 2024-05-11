@@ -866,11 +866,13 @@ game:
       normal: 普通
       hard: 困难
   sudoku:
+    title: 数独
     gameMode:
-      beginner: 新手
+      beginner: 入门
       easy: 简单
       medium: 中等
       hard: 困难
+      master: 大师
 permission:
   permissionDenied: 没有权限
   permissionDeniedDescOf: "{}权限未被授权，请检查应用的设置。"

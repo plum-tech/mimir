@@ -41,12 +41,12 @@ class _GamePageState extends ConsumerState<GamePage> {
               children: [
                 const GameAppCard2048(),
                 const GameAppCardMinesweeper(),
+                const GameAppCardSudoku(),
                 if (devMode)
                   const OfflineGameAppCard(
                     name: "SIT Suika",
                     baseRoute: "/suika",
                   ),
-                const GameAppCardSudoku(),
               ],
             ),
           ],
