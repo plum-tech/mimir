@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/utils/list2d/edge.dart';
 
 import '../entity/board.dart';
 import '../entity/note.dart';
@@ -68,7 +69,7 @@ class CellNumber extends StatelessWidget {
 
 class CellWidget extends StatelessWidget {
   final SudokuCell cell;
-  final bool onEdge;
+  final Edge2D? edge;
   final int selectedIndex;
   final VoidCallback onTap;
   final Widget child;
@@ -76,7 +77,7 @@ class CellWidget extends StatelessWidget {
   const CellWidget({
     super.key,
     required this.cell,
-    required this.onEdge,
+    required this.edge,
     required this.onTap,
     required this.selectedIndex,
     required this.child,
@@ -84,6 +85,10 @@ class CellWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final borderColor = context.colorScheme.onBackground;
+    final edge = this.edge;
+    const innerWidth = 0.15;
+    const edgeWidth = 1.0;
     return InkWell(
       onTap: onTap,
       child: AnimatedContainer(
@@ -95,10 +100,26 @@ class CellWidget extends StatelessWidget {
             selectedIndex: selectedIndex,
             context: context,
           ),
-          border: Border.all(
-            color:  context.colorScheme.onBackground,
-            width: onEdge ? 1 : 0.1,
-          ),
+          border: edge == null
+              ? null
+              : Border(
+                  top: BorderSide(
+                    color: borderColor,
+                    width: edge.top ? edgeWidth : innerWidth,
+                  ),
+                  right: BorderSide(
+                    color: borderColor,
+                    width: edge.right ? edgeWidth : innerWidth,
+                  ),
+                  bottom: BorderSide(
+                    color: borderColor,
+                    width: edge.bottom ? edgeWidth : innerWidth,
+                  ),
+                  left: BorderSide(
+                    color: borderColor,
+                    width: edge.left ? edgeWidth : innerWidth,
+                  ),
+                ),
         ),
         child: child,
       ),

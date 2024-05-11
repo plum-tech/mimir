@@ -190,12 +190,12 @@ class SudokuBoardZone {
     return (localRow: localRow, localColumn: localColumn);
   }
 
-  bool isOnEdge(int boardIndex) {
+  Edge2D? onWhichEdge(int boardIndex) {
     final (:localRow, :localColumn) = mapBoardIndexToLocal(boardIndex);
-    return _cells.onEdge(localRow, localColumn);
+    return _cells.onWhichEdge(localRow, localColumn);
   }
 
-  bool isCellOnEdge(SudokuCell cell) {
-    return isOnEdge(cell.index);
+  Edge2D? cellOnWhichEdge(SudokuCell cell) {
+    return onWhichEdge(cell.index);
   }
 }
