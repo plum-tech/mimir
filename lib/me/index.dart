@@ -67,11 +67,10 @@ class _MePageState extends ConsumerState<MePage> {
                   name: "SIT Suika",
                   baseRoute: "/suika",
                 ),
-              if (devMode)
-                const OfflineGameAppCard(
-                  name: "Sudoku",
-                  baseRoute: "/sudoku",
-                ),
+              const OfflineGameAppCard(
+                name: "Sudoku",
+                baseRoute: "/sudoku",
+              ),
             ],
           ),
           SliverList.list(children: [

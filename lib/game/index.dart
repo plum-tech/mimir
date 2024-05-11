@@ -45,11 +45,10 @@ class _GamePageState extends ConsumerState<GamePage> {
                     name: "SIT Suika",
                     baseRoute: "/suika",
                   ),
-                if (devMode)
-                  const OfflineGameAppCard(
-                    name: "Sudoku",
-                    baseRoute: "/sudoku",
-                  ),
+                const OfflineGameAppCard(
+                  name: "Sudoku",
+                  baseRoute: "/sudoku",
+                ),
               ],
             ),
           ],
