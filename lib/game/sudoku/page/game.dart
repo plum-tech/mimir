@@ -59,7 +59,7 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
       });
       final logic = ref.read(stateSudoku.notifier);
       if (widget.newGame) {
-        logic.initGame(gameMode: GameMode.easy);
+        logic.initGame(gameMode: GameMode.hard);
         logic.startGame();
       } else {
         final save = SaveSudoku.storage.load();
@@ -153,10 +153,12 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
 
   Widget buildFiller() {
     final board = ref.watch(stateSudoku.select((state) => state.board));
+    final gameMode = ref.watch(stateSudoku.select((state) => state.mode));
     final gameStatus = ref.watch(stateSudoku.select((state) => state.status));
     return NumberFillerArea(
       board: board,
       selectedIndex: selectedCellIndex,
+      enableFillerHint: gameMode.enableFillerHint,
       onNumberTap: gameStatus.canPlay
           ? (int number) {
               return board.canFill(number: number, cellIndex: selectedCellIndex)

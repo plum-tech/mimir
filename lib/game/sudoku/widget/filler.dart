@@ -25,7 +25,7 @@ class NumberFillerButton extends StatelessWidget {
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 24,
-          color: color,
+          color: onTap == null ? null : color,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -36,6 +36,7 @@ class NumberFillerButton extends StatelessWidget {
 class NumberFillerArea extends StatelessWidget {
   final int selectedIndex;
   final SudokuBoard board;
+  final bool enableFillerHint;
   final VoidCallback? Function(int number)? onNumberTap;
 
   const NumberFillerArea({
@@ -43,6 +44,7 @@ class NumberFillerArea extends StatelessWidget {
     required this.selectedIndex,
     required this.board,
     this.onNumberTap,
+    this.enableFillerHint = false,
   });
 
   @override
@@ -54,9 +56,11 @@ class NumberFillerArea extends StatelessWidget {
           return Expanded(
             flex: 1,
             child: NumberFillerButton(
-              color: relatedCells.any((cell) => cell.canUserInput ? false : cell.correctValue == number)
-                  ? Colors.red
-                  : null,
+              color: !enableFillerHint
+                  ? null
+                  : relatedCells.any((cell) => cell.canUserInput ? false : cell.correctValue == number)
+                      ? Colors.red
+                      : null,
               number: number,
               onTap: onNumberTap?.call(number),
             ),
