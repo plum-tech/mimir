@@ -225,4 +225,4 @@ jobs:
       - name: Send Message to Group
         continue-on-error: true
         run: |
-          node tools/bot-notify-build.mjs ${{ secrets.gocq_sendgroupmsg_url }} ${{ secrets.gocq_group_number }}" ${{ steps.get_git_info.outputs.RESOLVED_VERSION }}
+          node tools/bot-notify-build.mjs ${{ secrets.gocq_sendgroupmsg_url }} ${{ secrets.gocq_group_number }} ${{ steps.get_git_info.outputs.RESOLVED_VERSION }}
