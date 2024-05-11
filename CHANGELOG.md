@@ -1,5 +1,11 @@
 # Changelog
 
+## v2.5.0
+- Introduced Sudoku game.
+- Introduced a new navigation page, Game.
+- Improved visual effects of minesweeper.
+- Game will pause when putting app into background.
+
 ## v2.4.1
 - Changed the custom URL and provided backward compatibility:
   - scheme: from `life.mysit` to `sit-life`.
