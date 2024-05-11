@@ -3,6 +3,7 @@ import 'package:sit/game/entity/game_status.dart';
 import 'package:sit/game/sudoku/entity/state.dart';
 
 import '../entity/mode.dart';
+import '../entity/note.dart';
 import '../entity/board.dart';
 
 class GameLogic extends StateNotifier<GameStateSudoku> {
@@ -26,7 +27,22 @@ class GameLogic extends StateNotifier<GameStateSudoku> {
 
   void setNoted(int cellIndex, int number, bool noted) {
     final oldNotes = state.notes;
+    if (oldNotes[cellIndex].getNoted(number) == noted) return;
     final newNotes = List.of(oldNotes)..[cellIndex] = oldNotes[cellIndex].setNoted(number, noted);
+    state = state.copyWith(
+      notes: newNotes,
+    );
+  }
+  /// Clear both note and filled number.
+  void clearCell(int cellIndex) {
+    clearNote(cellIndex);
+    clearFilledCell(cellIndex);
+  }
+
+  void clearNote(int cellIndex) {
+    final oldNotes = state.notes;
+    if (!oldNotes[cellIndex].anyNoted) return;
+    final newNotes = List.of(oldNotes)..[cellIndex] = const SudokuCellNote.empty();
     state = state.copyWith(
       notes: newNotes,
     );
@@ -39,8 +55,17 @@ class GameLogic extends StateNotifier<GameStateSudoku> {
   void fillCell(int cellIndex, int number) {
     final oldBoard = state.board;
     final oldCell = oldBoard.getCellByIndex(cellIndex);
-     number = oldCell.userInput == number ? SudokuCell.emptyInputNumber : number;
+    number = oldCell.userInput == number ? SudokuCell.emptyInputNumber : number;
     final newBoard = oldBoard.changeCell(cellIndex, number);
+    state = state.copyWith(
+      board: newBoard,
+    );
+    checkWin();
+  }
+
+  void clearFilledCell(int cellIndex) {
+    final oldBoard = state.board;
+    final newBoard = oldBoard.changeCell(cellIndex, SudokuCell.emptyInputNumber);
     state = state.copyWith(
       board: newBoard,
     );
