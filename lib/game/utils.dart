@@ -18,7 +18,8 @@ Future<void> applyGameHapticFeedback([HapticFeedbackIntensity intensity = Haptic
       await HapticFeedback.mediumImpact();
       break;
     case HapticFeedbackIntensity.heavy:
-      await const Vibration(milliseconds: 200, amplitude: 127).emit();
+      await HapticFeedback.heavyImpact();
+      // await const Vibration(milliseconds: 200, amplitude: 127).emit();
       break;
   }
 }

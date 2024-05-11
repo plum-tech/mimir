@@ -1,15 +1,20 @@
+import 'package:collection/collection.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:vibration/vibration.dart' as vb;
 
-abstract class VibrationProtocol {
+abstract class VibrationPattern {
+  int get milliseconds;
+
   Future<void> emit();
 }
 
-abstract class TimedProtocol {
-  int get milliseconds;
+extension VibrationPatternX on VibrationPattern {
+  VibrationPattern operator +(VibrationPattern pattern) {
+    return CompoundVibration._(patterns: [this, pattern]);
+  }
 }
 
-class Vibration implements VibrationProtocol, TimedProtocol {
+class Vibration implements VibrationPattern {
   @override
   final int milliseconds;
   final int amplitude;
@@ -31,36 +36,37 @@ class Vibration implements VibrationProtocol, TimedProtocol {
       }
     }
   }
-
-  VibrationProtocol operator +(Wait wait) {
-    return CompoundVibration._(timedList: [this, wait]);
-  }
 }
 
-class Wait implements TimedProtocol {
+class Wait implements VibrationPattern {
   @override
   final int milliseconds;
 
   const Wait({this.milliseconds = 500});
+
+  @override
+  Future<void> emit() async {}
 }
 
-class CompoundVibration implements VibrationProtocol {
-  final List<TimedProtocol> timedList;
+class CompoundVibration implements VibrationPattern {
+  @override
+  int get milliseconds => patterns.map((p) => p.milliseconds).sum;
+  final List<VibrationPattern> patterns;
 
-  CompoundVibration._({this.timedList = const []});
+  CompoundVibration._({this.patterns = const []});
 
   @override
   Future<void> emit() async {
     if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
       if (await vb.Vibration.hasVibrator() ?? false) {
         if (await vb.Vibration.hasCustomVibrationsSupport() ?? false) {
-          vb.Vibration.vibrate(pattern: timedList.map((e) => e.milliseconds).toList());
+          vb.Vibration.vibrate(pattern: patterns.map((e) => e.milliseconds).toList());
         } else {
-          for (int i = 0; i < timedList.length; i++) {
+          for (int i = 0; i < patterns.length; i++) {
             if (i % 2 == 0) {
               vb.Vibration.vibrate();
             } else {
-              await Future.delayed(Duration(milliseconds: timedList[i].milliseconds));
+              await Future.delayed(Duration(milliseconds: patterns[i].milliseconds));
             }
           }
         }
@@ -68,7 +74,7 @@ class CompoundVibration implements VibrationProtocol {
     }
   }
 
-  VibrationProtocol operator +(CompoundVibration other) {
-    return CompoundVibration._(timedList: timedList + other.timedList);
+  VibrationPattern operator +(CompoundVibration other) {
+    return CompoundVibration._(patterns: patterns + other.patterns);
   }
 }
