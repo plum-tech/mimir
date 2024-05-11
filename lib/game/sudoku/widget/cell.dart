@@ -101,7 +101,10 @@ class CellWidget extends StatelessWidget {
             context: context,
           ),
           border: edge == null
-              ? null
+              ? Border.all(
+                  color: borderColor,
+                  width: innerWidth,
+                )
               : Border(
                   top: BorderSide(
                     color: borderColor,
