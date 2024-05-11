@@ -18,6 +18,11 @@ jobs:
           key: ${{ secrets.DOCS_SSH_KEY }}
           known_hosts: ${{ secrets.DOCS_KNOWN_HOST }}
 
+      - name: Setup git config
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Deploy
         if: github.repository == 'liplum-dev/mimir'
         shell: bash
@@ -43,8 +48,6 @@ jobs:
           else
             ipa_sha256=$(curl -sL "$ipa_url" | sha256sum | cut -d ' ' -f 1)
           fi
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
           mkdir -p "artifact/"
 

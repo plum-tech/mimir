@@ -21,13 +21,8 @@ async function main() {
   // Get asset information
   const [apkInfo, ipaInfo] = await Promise.all([getAssetInfo('apk'), getAssetInfo('ipa')])
 
-  // Configure git
-  execSync('git config --global user.name "github-actions[bot]"')
-  execSync('git config --global user.email "github-actions[bot]@users.noreply.github.com"')
-
   // Create artifact directory
   await fs.mkdir(artifactPath, { recursive: true })
-
 
 
   // Generate artifact data

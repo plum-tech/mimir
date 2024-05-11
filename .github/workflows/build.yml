@@ -30,7 +30,7 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          node ./tools/increment-build-number.mjs ${{ github.server_url }} ${{ github.repository }} ${{ github.run_id }} ${{ github.run_attempt }}
+          node tools/increment-build-number.mjs ${{ github.server_url }} ${{ github.repository }} ${{ github.run_id }} ${{ github.run_attempt }}
 
       - name: Install JDK 17
         uses: actions/setup-java@v4
@@ -104,11 +104,11 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          node ./tools/increment-build-number.mjs ${{ github.server_url }} ${{ github.repository }} ${{ github.run_id }} ${{ github.run_attempt }}
+          node tools/increment-build-number.mjs ${{ github.server_url }} ${{ github.repository }} ${{ github.run_id }} ${{ github.run_attempt }}
 
       - name: Change Develop to Distribution
         run: |
-          node ./tools/to-distro.mjs
+          node tools/to-distro.mjs
 
       - name: Install Apple Certificate
         uses: apple-actions/import-codesign-certs@v2
@@ -193,7 +193,7 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          node ./tools/increment-build-number.mjs ${{ github.server_url }} ${{ github.repository }} ${{ github.run_id }} ${{ github.run_attempt }}
+          node tools/increment-build-number.mjs ${{ github.server_url }} ${{ github.repository }} ${{ github.run_id }} ${{ github.run_attempt }}
 
       - name: Get Git info
         id: get_git_info
@@ -225,4 +225,4 @@ jobs:
       - name: Send Message to Group
         continue-on-error: true
         run: |
-          curl -G -s --connect-timeout 5 ${{ secrets.gocq_sendgroupmsg_url }} --data-urlencode "group_id=${{ secrets.gocq_group_number }}" --data-urlencode "message=新测试版(${{ steps.get_git_info.outputs.RESOLVED_VERSION }})已完成构建，请通过Github Actions下载。或等待开发者操作完成后，前往群文件/TestFlight下载。"
+          node tools/bot-notify-build.mjs ${{ secrets.gocq_sendgroupmsg_url }} ${{ secrets.gocq_group_number }}" ${{ steps.get_git_info.outputs.RESOLVED_VERSION }}

@@ -6,6 +6,10 @@ import { git } from "./git.mjs"
 import { guardVersioning } from './guard.mjs'
 const pubspecPath = 'pubspec.yaml'
 
+/**
+ *
+ * @param {string} newVersion
+ */
 async function pushAndTagChanges(newVersion) {
   // Git operations (assuming arguments are provided)
   const serverUrl = process.argv[2]
