@@ -28,7 +28,7 @@ enum SudokuGameStatus {
 }
 
 @HiveType(typeId: 5)
-class SudokuState  {
+class SudokuState {
   static const String _hiveBoxName = "sudoku.store";
   static const String _hiveStateName = "state";
 
@@ -38,14 +38,6 @@ class SudokuState  {
   // sudoku
   @HiveField(1)
   Sudoku? sudoku;
-
-  // level
-  @HiveField(2)
-  GameMode? level;
-
-  // timing
-  @HiveField(3)
-  late int timing;
 
   // 可用生命
   @HiveField(4)
@@ -99,15 +91,9 @@ class SudokuState  {
     this.life = _Default.life;
     this.hint = _Default.hint;
     this.records = List.generate(81, (index) => -1);
-    this.notes =
-        List.generate(81, (index) => List.generate(10, (index) => false));
-    notifyListeners();
+    this.notes = List.generate(81, (index) => List.generate(10, (index) => false));
   }
 
-  void tick() {
-    this.timing++;
-    notifyListeners();
-  }
 
   String get timer => sprintf("%02i:%02i", [timing ~/ 60, timing % 60]);
 
@@ -130,8 +116,7 @@ class SudokuState  {
 
   void setRecord(int index, int num) {
     if (index < 0 || index > 80 || num < 0 || num > 9) {
-      throw new ArgumentError(
-          'index border [0,80] num border [0,9] , input index:$index | num:$num out of the border');
+      throw new ArgumentError('index border [0,80] num border [0,9] , input index:$index | num:$num out of the border');
     }
     if (this.status == SudokuGameStatus.initialize) {
       throw new ArgumentError("can't update record in \"initialize\" status");
@@ -154,8 +139,7 @@ class SudokuState  {
 
     List<int> colIndexes = Matrix.getColIndexes(Matrix.getCol(index));
     List<int> rowIndexes = Matrix.getRowIndexes(Matrix.getRow(index));
-    List<int> zoneIndexes =
-        Matrix.getZoneIndexes(zone: Matrix.getZone(index: index));
+    List<int> zoneIndexes = Matrix.getZoneIndexes(zone: Matrix.getZone(index: index));
 
     colIndexes.forEach((_) {
       cleanMark(_, num: num);
@@ -182,8 +166,7 @@ class SudokuState  {
   void switchRecord(int index, int num) {
     log.d('switchRecord $index - $num');
     if (index < 0 || index > 80 || num < 0 || num > 9) {
-      throw new ArgumentError(
-          'index border [0,80] num border [0,9] , input index:$index | num:$num out of the border');
+      throw new ArgumentError('index border [0,80] num border [0,9] , input index:$index | num:$num out of the border');
     }
     if (this.status == SudokuGameStatus.initialize) {
       throw new ArgumentError("can't update record in \"initialize\" status");
@@ -200,8 +183,7 @@ class SudokuState  {
 
   void setMark(int index, int num) {
     if (index < 0 || index > 80) {
-      throw new ArgumentError(
-          'index border [0,80], input index:$index out of the border');
+      throw new ArgumentError('index border [0,80], input index:$index out of the border');
     }
     if (num < 1 || num > 9) {
       throw new ArgumentError("num must be [1,9]");
@@ -224,8 +206,7 @@ class SudokuState  {
 
   void cleanMark(int index, {int? num}) {
     if (index < 0 || index > 80) {
-      throw new ArgumentError(
-          'index border [0,80], input index:$index out of the border');
+      throw new ArgumentError('index border [0,80], input index:$index out of the border');
     }
     List<bool> markPoint = this.notes[index];
     if (num == null) {
@@ -239,8 +220,7 @@ class SudokuState  {
 
   void switchMark(int index, int num) {
     if (index < 0 || index > 80) {
-      throw new ArgumentError(
-          'index border [0,80], input index:$index out of the border');
+      throw new ArgumentError('index border [0,80], input index:$index out of the border');
     }
     if (num < 1 || num > 9) {
       throw new ArgumentError("num must be [1,9]");
@@ -301,8 +281,7 @@ class SudokuState  {
 
     try {
       sudokuStore = await Hive.openBox(_hiveBoxName);
-      state = sudokuStore.get(_hiveStateName,
-          defaultValue: SudokuState.newSudokuState());
+      state = sudokuStore.get(_hiveStateName, defaultValue: SudokuState.newSudokuState());
     } catch (e) {
       log.d(e);
       state = SudokuState.newSudokuState();
@@ -317,8 +296,7 @@ class SudokuState  {
 
   static final SudokuAdapter _sudokuAdapter = SudokuAdapter();
   static final SudokuStateAdapter _sudokuStateAdapter = SudokuStateAdapter();
-  static final SudokuGameStatusAdapter _sudokuGameStatusAdapter =
-      SudokuGameStatusAdapter();
+  static final SudokuGameStatusAdapter _sudokuGameStatusAdapter = SudokuGameStatusAdapter();
   static final SudokuLevelAdapter _sudokuLevelAdapter = SudokuLevelAdapter();
 
   static _initHive() async {

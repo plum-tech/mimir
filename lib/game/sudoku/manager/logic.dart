@@ -13,14 +13,21 @@ class GameLogic extends StateNotifier<GameStateSudoku> {
     state = GameStateSudoku.newGame(mode: gameMode, board: board);
   }
 
+  Duration get playtime => state.playtime;
+
+  set playtime(Duration playtime) => state = state.copyWith(
+        playtime: playtime,
+      );
+
   Future<void> save() async {
-    if (state.status.shouldSave) {} else {}
+    if (state.status.shouldSave) {
+    } else {}
   }
 
   void checkWin() {
     if (state.board.isSolved) {
       state = state.copyWith(
-          status: GameStatus.victory,
+        status: GameStatus.victory,
       );
     }
   }

@@ -18,6 +18,7 @@ abstract class _$GameStateSudokuCWProxy {
     GameMode? mode,
     SudokuBoard? board,
     Duration? playtime,
+    List<SudokuCellNote>? notes,
   });
 }
 
@@ -40,6 +41,7 @@ class _$GameStateSudokuCWProxyImpl implements _$GameStateSudokuCWProxy {
     Object? mode = const $CopyWithPlaceholder(),
     Object? board = const $CopyWithPlaceholder(),
     Object? playtime = const $CopyWithPlaceholder(),
+    Object? notes = const $CopyWithPlaceholder(),
   }) {
     return GameStateSudoku(
       status: status == const $CopyWithPlaceholder() || status == null
@@ -58,6 +60,10 @@ class _$GameStateSudokuCWProxyImpl implements _$GameStateSudokuCWProxy {
           ? _value.playtime
           // ignore: cast_nullable_to_non_nullable
           : playtime as Duration,
+      notes: notes == const $CopyWithPlaceholder() || notes == null
+          ? _value.notes
+          // ignore: cast_nullable_to_non_nullable
+          : notes as List<SudokuCellNote>,
     );
   }
 }
@@ -67,28 +73,3 @@ extension $GameStateSudokuCopyWith on GameStateSudoku {
   // ignore: library_private_types_in_public_api
   _$GameStateSudokuCWProxy get copyWith => _$GameStateSudokuCWProxyImpl(this);
 }
-
-// **************************************************************************
-// JsonSerializableGenerator
-// **************************************************************************
-
-GameStateSudoku _$GameStateSudokuFromJson(Map<String, dynamic> json) => GameStateSudoku(
-      status: $enumDecodeNullable(_$GameStatusEnumMap, json['status']) ?? GameStatus.idle,
-      mode: GameMode.fromJson(json['mode'] as String),
-      board: SudokuBoard.fromJson(json['board']),
-      playtime: json['playtime'] == null ? Duration.zero : Duration(microseconds: (json['playtime'] as num).toInt()),
-    );
-
-Map<String, dynamic> _$GameStateSudokuToJson(GameStateSudoku instance) => <String, dynamic>{
-      'status': _$GameStatusEnumMap[instance.status]!,
-      'mode': instance.mode,
-      'board': instance.board,
-      'playtime': instance.playtime.inMicroseconds,
-    };
-
-const _$GameStatusEnumMap = {
-  GameStatus.running: 'running',
-  GameStatus.idle: 'idle',
-  GameStatus.gameOver: 'gameOver',
-  GameStatus.victory: 'victory',
-};

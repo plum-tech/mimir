@@ -49,7 +49,7 @@ class GameHudTimer extends ConsumerWidget {
   });
 
   @override
-  Widget build(BuildContext context,WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final playTime = ref.watch(stateSudoku.select((state) => state.playtime));
     return Text(
       "${gameMode.l10n()} - ${playTime.formatPlaytime()}",

@@ -38,7 +38,7 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
   int selectedIndex = 0;
   bool _markOpen = false;
 
-  SudokuState get _state => ScopedModel.of<SudokuState>(context);
+  SudokuState get _state => throw 0;
 
   late TimerWidgetAbility timerAbility;
 
@@ -53,14 +53,9 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.endOfFrame.then((_) {
       timer.addListener((state) {
-        // ref.read(minesweeperState.notifier).playtime = state;
-        if (_state.status == SudokuGameStatus.gaming) {
-          _state.tick();
-          return;
-        }
+        ref.read(stateSudoku.notifier).playtime = state;
       });
     });
   }
@@ -133,10 +128,10 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
 
   Widget buildCells() {
     return GridView.builder(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       itemCount: 81,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9),
       itemBuilder: (context, index) {
         // 用户做标记
         bool isNoted = _state.sudoku!.puzzle[index] == -1 && _state.records[index].any((element) => element);

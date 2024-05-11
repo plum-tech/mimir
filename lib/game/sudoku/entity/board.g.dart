@@ -61,8 +61,8 @@ extension $SudokuCellCopyWith on SudokuCell {
 // **************************************************************************
 
 SudokuCell _$SudokuCellFromJson(Map<String, dynamic> json) => SudokuCell(
-      userInput: (json['userInput'] as num).toInt(),
-      correctValue: (json['correctValue'] as num).toInt(),
+      userInput: (json['userInput'] as num?)?.toInt() ?? -1,
+      correctValue: (json['correctValue'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$SudokuCellToJson(SudokuCell instance) => <String, dynamic>{
