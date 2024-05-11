@@ -42,14 +42,6 @@ extension _NavigationDestX on _NavigationDest {
 class _MainStagePageState extends State<MainStagePage> {
   var currentStage = 0;
   late var items = [
-    (
-      route: "/timetable",
-      item: (
-        icon: const Icon(Icons.calendar_month_outlined),
-        activeIcon: const Icon(Icons.calendar_month),
-        label: $timetable.i18n.navigation,
-      )
-    ),
     if (!kIsWeb)
       (
         route: "/school",
@@ -68,6 +60,14 @@ class _MainStagePageState extends State<MainStagePage> {
           label: $life.i18n.navigation,
         )
       ),
+    (
+      route: "/timetable",
+      item: (
+        icon: const Icon(Icons.calendar_month_outlined),
+        activeIcon: const Icon(Icons.calendar_month),
+        label: $timetable.i18n.navigation,
+      )
+    ),
     (
       route: "/game",
       item: (

@@ -509,12 +509,6 @@ RoutingConfig buildCommonRoutingConfig() {
           return MainStagePage(navigationShell: navigationShell);
         },
         branches: [
-          StatefulShellBranch(
-            navigatorKey: $TimetableShellKey,
-            routes: [
-              _timetableShellRoute,
-            ],
-          ),
           if (!kIsWeb)
             StatefulShellBranch(
               navigatorKey: $SchoolShellKey,
@@ -529,6 +523,12 @@ RoutingConfig buildCommonRoutingConfig() {
                 _lifeShellRoute,
               ],
             ),
+          StatefulShellBranch(
+            navigatorKey: $TimetableShellKey,
+            routes: [
+              _timetableShellRoute,
+            ],
+          ),
           StatefulShellBranch(
             navigatorKey: $GameShellKey,
             routes: [
