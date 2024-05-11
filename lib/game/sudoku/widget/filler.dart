@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
 
 class NumberFillerButton extends StatelessWidget {
@@ -15,18 +14,15 @@ class NumberFillerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card.filled(
-      margin: EdgeInsets.all(1),
-      child: CupertinoButton(
-        child: Text(
-          '$number',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
+    return CupertinoButton(
+      onPressed: onTap,
+      child: Text(
+        '$number',
+        textAlign: TextAlign.center,
+        style: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
         ),
-        onPressed: onTap,
       ),
     );
   }
