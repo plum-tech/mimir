@@ -110,11 +110,11 @@ int _indexBy(int row, int column, int columns) {
 }
 
 extension List2dImplX<T> on List2D<T> {
-  List2D<E> mapIndexed<E>(E Function(int row, int column, T e) toElement) {
+  List2D<E> mapIndexed<E>(E Function(int row, int column, int index, T e) toElement) {
     return List2D.generate(
       rows,
       columns,
-      (row, column, index) => toElement(row, column, get(row, column)),
+      (row, column, index) => toElement(row, column, index, get(row, column)),
     );
   }
 

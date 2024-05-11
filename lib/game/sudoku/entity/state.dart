@@ -2,6 +2,7 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:sit/game/entity/game_status.dart';
+import 'package:sit/game/sudoku/save.dart';
 
 import 'board.dart';
 import 'mode.dart';
@@ -44,4 +45,24 @@ class GameStateSudoku {
   factory GameStateSudoku.fromJson(Map<String, dynamic> json) => _$GameStateSudokuFromJson(json);
 
   Map<String, dynamic> toJson() => _$GameStateSudokuToJson(this);
+
+  factory GameStateSudoku.fromSave(SaveSudoku save) {
+    final board = SudokuBoard.fromSave(save);
+    return GameStateSudoku(
+      mode: save.mode,
+      board: board,
+      playtime: save.playtime,
+      status: GameStatus.running,
+      notes: save.notes,
+    );
+  }
+
+  SaveSudoku toSave() {
+    return SaveSudoku(
+      cells: board.toSave(),
+      playtime: playtime,
+      mode: mode,
+      notes: notes,
+    );
+  }
 }

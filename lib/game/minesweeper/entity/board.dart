@@ -131,7 +131,7 @@ class CellBoard extends ICellBoard<Cell> {
 
   factory CellBoard.fromSave(SaveMinesweeper save) {
     final cells = save.cells.mapIndexed(
-      (row, column, cell) => CellBuilder(row: row, column: column)
+      (row, column, index, cell) => CellBuilder(row: row, column: column)
         ..mine = cell.mine
         ..state = cell.state,
     );
@@ -140,6 +140,10 @@ class CellBoard extends ICellBoard<Cell> {
     );
     builder.updateCells();
     return builder.build();
+  }
+
+  List2D<Cell4Save> toSave() {
+    return cells.map((cell) => Cell4Save(mine: cell.mine, state: cell.state));
   }
 
   CellBoard changeCell({required row, required column, required state}) {

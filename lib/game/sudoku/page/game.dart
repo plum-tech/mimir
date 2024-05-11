@@ -14,6 +14,7 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/mode.dart';
 import '../entity/state.dart';
 import '../manager/logic.dart';
+import '../save.dart';
 import '../widget/cell.dart';
 import '../widget/filler.dart';
 import '../widget/hud.dart';
@@ -61,14 +62,14 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
         logic.initGame(gameMode: GameMode.easy);
         logic.startGame();
       } else {
-        // final save = SaveSudoku.storage.load();
-        // if (save != null) {
-        //   logic.fromSave(save);
-        //   timer.state = ref.read(stateSudoku).playtime;
-        // } else {
-        //   logic.initGame(gameMode: GameMode.easy);
-        //   timer.state = ref.read(stateSudoku).playtime;
-        // }
+        final save = SaveSudoku.storage.load();
+        if (save != null) {
+          logic.fromSave(save);
+          timer.state = ref.read(stateSudoku).playtime;
+        } else {
+          logic.initGame(gameMode: GameMode.easy);
+          timer.state = ref.read(stateSudoku).playtime;
+        }
       }
     });
   }

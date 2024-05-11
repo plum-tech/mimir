@@ -5,6 +5,8 @@ import 'package:meta/meta.dart';
 import 'package:sit/utils/list2d/list2d.dart';
 import 'package:sudoku_solver_generator/sudoku_solver_generator.dart';
 
+import '../save.dart';
+
 part "board.g.dart";
 
 const sudokuSides = 9;
@@ -157,6 +159,18 @@ extension type const SudokuBoard(List2D<SudokuCell> _cells) {
 
   dynamic toJson() {
     return _cells;
+  }
+
+  factory SudokuBoard.fromSave(SaveSudoku save) {
+    final cells = save.cells.mapIndexed(
+      (row, column, index, cell) =>
+          SudokuCell(index: index, userInput: cell.userInput, correctValue: cell.correctValue),
+    );
+    return SudokuBoard(cells);
+  }
+
+  List2D<Cell4Save> toSave() {
+    return _cells.map((cell) => Cell4Save(userInput: cell.userInput, correctValue: cell.correctValue));
   }
 }
 

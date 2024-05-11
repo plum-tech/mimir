@@ -5,6 +5,7 @@ import 'package:sit/game/sudoku/entity/state.dart';
 import '../entity/mode.dart';
 import '../entity/note.dart';
 import '../entity/board.dart';
+import '../save.dart';
 
 class GameLogic extends StateNotifier<GameStateSudoku> {
   GameLogic([GameStateSudoku? initial]) : super(initial ?? GameStateSudoku.byDefault());
@@ -18,6 +19,10 @@ class GameLogic extends StateNotifier<GameStateSudoku> {
     state = state.copyWith(status: GameStatus.running);
   }
 
+  void fromSave(SaveSudoku save) {
+    state = GameStateSudoku.fromSave(save);
+  }
+
   Duration get playtime => state.playtime;
 
   set playtime(Duration playtime) => state = state.copyWith(
@@ -26,7 +31,10 @@ class GameLogic extends StateNotifier<GameStateSudoku> {
 
   Future<void> save() async {
     if (state.status.shouldSave) {
-    } else {}
+      await SaveSudoku.storage.save(state.toSave());
+    } else {
+      await SaveSudoku.storage.delete();
+    }
   }
 
   void setNoted(int cellIndex, int number, bool noted) {
