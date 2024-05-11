@@ -204,16 +204,6 @@ class SudokuState {
     notifyListeners();
   }
 
-  void updateStatus(SudokuGameStatus status) {
-    this.status = status;
-    notifyListeners();
-  }
-
-  void updateLevel(Level level) {
-    this.level = level;
-    notifyListeners();
-  }
-
   // 检查该数字是否还有库存(判断是否填写满)
   bool hasNumStock(int num) {
     if (this.status == SudokuGameStatus.initialize) {

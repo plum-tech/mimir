@@ -6,19 +6,21 @@ import 'package:sit/game/sudoku/i18n.dart';
 
 import '../page/game2.dart';
 
-class GameHudLife extends StatelessWidget {
-  final int lifeCount;
+class GameHudMistake extends StatelessWidget {
+  final int mistakes;
+  final int maxMistakes;
 
-  const GameHudLife({
+  const GameHudMistake({
     super.key,
-    required this.lifeCount,
+    required this.mistakes,
+    required this.maxMistakes,
   });
 
   @override
   Widget build(BuildContext context) {
     return [
-      Icon(Icons.heart_broken),
-      Text(" x ${lifeCount}", style: TextStyle(fontSize: 18)),
+      const Icon(Icons.heart_broken),
+      Text("$mistakes / $maxMistakes", style: TextStyle(fontSize: 18)),
     ].row(
       mas: MainAxisSize.min,
     );
@@ -61,14 +63,17 @@ class GameHud extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const int? lifeCount = null;
+    const int? mistakeCount = null;
     const int? hintCount = null;
     return Card.filled(
       child: [
-        if (lifeCount != null)
+        if (mistakeCount != null)
           Expanded(
             flex: 1,
-            child: GameHudLife(lifeCount: lifeCount).align(
+            child: GameHudMistake(
+              mistakes: mistakeCount,
+              maxMistakes: 3,
+            ).align(
               at: Alignment.centerLeft,
             ),
           ),
