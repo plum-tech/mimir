@@ -72,7 +72,6 @@ class CellWidget extends StatelessWidget {
   final Edge2D? edgeAgainstZone;
   final Edge2D? edgeAgainstBorder;
   final int selectedIndex;
-  final VoidCallback onTap;
   final Widget child;
 
   const CellWidget({
@@ -80,7 +79,6 @@ class CellWidget extends StatelessWidget {
     required this.cell,
     required this.edgeAgainstZone,
     required this.edgeAgainstBorder,
-    required this.onTap,
     required this.selectedIndex,
     required this.child,
   });
@@ -93,49 +91,46 @@ class CellWidget extends StatelessWidget {
     final edgeAgainstBorder = this.edgeAgainstBorder;
     const innerWidth = 0.15;
     const edgeWidth = 1.0;
-    return InkWell(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: Durations.short4,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: edgeAgainstBorder == null ? null: BorderRadius.only(
-            topLeft: edgeAgainstBorder == Edge2D.topLeft ? borderRadius : Radius.zero,
-            topRight: edgeAgainstBorder == Edge2D.topRight ? borderRadius : Radius.zero,
-            bottomLeft: edgeAgainstBorder == Edge2D.bottomLeft ? borderRadius : Radius.zero,
-            bottomRight: edgeAgainstBorder == Edge2D.bottomRight ? borderRadius : Radius.zero,
-          ),
-          color: getCellBgColor(
-            index: cell.index,
-            selectedIndex: selectedIndex,
-            context: context,
-          ),
-          border: edgeAgainstZone == null
-              ? Border.all(
-                  color: borderColor,
-                  width: innerWidth,
-                )
-              : Border(
-                  top: BorderSide(
-                    color: borderColor,
-                    width: edgeAgainstZone.top ? edgeWidth : innerWidth,
-                  ),
-                  right: BorderSide(
-                    color: borderColor,
-                    width: edgeAgainstZone.right ? edgeWidth : innerWidth,
-                  ),
-                  bottom: BorderSide(
-                    color: borderColor,
-                    width: edgeAgainstZone.bottom ? edgeWidth : innerWidth,
-                  ),
-                  left: BorderSide(
-                    color: borderColor,
-                    width: edgeAgainstZone.left ? edgeWidth : innerWidth,
-                  ),
-                ),
+    return AnimatedContainer(
+      duration: Durations.short4,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: edgeAgainstBorder == null ? null: BorderRadius.only(
+          topLeft: edgeAgainstBorder == Edge2D.topLeft ? borderRadius : Radius.zero,
+          topRight: edgeAgainstBorder == Edge2D.topRight ? borderRadius : Radius.zero,
+          bottomLeft: edgeAgainstBorder == Edge2D.bottomLeft ? borderRadius : Radius.zero,
+          bottomRight: edgeAgainstBorder == Edge2D.bottomRight ? borderRadius : Radius.zero,
         ),
-        child: child,
+        color: getCellBgColor(
+          index: cell.index,
+          selectedIndex: selectedIndex,
+          context: context,
+        ),
+        border: edgeAgainstZone == null
+            ? Border.all(
+                color: borderColor,
+                width: innerWidth,
+              )
+            : Border(
+                top: BorderSide(
+                  color: borderColor,
+                  width: edgeAgainstZone.top ? edgeWidth : innerWidth,
+                ),
+                right: BorderSide(
+                  color: borderColor,
+                  width: edgeAgainstZone.right ? edgeWidth : innerWidth,
+                ),
+                bottom: BorderSide(
+                  color: borderColor,
+                  width: edgeAgainstZone.bottom ? edgeWidth : innerWidth,
+                ),
+                left: BorderSide(
+                  color: borderColor,
+                  width: edgeAgainstZone.left ? edgeWidth : innerWidth,
+                ),
+              ),
       ),
+      child: child,
     );
   }
 }
