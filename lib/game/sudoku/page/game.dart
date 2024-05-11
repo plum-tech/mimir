@@ -155,6 +155,8 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
     final board = ref.watch(stateSudoku.select((state) => state.board));
     final gameStatus = ref.watch(stateSudoku.select((state) => state.status));
     return NumberFillerArea(
+      board: board,
+      selectedIndex: selectedCellIndex,
       onNumberTap: gameStatus.canPlay
           ? (int number) {
               return board.canFill(number: number, cellIndex: selectedCellIndex)

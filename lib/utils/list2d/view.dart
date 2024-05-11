@@ -85,13 +85,13 @@ class List2DViewIterator<T> implements Iterator<T> {
   @override
   @pragma("vm:prefer-inline")
   bool moveNext() {
-    if (_row > _view.rows && _column > _view.columns) {
+    if (_row >= _view.rows) {
       _current = null;
       return false;
     }
     _current = _view.get(_row, _column);
     _column++;
-    if (_column > _view.columns) {
+    if (_column >= _view.columns) {
       _column = 0;
       _row++;
     }

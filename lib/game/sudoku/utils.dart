@@ -14,10 +14,7 @@ Color getCellBgColor({
   if (index == selectedIndex) {
     return context.colorScheme.primaryContainer;
   }
-  final selectedZoneIndex = SudokuBoardZone.getZoneIndexByIndex(selectedIndex);
-  if (selectedZoneIndex == zone.zoneIndex ||
-      _isTheSameRow(index, selectedIndex) ||
-      _isTheSameColumn(index, selectedIndex)) {
+  if (isRelated(index, selectedIndex)) {
     return context.colorScheme.tertiaryContainer;
   }
   final selectedCell = board.getCellByIndex(selectedIndex);
@@ -28,9 +25,15 @@ Color getCellBgColor({
   return zone.zoneIndex.isOdd ? context.colorScheme.surface : context.colorScheme.surfaceVariant;
 }
 
-bool _isTheSameRow(int a, int b) => SudokuBoard.getRowFrom(a) == SudokuBoard.getRowFrom(b);
+bool isRelated(int indexA, int indexB) {
+  return SudokuBoardZone.getZoneIndexByIndex(indexA) == SudokuBoardZone.getZoneIndexByIndex(indexB) ||
+      _isTheSameRow(indexA, indexB) ||
+      _isTheSameColumn(indexA, indexB);
+}
 
-bool _isTheSameColumn(int a, int b) => SudokuBoard.getColumnFrom(a) == SudokuBoard.getColumnFrom(b);
+bool _isTheSameRow(int indexA, int indexB) => SudokuBoard.getRowFrom(indexA) == SudokuBoard.getRowFrom(indexB);
+
+bool _isTheSameColumn(int indexA, int indexB) => SudokuBoard.getColumnFrom(indexA) == SudokuBoard.getColumnFrom(indexB);
 
 bool _isTheSameNumber(SudokuCell a, SudokuCell b) {
   if (a.canUserInput) {

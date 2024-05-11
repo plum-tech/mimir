@@ -62,6 +62,10 @@ class SudokuCell {
   factory SudokuCell.fromJson(Map<String, dynamic> json) => _$SudokuCellFromJson(json);
 
   Map<String, dynamic> toJson() => _$SudokuCellToJson(this);
+
+  @override
+  String toString() =>
+      "(${SudokuBoard.getRowFrom(index)},${SudokuBoard.getColumnFrom(index)}) ${canUserInput ? "$userInput/$correctValue" : correctValue}";
 }
 
 @immutable
@@ -112,6 +116,19 @@ extension type const SudokuBoard(List2D<SudokuCell> _cells) {
     final cell = _cells.getByIndex(cellIndex);
     if (!cell.canUserInput) return false;
     return true;
+  }
+
+  Iterable<SudokuCell> relatedOf(int cellIndex) sync* {
+    final zone = getZone(SudokuBoardZone.getZoneIndexByIndex(cellIndex));
+    for (final cell in zone._cells) {
+      if (cell.index != cellIndex) yield cell; // exclude self
+    }
+    for (final cell in _cells.rowAt(_cells.getRowFrom(cellIndex))) {
+      if (cell.index != cellIndex) yield cell; // exclude self
+    }
+    for (final cell in _cells.columnAt(_cells.getColumnFrom(cellIndex))) {
+      if (cell.index != cellIndex) yield cell; // exclude self
+    }
   }
 
   SudokuCell getCellByIndex(int cellIndex) {
@@ -186,8 +203,8 @@ class SudokuBoardZone {
   ) : _cells = parent._cells.subview(
           rows: 3,
           columns: 3,
-          rowOffset: zoneIndex ~/ 3,
-          columnOffset: zoneIndex % 3,
+          rowOffset: (zoneIndex ~/ 3) * 3,
+          columnOffset: (zoneIndex % 3) * 3,
         );
 
   int get parentRowOffset => (zoneIndex ~/ 3) * 3;
