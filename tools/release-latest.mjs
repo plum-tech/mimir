@@ -1,7 +1,9 @@
 import { execSync } from 'child_process' // For shell commands
 import * as fs from 'fs/promises' // For file system operations
 import * as https from 'https' // For downloading files
-import { git } from './git.mjs'
+import { git, github } from './git.mjs'
+import crypto from "crypto"
+import * as path from "path"
 
 const gitUrl = 'https://github.com/Amazefcc233/mimir-docs'
 const deployPath = '~/deploy'
@@ -14,13 +16,12 @@ async function main() {
   // Change directory
   process.chdir(deployPath)
 
-  // Get release information from environment variables (assuming GitHub Actions context)
-  const version = process.env.GITHUB_EVENT_RELEASE_TAG_NAME.slice(1) // remove leading 'v'
-  const releaseTime = convertReleaseTime(process.env.GITHUB_EVENT_RELEASE_PUBLISHED_AT)
-  const releaseNote = await getReleaseNote(process.env.GITHUB_EVENT_RELEASE_BODY)
-
-  // Get asset information
-  const [apkInfo, ipaInfo] = await Promise.all([getAssetInfo('apk'), getAssetInfo('ipa')])
+  // Get release information from environment variables (GitHub Actions context)
+  const version = getVersion()
+  const releaseTime = getPublishTime()
+  const releaseNote = getReleaseNote()
+  const apkInfo = await searchAndGetAssetInfo(({ name }) => path.extname(name) === ".apk")
+  const ipaInfo = await searchAndGetAssetInfo(({ name }) => path.extname(name) === ".ipa")
 
   // Create artifact directory
   await fs.mkdir(artifactPath, { recursive: true })
@@ -61,36 +62,90 @@ async function main() {
   await fs.unlink(`${artifactPath}latest.json`, { ignoreENOENT: true }) // Ignore if file doesn't exist
   await fs.symlink(`${version}.json`, `${artifactPath}latest.json`)
 
-  // Git operations
-  execSync('git add .')
-  execSync(`git commit -m "Release New Version: ${version}"`)
-  execSync(`git push "git@github.com:Amazefcc233/mimir-docs" main:main`)
+  await addAndPush()
 }
 
-async function convertReleaseTime(releaseTimeString) {
-  const releaseTime = new Date(releaseTimeString.replace('T', ' ').replace('Z', ''))
-  releaseTime.setHours(releaseTime.getHours() - 8) // Adjust for 8 hours difference
-  return releaseTime.toISOString().slice(0, 19).replace('T', ' ') // Format: YYYY-MM-DD HH:MM:SS
+function buildArtifactPayload({apk,ipa}){
+
 }
 
-async function getReleaseNote(body) {
-  const lines = body.split('\n')
-  const startIndex = lines.findIndex(line => line.startsWith('## 更改'))
-  const endIndex = lines.findIndex(line => line.startsWith('## How to download'))
-  return lines.slice(startIndex + 1, endIndex - 1).join('\n').trim()
+async function addAndPush() {
+  await git.add(".")
+  await git.commit(`Release New Version: ${version}`)
+  await git.push("git@github.com:Amazefcc233/mimir-docs", "main:main")
 }
 
-async function getAssetInfo(type) {
-  const asset = process.env[`GITHUB_EVENT_RELEASE_ASSETS_${type.toUpperCase()}_0`]
-  if (!asset) {
-    return { name: '', sha256: '', url: '' }
+function getVersion() {
+  // remove leading 'v'
+  return github.release.tag_name.slice(1)
+}
+
+function getReleaseNote() {
+  const text = github.release.body
+  const startLine = text.indexOf('## 更改')
+  const endLine = text.indexOf('## How to download')
+
+  if (startLine === -1 || endLine === -1) {
+    throw new Error('Release notes section not found')
   }
-  const url = asset.browser_download_url
-  const sha256 = url ? await downloadAndHash(url) : ''
-  return { name: asset.name, sha256, url }
+
+  // Extract content between start and end lines (excluding headers)
+  const releaseNotes = text.substring(startLine + '## 更改\n'.length, endLine).trim()
+
+  // Remove any leading or trailing blank lines
+  return releaseNotes.replace(/^\s*|\s*$/g, '')
 }
 
-async function downloadAndHash(url) {
+function getPublishTime() {
+  return new Date(github.release.published_at)
+}
+
+/**
+ * @param {({name:string,browser_download_url:string})=>boolean} filter
+ */
+async function searchAndGetAssetInfo(filter) {
+  const asset = searchAsset(filter)
+  if (!asset) return
+  return await getAssetInfo(asset)
+}
+
+/**
+ * @template {{name:string,browser_download_url:string}} T
+ * @param {(T)=>boolean} filter
+ * @returns {T | undefined}
+ */
+function searchAsset(filter) {
+  const assets = github.release.assets
+  for (const asset of assets) {
+    if (filter(asset)) {
+      return asset
+    }
+  }
+  return
+}
+
+/**
+ *
+ * @param {{name:string,browser_download_url:string}} payload
+ */
+async function getAssetInfo(payload) {
+  const url = payload.browser_download_url
+  let sha256 = ""
+  if (url) {
+    sha256 = await downloadAndSha256Hash(url)
+  }
+  return {
+    name: payload.name,
+    url: url,
+    sha256: sha256,
+  }
+}
+
+/**
+ *
+ * @param {string} url
+ */
+async function downloadAndSha256Hash(url) {
   const response = await fetch(url)
   const chunks = []
   for await (const chunk of response.body) {

@@ -1,6 +1,8 @@
 import { simpleGit } from 'simple-git'
+import { context } from "@actions/github"
 
 export const git = simpleGit()
+export const github = context
 
 /**
  * Extract the version and build number from a full version string like "v1.0.0+1" or "2.0.0+18"
