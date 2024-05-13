@@ -17,13 +17,13 @@ async function pushAndTagChanges(newVersion) {
 
   await git.add(".")
   await git.commit(`build: ${newVersion}`)
-  await git.tag({
-    "-a": `v${newVersion}`,
-    "-m": `v${newVersion}
+  await git.tag([
+    "-a", `v${newVersion}`,
+    "-m", `v${newVersion}
     run id: ${runId}
     run_attempt(should be 1): ${runAttempt}
     ${serverUrl}/${repository}/actions/runs/${runId}`,
-  })
+  ])
 }
 
 async function main() {
