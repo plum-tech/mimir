@@ -15,11 +15,11 @@ Color getCellBgColor({
     return context.colorScheme.primaryContainer;
   }
   if (isRelated(index, selectedIndex)) {
-    return context.colorScheme.tertiaryContainer;
+    return context.colorScheme.secondaryContainer;
   }
   final selectedCell = board.getCellByIndex(selectedIndex);
   if (_isTheSameNumber(cell, selectedCell)) {
-    return context.colorScheme.secondaryContainer;
+    return context.colorScheme.tertiaryContainer;
   }
 
   return zone.zoneIndex.isOdd ? context.colorScheme.surface : context.colorScheme.surfaceVariant;
