@@ -75,7 +75,7 @@ extension type const SudokuBoard(List2D<SudokuCell> _cells) {
 //
 //   const SudokuBoard(this._cells);
   factory SudokuBoard.generate({required int emptySquares}) {
-    final generator = SudokuGenerator(emptySquares: emptySquares, uniqueSolution: emptySquares <= 54);
+    final generator = SudokuGenerator(emptySquares: emptySquares, uniqueSolution: true);
     final puzzle = generator.newSudoku;
     final solved = generator.newSudokuSolved;
     return SudokuBoard(List2D.generate(

@@ -23,17 +23,12 @@ class GameMode {
     name: "hard",
     blanks: 54,
   );
-  static const master = GameMode._(
-    name: "master",
-    blanks: 57,
-  );
 
   static final name2mode = {
     "beginner": beginner,
     "easy": easy,
     "medium": medium,
     "hard": hard,
-    "master": master,
   };
 
   static final all = [
@@ -41,14 +36,14 @@ class GameMode {
     easy,
     medium,
     hard,
-    master,
   ];
 
+  /// for unique solution, the [blanks] should be equal or less than 54
   const GameMode._({
     required this.name,
     required this.blanks,
     this.enableFillerHint = false,
-  });
+  }) : assert(blanks <= 54);
 
   String toJson() => name;
 
