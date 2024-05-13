@@ -19,11 +19,17 @@ class GameBoard extends ConsumerWidget {
     final rows = board.rows;
     final columns = board.columns;
     final borderWidth = screen.getBorderWidth();
+    var boardWidth= screen.getBoardSize().width;
+    var boardHeight= screen.getBoardSize().height;
+    final portrait = context.isPortrait;
+    if (!portrait) {
+      (boardWidth, boardHeight) = (boardHeight, boardWidth);
+    }
     final cellWidth = screen.getCellWidth();
 
     return AnimatedContainer(
-      width: screen.getBoardSize().width,
-      height: screen.getBoardSize().height,
+      width: boardWidth,
+      height: boardHeight,
       decoration: BoxDecoration(
         border: Border.all(
           color: context.colorScheme.onSurfaceVariant,
@@ -35,8 +41,11 @@ class GameBoard extends ConsumerWidget {
         children: List.generate(
           rows * columns,
           (i) {
-            final row = i ~/ columns;
-            final column = i % columns;
+            var row = i ~/ columns;
+            var column = i % columns;
+            if (!portrait) {
+              (column, row) = (row, column);
+            }
             return Positioned(
               left: column * cellWidth,
               top: row * cellWidth,
