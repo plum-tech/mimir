@@ -1,8 +1,9 @@
 import 'package:hive/hive.dart';
-import 'package:sit/game/sudoku/pref.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:sit/utils/json.dart';
+
+import 'pref.dart';
 
 class _K {
   static const ns = "/settings";
