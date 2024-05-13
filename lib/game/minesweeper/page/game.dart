@@ -8,8 +8,8 @@ import 'package:sit/game/ability/autosave.dart';
 import 'package:sit/game/ability/timer.dart';
 import 'package:sit/game/entity/game_status.dart';
 import 'package:sit/game/minesweeper/save.dart';
+import 'package:sit/game/minesweeper/settings.dart';
 
-import '../entity/mode.dart';
 import '../entity/screen.dart';
 import '../entity/state.dart';
 import '../manager/logic.dart';
@@ -55,14 +55,14 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
       });
       final logic = ref.read(stateMinesweeper.notifier);
       if (widget.newGame) {
-        logic.initGame(gameMode: GameModeMinesweeper.easy);
+        logic.initGame(gameMode: SettingsMinesweeper.$.pref.mode);
       } else {
         final save = SaveMinesweeper.storage.load();
         if (save != null) {
           logic.fromSave(save);
           timer.state = ref.read(stateMinesweeper).playtime;
         } else {
-          logic.initGame(gameMode: GameModeMinesweeper.easy);
+          logic.initGame(gameMode: SettingsMinesweeper.$.pref.mode);
           timer.state = ref.read(stateMinesweeper).playtime;
         }
       }

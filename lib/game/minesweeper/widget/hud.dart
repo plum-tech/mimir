@@ -1,11 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/game/entity/game_status.dart';
 import 'package:sit/game/i18n.dart';
 import '../entity/cell.dart';
-import '../entity/mode.dart';
 import '../theme.dart';
 import '../page/game.dart';
 
@@ -34,7 +32,10 @@ class GameHud extends ConsumerWidget {
                     flags: state.board.countAllByState(state: CellState.flag),
                     mines: state.board.mines,
                   )
-                : buildGameModeButton(context, ref, state.mode),
+                : Text(
+                    state.mode.l10n(),
+                    style: context.textTheme.bodyLarge,
+                  ),
           ].row(maa: MainAxisAlignment.spaceAround),
         ).expanded(),
         Container(
@@ -50,31 +51,6 @@ class GameHud extends ConsumerWidget {
           ].row(maa: MainAxisAlignment.spaceAround),
         ).expanded(),
       ].row(maa: MainAxisAlignment.center, caa: CrossAxisAlignment.stretch).sized(h: 50),
-    );
-  }
-
-  Widget buildGameModeButton(BuildContext context, WidgetRef ref, GameModeMinesweeper mode) {
-    return OutlinedButton.icon(
-      icon: const Icon(Icons.mode),
-      onPressed: () async {
-        final controller = FixedExtentScrollController(
-          initialItem: GameModeMinesweeper.all.indexOf(mode),
-        );
-        await context.showPicker(
-          count: GameModeMinesweeper.all.length,
-          controller: controller,
-          make: (ctx, index) => GameModeMinesweeper.all[index].l10n().text(),
-        );
-        controller.dispose();
-        final newMode = GameModeMinesweeper.all[controller.selectedItem];
-        if (newMode != mode) {
-          ref.read(stateMinesweeper.notifier).initGame(gameMode: newMode);
-        }
-      },
-      label: Text(
-        mode.l10n(),
-        style: context.textTheme.bodyLarge,
-      ),
     );
   }
 }
