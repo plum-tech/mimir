@@ -21,3 +21,11 @@ export async function uploadFile({ auth, filePath, uploadPath }) {
   const result = await res.json()
   return result
 }
+
+/**
+ *
+ * @param {{tagName:string,fileName:string}} param0
+ */
+export function getArtifactDownloadUrl({ tagName, fileName }) {
+  return `https://temp.sitmc.club/prepare-download/${tagName}/${fileName}`
+}

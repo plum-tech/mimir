@@ -1,9 +1,8 @@
-import { execSync } from 'child_process' // For shell commands
 import * as fs from 'fs/promises' // For file system operations
-import * as https from 'https' // For downloading files
 import { git, github } from './git.mjs'
 import crypto from "crypto"
 import * as path from "path"
+import { getArtifactDownloadUrl } from './sitmc.mjs'
 
 const gitUrl = 'https://github.com/Amazefcc233/mimir-docs'
 const deployPath = '~/deploy'
@@ -20,53 +19,76 @@ async function main() {
   const version = getVersion()
   const releaseTime = getPublishTime()
   const releaseNote = getReleaseNote()
-  const apkInfo = await searchAndGetAssetInfo(({ name }) => path.extname(name) === ".apk")
-  const ipaInfo = await searchAndGetAssetInfo(({ name }) => path.extname(name) === ".ipa")
+  console.log(version, releaseTime)
+
+  const apk = await searchAndGetAssetInfo(({ name }) => path.extname(name) === ".apk")
+  const ipa = await searchAndGetAssetInfo(({ name }) => path.extname(name) === ".ipa")
+
+  // Generate artifact data
+  const artifactPayload = buildArtifactPayload({ version, tagName: github.release.tag_name, releaseTime, releaseNote, apk, ipa })
+
+  // Write artifact data to JSON file
+  const artifactJson = JSON.stringify(artifactPayload, null, 2)
+
+  console.log(artifactJson)
 
   // Create artifact directory
   await fs.mkdir(artifactPath, { recursive: true })
 
-
-  // Generate artifact data
-  const artifactData = {
-    version,
-    release_time: releaseTime,
-    release_note: releaseNote,
-    downloads: {
-      Android: {
-        name: apkInfo.name,
-        default: 'mirror',
-        sha256: apkInfo.sha256,
-        url: {
-          official: apkInfo.url,
-          mirror: `https://mirror.ghproxy.com/${apkInfo.url}`,
-        },
-      },
-      iOS: {
-        name: ipaInfo.name,
-        default: 'mirror',
-        sha256: ipaInfo.sha256,
-        url: {
-          official: ipaInfo.url,
-          mirror: `https://mirror.ghproxy.com/${ipaInfo.url}`,
-        },
-      },
-    },
-  }
-
-  // Write artifact data to JSON file
-  const jsonData = JSON.stringify(artifactData, null, 2)
-  await fs.writeFile(`${artifactPath}${version}.json`, jsonData)
+  await fs.writeFile(`${artifactPath}${version}.json`, artifactJson)
 
   // Symlink latest.json to current version
-  await fs.unlink(`${artifactPath}latest.json`, { ignoreENOENT: true }) // Ignore if file doesn't exist
+  await fs.unlink(`${artifactPath}latest.json`) // Ignore if file doesn't exist
   await fs.symlink(`${version}.json`, `${artifactPath}latest.json`)
 
   await addAndPush()
 }
 
-function buildArtifactPayload({apk,ipa}){
+function withGitHubMirror(url) {
+  return `https://mirror.ghproxy.com/${url}`
+}
 
+function buildArtifactPayload({ version, tagName, releaseTime, releaseNote, apk, ipa }) {
+  const payload = {
+    version,
+    release_time: releaseTime,
+    release_note: releaseNote,
+    downloads: {},
+  }
+  if (apk) {
+    payload.downloads.Android = {
+      name: apk.name,
+      default: 'official',
+      sha256: apk.sha256,
+      url: {
+        official: getArtifactDownloadUrl(tagName, apk.name),
+        github: apk.url,
+        mirror: withGitHubMirror(apk.url),
+      },
+    }
+  }
+  if (ipa) {
+    payload.downloads.iOS = {
+      name: ipa.name,
+      default: 'official',
+      sha256: ipa.sha256,
+      url: {
+        official: getArtifactDownloadUrl(tagName, ipa.name),
+        github: ipa.url,
+        mirror: withGitHubMirror(ipa.url),
+      },
+    }
+  }
+  for (const [profile, download] in Object.entries(payload.downloads)) {
+    if (!(download.default && download.url[download.default] !== undefined)) {
+      if (download.url.length > 0) {
+        download.default = download.url[0]
+      } else {
+        throw new Error(`No default download URL for ${profile}.`)
+      }
+    }
+  }
+  return payload
 }
 
 async function addAndPush() {
