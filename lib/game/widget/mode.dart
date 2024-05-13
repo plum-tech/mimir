@@ -3,6 +3,8 @@ import 'package:markdown_widget/config/all.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/game/entity/mode.dart';
 
+import '../i18n.dart';
+
 class GameModeSelectorCard<T extends GameMode> extends StatelessWidget {
   final List<T> all;
   final T current;
@@ -21,7 +23,7 @@ class GameModeSelectorCard<T extends GameMode> extends StatelessWidget {
       child: [
         ListTile(
           leading: const Icon(Icons.videogame_asset),
-          title: "Game mode".text(),
+          title: i18n.gameMode.text(),
         ),
         buildSelector(context),
       ]

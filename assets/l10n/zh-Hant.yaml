@@ -847,9 +847,12 @@ game:
   navigation: 電玩
   newGame: 新遊戲
   continueGame: 繼續
+  gameMode: 遊戲模式
   tryAgain: 再試一次
   youWin: 你獲勝了！
   gameOver: Game over
+  changeGameModeRequest: 變更遊戲模式會同時刪除你當前的進度
+  changeGameModeAction: "變更為 {}"
   settings:
     enableHapticFeedback:
       title: 開啟觸覺回饋

@@ -37,9 +37,9 @@ class _GameAppCardSudokuState extends ConsumerState<GameAppCardSudoku> {
       onChanged: (newMode) async {
         if (SaveSudoku.storage.exists()) {
           final confirm = await context.showActionRequest(
-            desc: "Changing game mode will also delete your save",
-            action: "Change to ${newMode.l10n()}",
-            cancel: "Cancel",
+            desc: i18n.changeGameModeRequest,
+            action: i18n.changeGameModeAction(newMode.l10n()),
+            cancel: i18n.cancel,
           );
           if (confirm != true) return;
         }

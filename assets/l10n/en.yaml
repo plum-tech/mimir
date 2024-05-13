@@ -847,9 +847,12 @@ game:
   navigation: Game
   newGame: New game
   continueGame: Continue
+  gameMode: Game mode
   tryAgain: Try again
   youWin: You win
   gameOver: Game over
+  changeGameModeRequest: Changing game mode will also delete your current save
+  changeGameModeAction: "Change to {}"
   settings:
     enableHapticFeedback:
       title: Enable haptic feedback

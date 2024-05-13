@@ -847,9 +847,12 @@ game:
   navigation: 游戏
   newGame: 新游戏
   continueGame: 继续游戏
+  gameMode: 游戏模式
   tryAgain: 再试一次
   youWin: 你赢了！
   gameOver: 游戏结束
+  changeGameModeRequest: 切换游戏模式会同时删除你当前的存档
+  changeGameModeAction: "切换至 {}"
   settings:
     enableHapticFeedback:
       title: 开启触觉反馈
