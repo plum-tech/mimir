@@ -1,7 +1,5 @@
 import fs from 'fs/promises' // For file system operations
-import { execSync } from 'child_process' // For shell commands
 import { extractVersion, extractBuildNumber } from './pubspec.mjs'
-import { simpleGit } from 'simple-git'
 import { git } from "./git.mjs"
 import { guardVersioning } from './guard.mjs'
 const pubspecPath = 'pubspec.yaml'

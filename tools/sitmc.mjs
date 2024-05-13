@@ -1,4 +1,4 @@
-import { readFile, writeFile } from "fs/promises"
+import { readFile } from "fs/promises"
 import * as path from "path"
 /**
  *

@@ -2,7 +2,7 @@ import { extractVersionAndBuildNumberFromTag, getLargestTag } from "./git.mjs"
 
 /**
  *
- * @param {string | [string,int]} newVersionFull
+ * @param {string | [string,number]} newVersionFull
  */
 export async function guardVersioning(newVersionFull) {
   let newVersion, newBuildNumber

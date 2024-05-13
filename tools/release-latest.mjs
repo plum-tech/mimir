@@ -9,12 +9,6 @@ const deployPath = '~/deploy'
 const artifactPath = 'artifact/'
 
 async function main() {
-  // Clone repository
-  await git.clone(gitUrl, deployPath, { "--single-branch": null, "--branch": "main" })
-
-  // Change directory
-  process.chdir(deployPath)
-
   // Get release information from environment variables (GitHub Actions context)
   const version = getVersion()
   const releaseTime = getPublishTime()
@@ -26,14 +20,21 @@ async function main() {
 
   // Generate artifact data
   const artifactPayload = buildArtifactPayload({ version, tagName: github.release.tag_name, releaseTime, releaseNote, apk, ipa })
+  validateArtifactPayload(artifactPayload)
 
   // Write artifact data to JSON file
   const artifactJson = JSON.stringify(artifactPayload, null, 2)
 
   console.log(artifactJson)
 
+  // Clone repository
+  await git.clone(gitUrl, deployPath, { "--single-branch": null, "--branch": "main" })
+
   // Create artifact directory
   await fs.mkdir(artifactPath, { recursive: true })
+
+  // Change directory
+  process.chdir(deployPath)
 
   await fs.writeFile(`${artifactPath}${version}.json`, artifactJson)
 
@@ -41,7 +42,7 @@ async function main() {
   await fs.unlink(`${artifactPath}latest.json`) // Ignore if file doesn't exist
   await fs.symlink(`${version}.json`, `${artifactPath}latest.json`)
 
-  await addAndPush()
+  await addAndPush({ version })
 }
 
 function withGitHubMirror(url) {
@@ -79,6 +80,10 @@ function buildArtifactPayload({ version, tagName, releaseTime, releaseNote, apk,
       },
     }
   }
+  return payload
+}
+
+function validateArtifactPayload(payload) {
   for (const [profile, download] in Object.entries(payload.downloads)) {
     if (!(download.default && download.url[download.default] !== undefined)) {
       if (download.url.length > 0) {
@@ -88,10 +93,12 @@ function buildArtifactPayload({ version, tagName, releaseTime, releaseNote, apk,
       }
     }
   }
-  return payload
 }
-
-async function addAndPush() {
+/**
+ *
+ * @param {{version:string}} param0
+ */
+async function addAndPush({ version }) {
   await git.add(".")
   await git.commit(`Release New Version: ${version}`)
   await git.push("git@github.com:Amazefcc233/mimir-docs", "main:main")

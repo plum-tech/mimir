@@ -7,7 +7,7 @@ export const github = context
 /**
  * Extract the version and build number from a full version string like "v1.0.0+1" or "2.0.0+18"
  * @param {string} tag
- * @returns {[string, int]}
+ * @returns {[string, number]}
  */
 export function extractVersionAndBuildNumberFromTag(tag) {
   const versionMatch = tag.match(/(\d+.\d+.\d+)/)
