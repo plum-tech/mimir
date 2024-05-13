@@ -1,6 +1,7 @@
 import { execSync } from 'child_process' // For shell commands
 import * as fs from 'fs/promises' // For file system operations
 import * as https from 'https' // For downloading files
+import { git } from './git.mjs'
 
 const gitUrl = 'https://github.com/Amazefcc233/mimir-docs'
 const deployPath = '~/deploy'
@@ -8,7 +9,7 @@ const artifactPath = 'artifact/'
 
 async function main() {
   // Clone repository
-  execSync(`git clone --single-branch --branch main ${gitUrl} ${deployPath}`)
+  await git.clone(gitUrl, deployPath, { "--single-branch": null, "--branch": "main" })
 
   // Change directory
   process.chdir(deployPath)
