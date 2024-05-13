@@ -12,7 +12,7 @@ RecordMinesweeper _$RecordMinesweeperFromJson(Map<String, dynamic> json) => Reco
       columns: (json['columns'] as num).toInt(),
       mines: (json['mines'] as num).toInt(),
       playTime: Duration(microseconds: (json['playTime'] as num).toInt()),
-      mode: GameMode.fromJson(json['mode'] as String),
+      mode: GameModeMinesweeper.fromJson(json['mode'] as String),
     );
 
 Map<String, dynamic> _$RecordMinesweeperToJson(RecordMinesweeper instance) => <String, dynamic>{

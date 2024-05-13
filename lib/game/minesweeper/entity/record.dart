@@ -11,7 +11,7 @@ class RecordMinesweeper extends GameRecord {
   final int columns;
   final int mines;
   final Duration playTime;
-  final GameMode mode;
+  final GameModeMinesweeper mode;
 
   const RecordMinesweeper({
     required super.ts,

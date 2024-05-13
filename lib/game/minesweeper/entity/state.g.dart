@@ -15,7 +15,7 @@ abstract class _$GameStateMinesweeperCWProxy {
   /// ````
   GameStateMinesweeper call({
     GameStatus? status,
-    GameMode? mode,
+    GameModeMinesweeper? mode,
     CellBoard? board,
     Duration? playtime,
   });
@@ -49,7 +49,7 @@ class _$GameStateMinesweeperCWProxyImpl implements _$GameStateMinesweeperCWProxy
       mode: mode == const $CopyWithPlaceholder() || mode == null
           ? _value.mode
           // ignore: cast_nullable_to_non_nullable
-          : mode as GameMode,
+          : mode as GameModeMinesweeper,
       board: board == const $CopyWithPlaceholder() || board == null
           ? _value.board
           // ignore: cast_nullable_to_non_nullable
@@ -74,7 +74,7 @@ extension $GameStateMinesweeperCopyWith on GameStateMinesweeper {
 
 GameStateMinesweeper _$GameStateMinesweeperFromJson(Map<String, dynamic> json) => GameStateMinesweeper(
       status: $enumDecodeNullable(_$GameStatusEnumMap, json['status']) ?? GameStatus.idle,
-      mode: GameMode.fromJson(json['mode'] as String),
+      mode: GameModeMinesweeper.fromJson(json['mode'] as String),
       board: CellBoard.fromJson(json['board'] as Map<String, dynamic>),
       playtime: json['playtime'] == null ? Duration.zero : Duration(microseconds: (json['playtime'] as num).toInt()),
     );

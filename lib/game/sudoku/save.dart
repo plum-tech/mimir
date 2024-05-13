@@ -41,14 +41,14 @@ class SaveSudoku {
   @JsonKey(defaultValue: _defaultCells)
   final List2D<Cell4Save> cells;
   final Duration playtime;
-  final GameMode mode;
+  final GameModeSudoku mode;
   @JsonKey(defaultValue: _defaultNotes)
   final List<SudokuCellNote> notes;
 
   const SaveSudoku({
     required this.cells,
     this.playtime = Duration.zero,
-    this.mode = GameMode.easy,
+    this.mode = GameModeSudoku.easy,
     required this.notes,
   });
 

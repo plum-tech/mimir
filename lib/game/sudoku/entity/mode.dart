@@ -1,25 +1,26 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sit/game/entity/mode.dart';
 
 @JsonSerializable(createToJson: false, createFactory: false)
-class GameMode {
-  final String name;
+class GameModeSudoku extends GameMode {
   final int blanks;
   final bool enableFillerHint;
-  static const beginner = GameMode._(
+  static const beginner = GameModeSudoku._(
     name: "beginner",
     blanks: 18,
     enableFillerHint: true,
   );
-  static const easy = GameMode._(
+  static const easy = GameModeSudoku._(
     name: "easy",
     blanks: 27,
     enableFillerHint: true,
   );
-  static const medium = GameMode._(
+  static const medium = GameModeSudoku._(
     name: "medium",
     blanks: 36,
   );
-  static const hard = GameMode._(
+  static const hard = GameModeSudoku._(
     name: "hard",
     blanks: 54,
   );
@@ -39,21 +40,22 @@ class GameMode {
   ];
 
   /// for unique solution, the [blanks] should be equal or less than 54
-  const GameMode._({
-    required this.name,
+  const GameModeSudoku._({
+    required super.name,
     required this.blanks,
     this.enableFillerHint = false,
   }) : assert(blanks <= 54);
 
-  String toJson() => name;
-
-  factory GameMode.fromJson(String name) => name2mode[name] ?? easy;
+  factory GameModeSudoku.fromJson(String name) => name2mode[name] ?? easy;
 
   @override
   bool operator ==(Object other) {
-    return other is GameMode && runtimeType == other.runtimeType && name == other.name && blanks == other.blanks;
+    return other is GameModeSudoku && runtimeType == other.runtimeType && name == other.name && blanks == other.blanks;
   }
 
   @override
   int get hashCode => Object.hash(name, blanks);
+
+  @override
+  String l10n() => "game.sudoku.gameMode.$name".tr();
 }

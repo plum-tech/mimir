@@ -10,7 +10,7 @@ import '../save.dart';
 class GameLogic extends StateNotifier<GameStateSudoku> {
   GameLogic([GameStateSudoku? initial]) : super(initial ?? GameStateSudoku.byDefault());
 
-  void initGame({required GameMode gameMode}) {
+  void initGame({required GameModeSudoku gameMode}) {
     final board = SudokuBoard.generate(emptySquares: gameMode.blanks);
     state = GameStateSudoku.newGame(mode: gameMode, board: board);
   }

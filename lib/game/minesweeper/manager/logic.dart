@@ -16,7 +16,7 @@ final logger = Logger();
 class GameLogic extends StateNotifier<GameStateMinesweeper> {
   GameLogic([GameStateMinesweeper? initial]) : super(initial ?? GameStateMinesweeper.byDefault());
 
-  void initGame({required GameMode gameMode}) {
+  void initGame({required GameModeMinesweeper gameMode}) {
     final board = CellBoard.empty(rows: state.mode.gameRows, columns: state.mode.gameColumns);
     state = GameStateMinesweeper(mode: gameMode, board: board);
     if (kDebugMode) {

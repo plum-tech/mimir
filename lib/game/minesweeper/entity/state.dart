@@ -14,7 +14,7 @@ part "state.g.dart";
 @immutable
 class GameStateMinesweeper {
   final GameStatus status;
-  final GameMode mode;
+  final GameModeMinesweeper mode;
   final CellBoard board;
   final Duration playtime;
 
@@ -27,9 +27,9 @@ class GameStateMinesweeper {
 
   GameStateMinesweeper.byDefault()
       : status = GameStatus.idle,
-        mode = GameMode.easy,
+        mode = GameModeMinesweeper.easy,
         playtime = Duration.zero,
-        board = CellBoard.empty(rows: GameMode.easy.gameRows, columns: GameMode.easy.gameColumns);
+        board = CellBoard.empty(rows: GameModeMinesweeper.easy.gameRows, columns: GameModeMinesweeper.easy.gameColumns);
 
   int get rows => board.rows;
 

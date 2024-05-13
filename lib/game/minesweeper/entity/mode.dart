@@ -1,26 +1,27 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sit/game/entity/mode.dart';
 
 @JsonSerializable(createToJson: false, createFactory: false)
-class GameMode {
-  final String name;
+class GameModeMinesweeper extends GameMode {
   final int gameRows;
   final int gameColumns;
   final int gameMines;
   static const defaultRows = 15;
   static const defaultColumns = 8;
-  static const easy = GameMode._(
+  static const easy = GameModeMinesweeper._(
     name: "easy",
     gameRows: defaultRows,
     gameColumns: defaultColumns,
     gameMines: 18,
   );
-  static const normal = GameMode._(
+  static const normal = GameModeMinesweeper._(
     name: "normal",
     gameRows: defaultRows,
     gameColumns: defaultColumns,
     gameMines: 30,
   );
-  static const hard = GameMode._(
+  static const hard = GameModeMinesweeper._(
     name: "hard",
     gameRows: defaultRows,
     gameColumns: defaultColumns,
@@ -39,20 +40,18 @@ class GameMode {
     hard,
   ];
 
-  const GameMode._({
-    required this.name,
+  const GameModeMinesweeper._({
+    required super.name,
     required this.gameRows,
     required this.gameColumns,
     required this.gameMines,
   });
 
-  String toJson() => name;
-
-  factory GameMode.fromJson(String name) => name2mode[name] ?? easy;
+  factory GameModeMinesweeper.fromJson(String name) => name2mode[name] ?? easy;
 
   @override
   bool operator ==(Object other) {
-    return other is GameMode &&
+    return other is GameModeMinesweeper &&
         runtimeType == other.runtimeType &&
         name == other.name &&
         gameRows == other.gameRows &&
@@ -62,4 +61,7 @@ class GameMode {
 
   @override
   int get hashCode => Object.hash(name, gameRows, gameColumns, gameMines);
+
+  @override
+  String l10n() => "game.minesweeper.gameMode.$name".tr();
 }

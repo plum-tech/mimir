@@ -51,7 +51,7 @@ class GameModeCard extends ConsumerWidget {
     final pref = ref.watch(SettingsSudoku.$.$pref);
     final gameMode = pref.mode;
 
-    return GameMode.all
+    return GameModeSudoku.all
         .map((mode) => ChoiceChip(
               showCheckmark: false,
               label: mode.l10n().text(),
@@ -59,8 +59,8 @@ class GameModeCard extends ConsumerWidget {
               onSelected: (v) async {
                 if (SaveSudoku.storage.exists()) {
                   final confirm = await context.showActionRequest(
-                    desc: "Change game mode will also delete your save",
-                    action: "Change game mode",
+                    desc: "Changing game mode will also delete your save",
+                    action: "Change to ${mode.l10n()}",
                     cancel: "Cancel",
                   );
                   if (confirm != true) return;

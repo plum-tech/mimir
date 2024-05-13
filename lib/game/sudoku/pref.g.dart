@@ -14,7 +14,7 @@ abstract class _$GamePrefSudokuCWProxy {
   /// GamePrefSudoku(...).copyWith(id: 12, name: "My name")
   /// ````
   GamePrefSudoku call({
-    GameMode? mode,
+    GameModeSudoku? mode,
   });
 }
 
@@ -39,7 +39,7 @@ class _$GamePrefSudokuCWProxyImpl implements _$GamePrefSudokuCWProxy {
       mode: mode == const $CopyWithPlaceholder() || mode == null
           ? _value.mode
           // ignore: cast_nullable_to_non_nullable
-          : mode as GameMode,
+          : mode as GameModeSudoku,
     );
   }
 }
@@ -55,7 +55,7 @@ extension $GamePrefSudokuCopyWith on GamePrefSudoku {
 // **************************************************************************
 
 GamePrefSudoku _$GamePrefSudokuFromJson(Map<String, dynamic> json) => GamePrefSudoku(
-      mode: json['mode'] == null ? GameMode.easy : GameMode.fromJson(json['mode'] as String),
+      mode: json['mode'] == null ? GameModeSudoku.easy : GameModeSudoku.fromJson(json['mode'] as String),
     );
 
 Map<String, dynamic> _$GamePrefSudokuToJson(GamePrefSudoku instance) => <String, dynamic>{

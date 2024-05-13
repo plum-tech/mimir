@@ -15,7 +15,7 @@ part "state.g.dart";
 @CopyWith(skipFields: true)
 class GameStateSudoku {
   final GameStatus status;
-  final GameMode mode;
+  final GameModeSudoku mode;
   final SudokuBoard board;
   final Duration playtime;
   final List<SudokuCellNote> notes;
@@ -37,7 +37,7 @@ class GameStateSudoku {
 
   GameStateSudoku.byDefault()
       : status = GameStatus.idle,
-        mode = GameMode.easy,
+        mode = GameModeSudoku.easy,
         playtime = Duration.zero,
         board = SudokuBoard.byDefault(),
         notes = List.generate(sudokuSides * sudokuSides, (index) => const SudokuCellNote.empty());

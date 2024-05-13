@@ -6,7 +6,6 @@ import 'package:sit/game/entity/game_status.dart';
 import 'package:sit/game/i18n.dart';
 import '../entity/cell.dart';
 import '../entity/mode.dart';
-import '../i18n.dart';
 import '../theme.dart';
 import '../page/game.dart';
 
@@ -54,20 +53,20 @@ class GameHud extends ConsumerWidget {
     );
   }
 
-  Widget buildGameModeButton(BuildContext context, WidgetRef ref, GameMode mode) {
+  Widget buildGameModeButton(BuildContext context, WidgetRef ref, GameModeMinesweeper mode) {
     return OutlinedButton.icon(
       icon: const Icon(Icons.mode),
       onPressed: () async {
         final controller = FixedExtentScrollController(
-          initialItem: GameMode.all.indexOf(mode),
+          initialItem: GameModeMinesweeper.all.indexOf(mode),
         );
         await context.showPicker(
-          count: GameMode.all.length,
+          count: GameModeMinesweeper.all.length,
           controller: controller,
-          make: (ctx, index) => GameMode.all[index].l10n().text(),
+          make: (ctx, index) => GameModeMinesweeper.all[index].l10n().text(),
         );
         controller.dispose();
-        final newMode = GameMode.all[controller.selectedItem];
+        final newMode = GameModeMinesweeper.all[controller.selectedItem];
         if (newMode != mode) {
           ref.read(stateMinesweeper.notifier).initGame(gameMode: newMode);
         }

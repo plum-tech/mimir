@@ -8,10 +8,10 @@ part "pref.g.dart";
 @JsonSerializable()
 @CopyWith(skipFields: true)
 class GamePrefSudoku {
-  final GameMode mode;
+  final GameModeSudoku mode;
 
   const GamePrefSudoku({
-    this.mode = GameMode.easy,
+    this.mode = GameModeSudoku.easy,
   });
 
   @override

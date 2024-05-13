@@ -10,8 +10,8 @@ part "save.g.dart";
 
 List2D<Cell4Save> _defaultCells() {
   return List2D.generate(
-    GameMode.defaultRows,
-    GameMode.defaultColumns,
+    GameModeMinesweeper.defaultRows,
+    GameModeMinesweeper.defaultColumns,
     (row, column, index) => const Cell4Save(),
   );
 }
@@ -36,12 +36,12 @@ class SaveMinesweeper {
   @JsonKey(defaultValue: _defaultCells)
   final List2D<Cell4Save> cells;
   final Duration playtime;
-  final GameMode mode;
+  final GameModeMinesweeper mode;
 
   const SaveMinesweeper({
     required this.cells,
     this.playtime = Duration.zero,
-    this.mode = GameMode.easy,
+    this.mode = GameModeMinesweeper.easy,
   });
 
   Map<String, dynamic> toJson() => _$SaveMinesweeperToJson(this);

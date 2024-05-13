@@ -15,7 +15,7 @@ abstract class _$GameStateSudokuCWProxy {
   /// ````
   GameStateSudoku call({
     GameStatus? status,
-    GameMode? mode,
+    GameModeSudoku? mode,
     SudokuBoard? board,
     Duration? playtime,
     List<SudokuCellNote>? notes,
@@ -51,7 +51,7 @@ class _$GameStateSudokuCWProxyImpl implements _$GameStateSudokuCWProxy {
       mode: mode == const $CopyWithPlaceholder() || mode == null
           ? _value.mode
           // ignore: cast_nullable_to_non_nullable
-          : mode as GameMode,
+          : mode as GameModeSudoku,
       board: board == const $CopyWithPlaceholder() || board == null
           ? _value.board
           // ignore: cast_nullable_to_non_nullable
@@ -80,7 +80,7 @@ extension $GameStateSudokuCopyWith on GameStateSudoku {
 
 GameStateSudoku _$GameStateSudokuFromJson(Map<String, dynamic> json) => GameStateSudoku(
       status: $enumDecodeNullable(_$GameStatusEnumMap, json['status']) ?? GameStatus.idle,
-      mode: GameMode.fromJson(json['mode'] as String),
+      mode: GameModeSudoku.fromJson(json['mode'] as String),
       board: SudokuBoard.fromJson(json['board']),
       playtime: json['playtime'] == null ? Duration.zero : Duration(microseconds: (json['playtime'] as num).toInt()),
       notes: (json['notes'] as List<dynamic>).map(SudokuCellNote.fromJson).toList(),

@@ -55,14 +55,14 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
       });
       final logic = ref.read(stateMinesweeper.notifier);
       if (widget.newGame) {
-        logic.initGame(gameMode: GameMode.easy);
+        logic.initGame(gameMode: GameModeMinesweeper.easy);
       } else {
         final save = SaveMinesweeper.storage.load();
         if (save != null) {
           logic.fromSave(save);
           timer.state = ref.read(stateMinesweeper).playtime;
         } else {
-          logic.initGame(gameMode: GameMode.easy);
+          logic.initGame(gameMode: GameModeMinesweeper.easy);
           timer.state = ref.read(stateMinesweeper).playtime;
         }
       }
