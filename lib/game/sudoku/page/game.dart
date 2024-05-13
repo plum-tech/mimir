@@ -3,6 +3,7 @@
 // Modifications copyright©️2023–2024 Liplum Dev.
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/game/ability/ability.dart';
 import 'package:sit/game/ability/autosave.dart';
@@ -42,7 +43,7 @@ class GameSudoku extends ConsumerStatefulWidget {
 class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObserver, GameWidgetAbilityMixin {
   int selectedCellIndex = 0;
   bool enableNoting = false;
-
+  final $focusNode = FocusNode();
   late TimerWidgetAbility timerAbility;
 
   GameTimer get timer => timerAbility.timer;
@@ -77,6 +78,12 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
     });
   }
 
+  @override
+  void dispose() {
+    $focusNode.dispose();
+    super.dispose();
+  }
+
   void resetGame() {
     timer.reset();
     ref.read(stateSudoku.notifier).initGame(gameMode: ref.read(stateSudoku).mode);
@@ -99,16 +106,35 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
   Widget build(BuildContext context) {
     final gameStatus = ref.watch(stateSudoku.select((state) => state.status));
     ref.listen(stateSudoku, onGameStateChange);
-    return Scaffold(
-      appBar: AppBar(title: const Text("Sudoku")),
-      body: [
-        buildBody(),
-        if (gameStatus == GameStatus.victory)
-          VictoryModal(resetGame: resetGame)
-        else if (gameStatus == GameStatus.gameOver)
-          GameOverModal(resetGame: resetGame),
-      ].stack(),
+    return KeyboardListener(
+      focusNode: $focusNode,
+      onKeyEvent: onKey,
+      autofocus: true,
+      child: Scaffold(
+        appBar: AppBar(title: const Text("Sudoku")),
+        body: [
+          buildBody(),
+          buildBody(),
+          if (gameStatus == GameStatus.victory)
+            VictoryModal(resetGame: resetGame)
+          else if (gameStatus == GameStatus.gameOver)
+            GameOverModal(resetGame: resetGame),
+        ].stack(),
+      ),
     );
+  }
+
+  void onKey(KeyEvent e) {
+    if (e is! KeyDownEvent) return;
+    final represent = e.character;
+    if (represent == null) return;
+    final number = int.tryParse(represent);
+    if (number == null) return;
+    if (!(1 <= number && number <= 9)) return;
+    final board = ref.read(stateSudoku).board;
+    final selectedCell = board.getCellByIndex(selectedCellIndex);
+    if (!selectedCell.canUserInput) return;
+    fillNumber(number);
   }
 
   Widget buildBody() {
