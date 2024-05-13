@@ -138,3 +138,40 @@ class CellWidget extends StatelessWidget {
     );
   }
 }
+
+class SudokuCellArea extends StatelessWidget {
+  final Widget Function(BuildContext context,int index) itemBuilder;
+
+  const SudokuCellArea({
+    super.key,
+    required this.itemBuilder,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context,box) {
+        return [
+          for (var row = 0; row < 9; row++)
+            [
+              for (var column = 0; column < 9; column++)
+                itemBuilder(
+                  context,
+                  row * 9 + column,
+                ).sizedAll(box.maxWidth / 9),
+            ].row(mas: MainAxisSize.min),
+        ].column(mas: MainAxisSize.min);
+      }
+    );
+    // By grid
+    // return GridView.builder(
+    //   physics: const NeverScrollableScrollPhysics(),
+    //   shrinkWrap: true,
+    //   itemCount: 81,
+    //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9),
+    //   itemBuilder: (context, index) {
+    //     return itemBuilder(context,index);
+    //   },
+    // );
+  }
+}

@@ -37,36 +37,83 @@ class NumberFillerArea extends StatelessWidget {
   final int selectedIndex;
   final SudokuBoard board;
   final bool enableFillerHint;
-  final VoidCallback? Function(int number)? onNumberTap;
+  final VoidCallback? Function(int number)? getOnNumberTap;
 
   const NumberFillerArea({
     super.key,
     required this.selectedIndex,
     required this.board,
-    this.onNumberTap,
+    this.getOnNumberTap,
     this.enableFillerHint = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    final onNumberTap = this.onNumberTap;
+    final getOnNumberTap = this.getOnNumberTap;
     final relatedCells = board.relatedOf(selectedIndex).toList();
+    return _NumberFillerNumberPad(
+      getNumberColor: (number) => !enableFillerHint
+          ? null
+          : relatedCells.any((cell) => cell.canUserInput ? false : cell.correctValue == number)
+              ? Colors.red
+              : null,
+      getOnNumberTap: getOnNumberTap,
+    );
+  }
+}
+
+class _NumberFillerLine extends StatelessWidget {
+  final Color? Function(int number)? getNumberColor;
+  final VoidCallback? Function(int number)? getOnNumberTap;
+
+  const _NumberFillerLine({
+    this.getNumberColor,
+    this.getOnNumberTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return List.generate(9, (index) => index + 1)
         .map((number) {
           return Expanded(
             flex: 1,
             child: NumberFillerButton(
-              color: !enableFillerHint
-                  ? null
-                  : relatedCells.any((cell) => cell.canUserInput ? false : cell.correctValue == number)
-                      ? Colors.red
-                      : null,
+              color: getNumberColor?.call(number),
               number: number,
-              onTap: onNumberTap?.call(number),
+              onTap: getOnNumberTap?.call(number),
             ),
           );
         })
         .toList()
         .row(mas: MainAxisSize.min);
+  }
+}
+
+class _NumberFillerNumberPad extends StatelessWidget {
+  final Color? Function(int number)? getNumberColor;
+  final VoidCallback? Function(int number)? getOnNumberTap;
+
+  const _NumberFillerNumberPad({
+    this.getNumberColor,
+    this.getOnNumberTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      for (var row = 0; row < 3; row++)
+        [
+          for (var column = 0; column < 3; column++) buildNumber(row, column),
+        ].row(mas: MainAxisSize.min),
+    ].column(mas: MainAxisSize.min);
+  }
+
+  Widget buildNumber(int row, int column) {
+    final number = row * 3 + column + 1;
+    return NumberFillerButton(
+      color: getNumberColor?.call(number),
+      number: number,
+      onTap: getOnNumberTap?.call(number),
+    );
   }
 }

@@ -2,6 +2,7 @@
 // LICENSE: https://github.com/einsitang/sudoku-flutter/blob/fc31c063d84ba272bf30219ea08724272167b8ef/LICENSE
 // Modifications copyright©️2023–2024 Liplum Dev.
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/game/ability/ability.dart';
@@ -12,6 +13,8 @@ import 'package:sit/game/entity/timer.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/state.dart';
+import '../entity/note.dart';
+import '../entity/board.dart';
 import '../manager/logic.dart';
 import '../save.dart';
 import '../settings.dart';
@@ -110,55 +113,54 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
   }
 
   Widget buildBody() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          const GameHud(),
-          buildCells(),
-          buildToolBar(),
-          buildFiller(),
-        ],
-      ),
+    return ListView(
+      children: [
+        const GameHud(),
+        buildCellArea(),
+        buildToolBar(),
+        buildFiller(),
+      ],
     );
   }
 
-  Widget buildCells() {
+  Widget buildCellArea() {
     final notes = ref.watch(stateSudoku.select((state) => state.notes));
     final board = ref.watch(stateSudoku.select((state) => state.board));
-    return GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: 81,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9),
-      itemBuilder: (context, index) {
-        final note = notes[index];
-        final selected = selectedCellIndex == index;
-        final cell = board.getCellByIndex(index);
-        final zone = board.getZoneWhereCell(cell);
-        return InkWell(
-          onTap: () {
-            setState(() {
-              selectedCellIndex = index;
-            });
-          },
-          child: CellWidget(
-            cell: cell,
-            zone: zone,
-            board: board,
-            selectedIndex: selectedCellIndex,
-            child: note.anyNoted
-                ? CellNotes(
-                    note: note,
-                    cellSelected: selected,
-                  )
-                : CellNumber(
-                    cell: cell,
-                    cellSelected: selected,
-                  ),
-          ),
-        );
+    return SudokuCellArea(
+      itemBuilder: (context, index) => buildCell(index, board, notes),
+    );
+  }
+
+  Widget buildCell(
+    int index,
+    SudokuBoard board,
+    List<SudokuCellNote> notes,
+  ) {
+    final note = notes[index];
+    final selected = selectedCellIndex == index;
+    final cell = board.getCellByIndex(index);
+    final zone = board.getZoneWhereCell(cell);
+    return InkWell(
+      onTap: () {
+        setState(() {
+          selectedCellIndex = index;
+        });
       },
+      child: CellWidget(
+        cell: cell,
+        zone: zone,
+        board: board,
+        selectedIndex: selectedCellIndex,
+        child: note.anyNoted
+            ? CellNotes(
+                note: note,
+                cellSelected: selected,
+              )
+            : CellNumber(
+                cell: cell,
+                cellSelected: selected,
+              ),
+      ),
     );
   }
 
@@ -170,7 +172,7 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
       board: board,
       selectedIndex: selectedCellIndex,
       enableFillerHint: gameMode.enableFillerHint,
-      onNumberTap: gameStatus.canPlay
+      getOnNumberTap: gameStatus.canPlay
           ? (int number) {
               return board.canFill(number: number, cellIndex: selectedCellIndex)
                   ? () {
