@@ -2,7 +2,6 @@
 // LICENSE: https://github.com/einsitang/sudoku-flutter/blob/fc31c063d84ba272bf30219ea08724272167b8ef/LICENSE
 // Modifications copyright©️2023–2024 Liplum Dev.
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/game/ability/ability.dart';

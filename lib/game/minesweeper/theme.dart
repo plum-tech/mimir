@@ -6,7 +6,7 @@ final victoryColor = Colors.green[600]!;
 const iconSize = 42.0;
 const numberSize = iconSize * 0.7;
 const mineSize = iconSize * 0.7;
-const flagSize = iconSize;
+const flagSize = iconSize * 0.8;
 
 // Cell Color
 const mineColor = Colors.red;

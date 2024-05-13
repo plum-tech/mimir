@@ -43,6 +43,7 @@ class CellContent extends ConsumerWidget {
     final gameStatus = ref.watch(stateMinesweeper.select((state) => state.status));
     final bottom = buildBottom(cell);
     return Stack(
+      alignment: Alignment.center,
       children: [
         if (bottom != null) bottom.center(),
         Opacity(

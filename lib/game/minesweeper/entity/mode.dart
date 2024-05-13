@@ -7,25 +7,25 @@ class GameModeMinesweeper extends GameMode {
   final int gameRows;
   final int gameColumns;
   final int gameMines;
-  static const defaultRows = 15;
-  static const defaultColumns = 8;
+  static const defaultRows = 16;
+  static const defaultColumns = 9;
   static const easy = GameModeMinesweeper._(
     name: "easy",
     gameRows: defaultRows,
     gameColumns: defaultColumns,
-    gameMines: 18,
+    gameMines: (defaultRows * defaultColumns * 0.123 + 0.5) ~/ 1,
   );
   static const normal = GameModeMinesweeper._(
     name: "normal",
     gameRows: defaultRows,
     gameColumns: defaultColumns,
-    gameMines: 30,
+    gameMines: (defaultRows * defaultColumns * 0.15 + 0.5) ~/ 1,
   );
   static const hard = GameModeMinesweeper._(
     name: "hard",
     gameRows: defaultRows,
     gameColumns: defaultColumns,
-    gameMines: 43,
+    gameMines: (defaultRows * defaultColumns * 0.2 + 0.5) ~/ 1,
   );
 
   static final name2mode = {
