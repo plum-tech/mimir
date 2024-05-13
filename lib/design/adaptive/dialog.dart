@@ -37,17 +37,18 @@ extension DialogEx on BuildContext {
   }) async {
     final dynamic confirm = await showAdaptiveDialog(
       context: this,
-      builder: (ctx) => $Dialog$(
-          title: title,
-          serious: serious,
-          make: make,
-          primary: $Action$(
-            warning: highlight,
-            text: primary,
-            onPressed: () {
-              ctx.navigator.pop(true);
-            },
-          )),
+      builder: (ctx) =>
+          $Dialog$(
+              title: title,
+              serious: serious,
+              make: make,
+              primary: $Action$(
+                warning: highlight,
+                text: primary,
+                onPressed: () {
+                  ctx.navigator.pop(true);
+                },
+              )),
     );
     return confirm == true;
   }
@@ -75,6 +76,7 @@ extension DialogEx on BuildContext {
   }
 
   Future<bool?> showActionRequest({
+    String? title,
     required String desc,
     required String action,
     required String cancel,
@@ -82,6 +84,7 @@ extension DialogEx on BuildContext {
   }) async {
     if (UniversalPlatform.isIOS) {
       return showCupertinoActionRequest(
+        title: title,
         desc: desc,
         action: action,
         cancel: cancel,
@@ -89,7 +92,7 @@ extension DialogEx on BuildContext {
       );
     }
     return await showAnyRequest(
-      title: action,
+      title: title ?? action,
       make: (_) => desc.text(style: const TextStyle()),
       primary: action,
       secondary: cancel,
@@ -107,25 +110,26 @@ extension DialogEx on BuildContext {
   }) async {
     return await showCupertinoModalPopup(
       context: this,
-      builder: (ctx) => CupertinoActionSheet(
-        title: title?.text(),
-        message: desc.text(),
-        actions: [
-          CupertinoActionSheetAction(
-            isDestructiveAction: destructive,
-            onPressed: () {
-              ctx.pop(true);
-            },
-            child: action.text(),
+      builder: (ctx) =>
+          CupertinoActionSheet(
+            title: title?.text(),
+            message: desc.text(),
+            actions: [
+              CupertinoActionSheetAction(
+                isDestructiveAction: destructive,
+                onPressed: () {
+                  ctx.pop(true);
+                },
+                child: action.text(),
+              ),
+            ],
+            cancelButton: CupertinoActionSheetAction(
+              onPressed: () {
+                ctx.pop(false);
+              },
+              child: cancel.text(),
+            ),
           ),
-        ],
-        cancelButton: CupertinoActionSheetAction(
-          onPressed: () {
-            ctx.pop(false);
-          },
-          child: cancel.text(),
-        ),
-      ),
     );
   }
 
@@ -142,25 +146,26 @@ extension DialogEx on BuildContext {
     return await showAdaptiveDialog(
       context: this,
       barrierDismissible: dismissible,
-      builder: (ctx) => $Dialog$(
-        title: title,
-        serious: serious,
-        make: make,
-        primary: $Action$(
-          warning: primaryDestructive,
-          text: primary,
-          onPressed: () {
-            ctx.navigator.pop(true);
-          },
-        ),
-        secondary: $Action$(
-          text: secondary,
-          warning: secondaryDestructive,
-          onPressed: () {
-            ctx.navigator.pop(false);
-          },
-        ),
-      ),
+      builder: (ctx) =>
+          $Dialog$(
+            title: title,
+            serious: serious,
+            make: make,
+            primary: $Action$(
+              warning: primaryDestructive,
+              text: primary,
+              onPressed: () {
+                ctx.navigator.pop(true);
+              },
+            ),
+            secondary: $Action$(
+              text: secondary,
+              warning: secondaryDestructive,
+              onPressed: () {
+                ctx.navigator.pop(false);
+              },
+            ),
+          ),
     );
   }
 
@@ -176,16 +181,17 @@ extension DialogEx on BuildContext {
   }) async {
     final res = await navigator.push(
       CupertinoModalPopupRoute(
-        builder: (ctx) => SoloPicker(
-          make: make,
-          count: count,
-          controller: controller,
-          ok: ok,
-          okEnabled: okEnabled,
-          targetHeight: targetHeight,
-          highlight: highlight,
-          actions: actions,
-        ),
+        builder: (ctx) =>
+            SoloPicker(
+              make: make,
+              count: count,
+              controller: controller,
+              ok: ok,
+              okEnabled: okEnabled,
+              targetHeight: targetHeight,
+              highlight: highlight,
+              actions: actions,
+            ),
       ),
     );
     if (res is int) {
@@ -211,19 +217,20 @@ extension DialogEx on BuildContext {
   }) async {
     final res = await navigator.push(
       CupertinoModalPopupRoute(
-        builder: (ctx) => DualPicker(
-          makeA: makeA,
-          countA: countA,
-          countB: countB,
-          makeB: makeB,
-          controllerA: controllerA,
-          controllerB: controllerB,
-          ok: ok,
-          okEnabled: okEnabled,
-          targetHeight: targetHeight,
-          highlight: highlight,
-          actions: actions,
-        ),
+        builder: (ctx) =>
+            DualPicker(
+              makeA: makeA,
+              countA: countA,
+              countB: countB,
+              makeB: makeB,
+              controllerA: controllerA,
+              controllerB: controllerB,
+              ok: ok,
+              okEnabled: okEnabled,
+              targetHeight: targetHeight,
+              highlight: highlight,
+              actions: actions,
+            ),
       ),
     );
     if (res is (int, int)) {
@@ -293,11 +300,12 @@ class _SoloPickerState extends State<SoloPicker> {
       cancelButton: ok == null
           ? null
           : $selected >>
-              (ctx, selected) => PlatformTextButton(
+              (ctx, selected) =>
+              PlatformTextButton(
                   onPressed: widget.okEnabled?.call(selected) ?? true
                       ? () {
-                          Navigator.of(ctx).pop($selected.value);
-                        }
+                    Navigator.of(ctx).pop($selected.value);
+                  }
                       : null,
                   child: ok.text(style: TextStyle(color: widget.highlight ? ctx.$red$ : null))),
     );
@@ -382,19 +390,20 @@ class _DualPickerState extends State<DualPicker> {
           ? null
           : $selectedA >>
               (ctx, a) =>
-                  $selectedB >>
-                  (ctx, b) => CupertinoButton(
-                        onPressed: widget.okEnabled?.call(a, b) ?? true
-                            ? () {
-                                Navigator.of(ctx).pop(($selectedA.value, $selectedB.value));
-                              }
-                            : null,
-                        child: ok.text(
-                          style: TextStyle(
-                            color: widget.highlight ? ctx.$red$ : null,
-                          ),
-                        ),
+          $selectedB >>
+                  (ctx, b) =>
+                  CupertinoButton(
+                    onPressed: widget.okEnabled?.call(a, b) ?? true
+                        ? () {
+                      Navigator.of(ctx).pop(($selectedA.value, $selectedB.value));
+                    }
+                        : null,
+                    child: ok.text(
+                      style: TextStyle(
+                        color: widget.highlight ? ctx.$red$ : null,
                       ),
+                    ),
+                  ),
     );
   }
 }
