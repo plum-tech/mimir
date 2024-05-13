@@ -18,17 +18,17 @@ class NumberFillerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoButton(
-      onPressed: onTap,
+    return InkWell(
+      onTap: onTap,
       child: Text(
         '$number',
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: 24,
-          color: onTap == null ? null : color,
+          color: onTap == null ? context.theme.disabledColor : color,
           fontWeight: FontWeight.bold,
         ),
-      ),
+      ).padSymmetric(h: 16, v: 16),
     );
   }
 }
@@ -110,10 +110,13 @@ class _NumberFillerNumberPad extends StatelessWidget {
 
   Widget buildNumber(int row, int column) {
     final number = row * 3 + column + 1;
-    return NumberFillerButton(
-      color: getNumberColor?.call(number),
-      number: number,
-      onTap: getOnNumberTap?.call(number),
+    return Card.filled(
+      clipBehavior: Clip.hardEdge,
+      child: NumberFillerButton(
+        color: getNumberColor?.call(number),
+        number: number,
+        onTap: getOnNumberTap?.call(number),
+      ),
     );
   }
 }
