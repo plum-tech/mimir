@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/utils/list2d/edge.dart';
@@ -23,15 +25,14 @@ class CellNotes extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       itemCount: 9,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
-      itemBuilder: (BuildContext context, int index) {
+      itemBuilder: (context, index) {
         final number = index + 1;
         final notedThis = note.getNoted(number);
         return Text(
           notedThis ? "$number" : "",
           textAlign: TextAlign.center,
-          style: TextStyle(
+          style: context.textTheme.labelSmall?.copyWith(
             color: cellSelected ? context.colorScheme.onPrimaryContainer : context.colorScheme.onSurfaceVariant,
-            fontSize: 12,
           ),
         );
       },
@@ -157,19 +158,9 @@ class SudokuCellArea extends StatelessWidget {
               itemBuilder(
                 context,
                 row * 9 + column,
-              ).sizedAll(box.maxWidth / 9),
+              ).sizedAll(min(box.maxWidth / 9, box.maxHeight / 9)),
           ].row(mas: MainAxisSize.min),
       ].column(mas: MainAxisSize.min);
     });
-    // By grid
-    // return GridView.builder(
-    //   physics: const NeverScrollableScrollPhysics(),
-    //   shrinkWrap: true,
-    //   itemCount: 81,
-    //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 9),
-    //   itemBuilder: (context, index) {
-    //     return itemBuilder(context,index);
-    //   },
-    // );
   }
 }

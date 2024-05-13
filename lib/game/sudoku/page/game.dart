@@ -112,14 +112,27 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
   }
 
   Widget buildBody() {
-    return ListView(
-      children: [
-        const GameHud(),
-        buildCellArea(),
-        buildToolBar(),
-        buildFiller(),
-      ],
-    );
+    if (context.isPortrait) {
+      return ListView(
+        children: [
+          const GameHud(),
+          buildCellArea(),
+          buildToolBar(),
+          buildFiller(),
+        ],
+      );
+    } else {
+      return [
+        buildCellArea().expanded(),
+        ListView(
+          children: [
+            const GameHud(),
+            buildFiller(),
+            buildToolBar(),
+          ],
+        ).expanded(),
+      ].row();
+    }
   }
 
   Widget buildCellArea() {

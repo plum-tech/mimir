@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -28,7 +27,7 @@ class NumberFillerButton extends StatelessWidget {
           color: onTap == null ? context.theme.disabledColor : color,
           fontWeight: FontWeight.bold,
         ),
-      ).padSymmetric(h: 16, v: 16),
+      ).padSymmetric(h: 28, v: 16),
     );
   }
 }
@@ -51,7 +50,7 @@ class NumberFillerArea extends StatelessWidget {
   Widget build(BuildContext context) {
     final getOnNumberTap = this.getOnNumberTap;
     final relatedCells = board.relatedOf(selectedIndex).toList();
-    return _NumberFillerNumberPad(
+    return NumberFillerNumberPad(
       getNumberColor: (number) => !enableFillerHint
           ? null
           : relatedCells.any((cell) => cell.canUserInput ? false : cell.correctValue == number)
@@ -62,38 +61,12 @@ class NumberFillerArea extends StatelessWidget {
   }
 }
 
-class _NumberFillerLine extends StatelessWidget {
+class NumberFillerNumberPad extends StatelessWidget {
   final Color? Function(int number)? getNumberColor;
   final VoidCallback? Function(int number)? getOnNumberTap;
 
-  const _NumberFillerLine({
-    this.getNumberColor,
-    this.getOnNumberTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return List.generate(9, (index) => index + 1)
-        .map((number) {
-          return Expanded(
-            flex: 1,
-            child: NumberFillerButton(
-              color: getNumberColor?.call(number),
-              number: number,
-              onTap: getOnNumberTap?.call(number),
-            ),
-          );
-        })
-        .toList()
-        .row(mas: MainAxisSize.min);
-  }
-}
-
-class _NumberFillerNumberPad extends StatelessWidget {
-  final Color? Function(int number)? getNumberColor;
-  final VoidCallback? Function(int number)? getOnNumberTap;
-
-  const _NumberFillerNumberPad({
+  const NumberFillerNumberPad({
+    super.key,
     this.getNumberColor,
     this.getOnNumberTap,
   });
