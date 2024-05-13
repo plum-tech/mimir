@@ -1,18 +1,17 @@
 /**
  *
- * @param {{botUrl: string, groupNumber:string,message:string}} param0
+ * @param {{botUrl: string,token:string, groupNumber:string,message:string}} param0
  * @returns
  */
 export async function sendMessageToQQGroup({ botUrl, groupNumber, message }) {
-  const res = await fetch(botUrl, {
-    method: 'POST',
+  const url = new URL(botUrl)
+  url.searchParams.append("group_id", groupNumber)
+  url.searchParams.append("message", message)
+  const res = await fetch(url.toString(), {
+    method: 'GET',
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded',
     },
-    body: new URLSearchParams({
-      group_id: groupNumber,
-      message,
-    }),
   })
 
   const result = await res.text()
