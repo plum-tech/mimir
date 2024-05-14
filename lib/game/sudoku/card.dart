@@ -24,7 +24,7 @@ class _GameAppCardSudokuState extends ConsumerState<GameAppCardSudoku> {
     return OfflineGameAppCard(
       name: i18n.title,
       baseRoute: "/sudoku",
-      storage: SaveSudoku.storage,
+      save: SaveSudoku.storage,
       view: buildGameModeCard().align(at: Alignment.centerLeft),
     );
   }

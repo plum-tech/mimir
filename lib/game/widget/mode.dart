@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:markdown_widget/config/all.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/game/entity/mode.dart';
+import 'package:sit/game/entity/game_mode.dart';
 
 import '../i18n.dart';
 

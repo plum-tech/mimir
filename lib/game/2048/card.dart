@@ -17,7 +17,7 @@ class _GameAppCard2048State extends State<GameAppCard2048> {
     return OfflineGameAppCard(
       name: i18n.title,
       baseRoute: "/2048",
-      storage: Save2048.storage,
+      save: Save2048.storage,
     );
   }
 }

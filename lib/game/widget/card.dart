@@ -14,7 +14,7 @@ class OfflineGameAppCard extends ConsumerWidget {
   final Widget? view;
   final bool supportHistory;
   final bool supportLeaderboard;
-  final GameSaveStorage? storage;
+  final GameSaveStorage? save;
 
   const OfflineGameAppCard({
     super.key,
@@ -23,15 +23,15 @@ class OfflineGameAppCard extends ConsumerWidget {
     required this.name,
     this.supportHistory = false,
     this.supportLeaderboard = false,
-    this.storage,
+    this.save,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final storage = this.storage;
+    final save = this.save;
     var hasSave = false;
-    if (storage != null) {
-      hasSave |= ref.watch(storage.$saveExistsOf(0));
+    if (save != null) {
+      hasSave |= ref.watch(save.$saveExistsOf(0));
     }
     return AppCard(
       title: name.text(),

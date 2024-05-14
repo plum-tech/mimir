@@ -1,0 +1,4 @@
+enum GameResult {
+  victory,
+  gameOver;
+}

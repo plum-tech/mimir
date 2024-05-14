@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/game/entity/mode.dart';
+import 'package:sit/game/entity/game_mode.dart';
 
 @JsonSerializable(createToJson: false, createFactory: false)
 class GameModeSudoku extends GameMode {

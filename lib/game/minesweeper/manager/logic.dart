@@ -1,3 +1,5 @@
+import 'package:sit/game/entity/game_result.dart';
+import 'package:sit/game/minesweeper/entity/record.dart';
 import 'package:sit/game/minesweeper/entity/save.dart';
 import 'package:sit/game/utils.dart';
 
@@ -70,21 +72,41 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
       _changeCell(cell: cell, state: CellState.blank);
       // Check Game State
       if (cell.mine) {
-        state = state.copyWith(
-          status: GameStatus.gameOver,
-        );
-        applyGameHapticFeedback(HapticFeedbackIntensity.heavy);
+        onGameOver();
       } else {
         _digAroundIfSafe(cell: cell);
         if (checkWin()) {
-          state = state.copyWith(
-            status: GameStatus.victory,
-          );
+          onVictory();
         }
       }
     } else {
       assert(false, "$cell");
     }
+  }
+
+  void onVictory() {
+    state = state.copyWith(
+      status: GameStatus.victory,
+    );
+    StorageMinesweeper.record.add(RecordMinesweeper.createFrom(
+      board: state.board,
+      playtime: state.playtime,
+      mode: state.mode,
+      result: GameResult.victory,
+    ));
+  }
+
+  void onGameOver() {
+    state = state.copyWith(
+      status: GameStatus.gameOver,
+    );
+    StorageMinesweeper.record.add(RecordMinesweeper.createFrom(
+      board: state.board,
+      playtime: state.playtime,
+      mode: state.mode,
+      result: GameResult.gameOver,
+    ));
+    applyGameHapticFeedback(HapticFeedbackIntensity.heavy);
   }
 
   void _digAroundIfSafe({required Cell cell}) {

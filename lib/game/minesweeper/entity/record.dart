@@ -1,28 +1,56 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:meta/meta.dart';
+import 'package:sit/game/entity/game_result.dart';
 import 'package:sit/game/entity/record.dart';
+import 'package:sit/qrcode/utils.dart';
+import 'package:sit/utils/byte_io/byte_io.dart';
 
+import 'board.dart';
 import 'mode.dart';
 
 part "record.g.dart";
 
 @JsonSerializable()
+@immutable
 class RecordMinesweeper extends GameRecord {
+  final GameResult result;
   final int rows;
   final int columns;
   final int mines;
-  final Duration playTime;
+  final Duration playtime;
   final GameModeMinesweeper mode;
   final String blueprint;
 
   const RecordMinesweeper({
     required super.ts,
+    required this.result,
     required this.rows,
     required this.columns,
     required this.mines,
-    required this.playTime,
+    required this.playtime,
     required this.mode,
     required this.blueprint,
   });
+
+  factory RecordMinesweeper.createFrom({
+    required CellBoard board,
+    required Duration playtime,
+    required GameModeMinesweeper mode,
+    required GameResult result,
+  }) {
+    final writer = ByteWriter(512);
+    board.toBuilder().writeBlueprint(writer);
+    return RecordMinesweeper(
+      ts: DateTime.now(),
+      rows: board.rows,
+      columns: board.columns,
+      mines: board.mines,
+      playtime: playtime,
+      mode: mode,
+      blueprint: encodeBytesForUrl(writer.build()),
+      result: result,
+    );
+  }
 
   Map<String, dynamic> toJson() => _$RecordMinesweeperToJson(this);
 

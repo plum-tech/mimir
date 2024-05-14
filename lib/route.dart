@@ -469,12 +469,20 @@ final _gameRoutes = [
     },
   ),
   GoRoute(
-    path: "/game/minesweeper",
-    builder: (ctx, state) {
-      final continueGame = state.uri.queryParameters["continue"] != null;
-      return GameMinesweeperPage(newGame: !continueGame);
-    },
-  ),
+      path: "/game/minesweeper",
+      builder: (ctx, state) {
+        final continueGame = state.uri.queryParameters["continue"] != null;
+        return GameMinesweeperPage(newGame: !continueGame);
+      },
+      routes: [
+        GoRoute(
+          path: "records",
+          builder: (ctx, state) {
+            final continueGame = state.uri.queryParameters["continue"] != null;
+            return GameMinesweeperPage(newGame: !continueGame);
+          },
+        ),
+      ]),
   GoRoute(
     path: "/game/suika",
     builder: (ctx, state) => const GameSuikaPage(),

@@ -24,7 +24,7 @@ class _GameAppCardMinesweeperState extends ConsumerState<GameAppCardMinesweeper>
     return OfflineGameAppCard(
       name: i18n.title,
       baseRoute: "/minesweeper",
-      storage: StorageMinesweeper.save,
+      save: StorageMinesweeper.save,
       view: buildGameModeCard().align(at: Alignment.centerLeft),
     );
   }
