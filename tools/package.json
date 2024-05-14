@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@actions/github": "^6.0.0",
+    "mime": "^4.0.3",
     "simple-git": "^3.24.0"
   },
   "devDependencies": {
