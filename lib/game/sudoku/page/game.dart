@@ -114,7 +114,6 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
         appBar: AppBar(title: const Text("Sudoku")),
         body: [
           buildBody(),
-          buildBody(),
           if (gameStatus == GameStatus.victory)
             VictoryModal(resetGame: resetGame)
           else if (gameStatus == GameStatus.gameOver)
