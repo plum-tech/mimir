@@ -19,8 +19,8 @@ class GameBoard extends ConsumerWidget {
     final rows = board.rows;
     final columns = board.columns;
     final borderWidth = screen.getBorderWidth();
-    var boardWidth= screen.getBoardSize().width;
-    var boardHeight= screen.getBoardSize().height;
+    var boardWidth = screen.getBoardSize().width;
+    var boardHeight = screen.getBoardSize().height;
     final portrait = context.isPortrait;
     if (!portrait) {
       (boardWidth, boardHeight) = (boardHeight, boardWidth);

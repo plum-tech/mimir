@@ -135,17 +135,17 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
     if (arrow != null) {
       onArrowKeyDown(arrow, shiftOn: HardwareKeyboard.instance.isShiftPressed);
     }
-    if(e.logicalKey == LogicalKeyboardKey.delete || e.logicalKey == LogicalKeyboardKey.backspace){
+    if (e.logicalKey == LogicalKeyboardKey.delete || e.logicalKey == LogicalKeyboardKey.backspace) {
       onDeleteKeyDown();
     }
-    if(e.character?.toLowerCase() == "n"){
+    if (e.character?.toLowerCase() == "n") {
       setState(() {
         enableNoting = !enableNoting;
       });
     }
   }
 
-  void onDeleteKeyDown(){
+  void onDeleteKeyDown() {
     clearSelected();
   }
 

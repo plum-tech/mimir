@@ -91,9 +91,9 @@ class CellWidget extends StatelessWidget {
     final edgeAgainstZone = zone.cellOnWhichEdge(cell);
     final edgeAgainstBoard = board.cellOnWhichEdge(cell);
     var innerWidth = 0.5;
-    var edgeWidth = 2.0;
+    var edgeWidth = 1.5;
     const selectionWidth = 3.5;
-    if(selectedIndex == cell.index){
+    if (selectedIndex == cell.index) {
       edgeWidth = selectionWidth;
       innerWidth = selectionWidth;
     }
@@ -124,7 +124,7 @@ class CellWidget extends StatelessWidget {
             : Border(
                 top: BorderSide(
                   color: borderColor,
-                  width: edgeAgainstZone.top ? edgeWidth : innerWidth,
+                  width:  edgeAgainstZone.top ? edgeWidth : innerWidth,
                 ),
                 right: BorderSide(
                   color: borderColor,

@@ -22,8 +22,8 @@ Color getCellBgColor({
     return context.colorScheme.tertiaryContainer;
   }
 
-  return context.colorScheme.surface;
-  return zone.zoneIndex.isOdd ? context.colorScheme.surface : context.colorScheme.surfaceVariant.withOpacity(0.5);
+  // return context.colorScheme.surface;
+  return zone.zoneIndex.isOdd ? context.colorScheme.surface : context.colorScheme.surfaceContainerHighest.withOpacity(0.5);
 }
 
 bool isRelated(int indexA, int indexB) {
@@ -37,12 +37,12 @@ bool _isTheSameRow(int indexA, int indexB) => SudokuBoard.getRowFrom(indexA) == 
 bool _isTheSameColumn(int indexA, int indexB) => SudokuBoard.getColumnFrom(indexA) == SudokuBoard.getColumnFrom(indexB);
 
 bool isTheSameNumber(SudokuCell a, SudokuCell b) {
-  if(a.canUserInput && a.emptyInput) return false;
-  if(b.canUserInput && b.emptyInput) return false;
+  if (a.canUserInput && a.emptyInput) return false;
+  if (b.canUserInput && b.emptyInput) return false;
   if (a.canUserInput && b.canUserInput) {
     return a.userInput == b.userInput;
   }
-  if(!a.canUserInput && !b.canUserInput){
+  if (!a.canUserInput && !b.canUserInput) {
     return a.correctValue == b.correctValue;
   }
   final puzzle = !a.canUserInput ? a : b;

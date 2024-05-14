@@ -5,9 +5,7 @@ part "record.g.dart";
 
 @JsonSerializable()
 class Record2048 extends GameRecord {
-  @JsonKey()
   final int score;
-  @JsonKey()
   final int maxNumber;
 
   const Record2048({
