@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/utils/byte_io/byte_io.dart';
 import 'package:sit/utils/list2d/list2d.dart';
 import 'dart:math';
-import '../save.dart';
+import 'save.dart';
 import '../utils.dart';
 import 'cell.dart';
 
@@ -156,6 +156,19 @@ class CellBoard extends ICellBoard<Cell> {
   Map<String, dynamic> toJson() => _$CellBoardToJson(this);
 
   factory CellBoard.fromJson(Map<String, dynamic> json) => _$CellBoardFromJson(json);
+}
+
+extension CellBoardX on CellBoard {
+  CellBoardBuilder toBuilder() {
+    final builder = CellBoardBuilder(
+        cells: cells.map((cell) => CellBuilder(
+              row: cell.row,
+              column: cell.column,
+              mine: cell.mine,
+            )));
+    builder.updateCells();
+    return builder;
+  }
 }
 
 class CellBuilder implements Cell {

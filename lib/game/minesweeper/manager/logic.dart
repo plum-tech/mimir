@@ -1,4 +1,4 @@
-import 'package:sit/game/minesweeper/save.dart';
+import 'package:sit/game/minesweeper/entity/save.dart';
 import 'package:sit/game/utils.dart';
 
 import '../entity/mode.dart';
@@ -9,6 +9,8 @@ import '../entity/board.dart';
 import '../entity/cell.dart';
 import '../entity/state.dart';
 import 'package:sit/game/entity/game_status.dart';
+
+import '../storage.dart';
 
 // Debug Tool
 final logger = Logger();
@@ -176,9 +178,9 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
 
   Future<void> save() async {
     if (state.status.shouldSave) {
-      await SaveMinesweeper.storage.save(state.toSave());
+      await StorageMinesweeper.save.save(state.toSave());
     } else {
-      await SaveMinesweeper.storage.delete();
+      await StorageMinesweeper.save.delete();
     }
   }
 }

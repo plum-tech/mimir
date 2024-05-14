@@ -6,10 +6,10 @@ import 'package:sit/game/minesweeper/pref.dart';
 import 'package:sit/game/minesweeper/settings.dart';
 import 'package:sit/game/widget/mode.dart';
 import 'entity/mode.dart';
-import 'save.dart';
 import 'package:sit/game/widget/card.dart';
 
 import 'i18n.dart';
+import 'storage.dart';
 
 class GameAppCardMinesweeper extends ConsumerStatefulWidget {
   const GameAppCardMinesweeper({super.key});
@@ -24,7 +24,7 @@ class _GameAppCardMinesweeperState extends ConsumerState<GameAppCardMinesweeper>
     return OfflineGameAppCard(
       name: i18n.title,
       baseRoute: "/minesweeper",
-      storage: SaveMinesweeper.storage,
+      storage: StorageMinesweeper.save,
       view: buildGameModeCard().align(at: Alignment.centerLeft),
     );
   }
@@ -35,7 +35,7 @@ class _GameAppCardMinesweeperState extends ConsumerState<GameAppCardMinesweeper>
       all: GameModeMinesweeper.all,
       current: pref.mode,
       onChanged: (newMode) async {
-        if (SaveMinesweeper.storage.exists()) {
+        if (StorageMinesweeper.save.exists()) {
           final confirm = await context.showActionRequest(
             desc: i18n.changeGameModeRequest,
             action: i18n.changeGameModeAction(newMode.l10n()),
@@ -46,7 +46,7 @@ class _GameAppCardMinesweeperState extends ConsumerState<GameAppCardMinesweeper>
         ref.read(SettingsMinesweeper.$.$pref.notifier).set(pref.copyWith(
               mode: newMode,
             ));
-        SaveMinesweeper.storage.delete();
+        StorageMinesweeper.save.delete();
       },
     ).sized(w: 280);
   }

@@ -7,13 +7,13 @@ import 'package:sit/game/ability/ability.dart';
 import 'package:sit/game/ability/autosave.dart';
 import 'package:sit/game/ability/timer.dart';
 import 'package:sit/game/entity/game_status.dart';
-import 'package:sit/game/minesweeper/save.dart';
 import 'package:sit/game/minesweeper/settings.dart';
 
 import '../entity/screen.dart';
 import '../entity/state.dart';
 import '../manager/logic.dart';
 import '../../entity/timer.dart';
+import '../storage.dart';
 import '../widget/board.dart';
 import '../widget/hud.dart';
 import '../widget/modal.dart';
@@ -57,7 +57,7 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
       if (widget.newGame) {
         logic.initGame(gameMode: SettingsMinesweeper.$.pref.mode);
       } else {
-        final save = SaveMinesweeper.storage.load();
+        final save = StorageMinesweeper.save.load();
         if (save != null) {
           logic.fromSave(save);
           timer.state = ref.read(stateMinesweeper).playtime;

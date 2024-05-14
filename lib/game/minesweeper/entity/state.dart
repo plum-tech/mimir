@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/game/entity/game_status.dart';
 
-import '../save.dart';
+import 'save.dart';
 import 'board.dart';
 import 'mode.dart';
 
