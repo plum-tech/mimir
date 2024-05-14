@@ -18,7 +18,7 @@ Color getCellBgColor({
     return context.colorScheme.secondaryContainer;
   }
   final selectedCell = board.getCellByIndex(selectedIndex);
-  if (_isTheSameNumber(cell, selectedCell)) {
+  if (isTheSameNumber(cell, selectedCell)) {
     return context.colorScheme.tertiaryContainer;
   }
 
@@ -36,25 +36,16 @@ bool _isTheSameRow(int indexA, int indexB) => SudokuBoard.getRowFrom(indexA) == 
 
 bool _isTheSameColumn(int indexA, int indexB) => SudokuBoard.getColumnFrom(indexA) == SudokuBoard.getColumnFrom(indexB);
 
-bool _isTheSameNumber(SudokuCell a, SudokuCell b) {
-  if (a.canUserInput) {
-    if (b.userInput != SudokuCell.emptyInputNumber) {
-      if (b.canUserInput && a.userInput == b.userInput) {
-        return true;
-      } else if (b.correctValue == a.userInput) {
-        return true;
-      }
-    }
-  } else {
-    // selected cell is a puzzle
-    if (b.canUserInput) {
-      if (a.correctValue == b.userInput) {
-        return true;
-      }
-    } else if (b.correctValue == a.correctValue) {
-      // cell is a puzzle
-      return true;
-    }
+bool isTheSameNumber(SudokuCell a, SudokuCell b) {
+  if(a.canUserInput && a.emptyInput) return false;
+  if(b.canUserInput && b.emptyInput) return false;
+  if (a.canUserInput && b.canUserInput) {
+    return a.userInput == b.userInput;
   }
-  return false;
+  if(!a.canUserInput && !b.canUserInput){
+    return a.correctValue == b.correctValue;
+  }
+  final puzzle = !a.canUserInput ? a : b;
+  final need2Fill = puzzle == a ? b : a;
+  return need2Fill.userInput == puzzle.correctValue;
 }

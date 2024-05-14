@@ -92,7 +92,7 @@ class CellWidget extends StatelessWidget {
     final edgeAgainstBoard = board.cellOnWhichEdge(cell);
     var innerWidth = 0.5;
     var edgeWidth = 2.0;
-    const selectionWidth = 5.0;
+    const selectionWidth = 3.5;
     if(selectedIndex == cell.index){
       edgeWidth = selectionWidth;
       innerWidth = selectionWidth;
