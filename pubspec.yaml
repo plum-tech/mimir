@@ -12,8 +12,8 @@ documentation: https://github.com/liplum/mimir#readme
 
 publish_to: none
 environment:
-  sdk: '>=3.3.0 <4.0.0'
-  flutter: ^3.19.6
+  sdk: '>=3.4.0 <4.0.0'
+  flutter: ^3.22.0
 
 dependencies:
   flutter: { sdk: flutter }
@@ -161,7 +161,10 @@ dependencies:
   email_validator: ^2.1.17
   sanitize_filename: ^1.0.5
   # Take screenshot of flutter widgets
-  screenshot: ^2.1.0
+  screenshot:
+    git:
+      url: https://github.com/SachinGanesh/screenshot.git
+      ref: 463c6ba
 
   # game
   flame: ^1.17.0
