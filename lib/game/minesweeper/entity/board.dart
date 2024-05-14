@@ -1,5 +1,6 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sit/utils/byte_io/byte_io.dart';
 import 'package:sit/utils/list2d/list2d.dart';
 import 'dart:math';
 import '../save.dart';
@@ -163,7 +164,7 @@ class CellBuilder implements Cell {
   @override
   final int column;
   @override
-  var mine = false;
+  bool mine;
   @override
   var state = CellState.covered;
   @override
@@ -172,6 +173,7 @@ class CellBuilder implements Cell {
   CellBuilder({
     required this.row,
     required this.column,
+    this.mine = false,
   });
 
   Cell build() {
@@ -187,6 +189,20 @@ class CellBuilder implements Cell {
   @override
   Map<String, dynamic> toJson() {
     throw UnimplementedError();
+  }
+
+  void writeBlueprint(ByteWriter writer) {
+    writer.uint8(row);
+    writer.uint8(column);
+    writer.b(mine);
+  }
+
+  static CellBuilder readBlueprint(ByteReader reader) {
+    return CellBuilder(
+      row: reader.uint8(),
+      column: reader.uint8(),
+      mine: reader.b(),
+    );
   }
 }
 
@@ -292,6 +308,28 @@ class CellBoardBuilder extends ICellBoard<CellBuilder> {
     return CellBoard(
       mines: mines,
       cells: cells.map((e) => e.build()),
+    );
+  }
+
+  void writeBlueprint(ByteWriter writer) {
+    writer.uint8(rows);
+    writer.uint8(columns);
+    writer.uint8(cells.length);
+    for (final cell in cells) {
+      cell.writeBlueprint(writer);
+    }
+  }
+
+  static CellBoardBuilder readBlueprint(ByteReader reader) {
+    final rows = reader.uint8();
+    final columns = reader.uint8();
+    final len = reader.uint8();
+    final cells = <CellBuilder>[];
+    for (var i = 0; i < len; i++) {
+      cells.add(CellBuilder.readBlueprint(reader));
+    }
+    return CellBoardBuilder(
+      cells: List2D.from1D(rows, columns, cells),
     );
   }
 }

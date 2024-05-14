@@ -12,6 +12,7 @@ class RecordMinesweeper extends GameRecord {
   final int mines;
   final Duration playTime;
   final GameModeMinesweeper mode;
+  final String blueprint;
 
   const RecordMinesweeper({
     required super.ts,
@@ -20,6 +21,7 @@ class RecordMinesweeper extends GameRecord {
     required this.mines,
     required this.playTime,
     required this.mode,
+    required this.blueprint,
   });
 
   Map<String, dynamic> toJson() => _$RecordMinesweeperToJson(this);

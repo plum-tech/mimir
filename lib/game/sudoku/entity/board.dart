@@ -1,6 +1,7 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sit/utils/byte_io/byte_io.dart';
 import 'package:sit/utils/list2d/list2d.dart';
 import 'package:sudoku_solver_generator/sudoku_solver_generator.dart';
 
@@ -65,6 +66,19 @@ class SudokuCell {
   @override
   String toString() =>
       "(${SudokuBoard.getRowFrom(index)},${SudokuBoard.getColumnFrom(index)}) ${canUserInput ? "$userInput/$correctValue" : correctValue}";
+
+  void serialize(ByteWriter writer) {
+    writer.uint8(correctValue);
+    writer.int8(userInput);
+  }
+
+  static SudokuCell deserialize(ByteReader reader, int index) {
+    return SudokuCell(
+      index: index,
+      correctValue: reader.uint8(),
+      userInput: reader.int8(),
+    );
+  }
 }
 
 @immutable
@@ -98,6 +112,24 @@ extension type const SudokuBoard(List2D<SudokuCell> _cells) {
         ),
       ),
     );
+  }
+
+  void writeBlueprint(ByteWriter writer) {
+    assert(_cells.length == sudokuSides * sudokuSides);
+    writer.uint8(sudokuSides * sudokuSides);
+    for (final cell in _cells) {
+      cell.serialize(writer);
+    }
+  }
+
+  static SudokuBoard readBlueprint(ByteReader reader) {
+    final len = reader.uint8();
+    final cells = <SudokuCell>[];
+    for (var i = 0; i < len; i++) {
+      cells.add(SudokuCell.deserialize(reader, i));
+    }
+    assert(cells.length == sudokuSides * sudokuSides);
+    return SudokuBoard(List2D.from1D(sudokuSides, sudokuSides, cells));
   }
 
   bool get isSolved {

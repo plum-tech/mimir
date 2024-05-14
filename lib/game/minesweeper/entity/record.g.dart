@@ -13,6 +13,7 @@ RecordMinesweeper _$RecordMinesweeperFromJson(Map<String, dynamic> json) => Reco
       mines: (json['mines'] as num).toInt(),
       playTime: Duration(microseconds: (json['playTime'] as num).toInt()),
       mode: GameModeMinesweeper.fromJson(json['mode'] as String),
+      blueprint: json['blueprint'] as String,
     );
 
 Map<String, dynamic> _$RecordMinesweeperToJson(RecordMinesweeper instance) => <String, dynamic>{
@@ -22,4 +23,5 @@ Map<String, dynamic> _$RecordMinesweeperToJson(RecordMinesweeper instance) => <S
       'mines': instance.mines,
       'playTime': instance.playTime.inMicroseconds,
       'mode': instance.mode,
+      'blueprint': instance.blueprint,
     };

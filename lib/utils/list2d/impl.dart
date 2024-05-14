@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math';
 
 import 'package:meta/meta.dart';
@@ -45,7 +46,22 @@ class List2D<T> with Iterable<T> {
     );
   }
 
-  factory List2D.from(List<List<T>> list2d) {
+  factory List2D.from1D(int rows, int columns, List<T> list1D) {
+    if (list1D.length != rows * columns) {
+      throw ArgumentError.value(list1D, "list1D", "The length of list1D must be the product of rows and columns");
+    }
+    return List2D(
+      rows,
+      columns,
+      List.generate(
+        rows * columns,
+        (index) => list1D[index],
+        growable: false,
+      ),
+    );
+  }
+
+  factory List2D.from2D(List<List<T>> list2d) {
     final rows = list2d.length;
     var columns = list2d.firstOrNull?.length ?? 0;
     for (final row in list2d) {
