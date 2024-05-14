@@ -65,6 +65,16 @@ enum Edge2D {
   }
 }
 
+extension Edge2DX on Edge2D {
+  bool get topLeft => top && left;
+
+  bool get topRight => top && right;
+
+  bool get bottomLeft => bottom && left;
+
+  bool get bottomRight => bottom && right;
+}
+
 extension List2dX<T> on List2D<T> {
   bool onEdge(int row, int column) {
     return row == 0 || column == 0 || row == (rows - 1) || column == (columns - 1);

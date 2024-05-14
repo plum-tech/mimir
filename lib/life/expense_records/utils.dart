@@ -1,7 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
 import 'package:sit/life/expense_records/entity/local.dart';
 import 'package:sit/lifecycle.dart';
 

@@ -86,7 +86,7 @@ class CellWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final borderColor = context.colorScheme.onBackground;
+    final borderColor = context.colorScheme.onSurface;
     const borderRadius = Radius.circular(12);
     final edgeAgainstZone = zone.cellOnWhichEdge(cell);
     final edgeAgainstBoard = board.cellOnWhichEdge(cell);
@@ -104,10 +104,10 @@ class CellWidget extends StatelessWidget {
         borderRadius: edgeAgainstBoard == null
             ? null
             : BorderRadius.only(
-                topLeft: edgeAgainstBoard == Edge2D.topLeft ? borderRadius : Radius.zero,
-                topRight: edgeAgainstBoard == Edge2D.topRight ? borderRadius : Radius.zero,
-                bottomLeft: edgeAgainstBoard == Edge2D.bottomLeft ? borderRadius : Radius.zero,
-                bottomRight: edgeAgainstBoard == Edge2D.bottomRight ? borderRadius : Radius.zero,
+                topLeft: edgeAgainstBoard.topLeft ? borderRadius : Radius.zero,
+                topRight: edgeAgainstBoard.topRight ? borderRadius : Radius.zero,
+                bottomLeft: edgeAgainstBoard.bottomLeft ? borderRadius : Radius.zero,
+                bottomRight: edgeAgainstBoard.bottomRight ? borderRadius : Radius.zero,
               ),
         color: getCellBgColor(
           cell: cell,
@@ -124,7 +124,7 @@ class CellWidget extends StatelessWidget {
             : Border(
                 top: BorderSide(
                   color: borderColor,
-                  width:  edgeAgainstZone.top ? edgeWidth : innerWidth,
+                  width: edgeAgainstZone.top ? edgeWidth : innerWidth,
                 ),
                 right: BorderSide(
                   color: borderColor,
