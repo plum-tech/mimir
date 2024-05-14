@@ -90,8 +90,13 @@ class CellWidget extends StatelessWidget {
     const borderRadius = Radius.circular(12);
     final edgeAgainstZone = zone.cellOnWhichEdge(cell);
     final edgeAgainstBoard = board.cellOnWhichEdge(cell);
-    const innerWidth = 0.15;
-    const edgeWidth = 1.0;
+    var innerWidth = 0.5;
+    var edgeWidth = 2.0;
+    const selectionWidth = 5.0;
+    if(selectedIndex == cell.index){
+      edgeWidth = selectionWidth;
+      innerWidth = selectionWidth;
+    }
     return AnimatedContainer(
       duration: Durations.short4,
       alignment: Alignment.center,

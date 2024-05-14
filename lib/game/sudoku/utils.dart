@@ -22,6 +22,7 @@ Color getCellBgColor({
     return context.colorScheme.tertiaryContainer;
   }
 
+  return context.colorScheme.surface;
   return zone.zoneIndex.isOdd ? context.colorScheme.surface : context.colorScheme.surfaceVariant.withOpacity(0.5);
 }
 
