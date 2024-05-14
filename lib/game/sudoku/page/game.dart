@@ -11,6 +11,7 @@ import 'package:sit/game/ability/timer.dart';
 import 'package:sit/game/entity/game_status.dart';
 import 'package:sit/game/entity/timer.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/utils/keyboard.dart';
 
 import '../entity/state.dart';
 import '../entity/note.dart';
@@ -125,15 +126,44 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
 
   void onKey(KeyEvent e) {
     if (e is! KeyDownEvent) return;
-    final represent = e.character;
-    if (represent == null) return;
-    final number = int.tryParse(represent);
-    if (number == null) return;
+    final number = e.tryGetNumber();
+    if (number != null) {
+      onNumberKeyDown(number);
+      return;
+    }
+    final arrow = e.tryGetArrowKey();
+    if (arrow != null) {
+      onArrowKeyDown(arrow, shiftOn: HardwareKeyboard.instance.isShiftPressed);
+    }
+    if(e.logicalKey == LogicalKeyboardKey.delete || e.logicalKey == LogicalKeyboardKey.backspace){
+      onDeleteKeyDown();
+    }
+    if(e.character?.toLowerCase() == "n"){
+      setState(() {
+        enableNoting = !enableNoting;
+      });
+    }
+  }
+
+  void onDeleteKeyDown(){
+    clearSelected();
+  }
+
+  void onNumberKeyDown(int number) {
     if (!(1 <= number && number <= 9)) return;
     final board = ref.read(stateSudoku).board;
     final selectedCell = board.getCellByIndex(selectedCellIndex);
     if (!selectedCell.canUserInput) return;
     fillNumber(number);
+  }
+
+  void onArrowKeyDown(AxisDirection dir, {required bool shiftOn}) {
+    final board = ref.read(stateSudoku).board;
+    final index = board.findNextCell(selectedCellIndex, dir, ignorePuzzle: shiftOn);
+    if (index == null) return;
+    setState(() {
+      selectedCellIndex = index;
+    });
   }
 
   Widget buildBody() {
@@ -205,19 +235,21 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
     final board = ref.watch(stateSudoku.select((state) => state.board));
     final gameMode = ref.watch(stateSudoku.select((state) => state.mode));
     final gameStatus = ref.watch(stateSudoku.select((state) => state.status));
-    return NumberFillerArea(
-      board: board,
-      selectedIndex: selectedCellIndex,
-      enableFillerHint: gameMode.enableFillerHint,
-      getOnNumberTap: gameStatus.canPlay
-          ? (int number) {
-              return board.canFill(number: number, cellIndex: selectedCellIndex)
-                  ? () {
-                      fillNumber(number);
-                    }
-                  : null;
-            }
-          : null,
+    return ExcludeFocus(
+      child: NumberFillerArea(
+        board: board,
+        selectedIndex: selectedCellIndex,
+        enableFillerHint: gameMode.enableFillerHint,
+        getOnNumberTap: gameStatus.canPlay
+            ? (int number) {
+                return board.canFill(number: number, cellIndex: selectedCellIndex)
+                    ? () {
+                        fillNumber(number);
+                      }
+                    : null;
+              }
+            : null,
+      ),
     );
   }
 

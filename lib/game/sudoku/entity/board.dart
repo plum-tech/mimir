@@ -1,7 +1,6 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:meta/meta.dart';
 import 'package:sit/utils/list2d/list2d.dart';
 import 'package:sudoku_solver_generator/sudoku_solver_generator.dart';
 
@@ -166,6 +165,47 @@ extension type const SudokuBoard(List2D<SudokuCell> _cells) {
 
   Edge2D? cellOnWhichEdge(SudokuCell cell) {
     return _cells.onWhichEdge(_cells.getRowFrom(cell.index), _cells.getColumnFrom(cell.index));
+  }
+
+  int? findNextCell(
+    int startCellIndex,
+    AxisDirection dir, {
+    bool allowFilled = true,
+    bool ignorePuzzle = true,
+  }) {
+    final row = getRowFrom(startCellIndex);
+    final column = getColumnFrom(startCellIndex);
+    switch (dir) {
+      case AxisDirection.up:
+      case AxisDirection.down:
+        for (final cell in _cells.iterateColumnStartWith(
+          row,
+          column,
+          incremental: dir == AxisDirection.down,
+        )) {
+          if (cell.index == startCellIndex) continue;
+          if (!ignorePuzzle) return cell.index;
+          if (cell.canUserInput && (cell.emptyInput || (allowFilled && !cell.isSolved))) {
+            return cell.index;
+          }
+        }
+        break;
+      case AxisDirection.right:
+      case AxisDirection.left:
+        for (final cell in _cells.iterateRowStartWith(
+          row,
+          column,
+          incremental: dir == AxisDirection.right,
+        )) {
+          if (cell.index == startCellIndex) continue;
+          if (!ignorePuzzle) return cell.index;
+          if (cell.canUserInput && (cell.emptyInput || (allowFilled && !cell.isSolved))) {
+            return cell.index;
+          }
+        }
+        break;
+    }
+    return null;
   }
 
   factory SudokuBoard.fromJson(dynamic json) {

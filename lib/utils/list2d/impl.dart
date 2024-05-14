@@ -180,4 +180,58 @@ extension List2dImplX<T> on List2D<T> {
   void setByIndex(int index1D, T value) {
     return set(getRowFrom(index1D), getColumnFrom(index1D), value);
   }
+
+  Iterable<T> iterateRowStartWith(
+    int row,
+    int column, {
+    bool incremental = true,
+    bool throughBoundary = true,
+  }) sync* {
+    if (incremental) {
+      for (var c = column; c < columns; c++) {
+        yield get(row, c);
+      }
+      if (throughBoundary) {
+        for (var c = 0; c < column; c++) {
+          yield get(row, c);
+        }
+      }
+    } else {
+      for (var c = column; c >= 0; c--) {
+        yield get(row, c);
+      }
+      if (throughBoundary) {
+        for (var c = columns - 1; c > column; c--) {
+          yield get(row, c);
+        }
+      }
+    }
+  }
+
+  Iterable<T> iterateColumnStartWith(
+    int row,
+    int column, {
+    bool incremental = true,
+    bool throughBoundary = true,
+  }) sync* {
+    if (incremental) {
+      for (var r = row; r < rows; r++) {
+        yield get(r, column);
+      }
+      if (throughBoundary) {
+        for (var r = 0; r < row; r++) {
+          yield get(r, column);
+        }
+      }
+    } else {
+      for (var r = row; r >= 0; r--) {
+        yield get(r, column);
+      }
+      if (throughBoundary) {
+        for (var r = rows - 1; r > row; r--) {
+          yield get(r, column);
+        }
+      }
+    }
+  }
 }

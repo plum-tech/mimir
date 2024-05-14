@@ -22,7 +22,7 @@ Color getCellBgColor({
     return context.colorScheme.tertiaryContainer;
   }
 
-  return zone.zoneIndex.isOdd ? context.colorScheme.surface : context.colorScheme.surfaceVariant;
+  return zone.zoneIndex.isOdd ? context.colorScheme.surface : context.colorScheme.surfaceVariant.withOpacity(0.5);
 }
 
 bool isRelated(int indexA, int indexB) {
