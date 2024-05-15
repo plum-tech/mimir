@@ -8,6 +8,7 @@ import 'package:sit/game/ability/autosave.dart';
 import 'package:sit/game/ability/timer.dart';
 import 'package:sit/game/entity/game_status.dart';
 import 'package:sit/game/minesweeper/settings.dart';
+import 'package:sit/game/widget/party_popper.dart';
 
 import '../entity/screen.dart';
 import '../entity/state.dart';
@@ -115,30 +116,35 @@ class _MinesweeperState extends ConsumerState<GameMinesweeper> with WidgetsBindi
           )
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          const GameHud().padH(8),
-          ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(12)),
-            child: Center(
-              child: Stack(
-                children: [
-                  GameBoard(screen: screen),
-                  if (state.status == GameStatus.gameOver)
-                    GameOverModal(
-                      resetGame: resetGame,
-                    )
-                  else if (state.status == GameStatus.victory)
-                    VictoryModal(
-                      resetGame: resetGame,
-                    ),
-                ],
+      body: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            const GameHud().padH(8),
+            ClipRRect(
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
+              child: Center(
+                child: Stack(
+                  children: [
+                    GameBoard(screen: screen),
+                    if (state.status == GameStatus.gameOver)
+                      GameOverModal(
+                        resetGame: resetGame,
+                      )
+                    else if (state.status == GameStatus.victory)
+                      VictoryModal(
+                        resetGame: resetGame,
+                      ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+        VictoryPartyPopper(
+          pop: state.status == GameStatus.victory,
+        ),
+      ].stack(),
     );
   }
 }

@@ -11,6 +11,7 @@ import 'package:sit/game/ability/timer.dart';
 import 'package:sit/game/entity/game_status.dart';
 import 'package:sit/game/entity/timer.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/game/widget/party_popper.dart';
 import 'package:sit/utils/keyboard.dart';
 
 import '../entity/state.dart';
@@ -119,6 +120,9 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
             VictoryModal(resetGame: resetGame)
           else if (gameStatus == GameStatus.gameOver)
             GameOverModal(resetGame: resetGame),
+          VictoryPartyPopper(
+            pop: gameStatus == GameStatus.victory,
+          ),
         ].stack(),
       ),
     );

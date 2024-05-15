@@ -123,7 +123,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   bool digAroundBesidesFlagged({required Cell cell}) {
-    assert(state.status == GameStatus.running, "Game not yet started");
+    assert(state.status == GameStatus.running, "Game not yet started, but ${state.status}");
     bool digAny = false;
     if (state.board.countAroundByState(cell: cell, state: CellState.flag) >= cell.minesAround) {
       for (final neighbor in state.board.iterateAround(row: cell.row, column: cell.column)) {
@@ -137,7 +137,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   bool flagRestCovered({required Cell cell}) {
-    assert(state.status == GameStatus.running, "Game not yet started");
+    assert(state.status == GameStatus.running, "Game not yet started, but ${state.status}");
     bool flagAny = false;
     final coveredCount = state.board.countAroundByState(cell: cell, state: CellState.covered);
     if (coveredCount == 0) return false;

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -15,8 +16,10 @@ import 'package:sit/credentials/init.dart';
 import 'package:sit/credentials/utils.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
+import 'package:sit/game/widget/party_popper.dart';
 import 'package:sit/init.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/login/aggregated.dart';
@@ -113,10 +116,28 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                   return "${info!}";
                 },
               ),
+              buildPartyPopper(),
             ]),
           ),
         ],
       ),
+    );
+  }
+
+  Widget buildPartyPopper() {
+    return ListTile(
+      leading: "🎉".text(style: context.textTheme.headlineLarge),
+      title: "Party popper 🎉".text(),
+      subtitle: "Tap me!".text(),
+      onTap: () {
+        context.showSheet((ctx) => Scaffold(
+              body: [
+                const VictoryPartyPopper(
+                  pop: true,
+                ),
+              ].stack(),
+            ));
+      },
     );
   }
 
