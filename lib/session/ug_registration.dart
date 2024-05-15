@@ -10,7 +10,7 @@ class UgRegistrationSession {
 
   const UgRegistrationSession({required this.ssoSession});
 
-  Future<void> refreshCookie() async {
+  Future<void> requestLogin2RefreshCookie() async {
     await ssoSession.request(
       'http://jwxt.sit.edu.cn/sso/jziotlogin',
       options: Options(
@@ -50,13 +50,13 @@ class UgRegistrationSession {
     // 如果返回值是登录页面，那就从 SSO 跳转一次以登录.
     if (_isRedirectedToLoginPage(response)) {
       debugPrint('JwxtSession requires login');
-      await refreshCookie();
+      await requestLogin2RefreshCookie();
       return await fetch();
     }
     // 如果还是需要登录
     if (_isRedirectedToLoginPage(response)) {
       debugPrint('JwxtSession still requires login');
-      await refreshCookie();
+      await requestLogin2RefreshCookie();
       return await fetch();
     }
     return response;
