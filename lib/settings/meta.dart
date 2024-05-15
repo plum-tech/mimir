@@ -4,6 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 class _K {
   static const lastLaunchTime = "/lastLaunchTime";
   static const thisLaunchTime = "/thisLaunchTime";
+  static const userRealName = "/userRealName";
 }
 
 // ignore: non_constant_identifier_names
@@ -21,4 +22,8 @@ class MetaImpl {
   DateTime? get thisLaunchTime => box.safeGet<DateTime>(_K.thisLaunchTime);
 
   set thisLaunchTime(DateTime? newV) => box.safePut<DateTime>(_K.thisLaunchTime, newV);
+
+  String? get userRealName => box.safeGet<String>(_K.userRealName);
+
+  set userRealName(String? newV) => box.safePut<String>(_K.userRealName, newV);
 }
