@@ -55,8 +55,8 @@ class R {
     zhHantLocale,
   ];
 
-  static final jwxtUri = Uri(scheme: "http", host: "jwxt.sit.edu.cn");
-  static final gmsUri = Uri(scheme: "http", host: "gms.sit.edu.cn");
+  static final ugRegUri = Uri(scheme: "http", host: "jwxt.sit.edu.cn");
+  static final pgRegUri = Uri(scheme: "http", host: "gms.sit.edu.cn");
   static final authServerUri = Uri(scheme: "https", host: "authserver.sit.edu.cn");
   static final class2ndUri = Uri(scheme: "http", host: "sc.sit.edu.cn");
   static final schoolCardUri = Uri(scheme: "http", host: "card.sit.edu.cn");
@@ -65,16 +65,16 @@ class R {
   static final gateUri = Uri(scheme: "http", host: "210.35.98.178");
   static final sitUriList = [
     authServerUri,
-    jwxtUri,
-    gmsUri,
+    ugRegUri,
+    pgRegUri,
     class2ndUri,
     schoolCardUri,
     myPortalUri,
     libraryUri,
   ];
   static final sitSchoolNetworkUriList = [
-    jwxtUri,
-    gmsUri,
+    ugRegUri,
+    pgRegUri,
     class2ndUri,
     schoolCardUri,
     libraryUri,

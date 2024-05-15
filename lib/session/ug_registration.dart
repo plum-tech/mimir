@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sit/init.dart';
+import 'package:sit/r.dart';
 
 import 'package:sit/session/sso.dart';
 
@@ -11,7 +12,8 @@ class UgRegistrationSession {
 
   const UgRegistrationSession({required this.ssoSession});
 
-  Future<void> requestLogin2RefreshCookie() async {
+  Future<void> refreshCookie() async {
+    await Init.cookieJar.delete(R.ugRegUri, true);
     await ssoSession.request(
       'http://jwxt.sit.edu.cn/sso/jziotlogin',
       options: Options(
@@ -21,7 +23,7 @@ class UgRegistrationSession {
   }
 
   bool _isRedirectedToLoginPage(Response response) {
-    final realPath=response.realUri.path;
+    final realPath = response.realUri.path;
     return realPath.endsWith('jwglxt/xtgl/login_slogin.html');
   }
 
@@ -51,13 +53,13 @@ class UgRegistrationSession {
     // 如果返回值是登录页面，那就从 SSO 跳转一次以登录.
     if (_isRedirectedToLoginPage(response)) {
       debugPrint('JwxtSession requires login');
-      await requestLogin2RefreshCookie();
+      await refreshCookie();
       return await fetch();
     }
     // 如果还是需要登录
     if (_isRedirectedToLoginPage(response)) {
       debugPrint('JwxtSession still requires login');
-      await requestLogin2RefreshCookie();
+      await refreshCookie();
       return await fetch();
     }
     return response;
