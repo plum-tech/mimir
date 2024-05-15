@@ -704,8 +704,8 @@ settings:
       desc: Reload all modules
   clearCache:
     title: Clear cache
-    desc: Clear the offline cache during use
-    request: Confirm to clear the cache? To reload them, you need connect to campus network again.
+    desc: Clear the offline cache and cookies during use
+    request: To reload them, you need connect to campus network again.
   themeMode:
     title: Brightness
   proxy:

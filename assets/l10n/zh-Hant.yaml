@@ -704,8 +704,8 @@ settings:
       desc: 重新載入所有模塊
   clearCache:
     title: 清空快取
-    desc: 清空使用過程中產生的離線緩存
-    request: 確認清空快取嗎？為加載它們，你必須重新連線校園網路。
+    desc: 清空使用過程中產生的離線緩存和 Cookies
+    request: 為加載它們，你必須重新連線校園網路。
   themeMode:
     title: 亮度
   proxy:

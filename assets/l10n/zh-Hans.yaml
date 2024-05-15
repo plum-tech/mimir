@@ -704,8 +704,8 @@ settings:
       desc: 重新加载所有模块
   clearCache:
     title: 清空缓存
-    desc: 清空使用过程中产生的离线缓存
-    request: 确定清空缓存？你下次需要连接校园网才能重新加载它们。
+    desc: 清空使用过程中产生的离线缓存和 Cookies
+    request: 你下次需要连接校园网才能重新加载它们。
   themeMode:
     title: 亮度
   proxy:
