@@ -113,6 +113,7 @@ class SsoSession {
     ProgressCallback? onReceiveProgress,
   }) async {
     options ??= Options();
+    final debugDepths = <Response>[];
     Future<Response> requestNormally() async {
       final response = await dio.request(
         url,
@@ -127,7 +128,6 @@ class SsoSession {
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      final debugDepths = <Response>[];
       final finalResponse = await processRedirect(
         dio,
         response,
@@ -148,6 +148,7 @@ class SsoSession {
       }
       await cookieJar.delete(Uri.parse(url), true);
       await loginLocked(credentials);
+      debugDepths.clear();
       return await requestNormally();
     } else {
       return firstResponse;

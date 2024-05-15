@@ -25,7 +25,7 @@ Future<Response> processRedirect(
   // Prevent the redirect being processed by HttpClient, with the 302 response caught manually.
   final headerLocations = response.headers['location'];
   if (response.statusCode == 302 && headerLocations != null && headerLocations.isNotEmpty) {
-    String location = headerLocations[0];
+    var location = headerLocations[0];
     if (location.isEmpty) return response;
     final locationUri = Uri.parse(location);
     if (!locationUri.isAbsolute) {

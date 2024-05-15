@@ -11,11 +11,11 @@ final _rand = Random();
 
 class DioInit {
   static Future<Dio> init({
-    required CookieJar cookieJar,
+    CookieJar? cookieJar,
     BaseOptions? config,
   }) async {
     final dio = Dio();
-    if (!kIsWeb) {
+    if (!kIsWeb && cookieJar != null) {
       dio.interceptors.add(CookieManager(cookieJar));
     }
     if (kDebugMode && R.debugNetwork) {
