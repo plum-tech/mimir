@@ -2,7 +2,7 @@ import { readFile } from "fs/promises"
 import * as path from "path"
 import mime from 'mime'
 
-const prodUrl = "http://mua.sitmc.club:32000"
+const prodUrl = "https://temp.sitmc.club"
 const debugUrl = "http://127.0.0.1:5000"
 const url = prodUrl
 /**
@@ -23,8 +23,11 @@ export async function uploadFile({ auth, localFilePath, remotePath }) {
     },
     body: formData
   })
-  const result = await res.json()
-  return result
+  if (res.ok) {
+    return await res.json()
+  } else {
+    return await res.text()
+  }
 }
 /**
  *
@@ -41,8 +44,11 @@ export async function deleteFile({ auth, remotePath }) {
     },
     body: formData
   })
-  const result = await res.json()
-  return result
+  if (res.ok) {
+    return await res.json()
+  } else {
+    return await res.text()
+  }
 }
 
 /**
