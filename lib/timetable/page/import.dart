@@ -13,6 +13,8 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/school/widgets/semester.dart';
+import 'package:sit/settings/meta.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/utils.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -133,8 +135,9 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
 
   Future<SitTimetable?> handleTimetableData(
     SitTimetable timetable,
-    SemesterInfo info,
-  ) async {
+    SemesterInfo info, {
+    bool fillFundamentalInfo = true,
+  }) async {
     final SemesterInfo(:exactYear, :semester) = info;
     // fetch start date of current semester from ug reg
     final userType = ref.read(CredentialsInit.storage.$oaUserType);
@@ -144,6 +147,15 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
       startDate: resolvedStartDate,
       schoolYear: exactYear,
     );
+    if (fillFundamentalInfo) {
+      timetable = timetable.copyWith(
+        name: timetable.name.isNotEmpty
+            ? null
+            : i18n.import.defaultName(semester.l10n(), exactYear.toString(), (exactYear + 1).toString()),
+        startDate: await fetchStartDateOfCurrentSemester(info, userType) ?? estimateStartDate(exactYear, semester),
+        signature: Meta.userRealName ?? Settings.lastSignature,
+      );
+    }
     if (!mounted) return null;
     final newTimetable = await processImportedTimetable(context, timetable);
     if (newTimetable != null) {
@@ -180,7 +192,11 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
       setState(() {
         _status = ImportStatus.end;
       });
-      final newTimetable = await handleTimetableData(timetable, selected);
+      final newTimetable = await handleTimetableData(
+        timetable,
+        selected,
+        fillFundamentalInfo: ref.read(CredentialsInit.storage.$oaUserType) != OaUserType.undergraduate,
+      );
       if (!mounted) return;
       context.pop(newTimetable);
     } catch (e, stackTrace) {

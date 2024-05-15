@@ -18,6 +18,7 @@ import 'package:sit/r.dart';
 import 'package:sit/school/widgets/campus.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/dev.dart';
+import 'package:sit/settings/meta.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 
@@ -84,6 +85,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     setState(() => isLoggingIn = true);
     final rand = Random();
     await Future.delayed(Duration(milliseconds: rand.nextInt(2000)));
+    Meta.userRealName = "Liplum";
     Settings.lastSignature ??= "Liplum";
     CredentialsInit.storage.oaCredentials = R.demoModeOaCredentials;
     CredentialsInit.storage.oaLoginStatus = LoginStatus.validated;
