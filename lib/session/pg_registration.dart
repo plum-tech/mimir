@@ -24,7 +24,7 @@ class PgRegistrationSession {
     Future<Response> fetch() async {
       return await ssoSession.request(
         url,
-        para: para,
+        queryParameters: para,
         data: data,
         options: options,
         onSendProgress: onSendProgress,

@@ -40,7 +40,7 @@ class ExpenseService {
         contentType: 'text/plain',
         method: "POST",
       ),
-      para: {
+      queryParameters: {
         'timestamp': curTs,
         'starttime': fromTs,
         'endtime': toTs,

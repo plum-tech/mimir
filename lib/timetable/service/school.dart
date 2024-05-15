@@ -34,7 +34,7 @@ class TimetableService {
       options: Options(
         method: "POST",
       ),
-      para: {'gnmkdm': 'N253508'},
+      queryParameters: {'gnmkdm': 'N253508'},
       data: {
         // 学年名
         'xnm': info.exactYear.toString(),

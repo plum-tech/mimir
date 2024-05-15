@@ -17,7 +17,7 @@ class ExamArrangeService {
   Future<List<ExamEntry>> fetchExamList(SemesterInfo info) async {
     final response = await _session.request(
       _examRoomUrl,
-      para: {
+      queryParameters: {
         'doType': 'query',
         'gnmkdm': 'N358105',
       },

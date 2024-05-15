@@ -43,7 +43,7 @@ class ExamResultUgService {
       options: Options(
         method: "POST",
       ),
-      para: {
+      queryParameters: {
         'gnmkdm': 'N305005',
         'doType': 'query',
       },
@@ -88,7 +88,7 @@ class ExamResultUgService {
       options: Options(
         method: "POST",
       ),
-      para: {'gnmkdm': 'N305005'},
+      queryParameters: {'gnmkdm': 'N305005'},
       data: FormData.fromMap({
         // 班级
         'jxb_id': classId,

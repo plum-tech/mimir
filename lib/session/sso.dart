@@ -89,7 +89,7 @@ class SsoSession {
       networkLogger.i("loginLocked ${DateTime.now().toIso8601String()}");
       try {
         final byAutoCaptcha = await _login(
-          credentials: credentials,
+          credentials,
           inputCaptcha: (captchaImage) => AuthSession.recognizeOaCaptcha(captchaImage),
         );
         return byAutoCaptcha;
@@ -97,7 +97,7 @@ class SsoSession {
         debugPrintError(error, stackTrace);
       }
       final byManualCaptcha = await _login(
-        credentials: credentials,
+        credentials,
         inputCaptcha: inputCaptcha,
       );
       return byManualCaptcha;
@@ -167,8 +167,8 @@ class SsoSession {
     return cookies.firstWhereOrNull((cookie) => cookie.name == "JSESSIONID");
   }
 
-  Future<Response> _login({
-    required Credentials credentials,
+  Future<Response> _login(
+    Credentials credentials, {
     required Future<String?> Function(Uint8List imageBytes) inputCaptcha,
   }) async {
     debugPrint('${credentials.account} logging in');
@@ -186,13 +186,7 @@ class SsoSession {
       var captcha = '';
       if (await isCaptchaRequired(credentials.account)) {
         final captchaImage = await getCaptcha();
-        final c = await inputCaptcha(captchaImage);
-        if (c != null) {
-          captcha = c;
-          debugPrint("Captcha entered is $captcha");
-        } else {
-          throw const LoginCaptchaCancelledException();
-        }
+        captcha = await getInputtedCaptcha(captchaImage, inputCaptcha);
       }
       // 获取casTicket
       final casTicket = _extractCasTicketFromAuthHtml(html);
@@ -231,6 +225,19 @@ class SsoSession {
     CredentialsInit.storage.oaLastAuthTime = DateTime.now();
     _setOnline(true);
     return response;
+  }
+
+  Future<String> getInputtedCaptcha(
+    Uint8List captchaImage,
+    Future<String?> Function(Uint8List imageBytes) inputCaptcha,
+  ) async {
+    final c = await inputCaptcha(captchaImage);
+    if (c != null) {
+      debugPrint("Captcha entered is $c");
+      return c;
+    } else {
+      throw const LoginCaptchaCancelledException();
+    }
   }
 
   Future<void> deleteSitUriCookies() async {
@@ -340,7 +347,7 @@ class SsoSession {
 
   Future<Response> request(
     String url, {
-    Map<String, String>? para,
+    Map<String, String>? queryParameters,
     data,
     Options? options,
     ProgressCallback? onSendProgress,
@@ -352,7 +359,7 @@ class SsoSession {
       try {
         return await _request(
           url,
-          queryParameters: para,
+          queryParameters: queryParameters,
           data: data,
           options: options,
         );

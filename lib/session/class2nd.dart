@@ -22,7 +22,7 @@ class Class2ndSession {
     Future<Response> fetch() {
       return ssoSession.request(
         url,
-        para: para,
+        queryParameters: para,
         data: data,
         options: options,
         onSendProgress: onSendProgress,

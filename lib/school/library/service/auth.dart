@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:encrypt/encrypt.dart';
+import 'package:pointycastle/pointycastle.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/error.dart';
 import 'package:sit/init.dart';
@@ -31,7 +32,8 @@ class LibraryAuthService {
   }
 
   Future<Response> _login(String username, String password) async {
-    final rdPasswd = await _encryptPassword(password);
+    final pk = await _getRSAPublicKey();
+    final rdPasswd = _encryptPasswordWithRSA(password, publicKey: pk as RSAPublicKey);
     final response = await dio.post(
       _loginUrl,
       data: {
@@ -47,15 +49,7 @@ class LibraryAuthService {
     return processRedirect(dio, response);
   }
 
-  Future<String> _encryptPassword(String password) async {
-    String hashedPwd = md5.convert(const Utf8Encoder().convert(password)).toString();
-    final pk = await _getRSAPublicKey();
-    final encrypter = Encrypter(RSA(publicKey: pk));
-    final String encryptedPwd = encrypter.encrypt(hashedPwd).base64;
-    return encryptedPwd;
-  }
-
-  Future<dynamic> _getRSAPublicKey() async {
+  Future<RSAAsymmetricKey> _getRSAPublicKey() async {
     final pemResponse = await dio.get(
       _pemUrl,
       queryParameters: {
@@ -67,5 +61,15 @@ class LibraryAuthService {
 
     final parser = RSAKeyParser();
     return parser.parse(pemFileContent);
+  }
+
+  String _encryptPasswordWithRSA(
+    String password, {
+    required RSAPublicKey publicKey,
+  }) {
+    String hashedPwd = md5.convert(const Utf8Encoder().convert(password)).toString();
+    final encrypter = Encrypter(RSA(publicKey: publicKey));
+    final String encryptedPwd = encrypter.encrypt(hashedPwd).base64;
+    return encryptedPwd;
   }
 }

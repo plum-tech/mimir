@@ -80,22 +80,12 @@ class Init {
     ssoSession = SsoSession(
       dio: dio,
       cookieJar: cookieJar,
-      inputCaptcha: (Uint8List imageBytes) async {
-        final context = $key.currentContext!;
-        // return await context.show$Sheet$(
-        //   (ctx) => CaptchaSheetPage(
-        //     captchaData: imageBytes,
-        //   ),
-        // );
-        return await showAdaptiveDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) => CaptchaDialog(captchaData: imageBytes),
-        );
-      },
+      inputCaptcha: _inputCaptcha,
     );
     ugRegSession = UgRegistrationSession(
+      dio: dio,
       ssoSession: ssoSession,
+      inputCaptcha: _inputCaptcha,
     );
     ywbSession = YwbSession(
       dio: dio,
@@ -166,4 +156,18 @@ class Init {
     EditorEx.registerEnumEditor(LoginStatus.values);
     EditorEx.registerEnumEditor(OaUserType.values);
   }
+}
+
+Future<String?> _inputCaptcha(Uint8List imageBytes) async {
+  final context = $key.currentContext!;
+// return await context.show$Sheet$(
+//   (ctx) => CaptchaSheetPage(
+//     captchaData: imageBytes,
+//   ),
+// );
+  return await showAdaptiveDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (context) => CaptchaDialog(captchaData: imageBytes),
+  );
 }
