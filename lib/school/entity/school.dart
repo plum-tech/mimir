@@ -24,6 +24,24 @@ enum Semester implements Comparable<Semester> {
     if (this == term1) return -1;
     return 1;
   }
+
+  String toUgRegFormField() {
+    const mapping = {
+      Semester.all: '',
+      Semester.term1: '3',
+      Semester.term2: '12',
+    };
+    return mapping[this]!;
+  }
+
+  static Semester fromUgRegFormField(String field) {
+    const mapping = {
+      '': Semester.all,
+      '3': Semester.term1,
+      '12': Semester.term2,
+    };
+    return mapping[field]!;
+  }
 }
 
 @HiveType(typeId: CacheHiveType.semesterInfo)
@@ -91,15 +109,6 @@ class SemesterInfo implements Comparable<SemesterInfo> {
     }
     return 0;
   }
-}
-
-String semesterToFormField(Semester semester) {
-  const mapping = {
-    Semester.all: '',
-    Semester.term1: '3',
-    Semester.term2: '12',
-  };
-  return mapping[semester]!;
 }
 
 @HiveType(typeId: CacheHiveType.courseCat)

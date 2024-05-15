@@ -25,7 +25,7 @@ class ExamArrangeService {
         // 学年名
         'xnm': info.year.toString(),
         // 学期名
-        'xqm': semesterToFormField(info.semester),
+        'xqm': info.semester.toUgRegFormField(),
       },
       options: Options(
         method: "POST",

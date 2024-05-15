@@ -9,7 +9,6 @@ import 'package:sit/session/pg_registration.dart';
 import 'package:sit/session/ug_registration.dart';
 import 'package:sit/settings/settings.dart';
 
-import '../entity/course.dart';
 import '../entity/timetable.dart';
 import '../utils.dart';
 
@@ -40,17 +39,14 @@ class TimetableService {
         // 学年名
         'xnm': info.exactYear.toString(),
         // 学期名
-        'xqm': semesterToFormField(info.semester)
+        'xqm': info.semester.toUgRegFormField()
       },
     );
     final json = response.data;
-    final List<dynamic> courseList = json['kbList'];
-    final rawCourses = courseList.map((e) => UndergraduateCourseRaw.fromJson(e)).toList();
-    final timetableEntity = parseUndergraduateTimetableFromCourseRaw(
-      rawCourses,
+    return parseUndergraduateTimetableFromRaw(
+      json,
       defaultCampus: Settings.campus,
     );
-    return timetableEntity;
   }
 
   /// 获取研究生课表
@@ -65,14 +61,11 @@ class TimetableService {
         "XQDM": _toPgSemesterText(info),
       },
     );
-    final scoreList = await ExamResultInit.pgService.fetchResultRawList();
-    final courseList = parsePostgraduateCourseRawsFromHtml(timetableRes.data);
-    completePostgraduateCourseRawsFromPostgraduateScoreRaws(courseList, scoreList);
-    final timetableEntity = parsePostgraduateTimetableFromCourseRaw(
-      courseList,
-      defaultCampus: Settings.campus,
+    return parsePostgraduateTimetableFromRaw(
+      resultList: await ExamResultInit.pgService.fetchResultRawList(),
+      pageHtml: timetableRes.data,
+      campus: Settings.campus,
     );
-    return timetableEntity;
   }
 
   String _toPgSemesterText(SemesterInfo info) {

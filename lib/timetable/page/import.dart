@@ -13,7 +13,6 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/school/widgets/semester.dart';
-import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/utils.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -137,24 +136,13 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
     SemesterInfo info,
   ) async {
     final SemesterInfo(:exactYear, :semester) = info;
-    final defaultName = i18n.import.defaultName(semester.l10n(), exactYear.toString(), (exactYear + 1).toString());
-    DateTime defaultStartDate = estimateStartDate(exactYear, semester);
+    // fetch start date of current semester from ug reg
     final userType = ref.read(CredentialsInit.storage.$oaUserType);
-    if (userType == OaUserType.undergraduate) {
-      final current = estimateCurrentSemester();
-      if (info == current) {
-        final span = await TimetableInit.service.getUgSemesterSpan();
-        if (span != null) {
-          defaultStartDate = span.start;
-        }
-      }
-    }
+    final resolvedStartDate = await fetchStartDateOfCurrentSemester(info, userType);
     timetable = timetable.copyWith(
-      name: defaultName,
       semester: semester,
-      startDate: defaultStartDate,
+      startDate: resolvedStartDate,
       schoolYear: exactYear,
-      signature: Settings.lastSignature,
     );
     if (!mounted) return null;
     final newTimetable = await processImportedTimetable(context, timetable);
@@ -162,14 +150,6 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
       return newTimetable;
     }
     return null;
-  }
-
-  DateTime estimateStartDate(int year, Semester semester) {
-    if (semester == Semester.term1) {
-      return findFirstWeekdayInCurrentMonth(DateTime(year, 9), DateTime.monday);
-    } else {
-      return findFirstWeekdayInCurrentMonth(DateTime(year + 1, 2), DateTime.monday);
-    }
   }
 
   Widget buildImportButton(BuildContext ctx) {
@@ -225,20 +205,6 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
       }
     }
   }
-}
-
-DateTime findFirstWeekdayInCurrentMonth(DateTime current, int weekday) {
-  // Calculate the first day of the current month while keeping the same year.
-  DateTime firstDayOfMonth = DateTime(current.year, current.month, 1);
-
-  // Calculate the difference in days between the first day of the current month
-  // and the desired weekday.
-  int daysUntilWeekday = (weekday - firstDayOfMonth.weekday + 7) % 7;
-
-  // Calculate the date of the first occurrence of the desired weekday in the current month.
-  DateTime firstWeekdayInMonth = firstDayOfMonth.add(Duration(days: daysUntilWeekday));
-
-  return firstWeekdayInMonth;
 }
 
 Future<SitTimetable?> processImportedTimetable(

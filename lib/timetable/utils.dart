@@ -9,6 +9,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:open_file/open_file.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/entity/campus.dart';
@@ -34,6 +35,7 @@ import 'dart:math';
 
 import 'i18n.dart';
 
+import 'init.dart';
 import 'page/ical.dart';
 import 'package:html/parser.dart';
 
@@ -92,21 +94,23 @@ TimetableWeekIndices _parseWeekText2RangedNumbers(
   return TimetableWeekIndices(indices);
 }
 
-Campus _parseCampus(String campus) {
-  if (campus.contains("徐汇")) {
-    return Campus.xuhui;
-  } else {
+Campus? _parseCampus(String campus) {
+  if (campus.contains("奉贤")) {
     return Campus.fengxian;
+  } else if (campus.contains("徐汇")) {
+    return Campus.xuhui;
   }
+  return null;
 }
 
-SitTimetable parseUndergraduateTimetableFromCourseRaw(
-  List<UndergraduateCourseRaw> all, {
-  required Campus defaultCampus,
-}) {
+typedef _SitTimetableInter = ({
+  Map<String, SitCourse> courses,
+  int lastCourseKey,
+});
+
+_SitTimetableInter _parseUndergraduateTimetableFromCourseRaw(List<UndergraduateCourseRaw> all) {
   final courseKey2Entity = <String, SitCourse>{};
   var counter = 0;
-  var campus = defaultCampus;
   for (final raw in all) {
     final courseKey = counter++;
     final weekIndices = _parseWeekText2RangedNumbers(
@@ -120,7 +124,6 @@ SitTimetable parseUndergraduateTimetableFromCourseRaw(
     if (dayIndex == null || !(0 <= dayIndex && dayIndex < 7)) continue;
     final timeslots = rangeFromString(raw.timeslotsText, number2index: true);
     assert(timeslots.start <= timeslots.end, "${timeslots.start} > ${timeslots.end} actually. ${raw.courseName}");
-    campus = _parseCampus(raw.campus);
     final course = SitCourse(
       courseKey: courseKey,
       courseName: mapChinesePunctuations(raw.courseName).trim(),
@@ -135,17 +138,10 @@ SitTimetable parseUndergraduateTimetableFromCourseRaw(
     );
     courseKey2Entity["$courseKey"] = course;
   }
-  final res = SitTimetable(
+  return (
     courses: courseKey2Entity,
     lastCourseKey: counter,
-    name: "",
-    campus: campus,
-    startDate: DateTime.utc(0),
-    schoolYear: 0,
-    semester: Semester.term1,
-    lastModified: DateTime.now(),
   );
-  return res;
 }
 
 Duration calcuSwitchAnimationDuration(num distance) {
@@ -153,18 +149,116 @@ Duration calcuSwitchAnimationDuration(num distance) {
   return Duration(milliseconds: time.toInt());
 }
 
+SitTimetable parseUndergraduateTimetableFromRaw(
+  Map json, {
+  required Campus defaultCampus,
+}) {
+  final List<dynamic> courseList = json['kbList'];
+  final Map info = json["xsxx"];
+  final String name = info["XM"];
+  final String semesterRaw = info["XQM"];
+  final String schoolYearRaw = info["XNM"];
+  final schoolYear = int.parse(schoolYearRaw);
+  final semester = Semester.fromUgRegFormField(semesterRaw);
+  final rawCourses = courseList.map((e) => UndergraduateCourseRaw.fromJson(e)).toList();
+  final (:courses, :lastCourseKey) = _parseUndergraduateTimetableFromCourseRaw(
+    rawCourses,
+  );
+  return SitTimetable(
+    courses: courses,
+    lastCourseKey: lastCourseKey,
+    signature: name,
+    name: i18n.import.defaultName(semester.l10n(), schoolYear.toString(), (schoolYear + 1).toString()),
+    startDate: estimateStartDate(schoolYear, semester),
+    campus: _extractCampusFromCourses(rawCourses) ?? defaultCampus,
+    schoolYear: schoolYear,
+    semester: semester,
+    lastModified: DateTime.now(),
+  );
+}
+
+Campus? _extractCampusFromCourses(Iterable<UndergraduateCourseRaw> courses) {
+  for (final course in courses) {
+    final campus = _parseCampus(course.campus);
+    if (campus != null) return campus;
+  }
+  return null;
+}
+
+DateTime estimateStartDate(int year, Semester semester) {
+  if (semester == Semester.term1) {
+    return findFirstWeekdayInCurrentMonth(DateTime(year, 9), DateTime.monday);
+  } else {
+    return findFirstWeekdayInCurrentMonth(DateTime(year + 1, 2), DateTime.monday);
+  }
+}
+
+DateTime findFirstWeekdayInCurrentMonth(DateTime current, int weekday) {
+  // Calculate the first day of the current month while keeping the same year.
+  DateTime firstDayOfMonth = DateTime(current.year, current.month, 1);
+
+  // Calculate the difference in days between the first day of the current month
+  // and the desired weekday.
+  int daysUntilWeekday = (weekday - firstDayOfMonth.weekday + 7) % 7;
+
+  // Calculate the date of the first occurrence of the desired weekday in the current month.
+  DateTime firstWeekdayInMonth = firstDayOfMonth.add(Duration(days: daysUntilWeekday));
+
+  return firstWeekdayInMonth;
+}
+
+SitTimetable parsePostgraduateTimetableFromRaw({
+  required List<ExamResultPgRaw> resultList,
+  required String pageHtml,
+  required Campus campus,
+}) {
+  final courseList = parsePostgraduateCourseRawsFromHtml(pageHtml);
+  completePostgraduateCourseRawsFromPostgraduateScoreRaws(courseList, resultList);
+  return parsePostgraduateTimetableFromCourseRaw(
+    courseList,
+    campus: campus,
+  );
+}
+
 Future<SitTimetable?> readTimetableFromPickedFile() async {
   final result = await FilePicker.platform.pickFiles(
-      // Cannot limit the extensions. My RedMi phone just reject all files.
-      // type: FileType.custom,
-      // allowedExtensions: const ["timetable", "json"],
-      );
+    // Cannot limit the extensions. My RedMi phone just reject all files.
+    // type: FileType.custom,
+    // allowedExtensions: const ["timetable", "json"],
+    lockParentWindow: true,
+  );
   if (result == null) return null;
   final content = await _readTimetableFi(result.files.single);
   if (content == null) return null;
   final json = jsonDecode(content);
-  final timetable = SitTimetable.fromJson(json);
-  return timetable;
+  try {
+    final timetable = SitTimetable.fromJson(json);
+    return timetable;
+  } catch (_) {
+    // try parsing the file as timetable raw
+    return parseUndergraduateTimetableFromRaw(
+      json,
+      defaultCampus: Campus.fengxian,
+    );
+  }
+}
+
+Future<DateTime?> fetchStartDateOfCurrentSemester(SemesterInfo selected, OaUserType? userType) async {
+  try {
+    if (userType == OaUserType.undergraduate) {
+      final current = estimateCurrentSemester();
+      if (selected == current) {
+        final span = await TimetableInit.service.getUgSemesterSpan();
+        if (span != null) {
+          return span.start;
+        }
+      }
+    }
+  } catch (error, stackTrace) {
+    debugPrintError(error, stackTrace);
+    return null;
+  }
+  return null;
 }
 
 Future<SitTimetable?> readTimetableFromFile(String path) async {
@@ -455,7 +549,7 @@ void completePostgraduateCourseRawsFromPostgraduateScoreRaws(
 
 SitTimetable parsePostgraduateTimetableFromCourseRaw(
   List<PostgraduateCourseRaw> all, {
-  required Campus defaultCampus,
+  required Campus campus,
 }) {
   final courseKey2Entity = <String, SitCourse>{};
   var counter = 0;
@@ -493,7 +587,7 @@ SitTimetable parsePostgraduateTimetableFromCourseRaw(
     courses: courseKey2Entity,
     lastCourseKey: counter,
     name: "",
-    campus: defaultCampus,
+    campus: campus,
     startDate: DateTime.utc(0),
     schoolYear: 0,
     semester: Semester.term1,

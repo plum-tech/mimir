@@ -51,7 +51,7 @@ class ExamResultUgService {
         // 学年名
         'xnm': year == null ? "" : year.toString(),
         // 学期名
-        'xqm': semesterToFormField(info.semester),
+        'xqm': info.semester.toUgRegFormField(),
         // 获取成绩最大数量
         'queryModel.showCount': 5000,
       },
@@ -95,7 +95,7 @@ class ExamResultUgService {
         // 学年名
         'xnm': info.year.toString(),
         // 学期名
-        'xqm': semesterToFormField(info.semester)
+        'xqm': info.semester.toUgRegFormField()
       }),
     );
     final html = response.data as String;
