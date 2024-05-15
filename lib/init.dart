@@ -44,6 +44,7 @@ class Init {
 
   static late CookieJar cookieJar;
   static late Dio dio;
+  static late Dio dioNoCookie;
   static late BackendSession backend;
   static late SsoSession ssoSession;
   static late UgRegistrationSession ugRegSession;
@@ -61,13 +62,17 @@ class Init {
         storage: HiveCookieJar(HiveInit.cookies),
       );
     }
+    final dioOptions = BaseOptions(
+      connectTimeout: const Duration(milliseconds: 8000),
+      receiveTimeout: const Duration(milliseconds: 8000),
+      sendTimeout: const Duration(milliseconds: 8000),
+    );
     dio = await DioInit.init(
       cookieJar: cookieJar,
-      config: BaseOptions(
-        connectTimeout: const Duration(milliseconds: 8000),
-        receiveTimeout: const Duration(milliseconds: 8000),
-        sendTimeout: const Duration(milliseconds: 8000),
-      ),
+      config: dioOptions,
+    );
+    dioNoCookie = await DioInit.init(
+      config: dioOptions,
     );
     backend = BackendSession(
       dio: dio,

@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:sit/init.dart';
 
 import 'package:sit/session/sso.dart';
 
@@ -21,7 +22,7 @@ class UgRegistrationSession {
 
   bool _isRedirectedToLoginPage(Response response) {
     final realPath=response.realUri.path;
-    return realPath.endsWith('xtgl/login_slogin.html');
+    return realPath.endsWith('jwglxt/xtgl/login_slogin.html');
   }
 
   Future<Response> request(
@@ -66,7 +67,7 @@ class UgRegistrationSession {
     String url = 'http://jwxt.sit.edu.cn/',
   }) async {
     try {
-      await request(
+      await Init.dioNoCookie.request(
         url,
         options: Options(
           method: "GET",
