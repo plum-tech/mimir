@@ -23,10 +23,12 @@ Future<Response> processRedirect(
 }) async {
   debugDepths?.add(response);
   // Prevent the redirect being processed by HttpClient, with the 302 response caught manually.
-  if (response.statusCode == 302 && response.headers['location'] != null && response.headers['location']!.isNotEmpty) {
-    String location = response.headers['location']![0];
+  final headerLocations = response.headers['location'];
+  if (response.statusCode == 302 && headerLocations != null && headerLocations.isNotEmpty) {
+    String location = headerLocations[0];
     if (location.isEmpty) return response;
-    if (!Uri.parse(location).isAbsolute) {
+    final locationUri = Uri.parse(location);
+    if (!locationUri.isAbsolute) {
       location = '${response.requestOptions.uri.origin}/$location';
     }
     final redirectedResponse = await dio.get(

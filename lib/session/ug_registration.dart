@@ -20,7 +20,8 @@ class UgRegistrationSession {
   }
 
   bool _isRedirectedToLoginPage(Response response) {
-    return response.realUri.path == '/jwglxt/xtgl/login_slogin.html';
+    final realPath=response.realUri.path;
+    return realPath.endsWith('xtgl/login_slogin.html');
   }
 
   Future<Response> request(
