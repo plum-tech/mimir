@@ -10,6 +10,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/settings/dev.dart';
+import 'package:sit/widgets/modal_image_view.dart';
 
 import '../i18n.dart';
 
@@ -27,21 +28,20 @@ class QrCodePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final hugeQrCode = data.length > 512;
     return Scaffold(
       appBar: AppBar(
         title: title,
       ),
-      body: [
+      body: ListView(children: [
         LayoutBuilder(
           builder: (ctx, box) {
             final side = min(box.maxWidth, maxSize ?? double.infinity);
             return PlainQrCodeView(
               data: data,
               size: side,
-            ).center().padSymmetric(h: hugeQrCode ? 0 : 16);
+            ).center();
           },
-        ),
+        ).padSymmetric(h: 4),
         RichText(
           text: TextSpan(
             style: context.textTheme.bodyLarge,
@@ -61,7 +61,7 @@ class QrCodePage extends StatelessWidget {
           ),
           SelectableText(data).padAll(10),
         ],
-      ].column(),
+      ]),
     );
   }
 }
@@ -78,19 +78,21 @@ class PlainQrCodeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return QrImageView(
-      backgroundColor: context.colorScheme.surface,
-      data: data,
-      size: size,
-      eyeStyle: QrEyeStyle(
-        eyeShape: QrEyeShape.square,
-        color: context.colorScheme.onSurface,
+    return ModalImageViewer(
+      child: QrImageView(
+        backgroundColor: context.colorScheme.surface,
+        data: data,
+        size: size,
+        eyeStyle: QrEyeStyle(
+          eyeShape: QrEyeShape.square,
+          color: context.colorScheme.onSurface,
+        ),
+        dataModuleStyle: QrDataModuleStyle(
+          dataModuleShape: QrDataModuleShape.square,
+          color: context.colorScheme.onSurface,
+        ),
+        version: QrVersions.auto,
       ),
-      dataModuleStyle: QrDataModuleStyle(
-        dataModuleShape: QrDataModuleShape.square,
-        color: context.colorScheme.onSurface,
-      ),
-      version: QrVersions.auto,
     );
   }
 }
