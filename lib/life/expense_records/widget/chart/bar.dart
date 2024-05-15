@@ -97,7 +97,7 @@ class _ExpenseBarChartWidgetState extends State<ExpenseBarChartWidget> {
                 context.textTheme.titleMedium ?? const TextStyle(),
               );
             },
-            getTooltipColor: (group) => context.colorScheme.surfaceVariant,
+            getTooltipColor: (group) => context.colorScheme.surfaceContainerHighest,
           ),
           touchCallback: (FlTouchEvent event, barTouchResponse) {
             setState(() {

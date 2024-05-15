@@ -17,7 +17,7 @@ class CellCover extends StatelessWidget {
       duration: Durations.long1,
       child: Container(
         decoration: BoxDecoration(
-          color: context.colorScheme.surfaceVariant,
+          color: context.colorScheme.surfaceContainerHighest,
           border: Border.all(
             width: 1,
             color: context.colorScheme.surface,

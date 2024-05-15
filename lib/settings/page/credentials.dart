@@ -158,7 +158,7 @@ class _TestLoginTileState extends State<TestLoginTile> {
                 setState(() => loggingState = _TestLoginState.success);
               } on Exception catch (error, stackTrace) {
                 setState(() => loggingState = _TestLoginState.notStart);
-                if (!mounted) return;
+                if (!context.mounted) return;
                 await handleLoginException(context: context, error: error, stackTrace: stackTrace);
               }
             },

@@ -82,7 +82,7 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
         (ctx, mode) => SegmentedButton<DisplayMode>(
               showSelectedIcon: false,
               style: ButtonStyle(
-                padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: 4)),
+                padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 4)),
                 visualDensity: VisualDensity.compact,
               ),
               segments: DisplayMode.values

@@ -180,7 +180,7 @@ class StatisticsDelegate {
     required DateTime start,
     required List<Transaction> records,
   }) {
-    final _monthFormat = DateFormat.MMM($key.currentContext!.locale.toString());
+    final monthFormat = DateFormat.MMM($key.currentContext!.locale.toString());
     final now = DateTime.now();
     final data = List.generate(start.year == now.year ? now.month : 12, (i) => <Transaction>[]);
     for (final record in records) {
@@ -201,7 +201,7 @@ class StatisticsDelegate {
       side: _buildSideTitle,
       bottom: (ctx, value, mate) {
         final index = value.toInt();
-        final text = _monthFormat.format(DateTime(0, index + 1));
+        final text = monthFormat.format(DateTime(0, index + 1));
         return SideTitleWidget(
           axisSide: mate.axisSide,
           child: Text(

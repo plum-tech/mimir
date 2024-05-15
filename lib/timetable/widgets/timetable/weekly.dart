@@ -540,7 +540,7 @@ class DashLined extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: DashDecoration(
-        color: context.colorScheme.onBackground.withOpacity(0.3),
+        color: context.colorScheme.surfaceContainerHighest.withOpacity(0.3),
         strokeWidth: 0.5,
         borders: {
           if (right) LinePosition.right,

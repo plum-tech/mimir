@@ -26,7 +26,7 @@ class RestyledHtmlWidget extends StatelessWidget {
       renderMode: renderMode,
       factoryBuilder: () => RestyledWidgetFactory(
         textStyle: textStyle,
-        borderColor: context.colorScheme.surfaceVariant,
+        borderColor: context.colorScheme.surfaceContainerHighest,
       ),
       textStyle: textStyle,
       onTapUrl: (url) async {

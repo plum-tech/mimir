@@ -130,7 +130,7 @@ class _SkipBtn extends StatelessWidget {
     return Material(
       clipBehavior: Clip.hardEdge,
       borderRadius: buttonStyles.borderRadius ?? BorderRadius.circular(0),
-      color: context.theme.colorScheme.background,
+      color: context.theme.colorScheme.surface,
       child: InkWell(
         onTap: onTap,
         child: Padding(
@@ -167,7 +167,7 @@ class _PageBtn extends StatelessWidget {
     return Material(
       clipBehavior: Clip.hardEdge,
       borderRadius: buttonStyles.borderRadius ?? BorderRadius.circular(0),
-      color: active ? context.colorScheme.surfaceVariant : buttonStyles.bgColor ?? context.theme.colorScheme.background,
+      color: active ? context.colorScheme.surfaceContainerHighest : buttonStyles.bgColor ?? context.theme.colorScheme.surface,
       child: InkWell(
         onTap: () {
           onTap(page);
