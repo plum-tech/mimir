@@ -3,6 +3,7 @@ import { git, github } from './git.mjs'
 import crypto from "crypto"
 import * as path from "path"
 import { getArtifactDownloadUrl } from './sitmc.mjs'
+import esMain from 'es-main'
 
 const gitUrl = 'https://github.com/Amazefcc233/mimir-docs'
 const deployPath = '~/deploy'
@@ -185,4 +186,6 @@ async function downloadAndSha256Hash(url) {
   return hash
 }
 
-main()
+if (esMain(import.meta)) {
+  main()
+}

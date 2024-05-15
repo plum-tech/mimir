@@ -2,6 +2,7 @@ import fs from 'fs/promises' // For file system operations
 import { extractVersion, extractBuildNumber } from './pubspec.mjs'
 import { git } from "./git.mjs"
 import { guardVersioning } from './guard.mjs'
+import esMain from 'es-main'
 const pubspecPath = 'pubspec.yaml'
 
 /**
@@ -57,4 +58,6 @@ async function main() {
   }
 }
 
-main()
+if (esMain(import.meta)) {
+  main()
+}

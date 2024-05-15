@@ -2,7 +2,9 @@ import { readFile } from "fs/promises"
 import * as path from "path"
 import mime from 'mime'
 
-const prodUrl = "http://mua.sitmc.club:32000/admin"
+const prodUrl = "http://mua.sitmc.club:32000"
+const debugUrl = "http://127.0.0.1:5000"
+const url = prodUrl
 /**
  *
  * @param {{auth:string,filePath:string, uploadPath:string}} param0
@@ -14,7 +16,7 @@ export async function uploadFile({ auth, localFilePath, remotePath }) {
   formData.append('file', file, path.basename(localFilePath))
   formData.append('path', remotePath)
 
-  const res = await fetch(prodUrl, {
+  const res = await fetch(`${url}/admin`, {
     method: 'PUT',
     headers: {
       Authorization: auth,
@@ -32,7 +34,7 @@ export async function deleteFile({ auth, remotePath }) {
   const formData = new FormData()
   formData.append('path', remotePath)
 
-  const res = await fetch(prodUrl, {
+  const res = await fetch(`${url}/admin`, {
     method: 'DELETE',
     headers: {
       Authorization: auth,

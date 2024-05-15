@@ -1,3 +1,4 @@
+import esMain from "es-main"
 import { sendMessageToQQGroup } from "./bot.mjs"
 
 async function main() {
@@ -9,4 +10,6 @@ async function main() {
   console.log(result)
 }
 
-main()
+if (esMain(import.meta)) {
+  main()
+}
