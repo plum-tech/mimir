@@ -222,6 +222,20 @@ jobs:
         with:
           branch: ${{ github.ref }}
 
+      - name: Get Android Artifact
+        if: github.repository == 'liplum-dev/mimir'
+        uses: actions/download-artifact@v4
+        with:
+          name: SITLife-Android-release
+          path: build/
+
+      - name: Upload preview files onto SIT-MC
+        continue-on-error: true
+        env:
+          SITMC_TEMP_SERVER_AUTH: ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
+        run: |
+          node tools/upload-sitmc.mjs build/SITLife-${{ env.LATEST_VERSION }}.apk preview/latest.apk
+
       - name: Send Message to Group
         continue-on-error: true
         env:
