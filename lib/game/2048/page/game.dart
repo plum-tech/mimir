@@ -14,7 +14,7 @@ import '../widget/modal.dart';
 import '../widget/score_board.dart';
 import '../widget/tile_board.dart';
 import '../theme.dart';
-import '../manager/board.dart';
+import '../manager/logic.dart';
 import '../i18n.dart';
 
 final state2048 = StateNotifierProvider<GameLogic, Board>((ref) {
