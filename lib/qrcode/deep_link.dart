@@ -23,6 +23,6 @@ abstract class DeepLinkHandlerProtocol {
     const TimetablePaletteDeepLink(),
     const TimetablePatchDeepLink(),
     const TimetableDeepLink(),
-    const BlueprintMinesweeperDeepLink(),
+    blueprintMinesweeperDeepLink,
   ];
 }

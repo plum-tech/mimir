@@ -1,4 +1,5 @@
 import 'package:meta/meta.dart';
+import 'package:sit/game/entity/blueprint.dart';
 import 'package:sit/game/minesweeper/entity/mode.dart';
 import 'package:sit/qrcode/utils.dart';
 import 'package:sit/utils/byte_io/reader.dart';
@@ -8,7 +9,7 @@ import 'board.dart';
 import 'state.dart';
 
 @immutable
-class BlueprintMinesweeper {
+class BlueprintMinesweeper implements GameBlueprint {
   final CellBoardBuilder builder;
   final GameModeMinesweeper mode;
 
@@ -34,7 +35,7 @@ class BlueprintMinesweeper {
     return encodeBytesForUrl(bytes);
   }
 
-  GameStateMinesweeper create(){
+  GameStateMinesweeper create() {
     builder.updateCells();
     return GameStateMinesweeper(
       mode: mode,

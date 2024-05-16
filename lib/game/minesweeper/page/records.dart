@@ -94,7 +94,7 @@ class RecordMinesweeperTile extends StatelessWidget {
           icon: context.icons.qrcode,
           title: "Share QR code",
           onTap: () {
-            final qrCodeData = const BlueprintMinesweeperDeepLink().encodeString(
+            final qrCodeData = blueprintMinesweeperDeepLink.encodeString(
               record.blueprint,
             );
             context.showSheet(
