@@ -15,7 +15,7 @@ import 'round.dart';
 class GameLogic extends StateNotifier<Board> {
   // We will use this list to retrieve the right index when user swipes up/down
   // which will allow us to reuse most of the logic.
-  final verticalOrder = [12, 8, 4, 0, 13, 9, 5, 1, 14, 10, 6, 2, 15, 11, 7, 3];
+  static const verticalOrder = [12, 8, 4, 0, 13, 9, 5, 1, 14, 10, 6, 2, 15, 11, 7, 3];
 
   final StateNotifierProviderRef ref;
 
@@ -32,14 +32,14 @@ class GameLogic extends StateNotifier<Board> {
   }
 
   // Check whether the indexes are in the same row or column in the board.
-  bool _inRange(index, nextIndex) {
+  static bool _inRange(index, nextIndex) {
     return index < 4 && nextIndex < 4 ||
         index >= 4 && index < 8 && nextIndex >= 4 && nextIndex < 8 ||
         index >= 8 && index < 12 && nextIndex >= 8 && nextIndex < 12 ||
         index >= 12 && nextIndex >= 12;
   }
 
-  Tile _calculate(Tile tile, List<Tile> tiles, direction) {
+  static Tile _calculate(Tile tile, List<Tile> tiles, direction) {
     bool asc = direction == SwipeDirection.left || direction == SwipeDirection.up;
     bool vert = direction == SwipeDirection.up || direction == SwipeDirection.down;
     // Get the first index from the left in the row
@@ -119,11 +119,11 @@ class GameLogic extends StateNotifier<Board> {
     return true;
   }
 
-  final rand = Random();
+  static final rand = Random();
 
   /// Generates tiles at random place on the board.
   /// Avoids occupied tiles.
-  Tile random(List<int> indexes) {
+  static Tile random(List<int> indexes) {
     final candidates = Iterable.generate(16, (i) => i).toList();
     candidates.removeWhere((i) => indexes.contains(i));
     final index = candidates[rand.nextInt(candidates.length)];
