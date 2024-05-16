@@ -7,6 +7,7 @@ import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/game/2048/storage.dart';
 import 'package:sit/game/ability/ability.dart';
 import 'package:sit/game/ability/autosave.dart';
+import 'package:sit/game/entity/game_status.dart';
 
 import '../entity/board.dart';
 import '../widget/empty_board.dart';
@@ -72,8 +73,10 @@ class _GameState extends ConsumerState<Game2048>
     curve: Curves.easeInOut,
   );
   final $focus = FocusNode();
+
   @override
   List<GameWidgetAbility> createAbility() => [AutoSaveWidgetAbility(onSave: onSave)];
+
   @override
   void initState() {
     super.initState();
@@ -109,7 +112,7 @@ class _GameState extends ConsumerState<Game2048>
 
   @override
   Widget build(BuildContext context) {
-    final board = ref.watch(state2048);
+    final gameStatus = ref.watch(state2048.select((state) => state.status));
     return Scaffold(
       appBar: AppBar(
         title: i18n.title.text(),
@@ -167,7 +170,7 @@ class _GameState extends ConsumerState<Game2048>
                       moveAnimation: _moveAnimation,
                       scaleAnimation: _scaleAnimation,
                     ),
-                    if (board.over)
+                    if (gameStatus == GameStatus.victory || gameStatus == GameStatus.gameOver)
                       const Positioned.fill(
                         child: GameOverModal(),
                       ),

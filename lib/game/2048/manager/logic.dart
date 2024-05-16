@@ -2,7 +2,8 @@ import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
-import 'package:sit/game/2048/storage.dart';
+import 'package:sit/game/2048/save.dart';
+import 'package:sit/game/entity/game_status.dart';
 import 'package:sit/game/utils.dart';
 import 'package:uuid/uuid.dart';
 
@@ -23,7 +24,7 @@ class GameLogic extends StateNotifier<Board> {
 
   // Start New Game
   void newGame() {
-    state = Board(best: max(state.best, state.score), tiles: [random([])]);
+    state = Board(tiles: [random([])]);
   }
 
   // Continue from save
@@ -167,12 +168,13 @@ class GameLogic extends StateNotifier<Board> {
     if (tilesMoved && indexes.length < 16) {
       tiles.add(random(indexes));
     }
-    state = state.copyWith(score: score, tiles: tiles, best: max(state.best, score));
+    state = state.copyWith(score: score, tiles: tiles);
   }
 
   //Finish round, win or loose the game.
   void _endRound() {
-    var gameOver = true, gameWon = false;
+    var boardFilled = true;
+    var got2048 = false;
     List<Tile> tiles = [];
 
     //If there is no more empty place on the board
@@ -184,7 +186,7 @@ class GameLogic extends StateNotifier<Board> {
 
         //If there is a tile with 2048 then the game is won.
         if (tile.value == 2048) {
-          gameWon = true;
+          got2048 = true;
         }
 
         var x = (i - (((i + 1) / 4).ceil() * 4 - 4));
@@ -193,7 +195,7 @@ class GameLogic extends StateNotifier<Board> {
           //If tile can be merged with left tile then game is not lost.
           var left = state.tiles[i - 1];
           if (tile.value == left.value) {
-            gameOver = false;
+            boardFilled = false;
           }
         }
 
@@ -201,7 +203,7 @@ class GameLogic extends StateNotifier<Board> {
           //If tile can be merged with right tile then game is not lost.
           var right = state.tiles[i + 1];
           if (tile.value == right.value) {
-            gameOver = false;
+            boardFilled = false;
           }
         }
 
@@ -209,7 +211,7 @@ class GameLogic extends StateNotifier<Board> {
           //If tile can be merged with above tile then game is not lost.
           var top = state.tiles[i - 4];
           if (tile.value == top.value) {
-            gameOver = false;
+            boardFilled = false;
           }
         }
 
@@ -217,7 +219,7 @@ class GameLogic extends StateNotifier<Board> {
           //If tile can be merged with the bellow tile then game is not lost.
           var bottom = state.tiles[i + 4];
           if (tile.value == bottom.value) {
-            gameOver = false;
+            boardFilled = false;
           }
         }
         //Set the tile merged: false
@@ -225,18 +227,25 @@ class GameLogic extends StateNotifier<Board> {
       }
     } else {
       //There is still a place on the board to add a tile so the game is not lost.
-      gameOver = false;
+      boardFilled = false;
       for (var tile in state.tiles) {
         //If there is a tile with 2048 then the game is won.
         if (tile.value == 2048) {
-          gameWon = true;
+          got2048 = true;
         }
         //Set the tile merged: false
         tiles.add(tile.copyWith(merged: false));
       }
     }
 
-    state = state.copyWith(tiles: tiles, won: gameWon, over: gameOver);
+    state = state.copyWith(
+      tiles: tiles,
+      status: got2048
+          ? GameStatus.victory
+          : boardFilled
+              ? GameStatus.gameOver
+              : GameStatus.running,
+    );
   }
 
   //Mark the merged as false after the merge animation is complete.
@@ -276,7 +285,7 @@ class GameLogic extends StateNotifier<Board> {
   }
 
   bool canSave() {
-    if (state.won || state.over) return false;
+    if (!state.status.shouldSave) return false;
     if (state.tiles.isEmpty) return false;
     if (state.tiles.length == 1 && state.tiles.first.value == 2) return false;
     return true;

@@ -11,8 +11,8 @@ class ScoreBoard extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final score = ref.watch(state2048.select((board) => board.score));
-    final best = ref.watch(state2048.select((board) => board.best));
-
+    // final best = ref.watch(state2048.select((board) => board.best));
+    final best = score;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

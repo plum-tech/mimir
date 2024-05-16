@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sit/game/entity/game_status.dart';
 
 import '../page/game.dart';
 import '../theme.dart';
@@ -11,18 +12,18 @@ class GameOverModal extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final board = ref.watch(state2048);
+    final gameStatus = ref.watch(state2048.select((state)=>state.status));
     return Container(
       color: overlayColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            board.won ? i18n.youWin : i18n.gameOver,
+            gameStatus == GameStatus.victory ? i18n.youWin : i18n.gameOver,
             style: const TextStyle(color: textColor, fontWeight: FontWeight.bold, fontSize: 64.0),
           ),
           ButtonWidget(
-            text: board.won ? i18n.newGame : i18n.tryAgain,
+            text: gameStatus == GameStatus.gameOver ? i18n.newGame : i18n.tryAgain,
             backgroundColor: buttonColor,
             onPressed: () {
               ref.read(state2048.notifier).newGame();
