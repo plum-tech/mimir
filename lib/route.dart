@@ -73,6 +73,8 @@ import 'package:sit/timetable/page/p13n/palette.dart';
 import 'package:sit/widgets/image.dart';
 import 'package:sit/widgets/webview/page.dart';
 
+import 'game/minesweeper/page/records.dart';
+
 final $TimetableShellKey = GlobalKey<NavigatorState>();
 final $SchoolShellKey = GlobalKey<NavigatorState>();
 final $LifeShellKey = GlobalKey<NavigatorState>();
@@ -478,8 +480,7 @@ final _gameRoutes = [
         GoRoute(
           path: "records",
           builder: (ctx, state) {
-            final continueGame = state.uri.queryParameters["continue"] != null;
-            return GameMinesweeperPage(newGame: !continueGame);
+            return const RecordsMinesweeperPage();
           },
         ),
       ]),

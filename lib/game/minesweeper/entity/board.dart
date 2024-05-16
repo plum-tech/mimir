@@ -327,9 +327,10 @@ class CellBoardBuilder extends ICellBoard<CellBuilder> {
   void writeBlueprint(ByteWriter writer) {
     writer.uint8(rows);
     writer.uint8(columns);
-    writer.uint8(cells.length);
-    for (final cell in cells) {
-      cell.writeBlueprint(writer);
+    final mineCells = cells.where((cell) => cell.mine).toList();
+    writer.uint8(mineCells.length);
+    for (final mineCell in mineCells) {
+      mineCell.writeBlueprint(writer);
     }
   }
 
@@ -337,12 +338,20 @@ class CellBoardBuilder extends ICellBoard<CellBuilder> {
     final rows = reader.uint8();
     final columns = reader.uint8();
     final len = reader.uint8();
-    final cells = <CellBuilder>[];
+    final mineCells = <CellBuilder>[];
     for (var i = 0; i < len; i++) {
-      cells.add(CellBuilder.readBlueprint(reader));
+      mineCells.add(CellBuilder.readBlueprint(reader));
+    }
+    final cells = List2D.generate(
+      rows,
+      columns,
+      (row, column, index) => CellBuilder(row: row, column: column),
+    );
+    for (final mineCell in mineCells) {
+      cells.set(mineCell.row, mineCell.column, mineCell);
     }
     return CellBoardBuilder(
-      cells: List2D.from1D(rows, columns, cells),
+      cells: cells,
     );
   }
 }

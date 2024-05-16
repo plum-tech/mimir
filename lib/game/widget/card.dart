@@ -12,7 +12,7 @@ class OfflineGameAppCard extends ConsumerWidget {
   final String name;
   final String baseRoute;
   final Widget? view;
-  final bool supportHistory;
+  final bool supportRecords;
   final bool supportLeaderboard;
   final GameSaveStorage? save;
 
@@ -21,7 +21,7 @@ class OfflineGameAppCard extends ConsumerWidget {
     this.view,
     required this.baseRoute,
     required this.name,
-    this.supportHistory = false,
+    this.supportRecords = false,
     this.supportLeaderboard = false,
     this.save,
   });
@@ -60,10 +60,10 @@ class OfflineGameAppCard extends ConsumerWidget {
         ],
       ],
       rightActions: [
-        if (supportHistory)
+        if (supportRecords)
           PlatformIconButton(
             onPressed: () {
-              context.push("/game$baseRoute/history");
+              context.push("/game$baseRoute/records");
             },
             icon: const Icon(Icons.history),
           ),

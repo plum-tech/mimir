@@ -2,9 +2,8 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:sit/game/entity/game_result.dart';
 import 'package:sit/game/entity/record.dart';
-import 'package:sit/qrcode/utils.dart';
-import 'package:sit/utils/byte_io/byte_io.dart';
 
+import 'blueprint.dart';
 import 'board.dart';
 import 'mode.dart';
 
@@ -38,8 +37,7 @@ class RecordMinesweeper extends GameRecord {
     required GameModeMinesweeper mode,
     required GameResult result,
   }) {
-    final writer = ByteWriter(512);
-    board.toBuilder().writeBlueprint(writer);
+    final blueprint = BlueprintMinesweeper(builder: board.toBuilder(), mode: mode);
     return RecordMinesweeper(
       ts: DateTime.now(),
       rows: board.rows,
@@ -47,7 +45,7 @@ class RecordMinesweeper extends GameRecord {
       mines: board.mines,
       playtime: playtime,
       mode: mode,
-      blueprint: encodeBytesForUrl(writer.build()),
+      blueprint: blueprint.build(),
       result: result,
     );
   }

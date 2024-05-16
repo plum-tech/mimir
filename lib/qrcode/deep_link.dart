@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:sit/game/minesweeper/qrcode/blueprint.dart';
 import 'package:sit/r.dart';
 import 'package:sit/settings/qrcode/proxy.dart';
 import 'package:sit/timetable/qrcode/palette.dart';
@@ -22,5 +23,6 @@ abstract class DeepLinkHandlerProtocol {
     const TimetablePaletteDeepLink(),
     const TimetablePatchDeepLink(),
     const TimetableDeepLink(),
+    const BlueprintMinesweeperDeepLink(),
   ];
 }
