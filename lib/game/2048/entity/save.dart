@@ -13,7 +13,10 @@ class Save2048 {
   @JsonKey(defaultValue: _defaultTiles)
   final List<int> tiles;
 
-  const Save2048({required this.score, required this.tiles});
+  const Save2048({
+    required this.score,
+    required this.tiles,
+  });
 
   Map<String, dynamic> toJson() => _$Save2048ToJson(this);
 
