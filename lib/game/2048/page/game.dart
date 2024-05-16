@@ -10,6 +10,7 @@ import 'package:sit/game/ability/autosave.dart';
 import 'package:sit/game/entity/game_status.dart';
 
 import '../entity/board.dart';
+import '../entity/save.dart';
 import '../widget/empty_board.dart';
 import '../widget/modal.dart';
 import '../widget/score_board.dart';

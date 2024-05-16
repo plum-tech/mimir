@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sit/game/2048/storage.dart';
+import 'package:sit/game/2048/entity/save.dart';
 import 'package:sit/game/widget/card.dart';
 
 import 'i18n.dart';

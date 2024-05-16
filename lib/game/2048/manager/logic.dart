@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
-import 'package:sit/game/2048/save.dart';
+import 'package:sit/game/2048/entity/save.dart';
 import 'package:sit/game/entity/game_status.dart';
 import 'package:sit/game/utils.dart';
 import 'package:uuid/uuid.dart';
@@ -10,6 +10,7 @@ import 'package:uuid/uuid.dart';
 import '../entity/tile.dart';
 import '../entity/board.dart';
 
+import '../storage.dart';
 import 'next_direction.dart';
 import 'round.dart';
 
@@ -237,15 +238,16 @@ class GameLogic extends StateNotifier<Board> {
         tiles.add(tile.copyWith(merged: false));
       }
     }
-
     state = state.copyWith(
       tiles: tiles,
-      status: got2048
-          ? GameStatus.victory
-          : boardFilled
-              ? GameStatus.gameOver
-              : GameStatus.running,
     );
+    if (boardFilled) {
+      if (got2048) {
+        onVictory();
+      } else {
+        onGameOver();
+      }
+    }
   }
 
   //Mark the merged as false after the merge animation is complete.
@@ -282,6 +284,24 @@ class GameLogic extends StateNotifier<Board> {
       return true;
     }
     return false;
+  }
+
+  void onVictory() {
+    state = state.copyWith(
+      status: GameStatus.victory,
+    );
+    Storage2048.record.add(Record2048.createFrom(
+      board: state.board,
+      playtime: state.playtime,
+      mode: state.mode,
+      result: GameResult.victory,
+    ));
+  }
+
+  void onGameOver() {
+    state = state.copyWith(
+      status: GameStatus.gameOver,
+    );
   }
 
   bool canSave() {
