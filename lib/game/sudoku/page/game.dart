@@ -18,7 +18,7 @@ import '../entity/state.dart';
 import '../entity/note.dart';
 import '../entity/board.dart';
 import '../manager/logic.dart';
-import '../save.dart';
+import '../entity/save.dart';
 import '../settings.dart';
 import '../widget/cell.dart';
 import '../widget/filler.dart';

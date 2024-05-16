@@ -3,9 +3,9 @@ import 'package:sit/game/storage/save.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/utils/list2d/list2d.dart';
 
-import 'entity/mode.dart';
-import 'entity/board.dart';
-import 'entity/note.dart';
+import 'mode.dart';
+import 'board.dart';
+import 'note.dart';
 
 part "save.g.dart";
 

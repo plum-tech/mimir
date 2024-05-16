@@ -5,7 +5,7 @@ import 'package:sit/utils/byte_io/byte_io.dart';
 import 'package:sit/utils/list2d/list2d.dart';
 import 'package:sudoku_solver_generator/sudoku_solver_generator.dart';
 
-import '../save.dart';
+import 'save.dart';
 
 part "board.g.dart";
 
@@ -118,7 +118,8 @@ extension type const SudokuBoard(List2D<SudokuCell> _cells) {
     assert(_cells.length == sudokuSides * sudokuSides);
     writer.uint8(sudokuSides * sudokuSides);
     for (final cell in _cells) {
-      cell.serialize(writer);
+      writer.b(cell.isPuzzle);
+      writer.uint8(cell.correctValue);
     }
   }
 
@@ -126,7 +127,13 @@ extension type const SudokuBoard(List2D<SudokuCell> _cells) {
     final len = reader.uint8();
     final cells = <SudokuCell>[];
     for (var i = 0; i < len; i++) {
-      cells.add(SudokuCell.deserialize(reader, i));
+      final isPuzzle = reader.b();
+      final correctValue = reader.uint8();
+      cells.add(SudokuCell(
+        index: i,
+        userInput: isPuzzle ? SudokuCell.disableInputNumber : SudokuCell.emptyInputNumber,
+        correctValue: correctValue,
+      ));
     }
     assert(cells.length == sudokuSides * sudokuSides);
     return SudokuBoard(List2D.from1D(sudokuSides, sudokuSides, cells));

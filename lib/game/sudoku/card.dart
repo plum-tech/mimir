@@ -5,7 +5,7 @@ import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/game/sudoku/pref.dart';
 import 'package:sit/game/widget/mode.dart';
 import 'entity/mode.dart';
-import 'save.dart';
+import 'entity/save.dart';
 import 'package:sit/game/widget/card.dart';
 
 import 'i18n.dart';
@@ -25,6 +25,7 @@ class _GameAppCardSudokuState extends ConsumerState<GameAppCardSudoku> {
       name: i18n.title,
       baseRoute: "/sudoku",
       save: SaveSudoku.storage,
+      supportRecords: true,
       view: buildGameModeCard().align(at: Alignment.centerLeft),
     );
   }

@@ -5,43 +5,42 @@ import 'package:sit/utils/byte_io/reader.dart';
 import 'package:sit/utils/byte_io/writer.dart';
 
 import 'board.dart';
-import 'state.dart';
 import 'mode.dart';
+import 'state.dart';
 
 @immutable
-class BlueprintMinesweeper implements GameBlueprint {
-  final CellBoardBuilder builder;
-  final GameModeMinesweeper mode;
+class BlueprintSudoku implements GameBlueprint {
+  final SudokuBoard board;
+  final GameModeSudoku mode;
 
-  const BlueprintMinesweeper({
-    required this.builder,
+  const BlueprintSudoku({
+    required this.board,
     required this.mode,
   });
 
-  factory BlueprintMinesweeper.from(String data) {
+  factory BlueprintSudoku.from(String data) {
     final bytes = decodeBytesFromUrl(data);
     final reader = ByteReader(bytes);
     final modeRaw = reader.strUtf8();
-    final mode = GameModeMinesweeper.fromJson(modeRaw);
-    final builder = CellBoardBuilder.readBlueprint(reader);
-    return BlueprintMinesweeper(builder: builder, mode: mode);
+    final mode = GameModeSudoku.fromJson(modeRaw);
+    final board = SudokuBoard.readBlueprint(reader);
+    return BlueprintSudoku(board: board, mode: mode);
   }
 
   @override
   String build() {
     final writer = ByteWriter(512);
     writer.strUtf8(mode.toJson());
-    builder.writeBlueprint(writer);
+    board.writeBlueprint(writer);
     final bytes = writer.build();
     return encodeBytesForUrl(bytes);
   }
 
   @override
-  GameStateMinesweeper create() {
-    builder.updateCells();
-    return GameStateMinesweeper(
+  GameStateSudoku create() {
+    return GameStateSudoku.newGame(
       mode: mode,
-      board: builder.build(),
+      board: board,
     );
   }
 }

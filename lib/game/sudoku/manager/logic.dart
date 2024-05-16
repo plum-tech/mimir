@@ -1,11 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sit/game/entity/game_result.dart';
 import 'package:sit/game/entity/game_status.dart';
 import 'package:sit/game/sudoku/entity/state.dart';
+import 'package:sit/game/utils.dart';
 
 import '../entity/mode.dart';
 import '../entity/note.dart';
 import '../entity/board.dart';
-import '../save.dart';
+import '../entity/record.dart';
+import '../entity/save.dart';
+import '../storage.dart';
 
 class GameLogic extends StateNotifier<GameStateSudoku> {
   GameLogic([GameStateSudoku? initial]) : super(initial ?? GameStateSudoku.byDefault());
@@ -90,9 +94,32 @@ class GameLogic extends StateNotifier<GameStateSudoku> {
 
   void checkWin() {
     if (state.board.isSolved) {
-      state = state.copyWith(
-        status: GameStatus.victory,
-      );
+      onVictory();
     }
+  }
+
+  void onVictory() {
+    state = state.copyWith(
+      status: GameStatus.victory,
+    );
+    StorageSudoku.record.add(RecordSudoku.createFrom(
+      board: state.board,
+      playtime: state.playtime,
+      mode: state.mode,
+      result: GameResult.victory,
+    ));
+  }
+
+  void onGameOver() {
+    state = state.copyWith(
+      status: GameStatus.gameOver,
+    );
+    StorageSudoku.record.add(RecordSudoku.createFrom(
+      board: state.board,
+      playtime: state.playtime,
+      mode: state.mode,
+      result: GameResult.gameOver,
+    ));
+    applyGameHapticFeedback(HapticFeedbackIntensity.heavy);
   }
 }

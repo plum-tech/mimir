@@ -6,38 +6,38 @@ import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/game/entity/game_result.dart';
 import 'package:sit/game/i18n.dart';
-import 'package:sit/game/minesweeper/entity/record.dart';
-import 'package:sit/game/minesweeper/storage.dart';
 import 'package:sit/game/page/records.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/qrcode/page/view.dart';
 
 import '../qrcode/blueprint.dart';
+import '../storage.dart';
+import '../entity/record.dart';
 
-class RecordsMinesweeperPage extends ConsumerStatefulWidget {
-  const RecordsMinesweeperPage({super.key});
+class RecordsSudokuPage extends ConsumerStatefulWidget {
+  const RecordsSudokuPage({super.key});
 
   @override
   ConsumerState createState() => _RecordsMinesweeperPageState();
 }
 
-class _RecordsMinesweeperPageState extends ConsumerState<RecordsMinesweeperPage> {
+class _RecordsMinesweeperPageState extends ConsumerState<RecordsSudokuPage> {
   @override
   Widget build(BuildContext context) {
-    return GameRecordsPage<RecordMinesweeper>(
-      title: 'Minesweeper records',
-      recordStorage: StorageMinesweeper.record,
+    return GameRecordsPage<RecordSudoku>(
+      title: 'Sudoku records',
+      recordStorage: StorageSudoku.record,
       itemBuilder: (context, record) {
-        return RecordMinesweeperTile(record: record);
+        return RecordSudokuTile(record: record);
       },
     );
   }
 }
 
-class RecordMinesweeperTile extends StatelessWidget {
-  final RecordMinesweeper record;
+class RecordSudokuTile extends StatelessWidget {
+  final RecordSudoku record;
 
-  const RecordMinesweeperTile({
+  const RecordSudokuTile({
     super.key,
     required this.record,
   });
@@ -50,11 +50,10 @@ class RecordMinesweeperTile extends StatelessWidget {
         record.result == GameResult.victory ? Icons.check : Icons.clear,
         color: record.result == GameResult.victory ? Colors.green : Colors.red,
       ),
-      title: "${record.mode.l10n()} ${record.rows}x${record.columns} with ${record.mines} mines".text(),
+      title: "${record.mode.l10n()} ${record.playTime.formatPlaytime()}".text(),
       trailing: buildMoreActions(context),
       subtitle: [
         context.formatYmdhmsNum(record.ts).text(),
-        record.playtime.formatPlaytime().text(),
         // record.blueprint.text(),
       ].column(caa: CrossAxisAlignment.start),
     );
@@ -67,7 +66,7 @@ class RecordMinesweeperTile extends StatelessWidget {
             icon: context.icons.refresh,
             title: "Play again",
             onTap: () async {
-              await onHandleBlueprintMinesweeper(
+              await onHandleBlueprintSudoku(
                 context: context,
                 blueprint: record.blueprint,
               );

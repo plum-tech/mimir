@@ -5,17 +5,17 @@ import 'package:sit/game/qrcode/blueprint.dart';
 import '../entity/blueprint.dart';
 import '../storage.dart';
 
-const blueprintMinesweeperDeepLink = GameBlueprintDeepLink<BlueprintMinesweeper>(
+const blueprintMinesweeperDeepLink = GameBlueprintDeepLink(
   "minesweeper",
-  onHandleBlueprintMinesweeper,
+  onHandleBlueprintSudoku,
 );
 
-Future<void> onHandleBlueprintMinesweeper({
+Future<void> onHandleBlueprintSudoku({
   required BuildContext context,
   required String blueprint,
 }) async {
-  final blueprintObj = BlueprintMinesweeper.from(blueprint);
+  final blueprintObj = BlueprintSudoku.from(blueprint);
   final state = blueprintObj.create();
-  StorageMinesweeper.save.save(state.toSave());
-  context.push("/game/minesweeper?continue");
+  StorageSudoku.save.save(state.toSave());
+  context.push("/game/sudoku?continue");
 }

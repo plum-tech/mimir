@@ -8,10 +8,8 @@ import 'package:encrypt/encrypt.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hashlib_codecs/hashlib_codecs.dart';
-import 'package:pointycastle/asymmetric/api.dart';
 import 'package:pointycastle/export.dart';
 import 'package:sit/credentials/entity/credential.dart';
-import 'package:sit/credentials/init.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/init.dart';
 import 'package:sit/lifecycle.dart';
@@ -66,7 +64,8 @@ class UgRegistrationSession {
     return realPath.endsWith('jwglxt/xtgl/login_slogin.html');
   }
 
-  Future<Response> request(String url, {
+  Future<Response> request(
+    String url, {
     Map<String, String>? queryParameters,
     data,
     Options? options,
@@ -102,7 +101,8 @@ class UgRegistrationSession {
     return response;
   }
 
-  Future<Response> _request(String url, {
+  Future<Response> _request(
+    String url, {
     Map<String, String>? queryParameters,
     dynamic data,
     Options? options,
@@ -166,7 +166,8 @@ class UgRegistrationSession {
     });
   }
 
-  Future<Response> _login(Credentials credentials, {
+  Future<Response> _login(
+    Credentials credentials, {
     required Future<String?> Function(Uint8List imageBytes) inputCaptcha,
   }) async {
     final entryRes = await Init.dio.request(
@@ -182,11 +183,10 @@ class UgRegistrationSession {
 
     final captchaImage = await getCaptcha();
     await $key.currentContext!.showAnyTip(
-      make: (ctx) =>
-          Image.memory(
-            captchaImage,
-            scale: 0.5,
-          ),
+      make: (ctx) => Image.memory(
+        captchaImage,
+        scale: 0.5,
+      ),
       primary: "OK",
     );
     final captcha = await getInputtedCaptcha(captchaImage, inputCaptcha);
@@ -199,9 +199,7 @@ class UgRegistrationSession {
     final loginRes = await dio.request(
       _loginEntryUrl,
       queryParameters: {
-        "time": DateTime
-            .now()
-            .millisecondsSinceEpoch,
+        "time": DateTime.now().millisecondsSinceEpoch,
       },
       data: 'csrftoken=$csrfToken&language=zh_CN&yhm=${credentials.account}&mm=$encryptedPwd&yzm=$captcha',
       options: Options(
@@ -213,8 +211,10 @@ class UgRegistrationSession {
     return loginRes;
   }
 
-  Future<String> getInputtedCaptcha(Uint8List captchaImage,
-      Future<String?> Function(Uint8List imageBytes) inputCaptcha,) async {
+  Future<String> getInputtedCaptcha(
+    Uint8List captchaImage,
+    Future<String?> Function(Uint8List imageBytes) inputCaptcha,
+  ) async {
     final c = await inputCaptcha(captchaImage);
     if (c != null) {
       debugPrint("Captcha entered is $c");
@@ -247,9 +247,7 @@ class UgRegistrationSession {
     final res = await dio.request(
       _pubKeUrl,
       queryParameters: {
-        "time": DateTime
-            .now()
-            .millisecondsSinceEpoch,
+        "time": DateTime.now().millisecondsSinceEpoch,
       },
       options: Options(
         headers: _neededHeaders,
@@ -265,9 +263,7 @@ class UgRegistrationSession {
 String _encryptPassword(String password, _PubKey pubKeySplit, RSAPublicKey pubKey) {
   final rsa = RSA(publicKey: pubKey);
   final encrypter = Encrypter(rsa);
-  final encryptedPwd = encrypter
-      .encrypt(password)
-      .base64;
+  final encryptedPwd = encrypter.encrypt(password).base64;
   return encryptedPwd;
 }
 

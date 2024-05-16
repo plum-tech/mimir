@@ -40,13 +40,13 @@ class RecordMinesweeper extends GameRecord {
     final blueprint = BlueprintMinesweeper(builder: board.toBuilder(), mode: mode);
     return RecordMinesweeper(
       ts: DateTime.now(),
+      result: result,
       rows: board.rows,
       columns: board.columns,
       mines: board.mines,
       playtime: playtime,
       mode: mode,
       blueprint: blueprint.build(),
-      result: result,
     );
   }
 

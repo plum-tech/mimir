@@ -11,6 +11,7 @@ import 'package:sit/game/index.dart';
 import 'package:sit/game/minesweeper/page/index.dart';
 import 'package:sit/game/page/settings.dart';
 import 'package:sit/game/sudoku/page/index.dart';
+import 'package:sit/game/sudoku/page/records.dart';
 import 'package:sit/game/suika/index.dart';
 import 'package:sit/index.dart';
 import 'package:sit/life/page/settings.dart';
@@ -471,22 +472,19 @@ final _gameRoutes = [
     },
   ),
   GoRoute(
-      path: "/game/minesweeper",
-      builder: (ctx, state) {
-        final continueGame = state.uri.queryParameters["continue"] != null;
-        return GameMinesweeperPage(newGame: !continueGame);
-      },
-      routes: [
-        GoRoute(
-          path: "records",
-          builder: (ctx, state) {
-            return const RecordsMinesweeperPage();
-          },
-        ),
-      ]),
-  GoRoute(
-    path: "/game/suika",
-    builder: (ctx, state) => const GameSuikaPage(),
+    path: "/game/minesweeper",
+    builder: (ctx, state) {
+      final continueGame = state.uri.queryParameters["continue"] != null;
+      return GameMinesweeperPage(newGame: !continueGame);
+    },
+    routes: [
+      GoRoute(
+        path: "records",
+        builder: (ctx, state) {
+          return const RecordsMinesweeperPage();
+        },
+      ),
+    ],
   ),
   GoRoute(
     path: "/game/sudoku",
@@ -494,6 +492,18 @@ final _gameRoutes = [
       final continueGame = state.uri.queryParameters["continue"] != null;
       return GameSudokuPage(newGame: !continueGame);
     },
+    routes: [
+      GoRoute(
+        path: "records",
+        builder: (ctx, state) {
+          return const RecordsSudokuPage();
+        },
+      ),
+    ],
+  ),
+  GoRoute(
+    path: "/game/suika",
+    builder: (ctx, state) => const GameSuikaPage(),
   ),
 ];
 
