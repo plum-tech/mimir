@@ -2,7 +2,7 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:uuid/uuid.dart';
 
 import '../entity/tile.dart';
-import '../save.dart';
+import 'save.dart';
 
 part "board.g.dart";
 

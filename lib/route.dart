@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/game/2048/page/index.dart';
+import 'package:sit/game/2048/page/records.dart';
 import 'package:sit/game/index.dart';
 import 'package:sit/game/minesweeper/page/index.dart';
 import 'package:sit/game/page/settings.dart';
@@ -470,6 +471,14 @@ final _gameRoutes = [
       final continueGame = state.uri.queryParameters["continue"] != null;
       return Game2048Page(newGame: !continueGame);
     },
+    routes: [
+      GoRoute(
+        path: "records",
+        builder: (ctx, state) {
+          return const Records2048Page();
+        },
+      ),
+    ],
   ),
   GoRoute(
     path: "/game/minesweeper",

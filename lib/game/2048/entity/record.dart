@@ -14,6 +14,8 @@ class Record2048 extends GameRecord {
     required this.maxNumber,
   });
 
+  bool get hasVictory => maxNumber >= 2048;
+
   Map<String, dynamic> toJson() => _$Record2048ToJson(this);
 
   factory Record2048.fromJson(Map<String, dynamic> json) => _$Record2048FromJson(json);

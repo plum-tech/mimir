@@ -4,11 +4,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/game/2048/storage.dart';
 import 'package:sit/game/ability/ability.dart';
 import 'package:sit/game/ability/autosave.dart';
 
 import '../entity/board.dart';
-import '../save.dart';
 import '../widget/empty_board.dart';
 import '../widget/modal.dart';
 import '../widget/score_board.dart';
@@ -17,8 +17,8 @@ import '../theme.dart';
 import '../manager/board.dart';
 import '../i18n.dart';
 
-final state2048 = StateNotifierProvider<BoardManager, Board>((ref) {
-  return BoardManager(ref);
+final state2048 = StateNotifierProvider<GameLogic, Board>((ref) {
+  return GameLogic(ref);
 });
 
 class Game2048 extends ConsumerStatefulWidget {
@@ -82,7 +82,7 @@ class _GameState extends ConsumerState<Game2048>
       if (widget.newGame) {
         ref.read(state2048.notifier).newGame();
       } else {
-        final save = Save2048.storage.load();
+        final save = Storage2048.save.load();
         if (save != null) {
           ref.read(state2048.notifier).fromSave(Board.fromSave(save));
         } else {

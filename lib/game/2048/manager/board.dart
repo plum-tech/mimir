@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
-import 'package:sit/game/2048/save.dart';
+import 'package:sit/game/2048/storage.dart';
 import 'package:sit/game/utils.dart';
 import 'package:uuid/uuid.dart';
 
@@ -12,14 +12,14 @@ import '../entity/board.dart';
 import 'next_direction.dart';
 import 'round.dart';
 
-class BoardManager extends StateNotifier<Board> {
+class GameLogic extends StateNotifier<Board> {
   // We will use this list to retrieve the right index when user swipes up/down
   // which will allow us to reuse most of the logic.
   final verticalOrder = [12, 8, 4, 0, 13, 9, 5, 1, 14, 10, 6, 2, 15, 11, 7, 3];
 
   final StateNotifierProviderRef ref;
 
-  BoardManager(this.ref) : super(const Board(tiles: []));
+  GameLogic(this.ref) : super(const Board(tiles: []));
 
   // Start New Game
   void newGame() {
@@ -284,9 +284,9 @@ class BoardManager extends StateNotifier<Board> {
 
   Future<void> save() async {
     if (canSave()) {
-      await Save2048.storage.save(state.toSave());
+      await Storage2048.save.save(state.toSave());
     } else {
-      await Save2048.storage.delete();
+      await Storage2048.save.delete();
     }
   }
 }

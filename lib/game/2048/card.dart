@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sit/game/2048/save.dart';
+import 'package:sit/game/2048/storage.dart';
 import 'package:sit/game/widget/card.dart';
 
 import 'i18n.dart';
@@ -17,7 +17,8 @@ class _GameAppCard2048State extends State<GameAppCard2048> {
     return OfflineGameAppCard(
       name: i18n.title,
       baseRoute: "/2048",
-      save: Save2048.storage,
+      save: Storage2048.save,
+      supportRecords: true,
     );
   }
 }
