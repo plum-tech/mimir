@@ -10,7 +10,6 @@ import 'package:sit/game/ability/autosave.dart';
 import 'package:sit/game/entity/game_status.dart';
 
 import '../entity/board.dart';
-import '../entity/save.dart';
 import '../widget/empty_board.dart';
 import '../widget/modal.dart';
 import '../widget/score_board.dart';
@@ -130,6 +129,7 @@ class _GameState extends ConsumerState<Game2048>
         autofocus: true,
         focusNode: $focus,
         onKeyEvent: (event) {
+          if (ref.read(state2048).status != GameStatus.running) return;
           //Move the tile with the arrows on the keyboard on Desktop
           if (!_moveController.isCompleted) return;
           if (ref.read(state2048.notifier).onKey(event)) {
@@ -138,6 +138,7 @@ class _GameState extends ConsumerState<Game2048>
         },
         child: SwipeDetector(
           onSwipe: (direction, offset) {
+            if (ref.read(state2048).status != GameStatus.running) return;
             if (ref.read(state2048.notifier).move(direction)) {
               _moveController.forward(from: 0.0);
             }

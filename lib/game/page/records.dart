@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
+import 'package:sit/design/widgets/common.dart';
 import 'package:sit/game/entity/record.dart';
 import 'package:sit/game/storage/record.dart';
 
@@ -29,25 +31,41 @@ class _RecordsMinesweeperPageState<TRecord extends GameRecord> extends ConsumerS
     return Scaffold(
       appBar: AppBar(
         title: widget.title.text(),
+        actions: [
+          PlatformIconButton(
+            icon: Icon(context.icons.delete),
+            onPressed: () {
+              widget.recordStorage.clear();
+            },
+          ),
+        ],
       ),
       body: CustomScrollView(
         slivers: [
-          SliverList.builder(
-            itemCount: rows.length,
-            itemBuilder: (ctx, i) {
-              final row = rows[i];
-              return WithSwipeAction(
-                childKey: ValueKey(row.id),
-                right: SwipeAction.delete(
-                  icon: ctx.icons.delete,
-                  action: () {
-                    widget.recordStorage.table.delete(row.id);
-                  },
-                ),
-                child: widget.itemBuilder(ctx, row.row),
-              );
-            },
-          ),
+          if (rows.isEmpty)
+            SliverFillRemaining(
+              child: LeavingBlank(
+                icon: Icons.inbox_outlined,
+                desc: "No game records",
+              ),
+            )
+          else
+            SliverList.builder(
+              itemCount: rows.length,
+              itemBuilder: (ctx, i) {
+                final row = rows[i];
+                return WithSwipeAction(
+                  childKey: ValueKey(row.id),
+                  right: SwipeAction.delete(
+                    icon: ctx.icons.delete,
+                    action: () {
+                      widget.recordStorage.table.delete(row.id);
+                    },
+                  ),
+                  child: widget.itemBuilder(ctx, row.row),
+                );
+              },
+            ),
         ],
       ),
     );

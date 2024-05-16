@@ -33,6 +33,10 @@ class GameRecordStorage<TRecord extends GameRecord> {
     table.delete(id);
   }
 
+  void clear() {
+    table.drop();
+  }
+
   late final $recordOf = _box().providerFamily<TRecord, int>(
     (id) => "$_prefix/$id",
     get: (id) => table[id],

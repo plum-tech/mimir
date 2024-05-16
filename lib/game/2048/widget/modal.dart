@@ -12,7 +12,7 @@ class GameOverModal extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final gameStatus = ref.watch(state2048.select((state)=>state.status));
+    final gameStatus = ref.watch(state2048.select((state) => state.status));
     return Container(
       color: overlayColor,
       child: Column(

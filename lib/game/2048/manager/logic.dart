@@ -2,11 +2,11 @@ import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
-import 'package:sit/game/2048/entity/save.dart';
 import 'package:sit/game/entity/game_status.dart';
 import 'package:sit/game/utils.dart';
 import 'package:uuid/uuid.dart';
 
+import '../entity/record.dart';
 import '../entity/tile.dart';
 import '../entity/board.dart';
 
@@ -291,10 +291,8 @@ class GameLogic extends StateNotifier<Board> {
       status: GameStatus.victory,
     );
     Storage2048.record.add(Record2048.createFrom(
-      board: state.board,
-      playtime: state.playtime,
-      mode: state.mode,
-      result: GameResult.victory,
+      maxNumber: state.maxNumber,
+      score: state.score,
     ));
   }
 
@@ -302,6 +300,10 @@ class GameLogic extends StateNotifier<Board> {
     state = state.copyWith(
       status: GameStatus.gameOver,
     );
+    Storage2048.record.add(Record2048.createFrom(
+      maxNumber: state.maxNumber,
+      score: state.score,
+    ));
   }
 
   bool canSave() {

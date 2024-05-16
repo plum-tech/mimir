@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:sit/game/entity/game_status.dart';
 import 'package:uuid/uuid.dart';
@@ -47,4 +48,6 @@ class Board {
       tiles: slots,
     );
   }
+
+  int get maxNumber => tiles.map((tile) => tile.value).maxOrNull ?? 0;
 }

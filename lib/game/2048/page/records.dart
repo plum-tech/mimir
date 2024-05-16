@@ -18,7 +18,7 @@ class _RecordsMinesweeperPageState extends ConsumerState<Records2048Page> {
   @override
   Widget build(BuildContext context) {
     return GameRecordsPage<Record2048>(
-      title: 'Sudoku records',
+      title: '2048 records',
       recordStorage: Storage2048.record,
       itemBuilder: (context, record) {
         return Record2048Tile(record: record);
@@ -43,7 +43,7 @@ class Record2048Tile extends StatelessWidget {
         record.hasVictory ? Icons.check : Icons.clear,
         color: record.hasVictory ? Colors.green : Colors.red,
       ),
-      title: "${record.maxNumber} ${record.score}".text(),
+      title: "Up to: ${record.maxNumber}, score: ${record.score}".text(),
       subtitle: [
         context.formatYmdhmsNum(record.ts).text(),
         // record.blueprint.text(),
