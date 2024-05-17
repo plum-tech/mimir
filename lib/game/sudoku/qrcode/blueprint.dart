@@ -1,12 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/game/qrcode/blueprint.dart';
+import 'package:sit/game/sudoku/r.dart';
 
 import '../entity/blueprint.dart';
 import '../storage.dart';
 
-const blueprintMinesweeperDeepLink = GameBlueprintDeepLink(
-  "minesweeper",
+const blueprintSudokuDeepLink = GameBlueprintDeepLink<BlueprintSudoku>(
+  RSudoku.name,
   onHandleBlueprintSudoku,
 );
 
