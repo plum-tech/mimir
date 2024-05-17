@@ -50,10 +50,11 @@ class RecordSudokuTile extends StatelessWidget {
         record.result == GameResult.victory ? Icons.check : Icons.clear,
         color: record.result == GameResult.victory ? Colors.green : Colors.red,
       ),
-      title: "${record.mode.l10n()} ${record.playTime.formatPlaytime()}".text(),
+      title: "${record.mode.l10n()} with ${record.blanks} blanks".text(),
       trailing: buildMoreActions(context),
       subtitle: [
         context.formatYmdhmsNum(record.ts).text(),
+        record.playTime.formatPlaytime().text(),
         // record.blueprint.text(),
       ].column(caa: CrossAxisAlignment.start),
     );
@@ -75,12 +76,12 @@ class RecordSudokuTile extends StatelessWidget {
           icon: context.icons.qrcode,
           title: "Share QR code",
           onTap: () {
-            final qrCodeData = blueprintMinesweeperDeepLink.encodeString(
+            final qrCodeData = blueprintSudokuDeepLink.encodeString(
               record.blueprint,
             );
             context.showSheet(
               (context) => QrCodePage(
-                title: "Minesweeper".text(),
+                title: "Sudoku".text(),
                 data: qrCodeData.toString(),
               ),
             );

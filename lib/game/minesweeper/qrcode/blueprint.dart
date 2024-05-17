@@ -1,12 +1,13 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sit/game/minesweeper/r.dart';
 import 'package:sit/game/qrcode/blueprint.dart';
 
 import '../entity/blueprint.dart';
 import '../storage.dart';
 
 const blueprintMinesweeperDeepLink = GameBlueprintDeepLink<BlueprintMinesweeper>(
-  "minesweeper",
+  RMinesweeper.name,
   onHandleBlueprintMinesweeper,
 );
 

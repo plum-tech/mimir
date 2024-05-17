@@ -116,7 +116,7 @@ extension type const SudokuBoard(List2D<SudokuCell> _cells) {
 
   void writeBlueprint(ByteWriter writer) {
     assert(_cells.length == sudokuSides * sudokuSides);
-    writer.uint8(sudokuSides * sudokuSides);
+    writer.uint8(_cells.length);
     for (final cell in _cells) {
       writer.b(cell.isPuzzle);
       writer.uint8(cell.correctValue);

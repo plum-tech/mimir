@@ -13,6 +13,7 @@ class RecordSudoku extends GameRecord {
   final GameResult result;
   final Duration playTime;
   final GameModeSudoku mode;
+  final int blanks;
   final String blueprint;
 
   const RecordSudoku({
@@ -20,6 +21,7 @@ class RecordSudoku extends GameRecord {
     required this.result,
     required this.playTime,
     required this.mode,
+    required this.blanks,
     required this.blueprint,
   });
 
@@ -29,13 +31,17 @@ class RecordSudoku extends GameRecord {
     required GameModeSudoku mode,
     required GameResult result,
   }) {
-    final blueprint = BlueprintSudoku(board: board, mode: mode);
+    final blueprint = BlueprintSudoku(
+      board: board,
+      mode: mode,
+    );
     return RecordSudoku(
       ts: DateTime.now(),
       result: result,
       mode: mode,
       playTime: playtime,
       blueprint: blueprint.build(),
+      blanks: mode.blanks,
     );
   }
 

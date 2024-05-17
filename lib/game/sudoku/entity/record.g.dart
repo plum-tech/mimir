@@ -11,6 +11,7 @@ RecordSudoku _$RecordSudokuFromJson(Map<String, dynamic> json) => RecordSudoku(
       result: $enumDecode(_$GameResultEnumMap, json['result']),
       playTime: Duration(microseconds: (json['playTime'] as num).toInt()),
       mode: GameModeSudoku.fromJson(json['mode'] as String),
+      blanks: (json['blanks'] as num).toInt(),
       blueprint: json['blueprint'] as String,
     );
 
@@ -19,6 +20,7 @@ Map<String, dynamic> _$RecordSudokuToJson(RecordSudoku instance) => <String, dyn
       'result': _$GameResultEnumMap[instance.result]!,
       'playTime': instance.playTime.inMicroseconds,
       'mode': instance.mode,
+      'blanks': instance.blanks,
       'blueprint': instance.blueprint,
     };
 

@@ -24,7 +24,10 @@ class BlueprintSudoku implements GameBlueprint {
     final modeRaw = reader.strUtf8();
     final mode = GameModeSudoku.fromJson(modeRaw);
     final board = SudokuBoard.readBlueprint(reader);
-    return BlueprintSudoku(board: board, mode: mode);
+    return BlueprintSudoku(
+      board: board,
+      mode: mode,
+    );
   }
 
   @override
