@@ -21,3 +21,19 @@ class Storage2048 {
     deserialize: Record2048.fromJson,
   );
 }
+
+class RecordStorage2048 extends GameRecordStorage<Record2048> {
+  // final baseScore;
+  RecordStorage2048(
+    super.box, {
+    required super.prefix,
+    required super.serialize,
+    required super.deserialize,
+  });
+  @override
+  int add(Record2048 save) {
+    final id = super.add(save);
+
+    return id;
+  }
+}

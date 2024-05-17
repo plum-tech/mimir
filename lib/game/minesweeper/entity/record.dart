@@ -36,8 +36,13 @@ class RecordMinesweeper extends GameRecord {
     required Duration playtime,
     required GameModeMinesweeper mode,
     required GameResult result,
+    required ({int row, int column}) firstClick,
   }) {
-    final blueprint = BlueprintMinesweeper(builder: board.toBuilder(), mode: mode);
+    final blueprint = BlueprintMinesweeper(
+      firstClick: firstClick,
+      builder: board.toBuilder(),
+      mode: mode,
+    );
     return RecordMinesweeper(
       ts: DateTime.now(),
       result: result,

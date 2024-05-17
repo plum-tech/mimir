@@ -252,6 +252,7 @@ class GameLogic extends StateNotifier<Board> {
 
   //Mark the merged as false after the merge animation is complete.
   bool endRound() {
+    if (!state.status.canPlay) return false;
     //End round.
     _endRound();
     ref.read(roundManager.notifier).end();
@@ -268,6 +269,7 @@ class GameLogic extends StateNotifier<Board> {
 
   //Move the tiles using the arrow keys on the keyboard.
   bool onKey(KeyEvent event) {
+    if (!state.status.canPlay) return false;
     SwipeDirection? direction;
     if (HardwareKeyboard.instance.isLogicalKeyPressed(LogicalKeyboardKey.arrowRight)) {
       direction = SwipeDirection.right;
@@ -287,6 +289,7 @@ class GameLogic extends StateNotifier<Board> {
   }
 
   void onVictory() {
+    if (!state.status.canPlay) return;
     state = state.copyWith(
       status: GameStatus.victory,
     );
@@ -297,6 +300,7 @@ class GameLogic extends StateNotifier<Board> {
   }
 
   void onGameOver() {
+    if (!state.status.canPlay) return;
     state = state.copyWith(
       status: GameStatus.gameOver,
     );

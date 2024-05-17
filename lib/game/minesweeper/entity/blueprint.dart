@@ -10,10 +10,12 @@ import 'mode.dart';
 
 @immutable
 class BlueprintMinesweeper implements GameBlueprint {
+  final ({int row, int column}) firstClick;
   final CellBoardBuilder builder;
   final GameModeMinesweeper mode;
 
   const BlueprintMinesweeper({
+    required this.firstClick,
     required this.builder,
     required this.mode,
   });
@@ -22,15 +24,25 @@ class BlueprintMinesweeper implements GameBlueprint {
     final bytes = decodeBytesFromUrl(data);
     final reader = ByteReader(bytes);
     final modeRaw = reader.strUtf8();
+    final firstClick = (
+      row: reader.uint8(),
+      column: reader.uint8(),
+    );
     final mode = GameModeMinesweeper.fromJson(modeRaw);
     final builder = CellBoardBuilder.readBlueprint(reader);
-    return BlueprintMinesweeper(builder: builder, mode: mode);
+    return BlueprintMinesweeper(
+      firstClick: firstClick,
+      builder: builder,
+      mode: mode,
+    );
   }
 
   @override
   String build() {
     final writer = ByteWriter(512);
     writer.strUtf8(mode.toJson());
+    writer.uint8(firstClick.row);
+    writer.uint8(firstClick.column);
     builder.writeBlueprint(writer);
     final bytes = writer.build();
     return encodeBytesForUrl(bytes);
@@ -42,6 +54,7 @@ class BlueprintMinesweeper implements GameBlueprint {
     return GameStateMinesweeper(
       mode: mode,
       board: builder.build(),
+      firstClick: firstClick,
     );
   }
 }

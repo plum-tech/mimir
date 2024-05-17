@@ -58,6 +58,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
     if (state.status == GameStatus.idle) {
       final mode = state.mode;
       state = state.copyWith(
+        firstClick: (row: cell.row, column: cell.column),
         status: GameStatus.running,
         board: CellBoard.withMines(
           rows: mode.gameRows,
@@ -85,26 +86,34 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   void onVictory() {
+    if (!state.status.canPlay) return;
     state = state.copyWith(
       status: GameStatus.victory,
     );
+    final firstClick = state.firstClick;
+    if (firstClick == null) return;
     StorageMinesweeper.record.add(RecordMinesweeper.createFrom(
       board: state.board,
       playtime: state.playtime,
       mode: state.mode,
       result: GameResult.victory,
+      firstClick: firstClick,
     ));
   }
 
   void onGameOver() {
+    if (!state.status.canPlay) return;
     state = state.copyWith(
       status: GameStatus.gameOver,
     );
+    final firstClick = state.firstClick;
+    if (firstClick == null) return;
     StorageMinesweeper.record.add(RecordMinesweeper.createFrom(
       board: state.board,
       playtime: state.playtime,
       mode: state.mode,
       result: GameResult.gameOver,
+      firstClick: firstClick,
     ));
     applyGameHapticFeedback(HapticFeedbackIntensity.heavy);
   }

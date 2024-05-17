@@ -17,6 +17,7 @@ abstract class _$GameStateMinesweeperCWProxy {
     GameStatus? status,
     GameModeMinesweeper? mode,
     CellBoard? board,
+    ({int column, int row})? firstClick,
     Duration? playtime,
   });
 }
@@ -39,6 +40,7 @@ class _$GameStateMinesweeperCWProxyImpl implements _$GameStateMinesweeperCWProxy
     Object? status = const $CopyWithPlaceholder(),
     Object? mode = const $CopyWithPlaceholder(),
     Object? board = const $CopyWithPlaceholder(),
+    Object? firstClick = const $CopyWithPlaceholder(),
     Object? playtime = const $CopyWithPlaceholder(),
   }) {
     return GameStateMinesweeper(
@@ -54,6 +56,10 @@ class _$GameStateMinesweeperCWProxyImpl implements _$GameStateMinesweeperCWProxy
           ? _value.board
           // ignore: cast_nullable_to_non_nullable
           : board as CellBoard,
+      firstClick: firstClick == const $CopyWithPlaceholder()
+          ? _value.firstClick
+          // ignore: cast_nullable_to_non_nullable
+          : firstClick as ({int column, int row})?,
       playtime: playtime == const $CopyWithPlaceholder() || playtime == null
           ? _value.playtime
           // ignore: cast_nullable_to_non_nullable
@@ -76,6 +82,13 @@ GameStateMinesweeper _$GameStateMinesweeperFromJson(Map<String, dynamic> json) =
       status: $enumDecodeNullable(_$GameStatusEnumMap, json['status']) ?? GameStatus.idle,
       mode: GameModeMinesweeper.fromJson(json['mode'] as String),
       board: CellBoard.fromJson(json['board'] as Map<String, dynamic>),
+      firstClick: _$recordConvertNullable(
+        json['firstClick'],
+        ($jsonValue) => (
+          column: ($jsonValue['column'] as num).toInt(),
+          row: ($jsonValue['row'] as num).toInt(),
+        ),
+      ),
       playtime: json['playtime'] == null ? Duration.zero : Duration(microseconds: (json['playtime'] as num).toInt()),
     );
 
@@ -84,6 +97,12 @@ Map<String, dynamic> _$GameStateMinesweeperToJson(GameStateMinesweeper instance)
       'mode': instance.mode,
       'board': instance.board,
       'playtime': instance.playtime.inMicroseconds,
+      'firstClick': instance.firstClick == null
+          ? null
+          : <String, dynamic>{
+              'column': instance.firstClick!.column,
+              'row': instance.firstClick!.row,
+            },
     };
 
 const _$GameStatusEnumMap = {
@@ -92,3 +111,9 @@ const _$GameStatusEnumMap = {
   GameStatus.gameOver: 'gameOver',
   GameStatus.victory: 'victory',
 };
+
+$Rec? _$recordConvertNullable<$Rec>(
+  Object? value,
+  $Rec Function(Map) convert,
+) =>
+    value == null ? null : convert(value as Map<String, dynamic>);

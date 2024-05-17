@@ -129,7 +129,7 @@ class _GameState extends ConsumerState<Game2048>
         autofocus: true,
         focusNode: $focus,
         onKeyEvent: (event) {
-          if (ref.read(state2048).status != GameStatus.running) return;
+          if (!ref.read(state2048).status.canPlay) return;
           //Move the tile with the arrows on the keyboard on Desktop
           if (!_moveController.isCompleted) return;
           if (ref.read(state2048.notifier).onKey(event)) {
@@ -138,7 +138,7 @@ class _GameState extends ConsumerState<Game2048>
         },
         child: SwipeDetector(
           onSwipe: (direction, offset) {
-            if (ref.read(state2048).status != GameStatus.running) return;
+            if (!ref.read(state2048).status.canPlay) return;
             if (ref.read(state2048.notifier).move(direction)) {
               _moveController.forward(from: 0.0);
             }

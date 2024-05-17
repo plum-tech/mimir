@@ -17,11 +17,13 @@ class GameStateMinesweeper {
   final GameModeMinesweeper mode;
   final CellBoard board;
   final Duration playtime;
+  final ({int row, int column})? firstClick;
 
   const GameStateMinesweeper({
     this.status = GameStatus.idle,
     required this.mode,
     required this.board,
+    this.firstClick,
     this.playtime = Duration.zero,
   });
 
@@ -29,6 +31,7 @@ class GameStateMinesweeper {
       : status = GameStatus.idle,
         mode = GameModeMinesweeper.easy,
         playtime = Duration.zero,
+        firstClick = null,
         board = CellBoard.empty(rows: GameModeMinesweeper.easy.gameRows, columns: GameModeMinesweeper.easy.gameColumns);
 
   int get rows => board.rows;
