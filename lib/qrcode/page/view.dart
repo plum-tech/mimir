@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -14,7 +15,7 @@ import 'package:sit/widgets/modal_image_view.dart';
 
 import '../i18n.dart';
 
-class QrCodePage extends StatelessWidget {
+class QrCodePage extends ConsumerStatefulWidget {
   final String data;
   final double? maxSize;
   final Widget? title;
@@ -27,42 +28,73 @@ class QrCodePage extends StatelessWidget {
   });
 
   @override
+  ConsumerState createState() => _QrCodePageState();
+}
+
+class _QrCodePageState extends ConsumerState<QrCodePage> {
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: title,
+        title: widget.title,
       ),
-      body: ListView(children: [
-        LayoutBuilder(
-          builder: (ctx, box) {
-            final side = min(box.maxWidth, maxSize ?? double.infinity);
-            return PlainQrCodeView(
-              data: data,
-              size: side,
-            ).center();
-          },
-        ).padSymmetric(h: 4),
-        RichText(
-          text: TextSpan(
-            style: context.textTheme.bodyLarge,
-            children: i18n.hint,
-          ),
-        ).padAll(10),
-        if (Dev.on) ...[
-          ListTile(
-            title: "Text length: ${data.length}".text(),
-            trailing: PlatformIconButton(
-              icon: Icon(context.icons.copy),
-              onPressed: () async {
-                context.showSnackBar(content: "Copied".text());
-                await Clipboard.setData(ClipboardData(text: data));
-              },
-            ),
-          ),
-          SelectableText(data).padAll(10),
-        ],
-      ]),
+      body: buildBody(),
     );
+  }
+
+  Widget buildBody() {
+    if (context.isPortrait) {
+      return ListView(children: [
+        buildQrCode(widget.data).padSymmetric(h: 4),
+        buildTip().padAll(10),
+        if (Dev.on) buildUrl(widget.data),
+      ]);
+    } else {
+      return [
+        buildQrCode(widget.data).expanded(),
+        ListView(
+          children: [
+            buildTip().padAll(10),
+            if (Dev.on) buildUrl(widget.data),
+          ],
+        ).expanded(),
+      ].row();
+    }
+  }
+
+  Widget buildQrCode(String data) {
+    return LayoutBuilder(builder: (ctx, box) {
+      final side = min(box.maxWidth, widget.maxSize ?? double.infinity);
+      return PlainQrCodeView(
+        data: data,
+        size: side,
+      ).center();
+    });
+  }
+
+  Widget buildTip() {
+    return RichText(
+      text: TextSpan(
+        style: context.textTheme.bodyLarge,
+        children: i18n.hint,
+      ),
+    );
+  }
+
+  Widget buildUrl(String data) {
+    return [
+      ListTile(
+        title: "Text length: ${data.length}".text(),
+        trailing: PlatformIconButton(
+          icon: Icon(context.icons.copy),
+          onPressed: () async {
+            context.showSnackBar(content: "Copied".text());
+            await Clipboard.setData(ClipboardData(text: data));
+          },
+        ),
+      ),
+      SelectableText(data).padAll(10),
+    ].column();
   }
 }
 
