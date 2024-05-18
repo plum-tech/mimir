@@ -16,14 +16,13 @@ class RecordSudoku extends GameRecord {
   final int blanks;
   final String blueprint;
 
-  const RecordSudoku({
+  RecordSudoku({
     required super.ts,
     required this.result,
     required this.playTime,
     required this.mode,
-    required this.blanks,
     required this.blueprint,
-  });
+  }) : blanks = mode.blanks;
 
   factory RecordSudoku.createFrom({
     required SudokuBoard board,
@@ -41,7 +40,6 @@ class RecordSudoku extends GameRecord {
       mode: mode,
       playTime: playtime,
       blueprint: blueprint.build(),
-      blanks: mode.blanks,
     );
   }
 
