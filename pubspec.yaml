@@ -162,10 +162,7 @@ dependencies:
   email_validator: ^2.1.17
   sanitize_filename: ^1.0.5
   # Take screenshot of flutter widgets
-  screenshot:
-    git:
-      url: https://github.com/SachinGanesh/screenshot.git
-      ref: 463c6ba
+  screenshot: ^3.0.0
 
   # game
   flame: ^1.17.0

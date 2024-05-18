@@ -66,7 +66,3 @@ Future<void> recognizeQrCode(BuildContext context) async {
     await context.showTip(desc: res.toString(), primary: i18n.ok);
   }
 }
-
-Future<void> takeScreenshot() async {
-
-}
