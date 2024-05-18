@@ -11,6 +11,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/settings/dev.dart';
+import 'package:sit/utils/screenshot.dart';
 import 'package:sit/widgets/modal_image_view.dart';
 
 import '../i18n.dart';
@@ -37,6 +38,14 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
     return Scaffold(
       appBar: AppBar(
         title: widget.title,
+        actions: [
+          PlatformTextButton(
+            child: "Save image".text(),
+            onPressed: () async {
+              await takeQrcodeScreenshot(context: context, data: widget.data);
+            },
+          )
+        ],
       ),
       body: buildBody(),
     );
@@ -65,10 +74,12 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
   Widget buildQrCode(String data) {
     return LayoutBuilder(builder: (ctx, box) {
       final side = min(box.maxWidth, widget.maxSize ?? double.infinity);
-      return PlainQrCodeView(
-        data: data,
-        size: side,
-      ).center();
+      return ModalImageViewer(
+        child: PlainQrCodeView(
+          data: data,
+          size: side,
+        ).center(),
+      );
     });
   }
 
@@ -110,21 +121,19 @@ class PlainQrCodeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ModalImageViewer(
-      child: QrImageView(
-        backgroundColor: context.colorScheme.surface,
-        data: data,
-        size: size,
-        eyeStyle: QrEyeStyle(
-          eyeShape: QrEyeShape.square,
-          color: context.colorScheme.onSurface,
-        ),
-        dataModuleStyle: QrDataModuleStyle(
-          dataModuleShape: QrDataModuleShape.square,
-          color: context.colorScheme.onSurface,
-        ),
-        version: QrVersions.auto,
+    return QrImageView(
+      backgroundColor: context.colorScheme.surface,
+      data: data,
+      size: size,
+      eyeStyle: QrEyeStyle(
+        eyeShape: QrEyeShape.square,
+        color: context.colorScheme.onSurface,
       ),
+      dataModuleStyle: QrDataModuleStyle(
+        dataModuleShape: QrDataModuleShape.square,
+        color: context.colorScheme.onSurface,
+      ),
+      version: QrVersions.auto,
     );
   }
 }
@@ -151,4 +160,28 @@ class BrandQrCodeView extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> takeQrcodeScreenshot({
+  required BuildContext context,
+  required String data,
+}) async {
+  if (!context.mounted) return;
+  final fi = await takeWidgetScreenshot(
+    context: context,
+    name: 'qrcode.png',
+    child: Builder(
+      builder: (ctx) {
+        final size = ctx.mediaQuery.size;
+        return Material(
+          child: PlainQrCodeView(
+            data: data,
+            size: min(size.width, size.height),
+          ),
+        );
+      },
+    ),
+  );
+
+  await onScreenshotTaken(fi.path);
 }
