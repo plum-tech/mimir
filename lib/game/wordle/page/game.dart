@@ -6,8 +6,8 @@ import '../widget/validation_provider.dart';
 import '../widget/display.dart';
 import '../widget/instruction.dart';
 
-class GamePage extends StatefulWidget {
-  const GamePage({
+class GameWordle extends StatefulWidget {
+  const GameWordle({
     super.key,
     required this.database,
     required this.wordLen,
@@ -21,10 +21,10 @@ class GamePage extends StatefulWidget {
   final int gameMode;
 
   @override
-  State<GamePage> createState() => _GamePageState();
+  State<GameWordle> createState() => _GameWordleState();
 }
 
-class _GamePageState extends State<GamePage> with TickerProviderStateMixin {
+class _GameWordleState extends State<GameWordle> with TickerProviderStateMixin {
   late AnimationController _controller;
 
   void _onGameEnd(dynamic args) {

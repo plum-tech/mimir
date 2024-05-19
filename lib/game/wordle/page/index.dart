@@ -7,14 +7,14 @@ import '../widget/single_selection.dart';
 import '../widget/selection_group.dart';
 import '../widget/instruction.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class GameWordlePage extends StatefulWidget {
+  const GameWordlePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<GameWordlePage> createState() => _GameWordlePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _GameWordlePageState extends State<GameWordlePage> {
   //bool _ignorance = false;
 
   Future<void> readSettings() async {

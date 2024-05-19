@@ -37,7 +37,7 @@ class _LoadingPageState extends State<LoadingPage> {
       future: _loadDatabase(dicName: widget.dicName, wordLen: widget.wordLen, gameMode: widget.wordLen),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          return GamePage(
+          return GameWordle(
               database: snapshot.data as Map<String, List<String>>,
               wordLen: widget.wordLen,
               maxChances: widget.maxChances,

@@ -202,6 +202,7 @@ flutter:
     - assets/webview/
     - assets/l10n/
     - assets/game/suika/
+    - assets/game/wordle/
 
 flutter_intl:
   enabled: true

@@ -1,15 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
-import 'app.dart';
-
-void main(){
-  runApp(const WordleApp());
-}
-
-Future<void> loadSettings() async {
+Future<void> loadWordleAssets() async {
   Directory documentsDirectory = await getApplicationDocumentsDirectory();
   String documentsPath = documentsDirectory.path + Platform.pathSeparator;
   File settings = File("${documentsPath}settings.txt");
