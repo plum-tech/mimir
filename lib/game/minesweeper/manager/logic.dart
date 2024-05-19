@@ -30,6 +30,10 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
 
   void fromSave(SaveMinesweeper save) {
     state = GameStateMinesweeper.fromSave(save);
+    final firstClick = state.firstClick;
+    if (state.status == GameStatus.idle && firstClick != null) {
+      dig(cell: state.board.getCell(row: firstClick.row, column: firstClick.column));
+    }
   }
 
   Duration get playtime => state.playtime;
@@ -132,7 +136,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   bool digAroundBesidesFlagged({required Cell cell}) {
-    assert(state.status == GameStatus.running, "Game not yet started, but ${state.status}");
+    if(!state.status.canPlay) return false;
     bool digAny = false;
     if (state.board.countAroundByState(cell: cell, state: CellState.flag) >= cell.minesAround) {
       for (final neighbor in state.board.iterateAround(row: cell.row, column: cell.column)) {
@@ -146,7 +150,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   bool flagRestCovered({required Cell cell}) {
-    assert(state.status == GameStatus.running, "Game not yet started, but ${state.status}");
+    if(!state.status.canPlay) return false;
     bool flagAny = false;
     final coveredCount = state.board.countAroundByState(cell: cell, state: CellState.covered);
     if (coveredCount == 0) return false;
@@ -179,7 +183,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   void toggleFlag({required Cell cell}) {
-    assert(state.status == GameStatus.running, "Game not yet started");
+    if(!state.status.canPlay) return;
     if (cell.state == CellState.flag) {
       _changeCell(cell: cell, state: CellState.covered);
     } else if (cell.state == CellState.covered) {
@@ -190,7 +194,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   void flag({required Cell cell}) {
-    assert(state.status == GameStatus.running, "Game not yet started");
+    if(!state.status.canPlay) return;
     if (cell.state == CellState.covered) {
       _changeCell(cell: cell, state: CellState.flag);
     } else {
@@ -199,7 +203,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   void removeFlag({required Cell cell}) {
-    assert(state.status == GameStatus.running, "Game not yet started");
+    if(!state.status.canPlay) return;
     if (cell.state == CellState.flag) {
       _changeCell(cell: cell, state: CellState.covered);
     } else {
