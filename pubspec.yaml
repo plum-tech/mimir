@@ -218,4 +218,4 @@ msix_config:
   protocol_activation: sit-life, life.mysit
   execution_alias: sitlife
   output_name: SIT-Life
-  enable_at_startup: true
+  enable_at_startup: false

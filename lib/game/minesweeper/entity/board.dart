@@ -122,11 +122,10 @@ class CellBoard extends ICellBoard<Cell> {
     required int rows,
     required int columns,
     required int mines,
-    required int rowExclude,
-    required int columnExclude,
+    required ({int row, int column}) firstClick,
   }) {
     final builder = CellBoardBuilder.generate(rows: rows, columns: columns);
-    builder.randomMines(mines: mines, rowFirstClick: rowExclude, columnFirstClick: columnExclude);
+    builder.randomMines(mines: mines, firstClick: firstClick);
     return builder.build();
   }
 
@@ -286,15 +285,14 @@ class CellBoardBuilder extends ICellBoard<CellBuilder> {
 
   void randomMines({
     required int mines,
-    required int rowFirstClick,
-    required int columnFirstClick,
+    required ({int row, int column}) firstClick,
   }) {
     final rand = Random();
     final candidates = List.generate(rows * columns, (index) => (row: index ~/ columns, column: index % columns));
     // Clicked cell and one-cell nearby cells can't be mines.
     for (final (dx, dy) in CellBoard.nearbyDeltaAndThis) {
-      final row = rowFirstClick + dx;
-      final column = columnFirstClick + dy;
+      final row = firstClick.row + dx;
+      final column = firstClick.column + dy;
       candidates.remove((row: row, column: column));
     }
     final maxMines = candidates.length - 1;

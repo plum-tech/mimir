@@ -49,14 +49,17 @@ class GameStateMinesweeper {
       board: board,
       playtime: save.playtime,
       status: GameStatus.running,
+      firstClick: save.firstClick,
     );
   }
 
   SaveMinesweeper toSave() {
+    assert(firstClick != null, "save before first click");
     return SaveMinesweeper(
       cells: board.toSave(),
       playtime: playtime,
       mode: mode,
+      firstClick: firstClick!,
     );
   }
 }

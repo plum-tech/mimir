@@ -30,10 +30,8 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
 
   void fromSave(SaveMinesweeper save) {
     state = GameStateMinesweeper.fromSave(save);
-    final firstClick = state.firstClick;
-    if (state.status == GameStatus.idle && firstClick != null) {
-      dig(cell: state.board.getCell(row: firstClick.row, column: firstClick.column));
-    }
+    final firstClick = save.firstClick;
+    dig(cell: state.board.getCell(row: firstClick.row, column: firstClick.column));
   }
 
   Duration get playtime => state.playtime;
@@ -59,17 +57,17 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   void dig({required Cell cell}) {
     assert(state.status != GameStatus.gameOver && state.status != GameStatus.victory, "Game is already over");
     // Generating mines on first dig
-    if (state.status == GameStatus.idle) {
+    if (state.status == GameStatus.idle && state.firstClick == null) {
       final mode = state.mode;
+      final firstClick = (row: cell.row, column: cell.column);
       state = state.copyWith(
-        firstClick: (row: cell.row, column: cell.column),
+        firstClick: firstClick,
         status: GameStatus.running,
         board: CellBoard.withMines(
           rows: mode.gameRows,
           columns: mode.gameColumns,
           mines: mode.gameMines,
-          rowExclude: cell.row,
-          columnExclude: cell.column,
+          firstClick: firstClick,
         ),
       );
     }
@@ -84,8 +82,6 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
           onVictory();
         }
       }
-    } else {
-      assert(false, "$cell");
     }
   }
 
@@ -136,7 +132,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   bool digAroundBesidesFlagged({required Cell cell}) {
-    if(!state.status.canPlay) return false;
+    if (!state.status.canPlay) return false;
     bool digAny = false;
     if (state.board.countAroundByState(cell: cell, state: CellState.flag) >= cell.minesAround) {
       for (final neighbor in state.board.iterateAround(row: cell.row, column: cell.column)) {
@@ -150,7 +146,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   bool flagRestCovered({required Cell cell}) {
-    if(!state.status.canPlay) return false;
+    if (!state.status.canPlay) return false;
     bool flagAny = false;
     final coveredCount = state.board.countAroundByState(cell: cell, state: CellState.covered);
     if (coveredCount == 0) return false;
@@ -183,7 +179,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   void toggleFlag({required Cell cell}) {
-    if(!state.status.canPlay) return;
+    if (!state.status.canPlay) return;
     if (cell.state == CellState.flag) {
       _changeCell(cell: cell, state: CellState.covered);
     } else if (cell.state == CellState.covered) {
@@ -194,7 +190,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   void flag({required Cell cell}) {
-    if(!state.status.canPlay) return;
+    if (!state.status.canPlay) return;
     if (cell.state == CellState.covered) {
       _changeCell(cell: cell, state: CellState.flag);
     } else {
@@ -203,7 +199,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   void removeFlag({required Cell cell}) {
-    if(!state.status.canPlay) return;
+    if (!state.status.canPlay) return;
     if (cell.state == CellState.flag) {
       _changeCell(cell: cell, state: CellState.covered);
     } else {
@@ -212,7 +208,7 @@ class GameLogic extends StateNotifier<GameStateMinesweeper> {
   }
 
   Future<void> save() async {
-    if (state.status.shouldSave) {
+    if (state.status.shouldSave && state.firstClick != null) {
       await StorageMinesweeper.save.save(state.toSave());
     } else {
       await StorageMinesweeper.save.delete();

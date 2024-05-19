@@ -35,11 +35,13 @@ class SaveMinesweeper {
   final List2D<Cell4Save> cells;
   final Duration playtime;
   final GameModeMinesweeper mode;
+  final ({int row, int column}) firstClick;
 
   const SaveMinesweeper({
     required this.cells,
     this.playtime = Duration.zero,
     this.mode = GameModeMinesweeper.easy,
+    required this.firstClick,
   });
 
   Map<String, dynamic> toJson() => _$SaveMinesweeperToJson(this);

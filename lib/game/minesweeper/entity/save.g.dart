@@ -29,6 +29,13 @@ SaveMinesweeper _$SaveMinesweeperFromJson(Map<String, dynamic> json) => SaveMine
               json['cells'] as Map<String, dynamic>, (value) => Cell4Save.fromJson(value as Map<String, dynamic>)),
       playtime: json['playtime'] == null ? Duration.zero : Duration(microseconds: (json['playtime'] as num).toInt()),
       mode: json['mode'] == null ? GameModeMinesweeper.easy : GameModeMinesweeper.fromJson(json['mode'] as String),
+      firstClick: _$recordConvert(
+        json['firstClick'],
+        ($jsonValue) => (
+          column: ($jsonValue['column'] as num).toInt(),
+          row: ($jsonValue['row'] as num).toInt(),
+        ),
+      ),
     );
 
 Map<String, dynamic> _$SaveMinesweeperToJson(SaveMinesweeper instance) => <String, dynamic>{
@@ -37,4 +44,14 @@ Map<String, dynamic> _$SaveMinesweeperToJson(SaveMinesweeper instance) => <Strin
       ),
       'playtime': instance.playtime.inMicroseconds,
       'mode': instance.mode,
+      'firstClick': <String, dynamic>{
+        'column': instance.firstClick.column,
+        'row': instance.firstClick.row,
+      },
     };
+
+$Rec _$recordConvert<$Rec>(
+  Object? value,
+  $Rec Function(Map) convert,
+) =>
+    convert(value as Map<String, dynamic>);
