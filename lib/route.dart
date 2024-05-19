@@ -14,6 +14,7 @@ import 'package:sit/game/page/settings.dart';
 import 'package:sit/game/sudoku/page/index.dart';
 import 'package:sit/game/sudoku/page/records.dart';
 import 'package:sit/game/suika/index.dart';
+import 'package:sit/game/wordle/page/index.dart';
 import 'package:sit/index.dart';
 import 'package:sit/life/page/settings.dart';
 import 'package:sit/lifecycle.dart';
@@ -513,6 +514,10 @@ final _gameRoutes = [
   GoRoute(
     path: "/game/suika",
     builder: (ctx, state) => const GameSuikaPage(),
+  ),
+  GoRoute(
+    path: "/game/wordle",
+    builder: (ctx, state) => const GameWordlePage(),
   ),
 ];
 

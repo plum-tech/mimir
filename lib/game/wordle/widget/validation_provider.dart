@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../event_bus.dart';
 import '../generator.dart';
@@ -39,6 +41,8 @@ class _ValidationProviderState extends State<ValidationProvider> {
   String curAttempt = "";
   int curAttemptCount = 0;
   bool acceptInput = true;
+  late final StreamSubscription $newGame;
+  late final StreamSubscription $result;
 
   void _onNewGame(dynamic args) {
     _newGame();
@@ -60,8 +64,8 @@ class _ValidationProviderState extends State<ValidationProvider> {
     letterMap = Map.unmodifiable(letterMap);
   }
 
-  void _onGameEnd(dynamic args) {
-    args as bool ? _onGameWin() : _onGameLoose();
+  void _onGameEnd(WordleResultEvent event) {
+    event.value ? _onGameWin() : _onGameLoose();
   }
 
   void _onGameWin() {
@@ -94,7 +98,7 @@ class _ValidationProviderState extends State<ValidationProvider> {
           );
         });
     if (startNew == true) {
-      mainBus.emit(event: "NewGame", args: []);
+      wordleEventBus.fire(const WordleNewGameEvent());
     }
   }
 
@@ -102,14 +106,14 @@ class _ValidationProviderState extends State<ValidationProvider> {
   void initState() {
     super.initState();
     _newGame();
-    mainBus.on(event: "NewGame", onEvent: _onNewGame);
-    mainBus.on(event: "Result", onEvent: _onGameEnd);
+    $newGame = wordleEventBus.on<WordleNewGameEvent>().listen(_onNewGame);
+    $result = wordleEventBus.on<WordleResultEvent>().listen(_onGameEnd);
   }
 
   @override
   void dispose() {
-    mainBus.off(event: "NewGame", callBack: _onNewGame);
-    mainBus.off(event: "Result", callBack: _onGameEnd);
+    $newGame.cancel();
+    $result.cancel();
     super.dispose();
   }
 
@@ -149,9 +153,8 @@ class _ValidationProviderState extends State<ValidationProvider> {
                 }
               }
               //emit current attempt
-              mainBus.emit(
-                event: "Attempt",
-                args: positionValRes,
+              wordleEventBus.fire(
+                WordleAttemptEvent(positionValRes),
               );
               mainBus.emit(
                 event: "Validation",

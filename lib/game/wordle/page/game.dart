@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -26,16 +27,17 @@ class GameWordle extends StatefulWidget {
 
 class _GameWordleState extends State<GameWordle> with TickerProviderStateMixin {
   late AnimationController _controller;
+  late final StreamSubscription $validationEnd;
 
-  void _onGameEnd(dynamic args) {
-    var result = args as bool;
+  void _onGameEnd(WordleValidationEndEvent event) {
+    var result = event.value;
     if (result == true) {
       _controller.forward().then((v) {
         _controller.reset();
-        mainBus.emit(event: "Result", args: result);
+        wordleEventBus.fire(WordleResultEvent(result));
       });
     } else {
-      mainBus.emit(event: "Result", args: result);
+      wordleEventBus.fire(WordleResultEvent(result));
     }
   }
 
@@ -43,12 +45,12 @@ class _GameWordleState extends State<GameWordle> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
-    mainBus.on(event: "ValidationEnds", onEvent: _onGameEnd);
+    $validationEnd =  wordleEventBus.on<WordleValidationEndEvent>().listen(_onGameEnd);
   }
 
   @override
   void dispose() {
-    mainBus.off(event: "ValidationEnds", callBack: _onGameEnd);
+    $validationEnd.cancel();
     super.dispose();
   }
 
@@ -98,11 +100,6 @@ class _GameWordleState extends State<GameWordle> with TickerProviderStateMixin {
                       child: child,
                     );
                   },
-                  child: IconButton(
-                    key: ValueKey(mode),
-                    icon: mode == Brightness.light ? const Icon(Icons.dark_mode_outlined) : const Icon(Icons.dark_mode),
-                    onPressed: () => mainBus.emit(event: "ToggleTheme", args: []),
-                  ),
                 ),
                 IconButton(
                   icon: const Icon(Icons.help_outline_outlined),
@@ -115,7 +112,7 @@ class _GameWordleState extends State<GameWordle> with TickerProviderStateMixin {
                   icon: const Icon(Icons.refresh_rounded),
                   //color: Colors.black,
                   onPressed: () {
-                    mainBus.emit(event: "NewGame", args: []);
+                    wordleEventBus.fire(const WordleNewGameEvent());
                   },
                 ),
               ],

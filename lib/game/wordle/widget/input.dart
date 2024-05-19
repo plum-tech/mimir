@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../widget/validation_provider.dart';
 import '../event_bus.dart';
@@ -12,6 +14,8 @@ class InputPanelWidget extends StatefulWidget {
 }
 
 class _InputPanelWidgetState extends State<InputPanelWidget> {
+  late final StreamSubscription $animationStop;
+  late final StreamSubscription $newGame;
   final _keyState = <String, int>{};
   final List<List<String>> _keyPos = List<List<String>>.unmodifiable([
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -24,7 +28,7 @@ class _InputPanelWidgetState extends State<InputPanelWidget> {
     _cache = args as Map<String, int>;
   }
 
-  void _onAnimationStops(dynamic args) {
+  void _onAnimationStops(WordleAnimationStopEvent event) {
     setState(() {
       _cache.forEach((key, value) {
         if (_keyState[key] != 1) {
@@ -34,7 +38,7 @@ class _InputPanelWidgetState extends State<InputPanelWidget> {
     });
   }
 
-  void _onNewGame(dynamic args) {
+  void _onNewGame(WordleNewGameEvent event) {
     setState(() {
       var aCode = 'A'.codeUnitAt(0);
       var zCode = 'Z'.codeUnitAt(0);
@@ -63,15 +67,16 @@ class _InputPanelWidgetState extends State<InputPanelWidget> {
       _keyState[c] = 0;
     }
     mainBus.on(event: "Validation", onEvent: _onLetterValidation);
-    mainBus.on(event: "AnimationStops", onEvent: _onAnimationStops);
-    mainBus.on(event: "NewGame", onEvent: _onNewGame);
+
+    $animationStop = wordleEventBus.on<WordleAnimationStopEvent>().listen(_onAnimationStops);
+    $newGame = wordleEventBus.on<WordleNewGameEvent>().listen(_onNewGame);
   }
 
   @override
   void dispose() {
+    $animationStop.cancel();
+    $newGame.cancel();
     mainBus.off(event: "Validation", callBack: _onLetterValidation);
-    mainBus.off(event: "AnimationStops", callBack: _onAnimationStops);
-    mainBus.off(event: "NewGame", callBack: _onNewGame);
     super.dispose();
   }
 

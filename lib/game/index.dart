@@ -44,6 +44,11 @@ class _GamePageState extends ConsumerState<GamePage> {
                 const GameAppCardSudoku(),
                 if (devMode)
                   const OfflineGameAppCard(
+                    name: "Wordle",
+                    baseRoute: "/wordle",
+                  ),
+                if (devMode)
+                  const OfflineGameAppCard(
                     name: "SIT Suika",
                     baseRoute: "/suika",
                   ),

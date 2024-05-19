@@ -51,55 +51,6 @@ class _GameWordlePageState extends State<GameWordlePage> {
                                       color: mode == Brightness.light ? Colors.grey[850]! : Colors.white)),
                             ),
                           ),
-                          const Spacer(),
-                          Align(
-                            alignment: Alignment.bottomRight,
-                            child: Padding(
-                                padding: const EdgeInsets.only(right: 30.0, bottom: 10.0),
-                                child: Row(children: [
-                                  AnimatedSwitcher(
-                                    duration: const Duration(milliseconds: 750),
-                                    reverseDuration: const Duration(milliseconds: 750),
-                                    switchInCurve: Curves.bounceOut,
-                                    switchOutCurve: Curves.bounceIn,
-                                    transitionBuilder: (child, animation) {
-                                      var rotateAnimation = Tween<double>(begin: 0, end: 2 * pi).animate(animation);
-                                      var opacAnimation = Tween<double>(begin: 0, end: 1).animate(animation);
-                                      return AnimatedBuilder(
-                                        animation: rotateAnimation,
-                                        builder: (context, child) {
-                                          return Transform(
-                                            transform: Matrix4.rotationZ(
-                                                rotateAnimation.status == AnimationStatus.reverse
-                                                    ? 2 * pi - rotateAnimation.value
-                                                    : rotateAnimation.value),
-                                            alignment: Alignment.center,
-                                            child: Opacity(
-                                              opacity: opacAnimation.value,
-                                              child: child,
-                                            ),
-                                          );
-                                        },
-                                        child: child,
-                                      );
-                                    },
-                                    child: IconButton(
-                                      key: ValueKey(mode),
-                                      icon: mode == Brightness.light
-                                          ? const Icon(Icons.dark_mode_outlined)
-                                          : const Icon(Icons.dark_mode),
-                                      onPressed: () => mainBus.emit(event: "ToggleTheme", args: []),
-                                    ),
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.help_outline_outlined),
-                                    //color: Colors.black,
-                                    onPressed: () {
-                                      showInstructionDialog(context: context);
-                                    },
-                                  ),
-                                ])),
-                          )
                         ],
                       ),
                     ),

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../widget/validation_provider.dart';
 import 'input.dart';
@@ -19,6 +21,8 @@ class WordleDisplayWidget extends StatefulWidget {
 }
 
 class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerProviderStateMixin {
+  late final StreamSubscription $attempt;
+  late final StreamSubscription $newGame;
   int r = 0;
   int c = 0;
   bool onAnimation = false;
@@ -40,22 +44,22 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
     if (!onAnimation) {
       return;
     }
-    mainBus.emit(event: "AnimationStops", args: []);
+    wordleEventBus.fire(const WordleAnimationStopEvent());
     onAnimation = false;
     r++;
     c = 0;
     if (r == widget.maxChances || result == true) {
-      mainBus.emit(event: "ValidationEnds", args: result);
+      wordleEventBus.fire(const WordleAnimationStopEvent());
       acceptInput = false;
     }
   }
 
-  void _onValidation(dynamic args) {
-    List<int> validation = args;
+  void _onValidation(WordleAttemptEvent event) {
+    List<int> validation = event.validation;
     _validationAnimation(validation);
   }
 
-  void _onNewGame(dynamic args) {
+  void _onNewGame(WordleNewGameEvent event) {
     setState(() {
       r = 0;
       c = 0;
@@ -87,17 +91,14 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
             }
         ]
     ];
-    mainBus.on(
-      event: "Attempt",
-      onEvent: _onValidation,
-    );
-    mainBus.on(event: "NewGame", onEvent: _onNewGame);
+    $attempt = wordleEventBus.on<WordleAttemptEvent>().listen(_onValidation);
+    $newGame = wordleEventBus.on<WordleNewGameEvent>().listen(_onNewGame);
   }
 
   @override
   void dispose() {
-    mainBus.off(event: "Attempt", callBack: _onValidation);
-    mainBus.off(event: "NewGame", callBack: _onNewGame);
+    $attempt.cancel();
+    $newGame.cancel();
     super.dispose();
   }
 

@@ -42,6 +42,7 @@ dependencies:
   get_it: ^7.7.0
   flutter_image_compress: ^2.3.0
   pausable_timer: ^3.1.0+3
+  event_bus: ^2.0.0
 
   # Supporting scrolling screenshot on Android, like MIUI
   fit_system_screenshot: ^1.0.9

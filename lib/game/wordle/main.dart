@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 
-Future<void> loadWordleAssets() async {
+Future<void> loadWordleSettings() async {
   Directory documentsDirectory = await getApplicationDocumentsDirectory();
   String documentsPath = documentsDirectory.path + Platform.pathSeparator;
   File settings = File("${documentsPath}settings.txt");

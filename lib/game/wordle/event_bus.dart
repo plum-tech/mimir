@@ -1,6 +1,42 @@
+import 'package:event_bus/event_bus.dart' as e;
+
+final wordleEventBus = e.EventBus();
+
+class WordleResultEvent {
+  final bool value;
+
+  const WordleResultEvent(this.value);
+}
+
+class WordleValidationEndEvent {
+  final bool value;
+
+  const WordleValidationEndEvent(this.value);
+}
+
+class WordleValidationEvent {
+  final bool value;
+
+  const WordleValidationEvent(this.value);
+}
+
+class WordleNewGameEvent {
+  const WordleNewGameEvent();
+}
+
+class WordleAttemptEvent {
+  final List<int> validation;
+
+  const WordleAttemptEvent(this.validation);
+}
+
+class WordleAnimationStopEvent {
+  const WordleAnimationStopEvent();
+}
+
 typedef EventCallBack = void Function(dynamic args);
 
-final EventBus mainBus = EventBus();
+final mainBus = EventBus();
 
 class EventBus {
   EventBus._internal();
