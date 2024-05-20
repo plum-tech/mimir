@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:rettulf/rettulf.dart';
 import '../event_bus.dart';
 import '../widget/validation_provider.dart';
 import '../widget/display.dart';
@@ -56,51 +57,16 @@ class _GameWordleState extends State<GameWordle> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    var mode = Theme.of(context).brightness;
     return Stack(
       children: [
         Positioned.fill(
           child: Scaffold(
             appBar: AppBar(
-              backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.grey[850] : Colors.white,
+              backgroundColor: Colors.transparent,
               elevation: 0.0,
-              shadowColor: Colors.transparent,
               toolbarHeight: 80.0,
-              titleTextStyle: TextStyle(
-                color: Theme.of(context).brightness == Brightness.dark ? Colors.grey[100] : Colors.black,
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0,
-              ),
-              title: const Text('WORDLE'),
-              centerTitle: true,
-              //iconTheme: const IconThemeData(color: Colors.black),
+              title: const Text('Wordle'),
               actions: [
-                AnimatedSwitcher(
-                  duration: Durations.short3,
-                  reverseDuration: Durations.short3,
-                  switchInCurve: Curves.bounceOut,
-                  switchOutCurve: Curves.bounceIn,
-                  transitionBuilder: (child, animation) {
-                    var rotateAnimation = Tween<double>(begin: 0, end: 2 * pi).animate(animation);
-                    var opacAnimation = Tween<double>(begin: 0, end: 1).animate(animation);
-                    return AnimatedBuilder(
-                      animation: rotateAnimation,
-                      builder: (context, child) {
-                        return Transform(
-                          transform: Matrix4.rotationZ(rotateAnimation.status == AnimationStatus.reverse
-                              ? 2 * pi - rotateAnimation.value
-                              : rotateAnimation.value),
-                          alignment: Alignment.center,
-                          child: Opacity(
-                            opacity: opacAnimation.value,
-                            child: child,
-                          ),
-                        );
-                      },
-                      child: child,
-                    );
-                  },
-                ),
                 IconButton(
                   icon: const Icon(Icons.help_outline_outlined),
                   //color: Colors.black,
@@ -117,15 +83,12 @@ class _GameWordleState extends State<GameWordle> with TickerProviderStateMixin {
                 ),
               ],
             ),
-            body: Container(
-              color: Theme.of(context).brightness == Brightness.dark ? Colors.grey[850] : Colors.white,
-              child: ValidationProvider(
-                database: widget.database,
-                wordLen: widget.wordLen,
-                maxChances: widget.maxChances,
-                gameMode: widget.gameMode,
-                child: WordleDisplayWidget(wordLen: widget.wordLen, maxChances: widget.maxChances),
-              ),
+            body: ValidationProvider(
+              database: widget.database,
+              wordLen: widget.wordLen,
+              maxChances: widget.maxChances,
+              gameMode: widget.gameMode,
+              child: WordleDisplayWidget(wordLen: widget.wordLen, maxChances: widget.maxChances),
             ),
           ),
         ),

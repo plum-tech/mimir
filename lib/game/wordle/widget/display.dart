@@ -223,7 +223,7 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
           ),
           const Padding(
             padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 30.0),
-            child: InputPanelWidget(),
+            child: WordleKeyboard(),
           ),
         ],
       ),

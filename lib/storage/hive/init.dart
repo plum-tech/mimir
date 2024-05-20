@@ -83,6 +83,7 @@ class HiveInit {
         game2048 = await core.openBox("game-2048"),
         gameMinesweeper = await core.openBox("game-minesweeper"),
         gameSudoku = await core.openBox("game-sudoku"),
+        gameWordle = await core.openBox("game-wordle"),
       ]
     ]);
     Settings = SettingsImpl(settings);

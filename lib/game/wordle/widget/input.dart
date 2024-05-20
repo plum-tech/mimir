@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import '../widget/validation_provider.dart';
 import '../event_bus.dart';
 
-class InputPanelWidget extends StatefulWidget {
-  const InputPanelWidget({
+class WordleKeyboard extends StatefulWidget {
+  const WordleKeyboard({
     super.key,
   });
 
   @override
-  State<InputPanelWidget> createState() => _InputPanelWidgetState();
+  State<WordleKeyboard> createState() => _WordleKeyboardState();
 }
 
-class _InputPanelWidgetState extends State<InputPanelWidget> {
+class _WordleKeyboardState extends State<WordleKeyboard> {
   late final StreamSubscription $animationStop;
   late final StreamSubscription $newGame;
   final _keyState = <String, int>{};
