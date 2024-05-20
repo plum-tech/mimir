@@ -5,7 +5,6 @@ import '../event_bus.dart';
 import '../page/loading.dart';
 import '../widget/single_selection.dart';
 import '../widget/selection_group.dart';
-import '../widget/instruction.dart';
 
 class GameWordlePage extends StatefulWidget {
   const GameWordlePage({super.key});

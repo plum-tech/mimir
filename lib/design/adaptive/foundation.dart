@@ -117,7 +117,7 @@ class $Dialog$ extends StatelessWidget {
     } else {
       // For other platform
       dialog = AlertDialog(
-        backgroundColor: context.theme.dialogBackgroundColor.withOpacity(_kDialogAlpha),
+        backgroundColor: context.theme.dialogBackgroundColor,
         title: title?.text(style: TextStyle(fontWeight: FontWeight.w600, color: serious ? context.$red$ : null)),
         content: make(context),
         actions: [

@@ -6,7 +6,7 @@ import 'package:rettulf/rettulf.dart';
 import '../event_bus.dart';
 import '../widget/validation_provider.dart';
 import '../widget/display.dart';
-import '../widget/instruction.dart';
+import '../widget/guide.dart';
 
 class GameWordle extends StatefulWidget {
   const GameWordle({
