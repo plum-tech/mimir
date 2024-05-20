@@ -3,7 +3,7 @@ description: "A multiplatform app for SIT students."
 
 # The build version numbers is incremented automatically.
 # DO NOT DIRECTLY CHANGE IT
-version: 2.5.0+445
+version: 2.5.0+446
 
 homepage: https://github.com/liplum/mimir
 repository: https://github.com/liplum/mimir
@@ -48,7 +48,7 @@ dependencies:
   fit_system_screenshot: ^1.0.9
 
   # String formatting
-  format: ^1.5.1
+  format: ^1.5.2
 
   # Cryptography
   # Encryption (AES)
@@ -108,7 +108,7 @@ dependencies:
   # Check VPN connection status
   check_vpn_connection: ^0.0.2
   connectivity_plus: ^6.0.2
-  vibration: ^1.8.4
+  vibration: ^1.9.0
   # qrcode scanner
   mobile_scanner: 5.1.1
   add_2_calendar: ^3.0.1
@@ -148,7 +148,7 @@ dependencies:
   carousel_slider: ^4.2.1
   # iCalendar file generator
   enough_icalendar: ^0.16.0
-  super_context_menu: ^0.8.13
+  super_context_menu: ^0.8.15
   animated_size_and_fade: ^4.0.0
   dismissible_page: ^1.0.2
 
