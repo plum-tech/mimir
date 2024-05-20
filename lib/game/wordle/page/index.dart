@@ -22,7 +22,6 @@ class _GameWordlePageState extends ConsumerState<GameWordlePage> {
     return LoadingPage(
       dicName: pref.wordSet.name,
       maxChances: 6,
-      gameMode: 0,
     );
   }
 }

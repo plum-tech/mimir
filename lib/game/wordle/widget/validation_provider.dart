@@ -24,13 +24,11 @@ class ValidationProvider extends StatefulWidget {
     required this.child,
     required this.database,
     required this.maxChances,
-    required this.gameMode,
   });
 
   final Widget child;
   final Map<String, List<String>> database;
   final int maxChances;
-  final int gameMode;
 
   @override
   State<ValidationProvider> createState() => _ValidationProviderState();

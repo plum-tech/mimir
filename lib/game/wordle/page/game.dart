@@ -13,12 +13,10 @@ class GameWordle extends StatefulWidget {
     super.key,
     required this.database,
     required this.maxChances,
-    required this.gameMode,
   });
 
   final Map<String, List<String>> database;
   final int maxChances;
-  final int gameMode;
 
   @override
   State<GameWordle> createState() => _GameWordleState();
@@ -84,7 +82,6 @@ class _GameWordleState extends State<GameWordle> with TickerProviderStateMixin {
             body: ValidationProvider(
               database: widget.database,
               maxChances: widget.maxChances,
-              gameMode: widget.gameMode,
               child: WordleDisplayWidget(maxChances: widget.maxChances),
             ),
           ),

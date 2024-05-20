@@ -8,12 +8,10 @@ class LoadingPage extends StatefulWidget {
     super.key,
     required this.dicName,
     required this.maxChances,
-    required this.gameMode,
   });
 
   final String dicName;
   final int maxChances;
-  final int gameMode;
 
   @override
   State<LoadingPage> createState() => _LoadingPageState();
@@ -37,7 +35,6 @@ class _LoadingPageState extends State<LoadingPage> {
           return GameWordle(
             database: snapshot.data as Map<String, List<String>>,
             maxChances: widget.maxChances,
-            gameMode: widget.gameMode,
           );
         } else {
           return Scaffold(
