@@ -1,24 +1,26 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/game/wordle/entity/word_set.dart';
 import '../event_bus.dart';
 import '../page/loading.dart';
+import '../settings.dart';
 import '../widget/selection_group.dart';
 
-class GameWordlePage extends StatefulWidget {
+class GameWordlePage extends ConsumerStatefulWidget {
   const GameWordlePage({super.key});
 
   @override
-  State<GameWordlePage> createState() => _GameWordlePageState();
+  ConsumerState<GameWordlePage> createState() => _GameWordlePageState();
 }
 
-class _GameWordlePageState extends State<GameWordlePage> {
-
+class _GameWordlePageState extends ConsumerState<GameWordlePage> {
   @override
   Widget build(BuildContext context) {
+    final pref = ref.watch(SettingsWordle.$.$pref);
     return LoadingPage(
-      dicName: WordleWordSet.all.name,
+      dicName: pref.wordSet.name,
       maxChances: 6,
       gameMode: 0,
     );

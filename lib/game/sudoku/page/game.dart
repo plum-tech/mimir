@@ -20,6 +20,7 @@ import '../entity/board.dart';
 import '../manager/logic.dart';
 import '../entity/save.dart';
 import '../settings.dart';
+import '../storage.dart';
 import '../widget/cell.dart';
 import '../widget/filler.dart';
 import '../widget/hud.dart';
@@ -68,7 +69,7 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
         logic.initGame(gameMode: SettingsSudoku.$.pref.mode);
         logic.startGame();
       } else {
-        final save = SaveSudoku.storage.load();
+        final save = StorageSudoku.save.load();
         if (save != null) {
           logic.fromSave(save);
           timer.state = ref.read(stateSudoku).playtime;

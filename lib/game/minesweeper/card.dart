@@ -6,7 +6,7 @@ import 'package:sit/game/widget/mode.dart';
 import 'package:sit/game/widget/card.dart';
 
 import 'entity/mode.dart';
-import 'pref.dart';
+import 'entity/pref.dart';
 import 'settings.dart';
 import 'i18n.dart';
 import 'storage.dart';

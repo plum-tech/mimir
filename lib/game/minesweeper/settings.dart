@@ -3,7 +3,7 @@ import 'package:sit/storage/hive/init.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:sit/utils/json.dart';
 
-import 'pref.dart';
+import 'entity/pref.dart';
 
 class _K {
   static const ns = "/settings";

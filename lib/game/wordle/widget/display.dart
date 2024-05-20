@@ -107,119 +107,7 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
-              child: Align(
-                alignment: Alignment.center,
-                child: AspectRatio(
-                  aspectRatio: maxLetters / widget.maxChances,
-                  child: Column(
-                    //Column(
-                    children: [
-                      for (int i = 0; i < widget.maxChances; i++)
-                        Expanded(
-                          flex: 1,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              for (int j = 0; j < maxLetters; j++)
-                                AnimatedBuilder(
-                                    animation: inputs[i][j]["InputAnimationController"],
-                                    builder: (context, child) {
-                                      return Transform.scale(
-                                        scale: Tween<double>(begin: 1, end: 1.1)
-                                            .evaluate(inputs[i][j]["InputAnimationController"]),
-                                        child: child,
-                                      );
-                                    },
-                                    child: AspectRatio(
-                                      aspectRatio: 1,
-                                      child: LayoutBuilder(
-                                        builder: (context, constraints) {
-                                          return AnimatedSwitcher(
-                                            duration: const Duration(milliseconds: 700),
-                                            switchInCurve: Curves.easeOut,
-                                            reverseDuration: const Duration(milliseconds: 0),
-                                            transitionBuilder: (child, animation) {
-                                              return AnimatedBuilder(
-                                                  animation: animation,
-                                                  child: child,
-                                                  builder: (context, child) {
-                                                    var _animation =
-                                                        Tween<double>(begin: math.pi / 2, end: 0).animate(animation);
-                                                    // return ConstrainedBox(
-                                                    //   constraints: BoxConstraints.tightFor(height: constraints.maxHeight * _animation.value),
-                                                    //   child: child,
-                                                    // );
-                                                    return Transform(
-                                                      transform: Matrix4.rotationX(_animation.value),
-                                                      alignment: Alignment.center,
-                                                      child: child,
-                                                    );
-                                                  });
-                                            },
-                                            child: Padding(
-                                              key: ValueKey(
-                                                  (inputs[i][j]["State"] == 0 || inputs[i][j]["State"] == 3) ? 0 : 1),
-                                              padding: const EdgeInsets.all(5.0),
-                                              child: DecoratedBox(
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: inputs[i][j]["State"] == 1
-                                                        ? Colors.green[600]!
-                                                        : inputs[i][j]["State"] == 2
-                                                            ? Colors.yellow[800]!
-                                                            : inputs[i][j]["State"] == 3
-                                                                ? Theme.of(context).brightness == Brightness.dark
-                                                                    ? Colors.grey[400]!
-                                                                    : Colors.grey[850]!
-                                                                : inputs[i][j]["State"] == -1
-                                                                    ? Colors.grey[700]!
-                                                                    : Theme.of(context).brightness == Brightness.dark
-                                                                        ? Colors.grey[700]!
-                                                                        : Colors.grey[400]!,
-                                                    width: 2.0,
-                                                  ),
-                                                  color: inputs[i][j]["State"] == 1
-                                                      ? Colors.green[600]!
-                                                      : inputs[i][j]["State"] == 2
-                                                          ? Colors.yellow[800]!
-                                                          : inputs[i][j]["State"] == -1
-                                                              ? Colors.grey[700]!
-                                                              : Theme.of(context).brightness == Brightness.dark
-                                                                  ? Colors.grey[850]!
-                                                                  : Colors.white,
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    inputs[i][j]["Letter"],
-                                                    style: TextStyle(
-                                                      color: inputs[i][j]["State"] == 3
-                                                          ? Theme.of(context).brightness == Brightness.dark
-                                                              ? Colors.white
-                                                              : Colors.grey[850]!
-                                                          : Colors.white,
-                                                      fontSize: 30,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    )),
-                            ],
-                          ),
-                        ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
+          buildDisplayBoard(),
           const Padding(
             padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 30.0),
             child: WordleKeyboard(),
@@ -250,6 +138,122 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
         }
         return false;
       },
+    );
+  }
+
+  Widget buildDisplayBoard() {
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
+        child: Align(
+          alignment: Alignment.center,
+          child: AspectRatio(
+            aspectRatio: maxLetters / widget.maxChances,
+            child: Column(
+              //Column(
+              children: [
+                for (int i = 0; i < widget.maxChances; i++)
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        for (int j = 0; j < maxLetters; j++)
+                          AnimatedBuilder(
+                              animation: inputs[i][j]["InputAnimationController"],
+                              builder: (context, child) {
+                                return Transform.scale(
+                                  scale: Tween<double>(begin: 1, end: 1.1)
+                                      .evaluate(inputs[i][j]["InputAnimationController"]),
+                                  child: child,
+                                );
+                              },
+                              child: AspectRatio(
+                                aspectRatio: 1,
+                                child: LayoutBuilder(
+                                  builder: (context, constraints) {
+                                    return AnimatedSwitcher(
+                                      duration: const Duration(milliseconds: 700),
+                                      switchInCurve: Curves.easeOut,
+                                      reverseDuration: const Duration(milliseconds: 0),
+                                      transitionBuilder: (child, animation) {
+                                        return AnimatedBuilder(
+                                            animation: animation,
+                                            child: child,
+                                            builder: (context, child) {
+                                              var _animation =
+                                                  Tween<double>(begin: math.pi / 2, end: 0).animate(animation);
+                                              // return ConstrainedBox(
+                                              //   constraints: BoxConstraints.tightFor(height: constraints.maxHeight * _animation.value),
+                                              //   child: child,
+                                              // );
+                                              return Transform(
+                                                transform: Matrix4.rotationX(_animation.value),
+                                                alignment: Alignment.center,
+                                                child: child,
+                                              );
+                                            });
+                                      },
+                                      child: Padding(
+                                        key: ValueKey(
+                                            (inputs[i][j]["State"] == 0 || inputs[i][j]["State"] == 3) ? 0 : 1),
+                                        padding: const EdgeInsets.all(5.0),
+                                        child: DecoratedBox(
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: inputs[i][j]["State"] == 1
+                                                  ? Colors.green[600]!
+                                                  : inputs[i][j]["State"] == 2
+                                                      ? Colors.yellow[800]!
+                                                      : inputs[i][j]["State"] == 3
+                                                          ? Theme.of(context).brightness == Brightness.dark
+                                                              ? Colors.grey[400]!
+                                                              : Colors.grey[850]!
+                                                          : inputs[i][j]["State"] == -1
+                                                              ? Colors.grey[700]!
+                                                              : Theme.of(context).brightness == Brightness.dark
+                                                                  ? Colors.grey[700]!
+                                                                  : Colors.grey[400]!,
+                                              width: 2.0,
+                                            ),
+                                            color: inputs[i][j]["State"] == 1
+                                                ? Colors.green[600]!
+                                                : inputs[i][j]["State"] == 2
+                                                    ? Colors.yellow[800]!
+                                                    : inputs[i][j]["State"] == -1
+                                                        ? Colors.grey[700]!
+                                                        : Theme.of(context).brightness == Brightness.dark
+                                                            ? Colors.grey[850]!
+                                                            : Colors.white,
+                                          ),
+                                          child: Center(
+                                            child: Text(
+                                              inputs[i][j]["Letter"],
+                                              style: TextStyle(
+                                                color: inputs[i][j]["State"] == 3
+                                                    ? Theme.of(context).brightness == Brightness.dark
+                                                        ? Colors.white
+                                                        : Colors.grey[850]!
+                                                    : Colors.white,
+                                                fontSize: 30,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              )),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

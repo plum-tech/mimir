@@ -85,7 +85,7 @@ class _GameWordleState extends State<GameWordle> with TickerProviderStateMixin {
               database: widget.database,
               maxChances: widget.maxChances,
               gameMode: widget.gameMode,
-              child: WordleDisplayWidget( maxChances: widget.maxChances),
+              child: WordleDisplayWidget(maxChances: widget.maxChances),
             ),
           ),
         ),

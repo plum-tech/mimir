@@ -158,12 +158,12 @@ class _ValidationProviderState extends State<ValidationProvider> {
                 WordleAttemptEvent(positionValRes),
               );
               wordleEventBus.fire(
-                  WordleValidationEvent(letterValRes),
+                WordleValidationEvent(letterValRes),
               );
               curAttempt = "";
               curAttemptCount++;
             } else {
-              onNotWord(context: context,attempt: "AAA");
+              onNotWord(context: context, attempt: "AAA");
             }
           }
         } else if (noti.type == InputType.backSpace) {

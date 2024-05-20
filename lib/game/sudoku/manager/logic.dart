@@ -35,9 +35,9 @@ class GameLogic extends StateNotifier<GameStateSudoku> {
 
   Future<void> save() async {
     if (state.status.shouldSave) {
-      await SaveSudoku.storage.save(state.toSave());
+      await StorageSudoku.save.save(state.toSave());
     } else {
-      await SaveSudoku.storage.delete();
+      await StorageSudoku.save.delete();
     }
   }
 
