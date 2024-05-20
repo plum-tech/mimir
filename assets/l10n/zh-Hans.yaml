@@ -791,6 +791,7 @@ qrCode:
   barcodeNotRecognized: 未识别到条形码或二维码
   hint: 请切换至 个人{me}，然后点击右上角的 扫一扫{scan}
   unrecognizedQrCodeTip: 无法识别的二维码
+  saveImage: 保存图片
 404:
   title: 找不到页面
   subtitle: 未找到请求的页面

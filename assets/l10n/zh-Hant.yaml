@@ -791,6 +791,7 @@ qrCode:
   barcodeNotRecognized: 未識別到條碼或 QR 碼
   hint: 請導航至 個人{me}，然後點擊右上角的 掃描{scan}
   unrecognizedQrCodeTip: 未識別的 QR 碼
+  saveImage: 儲存影像
 404:
   title: 找不到頁面
   subtitle: 找不到所請求的頁面

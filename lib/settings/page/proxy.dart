@@ -164,7 +164,7 @@ class ProxyShareQrCodeTile extends StatelessWidget {
         );
         context.showSheet(
           (context) => QrCodePage(
-            title: i18n.proxy.title.text(),
+            title: i18n.proxy.title,
             data: qrCodeData.toString(),
           ),
         );

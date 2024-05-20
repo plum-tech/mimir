@@ -81,7 +81,7 @@ class RecordSudokuTile extends StatelessWidget {
             );
             context.showSheet(
               (context) => QrCodePage(
-                title: "Sudoku".text(),
+                title: "Sudoku",
                 data: qrCodeData.toString(),
               ),
             );

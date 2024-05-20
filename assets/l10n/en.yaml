@@ -791,6 +791,7 @@ qrCode:
   barcodeNotRecognizedTip: No Barcode or QR code
   hint: Please navigate to Me {me}, and click the Scanner {scan} on the right corner
   unrecognizedQrCodeTip: Unrecognized QR code
+  saveImage: Save image
 404:
   title: Not Found
   subtitle: The requested page was not found

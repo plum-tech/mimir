@@ -81,7 +81,7 @@ class RecordMinesweeperTile extends StatelessWidget {
             );
             context.showSheet(
               (context) => QrCodePage(
-                title: "Minesweeper".text(),
+                title: "Minesweeper",
                 data: qrCodeData.toString(),
               ),
             );

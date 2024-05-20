@@ -18,4 +18,6 @@ class _I18n with CommonI18nMixin {
         "me": const WidgetSpan(child: Icon(Icons.person)),
         "scan": const WidgetSpan(child: Icon(Icons.qr_code_scanner)),
       });
+
+  String get saveImage => "$ns.saveImage".tr();
 }

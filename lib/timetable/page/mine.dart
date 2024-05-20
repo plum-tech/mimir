@@ -321,7 +321,7 @@ class TimetableCard extends StatelessWidget {
               final qrCodeData = const TimetableDeepLink().encode(timetable);
               await context.showSheet(
                 (context) => QrCodePage(
-                  title: TextScroll(timetable.name),
+                  title: timetable.name,
                   data: qrCodeData.toString(),
                 ),
               );

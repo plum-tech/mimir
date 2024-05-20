@@ -260,7 +260,7 @@ class PaletteCard extends StatelessWidget {
               final qrCodeData = const TimetablePaletteDeepLink().encode(palette);
               await ctx.showSheet(
                 (context) => QrCodePage(
-                  title: palette.name.text(),
+                  title: palette.name,
                   data: qrCodeData.toString(),
                 ),
               );

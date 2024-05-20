@@ -8,18 +8,20 @@ import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/utils/screenshot.dart';
 import 'package:sit/widgets/modal_image_view.dart';
+import 'package:text_scroll/text_scroll.dart';
 
 import '../i18n.dart';
 
 class QrCodePage extends ConsumerStatefulWidget {
   final String data;
   final double? maxSize;
-  final Widget? title;
+  final String? title;
 
   const QrCodePage({
     super.key,
@@ -35,14 +37,19 @@ class QrCodePage extends ConsumerStatefulWidget {
 class _QrCodePageState extends ConsumerState<QrCodePage> {
   @override
   Widget build(BuildContext context) {
+    final title = widget.title;
     return Scaffold(
       appBar: AppBar(
-        title: widget.title,
+        title: title == null ? null : TextScroll(title),
         actions: [
           PlatformTextButton(
-            child: "Save image".text(),
+            child: i18n.saveImage.text(),
             onPressed: () async {
-              await takeQrcodeScreenshot(context: context, data: widget.data);
+              await takeQrcodeScreenshot(
+                context: context,
+                data: widget.data,
+                title: widget.title,
+              );
             },
           )
         ],
@@ -164,12 +171,13 @@ class BrandQrCodeView extends StatelessWidget {
 
 Future<void> takeQrcodeScreenshot({
   required BuildContext context,
+  String? title,
   required String data,
 }) async {
   if (!context.mounted) return;
   final fi = await takeWidgetScreenshot(
     context: context,
-    name: 'qrcode.png',
+    name: '${title != null ? sanitizeFilename(title) : "QR code"}.png',
     child: Builder(
       builder: (ctx) {
         final size = ctx.mediaQuery.size;

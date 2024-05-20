@@ -8,7 +8,6 @@ import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/timetable/entity/pos.dart';
-import 'package:text_scroll/text_scroll.dart';
 
 import '../../entity/loc.dart';
 import '../../entity/patch.dart';
@@ -385,10 +384,10 @@ void shareTimetablePatchQrCode(BuildContext context, TimetablePatchEntry patch) 
   final qrCodeData = const TimetablePatchDeepLink().encode(patch);
   await context.showSheet(
     (context) => QrCodePage(
-      title: TextScroll(switch (patch) {
+      title: switch (patch) {
         TimetablePatchSet() => patch.name,
         TimetablePatch() => patch.l10n(),
-      }),
+      },
       data: qrCodeData.toString(),
     ),
   );
