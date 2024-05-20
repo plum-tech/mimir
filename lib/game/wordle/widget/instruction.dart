@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 
+import '../entity/status.dart';
+
 Future<void> showInstructionDialog({
   required BuildContext context,
 }) async {
@@ -13,45 +15,18 @@ Future<void> showInstructionDialog({
   );
 }
 
-class WordleLetterBox extends StatelessWidget {
-  const WordleLetterBox({
-    required this.letter,
-    required this.state,
+class WordleInstructionLetterBox extends StatelessWidget {
+  final String letter;
+  final LetterStatus status;
+
+  const WordleInstructionLetterBox(
+    this.letter,
+    this.status, {
     super.key,
   });
 
-  final String letter;
-  final int state;
-
   @override
   Widget build(BuildContext context) {
-    var mainTextColor = Theme.of(context).brightness == Brightness.dark
-        ? Colors.white
-        : state != 0 && state != 3
-            ? Colors.white
-            : Colors.grey[850];
-    var backGroundColor = state == 1
-        ? Colors.green[600]!
-        : state == 2
-            ? Colors.yellow[800]!
-            : state == -1
-                ? Colors.grey[700]!
-                : Theme.of(context).brightness == Brightness.dark
-                    ? Colors.grey[850]!
-                    : Colors.white;
-    var borderColor = state == 1
-        ? Colors.green[600]!
-        : state == 2
-            ? Colors.yellow[800]!
-            : state == 3
-                ? Theme.of(context).brightness == Brightness.dark
-                    ? Colors.grey[400]!
-                    : Colors.grey[850]!
-                : state == -1
-                    ? Colors.grey[700]!
-                    : Theme.of(context).brightness == Brightness.dark
-                        ? Colors.grey[700]!
-                        : Colors.grey[400]!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 1.0),
       child: Container(
@@ -60,15 +35,14 @@ class WordleLetterBox extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           border: Border.all(
-            color: borderColor,
+            color: status.border,
             width: 2.0,
           ),
-          color: backGroundColor,
+          color: status.bg,
         ),
         child: Text(
           letter,
           style: TextStyle(
-            color: mainTextColor,
             fontSize: 20.0,
             fontWeight: FontWeight.bold,
           ),
@@ -116,11 +90,11 @@ class InstructionDialog extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                WordleLetterBox(letter: "B", state: 1),
-                WordleLetterBox(letter: "I", state: 0),
-                WordleLetterBox(letter: "N", state: 0),
-                WordleLetterBox(letter: "G", state: 0),
-                WordleLetterBox(letter: "O", state: 0),
+                WordleInstructionLetterBox("B", LetterStatus.correct),
+                WordleInstructionLetterBox("I", LetterStatus.neutral),
+                WordleInstructionLetterBox("N", LetterStatus.neutral),
+                WordleInstructionLetterBox("G", LetterStatus.neutral),
+                WordleInstructionLetterBox("O", LetterStatus.neutral),
               ],
             ),
           ),
@@ -130,10 +104,10 @@ class InstructionDialog extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              WordleLetterBox(letter: "S", state: 1),
-              WordleLetterBox(letter: "Y", state: 2),
-              WordleLetterBox(letter: "S", state: -1),
-              WordleLetterBox(letter: "U", state: 0),
+              WordleInstructionLetterBox("S", LetterStatus.correct),
+              WordleInstructionLetterBox("Y", LetterStatus.dislocated),
+              WordleInstructionLetterBox("S", LetterStatus.wrong),
+              WordleInstructionLetterBox("U", LetterStatus.neutral),
             ],
           ),
           Text(
@@ -142,10 +116,10 @@ class InstructionDialog extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              WordleLetterBox(letter: "O", state: -1),
-              WordleLetterBox(letter: "O", state: -1),
-              WordleLetterBox(letter: "P", state: -1),
-              WordleLetterBox(letter: "S", state: -1),
+              WordleInstructionLetterBox("O", LetterStatus.wrong),
+              WordleInstructionLetterBox("O", LetterStatus.wrong),
+              WordleInstructionLetterBox("P", LetterStatus.wrong),
+              WordleInstructionLetterBox("S", LetterStatus.wrong),
             ],
           ),
           Text(
