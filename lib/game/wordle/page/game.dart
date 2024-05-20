@@ -71,7 +71,7 @@ class _GameWordleState extends State<GameWordle> with TickerProviderStateMixin {
                   icon: const Icon(Icons.help_outline_outlined),
                   //color: Colors.black,
                   onPressed: () {
-                    showInstructionDialog(context: context);
+                    showGuideDialog(context: context);
                   },
                 ),
                 IconButton(

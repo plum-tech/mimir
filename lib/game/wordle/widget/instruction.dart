@@ -4,7 +4,7 @@ import 'package:sit/design/adaptive/dialog.dart';
 
 import '../entity/status.dart';
 
-Future<void> showInstructionDialog({
+Future<void> showGuideDialog({
   required BuildContext context,
 }) async {
   await context.showAnyTip(
@@ -15,11 +15,11 @@ Future<void> showInstructionDialog({
   );
 }
 
-class WordleInstructionLetterBox extends StatelessWidget {
+class WordleGuideLetterBox extends StatelessWidget {
   final String letter;
   final LetterStatus status;
 
-  const WordleInstructionLetterBox(
+  const WordleGuideLetterBox(
     this.letter,
     this.status, {
     super.key,
@@ -90,11 +90,11 @@ class InstructionDialog extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                WordleInstructionLetterBox("B", LetterStatus.correct),
-                WordleInstructionLetterBox("I", LetterStatus.neutral),
-                WordleInstructionLetterBox("N", LetterStatus.neutral),
-                WordleInstructionLetterBox("G", LetterStatus.neutral),
-                WordleInstructionLetterBox("O", LetterStatus.neutral),
+                WordleGuideLetterBox("B", LetterStatus.correct),
+                WordleGuideLetterBox("I", LetterStatus.neutral),
+                WordleGuideLetterBox("N", LetterStatus.neutral),
+                WordleGuideLetterBox("G", LetterStatus.neutral),
+                WordleGuideLetterBox("O", LetterStatus.neutral),
               ],
             ),
           ),
@@ -104,10 +104,10 @@ class InstructionDialog extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              WordleInstructionLetterBox("S", LetterStatus.correct),
-              WordleInstructionLetterBox("Y", LetterStatus.dislocated),
-              WordleInstructionLetterBox("S", LetterStatus.wrong),
-              WordleInstructionLetterBox("U", LetterStatus.neutral),
+              WordleGuideLetterBox("S", LetterStatus.correct),
+              WordleGuideLetterBox("Y", LetterStatus.dislocated),
+              WordleGuideLetterBox("S", LetterStatus.wrong),
+              WordleGuideLetterBox("U", LetterStatus.neutral),
             ],
           ),
           Text(
@@ -116,10 +116,10 @@ class InstructionDialog extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              WordleInstructionLetterBox("O", LetterStatus.wrong),
-              WordleInstructionLetterBox("O", LetterStatus.wrong),
-              WordleInstructionLetterBox("P", LetterStatus.wrong),
-              WordleInstructionLetterBox("S", LetterStatus.wrong),
+              WordleGuideLetterBox("O", LetterStatus.wrong),
+              WordleGuideLetterBox("O", LetterStatus.wrong),
+              WordleGuideLetterBox("P", LetterStatus.wrong),
+              WordleGuideLetterBox("S", LetterStatus.wrong),
             ],
           ),
           Text(
