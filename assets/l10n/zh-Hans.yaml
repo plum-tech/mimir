@@ -854,6 +854,8 @@ game:
   gameOver: 游戏结束
   changeGameModeRequest: 切换游戏模式会同时删除你当前的存档
   changeGameModeAction: "切换至 {}"
+  loadGame: 加载战局
+  loadGameFromQrCode: "从二维码中加载游戏 {} 的战局"
   settings:
     enableHapticFeedback:
       title: 开启触觉反馈

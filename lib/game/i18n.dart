@@ -12,6 +12,12 @@ class _I18n with CommonI18nMixin, CommonGameI18nMixin {
   String get navigation => "$_ns.navigation".tr();
 
   String get continueGame => "$_ns.continueGame".tr();
+
+  String get loadGame => "$_ns.loadGame".tr();
+
+  String loadGameFromQrCode(String gameName) => "$_ns.loadGameFromQrCode".tr(args: [
+        "game.$gameName.title".tr(),
+      ]);
 }
 
 mixin class CommonGameI18nMixin {

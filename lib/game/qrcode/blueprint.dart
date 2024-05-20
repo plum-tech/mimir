@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
+import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/qrcode/deep_link.dart';
 import 'package:sit/r.dart';
 
 import '../entity/blueprint.dart';
+import '../i18n.dart';
 
 class GameBlueprintDeepLink<TBlueprint extends GameBlueprint> implements DeepLinkHandlerProtocol {
   static const host = "game";
@@ -43,6 +45,13 @@ class GameBlueprintDeepLink<TBlueprint extends GameBlueprint> implements DeepLin
     required Uri qrCodeData,
   }) async {
     final blueprint = qrCodeData.query;
+    final confirm = await context.showActionRequest(
+      action: i18n.loadGame,
+      desc: i18n.loadGameFromQrCode(gameName),
+      cancel: i18n.cancel,
+    );
+    if (confirm != true) return;
+    if (!context.mounted) return;
     await onHandleGameBlueprint(
       context: context,
       blueprint: blueprint,

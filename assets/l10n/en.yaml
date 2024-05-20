@@ -854,6 +854,8 @@ game:
   gameOver: Game over
   changeGameModeRequest: Changing game mode will also delete your current save
   changeGameModeAction: "Change to {}"
+  loadGame: Load game
+  loadGameFromQrCode: "Load a game of {} from QR code"
   settings:
     enableHapticFeedback:
       title: Enable haptic feedback

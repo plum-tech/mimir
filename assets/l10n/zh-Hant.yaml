@@ -854,6 +854,8 @@ game:
   gameOver: Game over
   changeGameModeRequest: 變更遊戲模式會同時刪除你當前的進度
   changeGameModeAction: "變更為 {}"
+  loadGame: 載入戰局
+  loadGameFromQrCode: "從 QR 碼中載入遊戲 {} 的戰局"
   settings:
     enableHapticFeedback:
       title: 開啟觸覺回饋
