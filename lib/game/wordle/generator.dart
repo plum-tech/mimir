@@ -8,7 +8,7 @@ Future<Set<String>> generateDictionary() async {
   return list.toSet();
 }
 
-Future<Map<String, List<String>>> generateQuestionSet({required String dicName, required int wordLen}) async {
+Future<Map<String, List<String>>> generateQuestionSet({required String dicName}) async {
   String dicContents = await rootBundle.loadString("assets/game/wordle/$dicName.json");
   Map<String, List<String>> database = {};
   final list = (jsonDecode(dicContents) as List).cast<String>();

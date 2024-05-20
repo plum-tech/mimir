@@ -3,6 +3,8 @@ import 'package:sit/game/wordle/entity/status.dart';
 
 part "letter.g.dart";
 
+const maxLetters = 5;
+
 @JsonSerializable()
 class WordleLetter {
   final String letter;
