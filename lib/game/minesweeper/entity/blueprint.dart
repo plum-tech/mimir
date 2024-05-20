@@ -9,7 +9,7 @@ import 'state.dart';
 import 'mode.dart';
 
 @immutable
-class BlueprintMinesweeper implements GameBlueprint {
+class BlueprintMinesweeper implements GameBlueprint<GameStateMinesweeper> {
   final ({int row, int column}) firstClick;
   final CellBoardBuilder builder;
   final GameModeMinesweeper mode;

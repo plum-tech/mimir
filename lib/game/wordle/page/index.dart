@@ -1,3 +1,5 @@
+// Thanks to https://github.com/Linloir/Flutter-Wordle
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';

@@ -9,7 +9,7 @@ import 'mode.dart';
 import 'state.dart';
 
 @immutable
-class BlueprintSudoku implements GameBlueprint {
+class BlueprintSudoku implements GameBlueprint<GameStateSudoku> {
   final SudokuBoard board;
   final GameModeSudoku mode;
 
