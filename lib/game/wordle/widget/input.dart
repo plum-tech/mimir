@@ -16,6 +16,7 @@ class WordleKeyboard extends StatefulWidget {
 class _WordleKeyboardState extends State<WordleKeyboard> {
   late final StreamSubscription $animationStop;
   late final StreamSubscription $newGame;
+  late final StreamSubscription $validation;
   final _keyState = <String, int>{};
   final List<List<String>> _keyPos = List<List<String>>.unmodifiable([
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -24,8 +25,8 @@ class _WordleKeyboardState extends State<WordleKeyboard> {
   ]);
   Map<String, int> _cache = {};
 
-  void _onLetterValidation(dynamic args) {
-    _cache = args as Map<String, int>;
+  void _onLetterValidation(WordleValidationEvent event) {
+    _cache = event.value;
   }
 
   void _onAnimationStops(WordleAnimationStopEvent event) {
@@ -66,17 +67,16 @@ class _WordleKeyboardState extends State<WordleKeyboard> {
       _keyState[c] ??= 0;
       _keyState[c] = 0;
     }
-    mainBus.on(event: "Validation", onEvent: _onLetterValidation);
-
     $animationStop = wordleEventBus.on<WordleAnimationStopEvent>().listen(_onAnimationStops);
     $newGame = wordleEventBus.on<WordleNewGameEvent>().listen(_onNewGame);
+    $validation = wordleEventBus.on<WordleValidationEvent>().listen(_onLetterValidation);
   }
 
   @override
   void dispose() {
     $animationStop.cancel();
     $newGame.cancel();
-    mainBus.off(event: "Validation", callBack: _onLetterValidation);
+    $validation.cancel();
     super.dispose();
   }
 

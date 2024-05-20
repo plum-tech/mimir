@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/dialog.dart';
 import '../entity/letter.dart';
 import '../event_bus.dart';
 import '../generator.dart';
@@ -155,27 +157,13 @@ class _ValidationProviderState extends State<ValidationProvider> {
               wordleEventBus.fire(
                 WordleAttemptEvent(positionValRes),
               );
-              mainBus.emit(
-                event: "Validation",
-                args: letterValRes,
+              wordleEventBus.fire(
+                  WordleValidationEvent(letterValRes),
               );
               curAttempt = "";
               curAttemptCount++;
             } else {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      title: const Text('Info'),
-                      content: const Text('Not a word!'),
-                      actions: [
-                        TextButton(
-                          child: const Text('OK'),
-                          onPressed: () => Navigator.of(context).pop(),
-                        )
-                      ],
-                    );
-                  });
+              onNotWord(context: context,attempt: "AAA");
             }
           }
         } else if (noti.type == InputType.backSpace) {
@@ -190,5 +178,12 @@ class _ValidationProviderState extends State<ValidationProvider> {
         return true;
       },
     );
+  }
+
+  Future<void> onNotWord({
+    required BuildContext context,
+    required String attempt,
+  }) async {
+    context.showSnackBar(content: "Not a word.".text());
   }
 }
