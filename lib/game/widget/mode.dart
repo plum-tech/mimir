@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:markdown_widget/config/all.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/game/entity/game_mode.dart';
 
@@ -8,7 +7,7 @@ import '../i18n.dart';
 class GameModeSelectorCard<T extends GameMode> extends StatelessWidget {
   final List<T> all;
   final T current;
-  final ValueCallback<T> onChanged;
+  final ValueChanged<T> onChanged;
 
   const GameModeSelectorCard({
     super.key,

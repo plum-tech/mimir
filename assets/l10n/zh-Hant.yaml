@@ -875,7 +875,13 @@ game:
         easy: 簡單
         medium: 中等
         hard: 困難
-        master: 大師
+    wordle:
+      title: Wordle
+      wordSet:
+        all: 全部
+        cet-4: 大學四級
+        cet-6: 大學六級
+        toefl: 托福
 permission:
   permissionDenied: 沒有權限
   permissionDeniedDescOf: "{}權限未授予許可，請檢查應用程式的設定。"

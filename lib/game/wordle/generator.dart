@@ -12,7 +12,7 @@ Future<Map<String, List<String>>> generateQuestionSet({required String dicName, 
   String dicContents = await rootBundle.loadString("assets/game/wordle/$dicName.json");
   Map<String, List<String>> database = {};
   final list = (jsonDecode(dicContents) as List).cast<String>();
-  for(final word in list){
+  for (final word in list) {
     database[word] = [];
   }
   return database;
