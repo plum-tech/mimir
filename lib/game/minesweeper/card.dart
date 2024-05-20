@@ -33,7 +33,7 @@ class _GameAppCardMinesweeperState extends ConsumerState<GameAppCardMinesweeper>
   Widget buildGameModeCard() {
     final pref = ref.watch(SettingsMinesweeper.$.$pref);
     return GameModeSelectorCard(
-      all: GameModeMinesweeper.all,
+      all: GameModeMinesweeper.values,
       current: pref.mode,
       onChanged: (newMode) async {
         if (StorageMinesweeper.save.exists()) {

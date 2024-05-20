@@ -32,7 +32,7 @@ class GameModeSudoku extends GameMode {
     "hard": hard,
   };
 
-  static final all = [
+  static final values = [
     beginner,
     easy,
     medium,

@@ -33,7 +33,7 @@ class _GameAppCardSudokuState extends ConsumerState<GameAppCardSudoku> {
   Widget buildGameModeCard() {
     final pref = ref.watch(SettingsSudoku.$.$pref);
     return GameModeSelectorCard(
-      all: GameModeSudoku.all,
+      all: GameModeSudoku.values,
       current: pref.mode,
       onChanged: (newMode) async {
         if (SaveSudoku.storage.exists()) {

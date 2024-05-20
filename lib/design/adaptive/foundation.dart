@@ -8,8 +8,6 @@ import 'package:rettulf/rettulf.dart';
 
 import 'multiplatform.dart';
 
-const _kDialogAlpha = 0.89;
-
 extension $BuildContextEx$ on BuildContext {
   Future<T?> showSheet<T>(
     WidgetBuilder builder, {
