@@ -1,7 +1,7 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import 'entity/mode.dart';
+import 'mode.dart';
 
 part "pref.g.dart";
 

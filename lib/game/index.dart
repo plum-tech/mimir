@@ -4,6 +4,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/game/2048/card.dart';
 import 'package:sit/game/minesweeper/card.dart';
 import 'package:sit/game/sudoku/card.dart';
+import 'package:sit/game/wordle/card.dart';
 import 'package:sit/settings/dev.dart';
 
 import "i18n.dart";
@@ -42,6 +43,7 @@ class _GamePageState extends ConsumerState<GamePage> {
                 const GameAppCard2048(),
                 const GameAppCardMinesweeper(),
                 const GameAppCardSudoku(),
+                if (devMode) const GameAppCardWordle(),
                 if (devMode)
                   const OfflineGameAppCard(
                     name: "SIT Suika",

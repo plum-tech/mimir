@@ -18,6 +18,7 @@ extension DialogEx on BuildContext {
     required String primary,
     bool highlight = false,
     bool serious = false,
+    bool dismissible = false,
   }) async {
     return showAnyTip(
       title: title,
@@ -25,6 +26,7 @@ extension DialogEx on BuildContext {
       primary: primary,
       highlight: false,
       serious: serious,
+      dismissible: dismissible,
     );
   }
 
@@ -34,8 +36,10 @@ extension DialogEx on BuildContext {
     required String primary,
     bool highlight = false,
     bool serious = false,
+    bool dismissible = false,
   }) async {
     final dynamic confirm = await showAdaptiveDialog(
+      barrierDismissible: dismissible,
       context: this,
       builder: (ctx) => $Dialog$(
           title: title,

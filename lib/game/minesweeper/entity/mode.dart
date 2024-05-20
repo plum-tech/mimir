@@ -34,7 +34,7 @@ class GameModeMinesweeper extends GameMode {
     "hard": hard,
   };
 
-  static final all = [
+  static final values = [
     easy,
     normal,
     hard,

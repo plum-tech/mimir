@@ -875,7 +875,13 @@ game:
       easy: Easy
       medium: Medium
       hard: Hard
-      master: Master
+  wordle:
+    title: Wordle
+    wordSet:
+      all: All
+      cet-4: CET 4
+      cet-6: CET 6
+      toefl: TOEFL
 permission:
   permissionDenied: Permission denied
   permissionDeniedDescOf: "{} permission was not granted. Please check the app settings."

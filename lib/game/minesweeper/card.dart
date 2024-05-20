@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/game/minesweeper/pref.dart';
-import 'package:sit/game/minesweeper/settings.dart';
 import 'package:sit/game/widget/mode.dart';
-import 'entity/mode.dart';
 import 'package:sit/game/widget/card.dart';
 
+import 'entity/mode.dart';
+import 'entity/pref.dart';
+import 'settings.dart';
 import 'i18n.dart';
 import 'storage.dart';
 
@@ -33,7 +33,7 @@ class _GameAppCardMinesweeperState extends ConsumerState<GameAppCardMinesweeper>
   Widget buildGameModeCard() {
     final pref = ref.watch(SettingsMinesweeper.$.$pref);
     return GameModeSelectorCard(
-      all: GameModeMinesweeper.all,
+      all: GameModeMinesweeper.values,
       current: pref.mode,
       onChanged: (newMode) async {
         if (StorageMinesweeper.save.exists()) {

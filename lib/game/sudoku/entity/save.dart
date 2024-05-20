@@ -55,11 +55,4 @@ class SaveSudoku {
   Map<String, dynamic> toJson() => _$SaveSudokuToJson(this);
 
   factory SaveSudoku.fromJson(Map<String, dynamic> json) => _$SaveSudokuFromJson(json);
-
-  static final storage = GameSaveStorage<SaveSudoku>(
-    () => HiveInit.gameSudoku,
-    prefix: "/minesweeper/1",
-    serialize: (save) => save.toJson(),
-    deserialize: SaveSudoku.fromJson,
-  );
 }

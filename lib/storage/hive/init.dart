@@ -36,7 +36,8 @@ class HiveInit {
   static late Box //
       game2048,
       gameMinesweeper,
-      gameSudoku;
+      gameSudoku,
+      gameWordle;
 
   static late Map<String, Box> name2Box;
   static late List<Box> cacheBoxes;
@@ -82,6 +83,7 @@ class HiveInit {
         game2048 = await core.openBox("game-2048"),
         gameMinesweeper = await core.openBox("game-minesweeper"),
         gameSudoku = await core.openBox("game-sudoku"),
+        gameWordle = await core.openBox("game-wordle"),
       ]
     ]);
     Settings = SettingsImpl(settings);
