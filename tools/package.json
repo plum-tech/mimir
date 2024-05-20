@@ -15,7 +15,8 @@
     "fetch-cookie": "^3.0.1",
     "mime": "^4.0.3",
     "node-rsa": "^1.1.1",
-    "simple-git": "^3.24.0"
+    "simple-git": "^3.24.0",
+    "split-lines": "^3.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.2.0",

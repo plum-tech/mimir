@@ -86,14 +86,10 @@ class _OfflinePageState extends State<OfflinePage> {
   int maxChances = 6;
   int dicBookIndex = 0;
   var dicBook = [
-    ["All", "Full wordlist", "A", Colors.indigo],
-    ["HighSchool", "HighSchool wordlist", "H", Colors.amber],
-    ["CET4", "CET4 wordlist", "4", Colors.green[400]],
-    ["CET6", "CET6 wordlist", "6", Colors.teal[400]],
-    ["CET4 + 6", "CET4&6 wordlist", "46", Colors.teal[600]],
-    ["TOEFL Slim", "TOEFL without CET4&6", "T", Colors.blue[400]],
-    ["TOEFL", "Full TOEFL wordlist", "T", Colors.cyan[400]],
-    ["GRE Slim", "GRE without CET4&6", "G", Colors.pink[200]]
+    ["all", "Full wordlist", "A", Colors.indigo],
+    ["cet-4", "CET4 wordlist", "4", Colors.green[400]],
+    ["cet-6", "CET6 wordlist", "6", Colors.teal[400]],
+    ["toefl", "Full TOEFL wordlist", "T", Colors.cyan[400]],
   ];
   late final List<Widget> dicBookSelections;
   var wordLenSelectionColors = [
@@ -288,10 +284,11 @@ class _OfflinePageState extends State<OfflinePage> {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                             return LoadingPage(
-                                dicName: dicBook[dicBookIndex][0] as String,
-                                wordLen: wordLen,
-                                maxChances: maxChances,
-                                gameMode: 0);
+                              dicName: dicBook[dicBookIndex][0] as String,
+                              wordLen: wordLen,
+                              maxChances: maxChances,
+                              gameMode: 0,
+                            );
                           }));
                         },
                         borderRadius: BorderRadius.circular(10.0),

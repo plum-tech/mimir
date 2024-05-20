@@ -1,30 +1,33 @@
-class WordleDic {
+class WordleWordSet {
   final String name;
 
-  const WordleDic._({
+  const WordleWordSet._({
     required this.name,
   });
 
-  static const all = WordleDic._(
+  static const all = WordleWordSet._(
     name: "all",
   );
-  static const cet4 = WordleDic._(
-    name: "cet4",
+  static const cet4 = WordleWordSet._(
+    name: "cet-4",
   );
-  static const cet6 = WordleDic._(
-    name: "cet6",
+  static const cet6 = WordleWordSet._(
+    name: "cet-6",
   );
-  static const cetAll = WordleDic._(
-    name: "cet-all",
-  );
-  static const toefl = WordleDic._(
+  static const toefl = WordleWordSet._(
     name: "toefl",
   );
   static final name2mode = {
     "all": all,
+    "cet-4": cet4,
+    "cet-6": cet6,
+    "toefl": toefl,
   };
 
   static final values = [
     all,
+    cet4,
+    cet6,
+    toefl,
   ];
 }
