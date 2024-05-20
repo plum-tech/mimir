@@ -7,13 +7,11 @@ class LoadingPage extends StatefulWidget {
   const LoadingPage({
     super.key,
     required this.dicName,
-    required this.wordLen,
     required this.maxChances,
     required this.gameMode,
   });
 
   final String dicName;
-  final int wordLen;
   final int maxChances;
   final int gameMode;
 
@@ -38,7 +36,6 @@ class _LoadingPageState extends State<LoadingPage> {
         if (snapshot.connectionState == ConnectionState.done) {
           return GameWordle(
             database: snapshot.data as Map<String, List<String>>,
-            wordLen: widget.wordLen,
             maxChances: widget.maxChances,
             gameMode: widget.gameMode,
           );

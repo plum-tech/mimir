@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import '../entity/letter.dart';
 import '../event_bus.dart';
 import '../generator.dart';
 
@@ -20,14 +21,12 @@ class ValidationProvider extends StatefulWidget {
     super.key,
     required this.child,
     required this.database,
-    required this.wordLen,
     required this.maxChances,
     required this.gameMode,
   });
 
   final Widget child;
   final Map<String, List<String>> database;
-  final int wordLen;
   final int maxChances;
   final int gameMode;
 
@@ -123,7 +122,7 @@ class _ValidationProviderState extends State<ValidationProvider> {
       child: widget.child,
       onNotification: (noti) {
         if (noti.type == InputType.inputConfirmation) {
-          if (curAttempt.length < widget.wordLen) {
+          if (curAttempt.length < maxLetters) {
             //Not enough
             return true;
           } else {
@@ -131,16 +130,16 @@ class _ValidationProviderState extends State<ValidationProvider> {
             if (ValidationProvider.validationDatabase.lookup(curAttempt) != null) {
               //Generate map
               Map<String, int> leftWordMap = Map.from(letterMap);
-              var positionValRes = <int>[for (int i = 0; i < widget.wordLen; i++) -1];
+              var positionValRes = <int>[for (int i = 0; i < maxLetters; i++) -1];
               var letterValRes = <String, int>{};
-              for (int i = 0; i < widget.wordLen; i++) {
+              for (int i = 0; i < maxLetters; i++) {
                 if (curAttempt[i] == answer[i]) {
                   positionValRes[i] = 1;
                   leftWordMap[curAttempt[i]] = leftWordMap[curAttempt[i]]! - 1;
                   letterValRes[curAttempt[i]] = 1;
                 }
               }
-              for (int i = 0; i < widget.wordLen; i++) {
+              for (int i = 0; i < maxLetters; i++) {
                 if (curAttempt[i] != answer[i] &&
                     leftWordMap[curAttempt[i]] != null &&
                     leftWordMap[curAttempt[i]]! > 0) {
@@ -184,7 +183,7 @@ class _ValidationProviderState extends State<ValidationProvider> {
             curAttempt = curAttempt.substring(0, curAttempt.length - 1);
           }
         } else {
-          if (acceptInput && curAttempt.length < widget.wordLen) {
+          if (acceptInput && curAttempt.length < maxLetters) {
             curAttempt += noti.msg;
           }
         }

@@ -19,7 +19,6 @@ class _GameWordlePageState extends State<GameWordlePage> {
   Widget build(BuildContext context) {
     return LoadingPage(
       dicName: WordleWordSet.all.name,
-      wordLen: 5,
       maxChances: 6,
       gameMode: 0,
     );

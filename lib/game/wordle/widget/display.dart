@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import '../entity/letter.dart';
 import '../widget/validation_provider.dart';
 import 'input.dart';
 import '../event_bus.dart';
@@ -9,11 +10,9 @@ import 'dart:math' as math;
 class WordleDisplayWidget extends StatefulWidget {
   const WordleDisplayWidget({
     super.key,
-    required this.wordLen,
     required this.maxChances,
   });
 
-  final int wordLen;
   final int maxChances;
 
   @override
@@ -32,7 +31,7 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
   void _validationAnimation(List<int> validation) async {
     onAnimation = true;
     bool result = true;
-    for (int i = 0; i < widget.wordLen && onAnimation; i++) {
+    for (int i = 0; i < maxLetters && onAnimation; i++) {
       setState(() {
         inputs[r][i]["State"] = validation[i];
       });
@@ -66,7 +65,7 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
       onAnimation = false;
       acceptInput = true;
       for (int i = 0; i < widget.maxChances; i++) {
-        for (int j = 0; j < widget.wordLen; j++) {
+        for (int j = 0; j < maxLetters; j++) {
           inputs[i][j]["Letter"] = "";
           inputs[i][j]["State"] = 0;
         }
@@ -80,7 +79,7 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
     inputs = [
       for (int i = 0; i < widget.maxChances; i++)
         [
-          for (int j = 0; j < widget.wordLen; j++)
+          for (int j = 0; j < maxLetters; j++)
             {
               "Letter": "",
               "State": 0,
@@ -114,7 +113,7 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
               child: Align(
                 alignment: Alignment.center,
                 child: AspectRatio(
-                  aspectRatio: widget.wordLen / widget.maxChances,
+                  aspectRatio: maxLetters / widget.maxChances,
                   child: Column(
                     //Column(
                     children: [
@@ -124,7 +123,7 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              for (int j = 0; j < widget.wordLen; j++)
+                              for (int j = 0; j < maxLetters; j++)
                                 AnimatedBuilder(
                                     animation: inputs[i][j]["InputAnimationController"],
                                     builder: (context, child) {
@@ -229,7 +228,7 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
       ),
       onNotification: (noti) {
         if (noti.type == InputType.singleCharacter) {
-          if (r < widget.maxChances && c < widget.wordLen && !onAnimation && acceptInput) {
+          if (r < widget.maxChances && c < maxLetters && !onAnimation && acceptInput) {
             setState(() {
               inputs[r][c]["Letter"] = noti.msg;
               inputs[r][c]["State"] = 3;
