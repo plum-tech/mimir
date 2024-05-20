@@ -45,7 +45,7 @@ class _GameWordleState extends State<GameWordle> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
-    $validationEnd =  wordleEventBus.on<WordleValidationEndEvent>().listen(_onGameEnd);
+    $validationEnd = wordleEventBus.on<WordleValidationEndEvent>().listen(_onGameEnd);
   }
 
   @override

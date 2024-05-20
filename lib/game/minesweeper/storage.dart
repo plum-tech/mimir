@@ -1,9 +1,9 @@
-import 'package:sit/game/minesweeper/entity/record.dart';
 import 'package:sit/game/storage/record.dart';
 import 'package:sit/game/storage/save.dart';
 import 'package:sit/storage/hive/init.dart';
 
 import 'entity/save.dart';
+import 'entity/record.dart';
 import 'r.dart';
 
 class StorageMinesweeper {

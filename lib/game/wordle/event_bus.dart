@@ -51,10 +51,9 @@ class EventBus {
   }
 
   void off({required String event, EventCallBack? callBack}) {
-    if(callBack == null) {
+    if (callBack == null) {
       _eventMap.remove(event);
-    }
-    else{
+    } else {
       _eventMap[event]?.remove(callBack);
     }
   }
@@ -63,8 +62,8 @@ class EventBus {
     // _eventMap[event]?.forEach((func) {
     //   func(args);
     // });
-    if(_eventMap[event] != null) {
-      for(int i = _eventMap[event]!.length - 1; i >= 0; i--) {
+    if (_eventMap[event] != null) {
+      for (int i = _eventMap[event]!.length - 1; i >= 0; i--) {
         _eventMap[event]![i](args);
       }
     }

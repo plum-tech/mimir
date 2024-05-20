@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/game/minesweeper/pref.dart';
-import 'package:sit/game/minesweeper/settings.dart';
 import 'package:sit/game/widget/mode.dart';
-import 'entity/mode.dart';
 import 'package:sit/game/widget/card.dart';
 
+import 'entity/mode.dart';
+import 'pref.dart';
+import 'settings.dart';
 import 'i18n.dart';
 import 'storage.dart';
 

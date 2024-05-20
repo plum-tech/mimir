@@ -6,7 +6,7 @@ Future<Set<String>> generateDictionary() async {
   // Directory documentRoot = await getApplicationDocumentsDirectory();
   // String dicPath = documentRoot.path + Platform.pathSeparator + dicName + ".txt";
   // File dicFile = File(dicPath);
-  String dicContents = await rootBundle.loadString("assets/All.txt");
+  String dicContents = await rootBundle.loadString("assets/game/wordle/All.txt");
   Set<String> database = {};
   LineSplitter.split(dicContents).forEach((line) {
     database.add(line.toUpperCase());
@@ -18,7 +18,7 @@ Future<Map<String, List<String>>> generateQuestionSet({required String dicName, 
   // Directory documentRoot = await getApplicationDocumentsDirectory();
   // String dicPath = documentRoot.path + Platform.pathSeparator + dicName + ".txt";
   // File dicFile = File(dicPath);
-  String dicContents = await rootBundle.loadString("assets/$dicName.txt");
+  String dicContents = await rootBundle.loadString("assets/game/wordle/$dicName.txt");
   Map<String, List<String>> database = {};
   LineSplitter.split(dicContents).forEach((line) {
     var vowelStart = line.indexOf('[');
@@ -27,11 +27,11 @@ Future<Map<String, List<String>>> generateQuestionSet({required String dicName, 
     var vowel = "";
     var explain = "";
     word = line.substring(0, vowelStart == -1 ? null : vowelStart).trim().toUpperCase();
-    if(vowelStart != -1){
+    if (vowelStart != -1) {
       vowel = line.substring(vowelStart, vowelEnd + 1).trim();
       explain = line.substring(vowelEnd + 1).trim();
     }
-    if(wordLen == -1 || word.length == wordLen) {
+    if (wordLen == -1 || word.length == wordLen) {
       database[word] = [vowel, explain];
     }
   });
