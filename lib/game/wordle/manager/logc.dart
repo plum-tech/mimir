@@ -44,6 +44,7 @@ class GameLogic extends StateNotifier<GameStateWordle> {
     );
     StorageWordle.record.add(RecordWordle.createFrom(
       playtime: state.playtime,
+      vocabulary: state.vocabulary,
       result: GameResult.victory,
     ));
   }
@@ -54,6 +55,7 @@ class GameLogic extends StateNotifier<GameStateWordle> {
     );
     StorageWordle.record.add(RecordWordle.createFrom(
       playtime: state.playtime,
+      vocabulary: state.vocabulary,
       result: GameResult.gameOver,
     ));
     applyGameHapticFeedback(HapticFeedbackIntensity.heavy);

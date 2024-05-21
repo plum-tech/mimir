@@ -1,13 +1,22 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/game/entity/game_status.dart';
+import 'package:sit/game/widget/party_popper.dart';
+import '../entity/state.dart';
 import '../event_bus.dart';
+import '../manager/logc.dart';
 import '../widget/validation_provider.dart';
 import '../widget/display.dart';
 import '../widget/guide.dart';
 
-class GameWordle extends StatefulWidget {
+final stateWordle = StateNotifierProvider.autoDispose<GameLogic, GameStateWordle>((ref) {
+  return GameLogic();
+});
+
+class GameWordle extends ConsumerStatefulWidget {
   const GameWordle({
     super.key,
     required this.database,
@@ -16,10 +25,10 @@ class GameWordle extends StatefulWidget {
   final List<String> database;
 
   @override
-  State<GameWordle> createState() => _GameWordleState();
+  ConsumerState<GameWordle> createState() => _GameWordleState();
 }
 
-class _GameWordleState extends State<GameWordle> with TickerProviderStateMixin {
+class _GameWordleState extends ConsumerState<GameWordle> with TickerProviderStateMixin {
   late AnimationController _controller;
   late final StreamSubscription $validationEnd;
 
@@ -50,6 +59,7 @@ class _GameWordleState extends State<GameWordle> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final gameStatus = ref.watch(stateWordle.select((state) => state.status));
     return Scaffold(
       appBar: AppBar(
         title: const Text('Wordle'),
@@ -72,10 +82,10 @@ class _GameWordleState extends State<GameWordle> with TickerProviderStateMixin {
         children: [
           ValidationProvider(
             database: widget.database,
-            maxChances: 6,
-            child: WordleDisplayWidget(
-              maxChances: 6,
-            ),
+            child: WordleDisplayWidget(),
+          ),
+          VictoryPartyPopper(
+            pop: gameStatus == GameStatus.victory,
           ),
         ],
       ),

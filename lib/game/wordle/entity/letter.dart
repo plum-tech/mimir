@@ -4,6 +4,7 @@ import 'package:sit/game/wordle/entity/status.dart';
 part "letter.g.dart";
 
 const maxLetters = 5;
+const maxAttempts = 6;
 
 @JsonSerializable()
 class WordleLetter {

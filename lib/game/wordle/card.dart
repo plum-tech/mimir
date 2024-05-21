@@ -49,6 +49,6 @@ class _GameAppCardWordleState extends ConsumerState<GameAppCardWordle> {
             ));
         StorageWordle.save.delete();
       },
-    ).sized(w: 240);
+    ).sized(w: 320);
   }
 }

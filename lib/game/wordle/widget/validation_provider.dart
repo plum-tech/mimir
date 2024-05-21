@@ -21,13 +21,11 @@ class ValidationProvider extends StatefulWidget {
 
   final Widget child;
   final List<String> database;
-  final int maxChances;
 
   const ValidationProvider({
     super.key,
     required this.child,
     required this.database,
-    required this.maxChances,
   });
 
   @override

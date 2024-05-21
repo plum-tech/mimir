@@ -16,6 +16,7 @@ abstract class _$GameStateWordleCWProxy {
   GameStateWordle call({
     GameStatus? status,
     Duration? playtime,
+    WordleVocabulary? vocabulary,
   });
 }
 
@@ -36,6 +37,7 @@ class _$GameStateWordleCWProxyImpl implements _$GameStateWordleCWProxy {
   GameStateWordle call({
     Object? status = const $CopyWithPlaceholder(),
     Object? playtime = const $CopyWithPlaceholder(),
+    Object? vocabulary = const $CopyWithPlaceholder(),
   }) {
     return GameStateWordle(
       status: status == const $CopyWithPlaceholder() || status == null
@@ -46,6 +48,10 @@ class _$GameStateWordleCWProxyImpl implements _$GameStateWordleCWProxy {
           ? _value.playtime
           // ignore: cast_nullable_to_non_nullable
           : playtime as Duration,
+      vocabulary: vocabulary == const $CopyWithPlaceholder() || vocabulary == null
+          ? _value.vocabulary
+          // ignore: cast_nullable_to_non_nullable
+          : vocabulary as WordleVocabulary,
     );
   }
 }
@@ -63,11 +69,14 @@ extension $GameStateWordleCopyWith on GameStateWordle {
 GameStateWordle _$GameStateWordleFromJson(Map<String, dynamic> json) => GameStateWordle(
       status: $enumDecodeNullable(_$GameStatusEnumMap, json['status']) ?? GameStatus.idle,
       playtime: json['playtime'] == null ? Duration.zero : Duration(microseconds: (json['playtime'] as num).toInt()),
+      vocabulary:
+          json['vocabulary'] == null ? WordleVocabulary.all : WordleVocabulary.fromJson(json['vocabulary'] as String),
     );
 
 Map<String, dynamic> _$GameStateWordleToJson(GameStateWordle instance) => <String, dynamic>{
       'status': _$GameStatusEnumMap[instance.status]!,
       'playtime': instance.playtime.inMicroseconds,
+      'vocabulary': instance.vocabulary,
     };
 
 const _$GameStatusEnumMap = {

@@ -10,10 +10,7 @@ import 'dart:math' as math;
 class WordleDisplayWidget extends StatefulWidget {
   const WordleDisplayWidget({
     super.key,
-    required this.maxChances,
   });
-
-  final int maxChances;
 
   @override
   State<WordleDisplayWidget> createState() => _WordleDisplayWidgetState();
@@ -47,7 +44,7 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
     onAnimation = false;
     r++;
     c = 0;
-    if (r == widget.maxChances || result == true) {
+    if (r == maxAttempts || result == true) {
       wordleEventBus.fire(const WordleAnimationStopEvent());
       acceptInput = false;
     }
@@ -64,7 +61,7 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
       c = 0;
       onAnimation = false;
       acceptInput = true;
-      for (int i = 0; i < widget.maxChances; i++) {
+      for (int i = 0; i < maxAttempts; i++) {
         for (int j = 0; j < maxLetters; j++) {
           inputs[i][j]["Letter"] = "";
           inputs[i][j]["State"] = 0;
@@ -77,7 +74,7 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
   void initState() {
     super.initState();
     inputs = [
-      for (int i = 0; i < widget.maxChances; i++)
+      for (int i = 0; i < maxAttempts; i++)
         [
           for (int j = 0; j < maxLetters; j++)
             {
@@ -116,7 +113,7 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
       ),
       onNotification: (noti) {
         if (noti.type == InputType.singleCharacter) {
-          if (r < widget.maxChances && c < maxLetters && !onAnimation && acceptInput) {
+          if (r < maxAttempts && c < maxLetters && !onAnimation && acceptInput) {
             setState(() {
               inputs[r][c]["Letter"] = noti.msg;
               inputs[r][c]["State"] = 3;
@@ -148,11 +145,11 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
         child: Align(
           alignment: Alignment.center,
           child: AspectRatio(
-            aspectRatio: maxLetters / widget.maxChances,
+            aspectRatio: maxLetters / maxAttempts,
             child: Column(
               //Column(
               children: [
-                for (int i = 0; i < widget.maxChances; i++)
+                for (int i = 0; i < maxAttempts; i++)
                   Expanded(
                     flex: 1,
                     child: Row(

@@ -3,6 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:sit/game/entity/game_status.dart';
 
+import 'vocabulary.dart';
 import 'save.dart';
 
 part "state.g.dart";
@@ -13,19 +14,23 @@ part "state.g.dart";
 class GameStateWordle {
   final GameStatus status;
   final Duration playtime;
+  final WordleVocabulary vocabulary;
 
   const GameStateWordle({
     this.status = GameStatus.idle,
     this.playtime = Duration.zero,
+    this.vocabulary = WordleVocabulary.all,
   });
 
   GameStateWordle.newGame()
       : status = GameStatus.idle,
-        playtime = Duration.zero;
+        playtime = Duration.zero,
+        vocabulary = WordleVocabulary.all;
 
   GameStateWordle.byDefault()
       : status = GameStatus.idle,
-        playtime = Duration.zero;
+        playtime = Duration.zero,
+        vocabulary = WordleVocabulary.all;
 
   factory GameStateWordle.fromJson(Map<String, dynamic> json) => _$GameStateWordleFromJson(json);
 
