@@ -4,7 +4,11 @@ part "save.g.dart";
 
 @JsonSerializable()
 class SaveWordle {
-  const SaveWordle();
+  final Duration playtime;
+
+  const SaveWordle({
+    required this.playtime,
+  });
 
   Map<String, dynamic> toJson() => _$SaveWordleToJson(this);
 
