@@ -5,6 +5,10 @@
 - Introduced a new navigation page, Game.
 - Improved visual effects of minesweeper.
 - Game will pause when putting app into background.
+- Game records: play again & share the game with QR code.
+- Introduced Wordle game.
+- Save image of QR code.
+- [macOS] Deep link supports.
 
 ## v2.4.1
 - Changed the custom URL and provided backward compatibility:

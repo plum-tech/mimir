@@ -189,10 +189,16 @@ Future<void> takeQrcodeScreenshot({
         final size = min(maxSize.width, maxSize.height);
         return Material(
           child: [
+            if (title != null)
+              Text(
+                title,
+                style: context.textTheme.titleLarge,
+                textAlign: TextAlign.center,
+              ).sized(w: size * 0.8),
             PlainQrCodeView(
               data: data,
               size: size,
-            ),
+            ).padAll(8),
             const QrCodeHint().padSymmetric(v: 10).sized(w: size * 0.8),
           ].column().padAll(8),
         );
