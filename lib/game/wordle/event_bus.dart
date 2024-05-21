@@ -1,5 +1,7 @@
 import 'package:event_bus/event_bus.dart';
 
+import 'entity/status.dart';
+
 final wordleEventBus = EventBus();
 
 class WordleResultEvent {
@@ -25,7 +27,7 @@ class WordleNewGameEvent {
 }
 
 class WordleAttemptEvent {
-  final List<int> validation;
+  final List<LetterStatus> validation;
 
   const WordleAttemptEvent(this.validation);
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/animation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/game/wordle/entity/status.dart';
 
@@ -19,4 +20,12 @@ class WordleLetter {
   Map<String, dynamic> toJson() => _$WordleLetterToJson(this);
 
   factory WordleLetter.fromJson(Map<String, dynamic> json) => _$WordleLetterFromJson(json);
+}
+
+class WordleLetterLegacy {
+  late String letter = "";
+  late LetterStatus status = LetterStatus.neutral;
+  late AnimationController animation;
+
+  WordleLetterLegacy();
 }

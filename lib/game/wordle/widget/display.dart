@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import '../entity/letter.dart';
+import '../entity/status.dart';
 import '../widget/validation_provider.dart';
 import 'input.dart';
 import '../event_bus.dart';
@@ -23,14 +24,14 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
   int c = 0;
   bool onAnimation = false;
   bool acceptInput = true;
-  late final List<List<Map<String, dynamic>>> inputs;
+  late final List<List<WordleLetterLegacy>> inputs;
 
-  void _validationAnimation(List<int> validation) async {
+  void _validationAnimation(List<LetterStatus> validation) async {
     onAnimation = true;
     bool result = true;
     for (int i = 0; i < maxLetters && onAnimation; i++) {
       setState(() {
-        inputs[r][i]["State"] = validation[i];
+        inputs[r][i].status = validation[i];
       });
       if (validation[i] != 1) {
         result = false;
@@ -51,7 +52,7 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
   }
 
   void _onValidation(WordleAttemptEvent event) {
-    List<int> validation = event.validation;
+    List<LetterStatus> validation = event.validation;
     _validationAnimation(validation);
   }
 
@@ -63,8 +64,8 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
       acceptInput = true;
       for (int i = 0; i < maxAttempts; i++) {
         for (int j = 0; j < maxLetters; j++) {
-          inputs[i][j]["Letter"] = "";
-          inputs[i][j]["State"] = 0;
+          inputs[i][j].letter = "";
+          inputs[i][j].status = LetterStatus.neutral;
         }
       }
     });
@@ -77,14 +78,12 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
       for (int i = 0; i < maxAttempts; i++)
         [
           for (int j = 0; j < maxLetters; j++)
-            {
-              "Letter": "",
-              "State": 0,
-              "InputAnimationController": AnimationController(
-                  duration: const Duration(milliseconds: 50),
-                  reverseDuration: const Duration(milliseconds: 100),
-                  vsync: this),
-            }
+            WordleLetterLegacy()
+              ..animation = AnimationController(
+                duration: const Duration(milliseconds: 50),
+                reverseDuration: const Duration(milliseconds: 100),
+                vsync: this,
+              )
         ]
     ];
     $attempt = wordleEventBus.on<WordleAttemptEvent>().listen(_onValidation);
@@ -115,9 +114,9 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
         if (noti.type == InputType.singleCharacter) {
           if (r < maxAttempts && c < maxLetters && !onAnimation && acceptInput) {
             setState(() {
-              inputs[r][c]["Letter"] = noti.msg;
-              inputs[r][c]["State"] = 3;
-              var controller = inputs[r][c]["InputAnimationController"] as AnimationController;
+              inputs[r][c].letter = noti.msg;
+              inputs[r][c].status = LetterStatus.neutral;
+              var controller = inputs[r][c].animation;
               controller.forward().then((value) => controller.reverse());
               c++;
             });
@@ -127,8 +126,8 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
         } else if (noti.type == InputType.backSpace) {
           if (c > 0 && !onAnimation) {
             setState(() {
-              inputs[r][c - 1]["Letter"] = "";
-              inputs[r][c - 1]["State"] = 0;
+              inputs[r][c - 1].letter = "";
+              inputs[r][c - 1].status = LetterStatus.neutral;
               c--;
             });
           }
@@ -157,11 +156,11 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
                       children: [
                         for (int j = 0; j < maxLetters; j++)
                           AnimatedBuilder(
-                              animation: inputs[i][j]["InputAnimationController"],
+                              animation: inputs[i][j].animation,
                               builder: (context, child) {
                                 return Transform.scale(
                                   scale: Tween<double>(begin: 1, end: 1.1)
-                                      .evaluate(inputs[i][j]["InputAnimationController"]),
+                                      .evaluate(inputs[i][j].animation),
                                   child: child,
                                 );
                               },
@@ -192,46 +191,20 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
                                             });
                                       },
                                       child: Padding(
-                                        key: ValueKey(
-                                            (inputs[i][j]["State"] == 0 || inputs[i][j]["State"] == 3) ? 0 : 1),
+                                        key: ValueKey(inputs[i][j].status),
                                         padding: const EdgeInsets.all(5.0),
                                         child: DecoratedBox(
                                           decoration: BoxDecoration(
                                             border: Border.all(
-                                              color: inputs[i][j]["State"] == 1
-                                                  ? Colors.green[600]!
-                                                  : inputs[i][j]["State"] == 2
-                                                      ? Colors.yellow[800]!
-                                                      : inputs[i][j]["State"] == 3
-                                                          ? Theme.of(context).brightness == Brightness.dark
-                                                              ? Colors.grey[400]!
-                                                              : Colors.grey[850]!
-                                                          : inputs[i][j]["State"] == -1
-                                                              ? Colors.grey[700]!
-                                                              : Theme.of(context).brightness == Brightness.dark
-                                                                  ? Colors.grey[700]!
-                                                                  : Colors.grey[400]!,
+                                              color: inputs[i][j].status.border,
                                               width: 2.0,
                                             ),
-                                            color: inputs[i][j]["State"] == 1
-                                                ? Colors.green[600]!
-                                                : inputs[i][j]["State"] == 2
-                                                    ? Colors.yellow[800]!
-                                                    : inputs[i][j]["State"] == -1
-                                                        ? Colors.grey[700]!
-                                                        : Theme.of(context).brightness == Brightness.dark
-                                                            ? Colors.grey[850]!
-                                                            : Colors.white,
+                                            color: inputs[i][j].status.bg,
                                           ),
                                           child: Center(
                                             child: Text(
-                                              inputs[i][j]["Letter"],
+                                              inputs[i][j].letter,
                                               style: TextStyle(
-                                                color: inputs[i][j]["State"] == 3
-                                                    ? Theme.of(context).brightness == Brightness.dark
-                                                        ? Colors.white
-                                                        : Colors.grey[850]!
-                                                    : Colors.white,
                                                 fontSize: 30,
                                                 fontWeight: FontWeight.bold,
                                               ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import '../entity/letter.dart';
+import '../entity/status.dart';
 import '../event_bus.dart';
 import '../generator.dart';
 
@@ -128,11 +129,11 @@ class _ValidationProviderState extends State<ValidationProvider> {
             if (ValidationProvider.validationDatabase.lookup(curAttempt) != null) {
               //Generate map
               Map<String, int> leftWordMap = Map.from(letterMap);
-              var positionValRes = <int>[for (int i = 0; i < maxLetters; i++) -1];
+              var positionValRes = List.filled(maxLetters, LetterStatus.neutral);
               var letterValRes = <String, int>{};
               for (int i = 0; i < maxLetters; i++) {
                 if (curAttempt[i] == answer[i]) {
-                  positionValRes[i] = 1;
+                  positionValRes[i] = LetterStatus.correct;
                   leftWordMap[curAttempt[i]] = leftWordMap[curAttempt[i]]! - 1;
                   letterValRes[curAttempt[i]] = 1;
                 }
@@ -141,11 +142,11 @@ class _ValidationProviderState extends State<ValidationProvider> {
                 if (curAttempt[i] != answer[i] &&
                     leftWordMap[curAttempt[i]] != null &&
                     leftWordMap[curAttempt[i]]! > 0) {
-                  positionValRes[i] = 2;
+                  positionValRes[i] = LetterStatus.dislocated;
                   leftWordMap[curAttempt[i]] = leftWordMap[curAttempt[i]]! - 1;
                   letterValRes[curAttempt[i]] = letterValRes[curAttempt[i]] == 1 ? 1 : 2;
                 } else if (curAttempt[i] != answer[i]) {
-                  positionValRes[i] = -1;
+                  positionValRes[i] = LetterStatus.wrong;
                   letterValRes[curAttempt[i]] ??= -1;
                 }
               }
