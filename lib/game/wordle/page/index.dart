@@ -4,9 +4,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sit/game/wordle/entity/word_set.dart';
 import '../event_bus.dart';
 import '../page/loading.dart';
+import '../entity/vocabulary.dart';
 import '../settings.dart';
 import '../widget/selection_group.dart';
 

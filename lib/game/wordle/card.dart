@@ -6,7 +6,7 @@ import 'package:sit/game/widget/card.dart';
 import 'package:sit/game/widget/mode.dart';
 import 'package:sit/game/wordle/entity/pref.dart';
 
-import 'entity/word_set.dart';
+import 'entity/vocabulary.dart';
 import 'i18n.dart';
 import 'settings.dart';
 import 'storage.dart';
