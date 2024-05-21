@@ -8,6 +8,7 @@
 - Game records: play again & share the game with QR code.
 - Introduced Wordle game.
 - Save image of QR code.
+- Timetable built-in start date.
 - [macOS] Deep link supports.
 
 ## v2.4.1
