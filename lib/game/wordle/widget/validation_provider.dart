@@ -3,19 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import '../entity/keyboard.dart';
 import '../entity/letter.dart';
 import '../entity/status.dart';
 import '../event_bus.dart';
 import '../generator.dart';
 
-enum InputType { singleCharacter, backSpace, inputConfirmation }
-
-class InputNotification extends Notification {
-  const InputNotification({required this.type, required this.msg});
-
-  final InputType type;
-  final String msg;
-}
 
 class ValidationProvider extends StatefulWidget {
   static Set<String> validationDatabase = <String>{};
@@ -120,7 +113,7 @@ class _ValidationProviderState extends State<ValidationProvider> {
     return NotificationListener<InputNotification>(
       child: widget.child,
       onNotification: (noti) {
-        if (noti.type == InputType.inputConfirmation) {
+        if (noti.type == InputType.enter) {
           if (curAttempt.length < maxLetters) {
             //Not enough
             return true;
@@ -130,12 +123,12 @@ class _ValidationProviderState extends State<ValidationProvider> {
               //Generate map
               Map<String, int> leftWordMap = Map.from(letterMap);
               var positionValRes = List.filled(maxLetters, LetterStatus.neutral);
-              var letterValRes = <String, int>{};
+              var letterValRes = <String, LetterStatus>{};
               for (int i = 0; i < maxLetters; i++) {
                 if (curAttempt[i] == answer[i]) {
                   positionValRes[i] = LetterStatus.correct;
                   leftWordMap[curAttempt[i]] = leftWordMap[curAttempt[i]]! - 1;
-                  letterValRes[curAttempt[i]] = 1;
+                  letterValRes[curAttempt[i]] = LetterStatus.correct;
                 }
               }
               for (int i = 0; i < maxLetters; i++) {
@@ -144,10 +137,12 @@ class _ValidationProviderState extends State<ValidationProvider> {
                     leftWordMap[curAttempt[i]]! > 0) {
                   positionValRes[i] = LetterStatus.dislocated;
                   leftWordMap[curAttempt[i]] = leftWordMap[curAttempt[i]]! - 1;
-                  letterValRes[curAttempt[i]] = letterValRes[curAttempt[i]] == 1 ? 1 : 2;
+                  letterValRes[curAttempt[i]] = letterValRes[curAttempt[i]] == LetterStatus.correct
+                      ? LetterStatus.correct
+                      : LetterStatus.dislocated;
                 } else if (curAttempt[i] != answer[i]) {
                   positionValRes[i] = LetterStatus.wrong;
-                  letterValRes[curAttempt[i]] ??= -1;
+                  letterValRes[curAttempt[i]] ??= LetterStatus.wrong;
                 }
               }
               //emit current attempt
@@ -163,13 +158,13 @@ class _ValidationProviderState extends State<ValidationProvider> {
               onNotWord(context: context, attempt: "AAA");
             }
           }
-        } else if (noti.type == InputType.backSpace) {
+        } else if (noti.type == InputType.backspace) {
           if (curAttempt.isNotEmpty) {
             curAttempt = curAttempt.substring(0, curAttempt.length - 1);
           }
         } else {
           if (acceptInput && curAttempt.length < maxLetters) {
-            curAttempt += noti.msg;
+            curAttempt += noti.letter;
           }
         }
         return true;

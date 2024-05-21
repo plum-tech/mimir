@@ -17,7 +17,7 @@ class WordleValidationEndEvent {
 }
 
 class WordleValidationEvent {
-  final Map<String, int> value;
+  final Map<String, LetterStatus> value;
 
   const WordleValidationEvent(this.value);
 }

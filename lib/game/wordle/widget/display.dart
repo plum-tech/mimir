@@ -1,12 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import '../entity/keyboard.dart';
 import '../entity/letter.dart';
 import '../entity/status.dart';
 import '../widget/validation_provider.dart';
-import 'input.dart';
 import '../event_bus.dart';
 import 'dart:math' as math;
+
+import 'keyboard.dart';
 
 class WordleDisplayWidget extends StatefulWidget {
   const WordleDisplayWidget({
@@ -111,10 +113,10 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
         ],
       ),
       onNotification: (noti) {
-        if (noti.type == InputType.singleCharacter) {
+        if (noti.type == InputType.letter) {
           if (r < maxAttempts && c < maxLetters && !onAnimation && acceptInput) {
             setState(() {
-              inputs[r][c].letter = noti.msg;
+              inputs[r][c].letter = noti.letter;
               inputs[r][c].status = LetterStatus.neutral;
               var controller = inputs[r][c].animation;
               controller.forward().then((value) => controller.reverse());
@@ -123,7 +125,7 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
           } else if (onAnimation) {
             return true;
           }
-        } else if (noti.type == InputType.backSpace) {
+        } else if (noti.type == InputType.backspace) {
           if (c > 0 && !onAnimation) {
             setState(() {
               inputs[r][c - 1].letter = "";
