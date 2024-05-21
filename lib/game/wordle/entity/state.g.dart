@@ -17,6 +17,8 @@ abstract class _$GameStateWordleCWProxy {
     GameStatus? status,
     Duration? playtime,
     WordleVocabulary? vocabulary,
+    String? word,
+    List<String>? attempts,
   });
 }
 
@@ -38,6 +40,8 @@ class _$GameStateWordleCWProxyImpl implements _$GameStateWordleCWProxy {
     Object? status = const $CopyWithPlaceholder(),
     Object? playtime = const $CopyWithPlaceholder(),
     Object? vocabulary = const $CopyWithPlaceholder(),
+    Object? word = const $CopyWithPlaceholder(),
+    Object? attempts = const $CopyWithPlaceholder(),
   }) {
     return GameStateWordle(
       status: status == const $CopyWithPlaceholder() || status == null
@@ -52,6 +56,14 @@ class _$GameStateWordleCWProxyImpl implements _$GameStateWordleCWProxy {
           ? _value.vocabulary
           // ignore: cast_nullable_to_non_nullable
           : vocabulary as WordleVocabulary,
+      word: word == const $CopyWithPlaceholder() || word == null
+          ? _value.word
+          // ignore: cast_nullable_to_non_nullable
+          : word as String,
+      attempts: attempts == const $CopyWithPlaceholder() || attempts == null
+          ? _value.attempts
+          // ignore: cast_nullable_to_non_nullable
+          : attempts as List<String>,
     );
   }
 }
@@ -71,9 +83,13 @@ GameStateWordle _$GameStateWordleFromJson(Map<String, dynamic> json) => GameStat
       playtime: json['playtime'] == null ? Duration.zero : Duration(microseconds: (json['playtime'] as num).toInt()),
       vocabulary:
           json['vocabulary'] == null ? WordleVocabulary.all : WordleVocabulary.fromJson(json['vocabulary'] as String),
+      word: json['word'] as String,
+      attempts: (json['attempts'] as List<dynamic>?)?.map((e) => e as String).toList() ?? const [],
     );
 
 Map<String, dynamic> _$GameStateWordleToJson(GameStateWordle instance) => <String, dynamic>{
+      'word': instance.word,
+      'attempts': instance.attempts,
       'status': _$GameStatusEnumMap[instance.status]!,
       'playtime': instance.playtime.inMicroseconds,
       'vocabulary': instance.vocabulary,

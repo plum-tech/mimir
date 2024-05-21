@@ -13,7 +13,10 @@ class GameLogic extends StateNotifier<GameStateWordle> {
   GameLogic([GameStateWordle? initial]) : super(initial ?? GameStateWordle.byDefault());
 
   void initGame({required WordleVocabulary vocabulary}) {
-    state = GameStateWordle.newGame();
+    state = GameStateWordle.newGame(
+      vocabulary: vocabulary,
+      word: "APPLE",
+    );
   }
 
   void startGame() {

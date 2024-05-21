@@ -7,7 +7,6 @@ enum InputType {
 }
 
 class InputNotification extends Notification {
-
   const InputNotification.backspace()
       : type = InputType.backspace,
         letter = "";

@@ -8,6 +8,7 @@ import '../event_bus.dart';
 import 'dart:math' as math;
 
 import 'keyboard.dart';
+import 'letter.dart';
 
 class WordleDisplayWidget extends StatefulWidget {
   const WordleDisplayWidget({
@@ -157,61 +158,48 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
                       children: [
                         for (int j = 0; j < maxLetters; j++)
                           AnimatedBuilder(
-                              animation: inputs[i][j].animation,
-                              builder: (context, child) {
-                                return Transform.scale(
-                                  scale: Tween<double>(begin: 1, end: 1.1).evaluate(inputs[i][j].animation),
-                                  child: child,
-                                );
-                              },
-                              child: AspectRatio(
-                                aspectRatio: 1,
-                                child: LayoutBuilder(
-                                  builder: (context, constraints) {
-                                    return AnimatedSwitcher(
-                                      duration: const Duration(milliseconds: 700),
-                                      switchInCurve: Curves.easeOut,
-                                      reverseDuration: const Duration(milliseconds: 0),
-                                      transitionBuilder: (child, animation) {
-                                        return AnimatedBuilder(
-                                            animation: animation,
+                            animation: inputs[i][j].animation,
+                            builder: (context, child) {
+                              return Transform.scale(
+                                scale: Tween<double>(begin: 1, end: 1.1).evaluate(inputs[i][j].animation),
+                                child: child,
+                              );
+                            },
+                            child: AspectRatio(
+                              aspectRatio: 1,
+                              child: LayoutBuilder(
+                                builder: (context, constraints) {
+                                  return AnimatedSwitcher(
+                                    duration: const Duration(milliseconds: 700),
+                                    switchInCurve: Curves.easeOut,
+                                    reverseDuration: const Duration(milliseconds: 0),
+                                    transitionBuilder: (child, animation) {
+                                      return AnimatedBuilder(
+                                        animation: animation,
+                                        child: child,
+                                        builder: (context, child) {
+                                          var _animation = Tween<double>(begin: math.pi / 2, end: 0).animate(animation);
+                                          return Transform(
+                                            transform: Matrix4.rotationX(_animation.value),
+                                            alignment: Alignment.center,
                                             child: child,
-                                            builder: (context, child) {
-                                              var _animation =
-                                                  Tween<double>(begin: math.pi / 2, end: 0).animate(animation);
-                                              return Transform(
-                                                transform: Matrix4.rotationX(_animation.value),
-                                                alignment: Alignment.center,
-                                                child: child,
-                                              );
-                                            });
-                                      },
-                                      child: Padding(
-                                        key: ValueKey(inputs[i][j].status),
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: DecoratedBox(
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: inputs[i][j].status.border,
-                                              width: 2.0,
-                                            ),
-                                            color: inputs[i][j].status.bg,
-                                          ),
-                                          child: Center(
-                                            child: Text(
-                                              inputs[i][j].letter,
-                                              style: TextStyle(
-                                                fontSize: 30,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Padding(
+                                      key: ValueKey(inputs[i][j].status),
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: LetterBox(
+                                        status: inputs[i][j].status,
+                                        letter: inputs[i][j].letter,
                                       ),
-                                    );
-                                  },
-                                ),
-                              )),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
                       ],
                     ),
                   ),

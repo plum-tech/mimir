@@ -32,6 +32,8 @@ class BlueprintWordle implements GameBlueprint<GameStateWordle> {
 
   @override
   GameStateWordle create() {
-    return GameStateWordle();
+    return GameStateWordle(
+      word: word,
+    );
   }
 }

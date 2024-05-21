@@ -9,7 +9,6 @@ import '../entity/status.dart';
 import '../event_bus.dart';
 import '../generator.dart';
 
-
 class ValidationProvider extends StatefulWidget {
   static Set<String> validationDatabase = <String>{};
 
