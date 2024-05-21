@@ -7,18 +7,16 @@ class LoadingPage extends StatefulWidget {
   const LoadingPage({
     super.key,
     required this.dicName,
-    required this.maxChances,
   });
 
   final String dicName;
-  final int maxChances;
 
   @override
   State<LoadingPage> createState() => _LoadingPageState();
 }
 
 class _LoadingPageState extends State<LoadingPage> {
-  Future<Map<String, List<String>>> _loadDatabase({required String dicName}) async {
+  Future<List<String>> _loadDatabase({required String dicName}) async {
     var dataBase = await generateQuestionSet(dicName: dicName);
     if (ValidationProvider.validationDatabase.isEmpty) {
       ValidationProvider.validationDatabase = await generateDictionary();
@@ -33,8 +31,7 @@ class _LoadingPageState extends State<LoadingPage> {
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return GameWordle(
-            database: snapshot.data as Map<String, List<String>>,
-            maxChances: widget.maxChances,
+            database: snapshot.data!,
           );
         } else {
           return Scaffold(

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
@@ -12,11 +11,9 @@ class GameWordle extends StatefulWidget {
   const GameWordle({
     super.key,
     required this.database,
-    required this.maxChances,
   });
 
-  final Map<String, List<String>> database;
-  final int maxChances;
+  final List<String> database;
 
   @override
   State<GameWordle> createState() => _GameWordleState();
@@ -53,40 +50,35 @@ class _GameWordleState extends State<GameWordle> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0.0,
-              toolbarHeight: 80.0,
-              title: const Text('Wordle'),
-              actions: [
-                IconButton(
-                  icon: const Icon(Icons.help_outline_outlined),
-                  //color: Colors.black,
-                  onPressed: () {
-                    showGuideDialog(context: context);
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(Icons.refresh_rounded),
-                  //color: Colors.black,
-                  onPressed: () {
-                    wordleEventBus.fire(const WordleNewGameEvent());
-                  },
-                ),
-              ],
-            ),
-            body: ValidationProvider(
-              database: widget.database,
-              maxChances: widget.maxChances,
-              child: WordleDisplayWidget(maxChances: widget.maxChances),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Wordle'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.help_outline_outlined),
+            onPressed: () {
+              showGuideDialog(context: context);
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.refresh_rounded),
+            onPressed: () {
+              wordleEventBus.fire(const WordleNewGameEvent());
+            },
+          ),
+        ],
+      ),
+      body: Stack(
+        children: [
+          ValidationProvider(
+            database: widget.database,
+            maxChances: 6,
+            child: WordleDisplayWidget(
+              maxChances: 6,
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

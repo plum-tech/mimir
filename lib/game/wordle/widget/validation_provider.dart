@@ -19,16 +19,16 @@ class InputNotification extends Notification {
 class ValidationProvider extends StatefulWidget {
   static Set<String> validationDatabase = <String>{};
 
+  final Widget child;
+  final List<String> database;
+  final int maxChances;
+
   const ValidationProvider({
     super.key,
     required this.child,
     required this.database,
     required this.maxChances,
   });
-
-  final Widget child;
-  final Map<String, List<String>> database;
-  final int maxChances;
 
   @override
   State<ValidationProvider> createState() => _ValidationProviderState();

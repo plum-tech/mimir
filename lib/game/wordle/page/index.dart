@@ -23,7 +23,6 @@ class _GameWordlePageState extends ConsumerState<GameWordlePage> {
     final pref = ref.watch(SettingsWordle.$.$pref);
     return LoadingPage(
       dicName: pref.vocabulary.name,
-      maxChances: 6,
     );
   }
 }
