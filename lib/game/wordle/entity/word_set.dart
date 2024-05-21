@@ -3,21 +3,21 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/game/entity/game_mode.dart';
 
 @JsonSerializable(createToJson: false, createFactory: false)
-class WordleWordSet extends GameMode {
-  const WordleWordSet._({
+class WordleVocabulary extends GameMode {
+  const WordleVocabulary._({
     required super.name,
   });
 
-  static const all = WordleWordSet._(
+  static const all = WordleVocabulary._(
     name: "all",
   );
-  static const cet4 = WordleWordSet._(
+  static const cet4 = WordleVocabulary._(
     name: "cet-4",
   );
-  static const cet6 = WordleWordSet._(
+  static const cet6 = WordleVocabulary._(
     name: "cet-6",
   );
-  static const toefl = WordleWordSet._(
+  static const toefl = WordleVocabulary._(
     name: "toefl",
   );
   static final name2mode = {
@@ -34,16 +34,16 @@ class WordleWordSet extends GameMode {
     toefl,
   ];
 
-  factory WordleWordSet.fromJson(String name) => name2mode[name] ?? all;
+  factory WordleVocabulary.fromJson(String name) => name2mode[name] ?? all;
 
   @override
   bool operator ==(Object other) {
-    return other is WordleWordSet && runtimeType == other.runtimeType && name == other.name;
+    return other is WordleVocabulary && runtimeType == other.runtimeType && name == other.name;
   }
 
   @override
   int get hashCode => Object.hash(name, 0);
 
   @override
-  String l10n() => "game.wordle.wordSet.$name".tr();
+  String l10n() => "game.wordle.vocabulary.$name".tr();
 }

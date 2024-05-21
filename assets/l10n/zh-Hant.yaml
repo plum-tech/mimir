@@ -880,7 +880,7 @@ game:
         hard: 困難
     wordle:
       title: Wordle
-      wordSet:
+      vocabulary:
         all: 全部
         cet-4: 大學四級
         cet-6: 大學六級

@@ -22,7 +22,7 @@ class _GameWordlePageState extends ConsumerState<GameWordlePage> {
   Widget build(BuildContext context) {
     final pref = ref.watch(SettingsWordle.$.$pref);
     return LoadingPage(
-      dicName: pref.wordSet.name,
+      dicName: pref.vocabulary.name,
       maxChances: 6,
     );
   }

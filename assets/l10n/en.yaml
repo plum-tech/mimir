@@ -880,7 +880,7 @@ game:
       hard: Hard
   wordle:
     title: Wordle
-    wordSet:
+    vocabulary:
       all: All
       cet-4: CET 4
       cet-6: CET 6

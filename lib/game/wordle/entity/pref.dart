@@ -7,19 +7,19 @@ part "pref.g.dart";
 @JsonSerializable()
 @CopyWith(skipFields: true)
 class GamePrefWordle {
-  final WordleWordSet wordSet;
+  final WordleVocabulary vocabulary;
 
   const GamePrefWordle({
-    this.wordSet = WordleWordSet.all,
+    this.vocabulary = WordleVocabulary.all,
   });
 
   @override
   bool operator ==(Object other) {
-    return other is GamePrefWordle && runtimeType == other.runtimeType && wordSet == other.wordSet;
+    return other is GamePrefWordle && runtimeType == other.runtimeType && vocabulary == other.vocabulary;
   }
 
   @override
-  int get hashCode => Object.hash(wordSet, 0);
+  int get hashCode => Object.hash(vocabulary, 0);
 
   factory GamePrefWordle.fromJson(Map<String, dynamic> json) => _$GamePrefWordleFromJson(json);
 

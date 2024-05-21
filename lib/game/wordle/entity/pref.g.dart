@@ -14,7 +14,7 @@ abstract class _$GamePrefWordleCWProxy {
   /// GamePrefWordle(...).copyWith(id: 12, name: "My name")
   /// ````
   GamePrefWordle call({
-    WordleWordSet? wordSet,
+    WordleVocabulary? vocabulary,
   });
 }
 
@@ -33,13 +33,13 @@ class _$GamePrefWordleCWProxyImpl implements _$GamePrefWordleCWProxy {
   /// GamePrefWordle(...).copyWith(id: 12, name: "My name")
   /// ````
   GamePrefWordle call({
-    Object? wordSet = const $CopyWithPlaceholder(),
+    Object? vocabulary = const $CopyWithPlaceholder(),
   }) {
     return GamePrefWordle(
-      wordSet: wordSet == const $CopyWithPlaceholder() || wordSet == null
-          ? _value.wordSet
+      vocabulary: vocabulary == const $CopyWithPlaceholder() || vocabulary == null
+          ? _value.vocabulary
           // ignore: cast_nullable_to_non_nullable
-          : wordSet as WordleWordSet,
+          : vocabulary as WordleVocabulary,
     );
   }
 }
@@ -55,9 +55,10 @@ extension $GamePrefWordleCopyWith on GamePrefWordle {
 // **************************************************************************
 
 GamePrefWordle _$GamePrefWordleFromJson(Map<String, dynamic> json) => GamePrefWordle(
-      wordSet: json['wordSet'] == null ? WordleWordSet.all : WordleWordSet.fromJson(json['wordSet'] as String),
+      vocabulary:
+          json['vocabulary'] == null ? WordleVocabulary.all : WordleVocabulary.fromJson(json['vocabulary'] as String),
     );
 
 Map<String, dynamic> _$GamePrefWordleToJson(GamePrefWordle instance) => <String, dynamic>{
-      'wordSet': instance.wordSet,
+      'vocabulary': instance.vocabulary,
     };

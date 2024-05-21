@@ -26,27 +26,27 @@ class _GameAppCardWordleState extends ConsumerState<GameAppCardWordle> {
       baseRoute: "/wordle",
       save: StorageWordle.save,
       // supportRecords: true,
-      view: buildWordSetSelector().align(at: Alignment.centerLeft),
+      view: buildVocabularySelector().align(at: Alignment.centerLeft),
     );
   }
 
-  Widget buildWordSetSelector() {
+  Widget buildVocabularySelector() {
     final pref = ref.watch(SettingsWordle.$.$pref);
     return GameModeSelectorCard(
-      all: WordleWordSet.values,
-      current: pref.wordSet,
-      onChanged: (newWordSet) async {
+      all: WordleVocabulary.values,
+      current: pref.vocabulary,
+      onChanged: (newV) async {
         if (StorageWordle.save.exists()) {
           final confirm = await context.showActionRequest(
             desc: i18n.changeGameModeRequest,
-            action: i18n.changeGameModeAction(newWordSet.l10n()),
+            action: i18n.changeGameModeAction(newV.l10n()),
             cancel: i18n.cancel,
           );
           if (confirm != true) return;
         }
         ref.read(SettingsWordle.$.$pref.notifier).set(pref.copyWith(
-          wordSet: newWordSet,
-        ));
+              vocabulary: newV,
+            ));
         StorageWordle.save.delete();
       },
     ).sized(w: 240);
