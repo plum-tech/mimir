@@ -4,23 +4,21 @@ import 'package:sit/storage/hive/table.dart';
 import 'package:sit/utils/hive.dart';
 
 class GameRecordStorage<TRecord extends GameRecord> {
-  final Box Function() _box;
+  final Box Function() box;
   final String prefix;
   final TRecord Function(Map<String, dynamic> json) deserialize;
   final Map<String, dynamic> Function(TRecord save) serialize;
 
-  final String _prefix;
-
   GameRecordStorage(
-    this._box, {
-    required this.prefix,
+    this.box, {
+    required String prefix,
     required this.serialize,
     required this.deserialize,
-  }) : _prefix = "$prefix/record";
+  }) : prefix = "$prefix/record";
 
   late final table = HiveTable<TRecord>(
-    base: _prefix,
-    box: _box(),
+    base: prefix,
+    box: box(),
     useJson: (fromJson: deserialize, toJson: serialize),
   );
 
@@ -37,8 +35,8 @@ class GameRecordStorage<TRecord extends GameRecord> {
     table.drop();
   }
 
-  late final $recordOf = _box().providerFamily<TRecord, int>(
-    (id) => "$_prefix/$id",
+  late final $recordOf = box().providerFamily<TRecord, int>(
+    (id) => "$prefix/$id",
     get: (id) => table[id],
     set: (id, v) async {
       if (v == null) {
