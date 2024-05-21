@@ -88,6 +88,9 @@ timetable:
     importing: Trying to fetch the timetable...
     timetableInfo: Timetable Info
     defaultName: "{semester}, {yearStart} Timetable"
+    formatError:
+      title: Format error
+      desc: The selected file can't be loaded as a timetable. Please choose a timetable file.
   export:
     title: Export to calendar
     export: Export

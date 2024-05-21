@@ -231,6 +231,10 @@ class _Import {
         "yearStart": yearStart,
         "yearEnd": yearEnd,
       });
+
+  String get formatError => "$ns.formatError.title".tr();
+
+  String get formatErrorDesc => "$ns.formatError.desc".tr();
 }
 
 class _Editor {

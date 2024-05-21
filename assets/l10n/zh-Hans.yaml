@@ -88,6 +88,9 @@ timetable:
     importing: 正在尝试获取课程表的数据……
     timetableInfo: 课程表信息
     defaultName: "{yearStart}年 {semester} 课程表"
+    formatError:
+      title: 格式错误
+      desc: 所选文件无法作为课程表导入，请选择一个课程表文件。
   export:
     title: 导出选项
     export: 导出

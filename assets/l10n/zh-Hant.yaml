@@ -88,6 +88,9 @@ timetable:
     importing: 正在擷取課程表數據……
     timetableInfo: 課程表資訊
     defaultName: "{semester} {yearStart} 課程表"
+    formatError:
+      title: 格式錯誤
+      desc: 選取的檔案無法作為課程表匯入，請選取一個課程表文件。
   export:
     title: 匯出選項
     export: 匯出

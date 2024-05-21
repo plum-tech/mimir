@@ -269,23 +269,28 @@ Future<SitTimetable?> readTimetableFromFile(String path) async {
   return timetable;
 }
 
-Future<SitTimetable?> readTimetableFromFileWithPrompt(BuildContext context, String path) async {
+Future<SitTimetable?> readTimetableFromFileWithPrompt(
+  BuildContext context,
+  String path,
+) async {
   try {
     final timetable = await readTimetableFromFile(path);
     return timetable;
   } catch (error, stackTrace) {
     debugPrintError(error, stackTrace);
     if (!context.mounted) return null;
-    context.showTip(
-      title: "Format error",
-      desc: "The file isn't supported. Please select a timetable file.",
+    await context.showTip(
+      title: i18n.import.formatError,
+      desc: i18n.import.formatErrorDesc,
       primary: i18n.ok,
     );
     return null;
   }
 }
 
-Future<SitTimetable?> readTimetableFromPickedFileWithPrompt(BuildContext context) async {
+Future<SitTimetable?> readTimetableFromPickedFileWithPrompt(
+  BuildContext context,
+) async {
   try {
     final timetable = await readTimetableFromPickedFile();
     return timetable;
@@ -295,9 +300,9 @@ Future<SitTimetable?> readTimetableFromPickedFileWithPrompt(BuildContext context
     if (error is PlatformException) {
       await showPermissionDeniedDialog(context: context, permission: Permission.storage);
     } else {
-      context.showTip(
-        title: "Format error",
-        desc: "The file isn't supported. Please select a timetable file.",
+      await context.showTip(
+        title: i18n.import.formatError,
+        desc: i18n.import.formatErrorDesc,
         primary: i18n.ok,
       );
     }
