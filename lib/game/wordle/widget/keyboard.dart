@@ -116,20 +116,14 @@ class _WordleKeyboardState extends State<WordleKeyboard> {
             for (int i = 0; i < 9; i++)
               Expanded(
                 flex: 1,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(3.0, 5.0, 3.0, 5.0),
-                  child: WordleLetterKey(
-                    letter: _keyPos[1][i],
-                    status: _keyState[_keyPos[1][i]] ?? LetterStatus.neutral,
-                  ),
-                ),
+                child: WordleLetterKey(
+                  letter: _keyPos[1][i],
+                  status: _keyState[_keyPos[1][i]] ?? LetterStatus.neutral,
+                ).padSymmetric(h: 3, v: 5),
               ),
             Expanded(
               flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
-                child: WordleBackspaceKey(),
-              ),
+              child: const WordleBackspaceKey().padSymmetric(h: 5, v: 5),
             ),
           ],
         ),
@@ -143,20 +137,14 @@ class _WordleKeyboardState extends State<WordleKeyboard> {
             for (int i = 0; i < 7; i++)
               Expanded(
                 flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(3.0, 5.0, 3.0, 5.0),
-                  child: WordleLetterKey(
-                    letter: _keyPos[2][i],
-                    status: _keyState[_keyPos[2][i]] ?? LetterStatus.neutral,
-                  ),
-                ),
+                child: WordleLetterKey(
+                  letter: _keyPos[2][i],
+                  status: _keyState[_keyPos[2][i]] ?? LetterStatus.neutral,
+                ).padSymmetric(h: 3, v: 5),
               ),
-            const Expanded(
+            Expanded(
               flex: 6,
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
-                child: WordleEnterKey(),
-              ),
+              child: const WordleEnterKey().padSymmetric(h: 5, v: 5),
             ),
             const Spacer(
               flex: 1,

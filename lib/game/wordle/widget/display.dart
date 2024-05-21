@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../entity/keyboard.dart';
 import '../entity/letter.dart';
 import '../entity/status.dart';
-import '../widget/validation_provider.dart';
 import '../event_bus.dart';
 import 'dart:math' as math;
 
@@ -28,14 +27,14 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
   bool acceptInput = true;
   late final List<List<WordleLetterLegacy>> inputs;
 
-  void _validationAnimation(List<LetterStatus> validation) async {
+  Future<void> _validationAnimation(List<LetterStatus> validation) async {
     onAnimation = true;
     bool result = true;
     for (int i = 0; i < maxLetters && onAnimation; i++) {
       setState(() {
         inputs[r][i].status = validation[i];
       });
-      if (validation[i] != 1) {
+      if (validation[i] != LetterStatus.correct) {
         result = false;
       }
       await Future.delayed(const Duration(milliseconds: 240));
@@ -161,8 +160,7 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
                               animation: inputs[i][j].animation,
                               builder: (context, child) {
                                 return Transform.scale(
-                                  scale: Tween<double>(begin: 1, end: 1.1)
-                                      .evaluate(inputs[i][j].animation),
+                                  scale: Tween<double>(begin: 1, end: 1.1).evaluate(inputs[i][j].animation),
                                   child: child,
                                 );
                               },
@@ -181,10 +179,6 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
                                             builder: (context, child) {
                                               var _animation =
                                                   Tween<double>(begin: math.pi / 2, end: 0).animate(animation);
-                                              // return ConstrainedBox(
-                                              //   constraints: BoxConstraints.tightFor(height: constraints.maxHeight * _animation.value),
-                                              //   child: child,
-                                              // );
                                               return Transform(
                                                 transform: Matrix4.rotationX(_animation.value),
                                                 alignment: Alignment.center,

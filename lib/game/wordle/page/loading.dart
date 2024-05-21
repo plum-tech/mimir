@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../page/game.dart';
 import '../generator.dart';
-import '../widget/validation_provider.dart';
+import '../widget/validation.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({

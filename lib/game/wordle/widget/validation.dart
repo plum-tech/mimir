@@ -112,8 +112,8 @@ class _ValidationProviderState extends State<ValidationProvider> {
   Widget build(BuildContext context) {
     return NotificationListener<InputNotification>(
       child: widget.child,
-      onNotification: (noti) {
-        if (noti.type == InputType.enter) {
+      onNotification: (notification) {
+        if (notification.type == InputType.enter) {
           if (curAttempt.length < maxLetters) {
             //Not enough
             return true;
@@ -158,13 +158,13 @@ class _ValidationProviderState extends State<ValidationProvider> {
               onNotWord(context: context, attempt: "AAA");
             }
           }
-        } else if (noti.type == InputType.backspace) {
+        } else if (notification.type == InputType.backspace) {
           if (curAttempt.isNotEmpty) {
             curAttempt = curAttempt.substring(0, curAttempt.length - 1);
           }
         } else {
           if (acceptInput && curAttempt.length < maxLetters) {
-            curAttempt += noti.letter;
+            curAttempt += notification.letter;
           }
         }
         return true;

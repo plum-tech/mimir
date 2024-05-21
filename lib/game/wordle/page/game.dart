@@ -7,8 +7,8 @@ import 'package:sit/game/entity/game_status.dart';
 import 'package:sit/game/widget/party_popper.dart';
 import '../entity/state.dart';
 import '../event_bus.dart';
-import '../manager/logc.dart';
-import '../widget/validation_provider.dart';
+import '../manager/logic.dart';
+import '../widget/validation.dart';
 import '../widget/display.dart';
 import '../widget/guide.dart';
 
