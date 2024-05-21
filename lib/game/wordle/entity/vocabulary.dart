@@ -17,6 +17,9 @@ class WordleVocabulary extends GameMode {
   static const cet6 = WordleVocabulary._(
     name: "cet-6",
   );
+  static const ielts = WordleVocabulary._(
+    name: "ielts",
+  );
   static const toefl = WordleVocabulary._(
     name: "toefl",
   );
@@ -24,6 +27,7 @@ class WordleVocabulary extends GameMode {
     "all": all,
     "cet-4": cet4,
     "cet-6": cet6,
+    "ielts": ielts,
     "toefl": toefl,
   };
 
@@ -31,6 +35,7 @@ class WordleVocabulary extends GameMode {
     all,
     cet4,
     cet6,
+    ielts,
     toefl,
   ];
 

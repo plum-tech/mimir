@@ -4,6 +4,8 @@ import * as p from "path"
 import splitLines from 'split-lines'
 import commandLineArgs from "command-line-args"
 import commandLineUsage from "command-line-usage"
+import mime from 'mime'
+import { parse } from 'csv-parse/sync'
 
 const usage = commandLineUsage([{
   header: "Mimir tool - WORDLE",
@@ -71,20 +73,27 @@ async function extract(argv) {
     { name: "path", alias: "p", type: String, defaultOption: true }
   ], { argv })
 
-  const filePath = cmd.argv[0]
+  const filePath = cmd.path
   await fs.access(filePath, fs.constants.R_OK)
   const stat = await fs.stat(filePath)
   if (stat.isFile()) {
-    await extractFromFile(filePath)
+    await extractFromFileAndSave(filePath)
   } else if (stat.isDirectory()) {
     for (const file of await fs.readdir(filePath)) {
       const path = p.join(filePath, file)
       const ext = p.extname(path)
       if (ext == ".json") continue
       if (ext != ".txt") continue
-      await extractFromFile(path)
+      await extractFromFileAndSave(path)
     }
   }
+}
+
+async function extractFromFileAndSave(path) {
+  const vocabulary = await extractFromFile(path)
+  const newContent = JSON.stringify(vocabulary)
+  const newPath = p.join(p.dirname(path), `${p.basename(path, p.extname(path)).toLocaleLowerCase()}.json`.replace(" ", "-"))
+  await fs.writeFile(newPath, newContent)
 }
 
 async function merge(argv) {
@@ -199,34 +208,81 @@ async function cleanVocabularyFile(path) {
 /**
  *
  * @param {string} path
+ * @returns {Promise<string[]>}
  */
 async function extractFromFile(path) {
-  const text = await fs.readFile(path, { encoding: "utf8" })
-  const lines = splitLines(text)
-  const words = extractVocabulary(lines)
-  const newContent = JSON.stringify(words)
-  const newPath = p.join(p.dirname(path), `${p.basename(path, ".txt").toLocaleLowerCase()}.json`.replace(" ", "-"))
-  await fs.writeFile(newPath, newContent)
+  const content = await fs.readFile(path)
+  const contentType = mime.getType(path)
+  const vocabulary = extractVocabulary(content, contentType)
+  return vocabulary
 }
 
 /**
  *
- * @param {[string]} lines
- * @returns {[string]}
+ * @param {Buffer} content
+ * @param {string?} contentType
+ * @returns {string[]}
  */
-function extractVocabulary(lines) {
-  const words = []
+function extractVocabulary(content, contentType) {
+  switch (contentType) {
+    case "text/plain":
+      return extractVocabularyFromTextPlain(content.toString("utf8"))
+    case "text/csv":
+      return extractVocabularyFromCsv(content.toString("utf8"))
+  }
+  throw new Error("Unkown vocabulary file type: " + contentType)
+}
+/**
+ *
+ * @param {string} content
+ * @returns {string[]}
+ */
+function extractVocabularyFromTextPlain(content) {
+  const lines = splitLines(content)
+  const words = new Set()
   for (const line of lines) {
     const vowelStart = line.indexOf('[')
     const word = line.substring(0, vowelStart == -1 ? undefined : vowelStart).trim().toLocaleUpperCase()
     if (validateWord(word)) {
-      words.push(word)
+      words.add(word)
     }
   }
-  return words
+  return [...words]
+}
+/**
+ *
+ * @param {string} content
+ * @returns {string[]}
+ */
+function extractVocabularyFromCsv(content) {
+  const records = parse(content, { bom: true })
+  if (!records.length) throw new Error("no words in csv file")
+  const template = records[0]
+  const wordIndex = findWordIndexInCsv(template)
+  if (wordIndex < 0) throw new Error("no word column in csv file")
+  const words = new Set()
+  for (const row of records) {
+    const word = row[wordIndex]
+    if (validateWord(word)) {
+      words.add(word)
+    }
+  }
+  return [...words]
 }
 
-
+/**
+ *
+ * @param {string[]} row
+ */
+function findWordIndexInCsv(row) {
+  for (let i = 0; i < row.length; i++) {
+    const cell = row[i]
+    if (/^[a-zA-Z]+$/.test(cell)) {
+      return i
+    }
+  }
+  return -1
+}
 
 if (esMain(import.meta)) {
   main(process.argv)

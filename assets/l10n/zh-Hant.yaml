@@ -871,20 +871,21 @@ game:
       easy: 簡單
       normal: 普通
       hard: 困難
-    sudoku:
-      title: 數獨
-      gameMode:
-        beginner: 菜鳥
-        easy: 簡單
-        medium: 中等
-        hard: 困難
-    wordle:
-      title: Wordle
-      vocabulary:
-        all: 全部
-        cet-4: 大學四級
-        cet-6: 大學六級
-        toefl: 托福
+  sudoku:
+    title: 數獨
+    gameMode:
+      beginner: 菜鳥
+      easy: 簡單
+      medium: 中等
+      hard: 困難
+  wordle:
+    title: Wordle
+    vocabulary:
+      all: 全部
+      cet-4: 大學四級
+      cet-6: 大學六級
+      ielts: 雅思
+      toefl: 托福
 permission:
   permissionDenied: 沒有權限
   permissionDeniedDescOf: "{}權限未授予許可，請檢查應用程式的設定。"
