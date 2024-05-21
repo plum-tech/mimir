@@ -789,7 +789,7 @@ greeting:
     other: "{} Days"
 qrCode:
   barcodeNotRecognizedTip: No Barcode or QR code
-  hint: Please navigate to Me {me}, and click the Scanner {scan} on the right corner
+  hint: Please launch @:appName. Then navigate to Me {me}, and click the Scanner {scan} on the right corner.
   unrecognizedQrCodeTip: Unrecognized QR code
   saveImage: Save image
 404:
@@ -803,7 +803,7 @@ update:
   skipThisVersionFor7Days: Skip this version for 7 days
   openAppStore: Open App Store
   installOnAppStoreInsteadTip: |
-    SIT Life has published on App Store.
+    @:appName has published on App Store.
     To get the best experience, please consider to install it on App Store instead.
 weekday:
   0: Monday

@@ -789,7 +789,7 @@ greeting:
     other: "{} 天"
 qrCode:
   barcodeNotRecognized: 未識別到條碼或 QR 碼
-  hint: 請導航至 個人{me}，然後點擊右上角的 掃描{scan}
+  hint: 請啟動 @:appName，然後導航至 個人{me}，再點擊右上角的 掃描{scan}。
   unrecognizedQrCodeTip: 未識別的 QR 碼
   saveImage: 儲存影像
 404:
@@ -803,7 +803,7 @@ update:
   skipThisVersionFor7Days: 跳過此版本 7 天
   openAppStore: 打開 App Store
   installOnAppStoreInsteadTip: |
-    小應生活已上架 App Store。
+    @:appName 已上架 App Store。
     為獲得更好的體驗，請考慮在 App Store 上安裝。
 weekday:
   0: 週一
@@ -894,7 +894,7 @@ permission:
     camera: 相機
 saveAndQuitPrompt:
   request: 你有未儲存的變更，想要儲存嗎？
-  saveAndQuit: 儲存並離開
+  saveAndQuit: 儲存並離開@:appName
   discard: 丟棄
 dormitoryRoom: "{building}號樓 #{room}"
 open: 打開

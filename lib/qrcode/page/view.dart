@@ -62,7 +62,7 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
     if (context.isPortrait) {
       return ListView(children: [
         buildQrCode(widget.data).padSymmetric(h: 4),
-        buildTip().padAll(10),
+        const QrCodeHint().padAll(10),
         if (Dev.on) buildUrl(widget.data),
       ]);
     } else {
@@ -70,7 +70,7 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
         buildQrCode(widget.data).expanded(),
         ListView(
           children: [
-            buildTip().padAll(10),
+            const QrCodeHint().padAll(10),
             if (Dev.on) buildUrl(widget.data),
           ],
         ).expanded(),
@@ -90,15 +90,6 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
     });
   }
 
-  Widget buildTip() {
-    return RichText(
-      text: TextSpan(
-        style: context.textTheme.bodyLarge,
-        children: i18n.hint,
-      ),
-    );
-  }
-
   Widget buildUrl(String data) {
     return [
       ListTile(
@@ -113,6 +104,20 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
       ),
       SelectableText(data).padAll(10),
     ].column();
+  }
+}
+
+class QrCodeHint extends StatelessWidget {
+  const QrCodeHint({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      text: TextSpan(
+        style: context.textTheme.bodyLarge,
+        children: i18n.hint,
+      ),
+    );
   }
 }
 
@@ -180,12 +185,16 @@ Future<void> takeQrcodeScreenshot({
     name: '${title != null ? sanitizeFilename(title) : "QR code"}.png',
     child: Builder(
       builder: (ctx) {
-        final size = ctx.mediaQuery.size;
+        final maxSize = ctx.mediaQuery.size;
+        final size = min(maxSize.width, maxSize.height);
         return Material(
-          child: PlainQrCodeView(
-            data: data,
-            size: min(size.width, size.height),
-          ),
+          child: [
+            PlainQrCodeView(
+              data: data,
+              size: size,
+            ),
+            const QrCodeHint().padSymmetric(v: 10).sized(w: size * 0.8),
+          ].column().padAll(8),
         );
       },
     ),
