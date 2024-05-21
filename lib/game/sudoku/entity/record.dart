@@ -11,7 +11,7 @@ part "record.g.dart";
 @JsonSerializable()
 class RecordSudoku extends GameRecord {
   final GameResult result;
-  final Duration playTime;
+  final Duration playtime;
   final GameModeSudoku mode;
   final int blanks;
   final String blueprint;
@@ -19,7 +19,7 @@ class RecordSudoku extends GameRecord {
   RecordSudoku({
     required super.ts,
     required this.result,
-    required this.playTime,
+    required this.playtime,
     required this.mode,
     required this.blueprint,
   }) : blanks = mode.blanks;
@@ -38,7 +38,7 @@ class RecordSudoku extends GameRecord {
       ts: DateTime.now(),
       result: result,
       mode: mode,
-      playTime: playtime,
+      playtime: playtime,
       blueprint: blueprint.build(),
     );
   }

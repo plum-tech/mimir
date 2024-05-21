@@ -54,7 +54,7 @@ class RecordSudokuTile extends StatelessWidget {
       trailing: buildMoreActions(context),
       subtitle: [
         context.formatYmdhmsNum(record.ts).text(),
-        record.playTime.formatPlaytime().text(),
+        record.playtime.formatPlaytime().text(),
         // record.blueprint.text(),
       ].column(caa: CrossAxisAlignment.start),
     );
