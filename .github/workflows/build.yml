@@ -234,7 +234,7 @@ jobs:
         env:
           SITMC_TEMP_SERVER_AUTH: ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
         run: |
-          node tools/upload-sitmc.mjs build/SITLife-${{ env.LATEST_VERSION }}.apk mimir-preview/latest.apk
+          node -s tools/upload-sitmc.mjs build/SITLife-${{ env.LATEST_VERSION }}.apk -d mimir-preview/latest.apk
 
       - name: Send Message to Group
         continue-on-error: true
