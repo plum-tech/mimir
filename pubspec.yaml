@@ -22,7 +22,7 @@ dependencies:
   # I18n
   easy_localization: ^3.0.7
   locale_names: ^1.1.1
-  intl: ^0.18.1
+  intl: ^0.19.0
 
   # Basic
   logger: ^2.3.0
@@ -169,9 +169,6 @@ dependencies:
   flame: ^1.17.0
   flame_forge2d: ^0.18.0
   sudoku_solver_generator: ^2.1.0+1
-
-dependency_overrides:
-  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test: { sdk: flutter }

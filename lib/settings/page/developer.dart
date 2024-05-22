@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -93,29 +94,32 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
               const DebugGoRouteTile(),
               const DebugWebViewTile(),
               const DebugDeepLinkTile(),
-              DebugFetchVersionTile(
-                title: "Official".text(),
-                fetch: () async {
-                  final info = await UpdateInit.service.getLatestVersionFromOfficial();
-                  return info.version.toString();
-                },
-              ),
-              DebugFetchVersionTile(
-                leading: const Icon(SimpleIcons.apple),
-                title: "App Store CN".text(),
-                fetch: () async {
-                  final info = await UpdateInit.service.getLatestVersionFromAppStore();
-                  return "${info!}";
-                },
-              ),
-              DebugFetchVersionTile(
-                leading: const Icon(SimpleIcons.apple),
-                title: "App Store".text(),
-                fetch: () async {
-                  final info = await UpdateInit.service.getLatestVersionFromAppStore(iosAppStoreRegion: null);
-                  return "${info!}";
-                },
-              ),
+              if (!kIsWeb)
+                DebugFetchVersionTile(
+                  title: "Official".text(),
+                  fetch: () async {
+                    final info = await UpdateInit.service.getLatestVersionFromOfficial();
+                    return info.version.toString();
+                  },
+                ),
+              if (!kIsWeb)
+                DebugFetchVersionTile(
+                  leading: const Icon(SimpleIcons.apple),
+                  title: "App Store CN".text(),
+                  fetch: () async {
+                    final info = await UpdateInit.service.getLatestVersionFromAppStore();
+                    return "${info!}";
+                  },
+                ),
+              if (!kIsWeb)
+                DebugFetchVersionTile(
+                  leading: const Icon(SimpleIcons.apple),
+                  title: "App Store".text(),
+                  fetch: () async {
+                    final info = await UpdateInit.service.getLatestVersionFromAppStore(iosAppStoreRegion: null);
+                    return "${info!}";
+                  },
+                ),
               buildPartyPopper(),
             ]),
           ),
