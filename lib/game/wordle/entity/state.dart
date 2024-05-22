@@ -14,6 +14,7 @@ part "state.g.dart";
 class GameStateWordle {
   final String word;
   final List<String> attempts;
+  final String input;
   final GameStatus status;
   final Duration playtime;
   final WordleVocabulary vocabulary;
@@ -23,21 +24,24 @@ class GameStateWordle {
     this.playtime = Duration.zero,
     this.vocabulary = WordleVocabulary.all,
     required this.word,
+    this.input = "",
     this.attempts = const [],
   });
 
-  GameStateWordle.newGame({
+  const GameStateWordle.newGame({
     required this.word,
     this.vocabulary = WordleVocabulary.all,
   })  : status = GameStatus.idle,
         playtime = Duration.zero,
+        input = "",
         attempts = const [];
 
-  GameStateWordle.byDefault()
+  const GameStateWordle.byDefault()
       : status = GameStatus.idle,
         playtime = Duration.zero,
         word = "APPLE",
         attempts = const [],
+        input = "",
         vocabulary = WordleVocabulary.all;
 
   factory GameStateWordle.fromJson(Map<String, dynamic> json) => _$GameStateWordleFromJson(json);

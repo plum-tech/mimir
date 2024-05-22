@@ -18,6 +18,7 @@ abstract class _$GameStateWordleCWProxy {
     Duration? playtime,
     WordleVocabulary? vocabulary,
     String? word,
+    String? input,
     List<String>? attempts,
   });
 }
@@ -41,6 +42,7 @@ class _$GameStateWordleCWProxyImpl implements _$GameStateWordleCWProxy {
     Object? playtime = const $CopyWithPlaceholder(),
     Object? vocabulary = const $CopyWithPlaceholder(),
     Object? word = const $CopyWithPlaceholder(),
+    Object? input = const $CopyWithPlaceholder(),
     Object? attempts = const $CopyWithPlaceholder(),
   }) {
     return GameStateWordle(
@@ -60,6 +62,10 @@ class _$GameStateWordleCWProxyImpl implements _$GameStateWordleCWProxy {
           ? _value.word
           // ignore: cast_nullable_to_non_nullable
           : word as String,
+      input: input == const $CopyWithPlaceholder() || input == null
+          ? _value.input
+          // ignore: cast_nullable_to_non_nullable
+          : input as String,
       attempts: attempts == const $CopyWithPlaceholder() || attempts == null
           ? _value.attempts
           // ignore: cast_nullable_to_non_nullable
@@ -84,12 +90,14 @@ GameStateWordle _$GameStateWordleFromJson(Map<String, dynamic> json) => GameStat
       vocabulary:
           json['vocabulary'] == null ? WordleVocabulary.all : WordleVocabulary.fromJson(json['vocabulary'] as String),
       word: json['word'] as String,
+      input: json['input'] as String? ?? "",
       attempts: (json['attempts'] as List<dynamic>?)?.map((e) => e as String).toList() ?? const [],
     );
 
 Map<String, dynamic> _$GameStateWordleToJson(GameStateWordle instance) => <String, dynamic>{
       'word': instance.word,
       'attempts': instance.attempts,
+      'input': instance.input,
       'status': _$GameStatusEnumMap[instance.status]!,
       'playtime': instance.playtime.inMicroseconds,
       'vocabulary': instance.vocabulary,
