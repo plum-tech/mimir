@@ -4,7 +4,7 @@ import * as p from "path"
 import splitLines from 'split-lines'
 import mime from 'mime'
 import { parse } from 'csv-parse/sync'
-import { app } from 'command-line-application'
+import { app } from '@liplum/cli'
 
 export async function main(argv) {
   const args = app({
@@ -51,7 +51,6 @@ export async function main(argv) {
       },],
     },]
   }, { argv })
-  console.log(args)
   try {
     switch (args._command) {
       case "extract":

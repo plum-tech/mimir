@@ -1,6 +1,6 @@
 import { uploadFile } from "./sitmc.mjs"
 import * as path from "path"
-import { app } from 'command-line-application'
+import { app } from '@liplum/cli'
 import esMain from "es-main"
 
 async function main() {
