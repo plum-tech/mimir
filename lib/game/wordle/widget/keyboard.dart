@@ -6,16 +6,16 @@ import 'package:sit/game/wordle/entity/status.dart';
 import '../entity/keyboard.dart';
 import '../event_bus.dart';
 
-class WordleKeyboard extends StatefulWidget {
-  const WordleKeyboard({
+class WordleKeyboardWidget extends StatefulWidget {
+  const WordleKeyboardWidget({
     super.key,
   });
 
   @override
-  State<WordleKeyboard> createState() => _WordleKeyboardState();
+  State<WordleKeyboardWidget> createState() => _WordleKeyboardWidgetState();
 }
 
-class _WordleKeyboardState extends State<WordleKeyboard> {
+class _WordleKeyboardWidgetState extends State<WordleKeyboardWidget> {
   late final StreamSubscription $animationStop;
   late final StreamSubscription $newGame;
   late final StreamSubscription $validation;
@@ -98,7 +98,7 @@ class _WordleKeyboardState extends State<WordleKeyboard> {
                 flex: 2,
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(3.0, 5.0, 3.0, 5.0),
-                  child: WordleLetterKey(
+                  child: WordleLetterKeyWidget(
                     letter: _keyPos[0][i],
                     status: _keyState[_keyPos[0][i]] ?? LetterStatus.neutral,
                   ),
@@ -116,14 +116,14 @@ class _WordleKeyboardState extends State<WordleKeyboard> {
             for (int i = 0; i < 9; i++)
               Expanded(
                 flex: 1,
-                child: WordleLetterKey(
+                child: WordleLetterKeyWidget(
                   letter: _keyPos[1][i],
                   status: _keyState[_keyPos[1][i]] ?? LetterStatus.neutral,
                 ).padSymmetric(h: 3, v: 5),
               ),
             Expanded(
               flex: 2,
-              child: const WordleBackspaceKey().padSymmetric(h: 5, v: 5),
+              child: const WordleBackspaceKeyWidget().padSymmetric(h: 5, v: 5),
             ),
           ],
         ),
@@ -137,14 +137,14 @@ class _WordleKeyboardState extends State<WordleKeyboard> {
             for (int i = 0; i < 7; i++)
               Expanded(
                 flex: 2,
-                child: WordleLetterKey(
+                child: WordleLetterKeyWidget(
                   letter: _keyPos[2][i],
                   status: _keyState[_keyPos[2][i]] ?? LetterStatus.neutral,
                 ).padSymmetric(h: 3, v: 5),
               ),
             Expanded(
               flex: 6,
-              child: const WordleEnterKey().padSymmetric(h: 5, v: 5),
+              child: const WordleEnterKeyWidget().padSymmetric(h: 5, v: 5),
             ),
             const Spacer(
               flex: 1,
@@ -156,12 +156,12 @@ class _WordleKeyboardState extends State<WordleKeyboard> {
   }
 }
 
-class WordleEnterKey extends StatelessWidget {
-  const WordleEnterKey({super.key});
+class WordleEnterKeyWidget extends StatelessWidget {
+  const WordleEnterKeyWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return WordleKey(
+    return WordleKeyWidget(
       background: Colors.green[600],
       onTap: () {
         const InputNotification.enter().dispatch(context);
@@ -174,12 +174,12 @@ class WordleEnterKey extends StatelessWidget {
   }
 }
 
-class WordleBackspaceKey extends StatelessWidget {
-  const WordleBackspaceKey({super.key});
+class WordleBackspaceKeyWidget extends StatelessWidget {
+  const WordleBackspaceKeyWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return WordleKey(
+    return WordleKeyWidget(
       background: Colors.grey[700],
       onTap: () {
         const InputNotification.backspace().dispatch(context);
@@ -192,11 +192,11 @@ class WordleBackspaceKey extends StatelessWidget {
   }
 }
 
-class WordleLetterKey extends StatelessWidget {
+class WordleLetterKeyWidget extends StatelessWidget {
   final String letter;
   final LetterStatus status;
 
-  const WordleLetterKey({
+  const WordleLetterKeyWidget({
     super.key,
     required this.letter,
     required this.status,
@@ -204,7 +204,7 @@ class WordleLetterKey extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WordleKey(
+    return WordleKeyWidget(
       background: status.bg,
       onTap: () {
         InputNotification.letter(letter).dispatch(context);
@@ -220,12 +220,12 @@ class WordleLetterKey extends StatelessWidget {
   }
 }
 
-class WordleKey extends StatelessWidget {
+class WordleKeyWidget extends StatelessWidget {
   final Color? background;
   final VoidCallback onTap;
   final Widget child;
 
-  const WordleKey({
+  const WordleKeyWidget({
     super.key,
     this.background,
     required this.onTap,

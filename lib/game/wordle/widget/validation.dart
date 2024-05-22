@@ -112,7 +112,7 @@ class _ValidationProviderState extends State<ValidationProvider> {
     return NotificationListener<InputNotification>(
       child: widget.child,
       onNotification: (notification) {
-        if (notification.type == InputType.enter) {
+        if (notification.type == WordleKeyType.enter) {
           if (curAttempt.length < maxLetters) {
             //Not enough
             return true;
@@ -157,7 +157,7 @@ class _ValidationProviderState extends State<ValidationProvider> {
               onNotWord(context: context, attempt: "AAA");
             }
           }
-        } else if (notification.type == InputType.backspace) {
+        } else if (notification.type == WordleKeyType.backspace) {
           if (curAttempt.isNotEmpty) {
             curAttempt = curAttempt.substring(0, curAttempt.length - 1);
           }

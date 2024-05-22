@@ -108,12 +108,12 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
           buildDisplayBoard(),
           const Padding(
             padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 30.0),
-            child: WordleKeyboard(),
+            child: WordleKeyboardWidget(),
           ),
         ],
       ),
       onNotification: (noti) {
-        if (noti.type == InputType.letter) {
+        if (noti.type == WordleKeyType.letter) {
           if (r < maxAttempts && c < maxLetters && !onAnimation && acceptInput) {
             setState(() {
               inputs[r][c].letter = noti.letter;
@@ -125,7 +125,7 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
           } else if (onAnimation) {
             return true;
           }
-        } else if (noti.type == InputType.backspace) {
+        } else if (noti.type == WordleKeyType.backspace) {
           if (c > 0 && !onAnimation) {
             setState(() {
               inputs[r][c - 1].letter = "";
