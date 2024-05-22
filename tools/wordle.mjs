@@ -4,10 +4,10 @@ import * as p from "path"
 import splitLines from 'split-lines'
 import mime from 'mime'
 import { parse } from 'csv-parse/sync'
-import { app } from '@liplum/cli'
+import { cli } from '@liplum/cli'
 
 export async function main(argv) {
-  const args = app({
+  const args = cli({
     name: "Mimir tool - Wordle",
     description: "For processing Wordle vocabulary.",
     commands: [{

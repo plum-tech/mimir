@@ -1,10 +1,10 @@
 import { uploadFile } from "./sitmc.mjs"
 import * as path from "path"
-import { app } from '@liplum/cli'
+import { cli } from '@liplum/cli'
 import esMain from "es-main"
 
 async function main() {
-  const args = app({
+  const args = cli({
     name: 'upload-sitmc',
     description: 'Upload files onto SIT-MC server.',
     examples: ['node ./upload-sitmc.mjs -k <auth> -s <file> -d <path>',],

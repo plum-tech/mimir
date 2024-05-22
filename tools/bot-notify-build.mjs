@@ -1,9 +1,9 @@
 import esMain from "es-main"
 import { sendMessageToQQGroup } from "./bot.mjs"
-import { app } from '@liplum/cli'
+import { cli } from '@liplum/cli'
 
 async function main() {
-  const args = app({
+  const args = cli({
     name: 'bot-notify-build',
     description: 'Bot sends a notification about the latest building in QQ group.',
     examples: ['node ./bot-notify-build.mjs -u <url> -g <number> -v <version>',],
