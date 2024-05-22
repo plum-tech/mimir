@@ -2,78 +2,75 @@ import esMain from "es-main"
 import * as fs from "fs/promises"
 import * as p from "path"
 import splitLines from 'split-lines'
-import commandLineArgs from "command-line-args"
-import commandLineUsage from "command-line-usage"
 import mime from 'mime'
 import { parse } from 'csv-parse/sync'
-
-const usage = commandLineUsage([{
-  header: "Mimir tool - WORDLE",
-  content: "For processing WORDLE vocabulary."
-}, {
-  header: "Command List",
-  content: [{
-    name: "help", summary: "Display help information.",
-  }, {
-    name: "extract", summary: "Extract WORDLE vocabulary from file.",
-  }, {
-    name: "merge", summary: "Merge multiple vocabularies into a single vocabulary.",
-  }, {
-    name: "clean", summary: "Clean up a vocabulary file.",
-  },]
-}, {
-  header: "Command: extract",
-  optionList: [{
-    name: "path", defaultOption: true, alias: "p",
-    description: "The file path to be converted, or a directory containing all files to be converted."
-  }]
-}, {
-  header: "Command: merge",
-  optionList: [{
-    name: "paths", defaultOption: true, alias: "p", multiple: true, defaultValue: "all.json",
-    description: "All WORDLE vocabularies to be merged, or a directory containing all vocabularies to be merged."
-  }]
-}, {
-  header: "Command: clear",
-  optionList: [{
-    name: "path", defaultOption: true, alias: "p",
-    description: "The file path to be cleaned up, or a directory containing all files to be cleaned up."
-  }]
-}])
+import { app } from 'command-line-application'
 
 export async function main(argv) {
-  const mainCmd = commandLineArgs([
-    { name: "cmd", defaultOption: true },
-  ], { stopAtFirstUnknown: true, argv })
-
-  const cmdArgv = mainCmd._unknown || []
+  const args = app({
+    name: "Mimir tool - Wordle",
+    description: "For processing Wordle vocabulary.",
+    commands: [{
+      name: 'extract',
+      description: 'Extract Wordle vocabulary from file.',
+      examples: ['extract <path>',],
+      require: ['path'],
+      options: [{
+        name: 'path',
+        alias: "p",
+        defaultOption: true,
+        description: 'The file path to be converted, or a directory containing all files to be converted'
+      },],
+    }, {
+      name: 'merge',
+      description: 'Merge multiple vocabularies into a single vocabulary.',
+      examples: ['merge <path1> [<path2>] -o all.json',],
+      require: ['paths'],
+      options: [{
+        name: 'paths',
+        alias: "p",
+        multiple: true,
+        defaultOption: true,
+        description: 'All Wordle vocabularies to be merged, or a directory containing all vocabularies to be merged.'
+      }, {
+        name: 'output',
+        alias: "o",
+        defaultValue: "all.json",
+        description: 'The merged output file.'
+      },],
+    }, {
+      name: 'clean',
+      description: 'The file path to be cleaned up, or a directory containing all files to be cleaned up.',
+      examples: ['clean <path>',],
+      require: ['path'],
+      options: [{
+        name: 'path',
+        alias: "p",
+        defaultOption: true,
+        description: 'The file path to be cleaned up, or a directory containing all files to be cleaned up.'
+      },],
+    },]
+  }, { argv })
+  console.log(args)
   try {
-    switch (mainCmd.cmd) {
+    switch (args._command) {
       case "extract":
-        await extract(cmdArgv)
+        await extract(args)
         break
       case "merge":
-        await merge(cmdArgv)
+        await merge(args)
         break
       case "clean":
-        await clean(cmdArgv)
-        break
-      default:
-        console.log(usage)
+        await clean(args)
         break
     }
   } catch (e) {
     console.error(e)
-    console.log(usage)
   }
 }
 
-async function extract(argv) {
-  const cmd = commandLineArgs([
-    { name: "path", alias: "p", type: String, defaultOption: true }
-  ], { argv })
-
-  const filePath = cmd.path
+async function extract(args) {
+  const filePath = args.path
   await fs.access(filePath, fs.constants.R_OK)
   const stat = await fs.stat(filePath)
   if (stat.isFile()) {
@@ -96,12 +93,8 @@ async function extractFromFileAndSave(path) {
   await fs.writeFile(newPath, newContent)
 }
 
-async function merge(argv) {
-  const cmd = commandLineArgs([
-    { name: "paths", alias: "p", type: String, multiple: true, defaultOption: true },
-    { name: "output", alias: "o", type: String, defaultValue: "all.json" },
-  ], { argv })
-  const paths = cmd.paths
+async function merge(args) {
+  const paths = args.paths
   const vocabularies = []
   for (const path of paths) {
     await fs.access(path, fs.constants.R_OK)
@@ -118,16 +111,13 @@ async function merge(argv) {
     }
   }
   const merged = [...mergeVocabularies(vocabularies)]
-  const output = cmd.output
+  const output = args.output
   const mergedContent = JSON.stringify(merged)
   await fs.writeFile(output, mergedContent)
 }
 
-async function clean(argv) {
-  const cmd = commandLineArgs([
-    { name: "path", alias: "p", type: String, defaultOption: true },
-  ], { argv })
-  const path = cmd.path
+async function clean(args) {
+  const path = args.path
   await fs.access(path, fs.constants.R_OK, fs.constants.W_OK)
   const stat = await fs.stat(path)
   if (stat.isDirectory()) {
