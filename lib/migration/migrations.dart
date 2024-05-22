@@ -3,6 +3,7 @@ import 'package:sit/files.dart';
 import 'package:sit/settings/entity/proxy.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/storage/hive/init.dart';
+import 'package:sit/timetable/init.dart';
 import 'package:sit/utils/error.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:version/version.dart';
@@ -58,6 +59,16 @@ class Migrations {
                 await proxyBox.delete("/proxy/${cat.name}/proxyMode");
               }
             case MigrationPhrase.afterInitStorage:
+          }
+        });
+    Version(2, 5, 0) <<
+        Migration.run((phrase) async {
+          if (phrase == MigrationPhrase.afterHive) {
+            // Refresh timetable json
+            final rows = TimetableInit.storage.timetable.getRows();
+            for (final (:id, :row) in rows) {
+              TimetableInit.storage.timetable[id] = row;
+            }
           }
         });
   }
