@@ -383,11 +383,11 @@ class TimetableInfo extends StatelessWidget {
     final textTheme = context.textTheme;
     final year = '${timetable.schoolYear}–${timetable.schoolYear + 1}';
     final semester = timetable.semester.l10n();
-
+    final author = [timetable.studentId, timetable.signature].join(" ");
     return [
       timetable.name.text(style: textTheme.titleLarge),
       "$year, $semester".text(style: textTheme.titleMedium),
-      if (timetable.signature.isNotEmpty) timetable.signature.text(style: textTheme.bodyMedium),
+      if (author.isNotEmpty) author.text(style: textTheme.bodyMedium),
       "${i18n.startWith} ${context.formatYmdText(timetable.startDate)}".text(style: textTheme.bodyMedium),
     ].column(caa: CrossAxisAlignment.start);
   }

@@ -158,6 +158,7 @@ SitTimetable parseUndergraduateTimetableFromRaw(
   final String name = info["XM"];
   final String semesterRaw = info["XQM"];
   final String schoolYearRaw = info["XNM"];
+  final String studentId = info["XH"];
   final schoolYear = int.parse(schoolYearRaw);
   final semester = Semester.fromUgRegFormField(semesterRaw);
   final rawCourses = courseList.map((e) => UndergraduateCourseRaw.fromJson(e)).toList();
@@ -166,6 +167,7 @@ SitTimetable parseUndergraduateTimetableFromRaw(
   );
   return SitTimetable(
     courses: courses,
+    studentId: studentId,
     lastCourseKey: lastCourseKey,
     signature: name,
     name: i18n.import.defaultName(semester.l10n(), schoolYear.toString(), (schoolYear + 1).toString()),
@@ -232,12 +234,14 @@ SitTimetable parsePostgraduateTimetableFromRaw({
   required List<ExamResultPgRaw> resultList,
   required String pageHtml,
   required Campus campus,
+  required String studentId,
 }) {
   final courseList = parsePostgraduateCourseRawsFromHtml(pageHtml);
   completePostgraduateCourseRawsFromPostgraduateScoreRaws(courseList, resultList);
   return parsePostgraduateTimetableFromCourseRaw(
     courseList,
     campus: campus,
+    studentId: studentId,
   );
 }
 
@@ -576,6 +580,7 @@ void completePostgraduateCourseRawsFromPostgraduateScoreRaws(
 SitTimetable parsePostgraduateTimetableFromCourseRaw(
   List<PostgraduateCourseRaw> all, {
   required Campus campus,
+  required String studentId,
 }) {
   final courseKey2Entity = <String, SitCourse>{};
   var counter = 0;
@@ -613,6 +618,7 @@ SitTimetable parsePostgraduateTimetableFromCourseRaw(
     courses: courseKey2Entity,
     lastCourseKey: counter,
     name: "",
+    studentId: studentId,
     campus: campus,
     startDate: DateTime.utc(0),
     schoolYear: 0,

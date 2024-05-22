@@ -1,3 +1,4 @@
+import 'package:sit/credentials/init.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/school/entity/school.dart';
 import '../entity/timetable.dart';
@@ -16,6 +17,7 @@ class DemoTimetableService implements TimetableService {
     var key = 0;
     return SitTimetable(
       campus: Campus.fengxian,
+      studentId: CredentialsInit.storage.oaCredentials?.account ?? "",
       courses: {
         "$key": SitCourse(
           courseKey: key++,

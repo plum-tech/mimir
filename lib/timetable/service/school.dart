@@ -1,6 +1,7 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/init.dart';
 
 import 'package:sit/school/entity/school.dart';
@@ -65,6 +66,7 @@ class TimetableService {
       resultList: await ExamResultInit.pgService.fetchResultRawList(),
       pageHtml: timetableRes.data,
       campus: Settings.campus,
+      studentId: CredentialsInit.storage.oaCredentials?.account ?? "",
     );
   }
 

@@ -4,6 +4,7 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:sit/credentials/init.dart';
 import 'package:sit/entity/campus.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/school/entity/timetable.dart';
@@ -30,6 +31,10 @@ Campus _defaultCampus() {
   return Settings.campus;
 }
 
+String _defaultStudentId() {
+  return CredentialsInit.storage.oaCredentials?.account ?? "";
+}
+
 @JsonSerializable()
 @CopyWith(skipFields: true)
 @immutable
@@ -48,6 +53,8 @@ class SitTimetable {
   final int lastCourseKey;
   @JsonKey()
   final String signature;
+  @JsonKey(defaultValue: _defaultStudentId)
+  final String studentId;
 
   /// The index is the CourseKey.
   @JsonKey()
@@ -72,9 +79,10 @@ class SitTimetable {
     required this.schoolYear,
     required this.semester,
     required this.lastModified,
+    required this.studentId,
     this.patches = const [],
     this.signature = "",
-    this.version = 1,
+    this.version = 2,
   });
 
   SitTimetable markModified() {
@@ -158,6 +166,7 @@ class SitTimetable {
     writer.uint8(version);
     writer.strUtf8(name, ByteLength.bit8);
     writer.strUtf8(signature, ByteLength.bit8);
+    writer.strUtf8(studentId, ByteLength.bit8);
     writer.uint8(campus.index);
     writer.uint8(schoolYear);
     writer.uint8(semester.index);
@@ -179,6 +188,7 @@ class SitTimetable {
     return SitTimetable(
       name: reader.strUtf8(ByteLength.bit8),
       signature: reader.strUtf8(ByteLength.bit8),
+      studentId: revision == 1 ? _defaultStudentId() : reader.strUtf8(ByteLength.bit8),
       campus: Campus.values[reader.uint8()],
       schoolYear: reader.uint8(),
       semester: Semester.values[reader.uint8()],
