@@ -13,20 +13,23 @@ part "record.g.dart";
 class RecordWordle extends GameRecord {
   final GameResult result;
   final Duration playtime;
-  final String blueprint;
+  final List<String> attempts;
   final WordleVocabulary vocabulary;
+  final String blueprint;
 
   const RecordWordle({
     required super.ts,
     required this.result,
     required this.playtime,
-    required this.blueprint,
     required this.vocabulary,
+    required this.attempts,
+    required this.blueprint,
   });
 
   factory RecordWordle.createFrom({
     required Duration playtime,
     required GameResult result,
+    required List<String> attempts,
     required WordleVocabulary vocabulary,
   }) {
     final blueprint = BlueprintWordle(
@@ -36,6 +39,7 @@ class RecordWordle extends GameRecord {
       ts: DateTime.now(),
       result: result,
       playtime: playtime,
+      attempts: attempts,
       vocabulary: vocabulary,
       blueprint: blueprint.build(),
     );

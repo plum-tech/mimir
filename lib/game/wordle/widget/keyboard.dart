@@ -84,75 +84,35 @@ class _WordleKeyboardWidgetState extends State<WordleKeyboardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Spacer(
-              flex: 1,
-            ),
-            for (int i = 0; i < 10; i++)
-              Expanded(
-                flex: 2,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(3.0, 5.0, 3.0, 5.0),
-                  child: WordleLetterKeyWidget(
-                    letter: _keyPos[0][i],
-                    status: _keyState[_keyPos[0][i]] ?? LetterStatus.neutral,
-                  ),
-                ),
-              ),
-            const Spacer(
-              flex: 1,
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            for (int i = 0; i < 9; i++)
-              Expanded(
-                flex: 1,
-                child: WordleLetterKeyWidget(
-                  letter: _keyPos[1][i],
-                  status: _keyState[_keyPos[1][i]] ?? LetterStatus.neutral,
-                ).padSymmetric(h: 3, v: 5),
-              ),
-            Expanded(
-              flex: 2,
-              child: const WordleBackspaceKeyWidget().padSymmetric(h: 5, v: 5),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            const Spacer(
-              flex: 1,
-            ),
-            for (int i = 0; i < 7; i++)
-              Expanded(
-                flex: 2,
-                child: WordleLetterKeyWidget(
-                  letter: _keyPos[2][i],
-                  status: _keyState[_keyPos[2][i]] ?? LetterStatus.neutral,
-                ).padSymmetric(h: 3, v: 5),
-              ),
-            Expanded(
-              flex: 6,
-              child: const WordleEnterKeyWidget().padSymmetric(h: 5, v: 5),
-            ),
-            const Spacer(
-              flex: 1,
-            ),
-          ],
-        ),
-      ],
-    );
+    return [
+      [
+        const Spacer(flex: 1),
+        for (int i = 0; i < _keyPos[0].length; i++)
+          WordleLetterKeyWidget(
+            letter: _keyPos[0][i],
+            status: _keyState[_keyPos[0][i]] ?? LetterStatus.neutral,
+          ).padSymmetric(h: 3, v: 5).expanded(flex: 2),
+        const Spacer(flex: 1),
+      ].row(maa: MainAxisAlignment.center),
+      [
+        for (int i = 0; i < _keyPos[1].length; i++)
+          WordleLetterKeyWidget(
+            letter: _keyPos[1][i],
+            status: _keyState[_keyPos[1][i]] ?? LetterStatus.neutral,
+          ).padSymmetric(h: 3, v: 5).expanded(flex: 1),
+        const WordleBackspaceKeyWidget().padSymmetric(h: 5, v: 5).expanded(flex: 2),
+      ].row(maa: MainAxisAlignment.center),
+      [
+        const Spacer(flex: 1),
+        for (int i = 0; i < _keyPos[2].length; i++)
+          WordleLetterKeyWidget(
+            letter: _keyPos[2][i],
+            status: _keyState[_keyPos[2][i]] ?? LetterStatus.neutral,
+          ).padSymmetric(h: 3, v: 5).expanded(flex: 2),
+        const WordleEnterKeyWidget().padSymmetric(h: 5, v: 5).expanded(flex: 6),
+        const Spacer(flex: 1),
+      ].row(maa: MainAxisAlignment.center),
+    ].column(maa: MainAxisAlignment.center);
   }
 }
 

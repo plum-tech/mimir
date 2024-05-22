@@ -35,7 +35,7 @@ class GameLogic extends StateNotifier<GameStateWordle> {
         playtime: playtime,
       );
 
-  bool get acceptInput => state.input.length < maxLetters;
+  bool get acceptInput => state.attempts.length < maxAttempts && state.input.length < maxLetters;
 
   bool get canBackspace => state.input.isNotEmpty;
 
@@ -73,6 +73,7 @@ class GameLogic extends StateNotifier<GameStateWordle> {
     StorageWordle.record.add(RecordWordle.createFrom(
       playtime: state.playtime,
       vocabulary: state.vocabulary,
+      attempts: state.attempts,
       result: GameResult.victory,
     ));
   }
@@ -84,6 +85,7 @@ class GameLogic extends StateNotifier<GameStateWordle> {
     StorageWordle.record.add(RecordWordle.createFrom(
       playtime: state.playtime,
       vocabulary: state.vocabulary,
+      attempts: state.attempts,
       result: GameResult.gameOver,
     ));
     applyGameHapticFeedback(HapticFeedbackIntensity.heavy);

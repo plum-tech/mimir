@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:rettulf/rettulf.dart';
 import '../entity/keyboard.dart';
 import '../entity/letter.dart';
 import '../entity/status.dart';
@@ -105,7 +106,7 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          buildDisplayBoard(),
+          buildDisplayBoard().expanded(),
           const Padding(
             padding: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 30.0),
             child: WordleKeyboardWidget(),
@@ -140,74 +141,53 @@ class _WordleDisplayWidgetState extends State<WordleDisplayWidget> with TickerPr
   }
 
   Widget buildDisplayBoard() {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
-        child: Align(
-          alignment: Alignment.center,
-          child: AspectRatio(
-            aspectRatio: maxLetters / maxAttempts,
-            child: Column(
-              //Column(
-              children: [
-                for (int i = 0; i < maxAttempts; i++)
-                  Expanded(
-                    flex: 1,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        for (int j = 0; j < maxLetters; j++)
-                          AnimatedBuilder(
-                            animation: inputs[i][j].animation,
+    return AspectRatio(
+      aspectRatio: maxLetters / maxAttempts,
+      child: [
+        for (int i = 0; i < maxAttempts; i++)
+          [
+            for (int j = 0; j < maxLetters; j++)
+              AnimatedBuilder(
+                animation: inputs[i][j].animation,
+                builder: (context, child) {
+                  return Transform.scale(
+                    scale: Tween<double>(begin: 1, end: 1.1).evaluate(inputs[i][j].animation),
+                    child: child,
+                  );
+                },
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      return AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 700),
+                        switchInCurve: Curves.easeOut,
+                        reverseDuration: const Duration(milliseconds: 0),
+                        transitionBuilder: (child, animation) {
+                          return AnimatedBuilder(
+                            animation: animation,
+                            child: child,
                             builder: (context, child) {
-                              return Transform.scale(
-                                scale: Tween<double>(begin: 1, end: 1.1).evaluate(inputs[i][j].animation),
+                              var _animation = Tween<double>(begin: math.pi / 2, end: 0).animate(animation);
+                              return Transform(
+                                transform: Matrix4.rotationX(_animation.value),
+                                alignment: Alignment.center,
                                 child: child,
                               );
                             },
-                            child: AspectRatio(
-                              aspectRatio: 1,
-                              child: LayoutBuilder(
-                                builder: (context, constraints) {
-                                  return AnimatedSwitcher(
-                                    duration: const Duration(milliseconds: 700),
-                                    switchInCurve: Curves.easeOut,
-                                    reverseDuration: const Duration(milliseconds: 0),
-                                    transitionBuilder: (child, animation) {
-                                      return AnimatedBuilder(
-                                        animation: animation,
-                                        child: child,
-                                        builder: (context, child) {
-                                          var _animation = Tween<double>(begin: math.pi / 2, end: 0).animate(animation);
-                                          return Transform(
-                                            transform: Matrix4.rotationX(_animation.value),
-                                            alignment: Alignment.center,
-                                            child: child,
-                                          );
-                                        },
-                                      );
-                                    },
-                                    child: Padding(
-                                      key: ValueKey(inputs[i][j].status),
-                                      padding: const EdgeInsets.all(5.0),
-                                      child: LetterBox(
-                                        status: inputs[i][j].status,
-                                        letter: inputs[i][j].letter,
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                      ],
-                    ),
+                          );
+                        },
+                        child: LetterBox(
+                          status: inputs[i][j].status,
+                          letter: inputs[i][j].letter,
+                        ).padAll(5.0, key: ValueKey(inputs[i][j].status)),
+                      );
+                    },
                   ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+                ),
+              ),
+          ].row(maa: MainAxisAlignment.center).expanded(flex: 1),
+      ].column(),
+    ).padSymmetric(h: 20, v: 10).center();
   }
 }
