@@ -327,6 +327,14 @@ class TimetableCard extends StatelessWidget {
               );
             },
           ),
+        if (!kIsWeb && kDebugMode)
+          EntryAction(
+            icon: context.icons.refresh,
+            label: i18n.refresh,
+            action: () async {
+              // TODO: refresh timetable
+            },
+          ),
         EntryAction(
           label: i18n.duplicate,
           oneShot: true,

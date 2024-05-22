@@ -35,21 +35,23 @@ class GameLogic extends StateNotifier<GameStateWordle> {
         playtime: playtime,
       );
 
+  bool get acceptInput => state.input.length < maxLetters;
+
+  bool get canBackspace => state.input.isNotEmpty;
+
   void onKey(WordleKey key) {
     switch (key.type) {
       case WordleKeyType.letter:
-        if (state.input.length < maxLetters) {
-          state = state.copyWith(
-            input: state.input + key.letter,
-          );
-        }
+        if (!acceptInput) return;
+        state = state.copyWith(
+          input: state.input + key.letter,
+        );
         break;
       case WordleKeyType.backspace:
-        if (state.input.isNotEmpty) {
-          state = state.copyWith(
-            input: state.input.substring(0, state.input.length - 1),
-          );
-        }
+        if (!canBackspace) return;
+        state = state.copyWith(
+          input: state.input.substring(0, state.input.length - 1),
+        );
         break;
       case WordleKeyType.enter:
         break;
