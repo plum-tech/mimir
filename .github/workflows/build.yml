@@ -231,14 +231,10 @@ jobs:
 
       - name: Upload preview files onto SIT-MC
         continue-on-error: true
-        env:
-          SITMC_TEMP_SERVER_AUTH: ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
         run: |
-          node -s tools/upload-sitmc.mjs build/SITLife-${{ env.LATEST_VERSION }}.apk -d mimir-preview/latest.apk
+          node tools/upload-sitmc.mjs build/SITLife-${{ env.LATEST_VERSION }}.apk -d mimir-preview/latest.apk -k ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
 
       - name: Send Message to Group
         continue-on-error: true
-        env:
-          BOT_URL: ${{ secrets.gocq_sendgroupmsg_url }}
         run: |
-          node tools/bot-notify-build.mjs ${{ secrets.gocq_group_number }}
+          node tools/bot-notify-build.mjs ${{ secrets.gocq_sendgroupmsg_url }} -g ${{ secrets.gocq_group_number }} -v ${{ env.LATEST_VERSION }}
