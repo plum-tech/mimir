@@ -7,14 +7,14 @@ async function main() {
     name: 'bot-notify-build',
     description: 'Bot sends a notification about the latest building in QQ group.',
     examples: ['node ./bot-notify-build.mjs -u <url> -g <number> -v <version>',],
-    require: ["url", 'group_number', 'version'],
+    require: ["url", 'groupNumber', 'version'],
     options: [{
       name: 'url',
       alias: "u",
       defaultOption: true,
       description: 'The bot url.'
     }, {
-      name: 'group_number',
+      name: 'groupNumber',
       alias: "g",
       description: 'The number of QQ group to send notifications.'
     }, {
@@ -23,7 +23,6 @@ async function main() {
       description: 'The version of the latest building.'
     },],
   })
-
   const botUrl = args.url
   const version = args.version
   const groupNumber = args.group_number

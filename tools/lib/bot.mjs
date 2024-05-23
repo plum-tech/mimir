@@ -14,6 +14,11 @@ export async function sendMessageToQQGroup({ botUrl, groupNumber, message }) {
     },
   })
 
-  const result = await res.json()
-  return result
+  if (res.ok) {
+    const result = await res.json()
+    return result
+  } else {
+    const result = await res.text()
+    return result
+  }
 }
