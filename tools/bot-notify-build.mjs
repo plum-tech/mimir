@@ -5,7 +5,7 @@ import { cli } from '@liplum/cli'
 async function main() {
   const args = cli({
     name: 'bot-notify-build',
-    description: 'Bot sends a notification about the latest building in QQ group.',
+    description: 'Bot sends a notification about the latest building in the specified QQ group.',
     examples: ['node ./bot-notify-build.mjs -u <url> -g <number> -v <version>',],
     require: ["url", 'groupNumber', 'version'],
     options: [{
