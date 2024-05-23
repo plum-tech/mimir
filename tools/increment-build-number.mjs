@@ -1,7 +1,7 @@
 import fs from 'fs/promises' // For file system operations
-import { extractVersion, extractBuildNumber } from './pubspec.mjs'
-import { git } from "./git.mjs"
-import { guardVersioning } from './guard.mjs'
+import { extractVersion, extractBuildNumber } from './lib/pubspec.mjs'
+import { git } from "./lib/git.mjs"
+import { guardVersioning } from './lib/guard.mjs'
 import esMain from 'es-main'
 const pubspecPath = 'pubspec.yaml'
 

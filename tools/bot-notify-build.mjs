@@ -1,5 +1,5 @@
 import esMain from "es-main"
-import { sendMessageToQQGroup } from "./bot.mjs"
+import { sendMessageToQQGroup } from "./lib/bot.mjs"
 import { cli } from '@liplum/cli'
 
 async function main() {

@@ -1,4 +1,4 @@
-import { uploadFile } from "./sitmc.mjs"
+import { uploadFile } from "./lib/sitmc.mjs"
 import * as path from "path"
 import { cli } from '@liplum/cli'
 import esMain from "es-main"

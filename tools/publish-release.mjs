@@ -1,8 +1,8 @@
 import * as fs from 'fs/promises' // For file system operations
-import { git, github } from './git.mjs'
+import { git, github } from './lib/git.mjs'
 import crypto from "crypto"
 import * as path from "path"
-import { getArtifactDownloadUrl } from './sitmc.mjs'
+import { getArtifactDownloadUrl } from './lib/sitmc.mjs'
 import esMain from 'es-main'
 
 const gitUrl = 'https://github.com/Amazefcc233/mimir-docs'
