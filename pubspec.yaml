@@ -57,7 +57,7 @@ dependencies:
   crypto: ^3.0.3
   pointycastle: ^3.9.1
   # Codec
-  hashlib_codecs: ^2.3.0
+  hashlib_codecs: ^2.4.0
   # UUID generator
   uuid: ^4.4.0
   # Statistics
@@ -72,7 +72,7 @@ dependencies:
   dio_cookie_manager: ^3.1.1
 
   # WebView and browser related
-  webview_flutter: ^4.7.0
+  webview_flutter: ^4.8.0
   fk_user_agent: ^2.1.0
   flutter_widget_from_html: ^0.15.0
   chewie: ^1.8.1
