@@ -116,8 +116,12 @@ class _TimetableP13nPageState extends ConsumerState<TimetableP13nPage> with Sing
       colors: [],
       lastModified: DateTime.now(),
     );
-    TimetableInit.storage.palette.add(palette);
+    final id = TimetableInit.storage.palette.add(palette);
     tabController.index = TimetableP13nTab.custom;
+    await editTimetablePalette(
+      context: context,
+      id: id,
+    );
   }
 
   Widget buildPaletteList(List<({int id, TimetablePalette row})> palettes) {
@@ -206,19 +210,10 @@ class PaletteCard extends StatelessWidget {
             icon: context.icons.edit,
             activator: const SingleActivator(LogicalKeyboardKey.keyE),
             action: () async {
-              var newPalette = await context.push<TimetablePalette>("/timetable/palette/edit/$id");
-              if (newPalette != null) {
-                final newName = allocValidFileName(newPalette.name);
-                if (newName != newPalette.name) {
-                  newPalette = newPalette
-                      .copyWith(
-                        name: newName,
-                        colors: List.of(newPalette.colors),
-                      )
-                      .markModified();
-                }
-                TimetableInit.storage.palette[id] = newPalette;
-              }
+              await editTimetablePalette(
+                context: context,
+                id: id,
+              );
             },
           ),
         if (timetable != null && palette.colors.isNotEmpty)
@@ -288,6 +283,25 @@ class PaletteCard extends StatelessWidget {
         return PaletteInfo(palette: palette);
       },
     );
+  }
+}
+
+Future<void> editTimetablePalette({
+  required BuildContext context,
+  required int id,
+}) async {
+  var newPalette = await context.push<TimetablePalette>("/timetable/palette/edit/$id");
+  if (newPalette != null) {
+    final newName = allocValidFileName(newPalette.name);
+    if (newName != newPalette.name) {
+      newPalette = newPalette
+          .copyWith(
+            name: newName,
+            colors: List.of(newPalette.colors),
+          )
+          .markModified();
+    }
+    TimetableInit.storage.palette[id] = newPalette;
   }
 }
 
