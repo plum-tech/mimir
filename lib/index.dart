@@ -123,12 +123,19 @@ class _MainStagePageState extends State<MainStagePage> {
 
   int getSelectedIndex() {
     final location = GoRouterState.of(context).uri.toString();
-    return max(0, items.indexWhere((e) => location.startsWith(e.route)));
+    return max(0, items.indexWhere((item) => location.startsWith(item.route)));
   }
 
   void onItemTapped(int index) {
+    final item = items[index];
+    final branchIndex = widget.navigationShell.route.routes.indexWhere((r) {
+      if (r is GoRoute) {
+        return r.path.startsWith(item.route);
+      }
+      return false;
+    });
     widget.navigationShell.goBranch(
-      index,
+      branchIndex >= 0 ? branchIndex : index,
       initialLocation: index == widget.navigationShell.currentIndex,
     );
   }
