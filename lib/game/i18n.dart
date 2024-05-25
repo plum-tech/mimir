@@ -34,6 +34,12 @@ mixin class CommonGameI18nMixin {
   String get changeGameModeRequest => "$_ns.changeGameModeRequest".tr();
 
   String changeGameModeAction(String newMode) => "$_ns.changeGameModeAction".tr(args: [newMode]);
+
+  String formatPlaytime(Duration duration) {
+    final min = duration.inMinutes.toString();
+    final sec = duration.inSeconds.remainder(60).toString();
+    return '$min:${sec.padLeft(2, "0")}';
+  }
 }
 
 class _Settings {
@@ -44,12 +50,4 @@ class _Settings {
   String get enableHapticFeedback => "$ns.enableHapticFeedback.title".tr();
 
   String get enableHapticFeedbackDesc => "$ns.enableHapticFeedback.desc".tr();
-}
-
-extension DurationI18nX on Duration {
-  String formatPlaytime() {
-    final min = inMinutes.toString();
-    final sec = inSeconds.remainder(60).toString();
-    return '$min:${sec.padLeft(2, "0")}';
-  }
 }

@@ -2,10 +2,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/game/entity/game_status.dart';
-import 'package:sit/game/i18n.dart';
 import '../entity/cell.dart';
 import '../theme.dart';
 import '../page/game.dart';
+import '../i18n.dart';
 
 class GameHud extends ConsumerWidget {
   const GameHud({
@@ -45,7 +45,7 @@ class GameHud extends ConsumerWidget {
           child: [
             const Icon(Icons.alarm),
             Text(
-              state.playtime.formatPlaytime(),
+              i18n.formatPlaytime(state.playtime),
               style: textTheme.bodyLarge,
             ),
           ].row(maa: MainAxisAlignment.spaceAround),

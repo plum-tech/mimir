@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/game/i18n.dart';
-import 'package:sit/game/sudoku/i18n.dart';
 
 import '../page/game.dart';
+import '../i18n.dart';
 
 class GameHudMistake extends StatelessWidget {
   final int mistakes;
@@ -51,7 +50,7 @@ class GameHudTimer extends ConsumerWidget {
     final playTime = ref.watch(stateSudoku.select((state) => state.playtime));
     final gameMode = ref.watch(stateSudoku.select((state) => state.mode));
     return Text(
-      "${gameMode.l10n()} - ${playTime.formatPlaytime()}",
+      "${gameMode.l10n()} - ${i18n.formatPlaytime(playTime)}",
     );
   }
 }

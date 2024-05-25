@@ -5,7 +5,6 @@ import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/game/entity/game_result.dart';
-import 'package:sit/game/i18n.dart';
 import 'package:sit/game/minesweeper/entity/record.dart';
 import 'package:sit/game/minesweeper/storage.dart';
 import 'package:sit/game/page/records.dart';
@@ -13,6 +12,7 @@ import 'package:sit/l10n/extension.dart';
 import 'package:sit/qrcode/page/view.dart';
 
 import '../qrcode/blueprint.dart';
+import '../i18n.dart';
 
 class RecordsMinesweeperPage extends ConsumerStatefulWidget {
   const RecordsMinesweeperPage({super.key});
@@ -54,7 +54,7 @@ class RecordMinesweeperTile extends StatelessWidget {
       trailing: buildMoreActions(context),
       subtitle: [
         context.formatYmdhmsNum(record.ts).text(),
-        record.playtime.formatPlaytime().text(),
+        i18n.formatPlaytime(record.playtime).text(),
         // record.blueprint.text(),
       ].column(caa: CrossAxisAlignment.start),
     );
@@ -65,7 +65,7 @@ class RecordMinesweeperTile extends StatelessWidget {
       itemBuilder: (ctx) => [
         PullDownItem(
             icon: context.icons.refresh,
-            title: "Play again",
+            title: i18n.tryAgain,
             onTap: () async {
               await onHandleBlueprintMinesweeper(
                 context: context,
@@ -74,14 +74,14 @@ class RecordMinesweeperTile extends StatelessWidget {
             }),
         PullDownItem(
           icon: context.icons.qrcode,
-          title: "Share QR code",
+          title: i18n.shareQrCode,
           onTap: () {
             final qrCodeData = blueprintMinesweeperDeepLink.encodeString(
               record.blueprint,
             );
             context.showSheet(
               (context) => QrCodePage(
-                title: "Minesweeper",
+                title: i18n.title,
                 data: qrCodeData.toString(),
               ),
             );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/game/i18n.dart' show DurationI18nX;
 import 'package:sit/game/sudoku/page/game.dart';
 import '../i18n.dart';
 
@@ -57,7 +56,7 @@ class VictoryModal extends ConsumerWidget {
             resetGame();
           },
           child: Text(
-            "${i18n.youWin}\n${playTime.formatPlaytime()}",
+            "${i18n.youWin}\n${i18n.formatPlaytime(playTime)}",
             style: const TextStyle(
               fontSize: 64.0,
             ),

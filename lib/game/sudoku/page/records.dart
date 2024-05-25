@@ -5,7 +5,6 @@ import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/game/entity/game_result.dart';
-import 'package:sit/game/i18n.dart';
 import 'package:sit/game/page/records.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/qrcode/page/view.dart';
@@ -13,6 +12,7 @@ import 'package:sit/qrcode/page/view.dart';
 import '../qrcode/blueprint.dart';
 import '../storage.dart';
 import '../entity/record.dart';
+import '../i18n.dart';
 
 class RecordsSudokuPage extends ConsumerStatefulWidget {
   const RecordsSudokuPage({super.key});
@@ -54,7 +54,7 @@ class RecordSudokuTile extends StatelessWidget {
       trailing: buildMoreActions(context),
       subtitle: [
         context.formatYmdhmsNum(record.ts).text(),
-        record.playtime.formatPlaytime().text(),
+        i18n.formatPlaytime(record.playtime).text(),
         // record.blueprint.text(),
       ].column(caa: CrossAxisAlignment.start),
     );
@@ -65,7 +65,7 @@ class RecordSudokuTile extends StatelessWidget {
       itemBuilder: (ctx) => [
         PullDownItem(
             icon: context.icons.refresh,
-            title: "Play again",
+            title: i18n.tryAgain,
             onTap: () async {
               await onHandleBlueprintSudoku(
                 context: context,
@@ -74,14 +74,14 @@ class RecordSudokuTile extends StatelessWidget {
             }),
         PullDownItem(
           icon: context.icons.qrcode,
-          title: "Share QR code",
+          title: i18n.shareQrCode,
           onTap: () {
             final qrCodeData = blueprintSudokuDeepLink.encodeString(
               record.blueprint,
             );
             context.showSheet(
               (context) => QrCodePage(
-                title: "Sudoku",
+                title: i18n.title,
                 data: qrCodeData.toString(),
               ),
             );
