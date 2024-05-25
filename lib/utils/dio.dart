@@ -38,7 +38,7 @@ Future<Response> processRedirect(
         headers: headers,
       ),
     );
-    return processRedirect(
+    return await processRedirect(
       dio,
       redirectedResponse,
       headers: headers,

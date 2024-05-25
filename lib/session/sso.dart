@@ -120,6 +120,7 @@ class SsoSession {
         queryParameters: queryParameters,
         options: options?.copyWith(
           followRedirects: false,
+          headers: _neededHeaders,
           validateStatus: (status) {
             return status! < 400;
           },
@@ -131,7 +132,6 @@ class SsoSession {
       final finalResponse = await processRedirect(
         dio,
         response,
-        headers: _neededHeaders,
         debugDepths: debugDepths,
       );
       return finalResponse;
