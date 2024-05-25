@@ -25,7 +25,7 @@ class _RecordsMinesweeperPageState extends ConsumerState<RecordsMinesweeperPage>
   @override
   Widget build(BuildContext context) {
     return GameRecordsPage<RecordMinesweeper>(
-      title: 'Minesweeper records',
+      title: i18n.records.title,
       recordStorage: StorageMinesweeper.record,
       itemBuilder: (context, record) {
         return RecordMinesweeperTile(record: record);
@@ -50,7 +50,14 @@ class RecordMinesweeperTile extends StatelessWidget {
         record.result == GameResult.victory ? Icons.check : Icons.clear,
         color: record.result == GameResult.victory ? Colors.green : Colors.red,
       ),
-      title: "${record.mode.l10n()} ${record.rows}x${record.columns} with ${record.mines} mines".text(),
+      title: i18n.records
+          .record(
+            mode: record.mode,
+            rows: record.rows,
+            columns: record.columns,
+            mines: record.mines,
+          )
+          .text(),
       trailing: buildMoreActions(context),
       subtitle: [
         context.formatYmdhmsNum(record.ts).text(),

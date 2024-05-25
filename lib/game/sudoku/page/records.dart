@@ -25,7 +25,7 @@ class _RecordsMinesweeperPageState extends ConsumerState<RecordsSudokuPage> {
   @override
   Widget build(BuildContext context) {
     return GameRecordsPage<RecordSudoku>(
-      title: 'Sudoku records',
+      title: i18n.records.title,
       recordStorage: StorageSudoku.record,
       itemBuilder: (context, record) {
         return RecordSudokuTile(record: record);
@@ -50,7 +50,12 @@ class RecordSudokuTile extends StatelessWidget {
         record.result == GameResult.victory ? Icons.check : Icons.clear,
         color: record.result == GameResult.victory ? Colors.green : Colors.red,
       ),
-      title: "${record.mode.l10n()} with ${record.blanks} blanks".text(),
+      title: i18n.records
+          .record(
+            mode: record.mode,
+            blanks: record.blanks,
+          )
+          .text(),
       trailing: buildMoreActions(context),
       subtitle: [
         context.formatYmdhmsNum(record.ts).text(),

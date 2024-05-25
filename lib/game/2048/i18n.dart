@@ -10,6 +10,7 @@ class _I18n with CommonI18nMixin, CommonGameI18nMixin {
   const _I18n();
 
   static const ns = "game.${R2048.name}";
+  final records = const _Records();
 
   String get title => "$ns.title".tr();
 
@@ -18,8 +19,20 @@ class _I18n with CommonI18nMixin, CommonGameI18nMixin {
   String get best => "$ns.best".tr();
 }
 
-class _Settings {
-  const _Settings();
+class _Records {
+  static const ns = "${_I18n.ns}.records";
 
-  static const ns = "${_I18n.ns}.settings";
+  const _Records();
+
+  String get title => "$ns.title".tr();
+
+
+  String record({
+    required int maxNumber,
+    required int score,
+  }) =>
+      "$ns.record".tr(namedArgs: {
+        "maxNumber": "$maxNumber",
+        "score": "$score",
+      });
 }

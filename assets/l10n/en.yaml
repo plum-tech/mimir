@@ -867,6 +867,9 @@ game:
     title: 2048
     score: Score
     best: Best
+    records:
+      title: 2048 records
+      record: "Merged up to {maxValue}, got {score}"
   minesweeper:
     title: Minesweeper
     timeSpent: "You spent {}"
@@ -874,6 +877,9 @@ game:
       easy: Easy
       normal: Normal
       hard: Hard
+    records:
+      title: Minesweeper records
+      record: "{mode} | {rows}x{columns} with {mines} mines"
   sudoku:
     title: Sudoku
     gameMode:
@@ -881,6 +887,9 @@ game:
       easy: Easy
       medium: Medium
       hard: Hard
+    records:
+      title: Sudoku records
+      record: "{mode} | with {blanks} blanks"
   wordle:
     title: Wordle
     vocabulary:
