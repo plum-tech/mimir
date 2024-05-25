@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:sit/utils/strings.dart';
 
 Options disableRedirectFormEncodedOptions({
   Map<String, dynamic>? headers,
@@ -29,7 +30,8 @@ Future<Response> processRedirect(
     if (location.isEmpty) return response;
     final locationUri = Uri.parse(location);
     if (!locationUri.isAbsolute) {
-      location = '${response.requestOptions.uri.origin}/$location';
+      // to prevent double-slash issue
+      location = '${response.requestOptions.uri.origin.removeSuffix("/")}/${location.removePrefix("/")}';
     }
     final redirectedResponse = await dio.get(
       location,
