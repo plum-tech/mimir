@@ -867,6 +867,9 @@ game:
     title: 2048
     score: 分數
     best: 最佳
+    records:
+      title: 2048遊戲紀錄
+      record: "最大合成 {maxNumber}，達成分數：{score}"
   minesweeper:
     title: 掃雷
     timeSpent: "用時 {}"
@@ -874,6 +877,9 @@ game:
       easy: 簡單
       normal: 普通
       hard: 困難
+    records:
+      title: 掃雷遊戲紀錄
+      record: "{mode} | {rows}x{columns} 藏有 {mines} 地雷"
   sudoku:
     title: 數獨
     gameMode:
@@ -881,6 +887,9 @@ game:
       easy: 簡單
       medium: 中等
       hard: 困難
+    records:
+      title: 數獨遊戲紀錄
+      record: "{mode} | {blanks} 空位"
   wordle:
     title: Wordle
     vocabulary:

@@ -869,7 +869,7 @@ game:
     best: Best
     records:
       title: 2048 records
-      record: "Merged up to {maxValue}, got {score}"
+      record: "Merged up to {maxNumber}, got score: {score}"
   minesweeper:
     title: Minesweeper
     timeSpent: "You spent {}"
@@ -889,7 +889,7 @@ game:
       hard: Hard
     records:
       title: Sudoku records
-      record: "{mode} | with {blanks} blanks"
+      record: "{mode} | {blanks} blanks"
   wordle:
     title: Wordle
     vocabulary:
