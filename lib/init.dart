@@ -38,7 +38,6 @@ import 'package:sit/session/sso.dart';
 import 'package:sit/update/init.dart';
 
 import '../widgets/captcha_box.dart';
-import 'session/ug_registration_new.dart';
 
 class Init {
   const Init._();
@@ -85,13 +84,7 @@ class Init {
     );
     ugRegSession = UgRegistrationSession(
       ssoSession: ssoSession,
-    )
-        // UgRegistrationSessionNew(
-        //   dio: dio,
-        //   ssoSession: ssoSession,
-        //   inputCaptcha: _inputCaptcha,
-        // )
-        ;
+    );
     ywbSession = YwbSession(
       dio: dio,
     );
