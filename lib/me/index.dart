@@ -6,10 +6,14 @@ import 'package:go_router/go_router.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/game/2048/card.dart';
+import 'package:sit/game/minesweeper/card.dart';
+import 'package:sit/game/sudoku/card.dart';
 import 'package:sit/me/edu_email/index.dart';
 import 'package:sit/me/widgets/greeting.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/qrcode/utils.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/utils/error.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -54,6 +58,11 @@ class _MePageState extends ConsumerState<MePage> {
             child: EduEmailAppCard(),
           ),
           SliverList.list(children: [
+            if (!ref.watch(Dev.$on)) ...[
+              const GameAppCard2048(),
+              const GameAppCardMinesweeper(),
+              const GameAppCardSudoku(),
+            ],
             buildQQGroupTile(),
             buildWechatOfficialAccountTile(),
           ]),

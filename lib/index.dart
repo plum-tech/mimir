@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/timetable/i18n.dart' as $timetable;
 import 'package:sit/school/i18n.dart' as $school;
 import 'package:sit/life/i18n.dart' as $life;
@@ -10,13 +12,13 @@ import 'package:sit/game/i18n.dart' as $game;
 import 'package:sit/me/i18n.dart' as $me;
 import 'package:rettulf/rettulf.dart';
 
-class MainStagePage extends StatefulWidget {
+class MainStagePage extends ConsumerStatefulWidget {
   final StatefulNavigationShell navigationShell;
 
   const MainStagePage({super.key, required this.navigationShell});
 
   @override
-  State<MainStagePage> createState() => _MainStagePageState();
+  ConsumerState<MainStagePage> createState() => _MainStagePageState();
 }
 
 typedef _NavigationDest = ({Widget icon, Widget activeIcon, String label});
@@ -39,64 +41,71 @@ extension _NavigationDestX on _NavigationDest {
   }
 }
 
-class _MainStagePageState extends State<MainStagePage> {
+typedef NavigationItems = List<({String route, _NavigationDest item})>;
+
+class _MainStagePageState extends ConsumerState<MainStagePage> {
   var currentStage = 0;
-  late var items = [
-    if (!kIsWeb)
+
+  NavigationItems buildItems() {
+    return [
+      if (!kIsWeb)
+        (
+          route: "/school",
+          item: (
+            icon: const Icon(Icons.school_outlined),
+            activeIcon: const Icon(Icons.school),
+            label: $school.i18n.navigation,
+          )
+        ),
+      if (!kIsWeb)
+        (
+          route: "/life",
+          item: (
+            icon: const Icon(Icons.spa_outlined),
+            activeIcon: const Icon(Icons.spa),
+            label: $life.i18n.navigation,
+          )
+        ),
       (
-        route: "/school",
+        route: "/timetable",
         item: (
-          icon: const Icon(Icons.school_outlined),
-          activeIcon: const Icon(Icons.school),
-          label: $school.i18n.navigation,
+          icon: const Icon(Icons.calendar_month_outlined),
+          activeIcon: const Icon(Icons.calendar_month),
+          label: $timetable.i18n.navigation,
         )
       ),
-    if (!kIsWeb)
+      if (ref.watch(Dev.$on))
+        (
+          route: "/game",
+          item: (
+            icon: const Icon(Icons.videogame_asset_outlined),
+            activeIcon: const Icon(Icons.videogame_asset),
+            label: $game.i18n.navigation,
+          )
+        ),
       (
-        route: "/life",
+        route: "/me",
         item: (
-          icon: const Icon(Icons.spa_outlined),
-          activeIcon: const Icon(Icons.spa),
-          label: $life.i18n.navigation,
+          icon: const Icon(Icons.person_outline),
+          activeIcon: const Icon(Icons.person),
+          label: $me.i18n.navigation,
         )
       ),
-    (
-      route: "/timetable",
-      item: (
-        icon: const Icon(Icons.calendar_month_outlined),
-        activeIcon: const Icon(Icons.calendar_month),
-        label: $timetable.i18n.navigation,
-      )
-    ),
-    (
-      route: "/game",
-      item: (
-        icon: const Icon(Icons.videogame_asset_outlined),
-        activeIcon: const Icon(Icons.videogame_asset),
-        label: $game.i18n.navigation,
-      )
-    ),
-    (
-      route: "/me",
-      item: (
-        icon: const Icon(Icons.person_outline),
-        activeIcon: const Icon(Icons.person),
-        label: $me.i18n.navigation,
-      )
-    ),
-  ];
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
+    final items = buildItems();
     if (context.isPortrait) {
       return Scaffold(
         body: widget.navigationShell,
-        bottomNavigationBar: buildNavigationBar(),
+        bottomNavigationBar: buildNavigationBar(items),
       );
     } else {
       return Scaffold(
         body: [
-          buildNavigationRail(),
+          buildNavigationRail(items),
           const VerticalDivider(),
           widget.navigationShell.expanded(),
         ].row(),
@@ -104,29 +113,29 @@ class _MainStagePageState extends State<MainStagePage> {
     }
   }
 
-  Widget buildNavigationBar() {
+  Widget buildNavigationBar(NavigationItems items) {
     return NavigationBar(
-      selectedIndex: getSelectedIndex(),
-      onDestinationSelected: onItemTapped,
+      selectedIndex: getSelectedIndex(items),
+      onDestinationSelected: (index) => onItemTapped(index, items),
       destinations: items.map((e) => e.item.toBarItem()).toList(),
     );
   }
 
-  Widget buildNavigationRail() {
+  Widget buildNavigationRail(NavigationItems items) {
     return NavigationRail(
       labelType: NavigationRailLabelType.all,
-      selectedIndex: getSelectedIndex(),
-      onDestinationSelected: onItemTapped,
+      selectedIndex: getSelectedIndex(items),
+      onDestinationSelected: (index) => onItemTapped(index, items),
       destinations: items.map((e) => e.item.toRailDest()).toList(),
     );
   }
 
-  int getSelectedIndex() {
+  int getSelectedIndex(NavigationItems items) {
     final location = GoRouterState.of(context).uri.toString();
     return max(0, items.indexWhere((item) => location.startsWith(item.route)));
   }
 
-  void onItemTapped(int index) {
+  void onItemTapped(int index, NavigationItems items) {
     final item = items[index];
     final branchIndex = widget.navigationShell.route.routes.indexWhere((r) {
       if (r is GoRoute) {
