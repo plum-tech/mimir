@@ -15,6 +15,8 @@ class _I18n with CommonI18nMixin, CommonGameI18nMixin {
 
   String get loadGame => "$_ns.loadGame".tr();
 
+  String get noGameRecords => "$_ns.noGameRecords".tr();
+
   String loadGameFromQrCode(String gameName) => "$_ns.loadGameFromQrCode".tr(args: [
         "game.$gameName.title".tr(),
       ]);

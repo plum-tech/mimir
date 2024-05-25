@@ -7,7 +7,7 @@ import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/game/entity/record.dart';
 import 'package:sit/game/storage/record.dart';
-
+import "../i18n.dart";
 class GameRecordsPage<TRecord extends GameRecord> extends ConsumerStatefulWidget {
   final String title;
   final GameRecordStorage<TRecord> recordStorage;
@@ -46,7 +46,7 @@ class _RecordsMinesweeperPageState<TRecord extends GameRecord> extends ConsumerS
             SliverFillRemaining(
               child: LeavingBlank(
                 icon: Icons.inbox_outlined,
-                desc: "No game records",
+                desc: i18n.noGameRecords,
               ),
             )
           else

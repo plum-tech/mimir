@@ -49,6 +49,6 @@ class _GameAppCardMinesweeperState extends ConsumerState<GameAppCardMinesweeper>
             ));
         StorageMinesweeper.save.delete();
       },
-    ).sized(w: 280);
+    );
   }
 }

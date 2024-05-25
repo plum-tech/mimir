@@ -859,6 +859,7 @@ game:
   changeGameModeAction: "切换至 {}"
   loadGame: 加载战局
   loadGameFromQrCode: "从二维码中加载游戏 {} 的战局"
+  noGameRecords: 没有游戏记录
   settings:
     enableHapticFeedback:
       title: 开启触觉反馈
@@ -879,7 +880,7 @@ game:
       hard: 困难
     records:
       title: 扫雷游戏记录
-      record: "{mode} | {rows}x{columns}上藏有{mines}个地雷"
+      record: "{mode} | {rows}x{columns} 上藏有 {mines} 个地雷"
   sudoku:
     title: 数独
     gameMode:
@@ -889,7 +890,7 @@ game:
       hard: 困难
     records:
       title: 数独游戏记录
-      record: "{mode} | {blanks} 空位"
+      record: "{mode} | {blanks} 个空位"
   wordle:
     title: Wordle
     vocabulary:

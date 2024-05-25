@@ -6,7 +6,6 @@ import 'package:sit/game/sudoku/entity/pref.dart';
 import 'package:sit/game/sudoku/storage.dart';
 import 'package:sit/game/widget/mode.dart';
 import 'entity/mode.dart';
-import 'entity/save.dart';
 import 'package:sit/game/widget/card.dart';
 
 import 'i18n.dart';
@@ -50,6 +49,6 @@ class _GameAppCardSudokuState extends ConsumerState<GameAppCardSudoku> {
             ));
         StorageSudoku.save.delete();
       },
-    ).sized(w: 240);
+    );
   }
 }

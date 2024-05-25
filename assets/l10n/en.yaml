@@ -859,6 +859,7 @@ game:
   changeGameModeAction: "Change to {}"
   loadGame: Load game
   loadGameFromQrCode: "Load a game of {} from QR code"
+  noGameRecords: No game records
   settings:
     enableHapticFeedback:
       title: Enable haptic feedback
