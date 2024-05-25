@@ -217,11 +217,6 @@ jobs:
           api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
           api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
 
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          branch: ${{ github.ref }}
-
       - name: Get Android Artifact
         if: github.repository == 'liplum-dev/mimir'
         uses: actions/download-artifact@v4
@@ -229,10 +224,15 @@ jobs:
           name: SITLife-Android-release
           path: build/
 
-      - name: Upload preview files onto SIT-MC
+      - name: Upload preview file onto SIT-MC server
         continue-on-error: true
         run: |
           node tools/upload-sitmc.mjs build/SITLife-${{ env.LATEST_VERSION }}.apk -d mimir-preview/latest.apk -k ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          branch: ${{ github.ref }}
 
       - name: Send Message to Group
         continue-on-error: true
