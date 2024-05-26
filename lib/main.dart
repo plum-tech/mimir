@@ -51,16 +51,13 @@ void main() async {
   Migrations.init();
 
   if (!kIsWeb) {
-    Files.cache = await getApplicationCacheDirectory();
-    debugPrint("Cache ${Files.cache}");
-    Files.temp = await getTemporaryDirectory();
-    debugPrint("Temp ${Files.temp}");
-    Files.internal = await getApplicationSupportDirectory();
-    debugPrint("Internal ${Files.internal}");
-    Files.user = await getApplicationDocumentsDirectory();
-    debugPrint("User ${Files.user}");
+    await Files.init(
+      temp: await getTemporaryDirectory(),
+      cache: await getApplicationCacheDirectory(),
+      internal: await getApplicationSupportDirectory(),
+      user: await getApplicationDocumentsDirectory(),
+    );
   }
-  await Files.init();
   // Perform migrations
   R.meta = await getCurrentVersion();
   final currentVersion = R.meta.version;

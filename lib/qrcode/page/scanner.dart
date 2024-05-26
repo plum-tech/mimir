@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +7,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as p;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/files.dart';
 import 'package:sit/utils/error.dart';
 import 'package:sit/utils/permission.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -103,7 +106,14 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
     // Pick an image
     final image = await picker.pickImage(source: ImageSource.gallery);
     if (image == null) return;
-    final result = await controller.analyzeImage(image.path);
+    // try fix: https://github.com/juliansteenbakker/mobile_scanner/issues/849
+    var path = image.path;
+    if (UniversalPlatform.isIOS) {
+      final intermediate = Files.temp.subFile("scanned_image.${p.extension(path)}");
+      await File(image.path).copy(intermediate.path);
+      path = intermediate.path;
+    }
+    final result = await controller.analyzeImage(path);
     if (result != null) {
       await _handleBarcode(result);
     } else {
