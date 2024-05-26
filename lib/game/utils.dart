@@ -1,11 +1,11 @@
 import 'package:flutter/services.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/utils/vibration.dart';
 
 enum HapticFeedbackIntensity {
   light,
   medium,
-  heavy;
+  heavy,
+  ;
 }
 
 Future<void> applyGameHapticFeedback([HapticFeedbackIntensity intensity = HapticFeedbackIntensity.light]) async {

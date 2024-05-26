@@ -101,15 +101,14 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
   Future<void> recognizeFromFile() async {
     final ImagePicker picker = ImagePicker();
     // Pick an image
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      final result = await controller.analyzeImage(image.path);
-      if (result != null) {
-        await _handleBarcode(result);
-      } else {
-        if (!mounted) return;
-        context.showSnackBar(content: i18n.barcodeNotRecognizedTip.text());
-      }
+    final image = await picker.pickImage(source: ImageSource.gallery);
+    if (image == null) return;
+    final result = await controller.analyzeImage(image.path);
+    if (result != null) {
+      await _handleBarcode(result);
+    } else {
+      if (!mounted) return;
+      context.showSnackBar(content: i18n.barcodeNotRecognizedTip.text());
     }
   }
 
