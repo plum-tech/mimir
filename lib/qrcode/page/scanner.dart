@@ -109,7 +109,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
     // try fix: https://github.com/juliansteenbakker/mobile_scanner/issues/849
     var path = image.path;
     if (UniversalPlatform.isIOS) {
-      final intermediate = Files.temp.subFile("scanned_image.${p.extension(path)}");
+      final intermediate = Files.temp.subFile("scanned_image${p.extension(path)}");
       await File(image.path).copy(intermediate.path);
       path = intermediate.path;
     }
