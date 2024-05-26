@@ -79,6 +79,7 @@ Future<void> _checkAppUpdateFromOfficial({
   debugPrint(latest.toString());
   final currentVersion = R.meta.version;
   if (latest.downloadOf(R.meta.platform) == null) return;
+  if(!_isTimeToShow(latest: latest)) return;
   // if update checking was not manually triggered, skip it.
   if (!manually && _canSkipVersion(latest: latest.version, current: currentVersion)) return;
   if (!manually) {
@@ -108,6 +109,7 @@ Future<void> _checkAppUpdateFromApple({
   }
   debugPrint(latest.toString());
   final currentVersion = R.meta.version;
+  if(!_isTimeToShow(latest: latest)) return;
   // if update checking was not manually triggered, skip it.
   if (!manually && _canSkipVersion(latest: latest.version, current: currentVersion)) return;
   if (!manually) {
