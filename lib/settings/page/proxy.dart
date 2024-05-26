@@ -339,22 +339,26 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
   }
 
   Widget buildProxyProtocolTile() {
+    final uri = this.uri;
     final scheme = uri?.scheme.toLowerCase();
     return ListTile(
       isThreeLine: true,
+      enabled: uri != null,
       leading: const Icon(Icons.https),
       title: i18n.proxy.protocol.text(),
       subtitle: type.supportedProtocols
           .map((protocol) => ChoiceChip(
                 label: protocol.toUpperCase().text(),
                 selected: protocol == scheme,
-                onSelected: (value) {
-                  setState(() {
-                    uri = uri?.replace(
-                      scheme: protocol.toLowerCase(),
-                    );
-                  });
-                },
+                onSelected: uri == null
+                    ? null
+                    : (value) {
+                        setState(() {
+                          this.uri = uri.replace(
+                            scheme: protocol.toLowerCase(),
+                          );
+                        });
+                      },
               ))
           .toList()
           .wrap(spacing: 4),
@@ -362,76 +366,89 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
   }
 
   Widget buildProxyHostTile() {
+    final uri = this.uri;
     final host = uri?.host;
     return DetailListTile(
       leading: const Icon(Icons.link),
       title: i18n.proxy.hostname,
       subtitle: host,
+      enabled: uri != null,
       trailing: PlatformIconButton(
         icon: Icon(context.icons.edit),
-        onPressed: () async {
-          final newHostRaw = await Editor.showStringEditor(
-            context,
-            desc: i18n.proxy.hostname,
-            initial: host ?? type.defaultHost,
-          );
-          if (newHostRaw == null) return;
-          final newHost = newHostRaw.trim();
-          if (newHost != host) {
-            setState(() {
-              uri = uri?.replace(
-                host: newHost,
-              );
-            });
-          }
-        },
+        onPressed: uri == null
+            ? null
+            : () async {
+                final newHostRaw = await Editor.showStringEditor(
+                  context,
+                  desc: i18n.proxy.hostname,
+                  initial: host ?? type.defaultHost,
+                );
+                if (newHostRaw == null) return;
+                final newHost = newHostRaw.trim();
+                if (newHost != host) {
+                  setState(() {
+                    this.uri = uri.replace(
+                      host: newHost,
+                    );
+                  });
+                }
+              },
       ),
     );
   }
 
   Widget buildProxyPortTile() {
+    final uri = this.uri;
     final port = uri?.port;
     return DetailListTile(
       leading: const Icon(Icons.settings_input_component_outlined),
       title: i18n.proxy.port,
       subtitle: port?.toString(),
+      enabled: uri != null,
       trailing: PlatformIconButton(
         icon: Icon(context.icons.edit),
-        onPressed: () async {
-          final newPort = await Editor.showIntEditor(
-            context,
-            desc: i18n.proxy.port,
-            initial: port ?? type.defaultPort,
-          );
-          if (newPort == null) return;
-          if (newPort != port) {
-            setState(() {
-              uri = uri?.replace(
-                port: newPort,
-              );
-            });
-          }
-        },
+        onPressed: uri == null
+            ? null
+            : () async {
+                final newPort = await Editor.showIntEditor(
+                  context,
+                  desc: i18n.proxy.port,
+                  initial: port ?? type.defaultPort,
+                );
+                if (newPort == null) return;
+                if (newPort != port) {
+                  setState(() {
+                    this.uri = uri.replace(
+                      port: newPort,
+                    );
+                  });
+                }
+              },
       ),
     );
   }
 
   Widget buildEnableAuth() {
+    final uri = this.uri;
     return ListTile(
       leading: const Icon(Icons.key),
       title: i18n.proxy.enableAuth.text(),
+      enabled: uri != null,
       trailing: Switch.adaptive(
         value: enableAuth,
-        onChanged: (newV) {
-          setState(() {
-            enableAuth = newV;
-          });
-        },
+        onChanged: uri == null
+            ? null
+            : (newV) {
+                setState(() {
+                  enableAuth = newV;
+                });
+              },
       ),
     );
   }
 
   Widget buildProxyAuthTile() {
+    final uri = this.uri;
     final userInfoParts = uri?.userInfo.split(":");
     final auth = userInfoParts == null
         ? null
@@ -442,27 +459,31 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
     return DetailListTile(
       title: i18n.proxy.authentication,
       subtitle: text,
+      enabled: uri != null,
       trailing: PlatformIconButton(
         icon: Icon(context.icons.edit),
-        onPressed: () async {
-          final newAuth = await showAdaptiveDialog<({String username, String password})>(
-            context: context,
-            builder: (_) => StringsEditor(
-              fields: [
-                (name: "username", initial: auth?.username ?? ""),
-                (name: "password", initial: auth?.password ?? ""),
-              ],
-              title: i18n.proxy.authentication,
-              ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
-            ),
-          );
-          if (newAuth != null && newAuth != auth) {
-            setState(() {
-              uri = uri?.replace(
-                  userInfo: newAuth.password.isNotEmpty ? "${newAuth.username}:${newAuth.password}" : newAuth.username);
-            });
-          }
-        },
+        onPressed: uri == null
+            ? null
+            : () async {
+                final newAuth = await showAdaptiveDialog<({String username, String password})>(
+                  context: context,
+                  builder: (_) => StringsEditor(
+                    fields: [
+                      (name: "username", initial: auth?.username ?? ""),
+                      (name: "password", initial: auth?.password ?? ""),
+                    ],
+                    title: i18n.proxy.authentication,
+                    ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
+                  ),
+                );
+                if (newAuth != null && newAuth != auth) {
+                  setState(() {
+                    this.uri = uri.replace(
+                        userInfo:
+                            newAuth.password.isNotEmpty ? "${newAuth.username}:${newAuth.password}" : newAuth.username);
+                  });
+                }
+              },
       ),
     );
   }

@@ -11,6 +11,7 @@ class DetailListTile extends StatelessWidget {
   final Widget? leading;
   final Widget? trailing;
   final bool copyable;
+  final bool enabled;
 
   const DetailListTile({
     super.key,
@@ -19,6 +20,7 @@ class DetailListTile extends StatelessWidget {
     this.copyable = true,
     this.leading,
     this.trailing,
+    this.enabled = true,
   });
 
   @override
@@ -45,6 +47,7 @@ class DetailListTile extends StatelessWidget {
         title: title?.text(),
         subtitle: subtitle?.text(),
         visualDensity: VisualDensity.compact,
+        enabled: enabled,
       ),
     );
   }
