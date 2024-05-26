@@ -120,6 +120,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                     return "${info!}";
                   },
                 ),
+              // const DebugDeviceInfoTile(),
               buildPartyPopper(),
             ]),
           ),
@@ -411,7 +412,7 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
       leading: Icon(context.icons.add),
       title: "New account".text(),
       onTap: () async {
-        final credentials = await await Editor.showAnyEditor(
+        final credentials = await Editor.showAnyEditor(
           context,
           initial: const Credentials(account: "", password: ""),
         );
@@ -522,6 +523,18 @@ class _DebugFetchVersionTileState extends State<DebugFetchVersionTile> {
       leading: widget.leading,
       subtitle: version?.text(),
       trailing: isFetching ? const CircularProgressIndicator.adaptive() : null,
+    );
+  }
+}
+
+class DebugDeviceInfoTile extends StatelessWidget {
+  const DebugDeviceInfoTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: "Device info".text(),
+      subtitle: R.meta.deviceInfo.toString().text(),
     );
   }
 }

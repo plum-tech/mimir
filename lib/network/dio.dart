@@ -6,6 +6,7 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:fk_user_agent/fk_user_agent.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sit/r.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 final _rand = Random();
 
@@ -39,13 +40,10 @@ class DioInit {
   static Future<void> initUserAgentString({
     required Dio dio,
   }) async {
-    try {
-      // 如果非IOS/Android，则该函数将抛异常
+    if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
       await FkUserAgent.init();
-      // 更新 dio 设置的 user-agent 字符串
       dio.options.headers['User-Agent'] = FkUserAgent.webViewUserAgent ?? getRandomUa();
-    } catch (e) {
-      // Desktop端将进入该异常
+    } else {
       dio.options.headers['User-Agent'] = getRandomUa();
     }
   }
@@ -59,10 +57,6 @@ class PoorNetworkDioInterceptor extends Interceptor {
   Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     if (kDebugMode) {
       _debugRequests.add(options);
-    }
-    if (options.path == "http://sc.sit.edu.cn//public/init/index.action" ||
-        options.path == "http://sc.sit.edu.cn/public/init/index.action") {
-      print("!!!!!!!!!!");
     }
     final duration = Duration(milliseconds: _rand.nextInt(2000));
     debugPrint("Start to request ${options.uri}");
