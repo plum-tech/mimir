@@ -1,15 +1,16 @@
 # Changelog
 
-## v2.5.0
+## v2.4.2
 - Introduced Sudoku game.
-- Introduced a new navigation page, Game.
+- Introduced a new navigation page, Game. (dev mode only)
 - Improved visual effects of minesweeper.
 - Game will pause when putting app into background.
 - Game records: play again & share the game with QR code.
-- Introduced Wordle game.
+- Introduced Wordle game. (dev mode only)
 - Save image of QR code.
-- Timetable built-in start date.
+- Timetable built-in start date and related student ID.
 - [macOS] Deep link supports.
+- Fixed authentication issue of undergraduate registration.
 
 ## v2.4.1
 - Changed the custom URL and provided backward compatibility:
