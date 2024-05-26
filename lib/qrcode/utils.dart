@@ -8,6 +8,7 @@ import 'package:hashlib_codecs/hashlib_codecs.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/utils/guard_launch.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import 'handle.dart';
 import 'i18n.dart';
@@ -38,6 +39,12 @@ Uint8List decodeBytesFromUrl(String url, {bool compress = true}) {
 }
 
 Future<void> recognizeQrCode(BuildContext context) async {
+  if (!(UniversalPlatform.isAndroid ||
+      UniversalPlatform.isIOS ||
+      UniversalPlatform.isMacOS ||
+      UniversalPlatform.isWeb)) {
+    return;
+  }
   final res = await context.push("/tools/scanner");
   if (!context.mounted) return;
   if (Dev.on) {

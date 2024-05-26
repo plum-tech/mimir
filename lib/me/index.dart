@@ -42,7 +42,11 @@ class _MePageState extends ConsumerState<MePage> {
           SliverAppBar(
             titleTextStyle: context.textTheme.headlineSmall,
             actions: [
-              buildScannerAction(),
+              if (UniversalPlatform.isAndroid ||
+                  UniversalPlatform.isIOS ||
+                  UniversalPlatform.isMacOS ||
+                  UniversalPlatform.isWeb)
+                buildScannerAction(),
               PlatformIconButton(
                 icon: Icon(context.icons.settings),
                 onPressed: () {

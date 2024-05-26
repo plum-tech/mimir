@@ -13,6 +13,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/utils/error.dart';
 import 'package:sit/utils/permission.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import '../i18n.dart';
 import '../widgets/overlay.dart';
@@ -137,14 +138,14 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
     return [
       buildTorchButton(),
       buildSwitchButton(),
-      buildImagePicker(),
+      if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) buildScanImageButton(),
     ].row(
       caa: CrossAxisAlignment.center,
       maa: MainAxisAlignment.spaceEvenly,
     );
   }
 
-  Widget buildImagePicker() {
+  Widget buildScanImageButton() {
     return PlatformIconButton(
       icon: const Icon(Icons.image),
       onPressed: recognizeFromFile,
