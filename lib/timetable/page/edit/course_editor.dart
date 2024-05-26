@@ -320,12 +320,14 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
       trailing: PlatformIconButton(
         icon: Icon(context.icons.add),
         onPressed: () async {
-          final newTeacher = await Editor.showStringEditor(
+          var newTeacher = (await Editor.showStringEditor(
             context,
             desc: i18n.course.teacher(2),
             initial: "",
-          );
-          if (newTeacher != null && !teachers.contains(newTeacher)) {
+          ))
+              ?.trim();
+          if (newTeacher == null) return;
+          if (newTeacher.isNotEmpty && !teachers.contains(newTeacher)) {
             if (!mounted) return;
             setState(() {
               teachers.add(newTeacher);
