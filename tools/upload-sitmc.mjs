@@ -3,7 +3,7 @@ import * as path from "path"
 import { cli } from '@liplum/cli'
 import esMain from "es-main"
 
-async function main() {
+const main = async () => {
   const args = cli({
     name: 'upload-sitmc',
     description: 'Upload files onto SIT-MC server.',

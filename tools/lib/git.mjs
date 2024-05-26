@@ -9,7 +9,7 @@ export const github = context
  * @param {string} tag
  * @returns {[string, number]}
  */
-export function extractVersionAndBuildNumberFromTag(tag) {
+export const extractVersionAndBuildNumberFromTag = (tag) => {
   const versionMatch = tag.match(/(\d+.\d+.\d+)/)
   const buildNumberMatch = tag.match(/\d+.\d+.\d+(\+\d+)/)
   const version = versionMatch[1]
@@ -24,9 +24,14 @@ export function extractVersionAndBuildNumberFromTag(tag) {
  * Get the largest version and build number from current git repository
  * @returns {Promise<[string, int]>}
  */
-export async function getLargestTag() {
+export const getLargestTag = async () => {
   const tags = await git.tags()
   // in ascending order
   const versionInfos = tags.all.map(tag => extractVersionAndBuildNumberFromTag(tag)).sort((a, b) => a[1] - b[1])
   return versionInfos[versionInfos.length - 1]
+}
+
+
+export const getGitHubMirrorDownloadUrl = (url) => {
+  return `https://mirror.ghproxy.com/${url}`
 }

@@ -3,7 +3,7 @@
  * @param {{botUrl: string,token:string, groupNumber:string,message:string}} param0
  * @returns
  */
-export async function sendMessageToQQGroup({ botUrl, groupNumber, message }) {
+export const sendMessageToQQGroup = async ({ botUrl, groupNumber, message }) => {
   const url = new URL(botUrl)
   url.searchParams.append("group_id", groupNumber)
   url.searchParams.append("message", message)

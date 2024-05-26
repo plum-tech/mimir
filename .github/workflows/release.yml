@@ -29,8 +29,11 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Upload artifacts onto SIT-MC sever
+        run: |
+          node tools/upload-release-sitmc.mjs -k ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
+
       - name: Deploy
         if: github.repository == 'liplum-dev/mimir'
-        shell: bash
         run: |
           node tools/publish-release.mjs

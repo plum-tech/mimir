@@ -6,7 +6,7 @@ import mime from 'mime'
 import { parse } from 'csv-parse/sync'
 import { cli } from '@liplum/cli'
 
-export async function main(argv) {
+const main = async (argv) => {
   const args = cli({
     name: "Mimir tool - Wordle",
     description: "For processing Wordle vocabulary.",
@@ -68,7 +68,7 @@ export async function main(argv) {
   }
 }
 
-async function extract(args) {
+const extract = async (args) => {
   const filePath = args.path
   await fs.access(filePath, fs.constants.R_OK)
   const stat = await fs.stat(filePath)
@@ -85,14 +85,14 @@ async function extract(args) {
   }
 }
 
-async function extractFromFileAndSave(path) {
+const extractFromFileAndSave = async (path) => {
   const vocabulary = await extractFromFile(path)
   const newContent = JSON.stringify(vocabulary)
   const newPath = p.join(p.dirname(path), `${p.basename(path, p.extname(path)).toLocaleLowerCase()}.json`.replace(" ", "-"))
   await fs.writeFile(newPath, newContent)
 }
 
-async function merge(args) {
+const merge = async (args) => {
   const paths = args.paths
   const vocabularies = []
   for (const path of paths) {
@@ -115,7 +115,7 @@ async function merge(args) {
   await fs.writeFile(output, mergedContent)
 }
 
-async function clean(args) {
+const clean = async (args) => {
   const path = args.path
   await fs.access(path, fs.constants.R_OK, fs.constants.W_OK)
   const stat = await fs.stat(path)
@@ -134,7 +134,7 @@ async function clean(args) {
  * @param {string} word
  * @returns {boolean}
  */
-export function validateWord(word) {
+const validateWord = async (word) => {
   if (word.length != 5) return false
   if (!(/^[a-zA-Z]+$/.test(word))) return false
   return true
@@ -145,7 +145,7 @@ export function validateWord(word) {
  * @param {Array<string[]>} vocabularies
  * @returns {Set<string>}
  */
-function mergeVocabularies(vocabularies) {
+const mergeVocabularies = async (vocabularies) => {
   const set = new Set()
   for (const vocabluary of vocabularies) {
     for (let word of vocabluary) {
@@ -163,7 +163,7 @@ function mergeVocabularies(vocabularies) {
  * @param {string} path
  * @returns {Promise<string[]>}
  */
-async function loadVocabularyFile(path) {
+const loadVocabularyFile = async (path) => {
   let json
   try {
     const text = await fs.readFile(path, { encoding: "utf8" })
@@ -188,7 +188,7 @@ async function loadVocabularyFile(path) {
  *
  * @param {string} path
  */
-async function cleanVocabularyFile(path) {
+const cleanVocabularyFile = async (path) => {
   const vocabluary = await loadVocabularyFile(path)
   const json = JSON.stringify(vocabluary)
   await fs.writeFile(path, json)
@@ -199,7 +199,7 @@ async function cleanVocabularyFile(path) {
  * @param {string} path
  * @returns {Promise<string[]>}
  */
-async function extractFromFile(path) {
+const extractFromFile = async (path) => {
   const content = await fs.readFile(path)
   const contentType = mime.getType(path)
   const vocabulary = extractVocabulary(content, contentType)
@@ -212,7 +212,7 @@ async function extractFromFile(path) {
  * @param {string?} contentType
  * @returns {string[]}
  */
-function extractVocabulary(content, contentType) {
+const extractVocabulary = (content, contentType) => {
   switch (contentType) {
     case "text/plain":
       return extractVocabularyFromTextPlain(content.toString("utf8"))
@@ -226,7 +226,7 @@ function extractVocabulary(content, contentType) {
  * @param {string} content
  * @returns {string[]}
  */
-function extractVocabularyFromTextPlain(content) {
+const extractVocabularyFromTextPlain = (content) => {
   const lines = splitLines(content)
   const words = new Set()
   for (const line of lines) {
@@ -243,7 +243,7 @@ function extractVocabularyFromTextPlain(content) {
  * @param {string} content
  * @returns {string[]}
  */
-function extractVocabularyFromCsv(content) {
+const extractVocabularyFromCsv = (content) => {
   const records = parse(content, { bom: true })
   if (!records.length) throw new Error("no words in csv file")
   const template = records[0]
@@ -263,7 +263,7 @@ function extractVocabularyFromCsv(content) {
  *
  * @param {string[]} row
  */
-function findWordIndexInCsv(row) {
+const findWordIndexInCsv = (row) => {
   for (let i = 0; i < row.length; i++) {
     const cell = row[i]
     if (/^[a-zA-Z]+$/.test(cell)) {

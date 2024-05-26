@@ -1,3 +1,4 @@
+import esMain from 'es-main'
 import fs from 'fs/promises' // For file system operations
 
 const projectPbxprojPath = 'ios/Runner.xcodeproj/project.pbxproj'
@@ -9,7 +10,7 @@ const mapping = {
   'PROVISIONING_PROFILE_SPECIFIER = "";': 'PROVISIONING_PROFILE_SPECIFIER = "SITLife-Distribution-AppStore";',
 }
 
-async function main() {
+const main = async () => {
   // Read project.pbxproj file content
   let filedata = await fs.readFile(projectPbxprojPath, 'utf-8')
 
@@ -21,4 +22,6 @@ async function main() {
   await fs.writeFile(projectPbxprojPath, filedata)
 }
 
-main()
+if (esMain(import.meta)) {
+  main()
+}

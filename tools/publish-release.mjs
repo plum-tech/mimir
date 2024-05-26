@@ -1,15 +1,15 @@
 import * as fs from 'fs/promises' // For file system operations
-import { git, github } from './lib/git.mjs'
-import crypto from "crypto"
+import { git, github, getGitHubMirrorDownloadUrl } from './lib/git.mjs'
 import * as path from "path"
 import { getArtifactDownloadUrl } from './lib/sitmc.mjs'
 import esMain from 'es-main'
+import { searchAndGetAssetInfo } from "./lib/release.mjs"
 
 const gitUrl = 'https://github.com/Amazefcc233/mimir-docs'
 const deployPath = '~/deploy'
 const artifactPath = 'artifact/'
 
-async function main() {
+const main = async () => {
   // Get release information from environment variables (GitHub Actions context)
   const version = getVersion()
   const releaseTime = getPublishTime()
@@ -43,67 +43,11 @@ async function main() {
   await fs.unlink(`${artifactPath}latest.json`) // Ignore if file doesn't exist
   await fs.symlink(`${version}.json`, `${artifactPath}latest.json`)
 
-  await addAndPush({ version })
-}
-
-function withGitHubMirror(url) {
-  return `https://mirror.ghproxy.com/${url}`
-}
-
-function buildArtifactPayload({ version, tagName, releaseTime, releaseNote, apk, ipa }) {
-  const payload = {
-    version,
-    release_time: releaseTime,
-    release_note: releaseNote,
-    downloads: {},
-  }
-  if (apk) {
-    payload.downloads.Android = {
-      name: apk.name,
-      default: 'official',
-      sha256: apk.sha256,
-      url: {
-        official: getArtifactDownloadUrl(tagName, apk.name),
-        github: apk.url,
-        mirror: withGitHubMirror(apk.url),
-      },
-    }
-  }
-  if (ipa) {
-    payload.downloads.iOS = {
-      name: ipa.name,
-      default: 'official',
-      sha256: ipa.sha256,
-      url: {
-        official: getArtifactDownloadUrl(tagName, ipa.name),
-        github: ipa.url,
-        mirror: withGitHubMirror(ipa.url),
-      },
-    }
-  }
-  return payload
-}
-
-function validateArtifactPayload(payload) {
-  for (const [profile, download] in Object.entries(payload.downloads)) {
-    if (!(download.default && download.url[download.default] !== undefined)) {
-      if (download.url.length > 0) {
-        download.default = download.url[0]
-      } else {
-        throw new Error(`No default download URL for ${profile}.`)
-      }
-    }
-  }
-}
-/**
- *
- * @param {{version:string}} param0
- */
-async function addAndPush({ version }) {
   await git.add(".")
   await git.commit(`Release New Version: ${version}`)
   await git.push("git@github.com:Amazefcc233/mimir-docs", "main:main")
 }
+
 
 function getVersion() {
   // remove leading 'v'
@@ -130,60 +74,50 @@ function getPublishTime() {
   return new Date(github.release.published_at)
 }
 
-/**
- * @param {({name:string,browser_download_url:string})=>boolean} filter
- */
-async function searchAndGetAssetInfo(filter) {
-  const asset = searchAsset(filter)
-  if (!asset) return
-  return await getAssetInfo(asset)
-}
-
-/**
- * @template {{name:string,browser_download_url:string}} T
- * @param {(T)=>boolean} filter
- * @returns {T | undefined}
- */
-function searchAsset(filter) {
-  const assets = github.release.assets
-  for (const asset of assets) {
-    if (filter(asset)) {
-      return asset
+function buildArtifactPayload({ version, tagName, releaseTime, releaseNote, apk, ipa }) {
+  const payload = {
+    version,
+    release_time: releaseTime,
+    release_note: releaseNote,
+    downloads: {},
+  }
+  if (apk) {
+    payload.downloads.Android = {
+      name: apk.name,
+      default: 'official',
+      sha256: apk.sha256,
+      url: {
+        official: getArtifactDownloadUrl(tagName, apk.name),
+        github: apk.url,
+        mirror: getGitHubMirrorDownloadUrl(apk.url),
+      },
     }
   }
-  return
+  if (ipa) {
+    payload.downloads.iOS = {
+      name: ipa.name,
+      default: 'official',
+      sha256: ipa.sha256,
+      url: {
+        official: getArtifactDownloadUrl(tagName, ipa.name),
+        github: ipa.url,
+        mirror: getGitHubMirrorDownloadUrl(ipa.url),
+      },
+    }
+  }
+  return payload
 }
 
-/**
- *
- * @param {{name:string,browser_download_url:string}} payload
- */
-async function getAssetInfo(payload) {
-  const url = payload.browser_download_url
-  let sha256 = ""
-  if (url) {
-    sha256 = await downloadAndSha256Hash(url)
+const validateArtifactPayload = (payload) => {
+  for (const [profile, download] in Object.entries(payload.downloads)) {
+    if (!(download.default && download.url[download.default] !== undefined)) {
+      if (download.url.length > 0) {
+        download.default = download.url[0]
+      } else {
+        throw new Error(`No default download URL for ${profile}.`)
+      }
+    }
   }
-  return {
-    name: payload.name,
-    url: url,
-    sha256: sha256,
-  }
-}
-
-/**
- *
- * @param {string} url
- */
-async function downloadAndSha256Hash(url) {
-  const response = await fetch(url)
-  const chunks = []
-  for await (const chunk of response.body) {
-    chunks.push(chunk)
-  }
-  const buffer = Buffer.concat(chunks)
-  const hash = crypto.createHash('sha256').update(buffer).digest('hex')
-  return hash
 }
 
 if (esMain(import.meta)) {

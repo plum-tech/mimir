@@ -1,6 +1,7 @@
 import { readFile } from "fs/promises"
 import * as path from "path"
 import mime from 'mime'
+import { sanitizeNameForUri } from "./utils.mjs"
 
 const prodUrl = "https://temp.sitmc.club"
 const debugUrl = "http://127.0.0.1:5000"
@@ -56,5 +57,5 @@ export async function deleteFile({ auth, remotePath }) {
  * @param {{tagName:string,fileName:string}} param0
  */
 export function getArtifactDownloadUrl({ tagName, fileName }) {
-  return `https://temp.sitmc.club/prepare-download/${tagName}/${fileName}`
+  return `https://temp.sitmc.club/prepare-download/${sanitizeNameForUri(tagName)}/${sanitizeNameForUri(fileName)}`
 }

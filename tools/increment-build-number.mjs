@@ -9,7 +9,7 @@ const pubspecPath = 'pubspec.yaml'
  *
  * @param {string} newVersion
  */
-async function pushAndTagChanges(newVersion) {
+const pushAndTagChanges = async (newVersion) => {
   // Git operations (assuming arguments are provided)
   const serverUrl = process.argv[2]
   const repository = process.argv[3]
@@ -27,7 +27,7 @@ async function pushAndTagChanges(newVersion) {
   ])
 }
 
-async function main() {
+const main = async () => {
   // Read pubspec.yaml content
   const filedata = await fs.readFile(pubspecPath, 'utf-8')
 
