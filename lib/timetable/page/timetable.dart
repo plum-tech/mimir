@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/page/screenshot.dart';
 import '../entity/display.dart';
@@ -17,7 +19,7 @@ import '../widgets/focus.dart';
 import '../widgets/timetable/board.dart';
 import 'mine.dart';
 
-class TimetableBoardPage extends StatefulWidget {
+class TimetableBoardPage extends ConsumerStatefulWidget {
   final int id;
   final SitTimetableEntity timetable;
 
@@ -28,10 +30,10 @@ class TimetableBoardPage extends StatefulWidget {
   });
 
   @override
-  State<TimetableBoardPage> createState() => _TimetableBoardPageState();
+  ConsumerState<TimetableBoardPage> createState() => _TimetableBoardPageState();
 }
 
-class _TimetableBoardPageState extends State<TimetableBoardPage> {
+class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
   final $displayMode = ValueNotifier(TimetableInit.storage.lastDisplayMode ?? DisplayMode.weekly);
   late final ValueNotifier<TimetablePos> $currentPos;
 
@@ -145,7 +147,11 @@ class _TimetableBoardPageState extends State<TimetableBoardPage> {
             );
           },
         ),
-        if (focusMode) ...buildFocusPopupActions(context),
+        if (focusMode)
+          ...buildFocusPopupActions(
+            context,
+            showGame: ref.watch(Dev.$on),
+          ),
         const PullDownDivider(),
         PullDownSelectable(
           title: i18n.focusTimetable,
