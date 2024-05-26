@@ -14,7 +14,7 @@ class CellCover extends StatelessWidget {
     return AnimatedOpacity(
       opacity: visible ? 1 : 0,
       curve: Curves.ease,
-      duration: Durations.long1,
+      duration: visible ? Duration.zero : Durations.long1,
       child: Container(
         decoration: BoxDecoration(
           color: context.colorScheme.surfaceContainerHighest,
