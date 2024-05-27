@@ -25,7 +25,7 @@ async function main() {
   })
   const botUrl = args.url
   const version = args.version
-  const groupNumber = args.group_number
+  const groupNumber = args.groupNumber
   const message = `最新测试版${version}已完成构建，Android用户可在群公告中访问最新预览版下载地址；请iOS用户等待发布TestFlight测试`
   const result = await sendMessageToQQGroup({ botUrl, groupNumber, message })
   console.log(result)
