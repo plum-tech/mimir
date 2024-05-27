@@ -46,6 +46,8 @@ const main = async () => {
   await git.add(".")
   const diff = await git.diff()
   console.log(diff)
+  await git.commit(`Release New Version: ${version}`)
+  await git.push("git@github.com:Amazefcc233/mimir-docs", "main:main")
 }
 
 
