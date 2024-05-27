@@ -68,7 +68,7 @@ jobs:
         id: get_git_info
         run: |
           git fetch --tags
-          echo "LATEST_VERSION="$(git tag --sort=-v:refname | head -n 1) >> "$GITHUB_ENV"
+          echo "LATEST_VERSION="$(git tag --sort=-creatordate | head -n 1) >> "$GITHUB_ENV"
 
       - name: Rename APK file
         run: |
@@ -158,7 +158,7 @@ jobs:
         id: get_git_info
         run: |
           git fetch --tags
-          echo "LATEST_VERSION="$(git tag --sort=-v:refname | head -n 1) >> "$GITHUB_ENV"
+          echo "LATEST_VERSION="$(git tag --sort=-creatordate | head -n 1) >> "$GITHUB_ENV"
 
       - name: Rename ipa file
         run: |
@@ -199,7 +199,7 @@ jobs:
         id: get_git_info
         run: |
           git fetch --tags
-          echo "LATEST_VERSION="$(git tag --sort=-v:refname | head -n 1) >> "$GITHUB_ENV"
+          echo "LATEST_VERSION="$(git tag --sort=-creatordate | head -n 1) >> "$GITHUB_ENV"
 
       - name: Get iOS Artifact
         if: github.repository == 'liplum-dev/mimir'
