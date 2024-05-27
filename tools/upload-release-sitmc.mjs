@@ -4,7 +4,7 @@ import { cli } from '@liplum/cli'
 import { searchAndGetAssetInfo } from "./lib/release.mjs"
 import esMain from "es-main"
 import { downloadFile, sanitizeNameForUri } from "./lib/utils.mjs"
-import { github } from "./lib/git.mjs"
+import { github } from "./lib/github.mjs"
 import os from "os"
 
 const main = async () => {

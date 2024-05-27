@@ -1,8 +1,6 @@
 import { simpleGit } from 'simple-git'
-import { context } from "@actions/github"
 
 export const git = simpleGit()
-export const github = context
 
 /**
  * Extract the version and build number from a full version string like "v1.0.0+1" or "2.0.0+18"
@@ -29,9 +27,4 @@ export const getLargestTag = async () => {
   // in ascending order
   const versionInfos = tags.all.map(tag => extractVersionAndBuildNumberFromTag(tag)).sort((a, b) => a[1] - b[1])
   return versionInfos[versionInfos.length - 1]
-}
-
-
-export const getGitHubMirrorDownloadUrl = (url) => {
-  return `https://mirror.ghproxy.com/${url}`
 }

@@ -1,5 +1,6 @@
 import * as fs from 'fs/promises' // For file system operations
-import { git, github, getGitHubMirrorDownloadUrl } from './lib/git.mjs'
+import { git } from './lib/git.mjs'
+import { github, getGitHubMirrorDownloadUrl } from "./lib/github.mjs"
 import * as path from "path"
 import { getArtifactDownloadUrl } from './lib/sitmc.mjs'
 import esMain from 'es-main'
