@@ -4,7 +4,7 @@ import { cli } from '@liplum/cli'
 import { qqGroupNumber } from "./r.mjs"
 import { getReleaseNote } from "./publish-release.mjs"
 
-async function main() {
+const main = async () => {
   const args = cli({
     name: 'bot-notify-release',
     description: 'Bot sends a notification about the latest release in the QQ group.',

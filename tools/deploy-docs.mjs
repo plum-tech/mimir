@@ -3,7 +3,7 @@ import { cli } from '@liplum/cli'
 import fs from "fs/promises"
 import { modifyDocsRepoAndPush } from "./publish-release.mjs"
 
-async function main() {
+const main = async () => {
   const args = cli({
     name: 'deploy-docs',
     description: 'Deploy the documentation pages',
@@ -28,7 +28,7 @@ async function main() {
     json = JSON.parse(content)
   }
   const version = args.version
-  modifyDocsRepoAndPush({ version, payload: json })
+  await modifyDocsRepoAndPush({ version, payload: json })
 }
 
 if (esMain(import.meta)) {

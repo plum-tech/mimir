@@ -3,7 +3,7 @@ import { sendMessageToQQGroup } from "./lib/bot.mjs"
 import { cli } from '@liplum/cli'
 import { qqGroupNumber } from "./r.mjs"
 
-async function main() {
+const main = async () => {
   const args = cli({
     name: 'bot-notify-build',
     description: 'Bot sends a notification about the latest building in the QQ group.',
