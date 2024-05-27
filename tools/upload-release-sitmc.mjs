@@ -1,9 +1,10 @@
 import { uploadFile } from "./lib/sitmc.mjs"
 import * as path from "path"
 import { cli } from '@liplum/cli'
-import { searchAndGetAssetInfo, github } from "./lib/release.mjs"
+import { searchAndGetAssetInfo } from "./lib/release.mjs"
 import esMain from "es-main"
 import { downloadFile, sanitizeNameForUri } from "./lib/utils.mjs"
+import { github } from "./lib/git.mjs"
 import os from "os"
 
 const main = async () => {
