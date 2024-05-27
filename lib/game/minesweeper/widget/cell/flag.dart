@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:rettulf/rettulf.dart';
 import '../../theme.dart';
 
 class CellFlag extends StatelessWidget {
-  const CellFlag({super.key, required this.visible});
+  const CellFlag({
+    super.key,
+    required this.visible,
+  });
 
   final duration = Durations.medium4;
   final curve = Curves.ease;
@@ -11,26 +13,20 @@ class CellFlag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedPositioned(
-      left: 0,
-      top: visible ? 0 : -40,
+    return AnimatedOpacity(
+      opacity: visible ? 1 : 0,
       duration: duration,
       curve: curve,
-      child: AnimatedOpacity(
-        opacity: visible ? 1 : 0,
+      child: AnimatedScale(
+        scale: visible ? 1 : 0.2,
         duration: duration,
         curve: curve,
-        child: AnimatedScale(
-          scale: visible ? 1 : 0.2,
-          duration: duration,
-          curve: curve,
-          child: const Icon(
-            Icons.flag,
-            size: flagSize,
-            color: flagColor,
-          ),
+        child: const Icon(
+          Icons.flag,
+          size: flagSize,
+          color: flagColor,
         ),
-      ).center(),
+      ),
     );
   }
 }

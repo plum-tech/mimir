@@ -13,10 +13,6 @@ class Screen {
     required this.gameColumns,
   });
 
-  double getBorderWidth() {
-    return (getCellWidth() / 8).floorToDouble();
-  }
-
   double getCellWidth() {
     var wCell = (width / (gameColumns + 1)).floorToDouble();
     var hCell = (height / (gameRows + 3)).floorToDouble();
@@ -25,8 +21,8 @@ class Screen {
   }
 
   Size getBoardSize() {
-    final width = getCellWidth() * gameColumns + getBorderWidth() * 2;
-    final height = getCellWidth() * gameRows + getBorderWidth() * 2;
+    final width = getCellWidth() * gameColumns;
+    final height = getCellWidth() * gameRows;
     final boardSize = Size(width, height);
     return boardSize;
   }

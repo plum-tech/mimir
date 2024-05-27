@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import '../entity/cell.dart';
 import '../entity/screen.dart';
 import 'cell.dart';
 import '../page/game.dart';
@@ -18,7 +19,6 @@ class GameBoard extends ConsumerWidget {
     final board = ref.read(stateMinesweeper.select((state) => state.board));
     final rows = board.rows;
     final columns = board.columns;
-    final borderWidth = screen.getBorderWidth();
     var boardWidth = screen.getBoardSize().width;
     var boardHeight = screen.getBoardSize().height;
     final portrait = context.isPortrait;
@@ -27,38 +27,28 @@ class GameBoard extends ConsumerWidget {
     }
     final cellWidth = screen.getCellWidth();
 
-    return AnimatedContainer(
+    return SizedBox(
       width: boardWidth,
       height: boardHeight,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: context.colorScheme.onSurfaceVariant,
-          width: borderWidth,
-        ),
-      ),
-      duration: Durations.extralong4,
       child: Stack(
-        children: List.generate(
-          rows * columns,
-          (i) {
-            var row = i ~/ columns;
-            var column = i % columns;
-            if (!portrait) {
-              (column, row) = (row, column);
-            }
-            return Positioned(
-              left: column * cellWidth,
-              top: row * cellWidth,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(12)),
-                child: CellWidget(
-                  cell: board.getCell(row: row, column: column),
-                ).sizedAll(cellWidth),
-              ),
-            );
-          },
-        ),
+        children: List.generate(rows * columns, (i) {
+          final row = i ~/ columns;
+          final column = i % columns;
+          final cell =  board.getCell(row: row, column: column);
+          return Positioned(
+            left: (portrait ? column : row) * cellWidth,
+            top: (portrait ? row : column) * cellWidth,
+            child: buildCell(cell, cellWidth),
+          );
+        }),
       ),
+    );
+  }
+
+  Widget buildCell(Cell cell, double size) {
+    return ClipRRect(
+      borderRadius: const BorderRadius.all(Radius.circular(12)),
+      child: CellWidget(cell: cell).sizedAll(size),
     );
   }
 }
