@@ -32,6 +32,10 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Npm install
+        run: |
+          cd tools && npm i && cd ..
+
       - name: Upload artifacts onto SIT-MC sever
         run: |
           node tools/upload-release-sitmc.mjs -k ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
