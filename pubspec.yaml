@@ -3,7 +3,7 @@ description: "A multiplatform app for SIT students."
 
 # The build version numbers is incremented automatically.
 # DO NOT DIRECTLY CHANGE IT
-version: 2.4.2+452
+version: 2.4.2+453
 
 homepage: https://github.com/liplum/mimir
 repository: https://github.com/liplum/mimir
