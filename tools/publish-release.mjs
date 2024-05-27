@@ -24,11 +24,14 @@ const main = async () => {
   const artifactPayload = buildArtifactPayload({ version, tagName: github.release.tag_name, releaseTime, releaseNote, apk, ipa })
   validateArtifactPayload(artifactPayload)
 
-  // Write artifact data to JSON file
-  const artifactJson = JSON.stringify(artifactPayload, null, 2)
+  await modifyDocsRepoAndPush({ version, payload: artifactPayload })
+}
 
-  console.log(artifactJson)
-
+/**
+ *
+ * @param {{version:string,payload:{version: any;  release_time: any;  release_note: any;  downloads: {};}}} param0
+ */
+export const modifyDocsRepoAndPush = async ({ version, payload }) => {
   // Clone repository
   await git.clone(gitUrl, deployPath, { "--single-branch": null, "--branch": "main" })
 
@@ -38,7 +41,11 @@ const main = async () => {
   // Change directory
   process.chdir(deployPath)
 
-  await fs.writeFile(`${artifactPath}${version}.json`, artifactJson)
+  // Write artifact data to JSON file
+  const jsonString = JSON.stringify(payload, null, 2)
+
+  await fs.writeFile(`${artifactPath}${version}.json`, jsonString)
+  console.log(jsonString)
 
   // Symlink latest.json to current version
   await fs.unlink(`${artifactPath}latest.json`) // Ignore if file doesn't exist
@@ -52,12 +59,12 @@ const main = async () => {
 }
 
 
-function getVersion() {
+const getVersion = () => {
   // remove leading 'v'
   return github.release.tag_name.slice(1)
 }
 
-export function getReleaseNote() {
+export const getReleaseNote = () => {
   const text = github.release.body
   const startLine = text.indexOf('## 更改')
   const endLine = text.indexOf('## How to download')
@@ -73,11 +80,11 @@ export function getReleaseNote() {
   return releaseNotes.replace(/^\s*|\s*$/g, '')
 }
 
-function getPublishTime() {
+const getPublishTime = () => {
   return new Date(github.release.published_at)
 }
 
-function buildArtifactPayload({ version, tagName, releaseTime, releaseNote, apk, ipa }) {
+const buildArtifactPayload = ({ version, tagName, releaseTime, releaseNote, apk, ipa }) => {
   const payload = {
     version,
     release_time: releaseTime,
