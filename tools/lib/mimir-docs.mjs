@@ -1,6 +1,6 @@
 import * as fs from 'fs/promises' // For file system operations
-import { gitOf } from './git.mjs'
 import p from "path"
+import { execSync } from 'child_process'
 
 const gitUrl = 'https://github.com/Amazefcc233/mimir-docs'
 const artifactPath = 'artifact'
@@ -10,13 +10,8 @@ const artifactPath = 'artifact'
  * @param {{version:string,payload:{version: any;  release_time: any;  release_note: any;  downloads: {};}}} param0
  */
 export const modifyDocsRepoAndPush = async ({ version, payload }) => {
-  let git = gitOf()
-  // Clone repository
-  await git.clone(gitUrl, "mimir-deploy", {
-    "--single-branch": null, "--branch": "main", "--depth": 1
-  })
-  git = gitOf("mimir-deploy")
-  git.init().addRemote()
+  execSync(`git clone ${gitUrl} mimir-deploy --single-branch --branch main --depth 1`)
+
   // Create artifact directory
   await fs.mkdir(artifactPath, { recursive: true })
 
@@ -34,9 +29,8 @@ export const modifyDocsRepoAndPush = async ({ version, payload }) => {
   await fs.unlink(p.join(artifactPath, `latest.json`)) // Ignore if file doesn't exist
   await fs.symlink(`${version}.json`, p.join(artifactPath, `latest.json`))
 
-  const diff = await git.diff()
-  console.log(diff)
-  await git.add(".")
-  await git.commit(`Release New Version: ${version}`)
-  await git.push("git@github.com:Amazefcc233/mimir-docs", "main:main")
+  execSync(`git diff`)
+  execSync(`git add .`)
+  execSync(`git commit -m "Release New Version: ${version}"`)
+  execSync(`git push "git@github.com:Amazefcc233/mimir-docs" main:main`)
 }
