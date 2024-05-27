@@ -17,19 +17,16 @@ class ScoreBoard extends ConsumerWidget {
     final score = ref.watch(state2048.select((board) => board.score));
     var best = ref.watch(Storage2048.record.$bestScore);
     best = max(best, score);
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Score(label: i18n.score, score: '$score'),
-        const SizedBox(
-          width: 8.0,
-        ),
-        Score(
-          label: i18n.best,
-          score: '$best',
-        ),
-      ],
-    );
+    return [
+      Score(label: i18n.score, score: '$score'),
+      const SizedBox(
+        width: 8.0,
+      ),
+      Score(
+        label: i18n.best,
+        score: '$best',
+      ),
+    ].row(maa: MainAxisAlignment.center, mas: MainAxisSize.min);
   }
 }
 
@@ -47,7 +44,7 @@ class Score extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card.filled(
       color: scoreColor,
-      child: Column(children: [
+      child: [
         Text(
           label.toUpperCase(),
           style: const TextStyle(fontSize: 18.0, color: textColorWhite),
@@ -56,7 +53,7 @@ class Score extends StatelessWidget {
           score,
           style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18.0),
         )
-      ]).padSymmetric(h: 16, v: 8),
+      ].column(mas: MainAxisSize.min).padSymmetric(h: 16, v: 8),
     );
   }
 }

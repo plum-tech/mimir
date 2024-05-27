@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -112,8 +113,8 @@ class _GameState extends ConsumerState<Game2048>
 
   @override
   Widget build(BuildContext context) {
-    final gameStatus = ref.watch(state2048.select((state) => state.status));
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: AppBar(
         title: i18n.title.text(),
         actions: [
@@ -143,46 +144,60 @@ class _GameState extends ConsumerState<Game2048>
               _moveController.forward(from: 0.0);
             }
           },
-          child: Scaffold(
-            backgroundColor: backgroundColor,
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '2048',
-                        style: TextStyle(color: textColor, fontWeight: FontWeight.bold, fontSize: 52.0),
-                      ),
-                      ScoreBoard(),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 32.0,
-                ),
-                Stack(
-                  children: [
-                    const EmptyBoardWidget(),
-                    TileBoardWidget(
-                      moveAnimation: _moveAnimation,
-                      scaleAnimation: _scaleAnimation,
-                    ),
-                    if (gameStatus == GameStatus.victory || gameStatus == GameStatus.gameOver)
-                      const Positioned.fill(
-                        child: GameOverModal(),
-                      ),
-                  ],
-                )
-              ],
-            ),
-          ),
+          child: buildBody(),
         ),
       ),
     );
+  }
+
+  Widget buildScoreBoardArea() {
+    return [
+      Text(
+        i18n.title,
+        style: const TextStyle(
+          color: textColor,
+          fontWeight: FontWeight.bold,
+          fontSize: 52.0,
+        ),
+      ),
+      const ScoreBoard(),
+    ].row(maa: MainAxisAlignment.spaceBetween).padSymmetric(h: 16.0, v: 32);
+  }
+
+  Widget buildGameArea() {
+    final gameStatus = ref.watch(state2048.select((state) => state.status));
+    return Stack(
+      children: [
+        const EmptyBoardWidget(),
+        TileBoardWidget(
+          moveAnimation: _moveAnimation,
+          scaleAnimation: _scaleAnimation,
+        ),
+        if (gameStatus == GameStatus.victory || gameStatus == GameStatus.gameOver)
+          const Positioned.fill(
+            child: GameOverModal(),
+          ),
+      ],
+    );
+  }
+
+  Widget buildBody() {
+    if(context.isPortrait){
+      return [
+        buildScoreBoardArea(),
+        buildGameArea().padAll(8),
+      ].column(
+        caa: CrossAxisAlignment.center,
+        maa: MainAxisAlignment.center,
+      );
+    }else{
+      return [
+        buildScoreBoardArea().expanded(),
+        buildGameArea().expanded(),
+      ].row(
+        caa: CrossAxisAlignment.start,
+        maa: MainAxisAlignment.center,
+      );
+    }
   }
 }
