@@ -9,6 +9,7 @@ import 'package:sit/game/2048/storage.dart';
 import 'package:sit/game/ability/ability.dart';
 import 'package:sit/game/ability/autosave.dart';
 import 'package:sit/game/entity/game_status.dart';
+import 'package:sit/game/widget/party_popper.dart';
 
 import '../entity/board.dart';
 import '../widget/empty_board.dart';
@@ -177,12 +178,15 @@ class _GameState extends ConsumerState<Game2048>
           const Positioned.fill(
             child: GameOverModal(),
           ),
+        VictoryPartyPopper(
+          pop: gameStatus == GameStatus.victory,
+        ),
       ],
     );
   }
 
   Widget buildBody() {
-    if(context.isPortrait){
+    if (context.isPortrait) {
       return [
         buildScoreBoardArea(),
         buildGameArea().padAll(8),
@@ -190,14 +194,16 @@ class _GameState extends ConsumerState<Game2048>
         caa: CrossAxisAlignment.center,
         maa: MainAxisAlignment.center,
       );
-    }else{
+    } else {
       return [
         buildScoreBoardArea().expanded(),
         buildGameArea().expanded(),
-      ].row(
-        caa: CrossAxisAlignment.start,
-        maa: MainAxisAlignment.center,
-      );
+      ]
+          .row(
+            caa: CrossAxisAlignment.start,
+            maa: MainAxisAlignment.center,
+          )
+          .center();
     }
   }
 }
