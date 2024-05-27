@@ -1,4 +1,4 @@
-import { github } from './lib/git.mjs'
+import { github } from './git.mjs'
 import crypto from "crypto"
 
 /**
