@@ -234,7 +234,7 @@ jobs:
         with:
           branch: ${{ github.ref }}
 
-      - name: Send Message to Group
+      - name: Notify the latest building
         continue-on-error: true
         run: |
-          node tools/bot-notify-build.mjs ${{ secrets.gocq_sendgroupmsg_url }} -g ${{ secrets.gocq_group_number }} -v ${{ env.LATEST_VERSION }}
+          node tools/bot-notify-build.mjs ${{ secrets.gocq_sendgroupmsg_url }} -v ${{ env.LATEST_VERSION }}

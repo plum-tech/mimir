@@ -57,7 +57,7 @@ function getVersion() {
   return github.release.tag_name.slice(1)
 }
 
-function getReleaseNote() {
+export function getReleaseNote() {
   const text = github.release.body
   const startLine = text.indexOf('## 更改')
   const endLine = text.indexOf('## How to download')

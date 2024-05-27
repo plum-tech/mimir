@@ -37,6 +37,7 @@ jobs:
           cd tools && npm i && cd ..
 
       - name: Upload artifacts onto SIT-MC sever
+        if: github.repository == 'liplum-dev/mimir'
         run: |
           node tools/upload-release-sitmc.mjs -k ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
 
@@ -44,3 +45,8 @@ jobs:
         if: github.repository == 'liplum-dev/mimir'
         run: |
           node tools/publish-release.mjs
+
+      - name: Notify the latest release
+        continue-on-error: true
+        run: |
+          node tools/bot-notify-release.mjs ${{ secrets.gocq_sendgroupmsg_url }}
