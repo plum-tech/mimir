@@ -44,8 +44,8 @@ const main = async () => {
   await fs.symlink(`${version}.json`, `${artifactPath}latest.json`)
 
   await git.add(".")
-  await git.commit(`Release New Version: ${version}`)
-  await git.push("git@github.com:Amazefcc233/mimir-docs", "main:main")
+  const diff = await git.diff()
+  console.log(diff)
 }
 
 
