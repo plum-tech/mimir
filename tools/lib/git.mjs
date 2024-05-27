@@ -1,6 +1,11 @@
 import { simpleGit } from 'simple-git'
 
+/**
+ * The git on current working directory.
+ */
 export const git = simpleGit()
+
+export const gitOf = simpleGit
 
 /**
  * Extract the version and build number from a full version string like "v1.0.0+1" or "2.0.0+18"

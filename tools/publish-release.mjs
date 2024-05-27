@@ -1,14 +1,9 @@
-import * as fs from 'fs/promises' // For file system operations
-import { git } from './lib/git.mjs'
 import { github, getGitHubMirrorDownloadUrl } from "./lib/github.mjs"
 import * as path from "path"
 import { getArtifactDownloadUrl } from './lib/sitmc.mjs'
 import esMain from 'es-main'
 import { searchAndGetAssetInfo } from "./lib/release.mjs"
-
-const gitUrl = 'https://github.com/Amazefcc233/mimir-docs'
-const deployPath = '~/deploy'
-const artifactPath = 'artifact/'
+import { modifyDocsRepoAndPush } from './lib/mimir-docs.mjs'
 
 const main = async () => {
   // Get release information from environment variables (GitHub Actions context)
@@ -25,37 +20,6 @@ const main = async () => {
   validateArtifactPayload(artifactPayload)
 
   await modifyDocsRepoAndPush({ version, payload: artifactPayload })
-}
-
-/**
- *
- * @param {{version:string,payload:{version: any;  release_time: any;  release_note: any;  downloads: {};}}} param0
- */
-export const modifyDocsRepoAndPush = async ({ version, payload }) => {
-  // Clone repository
-  await git.clone(gitUrl, deployPath, { "--single-branch": null, "--branch": "main" })
-
-  // Create artifact directory
-  await fs.mkdir(artifactPath, { recursive: true })
-
-  // Change directory
-  process.chdir(deployPath)
-
-  // Write artifact data to JSON file
-  const jsonString = JSON.stringify(payload, null, 2)
-
-  await fs.writeFile(`${artifactPath}${version}.json`, jsonString)
-  console.log(jsonString)
-
-  // Symlink latest.json to current version
-  await fs.unlink(`${artifactPath}latest.json`) // Ignore if file doesn't exist
-  await fs.symlink(`${version}.json`, `${artifactPath}latest.json`)
-
-  await git.add(".")
-  const diff = await git.diff()
-  console.log(diff)
-  await git.commit(`Release New Version: ${version}`)
-  await git.push("git@github.com:Amazefcc233/mimir-docs", "main:main")
 }
 
 
