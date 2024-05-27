@@ -112,7 +112,7 @@ function buildArtifactPayload({ version, tagName, releaseTime, releaseNote, apk,
 }
 
 const validateArtifactPayload = (payload) => {
-  for (const [profile, download] in Object.entries(payload.downloads)) {
+  for (const [profile, download] of Object.entries(payload.downloads)) {
     if (!(download.default && download.url[download.default] !== undefined)) {
       if (download.url.length > 0) {
         download.default = download.url[0]
