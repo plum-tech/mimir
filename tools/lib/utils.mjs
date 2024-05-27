@@ -9,7 +9,6 @@ export const sanitizeNameForUri = (raw) => {
   return raw.replace("+", "-")
 }
 
-
 /**
  *
  * @param {string} url
@@ -21,5 +20,4 @@ export const downloadFile = async (url, filePath) => {
   const s = fs.createWriteStream(filePath)
   // Readable.fromWeb(res.body).pipe(s)
   await pipeline(Readable.fromWeb(res.body), s)
-
 }
