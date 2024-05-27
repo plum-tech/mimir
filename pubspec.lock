@@ -685,18 +685,18 @@ packages:
     dependency: "direct main"
     description:
       name: flame
-      sha256: da1812e2f17a8ffd5d43ea6a83137794e7f482bcf50419bc9847b8efdb39f791
+      sha256: "79133dc46a3ff870950f41d0dc1598414e7bd7ae2c29bd9f0a9de208d9a70cb7"
       url: "https://pub.dev"
     source: hosted
-    version: "1.17.0"
+    version: "1.18.0"
   flame_forge2d:
     dependency: "direct main"
     description:
       name: flame_forge2d
-      sha256: "78d31cde83d30c8d9a4028296ac881334af1676ec556e4170bb81eb2829cdf27"
+      sha256: "1ec1c5b4978b64d2d16ca90f86de469959991ef996970866c3f9de580b3dbe40"
       url: "https://pub.dev"
     source: hosted
-    version: "0.18.0"
+    version: "0.18.1"
   flex_color_picker:
     dependency: "direct main"
     description:
@@ -2038,18 +2038,18 @@ packages:
     dependency: "direct main"
     description:
       name: super_context_menu
-      sha256: "8a5fef2ca0dcb207fef7168c4c00079e649bfc24223a8f72e3cfcf6b7083e89e"
+      sha256: "33f189fd508716d03daa277d890a8b079f691e3e3577d99d81c1e23b2a9968c7"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.15"
+    version: "0.8.16"
   super_native_extensions:
     dependency: transitive
     description:
       name: super_native_extensions
-      sha256: bb6499c83484c1dbe293e68907a9b6d51e30b699502c5e11940e834c310df261
+      sha256: d2d1259c7e43966173c394ef64475e612bd5822095f6cd1008eb978175ce2f0d
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.15"
+    version: "0.8.16"
   synchronized:
     dependency: transitive
     description:

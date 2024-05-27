@@ -150,7 +150,7 @@ dependencies:
   carousel_slider: ^4.2.1
   # iCalendar file generator
   enough_icalendar: ^0.16.0
-  super_context_menu: ^0.8.15
+  super_context_menu: ^0.8.16
   animated_size_and_fade: ^4.0.0
   dismissible_page: ^1.0.2
 
@@ -168,8 +168,8 @@ dependencies:
   screenshot: ^3.0.0
 
   # game
-  flame: ^1.17.0
-  flame_forge2d: ^0.18.0
+  flame: ^1.18.0
+  flame_forge2d: ^0.18.1
   sudoku_solver_generator: ^2.1.0+1
 
 dev_dependencies:
