@@ -31,14 +31,18 @@ class CourseCellStyle {
     Color? themeColor,
     bool isLessonTaken = false,
   }) {
+    final oldOpacity = color.opacity;
+    // harmonizeWith will clear the opacity
     if (harmonizeWithThemeColor && themeColor != null) {
       color = color.harmonizeWith(themeColor);
     }
     if (grayOutTakenLessons && isLessonTaken) {
       color = color.monochrome();
     }
+    // restore the opacity
+    color = color.withOpacity(oldOpacity);
     if (alpha < 1.0) {
-      color = color.withOpacity(color.opacity * alpha);
+      color = color.withOpacity(alpha);
     }
     return color;
   }
