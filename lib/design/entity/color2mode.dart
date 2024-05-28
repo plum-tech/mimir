@@ -1,14 +1,14 @@
-import 'dart:ui';
-
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:rettulf/rettulf.dart';
 
 typedef Color2Mode = ({Color light, Color dark});
 
 extension Color2ModeX on Color2Mode {
-  Color byTheme(ThemeData theme) => theme.brightness == Brightness.dark ? dark : light;
-
   Color byBrightness(Brightness brightness) => brightness == Brightness.dark ? dark : light;
+
+  Color byContext(BuildContext context) => context.isDarkMode == Brightness.dark ? dark : light;
 }
 
 int _colorToJson(Color color) => color.value;

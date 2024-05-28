@@ -504,7 +504,7 @@ class StyledCourseCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var color = timetable.resolveColor(style.platte, course).byTheme(context.theme);
+    var color = timetable.resolveColor(style.platte, course).byContext(context);
     color = style.cellStyle.decorateColor(
       color,
       themeColor: context.colorScheme.primary,

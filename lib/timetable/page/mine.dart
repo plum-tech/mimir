@@ -455,7 +455,7 @@ class TimetableDetailsPage extends ConsumerWidget {
             itemBuilder: (ctx, i) {
               final MapEntry(value: courses) = code2Courses[i];
               final template = courses.first;
-              final color = resolver.resolveColor(palette, template).byTheme(context.theme);
+              final color = resolver.resolveColor(palette, template).byContext(context);
               return TimetableCourseCard(
                 courses: courses,
                 courseName: template.courseName,
