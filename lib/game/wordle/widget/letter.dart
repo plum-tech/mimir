@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/entity/color2mode.dart';
+import 'package:sit/design/entity/dual_color.dart';
 import 'package:sit/game/wordle/entity/status.dart';
 
 class LetterBox extends StatelessWidget {
@@ -15,20 +14,21 @@ class LetterBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
+    return Container(
       decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
         border: Border.all(
           color: status.border,
           width: 2.0,
         ),
-        color: status.bg.byContext(context),
+        color: status.bg.colorBy(context),
       ),
       child: Center(
         child: Text(
           letter,
           style: TextStyle(
             fontSize: 30,
-            color: status.inverseText ? context.colorScheme.onInverseSurface : null,
+            color: status.bg.textColorBy(context),
             fontWeight: FontWeight.bold,
           ),
         ),

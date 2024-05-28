@@ -42,7 +42,7 @@ class CourseCellStyle {
     // restore the opacity
     color = color.withOpacity(oldOpacity);
     if (alpha < 1.0) {
-      color = color.withOpacity(alpha);
+      color = color.withOpacity(color.opacity * alpha);
     }
     return color;
   }

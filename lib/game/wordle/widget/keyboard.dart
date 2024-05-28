@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/entity/color2mode.dart';
+import 'package:sit/design/entity/dual_color.dart';
 import 'package:sit/game/wordle/entity/status.dart';
 import '../entity/keyboard.dart';
 import '../event_bus.dart';
@@ -93,7 +93,7 @@ class _WordleKeyboardWidgetState extends State<WordleKeyboardWidget> {
           WordleLetterKeyWidget(
             letter: _keyPos[0][i],
             status: _keyState[_keyPos[0][i]] ?? LetterStatus.neutral,
-          ).padSymmetric(h: 3, v: 5).expanded(flex: 2),
+          ).padSymmetric(h: 3, v: 3).expanded(flex: 2),
         const Spacer(flex: 1),
       ].row(maa: MainAxisAlignment.center),
       [
@@ -102,7 +102,7 @@ class _WordleKeyboardWidgetState extends State<WordleKeyboardWidget> {
             letter: _keyPos[1][i],
             status: _keyState[_keyPos[1][i]] ?? LetterStatus.neutral,
           ).padSymmetric(h: 3, v: 5).expanded(flex: 1),
-        const WordleBackspaceKeyWidget().padSymmetric(h: 5, v: 5).expanded(flex: 2),
+        const WordleBackspaceKeyWidget().padSymmetric(h: 3, v: 3).expanded(flex: 2),
       ].row(maa: MainAxisAlignment.center),
       [
         const Spacer(flex: 1),
@@ -111,7 +111,7 @@ class _WordleKeyboardWidgetState extends State<WordleKeyboardWidget> {
             letter: _keyPos[2][i],
             status: _keyState[_keyPos[2][i]] ?? LetterStatus.neutral,
           ).padSymmetric(h: 3, v: 5).expanded(flex: 2),
-        const WordleEnterKeyWidget().padSymmetric(h: 5, v: 5).expanded(flex: 6),
+        const WordleEnterKeyWidget().padSymmetric(h: 3, v: 3).expanded(flex: 6),
         const Spacer(flex: 1),
       ].row(maa: MainAxisAlignment.center),
     ].column(maa: MainAxisAlignment.center);
@@ -124,7 +124,7 @@ class WordleEnterKeyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WordleKeyWidget(
-      background: Colors.green[600],
+      background: LetterStatus.correct.bg.colorBy(context),
       onTap: () {
         HapticFeedback.selectionClick();
         const InputNotification.enter().dispatch(context);
@@ -169,7 +169,7 @@ class WordleLetterKeyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WordleKeyWidget(
-      background: status.bg.byContext(context),
+      background: status.bg.colorBy(context),
       onTap: () {
         HapticFeedback.selectionClick();
         InputNotification.letter(letter).dispatch(context);
@@ -178,6 +178,7 @@ class WordleLetterKeyWidget extends StatelessWidget {
         letter,
         style: context.textTheme.titleMedium?.copyWith(
           fontSize: 16,
+          color: status.bg.textColorBy(context),
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -204,14 +205,13 @@ class WordleKeyWidget extends StatelessWidget {
       child: ElevatedButton(
         style: ButtonStyle(
           shape: WidgetStateProperty.all<OutlinedBorder?>(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0))),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
+          ),
           backgroundColor: WidgetStateProperty.all<Color?>(background),
           padding: WidgetStateProperty.all<EdgeInsets?>(const EdgeInsets.all(0)),
         ),
-        child: Center(
-          child: child,
-        ),
         onPressed: onTap,
+        child: Center(child: child),
       ),
     );
   }

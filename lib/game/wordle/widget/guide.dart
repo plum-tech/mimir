@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/design/entity/color2mode.dart';
+import 'package:sit/design/entity/dual_color.dart';
 
 import '../entity/status.dart';
 
@@ -28,28 +28,27 @@ class WordleGuideLetterBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 1.0),
-      child: Container(
-        width: 40.0,
-        height: 40.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: status.border,
-            width: 2.0,
-          ),
-          color: status.bg.byContext(context),
+    return Container(
+      width: 40.0,
+      height: 40.0,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+        border: Border.all(
+          color: status.border,
+          width: 2.0,
         ),
-        child: Text(
-          letter,
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.bold,
-          ),
+        color: status.bg.colorBy(context),
+      ),
+      child: Text(
+        letter,
+        style: TextStyle(
+          fontSize: 20.0,
+          color: status.bg.textColorBy(context),
+          fontWeight: FontWeight.bold,
         ),
       ),
-    );
+    ).padAll(1);
   }
 }
 

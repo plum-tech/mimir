@@ -8,7 +8,7 @@ typedef Color2Mode = ({Color light, Color dark});
 extension Color2ModeX on Color2Mode {
   Color byBrightness(Brightness brightness) => brightness == Brightness.dark ? dark : light;
 
-  Color byContext(BuildContext context) => context.isDarkMode == Brightness.dark ? dark : light;
+  Color byContext(BuildContext context) => context.isDarkMode ? dark : light;
 }
 
 int _colorToJson(Color color) => color.value;
