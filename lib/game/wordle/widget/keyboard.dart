@@ -126,6 +126,7 @@ class WordleEnterKeyWidget extends StatelessWidget {
     return WordleKeyWidget(
       background: Colors.green[600],
       onTap: () {
+        HapticFeedback.selectionClick();
         const InputNotification.enter().dispatch(context);
       },
       child: const Icon(
@@ -144,6 +145,7 @@ class WordleBackspaceKeyWidget extends StatelessWidget {
     return WordleKeyWidget(
       background: Colors.grey[700],
       onTap: () {
+        HapticFeedback.selectionClick();
         const InputNotification.backspace().dispatch(context);
       },
       child: const Icon(
@@ -169,6 +171,7 @@ class WordleLetterKeyWidget extends StatelessWidget {
     return WordleKeyWidget(
       background: status.bg.byContext(context),
       onTap: () {
+        HapticFeedback.selectionClick();
         InputNotification.letter(letter).dispatch(context);
       },
       child: Text(
