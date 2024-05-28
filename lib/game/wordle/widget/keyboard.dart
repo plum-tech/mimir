@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/entity/color2mode.dart';
 import 'package:sit/game/wordle/entity/status.dart';
 import '../entity/keyboard.dart';
 import '../event_bus.dart';
@@ -165,7 +167,7 @@ class WordleLetterKeyWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WordleKeyWidget(
-      background: status.bg,
+      background: status.bg.byContext(context),
       onTap: () {
         InputNotification.letter(letter).dispatch(context);
       },

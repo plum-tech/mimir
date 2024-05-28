@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/entity/color2mode.dart';
 
 import '../entity/status.dart';
 
@@ -38,7 +39,7 @@ class WordleGuideLetterBox extends StatelessWidget {
             color: status.border,
             width: 2.0,
           ),
-          color: status.bg,
+          color: status.bg.byContext(context),
         ),
         child: Text(
           letter,
