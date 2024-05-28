@@ -114,6 +114,7 @@ class _GameState extends ConsumerState<Game2048>
 
   @override
   Widget build(BuildContext context) {
+    final gameStatus = ref.watch(state2048.select((state) => state.status));
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
@@ -145,7 +146,16 @@ class _GameState extends ConsumerState<Game2048>
               _moveController.forward(from: 0.0);
             }
           },
-          child: buildBody(),
+          child: [
+            buildBody(),
+            VictoryPartyPopper(
+              pop: gameStatus == GameStatus.victory,
+            ),
+            if (gameStatus == GameStatus.victory || gameStatus == GameStatus.gameOver)
+              const Positioned.fill(
+                child: GameOverModal(),
+              ),
+          ].stack(),
         ),
       ),
     );
@@ -166,20 +176,12 @@ class _GameState extends ConsumerState<Game2048>
   }
 
   Widget buildGameArea() {
-    final gameStatus = ref.watch(state2048.select((state) => state.status));
     return Stack(
       children: [
         const EmptyBoardWidget(),
         TileBoardWidget(
           moveAnimation: _moveAnimation,
           scaleAnimation: _scaleAnimation,
-        ),
-        if (gameStatus == GameStatus.victory || gameStatus == GameStatus.gameOver)
-          const Positioned.fill(
-            child: GameOverModal(),
-          ),
-        VictoryPartyPopper(
-          pop: gameStatus == GameStatus.victory,
         ),
       ],
     );
