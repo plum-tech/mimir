@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/game/ability/ability.dart';
 import 'package:sit/game/ability/autosave.dart';
 import 'package:sit/game/ability/timer.dart';
@@ -18,7 +19,6 @@ import '../entity/state.dart';
 import '../entity/note.dart';
 import '../entity/board.dart';
 import '../manager/logic.dart';
-import '../entity/save.dart';
 import '../settings.dart';
 import '../storage.dart';
 import '../widget/cell.dart';
@@ -26,6 +26,7 @@ import '../widget/filler.dart';
 import '../widget/hud.dart';
 import '../widget/modal.dart';
 import '../widget/tool.dart';
+import "../i18n.dart";
 
 final stateSudoku = StateNotifierProvider.autoDispose<GameLogic, GameStateSudoku>((ref) {
   return GameLogic();
@@ -89,7 +90,9 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
 
   void resetGame() {
     timer.reset();
-    ref.read(stateSudoku.notifier).initGame(gameMode: ref.read(stateSudoku).mode);
+    final logic = ref.read(stateSudoku.notifier);
+    logic.initGame(gameMode: ref.read(stateSudoku).mode);
+    logic.startGame();
   }
 
   void onGameStateChange(GameStateSudoku? former, GameStateSudoku current) {
@@ -114,7 +117,15 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
       onKeyEvent: onKey,
       autofocus: true,
       child: Scaffold(
-        appBar: AppBar(title: const Text("Sudoku")),
+        appBar: AppBar(
+          title: i18n.title.text(),
+          actions: [
+            IconButton(
+              icon: Icon(context.icons.refresh),
+              onPressed: resetGame,
+            )
+          ],
+        ),
         body: [
           buildBody(),
           if (gameStatus == GameStatus.victory)
@@ -175,18 +186,18 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
     if (context.isPortrait) {
       return ListView(
         children: [
-          const GameHud(),
-          buildCellArea(),
+          const GameHud().padAll(8),
+          buildCellArea().padAll(4),
           buildToolBar(),
           buildFiller(),
         ],
       );
     } else {
       return [
-        buildCellArea().expanded(),
+        buildCellArea().padAll(4).expanded(),
         ListView(
           children: [
-            const GameHud(),
+            const GameHud().padAll(8),
             buildFiller(),
             buildToolBar(),
           ],
