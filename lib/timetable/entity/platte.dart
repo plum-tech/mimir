@@ -4,39 +4,12 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:sit/design/entity/color2mode.dart';
 import 'package:sit/utils/byte_io/byte_io.dart';
 
 import 'timetable.dart';
 
 part 'platte.g.dart';
-
-int _colorToJson(Color color) => color.value;
-
-Color _colorFromJson(int value) => Color(value);
-
-typedef Color2Mode = ({Color light, Color dark});
-
-Color2Mode _color2ModeFromJson(Map json) {
-  return (
-    light: _colorFromJson(json["light"]),
-    dark: _colorFromJson(json["dark"]),
-  );
-}
-
-Map _color2ModeToJson(Color2Mode colors) {
-  return {
-    "light": _colorToJson(colors.light),
-    "dark": _colorToJson(colors.dark),
-  };
-}
-
-List<Color2Mode> _colorsFromJson(List json) {
-  return json.map((entry) => _color2ModeFromJson(entry)).toList();
-}
-
-List _colorsToJson(List<Color2Mode> colors) {
-  return colors.map((entry) => _color2ModeToJson(entry)).toList();
-}
 
 DateTime _kLastModified() => DateTime.now();
 
@@ -48,7 +21,7 @@ class TimetablePalette {
   final String name;
   @JsonKey()
   final String author;
-  @JsonKey(fromJson: _colorsFromJson, toJson: _colorsToJson)
+  @Color2ModeConverter()
   final List<Color2Mode> colors;
   @JsonKey(defaultValue: _kLastModified)
   final DateTime lastModified;
@@ -142,7 +115,7 @@ class BuiltinTimetablePalette implements TimetablePalette {
   Map<String, dynamic> toJson() => <String, dynamic>{
         "id": id,
         "author": author,
-        "colors": _colorsToJson(colors),
+        "colors": colors,
       };
 
   @override

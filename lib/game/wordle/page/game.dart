@@ -82,7 +82,7 @@ class _GameWordleState extends ConsumerState<GameWordle> with TickerProviderStat
         children: [
           ValidationProvider(
             database: widget.database,
-            child: WordleDisplayWidget(),
+            child: const WordleDisplayWidget(),
           ),
           VictoryPartyPopper(
             pop: gameStatus == GameStatus.victory,

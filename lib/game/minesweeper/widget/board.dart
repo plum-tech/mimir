@@ -34,7 +34,7 @@ class GameBoard extends ConsumerWidget {
         children: List.generate(rows * columns, (i) {
           final row = i ~/ columns;
           final column = i % columns;
-          final cell =  board.getCell(row: row, column: column);
+          final cell = board.getCell(row: row, column: column);
           return Positioned(
             left: (portrait ? column : row) * cellWidth,
             top: (portrait ? row : column) * cellWidth,

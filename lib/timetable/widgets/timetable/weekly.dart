@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/dash_decoration.dart';
+import 'package:sit/design/entity/color2mode.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/timetable/palette.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
 

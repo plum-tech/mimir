@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sit/design/entity/color2mode.dart';
 import 'package:sit/timetable/entity/platte.dart';
 import 'package:sit/utils/color.dart';
 
@@ -166,12 +167,6 @@ const _darkTextColors = [
   Color(0xFF101010),
   Color(0xFF000000),
 ];
-
-extension Color2ModeX on Color2Mode {
-  Color byTheme(ThemeData theme) => theme.brightness == Brightness.dark ? dark : light;
-
-  Color byBrightness(Brightness brightness) => brightness == Brightness.dark ? dark : light;
-}
 
 extension ColorX on Color {
   Color? resolveTextColorForReadability() {

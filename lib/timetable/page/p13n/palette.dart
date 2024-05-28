@@ -9,6 +9,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/design/entity/color2mode.dart';
 import 'package:sit/design/widgets/entry_card.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/qrcode/page/view.dart';

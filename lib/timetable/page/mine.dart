@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/design/entity/color2mode.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/entry_card.dart';

@@ -95,13 +95,13 @@ extension $TimetablePaletteCopyWith on TimetablePalette {
 TimetablePalette _$TimetablePaletteFromJson(Map<String, dynamic> json) => TimetablePalette(
       name: json['name'] as String,
       author: json['author'] as String,
-      colors: _colorsFromJson(json['colors'] as List),
+      colors: (json['colors'] as List<dynamic>).map((e) => const Color2ModeConverter().fromJson(e as Map)).toList(),
       lastModified: json['lastModified'] == null ? _kLastModified() : DateTime.parse(json['lastModified'] as String),
     );
 
 Map<String, dynamic> _$TimetablePaletteToJson(TimetablePalette instance) => <String, dynamic>{
       'name': instance.name,
       'author': instance.author,
-      'colors': _colorsToJson(instance.colors),
+      'colors': instance.colors.map(const Color2ModeConverter().toJson).toList(),
       'lastModified': instance.lastModified.toIso8601String(),
     };

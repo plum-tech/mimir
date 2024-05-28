@@ -7,6 +7,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
+import 'package:sit/design/entity/color2mode.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/timetable/page/preview.dart';
 import 'package:sit/utils/save.dart';

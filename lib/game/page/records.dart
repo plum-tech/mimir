@@ -8,6 +8,7 @@ import 'package:sit/design/widgets/common.dart';
 import 'package:sit/game/entity/record.dart';
 import 'package:sit/game/storage/record.dart';
 import "../i18n.dart";
+
 class GameRecordsPage<TRecord extends GameRecord> extends ConsumerStatefulWidget {
   final String title;
   final GameRecordStorage<TRecord> recordStorage;

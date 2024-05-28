@@ -26,7 +26,6 @@ class _Records {
 
   String get title => "$ns.title".tr();
 
-
   String record({
     required int maxNumber,
     required int score,
