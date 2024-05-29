@@ -25,9 +25,8 @@ class _ThemeColorPageState extends State<ThemeColorPage> {
 
   @override
   Widget build(BuildContext context) {
-    final canSave = this.canSave();
     return PromptSaveBeforeQuitScope(
-      changed: canSave,
+      changed: shouldSave(),
       onSave: onSave,
       child: Scaffold(
         body: CustomScrollView(
@@ -40,7 +39,7 @@ class _ThemeColorPageState extends State<ThemeColorPage> {
               title: i18n.themeColor.text(),
               actions: [
                 PlatformTextButton(
-                  onPressed: canSave ? onSave : null,
+                  onPressed: onSave,
                   child: i18n.save.text(),
                 )
               ],
@@ -75,7 +74,7 @@ class _ThemeColorPageState extends State<ThemeColorPage> {
     return SystemTheme.accentColor.maybeAccent ?? context.colorScheme.primary;
   }
 
-  bool canSave() {
+  bool shouldSave() {
     return fromSystem != Settings.theme.themeColorFromSystem ||
         themeColor != (Settings.theme.themeColor ?? getDefaultThemeColor());
   }
@@ -101,6 +100,20 @@ class _ThemeColorPageState extends State<ThemeColorPage> {
     });
   }
 
+  Widget buildFromSystemToggle() {
+    return ListTile(
+      title: i18n.fromSystem.text(),
+      trailing: Switch.adaptive(
+        value: fromSystem,
+        onChanged: (value) {
+          setState(() {
+            fromSystem = value;
+          });
+        },
+      ),
+    );
+  }
+
   Widget buildThemeColorTile() {
     return ListTile(
       leading: const Icon(Icons.color_lens_outlined),
@@ -115,20 +128,6 @@ class _ThemeColorPageState extends State<ThemeColorPage> {
           width: 32,
           height: 32,
         ),
-      ),
-    );
-  }
-
-  Widget buildFromSystemToggle() {
-    return ListTile(
-      title: i18n.fromSystem.text(),
-      trailing: Switch.adaptive(
-        value: fromSystem,
-        onChanged: (value) {
-          setState(() {
-            fromSystem = value;
-          });
-        },
       ),
     );
   }

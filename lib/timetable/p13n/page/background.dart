@@ -63,9 +63,8 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
   @override
   Widget build(BuildContext context) {
     final rawPath = this.rawPath;
-    final canSave = buildBackgroundImage() != Settings.timetable.backgroundImage;
     return PromptSaveBeforeQuitScope(
-      changed: canSave,
+      changed: shouldSave(),
       onSave: onSave,
       child: Scaffold(
         body: CustomScrollView(
@@ -74,7 +73,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
               title: i18n.p13n.background.title.text(),
               actions: [
                 PlatformTextButton(
-                  onPressed: !canSave ? null : onSave,
+                  onPressed: onSave,
                   child: i18n.save.text(),
                 ),
               ],
@@ -97,7 +96,15 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     );
   }
 
+  bool shouldSave() {
+    return buildBackgroundImage() != Settings.timetable.backgroundImage;
+  }
+
   Future<void> onSave() async {
+    if (!shouldSave()) {
+      context.pop(null);
+      return;
+    }
     if (kIsWeb) {
       await onSaveWeb();
     } else {
