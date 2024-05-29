@@ -791,8 +791,8 @@ greeting:
     one: 1 天
     other: "{} 天"
 qrCode:
-  noQrCodeRecognizedTip: 未識別到條碼或 QR 碼
-  unrecognizedQrCodeTip: 未識別的 QR 碼
+  noQrCodeRecognizedTip: 未識別到 QR 碼
+  unrecognizedQrCodeTip: 無法識別的 QR 碼
   hint: 請啟動 @:appName，然後導航至 個人{me}，再點擊右上角的 掃描{scan}。
 404:
   title: 找不到頁面
