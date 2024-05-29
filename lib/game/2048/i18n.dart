@@ -17,6 +17,8 @@ class _I18n with CommonI18nMixin, CommonGameI18nMixin {
   String get score => "$ns.score".tr();
 
   String get best => "$ns.best".tr();
+
+  String get max => "$ns.max".tr();
 }
 
 class _Records {

@@ -23,10 +23,6 @@ class Storage2048 {
   );
 }
 
-class _K {
-  static const bestScore = "bestScore";
-}
-
 class RecordStorage2048 extends GameRecordStorage<Record2048> {
   RecordStorage2048(
     super.box, {
@@ -35,11 +31,17 @@ class RecordStorage2048 extends GameRecordStorage<Record2048> {
     required super.deserialize,
   });
 
-  String get _kBestScore => "$prefix/${_K.bestScore}";
+  String get _kBestScore => "$prefix/bestScore";
 
   int get bestScore => box().safeGet<int>(_kBestScore) ?? 0;
 
   set bestScore(int newValue) => box().safePut<int>(_kBestScore, newValue);
+
+  String get _kMaxNumber => "$prefix/maxNumber";
+
+  int get maxNumber => box().safeGet<int>(_kMaxNumber) ?? 0;
+
+  set maxNumber(int newValue) => box().safePut<int>(_kMaxNumber, newValue);
 
   @override
   int add(Record2048 save) {
@@ -47,11 +49,25 @@ class RecordStorage2048 extends GameRecordStorage<Record2048> {
     if (save.score > bestScore) {
       bestScore = save.score;
     }
+    if (save.maxNumber > maxNumber) {
+      maxNumber = save.maxNumber;
+    }
     return id;
+  }
+
+  @override
+  void clear() {
+    super.clear();
+    box().delete(_kBestScore);
+    box().delete(_kMaxNumber);
   }
 
   late final $bestScore = box().providerWithDefault<int>(
     _kBestScore,
+    () => 0,
+  );
+  late final $maxNumber = box().providerWithDefault<int>(
+    _kMaxNumber,
     () => 0,
   );
 }

@@ -50,7 +50,7 @@ class AppCard extends StatelessWidget {
             alignment: Alignment.topCenter,
             curve: Curves.fastEaseInToSlowEaseOut,
             child: view ?? const SizedBox(),
-          ),
+          ).align(at: Alignment.centerLeft),
         ),
         ListTile(
           leading: leading,

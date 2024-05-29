@@ -868,6 +868,7 @@ game:
     title: 2048
     score: 分數
     best: 最佳
+    max: 最大
     records:
       title: 2048遊戲記錄
       record: "最大合成 {maxNumber}，達成分數：{score}"

@@ -868,6 +868,7 @@ game:
     title: 2048
     score: Score
     best: Best
+    max: Max
     records:
       title: 2048 records
       record: "Merged up to {maxNumber}, got score: {score}"
