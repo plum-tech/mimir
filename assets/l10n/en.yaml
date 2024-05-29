@@ -791,10 +791,9 @@ greeting:
     one: 1 Day
     other: "{} Days"
 qrCode:
-  barcodeNotRecognizedTip: No Barcode or QR code
-  hint: Please launch @:appName. Then navigate to Me {me}, and click the Scanner {scan} on the right corner.
+  noQrCodeRecognizedTip: No QR code
   unrecognizedQrCodeTip: Unrecognized QR code
-  saveImage: Save image
+  hint: Please launch @:appName. Then navigate to Me {me}, and click the Scanner {scan} on the right corner.
 404:
   title: Not Found
   subtitle: The requested page was not found

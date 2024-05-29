@@ -15,6 +15,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/files.dart';
 import 'package:sit/utils/error.dart';
+import 'package:sit/utils/images.dart';
 import 'package:sit/utils/permission.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -110,7 +111,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
     var path = image.path;
     if (UniversalPlatform.isIOS) {
       final intermediate = Files.temp.subFile("scanned_image${p.extension(path)}");
-      await File(image.path).copy(intermediate.path);
+      copyCompressedImageToTarget(source: File(image.path), target: intermediate.path);
       path = intermediate.path;
     }
     final result = await controller.analyzeImage(path);
@@ -118,7 +119,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
       await _handleBarcode(result);
     } else {
       if (!mounted) return;
-      context.showSnackBar(content: i18n.barcodeNotRecognizedTip.text());
+      context.showSnackBar(content: i18n.noQrCodeRecognizedTip.text());
     }
   }
 

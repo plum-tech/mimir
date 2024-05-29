@@ -42,8 +42,11 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
       appBar: AppBar(
         title: title == null ? null : TextScroll(title),
         actions: [
+          // PlatformIconButton(
+          //   icon: context.icons.save,
+          // ),
           PlatformTextButton(
-            child: i18n.saveImage.text(),
+            child: i18n.save.text(),
             onPressed: () async {
               await takeQrcodeScreenshot(
                 context: context,
