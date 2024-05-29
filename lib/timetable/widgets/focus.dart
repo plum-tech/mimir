@@ -7,10 +7,7 @@ import 'package:sit/life/i18n.dart' as $life;
 import 'package:sit/game/i18n.dart' as $game;
 import 'package:sit/me/i18n.dart' as $me;
 
-List<PullDownEntry> buildFocusPopupActions(
-  BuildContext context, {
-  required bool showGame,
-}) {
+List<PullDownEntry> buildFocusPopupActions(BuildContext context) {
   return [
     const PullDownDivider(),
     PullDownItem(
@@ -34,13 +31,12 @@ List<PullDownEntry> buildFocusPopupActions(
         await context.push("/life");
       },
     ),
-    if (showGame)
-      PullDownItem(
-        icon: Icons.videogame_asset_outlined,
-        title: $game.i18n.navigation,
-        onTap: () async {
-          await context.push("/game");
-        },
-      ),
+    PullDownItem(
+      icon: Icons.videogame_asset_outlined,
+      title: $game.i18n.navigation,
+      onTap: () async {
+        await context.push("/game");
+      },
+    ),
   ];
 }

@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/page/screenshot.dart';
 import '../entity/display.dart';
@@ -147,11 +146,7 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
             );
           },
         ),
-        if (focusMode)
-          ...buildFocusPopupActions(
-            context,
-            showGame: ref.watch(Dev.$on),
-          ),
+        if (focusMode) ...buildFocusPopupActions(context),
         const PullDownDivider(),
         PullDownSelectable(
           title: i18n.focusTimetable,

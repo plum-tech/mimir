@@ -184,11 +184,7 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
             await context.push("/timetable/background");
           },
         ),
-        if (focusMode)
-          ...buildFocusPopupActions(
-            context,
-            showGame: ref.watch(Dev.$on),
-          ),
+        if (focusMode) ...buildFocusPopupActions(context),
         const PullDownDivider(),
         PullDownSelectable(
           title: i18n.focusTimetable,
