@@ -27,6 +27,7 @@ const main = async () => {
   // Get release information from environment variables (GitHub Actions context)
   const version = getVersion()
   const artifactPayload = await prepareArtifactPayload()
+  console.log(artifactPayload)
 
   await modifyDocsRepoAndPush({ version, payload: artifactPayload })
 }
