@@ -20,7 +20,7 @@ const main = async () => {
     },],
   })
   if (args.repo) {
-    const url = getLatestReleaseApiUrl(args.repo)
+    const url = getLatestReleaseApiUrl(args.repo, "release")
     console.log(url)
     await setGithubFromUrl(url)
   }
