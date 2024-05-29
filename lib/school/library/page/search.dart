@@ -282,7 +282,7 @@ class SuggestionItemView<T> extends StatelessWidget {
                 .map((e) => itemBuilder(context, e))
                 .toList(growable: false)
                 .wrap(spacing: 4)
-            : const SizedBox(),
+            : const SizedBox.shrink(),
       ).padH(8),
     ].column(caa: CrossAxisAlignment.start, mas: MainAxisSize.min);
   }

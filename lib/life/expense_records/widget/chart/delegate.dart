@@ -82,7 +82,7 @@ class StatisticsDelegate {
       bottom: (ctx, value, mate) {
         final index = value.toInt();
         if (!(index == 0 || index == data.length - 1) && index % 4 != 0) {
-          return const SizedBox();
+          return const SizedBox.shrink();
         }
         return SideTitleWidget(
           axisSide: mate.axisSide,
@@ -163,7 +163,7 @@ class StatisticsDelegate {
       bottom: (ctx, value, meta) {
         final index = value.toInt();
         if (sep != 0 && (!(index == 0 || index == data.length - 1) && index % sep != 0)) {
-          return const SizedBox();
+          return const SizedBox.shrink();
         }
         return SideTitleWidget(
           axisSide: meta.axisSide,

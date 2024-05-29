@@ -16,7 +16,7 @@ class YwbApplicationDetailSectionBlock extends StatelessWidget {
     final bodyWidget = switch (section.type) {
       'html' => buildHtmlSection(section.content),
       'json' => buildJsonSection(section.content),
-      _ => const SizedBox(),
+      _ => const SizedBox.shrink(),
     };
 
     return Padding(

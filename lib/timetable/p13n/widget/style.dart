@@ -131,6 +131,6 @@ class TimetableStyleProvState extends ConsumerState<TimetableStyleProv> {
     if (builder != null) {
       return Builder(builder: (ctx) => builder(ctx, data));
     }
-    return const SizedBox();
+    return const SizedBox.shrink();
   }
 }

@@ -81,7 +81,7 @@ class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> {
     final lastTransaction = ref.watch(storage.$lastTransaction);
     return AppCard(
       view: lastTransaction == null
-          ? const SizedBox()
+          ? const SizedBox.shrink()
           : [
               BalanceCard(
                 balance: lastTransaction.balanceAfter,

@@ -76,7 +76,7 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
   @override
   Widget build(BuildContext context) {
     final cookies = this.cookies;
-    if (cookies == null) return const SizedBox();
+    if (cookies == null) return const SizedBox.shrink();
     return WebViewPage(
       controller: controller,
       initialUrl: teacherEvaluationUri.toString(),

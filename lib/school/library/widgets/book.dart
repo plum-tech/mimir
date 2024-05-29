@@ -54,12 +54,12 @@ class _AsyncBookImageState extends State<AsyncBookImage> {
 
   Widget buildContext() {
     final image = this.image;
-    if (image == null) return const SizedBox();
+    if (image == null) return const SizedBox.shrink();
     return CachedNetworkImage(
       fit: BoxFit.cover,
       imageUrl: image.resourceUrl,
-      placeholder: (context, url) => const SizedBox(),
-      errorWidget: (context, url, error) => const SizedBox(),
+      placeholder: (context, url) => const SizedBox.shrink(),
+      errorWidget: (context, url, error) => const SizedBox.shrink(),
       errorListener: (error) {
         widget.onHasImageChanged?.call(false);
       },

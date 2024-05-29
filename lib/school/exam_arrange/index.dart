@@ -46,7 +46,7 @@ class _ExamArrangeAppCardState extends ConsumerState<ExamArrangeAppCard> {
   }
 
   Widget? buildMostRecentExam(List<ExamEntry> examList) {
-    if (examList.isEmpty) return const SizedBox();
+    if (examList.isEmpty) return const SizedBox.shrink();
     final now = DateTime.now();
     examList = examList.where((exam) => exam.time?.start.isAfter(now) ?? false).toList();
     examList.sort(ExamEntry.comparator);

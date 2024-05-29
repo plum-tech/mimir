@@ -84,7 +84,7 @@ class _Class2ndAppCardState extends ConsumerState<Class2ndAppCard> {
     return AppCard(
       title: i18n.title.text(),
       view: summary == null
-          ? const SizedBox()
+          ? const SizedBox.shrink()
           : buildSummeryCard(
               summary: summary,
               target: getTargetScore(),

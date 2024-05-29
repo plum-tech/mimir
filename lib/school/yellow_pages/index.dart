@@ -69,7 +69,7 @@ class _YellowPagesAppCardState extends State<YellowPagesAppCard> {
   }
 
   Widget buildHistory(List<SchoolContact> history) {
-    if (history.isEmpty) return const SizedBox();
+    if (history.isEmpty) return const SizedBox.shrink();
     final contacts = history.sublist(0, min(_historyLength, history.length));
     return contacts
         .map((contact) {

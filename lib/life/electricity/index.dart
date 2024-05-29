@@ -88,7 +88,7 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
               balance: balance,
               selectedRoom: selectedRoom,
             )
-          : const SizedBox(),
+          : const SizedBox.shrink(),
       title: (roomNumber == null ? i18n.title : "${i18n.title} $roomNumber").text(),
       subtitle: lastUpdateTime != null ? i18n.lastUpdateTime(context.formatMdhmNum(lastUpdateTime)).text() : null,
       leftActions: [

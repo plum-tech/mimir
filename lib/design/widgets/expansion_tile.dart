@@ -168,7 +168,7 @@ class AnimatedExpansionTileState extends State<AnimatedExpansionTile> with Ticke
             firstCurve: widget.fadeCurve ?? Curves.linear,
             sizeCurve: widget.sizeCurve ?? Curves.fastEaseInToSlowEaseOut,
             firstChild: widget.children[i],
-            secondChild: const SizedBox(),
+            secondChild: const SizedBox.shrink(),
             crossFadeState: _expanded ? CrossFadeState.showFirst : CrossFadeState.showSecond,
           ),
         ),

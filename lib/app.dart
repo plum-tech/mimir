@@ -89,7 +89,7 @@ class _MimirAppState extends ConsumerState<MimirApp> {
       darkTheme: bakeTheme(ThemeData.dark()),
       builder: (ctx, child) => _PostServiceRunner(
         key: const ValueKey("Post service runner"),
-        child: child ?? const SizedBox(),
+        child: child ?? const SizedBox.shrink(),
       ),
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         dragDevices: {

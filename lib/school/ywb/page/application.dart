@@ -32,7 +32,7 @@ class _YwbMyApplicationListPageState extends State<YwbMyApplicationListPage> {
         preferredSize: const Size.fromHeight(4),
         child: $loadingStates >>
             (ctx, states) {
-              return !states.any((state) => state == true) ? const SizedBox() : const LinearProgressIndicator();
+              return !states.any((state) => state == true) ? const SizedBox.shrink() : const LinearProgressIndicator();
             },
       ),
       body: DefaultTabController(

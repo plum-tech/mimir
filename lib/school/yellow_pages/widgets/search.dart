@@ -27,7 +27,7 @@ class YellowPageSearchDelegate extends SearchDelegate<SchoolContact> {
 
   @override
   Widget buildResults(BuildContext context) {
-    if (query.isEmpty) return const SizedBox();
+    if (query.isEmpty) return const SizedBox.shrink();
     final matched = contacts.where((e) => predicate(query, e)).toList();
     return SchoolContactList(matched);
   }
@@ -43,7 +43,7 @@ class YellowPageSearchDelegate extends SearchDelegate<SchoolContact> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    if (query.isEmpty) return const SizedBox();
+    if (query.isEmpty) return const SizedBox.shrink();
     final searched = contacts.where((e) => predicate(query, e)).toList();
     return SchoolContactList(searched);
   }

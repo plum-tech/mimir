@@ -153,11 +153,11 @@ class ItemSearchDelegate<T> extends SearchDelegate {
   Widget buildResults(BuildContext context) {
     final query = getRealQuery();
     if (query.isEmpty && emptyIndicator != null) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
     if (T == String && predicate(query, query as T)) {
       if (candidates.contains(query)) {
-        return const SizedBox();
+        return const SizedBox.shrink();
       } else {
         return LeavingBlank(icon: Icons.search_off_rounded, desc: invalidSearchTip);
       }

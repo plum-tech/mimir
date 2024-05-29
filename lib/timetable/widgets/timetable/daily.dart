@@ -353,7 +353,7 @@ class LessonOverlapGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (lessonsInSlot.isEmpty) return const SizedBox();
+    if (lessonsInSlot.isEmpty) return const SizedBox.shrink();
     final List<Widget> all = [];
     ClassTime? classTime;
     for (int lessonIndex = 0; lessonIndex < lessonsInSlot.length; lessonIndex++) {
