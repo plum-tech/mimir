@@ -37,6 +37,9 @@ class _MePageState extends ConsumerState<MePage> {
         slivers: [
           SliverAppBar(
             titleTextStyle: context.textTheme.headlineSmall,
+            title: const Greeting(),
+            toolbarHeight: 120,
+            centerTitle: false,
             actions: [
               if (UniversalPlatform.isAndroid ||
                   UniversalPlatform.isIOS ||
@@ -50,9 +53,6 @@ class _MePageState extends ConsumerState<MePage> {
                 },
               ),
             ],
-          ),
-          const SliverToBoxAdapter(
-            child: Greeting(),
           ),
           const SliverToBoxAdapter(
             child: EduEmailAppCard(),

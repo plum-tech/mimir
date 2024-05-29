@@ -62,12 +62,10 @@ class _GreetingState extends ConsumerState<Greeting> {
     final studyDays = credentials == null ? 0 : _getStudyDaysAndInitState(credentials);
 
     final days = studyDays;
-    return ListTile(
-      titleTextStyle: context.textTheme.titleMedium,
-      title: _i18n.headerA.text(),
-      subtitleTextStyle: context.textTheme.headlineSmall,
-      subtitle: _i18n.headerB((days) + 1).text(),
-    );
+    return [
+      _i18n.headerA.text(style: context.textTheme.titleMedium),
+      _i18n.headerB((days) + 1).text(style: context.textTheme.headlineSmall),
+    ].column(mas: MainAxisSize.min, caa: CrossAxisAlignment.start);
   }
 }
 
