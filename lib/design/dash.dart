@@ -151,6 +151,7 @@ class DashLined extends StatelessWidget {
   final bool bottom;
   final bool left;
   final bool right;
+  final double strokeWidth;
 
   const DashLined({
     super.key,
@@ -160,6 +161,7 @@ class DashLined extends StatelessWidget {
     this.bottom = false,
     this.left = false,
     this.right = false,
+    this.strokeWidth = 1.0,
   });
 
   const DashLined.all({
@@ -167,6 +169,7 @@ class DashLined extends StatelessWidget {
     required bool enabled,
     this.child,
     this.color,
+    this.strokeWidth = 1.0,
   })  : top = enabled,
         bottom = enabled,
         left = enabled,
@@ -176,8 +179,8 @@ class DashLined extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: DashDecoration.line(
-        color: color ?? context.colorScheme.onSurface,
-        strokeWidth: 0.5,
+        color: color ?? context.colorScheme.surfaceTint,
+        strokeWidth: strokeWidth,
         borders: {
           if (right) LinePosition.right,
           if (bottom) LinePosition.bottom,
@@ -194,20 +197,22 @@ class DashBoxed extends StatelessWidget {
   final Widget? child;
   final Color? color;
   final BorderRadius borderRadius;
+  final double strokeWidth;
 
   const DashBoxed({
     super.key,
     this.child,
     this.color,
     this.borderRadius = const BorderRadius.all(Radius.circular(12.0)),
+    this.strokeWidth = 1.0,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: DashDecoration.box(
-        color: color ?? context.colorScheme.onSurface,
-        strokeWidth: 0.5,
+        color: color ?? context.colorScheme.surfaceTint,
+        strokeWidth: strokeWidth,
         borderRadius: borderRadius,
       ),
       child: child,

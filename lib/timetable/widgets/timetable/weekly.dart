@@ -4,7 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/design/dash_decoration.dart';
+import 'package:sit/design/dash.dart';
 import 'package:sit/design/entity/color2mode.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/settings/settings.dart';
@@ -305,7 +305,9 @@ class TimetableOneWeek extends StatelessWidget {
       final lesson = lessonSlot.lessonAt(0);
       if (lesson == null) {
         cells.add(DashLined(
+          color: context.colorScheme.surfaceTint.withOpacity(0.3),
           top: timeslot != 0,
+          strokeWidth: 0.5,
           bottom: timeslot != day.timeslot2LessonSlot.length - 1,
           child: SizedBox(width: cellSize.width, height: cellSize.height),
         ));

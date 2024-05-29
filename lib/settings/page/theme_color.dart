@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/dash_decoration.dart';
+import 'package:sit/design/dash.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/color.dart';
 import 'package:sit/utils/save.dart';
