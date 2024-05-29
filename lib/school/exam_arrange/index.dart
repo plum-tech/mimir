@@ -29,8 +29,7 @@ class _ExamArrangeAppCardState extends ConsumerState<ExamArrangeAppCard> {
   Widget build(BuildContext context) {
     final storage = ExamArrangeInit.storage;
     final currentSemester = estimateSemesterInfo();
-    ref.watch(storage.$examListFamily(currentSemester));
-    final examList = storage.getExamList(currentSemester);
+    final examList = ref.watch(storage.$examListFamily(currentSemester));
     return AppCard(
       title: i18n.title.text(),
       view: examList != null ? buildMostRecentExam(examList) : null,

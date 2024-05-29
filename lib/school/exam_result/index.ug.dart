@@ -9,9 +9,12 @@ import 'package:sit/school/exam_result/widgets/ug.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/utils/guard_launch.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 import 'entity/result.ug.dart';
 import "i18n.dart";
+import 'page/evaluation.dart';
 
 const _recentLength = 2;
 
@@ -27,8 +30,7 @@ class _ExamResultUgAppCardState extends ConsumerState<ExamResultUgAppCard> {
   Widget build(BuildContext context) {
     final storage = ExamResultInit.ugStorage;
     final currentSemester = estimateSemesterInfo();
-    ref.watch(storage.$resultListFamily(currentSemester));
-    final resultList = storage.getResultList(currentSemester);
+    final resultList = ref.watch(storage.$resultListFamily(currentSemester));
     final showResultPreview = ref.watch(Settings.school.examResult.$showResultPreview);
     return AppCard(
       title: i18n.title.text(),
@@ -47,10 +49,13 @@ class _ExamResultUgAppCardState extends ConsumerState<ExamResultUgAppCard> {
         ),
         OutlinedButton.icon(
           onPressed: () async {
-            await context.push("/exam-result/ug/gpa");
+            if (UniversalPlatform.isDesktop) {
+              await guardLaunchUrl(context, teacherEvaluationUri);
+            } else {
+              await context.push("/teacher-eval");
+            }
           },
-          icon: const Icon(Icons.assessment),
-          label: i18n.gpa.title.text(),
+          label: i18n.teacherEval.text(),
         )
       ],
     );

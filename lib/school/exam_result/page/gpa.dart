@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/widgets/grouped.dart';
 import 'package:sit/design/widgets/multi_select.dart';
@@ -12,19 +12,17 @@ import 'package:sit/school/exam_result/entity/gpa.dart';
 import 'package:sit/school/exam_result/entity/result.ug.dart';
 import 'package:sit/school/exam_result/init.dart';
 import 'package:sit/school/exam_result/page/details.gpa.dart';
-import 'package:sit/utils/error.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:text_scroll/text_scroll.dart';
 
-import '../aggregated.dart';
 import '../i18n.dart';
 import '../utils.dart';
 
-class GpaCalculatorPage extends StatefulWidget {
+class GpaCalculatorPage extends ConsumerStatefulWidget {
   const GpaCalculatorPage({super.key});
 
   @override
-  State<GpaCalculatorPage> createState() => _GpaCalculatorPageState();
+  ConsumerState<GpaCalculatorPage> createState() => _GpaCalculatorPageState();
 }
 
 typedef _GpaGroups = ({
@@ -32,62 +30,37 @@ typedef _GpaGroups = ({
   List<ExamResultGpaItem> list
 });
 
-class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
-  late _GpaGroups? gpaItems = buildGpaItems(ExamResultInit.ugStorage.getResultList(SemesterInfo.all));
+_GpaGroups? _buildGpaItems(List<ExamResultUg>? resultList) {
+  if (resultList == null) return null;
+  final gpaItems = extractExamResultGpaItems(resultList);
+  final groups = groupExamResultGpaItems(gpaItems);
+  return (groups: groups, list: gpaItems);
+}
 
-  final $loadingProgress = ValueNotifier(0.0);
-  bool isFetching = false;
+final _gpaItems = Provider.autoDispose((ref) {
+  final all = ref.watch(ExamResultInit.ugStorage.$resultListFamily(SemesterInfo.all));
+  final items = _buildGpaItems(all);
+  return items;
+});
+
+class _GpaCalculatorPageState extends ConsumerState<GpaCalculatorPage> {
   final $selected = ValueNotifier(const <ExamResultGpaItem>[]);
   final multiselect = MultiselectController<ExamResultGpaItem>();
 
   @override
   void initState() {
     super.initState();
-    fetchAll();
   }
 
   @override
   void dispose() {
     multiselect.dispose();
-    $loadingProgress.dispose();
     super.dispose();
-  }
-
-  _GpaGroups? buildGpaItems(List<ExamResultUg>? resultList) {
-    if (resultList == null) return null;
-    final gpaItems = extractExamResultGpaItems(resultList);
-    final groups = groupExamResultGpaItems(gpaItems);
-    return (groups: groups, list: gpaItems);
-  }
-
-  Future<void> fetchAll() async {
-    setState(() {
-      isFetching = true;
-    });
-    try {
-      final (semester2Results: _, :all) = await ExamResultAggregated.fetchAndCacheExamResultUgEachSemester(
-        onProgress: (p) {
-          if (!mounted) return;
-          $loadingProgress.value = p;
-        },
-      );
-      if (!mounted) return;
-      setState(() {
-        gpaItems = buildGpaItems(all);
-        isFetching = false;
-      });
-    } catch (error, stackTrace) {
-      handleRequestError(error, stackTrace);
-      if (!mounted) return;
-      setState(() {
-        isFetching = false;
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final gpaItems = this.gpaItems;
+    final gpaItems = ref.watch(_gpaItems);
     return Scaffold(
       body: MultiselectScope<ExamResultGpaItem>(
         controller: multiselect,
@@ -108,12 +81,6 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
                   child: Text(i18n.cancel),
                 )
               ],
-              bottom: isFetching
-                  ? PreferredSize(
-                      preferredSize: const Size.fromHeight(4),
-                      child: $loadingProgress >> (ctx, value) => AnimatedProgressBar(value: value),
-                    )
-                  : null,
             ),
             if (gpaItems != null)
               if (gpaItems.groups.isEmpty)
@@ -149,6 +116,7 @@ class _GpaCalculatorPageState extends State<GpaCalculatorPage> {
   }
 
   Widget buildCourseCatChoices() {
+    final gpaItems = ref.watch(_gpaItems);
     return $selected >>
         (ctx, selected) {
           return ListView(

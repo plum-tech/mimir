@@ -237,14 +237,6 @@ extension BoxProviderX on Box {
     });
   }
 
-  ChangeNotifierProvider streamChangeProvider({
-    BoxEventFilter? filter,
-  }) {
-    return ChangeNotifierProvider((ref) {
-      return BoxChangeStreamNotifier(watch(), filter);
-    });
-  }
-
   StateNotifierProvider<BoxFieldStreamNotifier<T>, T?> streamProvider<T>({
     required T? Function() initial,
     BoxEventFilter? filter,
@@ -254,11 +246,28 @@ extension BoxProviderX on Box {
     });
   }
 
+  StateNotifierProviderFamily<BoxFieldStreamNotifier<T>, T?, Arg> streamProviderFamily<T, Arg>({
+    required T? Function(Arg arg) initial,
+    required bool Function(BoxEvent event, Arg arg) filter,
+  }) {
+    return StateNotifierProvider.family<BoxFieldStreamNotifier<T>, T?, Arg>((ref, arg) {
+      return BoxFieldStreamNotifier(initial(arg), watch(), (event) => filter(event, arg));
+    });
+  }
+
+  ChangeNotifierProvider streamChangeProvider({
+    BoxEventFilter? filter,
+  }) {
+    return ChangeNotifierProvider((ref) {
+      return BoxChangeStreamNotifier(watch(), filter);
+    });
+  }
+
   ChangeNotifierProviderFamily<BoxChangeStreamNotifier, Arg> streamChangeProviderFamily<Arg>(
-    bool Function(BoxEvent event, Arg arg) argFilter,
+    bool Function(BoxEvent event, Arg arg) filter,
   ) {
     return ChangeNotifierProvider.family((ref, arg) {
-      return BoxChangeStreamNotifier(watch(), (event) => argFilter(event, arg));
+      return BoxChangeStreamNotifier(watch(), (event) => filter(event, arg));
     });
   }
 }

@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/design/animation/progress.dart';
 import 'package:sit/design/widgets/common.dart';
+import 'package:sit/design/widgets/fab.dart';
 import 'package:sit/school/exam_result/aggregated.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/school/widgets/semester.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/school/entity/school.dart';
 import 'package:sit/utils/error.dart';
-import 'package:sit/utils/guard_launch.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 import '../entity/result.ug.dart';
 import '../init.dart';
 import '../widgets/ug.dart';
 import '../i18n.dart';
-import 'evaluation.dart';
 
 class ExamResultUgPage extends ConsumerStatefulWidget {
   const ExamResultUgPage({super.key});
@@ -33,7 +30,7 @@ class _ExamResultUgPageState extends ConsumerState<ExamResultUgPage> {
   bool isFetching = false;
   final $loadingProgress = ValueNotifier(0.0);
   late SemesterInfo selected = initial;
-
+  final controller = ScrollController();
   @override
   void initState() {
     super.initState();
@@ -43,6 +40,7 @@ class _ExamResultUgPageState extends ConsumerState<ExamResultUgPage> {
   @override
   void dispose() {
     $loadingProgress.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -85,22 +83,19 @@ class _ExamResultUgPageState extends ConsumerState<ExamResultUgPage> {
   Widget build(BuildContext context) {
     final resultList = this.resultList;
     return Scaffold(
+      floatingActionButton: AutoHideFAB.extended(
+        controller: controller,
+        label: i18n.gpa.title.text(),
+        icon: const Icon(Icons.assessment),
+        onPressed: () async {
+          await context.push("/exam-result/ug/gpa");
+        },
+      ),
       body: CustomScrollView(
+        controller: controller,
         slivers: [
           SliverAppBar.medium(
             title: i18n.title.text(),
-            actions: [
-              PlatformTextButton(
-                child: i18n.teacherEval.text(),
-                onPressed: () async {
-                  if (UniversalPlatform.isDesktop) {
-                    await guardLaunchUrl(context, teacherEvaluationUri);
-                  } else {
-                    await context.push("/teacher-eval");
-                  }
-                },
-              )
-            ],
           ),
           SliverToBoxAdapter(
             child: buildSemesterSelector(),
