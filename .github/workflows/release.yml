@@ -38,6 +38,7 @@ jobs:
 
       - name: Upload artifacts onto SIT-MC sever
         if: github.repository == 'liplum-dev/mimir'
+        continue-on-error: true
         run: |
           node tools/upload-release-sitmc.mjs -k ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
 
