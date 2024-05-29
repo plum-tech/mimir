@@ -14,12 +14,12 @@ import 'package:sit/design/widgets/common.dart';
 import 'package:sit/files.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/timetable/entity/background.dart';
 import 'package:sit/utils/images.dart';
 import 'package:sit/utils/save.dart';
 import 'package:sit/widgets/modal_image_view.dart';
 import 'package:universal_platform/universal_platform.dart';
 import "../../i18n.dart";
+import '../entity/background.dart';
 
 /// It persists changes to storage before route popping
 class TimetableBackgroundEditor extends StatefulWidget {

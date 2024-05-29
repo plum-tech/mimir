@@ -5,10 +5,10 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
-import 'package:sit/timetable/entity/patch.dart';
 import '../../entity/timetable.dart';
 import '../../i18n.dart';
 import '../../page/preview.dart';
+import '../entity/patch.dart';
 import 'shared.dart';
 
 class TimetablePatchSetCard extends StatelessWidget {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sit/design/entity/color2mode.dart';
-import 'package:sit/timetable/entity/platte.dart';
+import 'package:sit/timetable/p13n/entity/platte.dart';
 import 'package:sit/utils/color.dart';
 
-import 'entity/timetable.dart';
+import '../entity/timetable.dart';
 
 /// https://m3.material.io/theme-builder#/custom
 class BuiltinTimetablePalettes {

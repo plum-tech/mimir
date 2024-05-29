@@ -5,9 +5,9 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/save.dart';
 
-import '../../entity/cell_style.dart';
-import '../../widgets/style.dart';
+import '../widget/style.dart';
 import '../../i18n.dart';
+import '../entity/cell_style.dart';
 import 'palette.dart';
 
 /// It persists changes to storage before route popping

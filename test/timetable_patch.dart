@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sit/timetable/entity/patch.dart';
-import 'package:sit/timetable/patch.dart';
+import 'package:sit/timetable/patch/builtin.dart';
+import 'package:sit/timetable/patch/entity/patch.dart';
 
 void main() {
   final patch = BuiltinTimetablePatchSets.vacationShift2024;

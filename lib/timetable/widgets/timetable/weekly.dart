@@ -18,7 +18,7 @@ import 'course_sheet.dart';
 import '../../utils.dart';
 import '../free.dart';
 import 'header.dart';
-import '../style.dart';
+import '../../p13n/widget/style.dart';
 import '../../entity/pos.dart';
 import '../../i18n.dart';
 

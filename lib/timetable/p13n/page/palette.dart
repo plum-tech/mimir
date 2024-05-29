@@ -13,19 +13,19 @@ import 'package:sit/design/entity/color2mode.dart';
 import 'package:sit/design/widgets/entry_card.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/qrcode/page/view.dart';
-import 'package:sit/timetable/entity/platte.dart';
+import 'package:sit/timetable/p13n/entity/platte.dart';
 import 'package:sit/timetable/entity/timetable.dart';
 import 'package:sit/timetable/init.dart';
-import 'package:sit/timetable/palette.dart';
 import 'package:sit/utils/format.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../../i18n.dart';
 import '../../qrcode/palette.dart';
-import '../../widgets/style.dart';
+import '../builtin.dart';
+import '../widget/style.dart';
 import '../../widgets/timetable/weekly.dart';
 import 'palette_editor.dart';
-import '../preview.dart';
+import '../../page/preview.dart';
 
 class TimetableP13nPage extends ConsumerStatefulWidget {
   final int? tab;

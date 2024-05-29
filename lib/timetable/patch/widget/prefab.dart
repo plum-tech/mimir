@@ -1,7 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/timetable/entity/patch.dart';
+
+import '../entity/patch.dart';
 
 class TimetablePatchSetGalleryCard extends StatelessWidget {
   final TimetablePatchSet patchSet;

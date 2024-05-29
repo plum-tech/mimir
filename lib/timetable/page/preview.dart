@@ -5,14 +5,14 @@ import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/animation/marquee.dart';
 import 'package:text_scroll/text_scroll.dart';
 
-import '../entity/background.dart';
-import '../entity/cell_style.dart';
 import '../entity/display.dart';
-import '../entity/platte.dart';
+import '../p13n/entity/background.dart';
+import '../p13n/entity/cell_style.dart';
+import '../p13n/entity/platte.dart';
 import '../entity/timetable.dart';
 import '../entity/timetable_entity.dart';
 import '../entity/pos.dart';
-import '../widgets/style.dart';
+import '../p13n/widget/style.dart';
 import '../widgets/timetable/board.dart';
 
 import '../i18n.dart';

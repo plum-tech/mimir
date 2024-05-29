@@ -1,8 +1,8 @@
 import 'package:sit/l10n/time.dart';
 import 'package:sit/settings/dev.dart';
-import 'package:sit/timetable/entity/patch.dart';
 import 'package:statistics/statistics.dart';
 
+import '../patch/entity/patch.dart';
 import 'timetable.dart';
 import 'timetable_entity.dart';
 

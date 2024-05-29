@@ -2,9 +2,9 @@ import 'package:flutter/widgets.dart';
 import 'package:sit/qrcode/deep_link.dart';
 import 'package:sit/qrcode/utils.dart';
 import 'package:sit/r.dart';
-import 'package:sit/timetable/entity/patch.dart';
 
-import '../page/patch/qrcode.dart';
+import '../patch/entity/patch.dart';
+import '../patch/page/qrcode.dart';
 
 class TimetablePatchDeepLink implements DeepLinkHandlerProtocol {
   static const host = "timetable";

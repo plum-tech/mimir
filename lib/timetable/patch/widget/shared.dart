@@ -10,12 +10,12 @@ import 'package:sit/qrcode/page/view.dart';
 import 'package:sit/timetable/entity/pos.dart';
 
 import '../../entity/loc.dart';
-import '../../entity/patch.dart';
 import '../../entity/timetable.dart';
 import '../../i18n.dart';
 import '../../page/preview.dart';
 import '../../qrcode/patch.dart';
 import '../../utils.dart';
+import '../entity/patch.dart';
 
 class TimetableDayLocModeSwitcher extends StatelessWidget {
   final TimetableDayLocMode selected;

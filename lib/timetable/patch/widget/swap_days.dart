@@ -5,35 +5,35 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/timetable/entity/loc.dart';
 import 'package:sit/utils/save.dart';
 
-import '../../entity/patch.dart';
 import '../../entity/timetable.dart';
 import '../../page/preview.dart';
 import '../../i18n.dart';
+import '../entity/patch.dart';
 import 'shared.dart';
 
-class TimetableMoveDayPatchSheet extends StatefulWidget {
+class TimetableSwapDaysPatchSheet extends StatefulWidget {
   final SitTimetable timetable;
-  final TimetableMoveDayPatch? patch;
+  final TimetableSwapDaysPatch? patch;
 
-  const TimetableMoveDayPatchSheet({
+  const TimetableSwapDaysPatchSheet({
     super.key,
     required this.timetable,
     required this.patch,
   });
 
   @override
-  State<TimetableMoveDayPatchSheet> createState() => _TimetableMoveDayPatchSheetState();
+  State<TimetableSwapDaysPatchSheet> createState() => _TimetableSwapDaysPatchSheetState();
 }
 
-class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet> {
-  TimetableDayLoc? get initialSource => widget.patch?.source;
+class _TimetableSwapDaysPatchSheetState extends State<TimetableSwapDaysPatchSheet> {
+  TimetableDayLoc? get initialA => widget.patch?.a;
 
-  TimetableDayLoc? get initialTarget => widget.patch?.target;
-  late var mode = initialSource?.mode ?? TimetableDayLocMode.date;
-  late var sourcePos = initialSource?.mode == TimetableDayLocMode.pos ? initialSource?.pos : null;
-  late var sourceDate = initialSource?.mode == TimetableDayLocMode.date ? initialSource?.date : null;
-  late var targetPos = initialTarget?.mode == TimetableDayLocMode.pos ? initialTarget?.pos : null;
-  late var targetDate = initialTarget?.mode == TimetableDayLocMode.date ? initialTarget?.date : null;
+  TimetableDayLoc? get initialB => widget.patch?.b;
+  late var mode = initialA?.mode ?? TimetableDayLocMode.date;
+  late var aPos = initialA?.mode == TimetableDayLocMode.pos ? initialA?.pos : null;
+  late var aDate = initialA?.mode == TimetableDayLocMode.date ? initialA?.date : null;
+  late var bPos = initialB?.mode == TimetableDayLocMode.pos ? initialB?.pos : null;
+  late var bDate = initialB?.mode == TimetableDayLocMode.date ? initialB?.date : null;
   var anyChanged = false;
 
   void markChanged() => anyChanged |= true;
@@ -50,7 +50,7 @@ class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet>
         body: CustomScrollView(
           slivers: [
             SliverAppBar.medium(
-              title: TimetablePatchType.moveDay.l10n().text(),
+              title: TimetablePatchType.swapDays.l10n().text(),
               actions: [
                 PlatformTextButton(
                   onPressed: onPreview,
@@ -94,25 +94,23 @@ class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet>
   List<Widget> buildPosTab() {
     return [
       TimetableDayLocPosSelectionTile(
-        icon: Icons.output,
-        title: i18n.patch.moveSource,
+        title: i18n.patch.swappedDay,
         timetable: widget.timetable,
-        pos: sourcePos,
+        pos: aPos,
         onChanged: (newPos) {
           setState(() {
-            sourcePos = newPos;
+            aPos = newPos;
           });
           markChanged();
         },
       ),
       TimetableDayLocPosSelectionTile(
-        icon: Icons.input,
-        title: i18n.patch.moveTarget,
+        title: i18n.patch.swappedDay,
         timetable: widget.timetable,
-        pos: targetPos,
+        pos: bPos,
         onChanged: (newPos) {
           setState(() {
-            targetPos = newPos;
+            bPos = newPos;
           });
           markChanged();
         },
@@ -123,25 +121,23 @@ class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet>
   List<Widget> buildDateTab() {
     return [
       TimetableDayLocDateSelectionTile(
-        icon: Icons.output,
-        title: i18n.patch.moveSource,
+        title: i18n.patch.swappedDay,
         timetable: widget.timetable,
-        date: sourceDate,
+        date: aDate,
         onChanged: (newPos) {
           setState(() {
-            sourceDate = newPos;
+            aDate = newPos;
           });
           markChanged();
         },
       ),
       TimetableDayLocDateSelectionTile(
-        icon: Icons.input,
-        title: i18n.patch.moveTarget,
+        title: i18n.patch.swappedDay,
         timetable: widget.timetable,
-        date: targetDate,
+        date: bDate,
         onChanged: (newPos) {
           setState(() {
-            targetDate = newPos;
+            bDate = newPos;
           });
           markChanged();
         },
@@ -168,19 +164,19 @@ class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet>
     );
   }
 
-  TimetableMoveDayPatch? buildPatch() {
-    final sourcePos = this.sourcePos;
-    final sourceDate = this.sourceDate;
-    final targetPos = this.targetPos;
-    final targetDate = this.targetDate;
-    final source = switch (mode) {
-      TimetableDayLocMode.pos => sourcePos != null ? TimetableDayLoc.pos(sourcePos) : null,
-      TimetableDayLocMode.date => sourceDate != null ? TimetableDayLoc.date(sourceDate) : null,
+  TimetableSwapDaysPatch? buildPatch() {
+    final aPos = this.aPos;
+    final aDate = this.aDate;
+    final bPos = this.bPos;
+    final bDate = this.bDate;
+    final a = switch (mode) {
+      TimetableDayLocMode.pos => aPos != null ? TimetableDayLoc.pos(aPos) : null,
+      TimetableDayLocMode.date => aDate != null ? TimetableDayLoc.date(aDate) : null,
     };
-    final target = switch (mode) {
-      TimetableDayLocMode.pos => targetPos != null ? TimetableDayLoc.pos(targetPos) : null,
-      TimetableDayLocMode.date => targetDate != null ? TimetableDayLoc.date(targetDate) : null,
+    final b = switch (mode) {
+      TimetableDayLocMode.pos => bPos != null ? TimetableDayLoc.pos(bPos) : null,
+      TimetableDayLocMode.date => bDate != null ? TimetableDayLoc.date(bDate) : null,
     };
-    return source != null && target != null ? TimetableMoveDayPatch(source: source, target: target) : null;
+    return a != null && b != null ? TimetableSwapDaysPatch(a: a, b: b) : null;
   }
 }

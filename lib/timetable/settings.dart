@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sit/timetable/entity/background.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:sit/utils/json.dart';
 
-import 'entity/cell_style.dart';
+import 'p13n/entity/background.dart';
+import 'p13n/entity/cell_style.dart';
 
 const _kAutoUseImported = true;
 const _kQuickLookCourseOnTap = true;

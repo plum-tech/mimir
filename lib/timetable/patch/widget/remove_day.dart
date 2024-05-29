@@ -11,11 +11,11 @@ import 'package:sit/timetable/entity/pos.dart';
 import 'package:sit/utils/date.dart';
 import 'package:sit/utils/save.dart';
 
-import '../../entity/patch.dart';
 import '../../entity/timetable.dart';
 import '../../page/preview.dart';
 import '../../i18n.dart';
 import '../../utils.dart';
+import '../entity/patch.dart';
 import 'shared.dart';
 
 class TimetableRemoveDayPatchSheet extends ConsumerStatefulWidget {

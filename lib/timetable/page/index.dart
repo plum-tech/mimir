@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../init.dart';
-import '../widgets/style.dart';
+import '../p13n/widget/style.dart';
 import 'mine.dart';
 import 'timetable.dart';
 import '../entity/timetable_entity.dart';

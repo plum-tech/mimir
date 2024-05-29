@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/timetable/widgets/style.dart';
+import 'package:sit/timetable/p13n/widget/style.dart';
 
 import '../../entity/display.dart';
 import '../../entity/pos.dart';

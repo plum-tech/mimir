@@ -20,21 +20,21 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/page/ical.dart';
-import 'package:sit/timetable/palette.dart';
 import 'package:sit/timetable/qrcode/timetable.dart';
 import 'package:sit/timetable/widgets/course.dart';
 import 'package:sit/utils/format.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:universal_platform/universal_platform.dart';
 
-import '../entity/platte.dart';
+import '../p13n/builtin.dart';
+import '../p13n/entity/platte.dart';
 import '../entity/timetable_entity.dart';
 import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
 import '../utils.dart';
 import '../widgets/focus.dart';
-import '../widgets/style.dart';
+import '../p13n/widget/style.dart';
 import 'import.dart';
 import 'preview.dart';
 

@@ -1,4 +1,4 @@
-import 'entity/loc.dart';
+import '../entity/loc.dart';
 import 'entity/patch.dart';
 
 class BuiltinTimetablePatchSets {

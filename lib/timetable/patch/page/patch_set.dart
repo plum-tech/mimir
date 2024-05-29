@@ -8,14 +8,14 @@ import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/design/widgets/common.dart';
-import 'package:sit/timetable/widgets/patch/shared.dart';
+import 'package:sit/timetable/patch/widget/shared.dart';
 import 'package:sit/utils/save.dart';
 import 'package:text_scroll/text_scroll.dart';
 
-import '../../entity/patch.dart';
 import '../../entity/timetable.dart';
 import '../../i18n.dart';
-import '../preview.dart';
+import '../../page/preview.dart';
+import '../entity/patch.dart';
 
 class TimetablePatchSetEditorPage extends StatefulWidget {
   final SitTimetable timetable;

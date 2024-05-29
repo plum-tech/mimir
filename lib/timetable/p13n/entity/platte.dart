@@ -7,7 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/design/entity/color2mode.dart';
 import 'package:sit/utils/byte_io/byte_io.dart';
 
-import 'timetable.dart';
+import '../../entity/timetable.dart';
 
 part 'platte.g.dart';
 

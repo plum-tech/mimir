@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../../patch.dart';
-import '../../widgets/patch/prefab.dart';
+import '../builtin.dart';
 import '../../i18n.dart';
+import '../widget/prefab.dart';
 
 class TimetablePatchPrefabPage extends StatefulWidget {
   const TimetablePatchPrefabPage({

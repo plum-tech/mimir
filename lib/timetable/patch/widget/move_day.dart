@@ -5,27 +5,27 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/timetable/entity/loc.dart';
 import 'package:sit/utils/save.dart';
 
-import '../../entity/patch.dart';
 import '../../entity/timetable.dart';
 import '../../page/preview.dart';
 import '../../i18n.dart';
+import '../entity/patch.dart';
 import 'shared.dart';
 
-class TimetableCopyDayPatchSheet extends StatefulWidget {
+class TimetableMoveDayPatchSheet extends StatefulWidget {
   final SitTimetable timetable;
-  final TimetableCopyDayPatch? patch;
+  final TimetableMoveDayPatch? patch;
 
-  const TimetableCopyDayPatchSheet({
+  const TimetableMoveDayPatchSheet({
     super.key,
     required this.timetable,
     required this.patch,
   });
 
   @override
-  State<TimetableCopyDayPatchSheet> createState() => _TimetableCopyDayPatchSheetState();
+  State<TimetableMoveDayPatchSheet> createState() => _TimetableMoveDayPatchSheetState();
 }
 
-class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet> {
+class _TimetableMoveDayPatchSheetState extends State<TimetableMoveDayPatchSheet> {
   TimetableDayLoc? get initialSource => widget.patch?.source;
 
   TimetableDayLoc? get initialTarget => widget.patch?.target;
@@ -50,7 +50,7 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
         body: CustomScrollView(
           slivers: [
             SliverAppBar.medium(
-              title: TimetablePatchType.copyDay.l10n().text(),
+              title: TimetablePatchType.moveDay.l10n().text(),
               actions: [
                 PlatformTextButton(
                   onPressed: onPreview,
@@ -95,7 +95,7 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
     return [
       TimetableDayLocPosSelectionTile(
         icon: Icons.output,
-        title: i18n.patch.copySource,
+        title: i18n.patch.moveSource,
         timetable: widget.timetable,
         pos: sourcePos,
         onChanged: (newPos) {
@@ -107,7 +107,7 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
       ),
       TimetableDayLocPosSelectionTile(
         icon: Icons.input,
-        title: i18n.patch.copyTarget,
+        title: i18n.patch.moveTarget,
         timetable: widget.timetable,
         pos: targetPos,
         onChanged: (newPos) {
@@ -124,7 +124,7 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
     return [
       TimetableDayLocDateSelectionTile(
         icon: Icons.output,
-        title: i18n.patch.copySource,
+        title: i18n.patch.moveSource,
         timetable: widget.timetable,
         date: sourceDate,
         onChanged: (newPos) {
@@ -136,7 +136,7 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
       ),
       TimetableDayLocDateSelectionTile(
         icon: Icons.input,
-        title: i18n.patch.copyTarget,
+        title: i18n.patch.moveTarget,
         timetable: widget.timetable,
         date: targetDate,
         onChanged: (newPos) {
@@ -168,7 +168,7 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
     );
   }
 
-  TimetableCopyDayPatch? buildPatch() {
+  TimetableMoveDayPatch? buildPatch() {
     final sourcePos = this.sourcePos;
     final sourceDate = this.sourceDate;
     final targetPos = this.targetPos;
@@ -181,6 +181,6 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
       TimetableDayLocMode.pos => targetPos != null ? TimetableDayLoc.pos(targetPos) : null,
       TimetableDayLocMode.date => targetDate != null ? TimetableDayLoc.date(targetDate) : null,
     };
-    return source != null && target != null ? TimetableCopyDayPatch(source: source, target: target) : null;
+    return source != null && target != null ? TimetableMoveDayPatch(source: source, target: target) : null;
   }
 }

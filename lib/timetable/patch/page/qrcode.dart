@@ -5,14 +5,14 @@ import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/timetable/entity/timetable.dart';
-import 'package:sit/timetable/page/patch/patch.dart';
+import 'package:sit/timetable/patch/page/patch.dart';
 import 'package:sit/timetable/page/preview.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../../i18n.dart';
-import '../../entity/patch.dart';
 import '../../init.dart';
-import '../mine.dart';
+import '../../page/mine.dart';
+import '../entity/patch.dart';
 
 Future<void> onTimetablePatchFromQrCode({
   required BuildContext context,

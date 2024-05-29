@@ -5,8 +5,8 @@ import 'package:sit/utils/hive.dart';
 import 'package:sit/timetable/entity/timetable.dart';
 
 import '../entity/display.dart';
-import '../entity/platte.dart';
-import '../palette.dart';
+import '../p13n/builtin.dart';
+import '../p13n/entity/platte.dart';
 
 class _K {
   static const timetable = "/timetable";

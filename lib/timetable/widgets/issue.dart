@@ -4,7 +4,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/widgets/expansion_tile.dart';
 import 'package:sit/l10n/time.dart';
-import 'package:sit/timetable/page/patch/patch.dart';
+import 'package:sit/timetable/patch/page/patch.dart';
 
 import '../entity/timetable.dart';
 import '../entity/issue.dart';

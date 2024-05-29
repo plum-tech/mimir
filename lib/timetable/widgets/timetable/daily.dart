@@ -17,7 +17,7 @@ import '../../events.dart';
 import '../../entity/timetable_entity.dart';
 import '../../utils.dart';
 import '../../i18n.dart';
-import '../style.dart';
+import '../../p13n/widget/style.dart';
 import '../../entity/pos.dart';
 import 'header.dart';
 

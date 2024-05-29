@@ -5,35 +5,35 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/timetable/entity/loc.dart';
 import 'package:sit/utils/save.dart';
 
-import '../../entity/patch.dart';
 import '../../entity/timetable.dart';
 import '../../page/preview.dart';
 import '../../i18n.dart';
+import '../entity/patch.dart';
 import 'shared.dart';
 
-class TimetableSwapDaysPatchSheet extends StatefulWidget {
+class TimetableCopyDayPatchSheet extends StatefulWidget {
   final SitTimetable timetable;
-  final TimetableSwapDaysPatch? patch;
+  final TimetableCopyDayPatch? patch;
 
-  const TimetableSwapDaysPatchSheet({
+  const TimetableCopyDayPatchSheet({
     super.key,
     required this.timetable,
     required this.patch,
   });
 
   @override
-  State<TimetableSwapDaysPatchSheet> createState() => _TimetableSwapDaysPatchSheetState();
+  State<TimetableCopyDayPatchSheet> createState() => _TimetableCopyDayPatchSheetState();
 }
 
-class _TimetableSwapDaysPatchSheetState extends State<TimetableSwapDaysPatchSheet> {
-  TimetableDayLoc? get initialA => widget.patch?.a;
+class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet> {
+  TimetableDayLoc? get initialSource => widget.patch?.source;
 
-  TimetableDayLoc? get initialB => widget.patch?.b;
-  late var mode = initialA?.mode ?? TimetableDayLocMode.date;
-  late var aPos = initialA?.mode == TimetableDayLocMode.pos ? initialA?.pos : null;
-  late var aDate = initialA?.mode == TimetableDayLocMode.date ? initialA?.date : null;
-  late var bPos = initialB?.mode == TimetableDayLocMode.pos ? initialB?.pos : null;
-  late var bDate = initialB?.mode == TimetableDayLocMode.date ? initialB?.date : null;
+  TimetableDayLoc? get initialTarget => widget.patch?.target;
+  late var mode = initialSource?.mode ?? TimetableDayLocMode.date;
+  late var sourcePos = initialSource?.mode == TimetableDayLocMode.pos ? initialSource?.pos : null;
+  late var sourceDate = initialSource?.mode == TimetableDayLocMode.date ? initialSource?.date : null;
+  late var targetPos = initialTarget?.mode == TimetableDayLocMode.pos ? initialTarget?.pos : null;
+  late var targetDate = initialTarget?.mode == TimetableDayLocMode.date ? initialTarget?.date : null;
   var anyChanged = false;
 
   void markChanged() => anyChanged |= true;
@@ -50,7 +50,7 @@ class _TimetableSwapDaysPatchSheetState extends State<TimetableSwapDaysPatchShee
         body: CustomScrollView(
           slivers: [
             SliverAppBar.medium(
-              title: TimetablePatchType.swapDays.l10n().text(),
+              title: TimetablePatchType.copyDay.l10n().text(),
               actions: [
                 PlatformTextButton(
                   onPressed: onPreview,
@@ -94,23 +94,25 @@ class _TimetableSwapDaysPatchSheetState extends State<TimetableSwapDaysPatchShee
   List<Widget> buildPosTab() {
     return [
       TimetableDayLocPosSelectionTile(
-        title: i18n.patch.swappedDay,
+        icon: Icons.output,
+        title: i18n.patch.copySource,
         timetable: widget.timetable,
-        pos: aPos,
+        pos: sourcePos,
         onChanged: (newPos) {
           setState(() {
-            aPos = newPos;
+            sourcePos = newPos;
           });
           markChanged();
         },
       ),
       TimetableDayLocPosSelectionTile(
-        title: i18n.patch.swappedDay,
+        icon: Icons.input,
+        title: i18n.patch.copyTarget,
         timetable: widget.timetable,
-        pos: bPos,
+        pos: targetPos,
         onChanged: (newPos) {
           setState(() {
-            bPos = newPos;
+            targetPos = newPos;
           });
           markChanged();
         },
@@ -121,23 +123,25 @@ class _TimetableSwapDaysPatchSheetState extends State<TimetableSwapDaysPatchShee
   List<Widget> buildDateTab() {
     return [
       TimetableDayLocDateSelectionTile(
-        title: i18n.patch.swappedDay,
+        icon: Icons.output,
+        title: i18n.patch.copySource,
         timetable: widget.timetable,
-        date: aDate,
+        date: sourceDate,
         onChanged: (newPos) {
           setState(() {
-            aDate = newPos;
+            sourceDate = newPos;
           });
           markChanged();
         },
       ),
       TimetableDayLocDateSelectionTile(
-        title: i18n.patch.swappedDay,
+        icon: Icons.input,
+        title: i18n.patch.copyTarget,
         timetable: widget.timetable,
-        date: bDate,
+        date: targetDate,
         onChanged: (newPos) {
           setState(() {
-            bDate = newPos;
+            targetDate = newPos;
           });
           markChanged();
         },
@@ -164,19 +168,19 @@ class _TimetableSwapDaysPatchSheetState extends State<TimetableSwapDaysPatchShee
     );
   }
 
-  TimetableSwapDaysPatch? buildPatch() {
-    final aPos = this.aPos;
-    final aDate = this.aDate;
-    final bPos = this.bPos;
-    final bDate = this.bDate;
-    final a = switch (mode) {
-      TimetableDayLocMode.pos => aPos != null ? TimetableDayLoc.pos(aPos) : null,
-      TimetableDayLocMode.date => aDate != null ? TimetableDayLoc.date(aDate) : null,
+  TimetableCopyDayPatch? buildPatch() {
+    final sourcePos = this.sourcePos;
+    final sourceDate = this.sourceDate;
+    final targetPos = this.targetPos;
+    final targetDate = this.targetDate;
+    final source = switch (mode) {
+      TimetableDayLocMode.pos => sourcePos != null ? TimetableDayLoc.pos(sourcePos) : null,
+      TimetableDayLocMode.date => sourceDate != null ? TimetableDayLoc.date(sourceDate) : null,
     };
-    final b = switch (mode) {
-      TimetableDayLocMode.pos => bPos != null ? TimetableDayLoc.pos(bPos) : null,
-      TimetableDayLocMode.date => bDate != null ? TimetableDayLoc.date(bDate) : null,
+    final target = switch (mode) {
+      TimetableDayLocMode.pos => targetPos != null ? TimetableDayLoc.pos(targetPos) : null,
+      TimetableDayLocMode.date => targetDate != null ? TimetableDayLoc.date(targetDate) : null,
     };
-    return a != null && b != null ? TimetableSwapDaysPatch(a: a, b: b) : null;
+    return source != null && target != null ? TimetableCopyDayPatch(source: source, target: target) : null;
   }
 }

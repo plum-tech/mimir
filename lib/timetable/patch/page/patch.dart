@@ -9,16 +9,16 @@ import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
 import 'package:sit/design/widgets/common.dart';
-import 'package:sit/timetable/widgets/patch/shared.dart';
+import 'package:sit/timetable/patch/widget/shared.dart';
 import 'package:sit/utils/format.dart';
 import 'package:sit/utils/save.dart';
 
-import '../../entity/patch.dart';
+import '../entity/patch.dart';
 import 'patch_prefab.dart';
 import '../../entity/timetable.dart';
 import '../../i18n.dart';
-import '../../widgets/patch/patch_set.dart';
-import '../preview.dart';
+import '../widget/patch_set.dart';
+import '../../page/preview.dart';
 import 'patch_set.dart';
 
 class TimetablePatchEditorPage extends StatefulWidget {

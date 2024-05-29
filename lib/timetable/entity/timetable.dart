@@ -13,7 +13,7 @@ import 'package:sit/timetable/utils.dart';
 import 'package:sit/utils/byte_io/byte_io.dart';
 import 'package:statistics/statistics.dart';
 
-import 'patch.dart';
+import '../patch/entity/patch.dart';
 
 part 'timetable.g.dart';
 

@@ -13,13 +13,14 @@ import 'package:sit/utils/byte_io/byte_io.dart';
 import 'package:sit/utils/error.dart';
 import 'package:statistics/statistics.dart';
 
-import '../widgets/patch/copy_day.dart';
-import '../widgets/patch/move_day.dart';
-import '../widgets/patch/remove_day.dart';
-import '../widgets/patch/swap_days.dart';
-import 'loc.dart';
-import 'timetable.dart';
-import '../i18n.dart';
+import '../../entity/loc.dart';
+import '../../entity/timetable.dart';
+import '../widget/copy_day.dart';
+import '../widget/move_day.dart';
+import '../widget/remove_day.dart';
+import '../widget/swap_days.dart';
+
+import "../../i18n.dart";
 
 part "patch.g.dart";
 

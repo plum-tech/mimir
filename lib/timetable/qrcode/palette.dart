@@ -3,8 +3,8 @@ import 'package:sit/qrcode/deep_link.dart';
 import 'package:sit/qrcode/utils.dart';
 import 'package:sit/r.dart';
 
-import '../entity/platte.dart';
-import '../page/p13n/palette.dart';
+import '../p13n/entity/platte.dart';
+import '../p13n/page/palette.dart';
 
 class TimetablePaletteDeepLink implements DeepLinkHandlerProtocol {
   static const host = "timetable";
