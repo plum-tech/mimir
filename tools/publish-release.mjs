@@ -26,8 +26,7 @@ const main = async () => {
   }
   // Get release information from environment variables (GitHub Actions context)
   const version = getVersion()
-  const artifactPayload = prepareArtifactPayload()
-  validateArtifactPayload(artifactPayload)
+  const artifactPayload = await prepareArtifactPayload()
 
   await modifyDocsRepoAndPush({ version, payload: artifactPayload })
 }
@@ -45,9 +44,10 @@ export const prepareArtifactPayload = async () => {
   // Generate artifact data
   const artifactPayload = buildArtifactPayload({ version, tagName: github.release.tag_name, releaseTime, releaseNote, apk, ipa })
   validateArtifactPayload(artifactPayload)
+  return artifactPayload
 }
 
-const getVersion = () => {
+export const getVersion = () => {
   // remove leading 'v'
   return github.release.tag_name.slice(1)
 }
@@ -68,7 +68,7 @@ export const getReleaseNote = () => {
   return releaseNotes.replace(/^\s*|\s*$/g, '')
 }
 
-const getPublishTime = () => {
+export const getPublishTime = () => {
   return new Date(github.release.published_at)
 }
 
@@ -106,7 +106,7 @@ const buildArtifactPayload = ({ version, tagName, releaseTime, releaseNote, apk,
   return payload
 }
 
-const validateArtifactPayload = (payload) => {
+export const validateArtifactPayload = (payload) => {
   for (const [profile, download] of Object.entries(payload.downloads)) {
     if (!(download.default && download.url[download.default] !== undefined)) {
       if (download.url.length > 0) {
