@@ -114,7 +114,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       }
       all.add(PageNavigationTile(
         title: i18n.app.navigation.game.text(),
-        leading: const Icon(Icons.videogame_asset),
+        leading: Icon(context.icons.game),
         path: "/settings/game",
       ));
       all.add(const Divider());
