@@ -48,7 +48,7 @@ class R {
   static const enLocale = Locale('en');
   static const zhHansLocale = Locale.fromSubtags(languageCode: "zh", scriptCode: "Hans");
   static const zhHantLocale = Locale.fromSubtags(languageCode: "zh", scriptCode: "Hant");
-  static const defaultLocale = enLocale;
+  static const defaultLocale = zhHansLocale;
   static const supportedLocales = [
     enLocale,
     zhHansLocale,
