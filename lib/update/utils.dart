@@ -62,11 +62,13 @@ bool _canSkipVersion({
 bool _isTimeToShow({
   required ArtifactVersionInfo latest,
 }) {
+  final releaseTime = latest.releaseTime;
+  if (releaseTime == null) return true;
+  final now = DateTime.now();
   final rand = Random(CredentialsInit.storage.oaCredentials?.account.hashCode);
   final minuteDelta = rand.nextInt(2 * 60 * 60);
   final delay = Duration(minutes: minuteDelta);
-  final now = DateTime.now();
-  final showAfter = latest.releaseTime.add(delay);
+  final showAfter = releaseTime.add(delay);
   return now.isAfter(showAfter);
 }
 
@@ -111,7 +113,7 @@ Future<void> _checkAppUpdateFromApple({
   debugPrint(latest.toString());
   final currentVersion = R.meta.version;
   // if not manually triggered, delay a while
-  if (!manually &&!_isTimeToShow(latest: latest)) return;
+  if (!manually && !_isTimeToShow(latest: latest)) return;
   // if update checking was not manually triggered, skip it.
   if (!manually && _canSkipVersion(latest: latest.version, current: currentVersion)) return;
   if (!manually) {

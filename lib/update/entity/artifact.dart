@@ -9,10 +9,10 @@ class ArtifactVersionInfo {
   @JsonKey(fromJson: Version.parse)
   final Version version;
   @JsonKey(name: "release_time")
-  final DateTime releaseTime;
-  @JsonKey(name: "release_note")
+  final DateTime? releaseTime;
+  @JsonKey(name: "release_note", defaultValue: "")
   final String releaseNote;
-  @JsonKey()
+  @JsonKey(defaultValue: {})
   final Map<String, ArtifactDownload> downloads;
 
   const ArtifactVersionInfo({

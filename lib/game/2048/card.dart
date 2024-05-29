@@ -45,7 +45,7 @@ class BestScore2048Card extends ConsumerWidget {
           title: i18n.best.text(maxLines: 1),
           subtitle: AnimatedNumber(
             value: best,
-            builder: (ctx,v) => "${v.toInt()}".text(),
+            builder: (ctx, v) => "${v.toInt()}".text(),
           ),
         ),
       ).expanded(),
@@ -55,7 +55,7 @@ class BestScore2048Card extends ConsumerWidget {
           title: i18n.max.text(maxLines: 1),
           subtitle: AnimatedNumber(
             value: maxNumber,
-            builder: (ctx,v) => "${v.toInt()}".text(),
+            builder: (ctx, v) => "${v.toInt()}".text(),
           ),
         ),
       ).expanded(),

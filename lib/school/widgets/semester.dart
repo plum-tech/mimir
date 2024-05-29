@@ -81,11 +81,10 @@ class _SemesterSelectorState extends State<SemesterSelector> {
         }
       },
       dropdownMenuEntries: yearList
-          .map((year) =>
-          DropdownMenuEntry<int>(
-            value: year,
-            label: "$year–${year + 1}",
-          ))
+          .map((year) => DropdownMenuEntry<int>(
+                value: year,
+                label: "$year–${year + 1}",
+              ))
           .toList(),
     );
   }
@@ -104,11 +103,10 @@ class _SemesterSelectorState extends State<SemesterSelector> {
         }
       },
       dropdownMenuEntries: semesters
-          .map((semester) =>
-          DropdownMenuEntry<Semester>(
-            value: semester,
-            label: semester.l10n(),
-          ))
+          .map((semester) => DropdownMenuEntry<Semester>(
+                value: semester,
+                label: semester.l10n(),
+              ))
           .toList(),
     );
   }

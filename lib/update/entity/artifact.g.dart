@@ -8,11 +8,12 @@ part of 'artifact.dart';
 
 ArtifactVersionInfo _$ArtifactVersionInfoFromJson(Map<String, dynamic> json) => ArtifactVersionInfo(
       version: Version.parse(json['version'] as String),
-      releaseTime: DateTime.parse(json['release_time'] as String),
-      releaseNote: json['release_note'] as String,
-      downloads: (json['downloads'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, ArtifactDownload.fromJson(e as Map<String, dynamic>)),
-      ),
+      releaseTime: json['release_time'] == null ? null : DateTime.parse(json['release_time'] as String),
+      releaseNote: json['release_note'] as String? ?? '',
+      downloads: (json['downloads'] as Map<String, dynamic>?)?.map(
+            (k, e) => MapEntry(k, ArtifactDownload.fromJson(e as Map<String, dynamic>)),
+          ) ??
+          {},
     );
 
 ArtifactDownload _$ArtifactDownloadFromJson(Map<String, dynamic> json) => ArtifactDownload(
