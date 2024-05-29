@@ -225,6 +225,7 @@ jobs:
           path: build/
 
       - name: Upload preview file onto SIT-MC server
+        if: github.repository == 'liplum-dev/mimir'
         continue-on-error: true
         run: |
           node tools/upload-sitmc.mjs build/SITLife-${{ env.LATEST_VERSION }}.apk -d mimir-preview/latest.apk -k ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
@@ -235,6 +236,7 @@ jobs:
           branch: ${{ github.ref }}
 
       - name: Notify the latest building
+        if: github.repository == 'liplum-dev/mimir'
         continue-on-error: true
         run: |
           node tools/bot-notify-build.mjs ${{ secrets.gocq_sendgroupmsg_url }} -v ${{ env.LATEST_VERSION }}

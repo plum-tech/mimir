@@ -47,6 +47,7 @@ jobs:
           node tools/publish-release.mjs
 
       - name: Notify the latest release
+        if: github.repository == 'liplum-dev/mimir'
         continue-on-error: true
         run: |
           node tools/bot-notify-release.mjs ${{ secrets.gocq_sendgroupmsg_url }}
