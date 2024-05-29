@@ -247,7 +247,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
               : i18n.editor.timeslotsSpanMultiple(from: "${timeslots.start + 1}", to: "${timeslots.end + 1}"))
           .text(),
       subtitle: [
-        const Icon(Icons.light_mode),
+        Icon(context.icons.sun),
         RangeSlider(
           values: RangeValues(timeslots.start.toDouble(), timeslots.end.toDouble()),
           max: 10,
@@ -267,7 +267,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
             }
           },
         ).expanded(),
-        const Icon(Icons.dark_mode),
+        Icon(context.icons.moon),
       ].row(mas: MainAxisSize.min),
     );
   }
