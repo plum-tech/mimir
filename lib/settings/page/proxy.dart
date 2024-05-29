@@ -10,6 +10,7 @@ import 'package:sit/design/adaptive/editor.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/list_tile.dart';
+import 'package:sit/design/widgets/tooltip.dart';
 import 'package:sit/init.dart';
 import 'package:sit/network/widgets/checker.dart';
 import 'package:sit/qrcode/page/view.dart';
@@ -559,31 +560,28 @@ class _ProxyModeSwitcherTileState extends State<_ProxyModeSwitcherTile> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      isThreeLine: true,
-      leading: const Icon(Icons.public),
-      title: i18n.proxy.proxyMode.text(),
-      subtitle: ProxyMode.values
-          .map((mode) => ChoiceChip(
-                label: mode.l10nName().text(),
-                selected: widget.proxyMode == mode,
-                onSelected: (value) {
-                  widget.onChanged(mode);
-                },
-              ))
-          .toList()
-          .wrap(spacing: 4),
-      onTap: () async {
-        $tooltip.currentState?.ensureTooltipVisible();
-        await Future.delayed(const Duration(milliseconds: 1500));
-        Tooltip.dismissAllToolTips();
+    return TooltipScope(
+      message: buildTooltip(),
+      trigger: Icon(context.icons.info).padAll(8),
+      builder: (context, trigger, showTooltip) {
+        return ListTile(
+          isThreeLine: true,
+          leading: const Icon(Icons.public),
+          title: i18n.proxy.proxyMode.text(),
+          onTap: showTooltip,
+          trailing: trigger,
+          subtitle: ProxyMode.values
+              .map((mode) => ChoiceChip(
+                    label: mode.l10nName().text(),
+                    selected: widget.proxyMode == mode,
+                    onSelected: (value) {
+                      widget.onChanged(mode);
+                    },
+                  ))
+              .toList()
+              .wrap(spacing: 4),
+        );
       },
-      trailing: Tooltip(
-        key: $tooltip,
-        triggerMode: TooltipTriggerMode.tap,
-        message: buildTooltip(),
-        child: Icon(context.icons.info),
-      ).padAll(8),
     );
   }
 

@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/duration_picker.dart';
+import 'package:sit/design/widgets/tooltip.dart';
 import 'package:sit/r.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -103,35 +104,38 @@ class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
   }
 
   Widget buildModeSwitch() {
-    return ListTile(
-      isThreeLine: true,
-      leading: const Icon(Icons.calendar_month),
-      title: i18n.export.lessonMode.text(),
-      subtitle: [
-        ChoiceChip(
-          label: i18n.export.lessonModeMerged.text(),
-          selected: merged,
-          onSelected: (value) {
-            setState(() {
-              merged = true;
-            });
-          },
-        ),
-        ChoiceChip(
-          label: i18n.export.lessonModeSeparate.text(),
-          selected: !merged,
-          onSelected: (value) {
-            setState(() {
-              merged = false;
-            });
-          },
-        ),
-      ].wrap(spacing: 4),
-      trailing: Tooltip(
-        triggerMode: TooltipTriggerMode.tap,
-        message: merged ? i18n.export.lessonModeMergedTip : i18n.export.lessonModeSeparateTip,
-        child: Icon(context.icons.info),
-      ).padAll(8),
+    return TooltipScope(
+      message: merged ? i18n.export.lessonModeMergedTip : i18n.export.lessonModeSeparateTip,
+      trigger: Icon(context.icons.info).padAll(8),
+      builder: (context, trigger, showTooltip) {
+        return ListTile(
+          isThreeLine: true,
+          leading: const Icon(Icons.calendar_month),
+          title: i18n.export.lessonMode.text(),
+          onTap: showTooltip,
+          trailing: trigger,
+          subtitle: [
+            ChoiceChip(
+              label: i18n.export.lessonModeMerged.text(),
+              selected: merged,
+              onSelected: (value) {
+                setState(() {
+                  merged = true;
+                });
+              },
+            ),
+            ChoiceChip(
+              label: i18n.export.lessonModeSeparate.text(),
+              selected: !merged,
+              onSelected: (value) {
+                setState(() {
+                  merged = false;
+                });
+              },
+            ),
+          ].wrap(spacing: 4),
+        );
+      },
     );
   }
 
