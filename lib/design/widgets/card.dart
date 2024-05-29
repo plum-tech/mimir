@@ -7,24 +7,6 @@ enum CardVariant {
 }
 
 extension WidgetCardX on Widget {
-  Widget inOutlinedCard({
-    Clip? clip,
-  }) {
-    return Card.outlined(
-      clipBehavior: clip,
-      child: this,
-    );
-  }
-
-  Widget inFilledCard({
-    Clip? clip,
-  }) {
-    return Card.filled(
-      clipBehavior: clip,
-      child: this,
-    );
-  }
-
   Widget inAnyCard({
     Clip? clip,
     CardVariant type = CardVariant.elevated,

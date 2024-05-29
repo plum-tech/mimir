@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/design/animation/progress.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/school/exam_result/aggregated.dart';
 import 'package:sit/school/utils.dart';

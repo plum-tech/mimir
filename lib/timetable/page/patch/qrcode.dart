@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/timetable/entity/timetable.dart';
 import 'package:sit/timetable/page/patch/patch.dart';
 import 'package:sit/timetable/page/preview.dart';

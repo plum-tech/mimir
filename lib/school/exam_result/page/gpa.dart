@@ -4,7 +4,6 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/animation/progress.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/widgets/grouped.dart';
 import 'package:sit/design/widgets/multi_select.dart';

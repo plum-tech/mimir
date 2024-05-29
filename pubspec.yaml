@@ -116,7 +116,7 @@ dependencies:
   add_2_calendar: ^3.0.1
 
   # UI
-  go_router: ^14.1.3
+  go_router: ^14.1.4
   fl_chart: ^0.68.0
   flutter_svg: ^2.0.10+1
   flutter_svg_provider: ^1.0.7
@@ -157,7 +157,7 @@ dependencies:
   # Utils
   # dart.io.Platform API for Web
   universal_platform: ^1.1.0
-  rettulf: ^2.0.1
+  rettulf: ^2.1.1
   # lock
   async_locks: ^4.0.0
   # parse stacktrace

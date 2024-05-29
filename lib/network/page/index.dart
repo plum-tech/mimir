@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/credentials/entity/user_type.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/design/animation/animated.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/icon.dart';
 import 'package:sit/init.dart';
 import 'package:rettulf/rettulf.dart';

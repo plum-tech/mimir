@@ -7,7 +7,6 @@ import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/design/adaptive/menu.dart';
-import 'package:sit/design/widgets/card.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/editor.dart';
