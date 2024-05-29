@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/board.dart';
 
-class NumberFillerButton extends StatelessWidget {
+class SudokuNumberKey extends StatelessWidget {
   final int number;
   final VoidCallback? onTap;
   final Color? color;
 
-  const NumberFillerButton({
+  const SudokuNumberKey({
     super.key,
     required this.number,
     this.onTap,
@@ -17,8 +18,14 @@ class NumberFillerButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final onTap = this.onTap;
     return InkWell(
-      onTap: onTap,
+      onTap: onTap == null
+          ? null
+          : () {
+              HapticFeedback.selectionClick();
+              onTap();
+            },
       child: Text(
         '$number',
         textAlign: TextAlign.center,
@@ -32,13 +39,13 @@ class NumberFillerButton extends StatelessWidget {
   }
 }
 
-class NumberFillerArea extends StatelessWidget {
+class SudokuNumberKeyboard extends StatelessWidget {
   final int selectedIndex;
   final SudokuBoard board;
   final bool enableFillerHint;
   final VoidCallback? Function(int number)? getOnNumberTap;
 
-  const NumberFillerArea({
+  const SudokuNumberKeyboard({
     super.key,
     required this.selectedIndex,
     required this.board,
@@ -50,7 +57,7 @@ class NumberFillerArea extends StatelessWidget {
   Widget build(BuildContext context) {
     final getOnNumberTap = this.getOnNumberTap;
     final relatedCells = board.relatedOf(selectedIndex).toList();
-    return NumberFillerNumberPad(
+    return _SudokuNumberKeyboardPad(
       getNumberColor: (number) => !enableFillerHint
           ? null
           : relatedCells.any((cell) => cell.canUserInput ? false : cell.correctValue == number)
@@ -61,12 +68,11 @@ class NumberFillerArea extends StatelessWidget {
   }
 }
 
-class NumberFillerNumberPad extends StatelessWidget {
+class _SudokuNumberKeyboardPad extends StatelessWidget {
   final Color? Function(int number)? getNumberColor;
   final VoidCallback? Function(int number)? getOnNumberTap;
 
-  const NumberFillerNumberPad({
-    super.key,
+  const _SudokuNumberKeyboardPad({
     this.getNumberColor,
     this.getOnNumberTap,
   });
@@ -85,7 +91,7 @@ class NumberFillerNumberPad extends StatelessWidget {
     final number = row * 3 + column + 1;
     return Card.filled(
       clipBehavior: Clip.hardEdge,
-      child: NumberFillerButton(
+      child: SudokuNumberKey(
         color: getNumberColor?.call(number),
         number: number,
         onTap: getOnNumberTap?.call(number),

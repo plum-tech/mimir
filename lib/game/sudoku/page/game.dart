@@ -22,8 +22,8 @@ import '../manager/logic.dart';
 import '../settings.dart';
 import '../storage.dart';
 import '../widget/cell.dart';
-import '../widget/filler.dart';
 import '../widget/hud.dart';
+import '../widget/keyboard.dart';
 import '../widget/modal.dart';
 import '../widget/tool.dart';
 import "../i18n.dart";
@@ -189,7 +189,7 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
           const GameHud().padAll(8),
           buildCellArea().padAll(4),
           buildToolBar(),
-          buildFiller(),
+          buildKeyboard(),
         ],
       );
     } else {
@@ -198,7 +198,7 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
         ListView(
           children: [
             const GameHud().padAll(8),
-            buildFiller(),
+            buildKeyboard(),
             buildToolBar(),
           ],
         ).expanded(),
@@ -226,6 +226,7 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
     return InkWell(
       onTap: () {
         setState(() {
+          HapticFeedback.selectionClick();
           selectedCellIndex = index;
         });
       },
@@ -247,12 +248,12 @@ class _GameSudokuState extends ConsumerState<GameSudoku> with WidgetsBindingObse
     );
   }
 
-  Widget buildFiller() {
+  Widget buildKeyboard() {
     final board = ref.watch(stateSudoku.select((state) => state.board));
     final gameMode = ref.watch(stateSudoku.select((state) => state.mode));
     final gameStatus = ref.watch(stateSudoku.select((state) => state.status));
     return ExcludeFocus(
-      child: NumberFillerArea(
+      child: SudokuNumberKeyboard(
         board: board,
         selectedIndex: selectedCellIndex,
         enableFillerHint: gameMode.enableFillerHint,
