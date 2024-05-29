@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/timetable/i18n.dart' as $timetable;
 import 'package:sit/school/i18n.dart' as $school;
@@ -21,21 +22,21 @@ class MainStagePage extends ConsumerStatefulWidget {
   ConsumerState<MainStagePage> createState() => _MainStagePageState();
 }
 
-typedef _NavigationDest = ({Widget icon, Widget activeIcon, String label});
+typedef _NavigationDest = ({IconData icon, IconData activeIcon, String label});
 
 extension _NavigationDestX on _NavigationDest {
   NavigationDestination toBarItem() {
     return NavigationDestination(
-      icon: icon,
-      selectedIcon: activeIcon,
+      icon: Icon(icon),
+      selectedIcon: Icon(activeIcon),
       label: label,
     );
   }
 
   NavigationRailDestination toRailDest() {
     return NavigationRailDestination(
-      icon: icon,
-      selectedIcon: activeIcon,
+      icon: Icon(icon),
+      selectedIcon: Icon(activeIcon),
       label: label.text(),
     );
   }
@@ -51,8 +52,8 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
       (
         route: "/timetable",
         item: (
-          icon: const Icon(Icons.calendar_month_outlined),
-          activeIcon: const Icon(Icons.calendar_month),
+          icon: Icons.calendar_month_outlined,
+          activeIcon: Icons.calendar_month,
           label: $timetable.i18n.navigation,
         )
       ),
@@ -60,8 +61,8 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
         (
           route: "/school",
           item: (
-            icon: const Icon(Icons.school_outlined),
-            activeIcon: const Icon(Icons.school),
+            icon: Icons.school_outlined,
+            activeIcon: Icons.school,
             label: $school.i18n.navigation,
           )
         ),
@@ -69,8 +70,8 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
         (
           route: "/life",
           item: (
-            icon: const Icon(Icons.spa_outlined),
-            activeIcon: const Icon(Icons.spa),
+            icon: Icons.spa_outlined,
+            activeIcon: Icons.spa,
             label: $life.i18n.navigation,
           )
         ),
@@ -78,16 +79,16 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
         (
           route: "/game",
           item: (
-            icon: const Icon(Icons.videogame_asset_outlined),
-            activeIcon: const Icon(Icons.videogame_asset),
+            icon: context.icons.game,
+            activeIcon: context.icons.gameFilled,
             label: $game.i18n.navigation,
           )
         ),
       (
         route: "/me",
         item: (
-          icon: const Icon(Icons.person_outline),
-          activeIcon: const Icon(Icons.person),
+          icon: context.icons.personOutline,
+          activeIcon: context.icons.person,
           label: $me.i18n.navigation,
         )
       ),
