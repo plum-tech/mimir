@@ -65,6 +65,7 @@ bool _isTimeToShow({
   final releaseTime = latest.releaseTime;
   if (releaseTime == null) return true;
   final now = DateTime.now();
+  if (releaseTime.isAfter(now)) return true;
   final rand = Random(CredentialsInit.storage.oaCredentials?.account.hashCode);
   final minuteDelta = rand.nextInt(2 * 60 * 60);
   final delay = Duration(minutes: minuteDelta);
