@@ -10,7 +10,7 @@ class _I18n with CommonI18nMixin {
 
   static const ns = "qrCode";
 
-  String get barcodeNotRecognizedTip => "$ns.barcodeNotRecognizedTip".tr();
+  String get noQrCodeRecognizedTip => "$ns.noQrCodeRecognizedTip".tr();
 
   String get unrecognizedQrCodeTip => "$ns.unrecognizedQrCodeTip".tr();
 
@@ -18,6 +18,4 @@ class _I18n with CommonI18nMixin {
         "me": const WidgetSpan(child: Icon(Icons.person)),
         "scan": const WidgetSpan(child: Icon(Icons.qr_code_scanner)),
       });
-
-  String get saveImage => "$ns.saveImage".tr();
 }
