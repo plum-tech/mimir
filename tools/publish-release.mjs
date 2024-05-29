@@ -1,11 +1,29 @@
-import { github, getGitHubMirrorDownloadUrl } from "./lib/github.mjs"
+import { github, getGitHubMirrorDownloadUrl, setGithubFromUrl, getLatestReleaseApiUrl } from "./lib/github.mjs"
 import * as path from "path"
 import { getArtifactDownloadUrl } from './lib/sitmc.mjs'
 import esMain from 'es-main'
 import { searchAndGetAssetInfo } from "./lib/release.mjs"
 import { modifyDocsRepoAndPush } from './lib/mimir-docs.mjs'
+import { cli } from "@liplum/cli"
 
 const main = async () => {
+  const args = cli({
+    name: 'publish-release',
+    description: 'Publish the release onto mimir-docs.',
+    examples: ['node ./publish-release.mjs [<repo>]',],
+    require: [],
+    options: [{
+      name: 'repo',
+      alias: "r",
+      defaultOption: true,
+      description: 'The repo to be published onto mimir-docs.'
+    },],
+  })
+  if (args.repo) {
+    const url = getLatestReleaseApiUrl(args.repo)
+    console.log(url)
+    await setGithubFromUrl(url)
+  }
   // Get release information from environment variables (GitHub Actions context)
   const version = getVersion()
   const releaseTime = getPublishTime()

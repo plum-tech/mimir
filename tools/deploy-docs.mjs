@@ -7,7 +7,7 @@ const main = async () => {
   const args = cli({
     name: 'deploy-docs',
     description: 'Deploy the documentation pages',
-    examples: ['node ./deploy-docs v1.0.0+1',],
+    examples: ['node ./deploy-docs.mjs v1.0.0+1',],
     require: ["version", ["json", "path"]],
     options: [{
       name: 'version',
