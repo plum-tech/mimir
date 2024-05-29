@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:pretty_qr_code/pretty_qr_code.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/settings/dev.dart';
@@ -35,6 +37,8 @@ class QrCodePage extends ConsumerStatefulWidget {
 }
 
 class _QrCodePageState extends ConsumerState<QrCodePage> {
+  final $qrcodeK = GlobalKey(debugLabel: "QR code view");
+
   @override
   Widget build(BuildContext context) {
     final title = widget.title;
@@ -42,19 +46,32 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
       appBar: AppBar(
         title: title == null ? null : TextScroll(title),
         actions: [
-          // PlatformIconButton(
-          //   icon: context.icons.save,
-          // ),
           PlatformTextButton(
             child: i18n.save.text(),
             onPressed: () async {
-              await takeQrcodeScreenshot(
+              final fi = await takeQrcodeScreenshot(
                 context: context,
                 data: widget.data,
                 title: widget.title,
               );
+              await onScreenshotTaken(fi.path);
             },
-          )
+          ),
+          PlatformIconButton(
+            icon: Icon(context.icons.share),
+            onPressed: () async {
+              final sharePositionOrigin = ($qrcodeK.currentContext ?? context).getSharePositionOrigin();
+              final fi = await takeQrcodeScreenshot(
+                context: context,
+                data: widget.data,
+                title: widget.title,
+              );
+              await Share.shareXFiles(
+                [XFile(fi.path)],
+                sharePositionOrigin: sharePositionOrigin,
+              );
+            },
+          ),
         ],
       ),
       body: buildBody(),
@@ -86,6 +103,7 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
       final side = min(box.maxWidth, widget.maxSize ?? double.infinity);
       return ModalImageViewer(
         child: PlainQrCodeView(
+          key: $qrcodeK,
           data: data,
           size: side,
         ).center(),
@@ -177,12 +195,11 @@ class BrandQrCodeView extends StatelessWidget {
   }
 }
 
-Future<void> takeQrcodeScreenshot({
+Future<File> takeQrcodeScreenshot({
   required BuildContext context,
   String? title,
   required String data,
 }) async {
-  if (!context.mounted) return;
   final fi = await takeWidgetScreenshot(
     context: context,
     name: '${title != null ? sanitizeFilename(title) : "QR code"}.png',
@@ -208,6 +225,5 @@ Future<void> takeQrcodeScreenshot({
       },
     ),
   );
-
-  await onScreenshotTaken(fi.path);
+  return fi;
 }
