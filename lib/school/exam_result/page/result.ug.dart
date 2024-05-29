@@ -29,7 +29,7 @@ class ExamResultUgPage extends ConsumerStatefulWidget {
 }
 
 class _ExamResultUgPageState extends ConsumerState<ExamResultUgPage> {
-  late SemesterInfo initial = ExamResultInit.ugStorage.lastSemesterInfo ?? estimateCurrentSemester();
+  late SemesterInfo initial = ExamResultInit.ugStorage.lastSemesterInfo ?? estimateSemesterInfo();
   late List<ExamResultUg>? resultList = ExamResultInit.ugStorage.getResultList(initial);
   bool isFetching = false;
   final $loadingProgress = ValueNotifier(0.0);

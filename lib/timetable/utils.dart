@@ -271,7 +271,7 @@ Future<SitTimetable?> readTimetableFromPickedFile() async {
 Future<DateTime?> fetchStartDateOfCurrentSemester(SemesterInfo selected, OaUserType? userType) async {
   try {
     if (userType == OaUserType.undergraduate) {
-      final current = estimateCurrentSemester();
+      final current = estimateSemesterInfo();
       if (selected == current) {
         final span = await TimetableInit.service.getUgSemesterSpan();
         if (span != null) {

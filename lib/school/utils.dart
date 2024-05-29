@@ -71,10 +71,18 @@ int? getAdmissionYearFromStudentId(String? studentId) {
   return null;
 }
 
-SemesterInfo estimateCurrentSemester() {
-  final now = DateTime.now();
+SemesterInfo estimateSemesterInfo([DateTime? date]) {
+  date ??= DateTime.now();
   return SemesterInfo(
-    year: now.month >= 9 ? now.year : now.year - 1,
-    semester: now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1,
+    year: estimateSchoolYear(date),
+    semester: estimateSemester(date),
   );
+}
+int estimateSchoolYear([DateTime? date]) {
+  date ??= DateTime.now();
+  return date.month >= 9 ? date.year : date.year - 1;
+}
+Semester estimateSemester([DateTime? date]) {
+  date ??= DateTime.now();
+  return date.month >= 3 && date.month <= 7 ? Semester.term2 : Semester.term1;
 }

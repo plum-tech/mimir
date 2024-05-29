@@ -23,7 +23,7 @@ class ExamArrangementListPage extends ConsumerStatefulWidget {
 class _ExamArrangementListPageState extends ConsumerState<ExamArrangementListPage> {
   List<ExamEntry>? examList;
   bool isFetching = false;
-  late SemesterInfo initial = ExamArrangeInit.storage.lastSemesterInfo ?? estimateCurrentSemester();
+  late SemesterInfo initial = ExamArrangeInit.storage.lastSemesterInfo ?? estimateSemesterInfo();
   late SemesterInfo selected = initial;
 
   @override

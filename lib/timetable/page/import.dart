@@ -41,7 +41,7 @@ class ImportTimetablePage extends ConsumerStatefulWidget {
 class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
   bool canImport = false;
   var _status = ImportStatus.none;
-  late SemesterInfo initial = estimateCurrentSemester();
+  late SemesterInfo initial = estimateSemesterInfo();
   late SemesterInfo selected = initial;
 
   @override
@@ -123,6 +123,7 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
       SemesterSelector(
         baseYear: getAdmissionYearFromStudentId(credentials?.account),
         initial: initial,
+        showNextYear: true,
         onSelected: (newSelection) {
           setState(() {
             selected = newSelection;

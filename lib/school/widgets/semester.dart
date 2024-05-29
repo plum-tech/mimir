@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/school/utils.dart';
 
 import '../entity/school.dart';
 import "../i18n.dart";
@@ -10,6 +11,7 @@ class SemesterSelector extends StatefulWidget {
 
   /// 是否显示整个学年
   final bool showEntireYear;
+  final bool showNextYear;
   final void Function(SemesterInfo newSelection)? onSelected;
 
   const SemesterSelector({
@@ -17,6 +19,7 @@ class SemesterSelector extends StatefulWidget {
     required this.baseYear,
     this.onSelected,
     this.initial,
+    this.showNextYear = false,
     this.showEntireYear = false,
   });
 
@@ -37,12 +40,11 @@ class _SemesterSelectorState extends State<SemesterSelector> {
   void initState() {
     super.initState();
     now = DateTime.now();
-    selectedYear = widget.initial?.year ?? (now.month >= 9 ? now.year : now.year - 1);
+    selectedYear = widget.initial?.year ?? estimateSchoolYear();
     if (widget.showEntireYear) {
       selectedSemester = widget.initial?.semester ?? Semester.all;
     } else {
-      selectedSemester =
-          widget.initial?.semester ?? (now.month >= 3 && now.month <= 7 ? Semester.term2 : Semester.term1);
+      selectedSemester = widget.initial?.semester ?? estimateSemester();
     }
   }
 
@@ -54,20 +56,23 @@ class _SemesterSelectorState extends State<SemesterSelector> {
     ].row(caa: CrossAxisAlignment.start, mas: MainAxisSize.min).padSymmetric(v: 5).center();
   }
 
+  /// generate semesters in reverse order
   List<int> _generateYearList() {
-    final endYear = now.month >= 9 ? now.year : now.year - 1;
-    List<int> yearItems = [];
+    var endYear = estimateSchoolYear();
+    if (widget.showNextYear) {
+      endYear += 1;
+    }
+    final yearItems = <int>[];
     for (var year = widget.baseYear ?? now.year; year <= endYear; year++) {
       yearItems.add(year);
     }
-    return yearItems;
+    yearItems.sort();
+    return yearItems.reversed.toList();
   }
 
   Widget buildYearSelector() {
-    // 生成经历过的学期并逆序（方便用户选择）
-    final List<int> yearList = _generateYearList().reversed.toList();
+    final List<int> yearList = _generateYearList().toList();
 
-    // 保证显示上初始选择年份、实际加载的年份、selectedYear 变量一致.
     return DropdownMenu<int>(
       label: i18n.course.schoolYear.text(),
       initialSelection: selectedYear,
@@ -78,10 +83,11 @@ class _SemesterSelectorState extends State<SemesterSelector> {
         }
       },
       dropdownMenuEntries: yearList
-          .map((year) => DropdownMenuEntry<int>(
-                value: year,
-                label: "$year–${year + 1}",
-              ))
+          .map((year) =>
+          DropdownMenuEntry<int>(
+            value: year,
+            label: "$year–${year + 1}",
+          ))
           .toList(),
     );
   }
@@ -90,7 +96,6 @@ class _SemesterSelectorState extends State<SemesterSelector> {
     List<Semester> semesters = widget.showEntireYear
         ? const [Semester.all, Semester.term1, Semester.term2]
         : const [Semester.term1, Semester.term2];
-    // 保证显示上初始选择学期、实际加载的学期、selectedSemester 变量一致.
     return DropdownMenu<Semester>(
       label: i18n.course.semester.text(),
       initialSelection: selectedSemester,
@@ -101,10 +106,11 @@ class _SemesterSelectorState extends State<SemesterSelector> {
         }
       },
       dropdownMenuEntries: semesters
-          .map((semester) => DropdownMenuEntry<Semester>(
-                value: semester,
-                label: semester.l10n(),
-              ))
+          .map((semester) =>
+          DropdownMenuEntry<Semester>(
+            value: semester,
+            label: semester.l10n(),
+          ))
           .toList(),
     );
   }

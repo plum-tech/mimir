@@ -26,7 +26,7 @@ class _ExamResultUgAppCardState extends ConsumerState<ExamResultUgAppCard> {
   @override
   Widget build(BuildContext context) {
     final storage = ExamResultInit.ugStorage;
-    final currentSemester = estimateCurrentSemester();
+    final currentSemester = estimateSemesterInfo();
     ref.watch(storage.$resultListFamily(currentSemester));
     final resultList = storage.getResultList(currentSemester);
     final showResultPreview = ref.watch(Settings.school.examResult.$showResultPreview);

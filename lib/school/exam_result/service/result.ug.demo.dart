@@ -16,7 +16,7 @@ class DemoExamResultUgService implements ExamResultUgService {
   }) async {
     onProgress?.call(1.0);
     final now = DateTime.now();
-    final SemesterInfo(:exactYear, :semester) = estimateCurrentSemester();
+    final SemesterInfo(:exactYear, :semester) = estimateSemesterInfo();
     final rand = Random();
     return List.generate(15, (index) {
       final score = rand.nextInt(100).toDouble();
