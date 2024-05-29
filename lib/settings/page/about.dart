@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/list_tile.dart';
@@ -48,32 +47,26 @@ class _AboutSettingsPageState extends ConsumerState<AboutSettingsPage> {
               DetailListTile(
                 title: i18n.about.icpLicense,
                 subtitle: R.icpLicense,
-                trailing: PlatformIconButton(
-                  icon: const Icon(Icons.open_in_browser),
-                  onPressed: () async {
-                    await guardLaunchUrlString(context, "https://beian.miit.gov.cn/");
-                  },
-                ),
+                trailing: const Icon(Icons.open_in_browser),
+                onTap: () async {
+                  await guardLaunchUrlString(context, "https://beian.miit.gov.cn/");
+                },
               ),
               ListTile(
                 title: i18n.about.termsOfUse.text(),
-                trailing: PlatformIconButton(
-                  icon: const Icon(Icons.open_in_browser),
-                  onPressed: () async {
-                    await guardLaunchUrlString(
-                        context, "https://github.com/liplum-dev/mimir/blob/master/Terms%20of%20use.md");
-                  },
-                ),
+                trailing: const Icon(Icons.open_in_browser),
+                onTap: () async {
+                  await guardLaunchUrlString(
+                      context, "https://github.com/liplum-dev/mimir/blob/master/Terms%20of%20use.md");
+                },
               ),
               ListTile(
                 title: i18n.about.privacyPolicy.text(),
-                trailing: PlatformIconButton(
-                  icon: const Icon(Icons.open_in_browser),
-                  onPressed: () async {
-                    await guardLaunchUrlString(
-                        context, "https://github.com/liplum-dev/mimir/blob/master/Privacy%20Policy.md");
-                  },
-                ),
+                trailing: const Icon(Icons.open_in_browser),
+                onTap: () async {
+                  await guardLaunchUrlString(
+                      context, "https://github.com/liplum-dev/mimir/blob/master/Privacy%20Policy.md");
+                },
               ),
               AboutListTile(
                 // FIXME: icon is buggy

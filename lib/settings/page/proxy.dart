@@ -341,34 +341,32 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
       leading: const Icon(Icons.link),
       title: "URL",
       subtitle: uri?.toString(),
-      trailing: PlatformIconButton(
-        icon: Icon(context.icons.edit),
-        onPressed: () async {
-          var newFullProxy = await Editor.showStringEditor(
-            context,
-            desc: i18n.proxy.title,
-            initial: uri?.toString() ?? type.buildDefaultUri().toString(),
+      trailing: Icon(context.icons.edit),
+      onTap: () async {
+        var newFullProxy = await Editor.showStringEditor(
+          context,
+          desc: i18n.proxy.title,
+          initial: uri?.toString() ?? type.buildDefaultUri().toString(),
+        );
+        if (newFullProxy == null) return;
+        newFullProxy = newFullProxy.trim();
+        final newUri = _validateProxyUriForType(newFullProxy, type);
+        if (newUri == null) {
+          if (!mounted) return;
+          context.showTip(
+            title: i18n.error,
+            desc: i18n.proxy.invalidProxyFormatTip,
+            primary: i18n.close,
           );
-          if (newFullProxy == null) return;
-          newFullProxy = newFullProxy.trim();
-          final newUri = _validateProxyUriForType(newFullProxy, type);
-          if (newUri == null) {
-            if (!mounted) return;
-            context.showTip(
-              title: i18n.error,
-              desc: i18n.proxy.invalidProxyFormatTip,
-              primary: i18n.close,
-            );
-            return;
-          }
-          if (newUri != uri) {
-            setState(() {
-              this.uri = newUri;
-              enableAuth = newUri.userInfo.isNotEmpty;
-            });
-          }
-        },
-      ),
+          return;
+        }
+        if (newUri != uri) {
+          setState(() {
+            this.uri = newUri;
+            enableAuth = newUri.userInfo.isNotEmpty;
+          });
+        }
+      },
     );
   }
 
@@ -399,23 +397,21 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
       leading: const Icon(Icons.link),
       title: i18n.proxy.hostname,
       subtitle: host,
-      trailing: PlatformIconButton(
-        icon: Icon(context.icons.edit),
-        onPressed: () async {
-          final newHostRaw = await Editor.showStringEditor(
-            context,
-            desc: i18n.proxy.hostname,
-            initial: host ?? type.defaultHost,
-          );
-          if (newHostRaw == null) return;
-          final newHost = newHostRaw.trim();
-          if (newHost != host) {
-            setState(() {
-              this.host = newHostRaw.isNotEmpty ? newHostRaw : null;
-            });
-          }
-        },
-      ),
+      trailing: Icon(context.icons.edit),
+      onTap: () async {
+        final newHostRaw = await Editor.showStringEditor(
+          context,
+          desc: i18n.proxy.hostname,
+          initial: host ?? type.defaultHost,
+        );
+        if (newHostRaw == null) return;
+        final newHost = newHostRaw.trim();
+        if (newHost != host) {
+          setState(() {
+            this.host = newHostRaw.isNotEmpty ? newHostRaw : null;
+          });
+        }
+      },
     );
   }
 
@@ -425,22 +421,20 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
       leading: const Icon(Icons.settings_input_component_outlined),
       title: i18n.proxy.port,
       subtitle: port?.toString(),
-      trailing: PlatformIconButton(
-        icon: Icon(context.icons.edit),
-        onPressed: () async {
-          final newPort = await Editor.showIntEditor(
-            context,
-            desc: i18n.proxy.port,
-            initial: port ?? type.defaultPort,
-          );
-          if (newPort == null) return;
-          if (newPort != port) {
-            setState(() {
-              this.port = newPort;
-            });
-          }
-        },
-      ),
+      trailing: Icon(context.icons.edit),
+      onTap: () async {
+        final newPort = await Editor.showIntEditor(
+          context,
+          desc: i18n.proxy.port,
+          initial: port ?? type.defaultPort,
+        );
+        if (newPort == null) return;
+        if (newPort != port) {
+          setState(() {
+            this.port = newPort;
+          });
+        }
+      },
     );
   }
 
@@ -475,31 +469,29 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
     return DetailListTile(
       title: i18n.proxy.authentication,
       subtitle: text,
-      trailing: PlatformIconButton(
-        icon: Icon(context.icons.edit),
-        onPressed: () async {
-          final newAuth = await showAdaptiveDialog<({String username, String password})>(
-            context: context,
-            builder: (_) => StringsEditor(
-              fields: [
-                (name: "username", initial: auth?.username ?? ""),
-                (name: "password", initial: auth?.password ?? ""),
-              ],
-              title: i18n.proxy.authentication,
-              ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
-            ),
-          );
-          if (newAuth != null && newAuth != auth) {
-            setState(() {
-              this.userInfo = newAuth.username.isEmpty
-                  ? null
-                  : newAuth.password.isNotEmpty
-                      ? "${newAuth.username}:${newAuth.password}"
-                      : newAuth.username;
-            });
-          }
-        },
-      ),
+      trailing: Icon(context.icons.edit),
+      onTap: () async {
+        final newAuth = await showAdaptiveDialog<({String username, String password})>(
+          context: context,
+          builder: (_) => StringsEditor(
+            fields: [
+              (name: "username", initial: auth?.username ?? ""),
+              (name: "password", initial: auth?.password ?? ""),
+            ],
+            title: i18n.proxy.authentication,
+            ctor: (values) => (username: values[0].trim(), password: values[1].trim()),
+          ),
+        );
+        if (newAuth != null && newAuth != auth) {
+          setState(() {
+            this.userInfo = newAuth.username.isEmpty
+                ? null
+                : newAuth.password.isNotEmpty
+                    ? "${newAuth.username}:${newAuth.password}"
+                    : newAuth.username;
+          });
+        }
+      },
     );
   }
 
@@ -549,7 +541,7 @@ class _EnableProxyToggleTile extends StatelessWidget {
   }
 }
 
-class _ProxyModeSwitcherTile extends StatelessWidget {
+class _ProxyModeSwitcherTile extends StatefulWidget {
   final ProxyMode? proxyMode;
   final ValueChanged<ProxyMode> onChanged;
 
@@ -557,6 +549,13 @@ class _ProxyModeSwitcherTile extends StatelessWidget {
     required this.proxyMode,
     required this.onChanged,
   });
+
+  @override
+  State<_ProxyModeSwitcherTile> createState() => _ProxyModeSwitcherTileState();
+}
+
+class _ProxyModeSwitcherTileState extends State<_ProxyModeSwitcherTile> {
+  final $tooltip = GlobalKey<TooltipState>(debugLabel: "Info tooltip");
 
   @override
   Widget build(BuildContext context) {
@@ -567,14 +566,20 @@ class _ProxyModeSwitcherTile extends StatelessWidget {
       subtitle: ProxyMode.values
           .map((mode) => ChoiceChip(
                 label: mode.l10nName().text(),
-                selected: proxyMode == mode,
+                selected: widget.proxyMode == mode,
                 onSelected: (value) {
-                  onChanged(mode);
+                  widget.onChanged(mode);
                 },
               ))
           .toList()
           .wrap(spacing: 4),
+      onTap: () async {
+        $tooltip.currentState?.ensureTooltipVisible();
+        await Future.delayed(const Duration(milliseconds: 1500));
+        Tooltip.dismissAllToolTips();
+      },
       trailing: Tooltip(
+        key: $tooltip,
         triggerMode: TooltipTriggerMode.tap,
         message: buildTooltip(),
         child: Icon(context.icons.info),
@@ -583,7 +588,7 @@ class _ProxyModeSwitcherTile extends StatelessWidget {
   }
 
   String buildTooltip() {
-    final proxyMode = this.proxyMode;
+    final proxyMode = widget.proxyMode;
     if (proxyMode == null) {
       return ProxyMode.values.map((mode) => "${mode.l10nName()}: ${mode.l10nTip()}").join("\n");
     } else {

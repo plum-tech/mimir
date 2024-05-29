@@ -34,6 +34,7 @@ class DetailListTile extends StatelessWidget {
       subtitle: subtitle?.text(),
       visualDensity: VisualDensity.compact,
       enabled: enabled,
+      onTap: onTap,
       onLongPress: copyable && subtitle != null
           ? () async {
               final title = this.title;
