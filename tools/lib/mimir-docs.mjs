@@ -10,6 +10,7 @@ const artifactPath = 'artifact'
  * @param {{version:string,payload:{version: any;  release_time: any;  release_note: any;  downloads: {};}}} param0
  */
 export const modifyDocsRepoAndPush = async ({ version, payload }) => {
+  version = version.startsWith("v") ? version.substring(1) : version
   execSync(`git clone ${gitUrl} mimir-deploy --single-branch --branch main --depth 1`)
 
   // Create artifact directory
