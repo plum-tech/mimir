@@ -9,7 +9,7 @@ const artifactPath = 'artifact'
  *
  * @param {{version:string,payload:{version: any;  release_time: any;  release_note: any;  downloads: {};}}} param0
  */
-export const modifyDocsRepoAndPush = async ({ version, payload }) => {
+export const modifyDocsRepoAndPush = async ({ version, payload, ssh = true }) => {
   version = version.startsWith("v") ? version.substring(1) : version
   execSync(`git clone ${gitUrl} mimir-deploy --single-branch --branch main --depth 1`)
 
@@ -33,5 +33,9 @@ export const modifyDocsRepoAndPush = async ({ version, payload }) => {
   execSync(`git diff`)
   execSync(`git add .`)
   execSync(`git commit -m "Release New Version: ${version}"`)
-  execSync(`git push "git@github.com:Amazefcc233/mimir-docs" main:main`)
+  if (ssh) {
+    execSync(`git push "git@github.com:Amazefcc233/mimir-docs" main:main`)
+  } else {
+    execSync(`git push main:main`)
+  }
 }
