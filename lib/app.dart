@@ -61,6 +61,9 @@ class _MimirAppState extends ConsumerState<MimirApp> {
         navigationBarTheme: const NavigationBarThemeData(
           height: 60,
         ),
+        snackBarTheme: const SnackBarThemeData(
+          behavior: SnackBarBehavior.floating,
+        ),
         pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
             TargetPlatform.android: ZoomPageTransitionsBuilder(),
