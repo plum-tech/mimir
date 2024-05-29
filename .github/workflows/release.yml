@@ -12,90 +12,41 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Install deploy key
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.DOCS_SSH_KEY }}
           known_hosts: ${{ secrets.DOCS_KNOWN_HOST }}
 
-      - name: Deploy
-        if: github.repository == 'liplum-dev/mimir'
-        shell: bash
-        run: |
-          git clone --single-branch --branch main "https://github.com/Amazefcc233/mimir-docs" ~/deploy
-          cd ~/deploy
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: tools/package-lock.json
 
-          version=$(echo "${{ github.event.release.tag_name }}" | sed 's/v//g')
-          release_time=$(echo "${{ github.event.release.published_at }}" | sed 's/T/ /g' | sed 's/Z//g')
-          release_time=$(date -d "$release_time 8 hours" "+%Y-%m-%d %H:%M:%S")
-          release_note=$(echo "${{ github.event.release.body }}" | sed -n '/## 更改/,/## How to download/p' | sed '1d;$d')
-          apk_name=$(echo "${{ github.event.release.assets[0].name }}")
-          apk_url=$(echo "${{ github.event.release.assets[0].browser_download_url }}")
-          if [ -z "$apk_url" ]; then
-            apk_sha256=""
-          else
-            apk_sha256=$(curl -sL "$apk_url" | sha256sum | cut -d ' ' -f 1)
-          fi
-          ipa_name=$(echo "${{ github.event.release.assets[1].name }}")
-          ipa_url=$(echo "${{ github.event.release.assets[1].browser_download_url }}")
-          if [ -z "$ipa_url" ]; then
-            ipa_sha256=""
-          else
-            ipa_sha256=$(curl -sL "$ipa_url" | sha256sum | cut -d ' ' -f 1)
-          fi
+      - name: Setup git config
+        run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          mkdir -p "artifact/"
-          
-          jq -n \
-            --arg version "$version" \
-            --arg release_time "$release_time" \
-            --arg release_note "$release_note" \
-            --arg apk_name "$apk_name" \
-            --arg apk_sha256 "$apk_sha256" \
-            --arg apk_url1 "$apk_url" \
-            --arg apk_url2 "https://mirror.ghproxy.com/$apk_url" \
-            --arg apk_url3 "https://temp.sitmc.club/prepare-download/v$version/$apk_name" \
-            --arg ipa_name "$ipa_name" \
-            --arg ipa_sha256 "$ipa_sha256" \
-            --arg ipa_url1 "$ipa_url" \
-            --arg ipa_url2 "https://mirror.ghproxy.com/$ipa_url" \
-            --arg ipa_url3 "https://temp.sitmc.club/prepare-download/v$version/$ipa_name" \
-            '
-              {
-                "version": $version,
-                "release_time": $release_time,
-                "release_note": $release_note,
-                "downloads": {
-                  "Android": {
-                    "name": $apk_name,
-                    "default": "official",
-                    "sha256": $apk_sha256,
-                    "url": {
-                      "official": $apk_url3,
-                      "github": $apk_url1,
-                      "mirror": $apk_url2,
-                    },
-                  },
-                  "iOS": {
-                    "name": $ipa_name,
-                    "default": "official",
-                    "sha256": $ipa_sha256,
-                    "url": {
-                      "official": $ipa_url3,
-                      "github": $ipa_url1,
-                      "mirror": $ipa_url2,
-                    }
-                  }
-                }
-              }
-            ' > "artifact/$version.json"
-          
-          rm -f artifact/latest.json
-          ln -s "$version.json" "artifact/latest.json"
-          
-          git add --all
-          git commit -m "Release New Version: $version"
-          git push "git@github.com:Amazefcc233/mimir-docs" main:main
-  
+
+      - name: Npm install
+        run: |
+          cd tools && npm i && cd ..
+
+      - name: Upload artifacts onto SIT-MC sever
+        if: github.repository == 'liplum-dev/mimir'
+        run: |
+          node tools/upload-release-sitmc.mjs -k ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
+
+      - name: Deploy
+        if: github.repository == 'liplum-dev/mimir'
+        run: |
+          node tools/publish-release.mjs
+
+      - name: Notify the latest release
+        continue-on-error: true
+        run: |
+          node tools/bot-notify-release.mjs ${{ secrets.gocq_sendgroupmsg_url }}
