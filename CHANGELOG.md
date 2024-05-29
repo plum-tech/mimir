@@ -4,13 +4,13 @@
 - Fixed 2048 not working on portrait mode.
 - [Android] support predictive back gesture.
 - Fixed color issues of Wordle on light mode
-- Fixed translucent color in timetable palette not working with theme harmonization.
+- Fixed translucent colors in timetable palette not working with theme harmonization.
 - [Android] drop the support of `x86` and `x86_64`.
 - Changed default locale to `zh_Hans`.
 - The support to reset Sudoku game.
 - Importing timetable form the next school year was allowed.
 - Display check connectivity sheet when importing timetable.
-- Sudoku best score and max value on app card.
+- Display the best score and the max value of 2048 on app card.
 
 ## v2.4.2
 - Introduced Sudoku game.
