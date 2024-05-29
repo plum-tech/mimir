@@ -39,7 +39,7 @@ class ImportTimetablePage extends ConsumerStatefulWidget {
 }
 
 class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
-  bool canImport = false;
+  bool connected = false;
   var _status = ImportStatus.none;
   late SemesterInfo initial = estimateSemesterInfo();
   late SemesterInfo selected = initial;
@@ -68,10 +68,7 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
                 child: LinearProgressIndicator(),
               ),
       ),
-      body: (canImport
-              ? buildImportPage(key: const ValueKey("Import Timetable"))
-              : buildConnectivityChecker(context, const ValueKey("Connectivity Checker")))
-          .animatedSwitched(),
+      body: buildImportPage(),
     );
   }
 
@@ -85,20 +82,15 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
     context.pop(timetable);
   }
 
-  Widget buildConnectivityChecker(BuildContext ctx, Key? key) {
-    return ConnectivityChecker(
-      key: key,
-      iconSize: ctx.isPortrait ? 180 : 120,
-      initialDesc: i18n.import.connectivityCheckerDesc,
-      check: TimetableInit.service.checkConnectivity,
-      where: WhereToCheck.studentReg,
-      onConnected: () {
-        if (!mounted) return;
-        setState(() {
-          canImport = true;
-        });
-      },
-    );
+  Future<bool> checkConnectivity() async {
+    if (connected) return true;
+    final result = await context.showSheet<bool>((ctx) => ConnectivityCheckerSheet(
+          desc: i18n.import.connectivityCheckerDesc,
+          check: TimetableInit.service.checkConnectivity,
+          where: WhereToCheck.studentReg,
+        ));
+    connected = result == true;
+    return connected;
   }
 
   Widget buildTip(BuildContext ctx) {
@@ -183,6 +175,8 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
   }
 
   void _onImport() async {
+    final connected = await checkConnectivity();
+    if (!connected) return;
     setState(() {
       _status = ImportStatus.importing;
     });

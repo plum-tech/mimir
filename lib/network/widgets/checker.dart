@@ -31,8 +31,10 @@ class ConnectivityChecker extends StatefulWidget {
   final Duration? autoStartDelay;
   final WhereToCheck where;
 
+  /// {@template mimir.network.widgets.checker}
   /// Whether it's connected will be turned.
   /// Throw any error if connection fails.
+  /// {@endtemplate}
   final Future<bool> Function() check;
 
   const ConnectivityChecker({
@@ -71,7 +73,9 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
     final autoStartDelay = widget.autoStartDelay;
     if (autoStartDelay != null) {
       Future.delayed(autoStartDelay).then((value) {
-        startCheck();
+        if (status == _Status.none) {
+          startCheck();
+        }
       });
     }
   }
@@ -246,6 +250,41 @@ class _TestConnectionTileState extends State<TestConnectionTile> {
           });
         }
       },
+    );
+  }
+}
+
+class ConnectivityCheckerSheet extends StatelessWidget {
+  final String desc;
+
+  /// {@macro mimir.network.widgets.checker}
+  final Future<bool> Function() check;
+  final WhereToCheck where;
+
+  const ConnectivityCheckerSheet({
+    super.key,
+    required this.desc,
+    required this.check,
+    required this.where,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: i18n.title.text(),
+      ),
+      body: ConnectivityChecker(
+        key: key,
+        iconSize: context.isPortrait ? 180 : 120,
+        autoStartDelay: const Duration(milliseconds: 2500),
+        initialDesc: desc,
+        check: check,
+        where: where,
+        onConnected: () {
+          context.pop(true);
+        },
+      ),
     );
   }
 }

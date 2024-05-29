@@ -8,8 +8,6 @@ import "../i18n.dart";
 class SemesterSelector extends StatefulWidget {
   final int? baseYear;
   final SemesterInfo? initial;
-
-  /// 是否显示整个学年
   final bool showEntireYear;
   final bool showNextYear;
   final void Function(SemesterInfo newSelection)? onSelected;
