@@ -520,40 +520,6 @@ class StyledCourseCell extends StatelessWidget {
   }
 }
 
-class DashLined extends StatelessWidget {
-  final Widget? child;
-  final bool top;
-  final bool bottom;
-  final bool left;
-  final bool right;
-
-  const DashLined({
-    super.key,
-    this.child,
-    this.top = false,
-    this.bottom = false,
-    this.left = false,
-    this.right = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: DashDecoration(
-        color: context.colorScheme.surfaceTint.withOpacity(0.3),
-        strokeWidth: 0.5,
-        borders: {
-          if (right) LinePosition.right,
-          if (bottom) LinePosition.bottom,
-          if (left) LinePosition.left,
-          if (top) LinePosition.top,
-        },
-      ),
-      child: child,
-    );
-  }
-}
-
 class TimetableSlotInfo extends StatelessWidget {
   final String courseName;
   final String place;

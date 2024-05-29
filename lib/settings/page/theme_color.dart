@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/dash_decoration.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/color.dart';
 import 'package:sit/utils/save.dart';
@@ -147,24 +148,28 @@ class ThemeColorPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return [
-      Card(
-        child: _PreviewTile(
-          trailing: (v, f) => Checkbox.adaptive(
-            value: v,
-            onChanged: (v) => f(v != true),
+    return DashBoxed(
+      child: Container(
+        child: [
+          Card(
+            child: _PreviewTile(
+              trailing: (v, f) => Checkbox.adaptive(
+                value: v,
+                onChanged: (v) => f(v != true),
+              ),
+            ),
           ),
-        ),
+          Card.filled(
+              child: _PreviewTile(
+            trailing: (v, f) => Switch.adaptive(
+              value: v,
+              onChanged: f,
+            ),
+          )),
+          const _PreviewButton().padAll(8),
+        ].column(caa: CrossAxisAlignment.start),
       ),
-      Card.filled(
-          child: _PreviewTile(
-        trailing: (v, f) => Switch.adaptive(
-          value: v,
-          onChanged: f,
-        ),
-      )),
-      _PreviewButton().padAll(8),
-    ].column(caa: CrossAxisAlignment.start);
+    );
   }
 }
 

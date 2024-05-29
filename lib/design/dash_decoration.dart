@@ -1,5 +1,19 @@
 import 'dart:ui';
 import 'package:flutter/widgets.dart';
+import 'package:rettulf/rettulf.dart';
+
+enum LinePosition {
+  left,
+  top,
+  right,
+  bottom;
+}
+
+enum Shape {
+  line,
+  box,
+  circle;
+}
 
 class DashDecoration extends Decoration {
   final Set<LinePosition> borders;
@@ -9,14 +23,29 @@ class DashDecoration extends Decoration {
   final List<int> dash;
   final double strokeWidth;
 
-  const DashDecoration({
+  const DashDecoration.line({
     this.borders = const {},
-    this.shape = Shape.line,
-    this.color = const Color(0xFF9E9E9E),
+    required this.color,
+    this.dash = const <int>[5, 5],
+    this.strokeWidth = 1,
+  })  : shape = Shape.line,
+        borderRadius = null;
+
+  const DashDecoration.circle({
+    required this.color,
+    this.dash = const <int>[5, 5],
+    this.strokeWidth = 1,
+  })  : shape = Shape.circle,
+        borders = const {},
+        borderRadius = null;
+
+  const DashDecoration.box({
+    required this.color,
     this.borderRadius,
     this.dash = const <int>[5, 5],
     this.strokeWidth = 1,
-  });
+  })  : shape = Shape.box,
+        borders = const {};
 
   @override
   BoxPainter createBoxPainter([VoidCallback? onChanged]) {
@@ -80,7 +109,12 @@ class _DashPainter extends BoxPainter {
       );
       outPath.addRRect(rect);
     } else if (shape == Shape.circle) {
-      outPath.addOval(Rect.fromLTWH(offset.dx, offset.dy, configuration.size!.width, configuration.size!.height));
+      outPath.addOval(Rect.fromLTWH(
+        offset.dx,
+        offset.dy,
+        configuration.size!.width,
+        configuration.size!.height,
+      ));
     }
 
     PathMetrics metrics = outPath.computeMetrics(forceClosed: false);
@@ -110,6 +144,73 @@ class _DashPainter extends BoxPainter {
   }
 }
 
-enum LinePosition { left, top, right, bottom }
+class DashLined extends StatelessWidget {
+  final Widget? child;
+  final Color? color;
+  final bool top;
+  final bool bottom;
+  final bool left;
+  final bool right;
 
-enum Shape { line, box, circle }
+  const DashLined({
+    super.key,
+    this.child,
+    this.color,
+    this.top = false,
+    this.bottom = false,
+    this.left = false,
+    this.right = false,
+  });
+
+  const DashLined.all({
+    super.key,
+    required bool enabled,
+    this.child,
+    this.color,
+  })  : top = enabled,
+        bottom = enabled,
+        left = enabled,
+        right = enabled;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: DashDecoration.line(
+        color: color ?? context.colorScheme.onSurface,
+        strokeWidth: 0.5,
+        borders: {
+          if (right) LinePosition.right,
+          if (bottom) LinePosition.bottom,
+          if (left) LinePosition.left,
+          if (top) LinePosition.top,
+        },
+      ),
+      child: child,
+    );
+  }
+}
+
+class DashBoxed extends StatelessWidget {
+  final Widget? child;
+  final Color? color;
+  final BorderRadius borderRadius;
+
+  const DashBoxed({
+    super.key,
+    this.child,
+    this.color,
+    this.borderRadius = const BorderRadius.all(Radius.circular(12.0)),
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: DashDecoration.box(
+        color: color ?? context.colorScheme.onSurface,
+        strokeWidth: 0.5,
+        borderRadius: borderRadius,
+      ),
+      child: child,
+    );
+  }
+}
