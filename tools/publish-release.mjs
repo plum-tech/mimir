@@ -26,6 +26,15 @@ const main = async () => {
   }
   // Get release information from environment variables (GitHub Actions context)
   const version = getVersion()
+  const artifactPayload = prepareArtifactPayload()
+  validateArtifactPayload(artifactPayload)
+
+  await modifyDocsRepoAndPush({ version, payload: artifactPayload })
+}
+
+export const prepareArtifactPayload = async () => {
+  // Get release information from environment variables (GitHub Actions context)
+  const version = getVersion()
   const releaseTime = getPublishTime()
   const releaseNote = getReleaseNote()
   console.log(version, releaseTime)
@@ -36,10 +45,7 @@ const main = async () => {
   // Generate artifact data
   const artifactPayload = buildArtifactPayload({ version, tagName: github.release.tag_name, releaseTime, releaseNote, apk, ipa })
   validateArtifactPayload(artifactPayload)
-
-  await modifyDocsRepoAndPush({ version, payload: artifactPayload })
 }
-
 
 const getVersion = () => {
   // remove leading 'v'
