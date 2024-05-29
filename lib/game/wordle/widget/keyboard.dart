@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/entity/dual_color.dart';
 import 'package:sit/game/wordle/entity/status.dart';
 import '../entity/keyboard.dart';
@@ -129,9 +130,9 @@ class WordleEnterKeyWidget extends StatelessWidget {
         HapticFeedback.selectionClick();
         const InputNotification.enter().dispatch(context);
       },
-      child: const Icon(
-        Icons.keyboard_return_rounded,
-        color: Colors.white,
+      child: Icon(
+        context.icons.return_,
+        color: LetterStatus.correct.bg.textColorBy(context),
       ),
     );
   }
@@ -148,9 +149,9 @@ class WordleBackspaceKeyWidget extends StatelessWidget {
         HapticFeedback.selectionClick();
         const InputNotification.backspace().dispatch(context);
       },
-      child: const Icon(
-        Icons.keyboard_backspace_rounded,
-        color: Colors.white,
+      child: Icon(
+        context.icons.backspace,
+        color: LetterStatus.correct.bg.textColorBy(context),
       ),
     );
   }
