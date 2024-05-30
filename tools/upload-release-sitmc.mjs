@@ -34,7 +34,7 @@ const main = async () => {
   const res = await uploadFile({
     auth,
     localFilePath: apkPath,
-    remotePath: `${sanitizeNameForUri(tag)}/${sanitizeNameForUri(apk.name)}`,
+    remotePath: `${tag}/${sanitizeNameForUri(apk.name)}`,
   })
   console.log(res)
 }
