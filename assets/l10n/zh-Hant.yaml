@@ -792,7 +792,7 @@ greeting:
     other: "{} 天"
 qrCode:
   noQrCodeRecognizedTip: 未識別到 QR 碼
-  unrecognizedQrCodeTip: 無法識別的 QR 碼
+  invalidFormatTip: 無法識別的 QR 碼，這可能是來自舊版 @:appName 的過期 QR 碼。
   hint: 請啟動 @:appName，然後導航至 個人{me}，再點擊右上角的 掃描{scan}。
 404:
   title: 找不到頁面

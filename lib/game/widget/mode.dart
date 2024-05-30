@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/game/entity/game_mode.dart';
 
 import '../i18n.dart';
@@ -21,7 +22,7 @@ class GameModeSelectorCard<T extends GameMode> extends StatelessWidget {
     return Card(
       child: [
         ListTile(
-          leading: const Icon(Icons.videogame_asset),
+          leading: Icon(context.icons.game),
           title: i18n.gameMode.text(),
         ),
         buildSelector(context),

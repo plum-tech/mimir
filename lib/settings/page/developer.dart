@@ -273,7 +273,7 @@ class DebugDeepLinkTile extends StatelessWidget {
         return getFirstDeepLinkHandler(deepLink: uri) != null;
       },
       onSubmit: (uri) async {
-        await onHandleDeepLink(context: context, deepLink: Uri.parse(uri));
+        await onHandleDeepLinkString(context: context, deepLink: uri);
         return true;
       },
     );

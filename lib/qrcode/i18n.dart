@@ -12,7 +12,7 @@ class _I18n with CommonI18nMixin {
 
   String get noQrCodeRecognizedTip => "$ns.noQrCodeRecognizedTip".tr();
 
-  String get unrecognizedQrCodeTip => "$ns.unrecognizedQrCodeTip".tr();
+  String get invalidFormatTip => "$ns.invalidFormatTip".tr();
 
   List<InlineSpan> get hint => "$ns.hint".trSpan(args: {
         "me": const WidgetSpan(child: Icon(Icons.person)),

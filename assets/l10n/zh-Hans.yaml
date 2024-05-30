@@ -792,7 +792,7 @@ greeting:
     other: "第 {} 天"
 qrCode:
   noQrCodeRecognizedTip: 未识别到二维码
-  unrecognizedQrCodeTip: 无法识别的二维码
+  invalidFormatTip: 无法识别的二维码，这可能是来自旧版 @:appName 的过期二维码。
   hint: 请启动 @:appName，然后切换至 个人{me}，再点击右上角的 扫一扫{scan}。
 404:
   title: 找不到页面

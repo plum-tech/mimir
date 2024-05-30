@@ -792,7 +792,7 @@ greeting:
     other: "{} Days"
 qrCode:
   noQrCodeRecognizedTip: No QR code
-  unrecognizedQrCodeTip: Unrecognized QR code
+  invalidFormatTip: Unrecognizable QR code, which may be an expired QR code from an old version of @:appName.
   hint: Please launch @:appName. Then navigate to Me {me}, and click the Scanner {scan} on the right corner.
 404:
   title: Not Found
