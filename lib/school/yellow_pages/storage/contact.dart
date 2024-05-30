@@ -27,7 +27,10 @@ class YellowPagesStorage {
     box.safePut<List>(_K.history, newV);
   }
 
-  late final $interactHistory = box.provider(_K.history);
+  late final $interactHistory = box.provider(
+    _K.history,
+    get: () => interactHistory,
+  );
 }
 
 extension YellowPagesStorageX on YellowPagesStorage {

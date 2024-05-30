@@ -11,6 +11,7 @@ import 'package:sit/school/exam_result/index.pg.dart';
 import 'package:sit/school/exam_result/index.ug.dart';
 import 'package:sit/school/library/index.dart';
 import 'package:sit/school/oa_announce/index.dart';
+import 'package:sit/school/student_plan/card.dart';
 import 'package:sit/school/yellow_pages/card.dart';
 import 'package:sit/school/ywb/index.dart';
 import 'package:rettulf/rettulf.dart';
@@ -53,38 +54,19 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
           child: CustomScrollView(
             slivers: [
               if (loginStatus != LoginStatus.never) ...[
-                if (userType?.capability.enableClass2nd == true)
-                  const SliverToBoxAdapter(
-                    child: Class2ndAppCard(),
-                  ),
-                if (userType?.capability.enableExamArrange == true)
-                  const SliverToBoxAdapter(
-                    child: ExamArrangeAppCard(),
-                  ),
+                if (userType?.capability.enableClass2nd == true) const Class2ndAppCard().sliver(),
+                if (userType?.capability.enableExamArrange == true) const ExamArrangeAppCard().sliver(),
                 if (userType?.capability.enableExamResult == true)
                   if (userType == OaUserType.undergraduate)
-                    const SliverToBoxAdapter(
-                      child: ExamResultUgAppCard(),
-                    )
+                    const ExamResultUgAppCard().sliver()
                   else if (userType == OaUserType.postgraduate)
-                    const SliverToBoxAdapter(
-                      child: ExamResultPgAppCard(),
-                    ),
+                    const ExamResultPgAppCard().sliver(),
+                if (userType == OaUserType.undergraduate) const StudentPlanAppCard().sliver(),
+                const OaAnnounceAppCard().sliver(),
+                const YwbAppCard().sliver(),
               ],
-              if (loginStatus != LoginStatus.never)
-                const SliverToBoxAdapter(
-                  child: OaAnnounceAppCard(),
-                ),
-              if (loginStatus != LoginStatus.never)
-                const SliverToBoxAdapter(
-                  child: YwbAppCard(),
-                ),
-              const SliverToBoxAdapter(
-                child: LibraryAppCard(),
-              ),
-              const SliverToBoxAdapter(
-                child: YellowPagesAppCard(),
-              ),
+              const LibraryAppCard().sliver(),
+              const YellowPagesAppCard().sliver(),
             ],
           ),
         ),
