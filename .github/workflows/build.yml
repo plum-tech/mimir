@@ -148,7 +148,7 @@ jobs:
 
       - name: Build xArchive
         run: |
-          xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release DEVELOPMENT_TEAM="M5APZD5CKA" -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE="eb8b1f5f-3329-42a5-a18f-8254a2e85b41" clean archive CODE_SIGN_IDENTITY="Apple Distribution: ziqi wei"
+          xcodebuild -workspace ios/Runner.xcworkspace -scheme Runner -configuration Release DEVELOPMENT_TEAM="6MZL7DZ5BQ" -sdk 'iphoneos' -destination 'generic/platform=iOS' -archivePath build-output/app.xcarchive PROVISIONING_PROFILE="516cedde-fe70-4902-bebe-438890797bf5" clean archive CODE_SIGN_IDENTITY="Apple Distribution: Chenchen Fan"
 
       - name: Export ipa
         run: |

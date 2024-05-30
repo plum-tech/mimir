@@ -7,8 +7,8 @@ filedata = filedata.replace('CODE_SIGN_IDENTITY = "Apple Development";', 'CODE_S
 # CODE_SIGN_STYLE所在行进行替换更改，变为CODE_SIGN_STYLE = Manual;
 filedata = filedata.replace('CODE_SIGN_STYLE = Automatic;', 'CODE_SIGN_STYLE = Manual;')
 
-# DEVELOPMENT_TEAM所在行进行替换更改，变为DEVELOPMENT_TEAM = "M5APZD5CKA";
-filedata = filedata.replace('DEVELOPMENT_TEAM = "";', 'DEVELOPMENT_TEAM = "M5APZD5CKA";')
+# DEVELOPMENT_TEAM所在行进行替换更改，变为DEVELOPMENT_TEAM = "6MZL7DZ5BQ";
+filedata = filedata.replace('DEVELOPMENT_TEAM = "";', 'DEVELOPMENT_TEAM = "6MZL7DZ5BQ";')
 
 # PROVISIONING_PROFILE_SPECIFIER所在行进行替换更改，变为PROVISIONING_PROFILE_SPECIFIER = "SITLife-Distribution-AppStore";
 filedata = filedata.replace('PROVISIONING_PROFILE_SPECIFIER = "";', 'PROVISIONING_PROFILE_SPECIFIER = "SITLife-Distribution-AppStore";')
