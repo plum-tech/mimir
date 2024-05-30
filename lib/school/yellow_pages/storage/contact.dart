@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sit/utils/hive.dart';
 import 'package:sit/storage/hive/init.dart';
@@ -15,7 +14,7 @@ class YellowPagesStorage {
   Box get box => HiveInit.yellowPages;
   final int maxHistoryLength;
 
-  const YellowPagesStorage({
+  YellowPagesStorage({
     this.maxHistoryLength = 2,
   });
 
@@ -28,7 +27,7 @@ class YellowPagesStorage {
     box.safePut<List>(_K.history, newV);
   }
 
-  ValueListenable<Box> listenHistory() => box.listenable(keys: [_K.history]);
+  late final $interactHistory = box.provider(_K.history);
 }
 
 extension YellowPagesStorageX on YellowPagesStorage {

@@ -5,6 +5,6 @@ class YellowPagesInit {
 
   static void init() {}
   static void initStorage() {
-    storage = const YellowPagesStorage();
+    storage = YellowPagesStorage();
   }
 }

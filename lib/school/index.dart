@@ -11,7 +11,7 @@ import 'package:sit/school/exam_result/index.pg.dart';
 import 'package:sit/school/exam_result/index.ug.dart';
 import 'package:sit/school/library/index.dart';
 import 'package:sit/school/oa_announce/index.dart';
-import 'package:sit/school/yellow_pages/index.dart';
+import 'package:sit/school/yellow_pages/card.dart';
 import 'package:sit/school/ywb/index.dart';
 import 'package:rettulf/rettulf.dart';
 import 'i18n.dart';
