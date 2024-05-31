@@ -4,10 +4,8 @@ import fs from 'fs/promises' // For file system operations
 const projectPbxprojPath = 'ios/Runner.xcodeproj/project.pbxproj'
 
 const mapping = {
-  'CODE_SIGN_IDENTITY = "Apple Development";': 'CODE_SIGN_IDENTITY = "Apple Distribution";',
-  'CODE_SIGN_STYLE = Automatic;': 'CODE_SIGN_STYLE = Manual;',
-  'DEVELOPMENT_TEAM = "";': 'DEVELOPMENT_TEAM = "6MZL7DZ5BQ";',
-  'PROVISIONING_PROFILE_SPECIFIER = "";': 'PROVISIONING_PROFILE_SPECIFIER = "SITLifeDistributionAppStore";',
+  'CODE_SIGN_IDENTITY = "Apple Development: Chenchen Fan (69GX6A5KWV)";': 'CODE_SIGN_IDENTITY = "Apple Distribution: Chenchen Fan (6MZL7DZ5BQ)";',
+  'PROVISIONING_PROFILE_SPECIFIER = "li iOS development";': 'PROVISIONING_PROFILE_SPECIFIER = SITLifeDistributionAppStore;',
 }
 
 const main = async () => {
