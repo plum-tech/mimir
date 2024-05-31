@@ -15,6 +15,7 @@ import 'package:sit/school/student_plan/card.dart';
 import 'package:sit/school/yellow_pages/card.dart';
 import 'package:sit/school/ywb/index.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:sit/settings/dev.dart';
 import 'i18n.dart';
 
 class SchoolPage extends ConsumerStatefulWidget {
@@ -61,7 +62,7 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
                     const ExamResultUgAppCard().sliver()
                   else if (userType == OaUserType.postgraduate)
                     const ExamResultPgAppCard().sliver(),
-                if (userType == OaUserType.undergraduate) const StudentPlanAppCard().sliver(),
+                if (userType == OaUserType.undergraduate && ref.watch(Dev.$on)) const StudentPlanAppCard().sliver(),
                 const OaAnnounceAppCard().sliver(),
                 const YwbAppCard().sliver(),
               ],
