@@ -1,4 +1,4 @@
-import { extractVersionAndBuildNumberFromTag, getLargestTag } from "./git.mjs"
+import { extractVersionAndBuildNumberFromTag, formatVersionInfo, getLargestTag } from "./git.mjs"
 
 /**
  *
@@ -20,13 +20,19 @@ export const parseVersion = (fullVersion) => {
  */
 export const guardVersioning = async (newVersionFull) => {
   const { version, buildNumber } = parseVersion(newVersionFull)
-  const largestTag = await getLargestTag()
-  console.log(`The largest tag from git is ${largestTag}`)
-  const upgradeDelta = buildNumber - largestTag.buildNumber
+  const largestInfo = await getLargestTag(version)
+  if (!largestInfo) {
+    console.log(`No existing tags for v${version}`)
+    return
+  }
+  console.log(`The largest tag from git is ${formatVersionInfo(largestInfo)}`)
+  const upgradeDelta = buildNumber - largestInfo.buildNumber
   if (upgradeDelta <= 0) {
-    throw new Error(`${newVersionFull} should be larger than ${largestTag}`)
+    throw new Error(`${newVersionFull} should be larger than ${formatVersionInfo(largestInfo)}`)
   }
   if (upgradeDelta > 1) {
-    throw new Error(`${newVersionFull} upgrades more than one build numbers than ${largestTag}`)
+    throw new Error(`${newVersionFull} upgrades more than one build numbers at once than ${formatVersionInfo(largestInfo)}`)
   }
 }
+
+guardVersioning("v2.5.0+450")

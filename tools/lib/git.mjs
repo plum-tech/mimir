@@ -19,17 +19,28 @@ export const extractVersionAndBuildNumberFromTag = (tag) => {
     throw new Error(`Could not find version in tag "${tag}"`)
   }
   const buildNumber = buildNumberMatch ? parseInt(buildNumberMatch[1].slice(1)) : 0
-  return {version, buildNumber}
+  return { version, buildNumber }
 }
 
 /**
  * Get the largest version and build number from current git repository
  * @param {string?} version
- * @returns {Promise<{version:string,buildNumber:number}>}
+ * @returns {Promise<{version:string,buildNumber:number}?>}
  */
 export const getLargestTag = async (version) => {
   const tags = await git.tags()
   // in ascending order
-  const versionInfos = tags.all.map(tag => extractVersionAndBuildNumberFromTag(tag)).sort((a, b) => a.buildNumber - b.buildNumber)
+  let versionInfos = tags.all.map(tag => extractVersionAndBuildNumberFromTag(tag))
+  if (version) {
+    versionInfos = versionInfos.filter((info) => info.version === version)
+  }
+  versionInfos.sort((a, b) => a.buildNumber - b.buildNumber)
+  if (versionInfos.length === 0) return
   return versionInfos[versionInfos.length - 1]
+}
+/**
+ * @param {{version:string,buildNumber:number}} info
+ */
+export const formatVersionInfo = (info) =>{
+  return `v${info.version}+${info.buildNumber}`;
 }
