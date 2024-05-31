@@ -1,25 +1,38 @@
-import { extractVersionAndBuildNumberFromTag, getLargestTag } from "./git.mjs"
+import { extractVersionAndBuildNumberFromTag, formatVersionInfo, getLargestTag } from "./git.mjs"
 
 /**
  *
- * @param {string | [string,number]} newVersionFull
+ * @param {string | {version:string,buildNumber:number}} fullVersion
  */
-export async function guardVersioning(newVersionFull) {
-  let newVersion, newBuildNumber
-  if (typeof newVersionFull === "string") {
-    [newVersion, newBuildNumber] = extractVersionAndBuildNumberFromTag(newVersionFull)
-  } else if (Array.isArray(newVersionFull)) {
-    [newVersion, newBuildNumber] = newVersionFull
+export const parseVersion = (fullVersion) => {
+  if (typeof fullVersion === "string") {
+    return extractVersionAndBuildNumberFromTag(fullVersion)
+  } else if (typeof fullVersion === "object") {
+    return fullVersion
   } else {
-    throw new Error(`${newVersionFull} not recognized`)
-  }
-  const largestTag = await getLargestTag()
-  console.log(`The largest tag from git is ${largestTag}`)
-  const upgradeDelta = newBuildNumber - largestTag[1]
-  if (upgradeDelta <= 0) {
-    throw new Error(`${newVersionFull} should be larger than ${largestTag}`)
-  }
-  if (upgradeDelta > 1) {
-    throw new Error(`${newVersionFull} upgrades more than one build numbers than ${largestTag}`)
+    throw new Error(`${fullVersion} is not a version`)
   }
 }
+
+/**
+ *
+ * @param {string | {version:string,buildNumber:number}} newVersionFull
+ */
+export const guardVersioning = async (newVersionFull) => {
+  const { version, buildNumber } = parseVersion(newVersionFull)
+  const largestInfo = await getLargestTag(version)
+  if (!largestInfo) {
+    console.log(`No existing tags for v${version}`)
+    return
+  }
+  console.log(`The largest tag from git is ${formatVersionInfo(largestInfo)}`)
+  const upgradeDelta = buildNumber - largestInfo.buildNumber
+  if (upgradeDelta <= 0) {
+    throw new Error(`${newVersionFull} should be larger than ${formatVersionInfo(largestInfo)}`)
+  }
+  if (upgradeDelta > 1) {
+    throw new Error(`${newVersionFull} upgrades more than one build numbers at once than ${formatVersionInfo(largestInfo)}`)
+  }
+}
+
+guardVersioning("v2.5.0+450")
