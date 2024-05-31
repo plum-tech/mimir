@@ -17,7 +17,7 @@ export async function guardVersioning(newVersionFull) {
   console.log(`The largest tag from git is ${largestTag}`)
   const upgradeDelta = newBuildNumber - largestTag[1]
   if (upgradeDelta <= 0) {
-    throw new Error(`${newVersionFull} is larger than ${largestTag}`)
+    throw new Error(`${newVersionFull} should be larger than ${largestTag}`)
   }
   if (upgradeDelta > 1) {
     throw new Error(`${newVersionFull} upgrades more than one build numbers than ${largestTag}`)
