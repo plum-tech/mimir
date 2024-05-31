@@ -40,7 +40,7 @@ jobs:
       - name: Get Git info
         id: get_git_info
         run: |
-          echo "RESOLVED_VERSION="$(ls new-build-artifacts | grep -oP 'SITLife-v\d+\.\d+\.\d+\+\d+' | head -n 1 | cut -d'-' -f2) >> "$GITHUB_OUTPUT"
+          echo "RESOLVED_VERSION="$(ls new-build-artifacts | grep -oP 'sitlife-v\d+\.\d+\.\d+\+\d+' | head -n 1 | cut -d'-' -f2) >> "$GITHUB_OUTPUT"
           echo "PREVIOUS_TAG="$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name') >> "$GITHUB_OUTPUT"
 
       - name: Check builds
@@ -49,18 +49,18 @@ jobs:
           RESOLVED_VERSION: ${{ steps.get_git_info.outputs.RESOLVED_VERSION }}
         run: |
           if [ "${{ github.event.inputs.ipa-publish }}" == "false" ]; then
-            rm -rf new-build-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.ipa
+            rm -rf new-build-artifacts/sitlife-${{ env.RESOLVED_VERSION }}.ipa
           fi
 
-          if [ ! -f "new-build-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.apk" ]; then
+          if [ ! -f "new-build-artifacts/sitlife-${{ env.RESOLVED_VERSION }}.apk" ]; then
             echo "APK_SHA256=" >> "$GITHUB_OUTPUT"
           else
-            echo "APK_SHA256=- \`SITLife-${{ env.RESOLVED_VERSION }}.apk\`: "$(sha256sum new-build-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.apk | awk '{print $1}') >> "$GITHUB_OUTPUT"
+            echo "APK_SHA256=- \`sitlife-${{ env.RESOLVED_VERSION }}.apk\`: "$(sha256sum new-build-artifacts/sitlife-${{ env.RESOLVED_VERSION }}.apk | awk '{print $1}') >> "$GITHUB_OUTPUT"
           fi
-          if [ ! -f "new-build-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.ipa" ]; then
+          if [ ! -f "new-build-artifacts/sitlife-${{ env.RESOLVED_VERSION }}.ipa" ]; then
             echo "IPA_SHA256=" >> "$GITHUB_OUTPUT"
           else
-            echo "IPA_SHA256=- \`SITLife-${{ env.RESOLVED_VERSION }}.ipa\`: "$(sha256sum new-build-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.ipa | awk '{print $1}') >> "$GITHUB_OUTPUT"
+            echo "IPA_SHA256=- \`sitlife-${{ env.RESOLVED_VERSION }}.ipa\`: "$(sha256sum new-build-artifacts/sitlife-${{ env.RESOLVED_VERSION }}.ipa | awk '{print $1}') >> "$GITHUB_OUTPUT"
           fi
 
       - name: Print path of builds
@@ -74,8 +74,8 @@ jobs:
           PREVIOUS_TAG: ${{ steps.get_git_info.outputs.PREVIOUS_TAG }}
         with:
           files: |
-            new-build-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.apk
-            new-build-artifacts/SITLife-${{ env.RESOLVED_VERSION }}.ipa
+            new-build-artifacts/sitlife-${{ env.RESOLVED_VERSION }}.apk
+            new-build-artifacts/sitlife-${{ env.RESOLVED_VERSION }}.ipa
           tag_name: ${{ env.RESOLVED_VERSION }}
           body: |
             ## Changes

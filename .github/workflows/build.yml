@@ -73,13 +73,13 @@ jobs:
       - name: Rename APK file
         run: |
           mkdir -p build/upload-artifacts/
-          mv build/app/outputs/flutter-apk/app-release-signed.apk build/upload-artifacts/SITLife-${{ env.LATEST_VERSION }}.apk
+          mv build/app/outputs/flutter-apk/app-release-signed.apk build/upload-artifacts/sitlife-${{ env.LATEST_VERSION }}.apk
 
       - name: Publish Android Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: SITLife-Android-release
-          path: build/upload-artifacts/SITLife-${{ env.LATEST_VERSION }}.apk
+          name: sitlife-Android-release
+          path: build/upload-artifacts/sitlife-${{ env.LATEST_VERSION }}.apk
 
   build_ios:
     runs-on: macos-14 # macos-latest is macos-12 actually, and iOS 17+ SDK not supported
@@ -163,13 +163,13 @@ jobs:
       - name: Rename ipa file
         run: |
           mkdir -p build/upload-artifacts/
-          mv build-output/ios/life.mysit.SITLife.ipa build/upload-artifacts/SITLife-${{ env.LATEST_VERSION }}.ipa
+          mv build-output/ios/life.mysit.SITLife.ipa build/upload-artifacts/sitlife-${{ env.LATEST_VERSION }}.ipa
 
       - name: Publish iOS Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: SITLife-iOS-release
-          path: build/upload-artifacts/SITLife-${{ env.LATEST_VERSION }}.ipa
+          name: sitlife-iOS-release
+          path: build/upload-artifacts/sitlife-${{ env.LATEST_VERSION }}.ipa
 
   after_build:
     runs-on: macos-latest
@@ -205,14 +205,14 @@ jobs:
         if: github.repository == 'liplum-dev/mimir'
         uses: actions/download-artifact@v4
         with:
-          name: SITLife-iOS-release
+          name: sitlife-iOS-release
           path: build/
 
       - name: Deploy to App Store (TestFlight)
         if: github.repository == 'liplum-dev/mimir'
         uses: apple-actions/upload-testflight-build@v1
         with:
-          app-path: ${{ github.workspace }}/build/SITLife-${{ env.LATEST_VERSION }}.ipa
+          app-path: ${{ github.workspace }}/build/sitlife-${{ env.LATEST_VERSION }}.ipa
           issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           api-key-id: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
           api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
@@ -221,14 +221,14 @@ jobs:
         if: github.repository == 'liplum-dev/mimir'
         uses: actions/download-artifact@v4
         with:
-          name: SITLife-Android-release
+          name: sitlife-Android-release
           path: build/
 
       - name: Upload preview file onto SIT-MC server
         if: github.repository == 'liplum-dev/mimir'
         continue-on-error: true
         run: |
-          node tools/upload-sitmc.mjs build/SITLife-${{ env.LATEST_VERSION }}.apk -d mimir-preview/latest.apk -k ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
+          node tools/upload-sitmc.mjs build/sitlife-${{ env.LATEST_VERSION }}.apk -d mimir-preview/latest.apk -k ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
 
       - name: Push changes
         uses: ad-m/github-push-action@master
