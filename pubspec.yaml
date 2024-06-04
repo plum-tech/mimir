@@ -8,7 +8,8 @@ version: 2.5.1+1
 homepage: https://github.com/liplum/mimir
 repository: https://github.com/liplum/mimir
 issue_tracker: https://github.com/liplum/mimir/issues
-documentation: https://github.com/liplum/mimir#readme
+documentation: https://g
+  ithub.com/liplum/mimir#readme
 
 publish_to: none
 environment:
@@ -92,7 +93,7 @@ dependencies:
   app_links: ^6.1.1
   # Open with other APP/programs
   open_file: ^3.3.2
-  url_launcher: ^6.2.6
+  url_launcher: ^6.3.0
   # Open Android / iOS system image picker
   image_picker: ^1.1.2
   file_picker: ^8.0.3
