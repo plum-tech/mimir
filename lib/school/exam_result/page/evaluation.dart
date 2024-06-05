@@ -1,5 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/init.dart';
 
 import 'package:sit/settings/dev.dart';
@@ -10,13 +14,6 @@ import 'package:rettulf/rettulf.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../i18n.dart';
-
-class TeacherEvaluationPage extends StatefulWidget {
-  const TeacherEvaluationPage({super.key});
-
-  @override
-  State<TeacherEvaluationPage> createState() => _TeacherEvaluationPageState();
-}
 
 final teacherEvaluationUri = Uri(
   scheme: 'http',
@@ -34,9 +31,17 @@ const _skipCountingDownPageJs = """
 onClickMenu.call(this, '/xspjgl/xspj_cxXspjIndex.html?doType=details', 'N401605', { "offDetails": "1" })
 """;
 
-class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
+class TeacherEvaluationPage extends ConsumerStatefulWidget {
+  const TeacherEvaluationPage({super.key});
+
+  @override
+  ConsumerState<TeacherEvaluationPage> createState() => _TeacherEvaluationPageState();
+}
+
+class _TeacherEvaluationPageState extends ConsumerState<TeacherEvaluationPage> {
   final $autoScore = ValueNotifier(100);
   final controller = WebViewController();
+  var submitEnabled = true;
   List<WebViewCookie>? cookies;
 
   @override
@@ -59,6 +64,21 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
     );
   }
 
+  Future<void> submit() async {
+    await controller.runJavaScript(
+      "document.getElementById('btn_xspj_tj')?.click()",
+    );
+  }
+
+  Future<void> checkSubmitEnabled() async {
+    final enabled = await controller.runJavaScriptReturningResult(
+      "Boolean(document.getElementById('btn_xspj_tj'))",
+    );
+    setState(() {
+      submitEnabled = enabled == true;
+    });
+  }
+
   Future<void> loadCookies() async {
     // refresh the cookies
     await Init.ugRegSession.request(
@@ -76,7 +96,13 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
   @override
   Widget build(BuildContext context) {
     final cookies = this.cookies;
-    if (cookies == null) return const SizedBox.shrink();
+    if (cookies == null) {
+      return Scaffold(
+        appBar: AppBar(
+          title: i18n.teacherEvalTitle.text(),
+        ),
+      );
+    }
     return WebViewPage(
       controller: controller,
       initialUrl: teacherEvaluationUri.toString(),
@@ -87,12 +113,25 @@ class _TeacherEvaluationPageState extends State<TeacherEvaluationPage> {
           js: _skipCountingDownPageJs,
         ),
       ],
-      bottomNavigationBar: Dev.on
-          ? BottomAppBar(
-              height: 40,
-              child: buildAutofillScore(),
-            )
-          : null,
+      bottomNavigationBar: ref.watch(Dev.$on) ? buildAdvancedBottomBar() : null,
+    );
+  }
+
+  Widget buildAdvancedBottomBar() {
+    return BottomAppBar(
+      height: 55,
+      child: [
+        buildAutofillScore().expanded(),
+        PlatformTextButton(
+          onPressed: submitEnabled
+              ? () async {
+                  await setAllScores();
+                  await submit();
+                }
+              : null,
+          child: i18n.submit.text(),
+        ),
+      ].row(),
     );
   }
 

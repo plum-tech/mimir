@@ -158,7 +158,10 @@ class _WebViewPageState extends State<WebViewPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: TextScroll(curTitle),
+          title: TextScroll(
+            curTitle,
+            velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
+          ),
           actions: actions,
           bottom: buildTopIndicator(),
         ),
