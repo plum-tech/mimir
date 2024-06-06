@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -53,7 +54,7 @@ class _LifePageState extends ConsumerState<LifePage> {
               SliverList.list(children: [
                 if (loginStatus != LoginStatus.never) const ExpenseRecordsAppCard(),
                 if (campus.capability.enableElectricity) const ElectricityBalanceAppCard(),
-                if (oaCredentials != null && OpenLabDoorAppCard.isAvailable(oaAccount: oaCredentials.account))
+                if (!kIsWeb && oaCredentials != null && OpenLabDoorAppCard.isAvailable(oaAccount: oaCredentials.account))
                   const OpenLabDoorAppCard(),
               ]),
             ],
