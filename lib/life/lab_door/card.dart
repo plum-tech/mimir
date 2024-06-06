@@ -37,13 +37,13 @@ class _OpenLabDoorAppCardState extends ConsumerState<OpenLabDoorAppCard> {
   @override
   Widget build(BuildContext context) {
     return AppCard(
-      title: "打开机协的门".text(),
-      subtitle: "请连接 Robot Wi-Fi 后使用".text(),
+      title: "机协实验室的门".text(),
+      subtitle: '请先连接 Wi-Fi "Robot"'.text(),
       leftActions: [
         FilledButton.icon(
           icon: const Icon(Icons.assignment),
           onPressed: opening ? null : openDoor,
-          label: "开启".text(),
+          label: "开门".text(),
         ),
       ],
     );
@@ -61,7 +61,7 @@ class _OpenLabDoorAppCardState extends ConsumerState<OpenLabDoorAppCard> {
       setState(() {
         opening = false;
       });
-      context.showSnackBar(content: "打开失败".text());
+      context.showSnackBar(content: "开门失败".text());
       return;
     }
     await Future.delayed(const Duration(milliseconds: 800));
@@ -69,7 +69,7 @@ class _OpenLabDoorAppCardState extends ConsumerState<OpenLabDoorAppCard> {
     setState(() {
       opening = false;
     });
-    context.showSnackBar(content: "成功打开".text());
+    context.showSnackBar(content: "开门成功".text());
   }
 }
 
