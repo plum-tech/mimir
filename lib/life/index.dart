@@ -4,8 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/entity/campus.dart';
-import 'package:sit/life/electricity/index.dart';
-import 'package:sit/life/expense_records/index.dart';
+import 'package:sit/life/electricity/card.dart';
+import 'package:sit/life/expense_records/card.dart';
+import 'package:sit/life/lab_door/card.dart';
+import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -48,14 +50,11 @@ class _LifePageState extends ConsumerState<LifePage> {
           },
           child: CustomScrollView(
             slivers: [
-              if (loginStatus != LoginStatus.never)
-                const SliverToBoxAdapter(
-                  child: ExpenseRecordsAppCard(),
-                ),
-              if (campus.capability.enableElectricity)
-                const SliverToBoxAdapter(
-                  child: ElectricityBalanceAppCard(),
-                ),
+              SliverList.list(children: [
+                if (loginStatus != LoginStatus.never) const ExpenseRecordsAppCard(),
+                if (campus.capability.enableElectricity) const ElectricityBalanceAppCard(),
+                if (ref.watch(Dev.$on)) const OpenLabDoorAppCard(),
+              ]),
             ],
           ),
         ),
