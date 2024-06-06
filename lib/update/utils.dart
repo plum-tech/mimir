@@ -91,7 +91,10 @@ Future<void> _checkAppUpdateFromOfficial({
   }
   if (!context.mounted) return;
   if (latest.version > currentVersion) {
-    await context.showSheet((ctx) => ArtifactUpdatePage(info: latest));
+    await context.showSheet(
+      (ctx) => ArtifactUpdatePage(info: latest),
+      dismissible: false,
+    );
   } else if (manually) {
     await context.showTip(title: i18n.title, desc: i18n.onLatestTip, primary: i18n.ok);
   }
@@ -132,7 +135,10 @@ Future<void> _checkAppUpdateFromApple({
     }
   } else if (installerStore == InstallerStore.appStore) {
     if (latest.version > currentVersion) {
-      await context.showSheet((ctx) => ArtifactUpdatePage(info: latest));
+      await context.showSheet(
+        (ctx) => ArtifactUpdatePage(info: latest),
+        dismissible: false,
+      );
     } else if (manually) {
       await context.showTip(title: i18n.title, desc: i18n.onLatestTip, primary: i18n.ok);
     }
