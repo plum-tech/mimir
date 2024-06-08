@@ -1,5 +1,8 @@
 # Changelog
 
+## v2.5.1
+- Revealed the `game` navigation.
+
 ## v2.4.3
 - Fixed 2048 not working on portrait mode.
 - [Android] support predictive back gesture.

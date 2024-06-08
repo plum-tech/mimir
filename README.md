@@ -19,8 +19,9 @@
 | Sharing         |   Exam Results   | Electricity Balance | QR Code Sharing |
 | Personalization | Exam Arrangement |      Edu Email      |   HTTP proxy    |
 | Screenshot      | OA Announcement  |                     |  Localization   |
-|                 |   Second Class   |                     |                 |
+| Patching        |   Second Class   |                     |   Mini Games    |
 |                 |     SIT YWB      |                     |                 |
+|                 |     Library      |                     |                 |
 
 ## Contribution
 
