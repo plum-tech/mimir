@@ -27,7 +27,7 @@
 
 If you met any bug, feel free to [make an issue](https://github.com/liplum/mimir/issues/new).
 
-Welcome to contribute SIT Life, please read the [contribution guide](specifications/CONTRIBUTION_GUIDE.md).
+Welcome to contribute SIT Life, please read the [contribution guide](CONTRIBUTING.md).
 
 ### License
 

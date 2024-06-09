@@ -61,7 +61,7 @@ class Migrations {
             case MigrationPhrase.afterInitStorage:
           }
         });
-    Version(2, 5, 0) <<
+    Version(2, 5, 1) <<
         Migration.run((phrase) async {
           if (phrase == MigrationPhrase.afterHive) {
             // Refresh timetable json

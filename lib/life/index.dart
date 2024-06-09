@@ -54,7 +54,9 @@ class _LifePageState extends ConsumerState<LifePage> {
               SliverList.list(children: [
                 if (loginStatus != LoginStatus.never) const ExpenseRecordsAppCard(),
                 if (campus.capability.enableElectricity) const ElectricityBalanceAppCard(),
-                if (!kIsWeb && oaCredentials != null && OpenLabDoorAppCard.isAvailable(oaAccount: oaCredentials.account))
+                if (!kIsWeb &&
+                    oaCredentials != null &&
+                    OpenLabDoorAppCard.isAvailable(oaAccount: oaCredentials.account))
                   const OpenLabDoorAppCard(),
               ]),
             ],

@@ -1,9 +1,18 @@
 import 'dart:ui';
 
 import 'package:flutter/widgets.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:rettulf/rettulf.dart';
 
+part "dual_color.g.dart";
+
+int _colorToJson(Color color) => color.value;
+
+Color _colorFromJson(int value) => Color(value);
+
+@JsonSerializable()
 class ColorEntry {
+  @JsonKey(toJson: _colorToJson, fromJson: _colorFromJson)
   final Color color;
   final bool inverseText;
 
@@ -15,8 +24,13 @@ class ColorEntry {
   const ColorEntry.inverse(
     this.color,
   ) : inverseText = true;
+
+  factory ColorEntry.fromJson(Map<String, dynamic> json) => _$ColorEntryFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ColorEntryToJson(this);
 }
 
+@JsonSerializable()
 class DualColor {
   final ColorEntry light;
   final ColorEntry dark;
@@ -25,6 +39,10 @@ class DualColor {
     required this.light,
     required this.dark,
   });
+
+  factory DualColor.fromJson(Map<String, dynamic> json) => _$DualColorFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DualColorToJson(this);
 }
 
 extension ColorEntryX on ColorEntry {
