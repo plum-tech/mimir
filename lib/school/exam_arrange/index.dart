@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/app.dart';
 import 'package:sit/school/utils.dart';
@@ -114,14 +113,6 @@ class ExamCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return ExamCardContent(exam)
-    return [
-      [
-        exam.courseName.text(style: context.textTheme.titleMedium),
-        if (exam.isRetake) Chip(label: i18n.retake.text(), elevation: 2),
-      ].row(maa: MainAxisAlignment.spaceBetween),
-      const Divider(),
-      ExamEntryDetailsTable(exam),
-    ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 15, h: 20).inCard();
+    return ExamCardContent(exam).inCard();
   }
 }

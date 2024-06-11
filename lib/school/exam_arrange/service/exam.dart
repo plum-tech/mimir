@@ -33,7 +33,6 @@ class ExamArrangeService {
     );
     final List<dynamic> itemsData = response.data['items'];
     final list = itemsData.map((e) => ExamEntry.parseRemoteJson(e as Map<String, dynamic>)).toList();
-    list.sort(ExamEntry.comparator);
     return list;
   }
 }

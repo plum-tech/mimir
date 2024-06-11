@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
@@ -59,7 +60,7 @@ class _ExamArrangementListPageState extends ConsumerState<ExamArrangementListPag
 
   @override
   Widget build(BuildContext context) {
-    final examList = this.examList;
+    final examList = this.examList?.sorted(ExamEntry.comparator).reversed.toList();
     final now = DateTime.now();
     return Scaffold(
       body: CustomScrollView(

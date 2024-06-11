@@ -14,19 +14,19 @@ class ExamCardContent extends StatelessWidget {
   const ExamCardContent(
     this.exam, {
     super.key,
-    required this.enableAddEvent,
+    this.enableAddEvent = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final time = exam.time;
-    final titleColor = exam.disqualified? context.$red$ : null;
+    final titleColor = exam.disqualified ? context.$red$ : null;
     return [
       [
         exam.courseName.text(style: context.textTheme.titleMedium?.copyWith(color: titleColor)),
         if (exam.isRetake) Chip(label: i18n.retake.text(), elevation: 2),
       ].row(maa: MainAxisAlignment.spaceBetween),
-      Divider(color: context.colorScheme.onSurfaceVariant),
+      const Divider(),
       ExamEntryDetailsTable(exam),
       if (enableAddEvent && time != null && (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)) ...[
         Divider(color: context.colorScheme.onSurfaceVariant),
