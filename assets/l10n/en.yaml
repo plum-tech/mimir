@@ -751,9 +751,6 @@ settings:
     checkUpdate: Check update
 oaAnnounce:
   title: OA announcement
-  tab:
-    info: Info
-    content: Content
   noOaAnnouncementsTip: SIT has no announcements available
   downloadCompleted: Download completed
   downloadFailed: Download failed

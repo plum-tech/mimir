@@ -751,9 +751,6 @@ settings:
     checkUpdate: 檢查更新
 oaAnnounce:
   title: OA 公告
-  tab:
-    info: 資訊
-    content: 內容
   noOaAnnouncementsTip: 學校沒有 OA 公告
   downloadCompleted: 下載完畢
   downloadFailed: 下載失敗
