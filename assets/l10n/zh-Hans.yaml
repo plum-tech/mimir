@@ -575,6 +575,7 @@ network:
   connectionTimeoutError: 网络连接超时
   connectionTimeoutErrorDesc: "此功能需要访问校园网。注意: 在学校服务器崩溃或停机维护时, 也可能会出现这样的情况。"
   openToolBtn: 打开网络工具
+  noAccessTip: 无法连接到网络，请检查你设备的网络设置后再试。
 networkTool:
   title: 网络工具
   subtitle: 测试与学校服务器的连接

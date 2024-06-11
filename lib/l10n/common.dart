@@ -110,8 +110,6 @@ class NetworkI18n {
   String get openToolBtn => "$ns.openToolBtn".tr();
 
   String get noAccessTip => "$ns.noAccessTip".tr();
-
-  String get untitled => "$ns.untitled".tr();
 }
 
 class UnitI18n {

@@ -578,6 +578,7 @@ network:
   connectionTimeoutError: Network timeout
   connectionTimeoutErrorDesc: "This function requires access to the campus network. NOTE: It also occurs when the school server is down for maintenance."
   openToolBtn: Open network tool
+  noAccessTip: Unable to access network. Please check network settings on your device, then try again.
 networkTool:
   title: Network tool
   subtitle: Test connection to the school server

@@ -575,6 +575,7 @@ network:
   connectionTimeoutError: 網路逾時
   connectionTimeoutErrorDesc: "這個功能需要訪問學校網路。備註：這或許由於學校服務器當機或正在維護。"
   openToolBtn: 打開網路工具
+  noAccessTip: 無法連線到網路，請檢查你的裝置上的網路設定，然後再試一次。
 networkTool:
   title: 網路工具
   subtitle: 測試與學校伺服器的連線
