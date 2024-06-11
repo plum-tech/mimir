@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:rettulf/rettulf.dart';
@@ -12,6 +13,7 @@ int _colorToJson(Color color) => color.value;
 Color _colorFromJson(int value) => Color(value);
 
 @JsonSerializable()
+@CopyWith(skipFields: true)
 class ColorEntry {
   @JsonKey(toJson: _colorToJson, fromJson: _colorFromJson)
   final Color color;
@@ -44,6 +46,7 @@ class ColorEntry {
 }
 
 @JsonSerializable()
+@CopyWith(skipFields: true)
 class DualColor {
   final ColorEntry light;
   final ColorEntry dark;

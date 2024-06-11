@@ -219,6 +219,7 @@ class LightDarkColorsHeaderTitle extends StatelessWidget {
         const SizedBox(width: 8),
         Brightness.light.l10n().text(style: style),
       ].row(mas: MainAxisSize.min),
+      "Text".text(style: style),
       [
         Brightness.dark.l10n().text(style: style),
         const SizedBox(width: 8),
@@ -240,8 +241,7 @@ class PaletteColorTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final light = colors.light.color;
-    final dark = colors.dark.color;
+    final DualColor(:light, :dark) = colors;
     return [
       SingleColorSpec(
         color: light,
@@ -260,7 +260,7 @@ class PaletteColorTile extends StatelessWidget {
 }
 
 class SingleColorSpec extends StatelessWidget {
-  final Color color;
+  final ColorEntry color;
   final bool left;
   final Brightness brightness;
   final void Function(Color old, Brightness brightness)? onEdit;
@@ -279,32 +279,37 @@ class SingleColorSpec extends StatelessWidget {
       isThreeLine: true,
       visualDensity: VisualDensity.compact,
       contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-      title: [
-        ...(left
-            ? [
-                "#${color.hexAlpha}".text(),
-                PlatformTextButton(
-                  child: "Light".text(),
-                ),
-              ]
-            : [
-                PlatformTextButton(
-                  child: "Light".text(),
-                ),
-                "#${color.hexAlpha}".text(),
-              ]),
-      ].row(maa: MainAxisAlignment.spaceBetween),
-      subtitle: PaletteColorBar(
-        color: color,
-        brightness: brightness,
-        onEdit: onEdit,
-      ),
+      title: "#${color.color.hexAlpha}".text(textAlign: left ? TextAlign.start : TextAlign.right),
+      subtitle: () {
+        final widgets = [
+          PaletteColorBar(
+            color: color,
+            brightness: brightness,
+            onEdit: onEdit,
+          ).expanded(),
+          if (onEdit != null)
+            PlatformIconButton(
+              icon: Icon(resolveTextBrightness() ? context.icons.sun : context.icons.moon),
+              padding: EdgeInsets.zero,
+              onPressed: () {},
+            ),
+        ];
+        return (left ? widgets : widgets.reversed.toList()).row();
+      }(),
     );
+  }
+
+  bool resolveTextBrightness() {
+    var light = brightness == Brightness.light;
+    if (color.inverseText) {
+      light = !light;
+    }
+    return light;
   }
 }
 
 class PaletteColorBar extends StatelessWidget {
-  final Color color;
+  final ColorEntry color;
   final Brightness brightness;
   final void Function(Color old, Brightness brightness)? onEdit;
 
@@ -319,30 +324,33 @@ class PaletteColorBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final onEdit = this.onEdit;
     // final textColor = color.resolveTextColorForReadability();
-    final textColor = brightness == Brightness.light ? Colors.black : Colors.white;
+    final textColor = color.textColor(context);
     return Card.outlined(
       color: textColor,
       margin: EdgeInsets.zero,
       child: Card.filled(
-        color: color,
+        color: color.color,
         clipBehavior: Clip.hardEdge,
         margin: EdgeInsets.zero,
         child: InkWell(
           onTap: onEdit == null
               ? null
               : () {
-                  onEdit.call(color, brightness);
+                  onEdit.call(color.color, brightness);
                 },
           onLongPress: () async {
-            await Clipboard.setData(ClipboardData(text: "#${color.hexAlpha}"));
+            await Clipboard.setData(ClipboardData(text: "#${color.color.hexAlpha}"));
             if (!context.mounted) return;
             context.showSnackBar(content: i18n.copyTipOf(i18n.p13n.palette.color).text());
           },
           child: SizedBox(
             height: 35,
-            child:
-                // "${brightness.l10n()} ${calculateContrastRatio(textColor!, color).toStringAsFixed(2)}"
-                brightness.l10n().text(style: context.textTheme.bodyLarge?.copyWith(color: textColor)).center(),
+            child: brightness
+                .l10n()
+                .text(
+                  style: context.textTheme.bodyLarge?.copyWith(color: textColor),
+                )
+                .center(),
           ),
         ),
       ),
