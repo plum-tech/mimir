@@ -29,12 +29,6 @@ class TimetablePaletteEditorPage extends ConsumerStatefulWidget {
   ConsumerState<TimetablePaletteEditorPage> createState() => _TimetablePaletteEditorPageState();
 }
 
-class _Tab {
-  static const length = 2;
-  static const info = 0;
-  static const colors = 1;
-}
-
 class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEditorPage> {
   late final $name = TextEditingController(text: widget.palette.name);
   late final $author = TextEditingController(text: widget.palette.author);
@@ -72,83 +66,50 @@ class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEdi
       changed: anyChanged,
       onSave: onSave,
       child: Scaffold(
-        body: DefaultTabController(
-          length: _Tab.length,
-          child: NestedScrollView(
-            floatHeaderSlivers: true,
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return <Widget>[
-                SliverOverlapAbsorber(
-                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                  sliver: SliverAppBar(
-                    floating: true,
-                    title: i18n.p13n.palette.title.text(),
-                    actions: [
-                      if (timetable != null && colors.isNotEmpty)
-                        PlatformTextButton(
-                          child: i18n.preview.text(),
-                          onPressed: () async {
-                            await previewTimetable(
-                              context,
-                              timetable: timetable,
-                              palette: buildPalette(),
-                            );
-                          },
-                        ),
-                      PlatformTextButton(
-                        onPressed: onSave,
-                        child: i18n.save.text(),
-                      ),
-                    ],
-                    forceElevated: innerBoxIsScrolled,
-                    bottom: TabBar(
-                      isScrollable: true,
-                      tabs: [
-                        Tab(child: i18n.p13n.palette.infoTab.text()),
-                        Tab(child: i18n.p13n.palette.colorsTab.text()),
-                      ],
-                    ),
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              pinned: true,
+              title: i18n.p13n.palette.title.text(),
+              actions: [
+                if (timetable != null && colors.isNotEmpty)
+                  PlatformTextButton(
+                    child: i18n.preview.text(),
+                    onPressed: () async {
+                      await previewTimetable(
+                        context,
+                        timetable: timetable,
+                        palette: buildPalette(),
+                      );
+                    },
                   ),
+                PlatformTextButton(
+                  onPressed: onSave,
+                  child: i18n.save.text(),
                 ),
-              ];
-            },
-            body: TabBarView(
-              children: [
-                CustomScrollView(
-                  slivers: [
-                    SliverList.list(children: [
-                      buildName(),
-                      buildAuthor(),
-                    ]),
-                  ],
-                ),
-                CustomScrollView(
-                  slivers: [
-                    const SliverToBoxAdapter(
-                      child: LightDarkColorsHeaderTitle(),
-                    ),
-                    SliverList.builder(
-                      itemCount: colors.length,
-                      itemBuilder: buildColorTile,
-                    ),
-                    SliverList.list(children: [
-                      const Divider(indent: 12, endIndent: 12),
-                      ListTile(
-                        leading: Icon(context.icons.add),
-                        title: i18n.p13n.palette.addColor.text(),
-                        onTap: () {
-                          setState(() {
-                            colors.add(TimetablePalette.defaultColor);
-                          });
-                          markChanged();
-                        },
-                      ),
-                    ]),
-                  ],
-                )
               ],
             ),
-          ),
+            SliverList.list(children: [
+              buildName(),
+              buildAuthor(),
+            ]),
+            ListTile(
+              leading: Icon(context.icons.add),
+              title: i18n.p13n.palette.addColor.text(),
+              onTap: () {
+                setState(() {
+                  colors.insert(0, TimetablePalette.defaultColor);
+                });
+                markChanged();
+              },
+            ).sliver(),
+            const Divider(indent: 12, endIndent: 12).sliver(),
+            const LightDarkColorsHeaderTitle().sliver(),
+            SliverList.builder(
+              itemCount: colors.length,
+              itemBuilder: buildColorTile,
+            ),
+          ],
         ),
       ),
     );
@@ -263,7 +224,7 @@ class LightDarkColorsHeaderTitle extends StatelessWidget {
         const SizedBox(width: 8),
         const Icon(Icons.dark_mode),
       ].row(mas: MainAxisSize.min),
-    ].row(maa: MainAxisAlignment.spaceBetween).padSymmetric(h: 12,v: 12);
+    ].row(maa: MainAxisAlignment.spaceBetween).padSymmetric(h: 12, v: 12);
   }
 }
 
