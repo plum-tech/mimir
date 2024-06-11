@@ -93,18 +93,16 @@ class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEdi
               buildName(),
               buildAuthor(),
             ]),
-            ListTile(
-              leading: Icon(context.icons.add),
-              title: i18n.p13n.palette.addColor.text(),
-              onTap: () {
+            const Divider().sliver(),
+            OutlinedButton(
+              child: const LightDarkColorsHeaderTitle(),
+              onPressed: () {
                 setState(() {
                   colors.insert(0, TimetablePalette.defaultColor);
                 });
                 markChanged();
               },
-            ).sliver(),
-            const Divider(indent: 12, endIndent: 12).sliver(),
-            const LightDarkColorsHeaderTitle().sliver(),
+            ).padAll(8).sliver(),
             SliverList.builder(
               itemCount: colors.length,
               itemBuilder: buildColorTile,
@@ -193,7 +191,7 @@ class LightDarkColorsHeaderTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.textTheme.bodyLarge?.copyWith(color: context.colorScheme.onSurface);
+    final style = context.textTheme.bodyLarge?.apply(color: DefaultTextStyle.of(context).style.color);
     return [
       [
         const Icon(Icons.light_mode),
@@ -273,7 +271,7 @@ class SingleColorSpec extends StatelessWidget {
             onEdit: onEdit,
           ).expanded(),
           if (onEdit != null)
-            PlatformIconButton(
+            IconButton.filledTonal(
               icon: Icon(resolveTextBrightness() ? context.icons.sun : context.icons.moon),
               padding: EdgeInsets.zero,
               onPressed: () {

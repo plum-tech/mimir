@@ -158,7 +158,7 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
   }
 
   Widget buildImportButton(BuildContext ctx) {
-    return PlatformElevatedButton(
+    return FilledButton(
       onPressed: _status == ImportStatus.importing ? null : _onImport,
       child: i18n.import.tryImportBtn.text(),
     );
