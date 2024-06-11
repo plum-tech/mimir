@@ -130,34 +130,6 @@ class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEdi
   }
 
   Widget buildColorTile(BuildContext ctx, int index) {
-    Future<void> changeColor(Color old, Brightness brightness) async {
-      final newColor = await showColorPickerDialog(
-        ctx,
-        old,
-        enableOpacity: true,
-        enableShadesSelection: true,
-        enableTonalPalette: true,
-        showColorCode: true,
-        pickersEnabled: const <ColorPickerType, bool>{
-          ColorPickerType.both: true,
-          ColorPickerType.primary: false,
-          ColorPickerType.accent: false,
-          ColorPickerType.custom: true,
-          ColorPickerType.wheel: true,
-        },
-      );
-      if (newColor != old) {
-        await HapticFeedback.mediumImpact();
-        setState(() {
-          if (brightness == Brightness.light) {
-            colors[index] = DualColor.plain(light: newColor, dark: colors[index].dark.color);
-          } else {
-            colors[index] = DualColor.plain(light: colors[index].light.color, dark: newColor);
-          }
-        });
-      }
-    }
-
     final current = colors[index];
     return WithSwipeAction(
       childKey: ObjectKey(current),
@@ -172,8 +144,15 @@ class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEdi
       ),
       child: PaletteColorTile(
         colors: current,
-        onEdit: (old, brightness) async {
-          await changeColor(old, brightness);
+        onEdit: (brightness, newColor) async {
+          await HapticFeedback.mediumImpact();
+          setState(() {
+            if (brightness == Brightness.light) {
+              colors[index] = DualColor(light: newColor, dark: colors[index].dark);
+            } else {
+              colors[index] = DualColor(light: colors[index].light, dark: newColor);
+            }
+          });
           markChanged();
         },
       ),
@@ -208,7 +187,9 @@ class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEdi
 }
 
 class LightDarkColorsHeaderTitle extends StatelessWidget {
-  const LightDarkColorsHeaderTitle({super.key});
+  const LightDarkColorsHeaderTitle({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +200,10 @@ class LightDarkColorsHeaderTitle extends StatelessWidget {
         const SizedBox(width: 8),
         Brightness.light.l10n().text(style: style),
       ].row(mas: MainAxisSize.min),
-      "Text".text(style: style),
+      [
+        const Icon(Icons.text_format),
+        "Text".text(style: style),
+      ].row(mas: MainAxisSize.min),
       [
         Brightness.dark.l10n().text(style: style),
         const SizedBox(width: 8),
@@ -231,7 +215,7 @@ class LightDarkColorsHeaderTitle extends StatelessWidget {
 
 class PaletteColorTile extends StatelessWidget {
   final DualColor colors;
-  final void Function(Color old, Brightness brightness)? onEdit;
+  final void Function(Brightness brightness, ColorEntry newColor)? onEdit;
 
   const PaletteColorTile({
     super.key,
@@ -263,7 +247,7 @@ class SingleColorSpec extends StatelessWidget {
   final ColorEntry color;
   final bool left;
   final Brightness brightness;
-  final void Function(Color old, Brightness brightness)? onEdit;
+  final void Function(Brightness brightness, ColorEntry newColor)? onEdit;
 
   const SingleColorSpec({
     super.key,
@@ -275,6 +259,7 @@ class SingleColorSpec extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final onEdit = this.onEdit;
     return ListTile(
       isThreeLine: true,
       visualDensity: VisualDensity.compact,
@@ -291,7 +276,9 @@ class SingleColorSpec extends StatelessWidget {
             PlatformIconButton(
               icon: Icon(resolveTextBrightness() ? context.icons.sun : context.icons.moon),
               padding: EdgeInsets.zero,
-              onPressed: () {},
+              onPressed: () {
+                onEdit(brightness, color.copyWith(inverseText: !color.inverseText));
+              },
             ),
         ];
         return (left ? widgets : widgets.reversed.toList()).row();
@@ -311,7 +298,7 @@ class SingleColorSpec extends StatelessWidget {
 class PaletteColorBar extends StatelessWidget {
   final ColorEntry color;
   final Brightness brightness;
-  final void Function(Color old, Brightness brightness)? onEdit;
+  final void Function(Brightness brightness, ColorEntry newColor)? onEdit;
 
   const PaletteColorBar({
     super.key,
@@ -323,37 +310,55 @@ class PaletteColorBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onEdit = this.onEdit;
-    // final textColor = color.resolveTextColorForReadability();
-    final textColor = color.textColor(context);
-    return Card.outlined(
-      color: textColor,
+    final textColor =
+        (context.brightness == brightness ? color : color.copyWith(inverseText: !color.inverseText)).textColor(context);
+    return Card.filled(
+      color: color.color,
+      clipBehavior: Clip.hardEdge,
       margin: EdgeInsets.zero,
-      child: Card.filled(
-        color: color.color,
-        clipBehavior: Clip.hardEdge,
-        margin: EdgeInsets.zero,
-        child: InkWell(
-          onTap: onEdit == null
-              ? null
-              : () {
-                  onEdit.call(color.color, brightness);
-                },
-          onLongPress: () async {
-            await Clipboard.setData(ClipboardData(text: "#${color.color.hexAlpha}"));
-            if (!context.mounted) return;
-            context.showSnackBar(content: i18n.copyTipOf(i18n.p13n.palette.color).text());
-          },
-          child: SizedBox(
-            height: 35,
-            child: brightness
-                .l10n()
-                .text(
-                  style: context.textTheme.bodyLarge?.copyWith(color: textColor),
-                )
-                .center(),
-          ),
+      child: InkWell(
+        onTap: onEdit == null
+            ? null
+            : () async {
+                final old = color;
+                final newColor = await _selectColor(context, old.color);
+                if (newColor != old.color) {
+                  onEdit.call(brightness, old.copyWith(color: newColor));
+                }
+              },
+        onLongPress: () async {
+          await Clipboard.setData(ClipboardData(text: "#${color.color.hexAlpha}"));
+          if (!context.mounted) return;
+          context.showSnackBar(content: i18n.copyTipOf(i18n.p13n.palette.color).text());
+        },
+        child: SizedBox(
+          height: 35,
+          child: brightness
+              .l10n()
+              .text(
+                style: context.textTheme.bodyLarge?.copyWith(color: textColor),
+              )
+              .center(),
         ),
       ),
     );
   }
+}
+
+Future<Color> _selectColor(BuildContext context, Color old) async {
+  return await showColorPickerDialog(
+    context,
+    old,
+    enableOpacity: true,
+    enableShadesSelection: true,
+    enableTonalPalette: true,
+    showColorCode: true,
+    pickersEnabled: const <ColorPickerType, bool>{
+      ColorPickerType.both: true,
+      ColorPickerType.primary: false,
+      ColorPickerType.accent: false,
+      ColorPickerType.custom: true,
+      ColorPickerType.wheel: true,
+    },
+  );
 }

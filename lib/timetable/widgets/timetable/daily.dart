@@ -223,8 +223,9 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
   }) {
     final course = lesson.course;
     final style = TimetableStyle.of(context);
-
-    var color = timetable.resolveColor(style.platte, course).colorBy(context);
+    final colorEntry = timetable.resolveColor(style.platte, course);
+    final textColor = colorEntry.textColorBy(context);
+    var color = colorEntry.colorBy(context);
     color = style.cellStyle.decorateColor(
       color,
       themeColor: context.colorScheme.primary,
@@ -235,12 +236,14 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
       ClassTimeCard(
         color: color,
         classTime: classTime,
+        textColor: textColor,
       ),
       LessonCard(
         lesson: lesson,
         timetable: timetable,
         course: course,
         color: color,
+        textColor: textColor,
       ).expanded()
     ].row();
   }
@@ -272,6 +275,7 @@ class LessonCard extends StatelessWidget {
   final SitCourse course;
   final SitTimetableEntity timetable;
   final Color color;
+  final Color? textColor;
 
   const LessonCard({
     super.key,
@@ -279,6 +283,7 @@ class LessonCard extends StatelessWidget {
     required this.course,
     required this.timetable,
     required this.color,
+    this.textColor,
   });
 
   static const iconSize = 45.0;
@@ -301,6 +306,7 @@ class LessonCard extends StatelessWidget {
             ),
           );
         },
+        textColor: textColor,
         title: AutoSizeText(
           course.courseName,
           maxLines: 1,
@@ -317,24 +323,25 @@ class LessonCard extends StatelessWidget {
 
 class ClassTimeCard extends StatelessWidget {
   final Color color;
+  final Color? textColor;
   final ClassTime classTime;
 
   const ClassTimeCard({
     super.key,
     required this.color,
     required this.classTime,
+    this.textColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedText(
+    return Card.filled(
       color: color,
-      margin: 10,
       child: [
-        classTime.begin.l10n(context).text(style: const TextStyle(fontWeight: FontWeight.bold)),
+        classTime.begin.l10n(context).text(style: TextStyle(fontWeight: FontWeight.bold, color: textColor)),
         const SizedBox(height: 5),
-        classTime.end.l10n(context).text(),
-      ].column(),
+        classTime.end.l10n(context).text(style: TextStyle(color: textColor)),
+      ].column().padAll(10),
     );
   }
 }
@@ -356,10 +363,12 @@ class LessonOverlapGroup extends StatelessWidget {
     if (lessonsInSlot.isEmpty) return const SizedBox.shrink();
     final List<Widget> all = [];
     ClassTime? classTime;
+    final palette = TimetableStyle.of(context).platte;
     for (int lessonIndex = 0; lessonIndex < lessonsInSlot.length; lessonIndex++) {
       final lesson = lessonsInSlot[lessonIndex];
       final course = lesson.course;
-      final color = timetable.resolveColor(TimetableStyle.of(context).platte, course).colorBy(context);
+      final colorEntry = timetable.resolveColor(palette, course);
+      final color = colorEntry.colorBy(context);
       classTime = calcBeginEndTimePointOfLesson(timeslot, timetable.campus, course.place);
       final row = LessonCard(
         lesson: lesson,
@@ -371,11 +380,13 @@ class LessonOverlapGroup extends StatelessWidget {
     }
     // [classTime] must be nonnull.
     // TODO: Color for class overlap.
+    final firstColorEntry = TimetableStyle.of(context).platte.colors[0];
     return Card.outlined(
       child: [
         ClassTimeCard(
-          color: TimetableStyle.of(context).platte.colors[0].colorBy(context),
+          color: firstColorEntry.colorBy(context),
           classTime: classTime!,
+          textColor: firstColorEntry.textColorBy(context),
         ),
         all.column().expanded(),
       ].row().padAll(3),
@@ -421,26 +432,5 @@ class _LessonRowBuilder {
       }
     }
     return _rows;
-  }
-}
-
-class ElevatedText extends StatelessWidget {
-  final Widget child;
-  final Color color;
-  final double margin;
-
-  const ElevatedText({
-    super.key,
-    required this.color,
-    required this.margin,
-    required this.child,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Card.filled(
-      color: color,
-      child: child.padAll(margin),
-    );
   }
 }

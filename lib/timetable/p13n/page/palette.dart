@@ -446,7 +446,9 @@ class TimetableP13nLivePreview extends StatelessWidget {
       required List<String> teachers,
       bool grayOut = false,
     }) {
-      var color = palette.safeGetColor(colorId).colorBy(context);
+      final colorEntry = palette.safeGetColor(colorId);
+      final textColor = colorEntry.textColorBy(context);
+      var color = colorEntry.colorBy(context);
       color = cellStyle.decorateColor(color, themeColor: themeColor, isLessonTaken: grayOut);
       return TweenAnimationBuilder(
         tween: ColorTween(begin: color, end: color),
@@ -454,6 +456,7 @@ class TimetableP13nLivePreview extends StatelessWidget {
         builder: (ctx, value, child) => CourseCell(
           courseName: name,
           color: value!,
+          textColor: textColor,
           place: place,
           teachers: cellStyle.showTeachers ? teachers : null,
         ),
