@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'platte.dart';
+part of 'palette.dart';
 
 // **************************************************************************
 // CopyWithGenerator

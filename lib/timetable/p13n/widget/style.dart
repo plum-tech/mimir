@@ -2,7 +2,7 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/timetable/p13n/entity/platte.dart';
+import 'package:sit/timetable/p13n/entity/palette.dart';
 
 import '../../init.dart';
 import '../builtin.dart';

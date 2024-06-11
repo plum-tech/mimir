@@ -13,7 +13,7 @@ import 'package:sit/design/entity/dual_color.dart';
 import 'package:sit/design/widgets/entry_card.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/qrcode/page/view.dart';
-import 'package:sit/timetable/p13n/entity/platte.dart';
+import 'package:sit/timetable/p13n/entity/palette.dart';
 import 'package:sit/timetable/entity/timetable.dart';
 import 'package:sit/timetable/init.dart';
 import 'package:sit/utils/format.dart';

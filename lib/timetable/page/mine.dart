@@ -27,7 +27,7 @@ import 'package:text_scroll/text_scroll.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import '../p13n/builtin.dart';
-import '../p13n/entity/platte.dart';
+import '../p13n/entity/palette.dart';
 import '../entity/timetable_entity.dart';
 import '../i18n.dart';
 import '../entity/timetable.dart';

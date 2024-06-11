@@ -9,7 +9,7 @@ import 'package:sit/utils/byte_io/byte_io.dart';
 
 import '../../entity/timetable.dart';
 
-part 'platte.g.dart';
+part 'palette.g.dart';
 
 DateTime _kLastModified() => DateTime.now();
 

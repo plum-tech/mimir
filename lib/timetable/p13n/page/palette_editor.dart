@@ -12,7 +12,7 @@ import 'package:sit/l10n/extension.dart';
 import 'package:sit/timetable/page/preview.dart';
 import 'package:sit/utils/save.dart';
 
-import '../entity/platte.dart';
+import '../entity/palette.dart';
 import '../../i18n.dart';
 import '../../init.dart';
 
