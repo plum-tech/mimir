@@ -274,26 +274,62 @@ class PaletteColorTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final light = colors.light.color;
     final dark = colors.dark.color;
+    return [
+      SingleColorSpec(
+        color: light,
+        left: true,
+        brightness: Brightness.light,
+        onEdit: onEdit,
+      ).expanded(),
+      SingleColorSpec(
+        color: dark,
+        left: false,
+        brightness: Brightness.dark,
+        onEdit: onEdit,
+      ).expanded(),
+    ].row(maa: MainAxisAlignment.spaceBetween);
+  }
+}
+
+class SingleColorSpec extends StatelessWidget {
+  final Color color;
+  final bool left;
+  final Brightness brightness;
+  final void Function(Color old, Brightness brightness)? onEdit;
+
+  const SingleColorSpec({
+    super.key,
+    required this.color,
+    this.onEdit,
+    required this.brightness,
+    required this.left,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return ListTile(
       isThreeLine: true,
       visualDensity: VisualDensity.compact,
       title: [
-        "#${light.hexAlpha}".text(),
-        "#${dark.hexAlpha}".text(),
+        ...(left
+            ? [
+                "#${color.hexAlpha}".text(),
+                PlatformTextButton(
+                  child: "Light".text(),
+                ),
+              ]
+            : [
+                PlatformTextButton(
+                  child: "Light".text(),
+                ),
+                "#${color.hexAlpha}".text(),
+              ]),
       ].row(maa: MainAxisAlignment.spaceBetween),
-      subtitle: [
-        PaletteColorBar(
-          color: light,
-          brightness: Brightness.light,
-          onEdit: onEdit,
-        ).expanded(),
-        const SizedBox(width: 5),
-        PaletteColorBar(
-          color: dark,
-          brightness: Brightness.dark,
-          onEdit: onEdit,
-        ).expanded(),
-      ].row(mas: MainAxisSize.min, maa: MainAxisAlignment.spaceEvenly),
+      subtitle: PaletteColorBar(
+        color: color,
+        brightness: brightness,
+        onEdit: onEdit,
+      ),
     );
   }
 }
