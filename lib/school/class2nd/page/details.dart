@@ -225,31 +225,39 @@ class _ActivityDetailsInfoTabViewState extends State<ActivityDetailsInfoTabView>
   @override
   bool get wantKeepAlive => true;
 
+  var showMore = false;
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     final details = widget.details;
     final (:title, :tags) = separateTagsFromTitle(widget.activityTitle ?? details?.title ?? "");
     final time = details?.startTime ?? widget.activityTime;
-    return SelectionArea(
-      child: CustomScrollView(
-        slivers: [
-          SliverList.list(children: [
+    return CustomScrollView(
+      slivers: [
+        SliverList.list(children: [
+          DetailListTile(
+            title: i18n.info.name,
+            subtitle: title,
+          ),
+          if (time != null)
             DetailListTile(
-              title: i18n.info.name,
-              subtitle: title,
+              title: i18n.info.startTime,
+              subtitle: context.formatYmdhmNum(time),
             ),
-            if (time != null)
+          if (details != null) ...[
+            if (details.place != null)
               DetailListTile(
-                title: i18n.info.startTime,
-                subtitle: context.formatYmdhmNum(time),
+                title: i18n.info.location,
+                subtitle: details.place!,
               ),
-            if (details != null) ...[
-              if (details.place != null)
-                DetailListTile(
-                  title: i18n.info.location,
-                  subtitle: details.place!,
-                ),
+            if (tags.isNotEmpty)
+              ListTile(
+                isThreeLine: true,
+                title: i18n.info.tags.text(),
+                subtitle: TagsGroup(tags),
+              ),
+            if (showMore) ...[
               if (details.principal != null)
                 DetailListTile(
                   title: i18n.info.principal,
@@ -282,12 +290,6 @@ class _ActivityDetailsInfoTabViewState extends State<ActivityDetailsInfoTabView>
                           ),
                   );
                 }(),
-              if (tags.isNotEmpty)
-                ListTile(
-                  isThreeLine: true,
-                  title: i18n.info.tags.text(),
-                  subtitle: TagsGroup(tags),
-                ),
               DetailListTile(
                 title: i18n.info.signInTime,
                 subtitle: context.formatYmdhmNum(details.signStartTime),
@@ -302,9 +304,19 @@ class _ActivityDetailsInfoTabViewState extends State<ActivityDetailsInfoTabView>
                   subtitle: details.duration!,
                 ),
             ],
-          ]),
-        ],
-      ),
+            if (!showMore)
+              ListTile(
+                title: "Show more".text(textAlign: TextAlign.end),
+                trailing: Icon(Icons.expand_more),
+                onTap: () {
+                  setState(() {
+                    showMore = true;
+                  });
+                },
+              ),
+          ],
+        ]),
+      ],
     );
   }
 }
