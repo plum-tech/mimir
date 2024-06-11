@@ -73,38 +73,40 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
     final details = this.details;
     final description = details?.description;
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            floating: true,
-            title: i18n.info.activityOf(activityId).text(),
-            actions: [
-              if (widget.enableApply)
-                PlatformTextButton(
-                  child: i18n.apply.btn.text(),
-                  onPressed: () async {
-                    await showApplyRequest();
-                  },
-                ),
-              buildMoreActions(),
+      body: SelectionArea(
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              floating: true,
+              title: i18n.info.activityOf(activityId).text(),
+              actions: [
+                if (widget.enableApply)
+                  PlatformTextButton(
+                    child: i18n.apply.btn.text(),
+                    onPressed: () async {
+                      await showApplyRequest();
+                    },
+                  ),
+                buildMoreActions(),
+              ],
+            ),
+            buildInfo(),
+            if (!showMore)
+              ListTile(
+                title: "Show more".text(textAlign: TextAlign.end),
+                trailing: const Icon(Icons.expand_more),
+                onTap: () {
+                  setState(() {
+                    showMore = true;
+                  });
+                },
+              ).sliver(),
+            if (description != null && description.isNotEmpty) ...[
+              const Divider().sliver(),
+              buildDesc(description),
             ],
-          ),
-          buildInfo(),
-          if (!showMore)
-            ListTile(
-              title: "Show more".text(textAlign: TextAlign.end),
-              trailing: const Icon(Icons.expand_more),
-              onTap: () {
-                setState(() {
-                  showMore = true;
-                });
-              },
-            ).sliver(),
-          if (description != null && description.isNotEmpty) ...[
-            const Divider().sliver(),
-            buildDesc(description),
           ],
-        ],
+        ),
       ),
       bottomNavigationBar: isFetching
           ? const PreferredSize(
@@ -195,7 +197,10 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
   Widget buildDesc(String description) {
     return SliverPadding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
-      sliver: RestyledHtmlWidget(description, renderMode: RenderMode.sliverList),
+      sliver: RestyledHtmlWidget(
+        description,
+        renderMode: RenderMode.sliverList,
+      ),
     );
   }
 
