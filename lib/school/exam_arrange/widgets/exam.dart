@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:add_2_calendar/add_2_calendar.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import '../i18n.dart';
@@ -19,9 +20,10 @@ class ExamCardContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final time = exam.time;
+    final titleColor = exam.disqualified? context.$red$ : null;
     return [
       [
-        exam.courseName.text(style: context.textTheme.titleMedium),
+        exam.courseName.text(style: context.textTheme.titleMedium?.copyWith(color: titleColor)),
         if (exam.isRetake) Chip(label: i18n.retake.text(), elevation: 2),
       ].row(maa: MainAxisAlignment.spaceBetween),
       Divider(color: context.colorScheme.onSurfaceVariant),

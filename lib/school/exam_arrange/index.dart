@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/app.dart';
 import 'package:sit/school/utils.dart';
@@ -46,9 +47,10 @@ class _ExamArrangeAppCardState extends ConsumerState<ExamArrangeAppCard> {
   }
 
   Widget? buildMostRecentExam(List<ExamEntry> examList) {
-    if (examList.isEmpty) return const SizedBox.shrink();
+    if (examList.isEmpty) return null;
     final now = DateTime.now();
-    examList = examList.where((exam) => exam.time?.start.isAfter(now) ?? false).toList();
+    examList =
+        examList.where((exam) => !exam.disqualified).where((exam) => exam.time?.start.isAfter(now) ?? false).toList();
     examList.sort(ExamEntry.comparator);
     final mostRecent = examList.firstOrNull;
     if (mostRecent == null) return null;
@@ -112,6 +114,7 @@ class ExamCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return ExamCardContent(exam)
     return [
       [
         exam.courseName.text(style: context.textTheme.titleMedium),
