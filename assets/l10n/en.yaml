@@ -301,17 +301,12 @@ class2nd:
     withdrawApplication:
       title: Withdraw application
       desc: Confirm to withdraw application?
-  tab:
-    info: Info
-    description: Description
   activity: Activity
   refreshSuccessTip: Second class score refreshed successfully
   refreshFailedTip: Failed to refresh second class score
   noActivities: No activities
   noAttendedActivities: No attended activities
   viewDetails: View details
-  noDetails: No details given
-  details: Activity details
   apply:
     btn: Apply
     replyTip: Reply from school

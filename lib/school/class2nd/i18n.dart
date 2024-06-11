@@ -26,12 +26,6 @@ class _I18n with CommonI18nMixin {
 
   String get refreshFailedTip => "$ns.refreshFailedTip".tr();
 
-  String get noDetails => "$ns.noDetails".tr();
-
-  String get infoTab => "$ns.tab.info".tr();
-
-  String get descriptionTab => "$ns.tab.description".tr();
-
   String get viewDetails => "$ns.viewDetails".tr();
 }
 

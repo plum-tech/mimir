@@ -299,16 +299,11 @@ class2nd:
     withdrawApplication:
       title: 撤回申請
       desc: 確認要撤回這個活動申請嗎？
-  tab:
-    info: 資訊
-    description: 描述
   refreshSuccessTip: 第二課堂分重新整理成功
   refreshFailedTip: 第二課堂分重新整理失敗
   noActivities: 無活動
   noAttendedActivities: 無參加過的活動
   viewDetails: 檢視詳細資料
-  noDetails: 暫無資訊
-  details: 詳細資料
   apply:
     btn: 申請
     replyTip: 校方回信

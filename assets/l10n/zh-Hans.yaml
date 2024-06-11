@@ -299,16 +299,11 @@ class2nd:
     withdrawApplication:
       title: 撤销申请
       desc: 确定撤销这个活动申请？
-  tab:
-    info: 信息
-    description: 描述
   refreshSuccessTip: 第二课堂分刷新成功
   refreshFailedTip: 第二课堂分刷新失败
   noActivities: 没有活动
   noAttendedActivities: 没有参加过的活动
   viewDetails: 查看详情
-  noDetails: 暂无资料
-  details: 活动资料
   apply:
     btn: 申请
     replyTip: 校方回复
