@@ -81,6 +81,5 @@ class R {
     class2ndUri,
     schoolCardUri,
     libraryUri,
-    gateUri,
   ];
 }
