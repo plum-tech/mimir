@@ -26,7 +26,7 @@ class ExamCardContent extends StatelessWidget {
         exam.courseName.text(style: context.textTheme.titleMedium?.copyWith(color: titleColor)),
         if (exam.isRetake) Chip(label: i18n.retake.text(), elevation: 2),
       ].row(maa: MainAxisAlignment.spaceBetween),
-      const Divider(),
+      Divider(color: context.colorScheme.onSurfaceVariant),
       ExamEntryDetailsTable(exam),
       if (enableAddEvent && time != null && (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)) ...[
         Divider(color: context.colorScheme.onSurfaceVariant),

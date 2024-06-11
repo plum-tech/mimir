@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,9 +49,12 @@ class _ExamArrangeAppCardState extends ConsumerState<ExamArrangeAppCard> {
   Widget? buildMostRecentExam(List<ExamEntry> examList) {
     if (examList.isEmpty) return null;
     final now = DateTime.now();
-    examList =
-        examList.where((exam) => !exam.disqualified).where((exam) => exam.time?.start.isAfter(now) ?? false).toList();
-    examList.sort(ExamEntry.comparator);
+    examList = examList
+        .where((exam) => !exam.disqualified)
+        .where((exam) => exam.time?.start.isAfter(now) ?? false)
+        .sorted(ExamEntry.compareByTime)
+        .reversed
+        .toList();
     final mostRecent = examList.firstOrNull;
     if (mostRecent == null) return null;
     return buildExam(mostRecent);

@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/utils.dart';
+import 'package:sit/utils/date.dart';
 
 part 'exam.g.dart';
 
@@ -118,16 +119,8 @@ class ExamEntry {
     }.toString();
   }
 
-  static int comparator(ExamEntry a, ExamEntry b) {
-    final timeA = a.time;
-    final timeB = b.time;
-    if (timeA == null || timeB == null) {
-      if (timeA != timeB) {
-        return timeA == null ? 1 : -1;
-      }
-      return 0;
-    }
-    return timeA.start.isAfter(timeB.start) ? 1 : -1;
+  static int compareByTime(ExamEntry a, ExamEntry b) {
+    return dateTimeComparator(a.time?.start, b.time?.start);
   }
 }
 

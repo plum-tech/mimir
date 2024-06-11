@@ -5,6 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/storage/hive/type_id.dart';
 import 'package:sit/school/entity/school.dart';
+import 'package:sit/utils/date.dart';
 
 part 'result.ug.g.dart';
 
@@ -175,12 +176,7 @@ class ExamResultUg {
   }
 
   static int compareByTime(ExamResultUg a, ExamResultUg b) {
-    final timeA = a.time;
-    final timeB = b.time;
-    if (timeA == null && timeB == null) return 0;
-    if (timeA == null) return -1;
-    if (timeB == null) return 1;
-    return timeA.compareTo(timeB);
+    return dateTimeComparator(a.time, b.time);
   }
 
   @override

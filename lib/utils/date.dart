@@ -115,3 +115,13 @@ String formatDateSpan({
     }
   }
 }
+
+int dateTimeComparator(DateTime? timeA, DateTime? timeB) {
+  if (timeA == null || timeB == null) {
+    if (timeA != timeB) {
+      return timeA == null ? 1 : -1;
+    }
+    return 0;
+  }
+  return timeA.isAfter(timeB) ? 1 : -1;
+}

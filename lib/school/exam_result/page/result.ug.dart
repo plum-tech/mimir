@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -31,6 +32,7 @@ class _ExamResultUgPageState extends ConsumerState<ExamResultUgPage> {
   final $loadingProgress = ValueNotifier(0.0);
   late SemesterInfo selected = initial;
   final controller = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -81,7 +83,7 @@ class _ExamResultUgPageState extends ConsumerState<ExamResultUgPage> {
 
   @override
   Widget build(BuildContext context) {
-    final resultList = this.resultList;
+    final resultList = this.resultList?.sorted(ExamResultUg.compareByTime).reversed.toList();
     return Scaffold(
       floatingActionButton: AutoHideFAB.extended(
         controller: controller,

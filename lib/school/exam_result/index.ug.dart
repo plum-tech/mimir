@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -63,7 +64,7 @@ class _ExamResultUgAppCardState extends ConsumerState<ExamResultUgAppCard> {
 
   Widget? buildRecentResults(List<ExamResultUg> resultList) {
     if (resultList.isEmpty) return null;
-    resultList.sort((a, b) => -ExamResultUg.compareByTime(a, b));
+    resultList = resultList.sorted(ExamResultUg.compareByTime).reversed.toList();
     final results = resultList.sublist(0, min(_recentLength, resultList.length));
     return results
         .map((result) => ExamResultUgTile(

@@ -60,7 +60,7 @@ class _ExamArrangementListPageState extends ConsumerState<ExamArrangementListPag
 
   @override
   Widget build(BuildContext context) {
-    final examList = this.examList?.sorted(ExamEntry.comparator).reversed.toList();
+    final examList = this.examList?.sorted(ExamEntry.compareByTime).reversed.toList();
     final now = DateTime.now();
     return Scaffold(
       body: CustomScrollView(
