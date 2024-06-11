@@ -18,6 +18,14 @@ class DemoExamArrangeService implements ExamArrangeService {
         seatNumber: 9,
         isRetake: true,
       ),
+      ExamEntry(
+        courseName: "小应生活开发实训",
+        place: "小应生活实验室",
+        campus: "奉贤",
+        time: (start: now.copyWith(day: now.day + 4), end: now.copyWith(day: now.day + 1, hour: now.hour + 1)),
+        seatNumber: 18,
+        disqualified: true,
+      ),
     ];
   }
 }

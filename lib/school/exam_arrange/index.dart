@@ -115,7 +115,7 @@ class ExamCard extends StatelessWidget {
     return [
       [
         exam.courseName.text(style: context.textTheme.titleMedium),
-        if (exam.isRetake == true) Chip(label: i18n.retake.text(), elevation: 2),
+        if (exam.isRetake) Chip(label: i18n.retake.text(), elevation: 2),
       ].row(maa: MainAxisAlignment.spaceBetween),
       const Divider(),
       ExamEntryDetailsTable(exam),

@@ -33,13 +33,18 @@ ExamTime? _parseTime(String s) {
   }
 }
 
-bool? _parseRetake(dynamic status) {
-  if (status == null) return null;
+bool _parseRetake(dynamic status) {
+  if (status == null) return false;
   return switch (status.toString()) {
     "是" => true,
     "否" => false,
-    _ => null,
+    _ => false,
   };
+}
+
+bool _parseDisqualified(dynamic note) {
+  if (note is! String) return false;
+  return note.contains("取消考试资格");
 }
 
 typedef ExamTime = ({DateTime start, DateTime end});
@@ -69,7 +74,10 @@ class ExamEntry {
 
   /// 是否重修
   @JsonKey()
-  final bool? isRetake;
+  final bool isRetake;
+
+  @JsonKey()
+  final bool disqualified;
 
   const ExamEntry({
     required this.courseName,
@@ -77,7 +85,8 @@ class ExamEntry {
     required this.campus,
     required this.time,
     required this.seatNumber,
-    required this.isRetake,
+    this.isRetake = false,
+    this.disqualified = false,
   });
 
   factory ExamEntry.fromJson(Map<String, dynamic> json) => _$ExamEntryFromJson(json);
@@ -92,6 +101,7 @@ class ExamEntry {
       time: _parseTime(json['kssj'] as String),
       seatNumber: _parseSeatNumber(json['zwh'] as String),
       isRetake: _parseRetake(json['cxbj']),
+      disqualified: _parseDisqualified(json['ksbz']),
     );
   }
 
@@ -104,6 +114,7 @@ class ExamEntry {
       "campus": campus,
       "seatNumber": seatNumber,
       "isRetake": isRetake,
+      "disqualified": disqualified,
     }.toString();
   }
 

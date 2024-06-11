@@ -18,7 +18,8 @@ ExamEntry _$ExamEntryFromJson(Map<String, dynamic> json) => ExamEntry(
         ),
       ),
       seatNumber: (json['seatNumber'] as num?)?.toInt(),
-      isRetake: json['isRetake'] as bool?,
+      isRetake: json['isRetake'] as bool? ?? false,
+      disqualified: json['disqualified'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$ExamEntryToJson(ExamEntry instance) => <String, dynamic>{
@@ -33,6 +34,7 @@ Map<String, dynamic> _$ExamEntryToJson(ExamEntry instance) => <String, dynamic>{
       'campus': instance.campus,
       'seatNumber': instance.seatNumber,
       'isRetake': instance.isRetake,
+      'disqualified': instance.disqualified,
     };
 
 $Rec? _$recordConvertNullable<$Rec>(
