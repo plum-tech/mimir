@@ -20,15 +20,19 @@ class ExamCardContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final time = exam.time;
-    final titleColor = exam.disqualified ? context.$red$ : null;
+    final disqualifiedColor = exam.disqualified ? context.$red$ : null;
     return [
       [
-        exam.courseName.text(style: context.textTheme.titleMedium?.copyWith(color: titleColor)),
+        "${exam.courseName}${exam.disqualified ? " | Disqualified" : ""}"
+            .text(style: context.textTheme.titleMedium?.copyWith(color: disqualifiedColor)),
         if (exam.isRetake) Chip(label: i18n.retake.text(), elevation: 2),
       ].row(maa: MainAxisAlignment.spaceBetween),
-      Divider(color: context.colorScheme.onSurfaceVariant),
+      Divider(color: disqualifiedColor ?? context.colorScheme.onSurfaceVariant),
       ExamEntryDetailsTable(exam),
-      if (enableAddEvent && time != null && (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)) ...[
+      if (!exam.disqualified &&
+          enableAddEvent &&
+          time != null &&
+          (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)) ...[
         Divider(color: context.colorScheme.onSurfaceVariant),
         buildAddToCalenderAction(),
       ],
@@ -56,7 +60,8 @@ class ExamEntryDetailsTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = context.textTheme.bodyMedium;
+    final disqualifiedColor = exam.disqualified ? context.$red$ : null;
+    final style = context.textTheme.bodyMedium?.copyWith(color: disqualifiedColor);
     final time = exam.time;
     return Table(
       children: [
