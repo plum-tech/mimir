@@ -1,0 +1,52 @@
+name: Testing
+
+on:
+  - pull_request
+
+env:
+  flutter_version: '3.22.2'
+
+jobs:
+  build_android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: tools/package-lock.json
+
+      - name: Npm install
+        run: |
+          cd tools && npm i && cd ..
+
+      - name: Install JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.flutter_version }}
+          channel: stable
+          cache: true
+
+      - name: Setup Flutter
+        run: |
+          flutter config --no-cli-animations
+
+      - name: Build APK
+        run: |
+          flutter build apk --target-platform android-arm64,android-arm
+
+      - name: Upload Android Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sitlife-Android-test
+          path: build/app/outputs/flutter-apk/
