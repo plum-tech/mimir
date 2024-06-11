@@ -7,12 +7,12 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
-import 'package:sit/design/entity/color2mode.dart';
+import 'package:sit/design/entity/dual_color.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/timetable/page/preview.dart';
 import 'package:sit/utils/save.dart';
 
-import '../entity/platte.dart';
+import '../entity/palette.dart';
 import '../../i18n.dart';
 import '../../init.dart';
 
@@ -27,12 +27,6 @@ class TimetablePaletteEditorPage extends ConsumerStatefulWidget {
 
   @override
   ConsumerState<TimetablePaletteEditorPage> createState() => _TimetablePaletteEditorPageState();
-}
-
-class _Tab {
-  static const length = 2;
-  static const info = 0;
-  static const colors = 1;
 }
 
 class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEditorPage> {
@@ -72,83 +66,50 @@ class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEdi
       changed: anyChanged,
       onSave: onSave,
       child: Scaffold(
-        body: DefaultTabController(
-          length: _Tab.length,
-          child: NestedScrollView(
-            floatHeaderSlivers: true,
-            headerSliverBuilder: (context, innerBoxIsScrolled) {
-              return <Widget>[
-                SliverOverlapAbsorber(
-                  handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                  sliver: SliverAppBar(
-                    floating: true,
-                    title: i18n.p13n.palette.title.text(),
-                    actions: [
-                      if (timetable != null && colors.isNotEmpty)
-                        PlatformTextButton(
-                          child: i18n.preview.text(),
-                          onPressed: () async {
-                            await previewTimetable(
-                              context,
-                              timetable: timetable,
-                              palette: buildPalette(),
-                            );
-                          },
-                        ),
-                      PlatformTextButton(
-                        onPressed: onSave,
-                        child: i18n.save.text(),
-                      ),
-                    ],
-                    forceElevated: innerBoxIsScrolled,
-                    bottom: TabBar(
-                      isScrollable: true,
-                      tabs: [
-                        Tab(child: i18n.p13n.palette.infoTab.text()),
-                        Tab(child: i18n.p13n.palette.colorsTab.text()),
-                      ],
-                    ),
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              pinned: true,
+              title: i18n.p13n.palette.title.text(),
+              actions: [
+                if (timetable != null && colors.isNotEmpty)
+                  PlatformTextButton(
+                    child: i18n.preview.text(),
+                    onPressed: () async {
+                      await previewTimetable(
+                        context,
+                        timetable: timetable,
+                        palette: buildPalette(),
+                      );
+                    },
                   ),
+                PlatformTextButton(
+                  onPressed: onSave,
+                  child: i18n.save.text(),
                 ),
-              ];
-            },
-            body: TabBarView(
-              children: [
-                CustomScrollView(
-                  slivers: [
-                    SliverList.list(children: [
-                      buildName(),
-                      buildAuthor(),
-                    ]),
-                  ],
-                ),
-                CustomScrollView(
-                  slivers: [
-                    const SliverToBoxAdapter(
-                      child: LightDarkColorsHeaderTitle(),
-                    ),
-                    SliverList.builder(
-                      itemCount: colors.length,
-                      itemBuilder: buildColorTile,
-                    ),
-                    SliverList.list(children: [
-                      const Divider(indent: 12, endIndent: 12),
-                      ListTile(
-                        leading: Icon(context.icons.add),
-                        title: i18n.p13n.palette.addColor.text(),
-                        onTap: () {
-                          setState(() {
-                            colors.add(TimetablePalette.defaultColor);
-                          });
-                          markChanged();
-                        },
-                      ),
-                    ]),
-                  ],
-                )
               ],
             ),
-          ),
+            SliverList.list(children: [
+              buildName(),
+              buildAuthor(),
+            ]),
+            ListTile(
+              leading: Icon(context.icons.add),
+              title: i18n.p13n.palette.addColor.text(),
+              onTap: () {
+                setState(() {
+                  colors.insert(0, TimetablePalette.defaultColor);
+                });
+                markChanged();
+              },
+            ).sliver(),
+            const Divider(indent: 12, endIndent: 12).sliver(),
+            const LightDarkColorsHeaderTitle().sliver(),
+            SliverList.builder(
+              itemCount: colors.length,
+              itemBuilder: buildColorTile,
+            ),
+          ],
         ),
       ),
     );
@@ -169,34 +130,6 @@ class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEdi
   }
 
   Widget buildColorTile(BuildContext ctx, int index) {
-    Future<void> changeColor(Color old, Brightness brightness) async {
-      final newColor = await showColorPickerDialog(
-        ctx,
-        old,
-        enableOpacity: true,
-        enableShadesSelection: true,
-        enableTonalPalette: true,
-        showColorCode: true,
-        pickersEnabled: const <ColorPickerType, bool>{
-          ColorPickerType.both: true,
-          ColorPickerType.primary: false,
-          ColorPickerType.accent: false,
-          ColorPickerType.custom: true,
-          ColorPickerType.wheel: true,
-        },
-      );
-      if (newColor != old) {
-        await HapticFeedback.mediumImpact();
-        setState(() {
-          if (brightness == Brightness.light) {
-            colors[index] = (light: newColor, dark: colors[index].dark);
-          } else {
-            colors[index] = (light: colors[index].light, dark: newColor);
-          }
-        });
-      }
-    }
-
     final current = colors[index];
     return WithSwipeAction(
       childKey: ObjectKey(current),
@@ -211,8 +144,15 @@ class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEdi
       ),
       child: PaletteColorTile(
         colors: current,
-        onEdit: (old, brightness) async {
-          await changeColor(old, brightness);
+        onEdit: (brightness, newColor) async {
+          await HapticFeedback.mediumImpact();
+          setState(() {
+            if (brightness == Brightness.light) {
+              colors[index] = DualColor(light: newColor, dark: colors[index].dark);
+            } else {
+              colors[index] = DualColor(light: colors[index].light, dark: newColor);
+            }
+          });
           markChanged();
         },
       ),
@@ -247,22 +187,35 @@ class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEdi
 }
 
 class LightDarkColorsHeaderTitle extends StatelessWidget {
-  const LightDarkColorsHeaderTitle({super.key});
+  const LightDarkColorsHeaderTitle({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: [
-        [const Icon(Icons.light_mode), Brightness.light.l10n().text()].row(mas: MainAxisSize.min),
-        [const Icon(Icons.dark_mode), Brightness.dark.l10n().text()].row(mas: MainAxisSize.min),
-      ].row(maa: MainAxisAlignment.spaceBetween),
-    );
+    final style = context.textTheme.bodyLarge?.copyWith(color: context.colorScheme.onSurface);
+    return [
+      [
+        const Icon(Icons.light_mode),
+        const SizedBox(width: 8),
+        Brightness.light.l10n().text(style: style),
+      ].row(mas: MainAxisSize.min),
+      [
+        const Icon(Icons.text_format),
+        "Text".text(style: style),
+      ].row(mas: MainAxisSize.min),
+      [
+        Brightness.dark.l10n().text(style: style),
+        const SizedBox(width: 8),
+        const Icon(Icons.dark_mode),
+      ].row(mas: MainAxisSize.min),
+    ].row(maa: MainAxisAlignment.spaceBetween).padSymmetric(h: 12, v: 12);
   }
 }
 
 class PaletteColorTile extends StatelessWidget {
-  final Color2Mode colors;
-  final void Function(Color old, Brightness brightness)? onEdit;
+  final DualColor colors;
+  final void Function(Brightness brightness, ColorEntry newColor)? onEdit;
 
   const PaletteColorTile({
     super.key,
@@ -272,35 +225,80 @@ class PaletteColorTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final (:light, :dark) = colors;
+    final DualColor(:light, :dark) = colors;
+    return [
+      SingleColorSpec(
+        color: light,
+        left: true,
+        brightness: Brightness.light,
+        onEdit: onEdit,
+      ).expanded(),
+      SingleColorSpec(
+        color: dark,
+        left: false,
+        brightness: Brightness.dark,
+        onEdit: onEdit,
+      ).expanded(),
+    ].row(maa: MainAxisAlignment.spaceBetween);
+  }
+}
+
+class SingleColorSpec extends StatelessWidget {
+  final ColorEntry color;
+  final bool left;
+  final Brightness brightness;
+  final void Function(Brightness brightness, ColorEntry newColor)? onEdit;
+
+  const SingleColorSpec({
+    super.key,
+    required this.color,
+    this.onEdit,
+    required this.brightness,
+    required this.left,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final onEdit = this.onEdit;
     return ListTile(
       isThreeLine: true,
       visualDensity: VisualDensity.compact,
-      title: [
-        "#${light.hexAlpha}".text(),
-        "#${dark.hexAlpha}".text(),
-      ].row(maa: MainAxisAlignment.spaceBetween),
-      subtitle: [
-        PaletteColorBar(
-          color: light,
-          brightness: Brightness.light,
-          onEdit: onEdit,
-        ).expanded(),
-        const SizedBox(width: 5),
-        PaletteColorBar(
-          color: dark,
-          brightness: Brightness.dark,
-          onEdit: onEdit,
-        ).expanded(),
-      ].row(mas: MainAxisSize.min, maa: MainAxisAlignment.spaceEvenly),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+      title: "#${color.color.hexAlpha}".text(textAlign: left ? TextAlign.start : TextAlign.right),
+      subtitle: () {
+        final widgets = [
+          PaletteColorBar(
+            color: color,
+            brightness: brightness,
+            onEdit: onEdit,
+          ).expanded(),
+          if (onEdit != null)
+            PlatformIconButton(
+              icon: Icon(resolveTextBrightness() ? context.icons.sun : context.icons.moon),
+              padding: EdgeInsets.zero,
+              onPressed: () {
+                onEdit(brightness, color.copyWith(inverseText: !color.inverseText));
+              },
+            ),
+        ];
+        return (left ? widgets : widgets.reversed.toList()).row();
+      }(),
     );
+  }
+
+  bool resolveTextBrightness() {
+    var light = brightness == Brightness.light;
+    if (color.inverseText) {
+      light = !light;
+    }
+    return light;
   }
 }
 
 class PaletteColorBar extends StatelessWidget {
-  final Color color;
+  final ColorEntry color;
   final Brightness brightness;
-  final void Function(Color old, Brightness brightness)? onEdit;
+  final void Function(Brightness brightness, ColorEntry newColor)? onEdit;
 
   const PaletteColorBar({
     super.key,
@@ -312,34 +310,55 @@ class PaletteColorBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final onEdit = this.onEdit;
-    // final textColor = color.resolveTextColorForReadability();
-    final textColor = brightness == Brightness.light ? Colors.black : Colors.white;
-    return Card.outlined(
-      color: textColor,
+    final textColor =
+        (context.brightness == brightness ? color : color.copyWith(inverseText: !color.inverseText)).textColor(context);
+    return Card.filled(
+      color: color.color,
+      clipBehavior: Clip.hardEdge,
       margin: EdgeInsets.zero,
-      child: Card.filled(
-        color: color,
-        clipBehavior: Clip.hardEdge,
-        margin: EdgeInsets.zero,
-        child: InkWell(
-          onTap: onEdit == null
-              ? null
-              : () {
-                  onEdit.call(color, brightness);
-                },
-          onLongPress: () async {
-            await Clipboard.setData(ClipboardData(text: "#${color.hexAlpha}"));
-            if (!context.mounted) return;
-            context.showSnackBar(content: i18n.copyTipOf(i18n.p13n.palette.color).text());
-          },
-          child: SizedBox(
-            height: 35,
-            child:
-                // "${brightness.l10n()} ${calculateContrastRatio(textColor!, color).toStringAsFixed(2)}"
-                brightness.l10n().text(style: context.textTheme.bodyLarge?.copyWith(color: textColor)).center(),
-          ),
+      child: InkWell(
+        onTap: onEdit == null
+            ? null
+            : () async {
+                final old = color;
+                final newColor = await _selectColor(context, old.color);
+                if (newColor != old.color) {
+                  onEdit.call(brightness, old.copyWith(color: newColor));
+                }
+              },
+        onLongPress: () async {
+          await Clipboard.setData(ClipboardData(text: "#${color.color.hexAlpha}"));
+          if (!context.mounted) return;
+          context.showSnackBar(content: i18n.copyTipOf(i18n.p13n.palette.color).text());
+        },
+        child: SizedBox(
+          height: 35,
+          child: brightness
+              .l10n()
+              .text(
+                style: context.textTheme.bodyLarge?.copyWith(color: textColor),
+              )
+              .center(),
         ),
       ),
     );
   }
+}
+
+Future<Color> _selectColor(BuildContext context, Color old) async {
+  return await showColorPickerDialog(
+    context,
+    old,
+    enableOpacity: true,
+    enableShadesSelection: true,
+    enableTonalPalette: true,
+    showColorCode: true,
+    pickersEnabled: const <ColorPickerType, bool>{
+      ColorPickerType.both: true,
+      ColorPickerType.primary: false,
+      ColorPickerType.accent: false,
+      ColorPickerType.custom: true,
+      ColorPickerType.wheel: true,
+    },
+  );
 }

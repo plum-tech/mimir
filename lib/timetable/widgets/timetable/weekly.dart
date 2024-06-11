@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/dash.dart';
-import 'package:sit/design/entity/color2mode.dart';
+import 'package:sit/design/entity/dual_color.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
@@ -459,6 +459,7 @@ class CourseCell extends StatelessWidget {
   final List<String>? teachers;
   final Widget Function(BuildContext context, Widget child)? innerBuilder;
   final Color color;
+  final Color? textColor;
 
   const CourseCell({
     super.key,
@@ -467,6 +468,7 @@ class CourseCell extends StatelessWidget {
     required this.place,
     this.teachers,
     this.innerBuilder,
+    this.textColor,
   });
 
   @override
@@ -477,7 +479,7 @@ class CourseCell extends StatelessWidget {
       maxLines: context.isPortrait ? 8 : 5,
       place: place,
       teachers: teachers,
-      // textColor: color.resolveTextColorForReadability(),
+      textColor: textColor,
     ).center();
     return Card.filled(
       clipBehavior: Clip.hardEdge,
@@ -506,7 +508,8 @@ class StyledCourseCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var color = timetable.resolveColor(style.platte, course).byContext(context);
+    final colorEntry = timetable.resolveColor(style.platte, course);
+    var color = colorEntry.colorBy(context);
     color = style.cellStyle.decorateColor(
       color,
       themeColor: context.colorScheme.primary,
@@ -515,6 +518,7 @@ class StyledCourseCell extends StatelessWidget {
     return CourseCell(
       courseName: course.courseName,
       color: color,
+      textColor: colorEntry.textColorBy(context),
       place: course.place,
       teachers: style.cellStyle.showTeachers ? course.teachers : null,
       innerBuilder: innerBuilder,

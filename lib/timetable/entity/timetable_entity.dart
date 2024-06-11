@@ -8,7 +8,7 @@ import 'package:sit/school/utils.dart';
 import 'package:sit/timetable/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:sit/utils/date.dart';
-import '../p13n/entity/platte.dart';
+import '../p13n/entity/palette.dart';
 import '../patch/entity/patch.dart';
 import 'timetable.dart';
 

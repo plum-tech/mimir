@@ -4,29 +4,33 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/design/entity/color2mode.dart';
+import 'package:sit/design/entity/dual_color.dart';
 import 'package:sit/utils/byte_io/byte_io.dart';
 
 import '../../entity/timetable.dart';
 
-part 'platte.g.dart';
+part 'palette.g.dart';
 
 DateTime _kLastModified() => DateTime.now();
 
 @JsonSerializable()
 @CopyWith()
 class TimetablePalette {
-  static const version = 1;
+  /// in version 1, the [colors] is in type of [({Color light, Color dark})].
+  static const version = 2;
   @JsonKey()
   final String name;
   @JsonKey()
   final String author;
-  @Color2ModeConverter()
-  final List<Color2Mode> colors;
+  @_DualColorMigratedFromColor2ModeConverter()
+  final List<DualColor> colors;
   @JsonKey(defaultValue: _kLastModified)
   final DateTime lastModified;
 
-  static const defaultColor = (light: Colors.white, dark: Colors.black);
+  static const defaultColor = DualColor(
+    light: ColorEntry(Colors.white),
+    dark: ColorEntry(Colors.black),
+  );
 
   const TimetablePalette({
     required this.name,
@@ -47,9 +51,8 @@ class TimetablePalette {
     writer.strUtf8(obj.name, ByteLength.bit8);
     writer.strUtf8(obj.author, ByteLength.bit8);
     writer.uint16(obj.colors.length);
-    for (var color in obj.colors) {
-      writer.uint32(color.light.value);
-      writer.uint32(color.dark.value);
+    for (final color in obj.colors) {
+      color.serialize(writer);
     }
 
     return writer.build();
@@ -63,9 +66,12 @@ class TimetablePalette {
     final author = reader.strUtf8(ByteLength.bit8);
 
     final colors = List.generate(reader.uint16(), (index) {
-      Color light = Color(reader.uint32());
-      Color dark = Color(reader.uint32());
-      return (light: light, dark: dark);
+      if (revision == 1) {
+        Color light = Color(reader.uint32());
+        Color dark = Color(reader.uint32());
+        return DualColor.plain(light: light, dark: dark);
+      }
+      return DualColor.deserialize(reader);
     });
 
     return TimetablePalette(
@@ -75,6 +81,27 @@ class TimetablePalette {
       lastModified: DateTime.now(),
     );
   }
+}
+
+class _DualColorMigratedFromColor2ModeConverter implements JsonConverter<DualColor, Map> {
+  const _DualColorMigratedFromColor2ModeConverter();
+
+  @override
+  DualColor fromJson(Map json) {
+    final light = json["light"];
+    final dark = json["dark"];
+    if (light is num && dark is num) {
+      return DualColor.plain(
+        light: Color(light.toInt()),
+        dark: Color(dark.toInt()),
+      );
+    } else {
+      return DualColor.fromJson(json.cast());
+    }
+  }
+
+  @override
+  Map toJson(DualColor object) => object.toJson();
 }
 
 extension TimetablePaletteX on TimetablePalette {
@@ -97,7 +124,7 @@ class BuiltinTimetablePalette implements TimetablePalette {
   @override
   String get author => authorOverride ?? "timetable.p13n.palette.builtin.$key.author".tr();
   @override
-  final List<Color2Mode> colors;
+  final List<DualColor> colors;
 
   @override
   DateTime get lastModified => DateTime.now();
@@ -129,9 +156,9 @@ abstract mixin class SitTimetablePaletteResolver {
     return _SitTimetablePaletteResolverImpl(type: type);
   }
 
-  final _fixedCourseCode2Color = <TimetablePalette, Map<String, Color2Mode>>{};
+  final _fixedCourseCode2Color = <TimetablePalette, Map<String, DualColor>>{};
 
-  Color2Mode resolveColor(TimetablePalette palette, SitCourse course) {
+  DualColor resolveColor(TimetablePalette palette, SitCourse course) {
     assert(palette.colors.isNotEmpty, "Colors can't be empty");
     if (palette.colors.isEmpty) return TimetablePalette.defaultColor;
     assert(type.courses.containsValue(course), "Course $course not found in this timetable");
@@ -141,9 +168,9 @@ abstract mixin class SitTimetablePaletteResolver {
         palette.colors[course.courseCode.hashCode.abs() % palette.colors.length];
   }
 
-  Map<String, Color2Mode> _cacheFixedCourseCode2Color(TimetablePalette palette) {
+  Map<String, DualColor> _cacheFixedCourseCode2Color(TimetablePalette palette) {
     final queue = List.of(palette.colors);
-    final fixedCourseCode2Color = <String, Color2Mode>{};
+    final fixedCourseCode2Color = <String, DualColor>{};
     for (final course in type.courses.values) {
       if (queue.isEmpty) break;
       final index = course.courseCode.hashCode.abs() % queue.length;

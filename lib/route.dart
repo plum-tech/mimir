@@ -44,7 +44,7 @@ import 'package:sit/me/edu_email/page/inbox.dart';
 import 'package:sit/network/page/index.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/page/theme_color.dart';
-import 'package:sit/timetable/p13n/entity/platte.dart';
+import 'package:sit/timetable/p13n/entity/palette.dart';
 import 'package:sit/timetable/entity/timetable.dart';
 import 'package:sit/timetable/init.dart';
 import 'package:sit/timetable/p13n/page/background.dart';

@@ -150,8 +150,6 @@ timetable:
       tab:
         custom: 自定义
         builtin: 内置
-        info: 信息
-        colors: 颜色
       namePlaceholder: 配色方案的名称
       author: 作者
       authorPlaceholder: 你的姓名，电子邮箱，或 url

@@ -150,8 +150,6 @@ timetable:
       tab:
         custom: Custom
         builtin: Builtin
-        info: Info
-        colors: Colors
       namePlaceholder: Palette name
       author: Author
       authorPlaceholder: Your name, email, or url

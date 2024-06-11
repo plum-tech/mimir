@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'platte.dart';
+part of 'palette.dart';
 
 // **************************************************************************
 // CopyWithGenerator
@@ -11,7 +11,7 @@ abstract class _$TimetablePaletteCWProxy {
 
   TimetablePalette author(String author);
 
-  TimetablePalette colors(List<({Color dark, Color light})> colors);
+  TimetablePalette colors(List<DualColor> colors);
 
   TimetablePalette lastModified(DateTime lastModified);
 
@@ -24,7 +24,7 @@ abstract class _$TimetablePaletteCWProxy {
   TimetablePalette call({
     String? name,
     String? author,
-    List<({Color dark, Color light})>? colors,
+    List<DualColor>? colors,
     DateTime? lastModified,
   });
 }
@@ -42,7 +42,7 @@ class _$TimetablePaletteCWProxyImpl implements _$TimetablePaletteCWProxy {
   TimetablePalette author(String author) => this(author: author);
 
   @override
-  TimetablePalette colors(List<({Color dark, Color light})> colors) => this(colors: colors);
+  TimetablePalette colors(List<DualColor> colors) => this(colors: colors);
 
   @override
   TimetablePalette lastModified(DateTime lastModified) => this(lastModified: lastModified);
@@ -73,7 +73,7 @@ class _$TimetablePaletteCWProxyImpl implements _$TimetablePaletteCWProxy {
       colors: colors == const $CopyWithPlaceholder() || colors == null
           ? _value.colors
           // ignore: cast_nullable_to_non_nullable
-          : colors as List<({Color dark, Color light})>,
+          : colors as List<DualColor>,
       lastModified: lastModified == const $CopyWithPlaceholder() || lastModified == null
           ? _value.lastModified
           // ignore: cast_nullable_to_non_nullable
@@ -95,13 +95,15 @@ extension $TimetablePaletteCopyWith on TimetablePalette {
 TimetablePalette _$TimetablePaletteFromJson(Map<String, dynamic> json) => TimetablePalette(
       name: json['name'] as String,
       author: json['author'] as String,
-      colors: (json['colors'] as List<dynamic>).map((e) => const Color2ModeConverter().fromJson(e as Map)).toList(),
+      colors: (json['colors'] as List<dynamic>)
+          .map((e) => const _DualColorMigratedFromColor2ModeConverter().fromJson(e as Map))
+          .toList(),
       lastModified: json['lastModified'] == null ? _kLastModified() : DateTime.parse(json['lastModified'] as String),
     );
 
 Map<String, dynamic> _$TimetablePaletteToJson(TimetablePalette instance) => <String, dynamic>{
       'name': instance.name,
       'author': instance.author,
-      'colors': instance.colors.map(const Color2ModeConverter().toJson).toList(),
+      'colors': instance.colors.map(const _DualColorMigratedFromColor2ModeConverter().toJson).toList(),
       'lastModified': instance.lastModified.toIso8601String(),
     };
