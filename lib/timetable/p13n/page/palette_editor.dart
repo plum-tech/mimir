@@ -7,7 +7,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
-import 'package:sit/design/entity/color2mode.dart';
+import 'package:sit/design/entity/dual_color.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/timetable/page/preview.dart';
 import 'package:sit/utils/save.dart';
@@ -189,9 +189,9 @@ class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEdi
         await HapticFeedback.mediumImpact();
         setState(() {
           if (brightness == Brightness.light) {
-            colors[index] = (light: newColor, dark: colors[index].dark);
+            colors[index] = DualColor.plain(light: newColor, dark: colors[index].dark.color);
           } else {
-            colors[index] = (light: colors[index].light, dark: newColor);
+            colors[index] = DualColor.plain(light: colors[index].light.color, dark: newColor);
           }
         });
       }
@@ -261,7 +261,7 @@ class LightDarkColorsHeaderTitle extends StatelessWidget {
 }
 
 class PaletteColorTile extends StatelessWidget {
-  final Color2Mode colors;
+  final DualColor colors;
   final void Function(Color old, Brightness brightness)? onEdit;
 
   const PaletteColorTile({
@@ -272,7 +272,8 @@ class PaletteColorTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final (:light, :dark) = colors;
+    final light = colors.light.color;
+    final dark = colors.dark.color;
     return ListTile(
       isThreeLine: true,
       visualDensity: VisualDensity.compact,

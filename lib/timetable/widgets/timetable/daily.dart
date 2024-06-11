@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/design/entity/color2mode.dart';
+import 'package:sit/design/entity/dual_color.dart';
 import 'package:sit/l10n/time.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/school/entity/timetable.dart';
@@ -224,7 +224,7 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
     final course = lesson.course;
     final style = TimetableStyle.of(context);
 
-    var color = timetable.resolveColor(style.platte, course).byContext(context);
+    var color = timetable.resolveColor(style.platte, course).colorBy(context);
     color = style.cellStyle.decorateColor(
       color,
       themeColor: context.colorScheme.primary,
@@ -359,7 +359,7 @@ class LessonOverlapGroup extends StatelessWidget {
     for (int lessonIndex = 0; lessonIndex < lessonsInSlot.length; lessonIndex++) {
       final lesson = lessonsInSlot[lessonIndex];
       final course = lesson.course;
-      final color = timetable.resolveColor(TimetableStyle.of(context).platte, course).byContext(context);
+      final color = timetable.resolveColor(TimetableStyle.of(context).platte, course).colorBy(context);
       classTime = calcBeginEndTimePointOfLesson(timeslot, timetable.campus, course.place);
       final row = LessonCard(
         lesson: lesson,
@@ -374,7 +374,7 @@ class LessonOverlapGroup extends StatelessWidget {
     return Card.outlined(
       child: [
         ClassTimeCard(
-          color: TimetableStyle.of(context).platte.colors[0].byContext(context),
+          color: TimetableStyle.of(context).platte.colors[0].colorBy(context),
           classTime: classTime!,
         ),
         all.column().expanded(),

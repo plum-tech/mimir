@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/dash.dart';
-import 'package:sit/design/entity/color2mode.dart';
+import 'package:sit/design/entity/dual_color.dart';
 import 'package:sit/school/utils.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
@@ -506,7 +506,7 @@ class StyledCourseCell extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var color = timetable.resolveColor(style.platte, course).byContext(context);
+    var color = timetable.resolveColor(style.platte, course).colorBy(context);
     color = style.cellStyle.decorateColor(
       color,
       themeColor: context.colorScheme.primary,

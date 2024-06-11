@@ -9,7 +9,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/design/entity/color2mode.dart';
+import 'package:sit/design/entity/dual_color.dart';
 import 'package:sit/design/widgets/entry_card.dart';
 import 'package:sit/l10n/extension.dart';
 import 'package:sit/qrcode/page/view.dart';
@@ -385,7 +385,7 @@ class PaletteDetailsPage extends ConsumerWidget {
 }
 
 class PaletteColorsPreview extends StatelessWidget {
-  final List<Color2Mode> colors;
+  final List<DualColor> colors;
 
   const PaletteColorsPreview(this.colors, {super.key});
 
@@ -398,7 +398,7 @@ class PaletteColorsPreview extends StatelessWidget {
           return Card.outlined(
             margin: EdgeInsets.zero,
             child: TweenAnimationBuilder(
-              tween: ColorTween(begin: color, end: color),
+              tween: ColorTween(begin: color.color, end: color.color),
               duration: const Duration(milliseconds: 300),
               builder: (ctx, value, child) => Card.filled(
                 margin: EdgeInsets.zero,
@@ -446,7 +446,7 @@ class TimetableP13nLivePreview extends StatelessWidget {
       required List<String> teachers,
       bool grayOut = false,
     }) {
-      var color = palette.safeGetColor(colorId).byContext(context);
+      var color = palette.safeGetColor(colorId).colorBy(context);
       color = cellStyle.decorateColor(color, themeColor: themeColor, isLessonTaken: grayOut);
       return TweenAnimationBuilder(
         tween: ColorTween(begin: color, end: color),

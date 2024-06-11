@@ -8,7 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/foundation.dart';
 import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/design/entity/color2mode.dart';
+import 'package:sit/design/entity/dual_color.dart';
 import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/widgets/entry_card.dart';
@@ -451,7 +451,7 @@ class TimetableDetailsPage extends ConsumerWidget {
             itemBuilder: (ctx, i) {
               final MapEntry(value: courses) = code2Courses[i];
               final template = courses.first;
-              final color = resolver.resolveColor(palette, template).byContext(context);
+              final color = resolver.resolveColor(palette, template).colorBy(context);
               return TimetableCourseCard(
                 courses: courses,
                 courseName: template.courseName,
