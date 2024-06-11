@@ -23,9 +23,20 @@ class ExamCardContent extends StatelessWidget {
     final disqualifiedColor = exam.disqualified ? context.$red$ : null;
     return [
       [
-        "${exam.courseName}${exam.disqualified ? " | Disqualified" : ""}"
-            .text(style: context.textTheme.titleMedium?.copyWith(color: disqualifiedColor)),
-        if (exam.isRetake) Chip(label: i18n.retake.text(), elevation: 2),
+        exam.courseName.text(style: context.textTheme.titleMedium?.copyWith(color: disqualifiedColor)),
+        [
+          if (exam.disqualified)
+            Chip(
+              label: "Disqualified".text(),
+              labelStyle: TextStyle(color: disqualifiedColor),
+              elevation: 2,
+            ),
+          if (exam.isRetake)
+            Chip(
+              label: i18n.retake.text(),
+              elevation: 2,
+            ),
+        ].wrap(spacing: 4),
       ].row(maa: MainAxisAlignment.spaceBetween),
       Divider(color: disqualifiedColor ?? context.colorScheme.onSurfaceVariant),
       ExamEntryDetailsTable(exam),

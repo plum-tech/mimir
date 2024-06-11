@@ -154,23 +154,27 @@ class EntryCard extends StatelessWidget {
       );
     }
 
-    return InkWell(
-      child: [
-        itemBuilder(context),
-        OverflowBar(
-          alignment: MainAxisAlignment.spaceBetween,
-          children: [
-            buildMaterialMainActions(),
-            buildSecondaryActionPopup(),
-          ],
-        ),
-      ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15),
-      onTap: () async {
-        await context.showSheet((ctx) => detailsBuilder(context, buildDetailsActions));
-      },
-    ).inAnyCard(
-      type: selected ? CardVariant.filled : CardVariant.outlined,
-      clip: Clip.hardEdge,
+    return AnimatedScale(
+      scale: selected ? 0.98 : 1,
+      duration: Durations.medium1,
+      child: InkWell(
+        child: [
+          itemBuilder(context),
+          OverflowBar(
+            alignment: MainAxisAlignment.spaceBetween,
+            children: [
+              buildMaterialMainActions(),
+              buildSecondaryActionPopup(),
+            ],
+          ),
+        ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15),
+        onTap: () async {
+          await context.showSheet((ctx) => detailsBuilder(context, buildDetailsActions));
+        },
+      ).inAnyCard(
+        type: selected ? CardVariant.filled : CardVariant.outlined,
+        clip: Clip.hardEdge,
+      ),
     );
   }
 

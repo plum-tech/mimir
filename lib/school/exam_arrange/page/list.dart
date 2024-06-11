@@ -84,12 +84,10 @@ class _ExamArrangementListPageState extends ConsumerState<ExamArrangementListPag
                 itemCount: examList.length,
                 itemBuilder: (ctx, i) {
                   final exam = examList[i];
-                  return Card.filled(
-                    child: ExamCardContent(
-                      exam,
-                      enableAddEvent: exam.time?.end.isAfter(now) ?? false,
-                    ),
-                  ).padH(6);
+                  return ExamCardContent(
+                    exam,
+                    enableAddEvent: exam.time?.end.isAfter(now) ?? false,
+                  ).inFilledCard().padH(6);
                 },
               ),
         ],
