@@ -11,6 +11,8 @@ import 'package:sit/l10n/extension.dart';
 import 'package:sit/school/class2nd/service/application.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/utils/error.dart';
+import 'package:sit/utils/guard_launch.dart';
+import 'package:sit/utils/tel.dart';
 import 'package:sit/widgets/html.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -264,10 +266,22 @@ class _ActivityDetailsInfoTabViewState extends State<ActivityDetailsInfoTabView>
                   subtitle: details.undertaker!,
                 ),
               if (details.contactInfo != null)
-                DetailListTile(
-                  title: i18n.info.contactInfo,
-                  subtitle: details.contactInfo!,
-                ),
+                () {
+                  final contact = details.contactInfo!;
+                  final phoneNumber = tryParsePhoneNumber(contact);
+                  return DetailListTile(
+                    title: i18n.info.contactInfo,
+                    subtitle: contact,
+                    trailing: phoneNumber == null
+                        ? null
+                        : PlatformIconButton(
+                            icon: const Icon(Icons.call),
+                            onPressed: () async {
+                              await guardLaunchUrlString(context, "tel:$phoneNumber");
+                            },
+                          ),
+                  );
+                }(),
               if (tags.isNotEmpty)
                 ListTile(
                   isThreeLine: true,
