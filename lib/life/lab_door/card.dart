@@ -16,6 +16,7 @@ const _whitelist = {
   "2210340140",
   "221032Y116",
   "221032Y128",
+  "2210450230",
   "236091101",
   "236091171",
 };
@@ -53,31 +54,35 @@ class _OpenLabDoorAppCardState extends ConsumerState<OpenLabDoorAppCard> {
     setState(() {
       opening = true;
     });
-    try {
-      await _openDoor();
-    } catch (error, stackTrace) {
-      debugPrintError(error, stackTrace);
+    final result = await _openDoor();
+    if (result) {
+      await Future.delayed(const Duration(milliseconds: 2000));
+      if (!mounted) return;
+      setState(() {
+        opening = false;
+      });
+      context.showSnackBar(content: "开门成功".text());
+    } else {
       if (!mounted) return;
       setState(() {
         opening = false;
       });
       context.showSnackBar(content: "开门失败".text());
-      return;
     }
-    await Future.delayed(const Duration(milliseconds: 800));
-    if (!mounted) return;
-    setState(() {
-      opening = false;
-    });
-    context.showSnackBar(content: "开门成功".text());
   }
 }
 
 const _url =
     "aHR0cDovLzIxMC4zNS45OC4xNzg6NzEwMS9MTVdlYi9XZWJBcGkvSFNoaVlhblNoaS5hc2h4P01ldGhvZD1TYXZlUmVtb3RlT3BlbkRvb3ImU2hpWWFuU2hpSUQmS2FIYW89NTE1RkY1NzImTWFjSUQ9Mjg6NTI6Rjk6MTg6ODQ6Njc=";
 
-Future<void> _openDoor() async {
-  await Init.dio.get(
-    String.fromCharCodes(base64Decode(_url)),
-  );
+Future<bool> _openDoor() async {
+  try {
+    final res = await Init.dio.get(
+      String.fromCharCodes(base64Decode(_url)),
+    );
+    return res.data.toString() == "1,5000";
+  } catch (error, stackTrace) {
+    debugPrintError(error, stackTrace);
+    return false;
+  }
 }
