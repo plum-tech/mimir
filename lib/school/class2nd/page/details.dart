@@ -4,7 +4,6 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:sit/design/adaptive/dialog.dart';
 import 'package:sit/design/adaptive/menu.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/design/widgets/common.dart';
 import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/design/widgets/tags.dart';
 import 'package:sit/l10n/extension.dart';
@@ -48,6 +47,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
   int get activityId => widget.activityId;
   late Class2ndActivityDetails? details = Class2ndInit.activityStorage.getActivityDetails(activityId);
   bool isFetching = false;
+  var showMore = false;
 
   @override
   void initState() {
@@ -70,47 +70,41 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
 
   @override
   Widget build(BuildContext context) {
+    final details = this.details;
+    final description = details?.description;
     return Scaffold(
-      body: DefaultTabController(
-        length: 2,
-        child: NestedScrollView(
-          floatHeaderSlivers: true,
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return <Widget>[
-              SliverOverlapAbsorber(
-                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                sliver: SliverAppBar(
-                  floating: true,
-                  title: i18n.info.activityOf(activityId).text(),
-                  actions: [
-                    if (widget.enableApply)
-                      PlatformTextButton(
-                        child: i18n.apply.btn.text(),
-                        onPressed: () async {
-                          await showApplyRequest();
-                        },
-                      ),
-                    buildMoreActions(),
-                  ],
-                  forceElevated: innerBoxIsScrolled,
-                  bottom: TabBar(
-                    isScrollable: true,
-                    tabs: [
-                      Tab(child: i18n.infoTab.text()),
-                      Tab(child: i18n.descriptionTab.text()),
-                    ],
-                  ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            floating: true,
+            title: i18n.info.activityOf(activityId).text(),
+            actions: [
+              if (widget.enableApply)
+                PlatformTextButton(
+                  child: i18n.apply.btn.text(),
+                  onPressed: () async {
+                    await showApplyRequest();
+                  },
                 ),
-              ),
-            ];
-          },
-          body: TabBarView(
-            children: [
-              ActivityDetailsInfoTabView(activityTitle: widget.title, activityTime: widget.time, details: details),
-              ActivityDetailsDocumentTabView(details: details),
+              buildMoreActions(),
             ],
           ),
-        ),
+          buildInfo(),
+          if (!showMore)
+            ListTile(
+              title: "Show more".text(textAlign: TextAlign.end),
+              trailing: const Icon(Icons.expand_more),
+              onTap: () {
+                setState(() {
+                  showMore = true;
+                });
+              },
+            ).sliver(),
+          if (description != null && description.isNotEmpty) ...[
+            const Divider().sliver(),
+            buildDesc(description),
+          ],
+        ],
       ),
       bottomNavigationBar: isFetching
           ? const PreferredSize(
@@ -118,6 +112,90 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
               child: LinearProgressIndicator(),
             )
           : null,
+    );
+  }
+
+  Widget buildInfo() {
+    final details = this.details;
+    final (:title, :tags) = separateTagsFromTitle(widget.title ?? details?.title ?? "");
+    final time = details?.startTime ?? widget.time;
+    return SliverList.list(children: [
+      DetailListTile(
+        title: i18n.info.name,
+        subtitle: title,
+      ),
+      if (time != null)
+        DetailListTile(
+          title: i18n.info.startTime,
+          subtitle: context.formatYmdhmNum(time),
+        ),
+      if (details != null) ...[
+        if (details.place != null)
+          DetailListTile(
+            title: i18n.info.location,
+            subtitle: details.place!,
+          ),
+        if (tags.isNotEmpty)
+          ListTile(
+            isThreeLine: true,
+            title: i18n.info.tags.text(),
+            subtitle: TagsGroup(tags),
+          ),
+        if (showMore) ...[
+          if (details.principal != null)
+            DetailListTile(
+              title: i18n.info.principal,
+              subtitle: details.principal!,
+            ),
+          if (details.organizer != null)
+            DetailListTile(
+              title: i18n.info.organizer,
+              subtitle: details.organizer!,
+            ),
+          if (details.undertaker != null)
+            DetailListTile(
+              title: i18n.info.undertaker,
+              subtitle: details.undertaker!,
+            ),
+          if (details.contactInfo != null)
+            () {
+              final contact = details.contactInfo!;
+              final phoneNumber = tryParsePhoneNumber(contact);
+              return DetailListTile(
+                title: i18n.info.contactInfo,
+                subtitle: contact,
+                trailing: phoneNumber == null
+                    ? null
+                    : PlatformIconButton(
+                        icon: const Icon(Icons.call),
+                        onPressed: () async {
+                          await guardLaunchUrlString(context, "tel:$phoneNumber");
+                        },
+                      ),
+              );
+            }(),
+          DetailListTile(
+            title: i18n.info.signInTime,
+            subtitle: context.formatYmdhmNum(details.signStartTime),
+          ),
+          DetailListTile(
+            title: i18n.info.signOutTime,
+            subtitle: context.formatYmdhmNum(details.signEndTime),
+          ),
+          if (details.duration != null)
+            DetailListTile(
+              title: i18n.info.duration,
+              subtitle: details.duration!,
+            ),
+        ],
+      ],
+    ]);
+  }
+
+  Widget buildDesc(String description) {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      sliver: RestyledHtmlWidget(description, renderMode: RenderMode.sliverList),
     );
   }
 
@@ -202,163 +280,5 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
     }
-  }
-}
-
-class ActivityDetailsInfoTabView extends StatefulWidget {
-  final String? activityTitle;
-  final DateTime? activityTime;
-  final Class2ndActivityDetails? details;
-
-  const ActivityDetailsInfoTabView({
-    super.key,
-    this.activityTitle,
-    this.activityTime,
-    this.details,
-  });
-
-  @override
-  State<ActivityDetailsInfoTabView> createState() => _ActivityDetailsInfoTabViewState();
-}
-
-class _ActivityDetailsInfoTabViewState extends State<ActivityDetailsInfoTabView> with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
-  var showMore = false;
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    final details = widget.details;
-    final (:title, :tags) = separateTagsFromTitle(widget.activityTitle ?? details?.title ?? "");
-    final time = details?.startTime ?? widget.activityTime;
-    return CustomScrollView(
-      slivers: [
-        SliverList.list(children: [
-          DetailListTile(
-            title: i18n.info.name,
-            subtitle: title,
-          ),
-          if (time != null)
-            DetailListTile(
-              title: i18n.info.startTime,
-              subtitle: context.formatYmdhmNum(time),
-            ),
-          if (details != null) ...[
-            if (details.place != null)
-              DetailListTile(
-                title: i18n.info.location,
-                subtitle: details.place!,
-              ),
-            if (tags.isNotEmpty)
-              ListTile(
-                isThreeLine: true,
-                title: i18n.info.tags.text(),
-                subtitle: TagsGroup(tags),
-              ),
-            if (showMore) ...[
-              if (details.principal != null)
-                DetailListTile(
-                  title: i18n.info.principal,
-                  subtitle: details.principal!,
-                ),
-              if (details.organizer != null)
-                DetailListTile(
-                  title: i18n.info.organizer,
-                  subtitle: details.organizer!,
-                ),
-              if (details.undertaker != null)
-                DetailListTile(
-                  title: i18n.info.undertaker,
-                  subtitle: details.undertaker!,
-                ),
-              if (details.contactInfo != null)
-                () {
-                  final contact = details.contactInfo!;
-                  final phoneNumber = tryParsePhoneNumber(contact);
-                  return DetailListTile(
-                    title: i18n.info.contactInfo,
-                    subtitle: contact,
-                    trailing: phoneNumber == null
-                        ? null
-                        : PlatformIconButton(
-                            icon: const Icon(Icons.call),
-                            onPressed: () async {
-                              await guardLaunchUrlString(context, "tel:$phoneNumber");
-                            },
-                          ),
-                  );
-                }(),
-              DetailListTile(
-                title: i18n.info.signInTime,
-                subtitle: context.formatYmdhmNum(details.signStartTime),
-              ),
-              DetailListTile(
-                title: i18n.info.signOutTime,
-                subtitle: context.formatYmdhmNum(details.signEndTime),
-              ),
-              if (details.duration != null)
-                DetailListTile(
-                  title: i18n.info.duration,
-                  subtitle: details.duration!,
-                ),
-            ],
-            if (!showMore)
-              ListTile(
-                title: "Show more".text(textAlign: TextAlign.end),
-                trailing: Icon(Icons.expand_more),
-                onTap: () {
-                  setState(() {
-                    showMore = true;
-                  });
-                },
-              ),
-          ],
-        ]),
-      ],
-    );
-  }
-}
-
-class ActivityDetailsDocumentTabView extends StatefulWidget {
-  final Class2ndActivityDetails? details;
-
-  const ActivityDetailsDocumentTabView({
-    super.key,
-    this.details,
-  });
-
-  @override
-  State<ActivityDetailsDocumentTabView> createState() => _ActivityDetailsDocumentTabViewState();
-}
-
-class _ActivityDetailsDocumentTabViewState extends State<ActivityDetailsDocumentTabView>
-    with AutomaticKeepAliveClientMixin {
-  @override
-  bool get wantKeepAlive => true;
-
-  @override
-  Widget build(BuildContext context) {
-    super.build(context);
-    final description = widget.details?.description;
-    return SelectionArea(
-      child: CustomScrollView(
-        slivers: [
-          if (description == null)
-            SliverToBoxAdapter(
-              child: LeavingBlank(
-                icon: Icons.inbox_outlined,
-                desc: i18n.noDetails,
-              ),
-            )
-          else
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              sliver: RestyledHtmlWidget(description, renderMode: RenderMode.sliverList),
-            )
-        ],
-      ),
-    );
   }
 }
