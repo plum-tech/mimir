@@ -251,12 +251,19 @@ class LightDarkColorsHeaderTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: [
-        [const Icon(Icons.light_mode), Brightness.light.l10n().text()].row(mas: MainAxisSize.min),
-        [const Icon(Icons.dark_mode), Brightness.dark.l10n().text()].row(mas: MainAxisSize.min),
-      ].row(maa: MainAxisAlignment.spaceBetween),
-    );
+    final style = context.textTheme.bodyLarge?.copyWith(color: context.colorScheme.onSurface);
+    return [
+      [
+        const Icon(Icons.light_mode),
+        const SizedBox(width: 8),
+        Brightness.light.l10n().text(style: style),
+      ].row(mas: MainAxisSize.min),
+      [
+        Brightness.dark.l10n().text(style: style),
+        const SizedBox(width: 8),
+        const Icon(Icons.dark_mode),
+      ].row(mas: MainAxisSize.min),
+    ].row(maa: MainAxisAlignment.spaceBetween).padSymmetric(h: 12,v: 12);
   }
 }
 
@@ -310,6 +317,7 @@ class SingleColorSpec extends StatelessWidget {
     return ListTile(
       isThreeLine: true,
       visualDensity: VisualDensity.compact,
+      contentPadding: const EdgeInsets.symmetric(horizontal: 4.0),
       title: [
         ...(left
             ? [
