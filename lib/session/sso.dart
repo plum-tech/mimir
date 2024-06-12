@@ -84,7 +84,7 @@ class SsoSession {
   });
 
   Future<bool> checkConnectivity({
-    String url = _authServerUrl,
+    String url = "https://www.sit.edu.cn/",
   }) async {
     try {
       await Init.dioNoCookie.request(

@@ -579,12 +579,12 @@ networkTool:
   openInAppProxySettingsBtn: 打開應用程式內代理伺服器設定
   campusNetworkConnected: 已連線校園網路
   campusNetworkNotConnected: 未連線校園網路
-  schoolServerAvailable: da
-  schoolServerUnavailable: dsada
+  schoolServerAvailable: 學校伺服器可用
+  schoolServerUnavailable: 學校伺服器不可用
   schoolServerAvailableTip: |
-    dsds
+    您可以登入 OA，查看 OA 公告，並訪問需要學校伺服器的其他服務。
   schoolServerUnavailableTip: |
-    dsd
+    您無法登入 OA，也無法訪問任何需要學校伺服器的服務。
   studentRegAvailable: 教務系統可用
   studentRegUnavailable: 教務系統不可用
   ugRegAvailableTip: |

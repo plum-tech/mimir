@@ -585,9 +585,9 @@ networkTool:
   schoolServerAvailable: School server available
   schoolServerUnavailable: School server unavailable
   schoolServerAvailableTip: |
-    sdsd
+    You can log in to OA, view OA announcements, and access other services that require the school server.
   schoolServerUnavailableTip: |
-    sds
+    You can't log in to OA, and can't access any services that requires the school server.
   studentRegAvailable: Student registration system available
   studentRegUnavailable: Student registration system unavailable
   ugRegAvailableTip: |
