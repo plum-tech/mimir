@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sit/game/minesweeper/utils.dart';
 import 'package:sit/utils/list2d/impl.dart';
@@ -10,7 +11,7 @@ void main() {
       final map = List2D.generate(9, 9, (row, column, index) => (row, column));
       final map2d = map.to2DList();
       for (final row in map2d) {
-        print(row);
+        debugPrint(row.toString());
       }
     });
     test("Test subview", () {
@@ -18,7 +19,7 @@ void main() {
       final sub = map.subview(rows: 5, columns: 5, rowOffset: 3, columnOffset: 3);
       final sub2d = sub.to2DList();
       for (final row in sub2d) {
-        print(row);
+        debugPrint(row.toString());
       }
     });
   });
@@ -90,8 +91,8 @@ void main() {
   group("Sudoku", () {
     test("Test generating", () {
       final generator = SudokuGenerator(emptySquares: 18);
-      print(generator.newSudoku);
-      print(generator.newSudokuSolved);
+      debugPrint(generator.newSudoku.toString());
+      debugPrint(generator.newSudokuSolved.toString());
     });
   });
 }

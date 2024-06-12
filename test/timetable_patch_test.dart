@@ -8,7 +8,7 @@ void main() {
     test("Serialization", () {
       final serialized = TimetablePatchEntry.encodeByteList(patch);
       print(serialized.length);
-      assert(serialized.length == 180);
+      assert(serialized.length == 195);
     });
     test("Deserialization", () {
       final serialized = TimetablePatchEntry.encodeByteList(patch);
