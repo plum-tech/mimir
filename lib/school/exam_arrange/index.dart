@@ -53,8 +53,8 @@ class _ExamArrangeAppCardState extends ConsumerState<ExamArrangeAppCard> {
         .where((exam) => !exam.disqualified)
         .where((exam) => exam.time?.start.isAfter(now) ?? false)
         .sorted(ExamEntry.compareByTime)
-        .reversed
         .toList();
+    // most recent exam
     final mostRecent = examList.firstOrNull;
     if (mostRecent == null) return null;
     return buildExam(mostRecent);
