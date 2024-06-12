@@ -26,9 +26,19 @@ class _I18n with CommonI18nMixin {
 
   String get connectionFailedButCampusNetworkConnected => "$ns.connectionFailedButCampusNetworkConnected".tr();
 
+  String get connecting => "$ns.connecting".tr();
+
+  String get schoolServerAvailable => "$ns.schoolServerAvailable".tr();
+
+  String get schoolServerUnavailable => "$ns.schoolServerUnavailable".tr();
+
   String get studentRegAvailable => "$ns.studentRegAvailable".tr();
 
   String get studentRegUnavailable => "$ns.studentRegUnavailable".tr();
+
+  String get schoolServerAvailableTip => "$ns.schoolServerAvailableTip".tr();
+
+  String get schoolServerUnavailableTip => "$ns.schoolServerUnavailableTip".tr();
 
   String get ugRegAvailableTip => "$ns.ugRegAvailableTip".tr();
 

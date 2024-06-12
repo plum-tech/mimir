@@ -24,9 +24,11 @@ class NetworkToolPage extends StatefulWidget {
 
 class _NetworkToolPageState extends State<NetworkToolPage> {
   bool? studentRegAvailable;
+  bool? schoolServerAvailable;
   CampusNetworkStatus? campusNetworkStatus;
   ConnectivityStatus? connectivityStatus;
   late StreamSubscription<bool> studentRegChecker;
+  late StreamSubscription<bool> schoolServerChecker;
   late StreamSubscription<ConnectivityStatus> connectivityChecker;
   late StreamSubscription<CampusNetworkStatus?> campusNetworkChecker;
 
@@ -73,6 +75,22 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
         });
       }
     });
+    schoolServerChecker = checkPeriodic(
+      period: const Duration(milliseconds: 4000),
+      check: () async {
+        try {
+          return await Init.ssoSession.checkConnectivity();
+        } catch (err) {
+          return false;
+        }
+      },
+    ).listen((connected) {
+      if (schoolServerAvailable != connected) {
+        setState(() {
+          schoolServerAvailable = connected;
+        });
+      }
+    });
   }
 
   @override
@@ -80,6 +98,7 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
     connectivityChecker.cancel();
     studentRegChecker.cancel();
     campusNetworkChecker.cancel();
+    schoolServerChecker.cancel();
     super.dispose();
   }
 
@@ -101,6 +120,9 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
               ).padSymmetric(v: 16, h: 8).inOutlinedCard().animatedSized(),
               CampusNetworkConnectivityInfo(
                 status: campusNetworkStatus,
+              ).padSymmetric(v: 16, h: 8).inOutlinedCard().animatedSized(),
+              SchoolServerConnectivityInfo(
+                connected: schoolServerAvailable,
               ).padSymmetric(v: 16, h: 8).inOutlinedCard().animatedSized(),
               StudentRegConnectivityInfo(
                 connected: studentRegAvailable,
@@ -162,6 +184,45 @@ class ConnectivityInfo extends StatelessWidget {
   }
 }
 
+class SchoolServerConnectivityInfo extends ConsumerWidget {
+  final bool? connected;
+
+  const SchoolServerConnectivityInfo({
+    super.key,
+    required this.connected,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final widgets = <Widget>[];
+    final connected = this.connected;
+    final textTheme = context.textTheme;
+    widgets.add((switch (connected) {
+      null => i18n.connecting,
+      true => i18n.schoolServerAvailable,
+      false => i18n.schoolServerUnavailable,
+    })
+        .text(
+      style: textTheme.titleMedium,
+    ));
+    Widget buildTip(String tip) {
+      return tip.text(
+        textAlign: TextAlign.center,
+        style: textTheme.bodyMedium,
+      );
+    }
+
+    switch (connected) {
+      case true:
+        widgets.add(buildTip(i18n.schoolServerAvailableTip));
+      case false:
+        widgets.add(buildTip(i18n.schoolServerUnavailableTip));
+      case null:
+    }
+    return widgets.column(caa: CrossAxisAlignment.center);
+  }
+}
+
 class StudentRegConnectivityInfo extends ConsumerWidget {
   final bool? connected;
 
@@ -177,7 +238,7 @@ class StudentRegConnectivityInfo extends ConsumerWidget {
     final connected = this.connected;
     final textTheme = context.textTheme;
     widgets.add((switch (connected) {
-      null => i18n.checker.button.connecting,
+      null => i18n.connecting,
       true => i18n.studentRegAvailable,
       false => i18n.studentRegUnavailable,
     })

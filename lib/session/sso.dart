@@ -83,6 +83,27 @@ class SsoSession {
     required this.inputCaptcha,
   });
 
+  Future<bool> checkConnectivity({
+    String url = _authServerUrl,
+  }) async {
+    try {
+      await Init.dioNoCookie.request(
+        url,
+        options: Options(
+          method: "GET",
+          sendTimeout: const Duration(milliseconds: 3000),
+          receiveTimeout: const Duration(milliseconds: 3000),
+          contentType: Headers.formUrlEncodedContentType,
+          followRedirects: false,
+          validateStatus: (status) => status! < 400,
+        ),
+      );
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   /// - User try to log in actively on a login page.
   Future<Response> loginLocked(Credentials credentials) async {
     return await _loginLock.run(() async {

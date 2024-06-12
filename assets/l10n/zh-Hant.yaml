@@ -574,10 +574,17 @@ network:
 networkTool:
   title: 網路工具
   subtitle: 測試與學校伺服器的連線
+  connecting: 檢查中
   openWifiSettingsBtn: 打開 Wi-Fi 設定
   openInAppProxySettingsBtn: 打開應用程式內代理伺服器設定
   campusNetworkConnected: 已連線校園網路
   campusNetworkNotConnected: 未連線校園網路
+  schoolServerAvailable: da
+  schoolServerUnavailable: dsada
+  schoolServerAvailableTip: |
+    dsds
+  schoolServerUnavailableTip: |
+    dsd
   studentRegAvailable: 教務系統可用
   studentRegUnavailable: 教務系統不可用
   ugRegAvailableTip: |

@@ -7,7 +7,7 @@ env:
   flutter_version: '3.22.2'
 
 jobs:
-  build_android:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

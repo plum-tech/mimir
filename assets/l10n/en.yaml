@@ -577,10 +577,17 @@ network:
 networkTool:
   title: Network tool
   subtitle: Test connection to the school server
+  connecting: Checking
   openWifiSettingsBtn: Open Wi-Fi settings
   openInAppProxySettingsBtn: Open in-app proxy settings
   campusNetworkConnected: Connected to campus network
   campusNetworkNotConnected: Not connected to campus network
+  schoolServerAvailable: School server available
+  schoolServerUnavailable: School server unavailable
+  schoolServerAvailableTip: |
+    sdsd
+  schoolServerUnavailableTip: |
+    sds
   studentRegAvailable: Student registration system available
   studentRegUnavailable: Student registration system unavailable
   ugRegAvailableTip: |
