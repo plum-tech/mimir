@@ -27,7 +27,7 @@ Future<String?> searchRoom({
       ),
       emptyCandidateBuilder: (ctx) => LeavingBlank(
         icon: Icons.search_off,
-        desc: "No matched room number",
+        desc: "No matched room numbers",
       ),
       candidateBuilder: (ctx, items, highlight, selectIt) {
         return ListView.builder(
