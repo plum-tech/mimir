@@ -33,6 +33,8 @@ typedef HighlightedHistoryBuilder<T> = Widget Function(
 
 class ItemSearchDelegate<T> extends SearchDelegate {
   final ({ValueNotifier<List<T>> history, HistoryBuilder<T> builder})? searchHistory;
+  final WidgetBuilder? emptyCandidateBuilder;
+  final WidgetBuilder? emptyHistoryBuilder;
   final List<T> candidates;
   final CandidateBuilder<T> candidateBuilder;
   final ItemPredicate<T> predicate;
@@ -49,6 +51,8 @@ class ItemSearchDelegate<T> extends SearchDelegate {
     required this.candidateBuilder,
     required this.candidates,
     required this.predicate,
+    required this.emptyCandidateBuilder,
+    required this.emptyHistoryBuilder,
     this.searchHistory,
     this.queryProcessor,
     required this.maxCrossAxisExtent,
@@ -74,6 +78,8 @@ class ItemSearchDelegate<T> extends SearchDelegate {
     required double maxCrossAxisExtent,
     required double childAspectRatio,
     Object? emptyIndicator,
+    WidgetBuilder? emptyCandidateBuilder,
+    WidgetBuilder? emptyHistoryBuilder,
     String? invalidSearchTip,
 
     /// Using [Object.toString] by default.
@@ -95,6 +101,8 @@ class ItemSearchDelegate<T> extends SearchDelegate {
       candidates: candidates,
       invalidSearchTip: invalidSearchTip,
       emptyIndicator: emptyIndicator,
+      emptyCandidateBuilder: emptyCandidateBuilder,
+      emptyHistoryBuilder: emptyHistoryBuilder,
       searchHistory: searchHistory == null
           ? null
           : (
@@ -185,10 +193,19 @@ class ItemSearchDelegate<T> extends SearchDelegate {
     final searchHistory = this.searchHistory;
     if (query.isEmpty && searchHistory != null) {
       final (:history, :builder) = searchHistory;
-      return history >> (ctx, value) => builder(context, value, (item) => close(context, item));
+      return history >>
+          (ctx, value) {
+            if (value.isEmpty && emptyHistoryBuilder != null) {
+              return emptyHistoryBuilder!(context);
+            }
+            return builder(context, value, (item) => close(context, item));
+          };
     } else {
       final query = getRealQuery();
       final matched = candidates.where((candidate) => predicate(query, candidate)).toList();
+      if (matched.isEmpty && emptyCandidateBuilder != null) {
+        return emptyCandidateBuilder!(context);
+      }
       return candidateBuilder(context, matched, query, (candidate) => close(context, candidate));
     }
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/adaptive/swipe.dart';
+import 'package:sit/design/widgets/common.dart';
 import 'package:sit/life/electricity/entity/room.dart';
 import 'package:sit/widgets/search.dart';
 import 'package:rettulf/rettulf.dart';
@@ -20,6 +21,14 @@ Future<String?> searchRoom({
     delegate: ItemSearchDelegate.highlight(
       keyboardType: TextInputType.number,
       searchHistory: $searchHistory,
+      emptyHistoryBuilder: (ctx) => LeavingBlank(
+        icon: Icons.history,
+        desc: "No search history",
+      ),
+      emptyCandidateBuilder: (ctx) => LeavingBlank(
+        icon: Icons.search_off,
+        desc: "No matched room number",
+      ),
       candidateBuilder: (ctx, items, highlight, selectIt) {
         return ListView.builder(
           itemCount: items.length,
