@@ -8,8 +8,7 @@ version: 2.5.1+4
 homepage: https://github.com/liplum/mimir
 repository: https://github.com/liplum/mimir
 issue_tracker: https://github.com/liplum/mimir/issues
-documentation: https://g
-  ithub.com/liplum/mimir#readme
+documentation: https://github.com/liplum/mimir#readme
 
 publish_to: none
 environment:
