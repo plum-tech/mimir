@@ -57,7 +57,7 @@ dependencies:
   crypto: ^3.0.3
   pointycastle: ^3.9.1
   # Codec
-  hashlib_codecs: ^2.4.0
+  hashlib_codecs: ^2.5.0
   # UUID generator
   uuid: ^4.4.0
   # Statistics
