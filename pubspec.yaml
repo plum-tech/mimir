@@ -68,7 +68,7 @@ dependencies:
   html: ^0.15.4
 
   # Dio (http client)
-  dio: ^5.4.3+1
+  dio: ^5.5.0
   dio_cookie_manager: ^3.1.1
 
   # WebView and browser related
