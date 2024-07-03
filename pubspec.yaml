@@ -38,7 +38,7 @@ dependencies:
   hive_flutter: ^1.1.0
   json_annotation: ^4.9.0
   copy_with_extension: ^5.0.4
-  freezed_annotation: ^2.4.1
+  freezed_annotation: ^2.4.2
   get_it: ^7.7.0
   flutter_image_compress: ^2.3.0
   pausable_timer: ^3.1.0+3
@@ -95,7 +95,7 @@ dependencies:
   url_launcher: ^6.3.0
   # Open Android / iOS system image picker
   image_picker: ^1.1.2
-  file_picker: ^8.0.5
+  file_picker: ^8.0.6
   share_plus: ^9.0.0
   app_settings: ^5.1.1
   web_browser_detect: ^2.0.3
