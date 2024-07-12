@@ -38,7 +38,7 @@ dependencies:
   hive_flutter: ^1.1.0
   json_annotation: ^4.9.0
   copy_with_extension: ^5.0.4
-  freezed_annotation: ^2.4.2
+  freezed_annotation: ^2.4.3
   get_it: ^7.7.0
   flutter_image_compress: ^2.3.0
   pausable_timer: ^3.1.0+3
@@ -116,7 +116,7 @@ dependencies:
   add_2_calendar: ^3.0.1
 
   # UI
-  go_router: ^14.2.0
+  go_router: ^14.2.1
   fl_chart: ^0.68.0
   flutter_svg: ^2.0.10+1
   flutter_svg_provider: ^1.0.7
