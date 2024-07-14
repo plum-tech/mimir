@@ -59,7 +59,7 @@ dependencies:
   # Codec
   hashlib_codecs: ^2.5.0
   # UUID generator
-  uuid: ^4.4.0
+  uuid: ^4.4.2
   # Statistics
   statistics: ^1.1.0
 
