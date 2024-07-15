@@ -38,7 +38,7 @@ dependencies:
   hive_flutter: ^1.1.0
   json_annotation: ^4.9.0
   copy_with_extension: ^5.0.4
-  freezed_annotation: ^2.4.3
+  freezed_annotation: ^2.4.4
   get_it: ^7.7.0
   flutter_image_compress: ^2.3.0
   pausable_timer: ^3.1.0+3
