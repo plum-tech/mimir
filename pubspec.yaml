@@ -150,7 +150,7 @@ dependencies:
   carousel_slider: ^4.2.1
   # iCalendar file generator
   enough_icalendar: ^0.16.0
-  super_context_menu: ^0.8.17
+  super_context_menu: ^0.8.18
   animated_size_and_fade: ^4.0.0
   dismissible_page: ^1.0.2
 

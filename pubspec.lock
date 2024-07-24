@@ -2078,18 +2078,18 @@ packages:
     dependency: "direct main"
     description:
       name: super_context_menu
-      sha256: "5cb65fc019595efc2f243d4863db83e79c2fd439fb3f05306f628d210e812164"
+      sha256: f261f4bbc191dc37548d0b9520203290504a9b1c08982aef5f4b12ac647f1188
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.17"
+    version: "0.8.18"
   super_native_extensions:
     dependency: transitive
     description:
       name: super_native_extensions
-      sha256: fa55d452d34b7112453afbb9fa4d13c0527ff201630d10d86546497179030544
+      sha256: b03f19e54744b65940a7c2cb4f93abd4819b5355aa3464d7b3c9a013b6b76db1
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.17"
+    version: "0.8.18"
   synchronized:
     dependency: transitive
     description:
