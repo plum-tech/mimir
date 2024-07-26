@@ -61,7 +61,7 @@ dependencies:
   # UUID generator
   uuid: ^4.4.2
   # Statistics
-  statistics: ^1.1.0
+  statistics: ^1.1.1
 
   # HTML parser
   beautiful_soup_dart: ^0.3.0
