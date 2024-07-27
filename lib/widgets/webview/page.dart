@@ -17,6 +17,8 @@ const _kUserAgent =
 
 // TODO: Support proxy
 class WebViewPage extends StatefulWidget {
+  final bool appBar;
+
   /// 初始的url
   final String initialUrl;
 
@@ -67,6 +69,7 @@ class WebViewPage extends StatefulWidget {
     super.key,
     required this.initialUrl,
     this.controller,
+    this.appBar = true,
     this.fixedTitle,
     this.pageStartedInjections,
     this.pageFinishedInjections,
@@ -123,28 +126,6 @@ class _WebViewPageState extends State<WebViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    final actions = <Widget>[
-      if (widget.showRefreshButton)
-        PlatformIconButton(
-          onPressed: _onRefresh,
-          icon: Icon(context.icons.refresh),
-        ),
-      if (widget.showSharedButton)
-        PlatformIconButton(
-          onPressed: _onShared,
-          icon: Icon(context.icons.share),
-        ),
-      if (widget.showOpenInBrowser)
-        PlatformIconButton(
-          onPressed: () => launchUrlString(
-            widget.initialUrl,
-            mode: LaunchMode.externalApplication,
-          ),
-          icon: const Icon(Icons.open_in_browser),
-        ),
-      ...?widget.otherActions,
-    ];
-    final curTitle = widget.fixedTitle ?? title ?? const CommonI18n().untitled;
     return WillPopScope(
       onWillPop: () async {
         try {
@@ -157,14 +138,7 @@ class _WebViewPageState extends State<WebViewPage> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: TextScroll(
-            curTitle,
-            velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
-          ),
-          actions: actions,
-          bottom: buildTopIndicator(),
-        ),
+        appBar: widget.appBar ? buildAppBar() : null,
         bottomNavigationBar: widget.bottomNavigationBar,
         floatingActionButton: widget.floatingActionButton,
         body: InjectableWebView(
@@ -202,6 +176,39 @@ class _WebViewPageState extends State<WebViewPage> {
           initialCookies: widget.initialCookies,
         ),
       ),
+    );
+  }
+
+  AppBar buildAppBar() {
+    final actions = <Widget>[
+      if (widget.showRefreshButton)
+        PlatformIconButton(
+          onPressed: _onRefresh,
+          icon: Icon(context.icons.refresh),
+        ),
+      if (widget.showSharedButton)
+        PlatformIconButton(
+          onPressed: _onShared,
+          icon: Icon(context.icons.share),
+        ),
+      if (widget.showOpenInBrowser)
+        PlatformIconButton(
+          onPressed: () => launchUrlString(
+            widget.initialUrl,
+            mode: LaunchMode.externalApplication,
+          ),
+          icon: const Icon(Icons.open_in_browser),
+        ),
+      ...?widget.otherActions,
+    ];
+    final curTitle = widget.fixedTitle ?? title ?? const CommonI18n().untitled;
+    return AppBar(
+      title: TextScroll(
+        curTitle,
+        velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
+      ),
+      actions: actions,
+      bottom: buildTopIndicator(),
     );
   }
 }

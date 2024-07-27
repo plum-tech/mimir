@@ -83,6 +83,14 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
         )
       ),
       (
+        route: "/bbs",
+        item: (
+          icon: context.icons.game,
+          activeIcon: context.icons.gameFilled,
+          label: "BBS",
+        )
+      ),
+      (
         route: "/me",
         item: (
           icon: context.icons.personOutline,
