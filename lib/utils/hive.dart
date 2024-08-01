@@ -11,7 +11,7 @@ final _log = Logger(
     // Number of method calls to be displayed
     errorMethodCount: 8,
     // Print an emoji for each log message
-    printTime: true, // Should each log print contain a timestamp
+    dateTimeFormat: DateTimeFormat.onlyTimeAndSinceStart, // Should each log print contain a timestamp
   ),
 );
 
@@ -47,6 +47,26 @@ class BoxFieldNotifier<T> extends StateNotifier<T?> {
   @override
   void dispose() {
     listenable.removeListener(_refresh);
+    super.dispose();
+  }
+}
+
+class _BoxFieldNotifierWithDefault<T extends Object?> extends StateNotifier<T> {
+  final BoxFieldNotifier<T> getNullable;
+  final T Function() getDefault;
+  late RemoveListener remover;
+
+  _BoxFieldNotifierWithDefault(super._state, this.getNullable, this.getDefault) {
+    remover = getNullable.addListener(_refresh);
+  }
+
+  void _refresh(T? value) {
+    state = value ?? getDefault();
+  }
+
+  @override
+  void dispose() {
+    remover();
     super.dispose();
   }
 }

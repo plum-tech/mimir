@@ -73,6 +73,8 @@ dependencies:
 
   # WebView and browser related
   webview_flutter: ^4.8.0
+  # Android, iOS, macOS, web
+  flutter_inappwebview: ^6.0.0
   fk_user_agent: ^2.1.0
   flutter_widget_from_html: ^0.15.1
   chewie: ^1.8.2
