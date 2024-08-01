@@ -861,6 +861,9 @@ game:
     enableHapticFeedback:
       title: 開啟觸覺回饋
       desc: 某些操作時輕微震動裝置
+    showGameNavigation:
+      title: '顯示 "電玩" 導覽'
+      desc: '在底部導覽列上顯示 "電玩"'
   2048:
     title: 2048
     score: 分數

@@ -861,6 +861,9 @@ game:
     enableHapticFeedback:
       title: Enable haptic feedback
       desc: Feel a light vibration for some actions
+    showGameNavigation:
+      title: 'Show "Game" navigation'
+      desc: 'Show "Game" on the bottom navigation bar'
   2048:
     title: 2048
     score: Score

@@ -861,6 +861,9 @@ game:
     enableHapticFeedback:
       title: 开启触觉反馈
       desc: 部分操作时轻微震动设备
+    showGameNavigation:
+      title: '显示 "游戏" 导航'
+      desc: '在底部导航栏上显示 "游戏"'
   2048:
     title: 2048
     score: 分数
