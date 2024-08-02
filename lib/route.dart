@@ -4,9 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/bbs/page/index.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/init.dart';
+import 'package:sit/forum/page/index.dart';
 import 'package:sit/game/2048/page/index.dart';
 import 'package:sit/game/2048/page/records.dart';
 import 'package:sit/game/index.dart';
@@ -216,8 +216,8 @@ final _meShellRoute = GoRoute(
   builder: (ctx, state) => const MePage(),
 );
 final _bbsShellRoute = GoRoute(
-  path: "/bbs",
-  builder: (ctx, state) => const BbsPage(),
+  path: "/forum",
+  builder: (ctx, state) => const ForumPage(),
 );
 final _toolsRoutes = [
   GoRoute(

@@ -75,6 +75,14 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
             label: $life.i18n.navigation,
           )
         ),
+      (
+        route: "/forum",
+        item: (
+          icon: Icons.forum_outlined,
+          activeIcon: Icons.forum,
+          label: "Forum",
+        )
+      ),
       if (ref.watch(Settings.game.$showGameNavigation) ?? true)
         (
           route: "/game",
@@ -84,14 +92,6 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
             label: $game.i18n.navigation,
           )
         ),
-      (
-        route: "/bbs",
-        item: (
-          icon: context.icons.game,
-          activeIcon: context.icons.gameFilled,
-          label: "BBS",
-        )
-      ),
       (
         route: "/me",
         item: (
