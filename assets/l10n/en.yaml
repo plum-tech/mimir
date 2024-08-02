@@ -900,6 +900,8 @@ game:
       cet-6: CET 6
       ielts: IELTS
       toefl: TOEFL
+forum:
+  navigation: Forum
 permission:
   permissionDenied: Permission denied
   permissionDeniedDescOf: "{} permission was not granted. Please check the app settings."

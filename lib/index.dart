@@ -11,6 +11,7 @@ import 'package:sit/school/i18n.dart' as $school;
 import 'package:sit/life/i18n.dart' as $life;
 import 'package:sit/game/i18n.dart' as $game;
 import 'package:sit/me/i18n.dart' as $me;
+import 'package:sit/forum/i18n.dart' as $forum;
 import 'package:rettulf/rettulf.dart';
 
 class MainStagePage extends ConsumerStatefulWidget {
@@ -80,7 +81,7 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
         item: (
           icon: Icons.forum_outlined,
           activeIcon: Icons.forum,
-          label: "Forum",
+          label: $forum.i18n.navigation,
         )
       ),
       if (ref.watch(Settings.game.$showGameNavigation) ?? true)

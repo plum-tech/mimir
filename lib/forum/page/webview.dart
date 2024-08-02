@@ -85,6 +85,10 @@ class _ForumWebviewPageState extends State<ForumWebviewPage> {
             ),
           ],
         ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(4),
+          child: progress < 1.0 ? LinearProgressIndicator(value: progress) : const SizedBox.shrink(),
+        ),
       ),
       body: InAppWebView(
         key: webViewKey,
