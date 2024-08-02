@@ -11,7 +11,9 @@ import 'package:sit/school/i18n.dart' as $school;
 import 'package:sit/life/i18n.dart' as $life;
 import 'package:sit/game/i18n.dart' as $game;
 import 'package:sit/me/i18n.dart' as $me;
+import 'package:sit/forum/i18n.dart' as $forum;
 import 'package:rettulf/rettulf.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 class MainStagePage extends ConsumerStatefulWidget {
   final StatefulNavigationShell navigationShell;
@@ -73,6 +75,16 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
             icon: Icons.spa_outlined,
             activeIcon: Icons.spa,
             label: $life.i18n.navigation,
+          )
+        ),
+      // in-app webview only supports Android, iOS, macOS and web
+      if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS || UniversalPlatform.isMacOS)
+        (
+          route: "/forum",
+          item: (
+            icon: Icons.forum_outlined,
+            activeIcon: Icons.forum,
+            label: $forum.i18n.navigation,
           )
         ),
       if (ref.watch(Settings.game.$showGameNavigation) ?? true)

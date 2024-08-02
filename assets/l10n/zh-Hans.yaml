@@ -900,6 +900,8 @@ game:
       cet-6: 大学六级
       ielts: 雅思
       toefl: 托福
+forum:
+  navigation: 社区
 permission:
   permissionDenied: 没有权限
   permissionDeniedDescOf: "{}权限未被授权，请检查应用的设置。"

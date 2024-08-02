@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/init.dart';
+import 'package:sit/forum/page/index.dart';
 import 'package:sit/game/2048/page/index.dart';
 import 'package:sit/game/2048/page/records.dart';
 import 'package:sit/game/index.dart';
@@ -84,6 +85,7 @@ final $SchoolShellKey = GlobalKey<NavigatorState>();
 final $LifeShellKey = GlobalKey<NavigatorState>();
 final $GameShellKey = GlobalKey<NavigatorState>();
 final $MeShellKey = GlobalKey<NavigatorState>();
+final $BbsShellKey = GlobalKey<NavigatorState>();
 
 bool isLoginGuarded(BuildContext ctx) {
   if (Dev.demoMode) return false;
@@ -212,6 +214,10 @@ final _gameShellRoute = GoRoute(
 final _meShellRoute = GoRoute(
   path: "/me",
   builder: (ctx, state) => const MePage(),
+);
+final _bbsShellRoute = GoRoute(
+  path: "/forum",
+  builder: (ctx, state) => const ForumPage(),
 );
 final _toolsRoutes = [
   GoRoute(
@@ -575,6 +581,12 @@ RoutingConfig buildCommonRoutingConfig() {
             navigatorKey: $GameShellKey,
             routes: [
               _gameShellRoute,
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: $BbsShellKey,
+            routes: [
+              _bbsShellRoute,
             ],
           ),
           StatefulShellBranch(
