@@ -26,13 +26,13 @@ dependencies:
 
   # Basic
   logger: ^2.4.0
-  device_info_plus: ^10.1.0
-  path_provider: ^2.1.3
+  device_info_plus: ^10.1.1
+  path_provider: ^2.1.4
   version: ^3.0.2
   yaml: ^3.1.2
   path: ^1.8.3
   collection: ^1.18.0
-  shared_preferences: ^2.2.3
+  shared_preferences: ^2.3.1
   flutter_riverpod: ^2.5.1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
@@ -73,9 +73,11 @@ dependencies:
 
   # WebView and browser related
   webview_flutter: ^4.8.0
+  # Android, iOS, macOS, web
+  flutter_inappwebview: ^6.0.0
   fk_user_agent: ^2.1.0
   flutter_widget_from_html: ^0.15.1
-  chewie: ^1.8.1
+  chewie: ^1.8.2
   cookie_jar: ^4.0.8
   flutter_html: ^3.0.0-beta.2
 
@@ -96,18 +98,18 @@ dependencies:
   # Open Android / iOS system image picker
   image_picker: ^1.1.2
   file_picker: ^8.0.6
-  share_plus: ^9.0.0
+  share_plus: ^10.0.0
   app_settings: ^5.1.1
   web_browser_detect: ^2.0.3
 
   # Desktop support
   window_manager: ^0.3.9
-  win32_registry: ^1.1.3
+  win32_registry: ^1.1.4
   # Get package info (version)
-  package_info_plus: ^8.0.0
+  package_info_plus: ^8.0.1
   # Check VPN connection status
   check_vpn_connection: ^0.0.2
-  connectivity_plus: ^6.0.2
+  connectivity_plus: ^6.0.4
   # Haptic feedbacks
   vibration: ^1.9.0
   gaimon: ^1.3.1
@@ -127,7 +129,7 @@ dependencies:
   # Qr code generate
   qr_flutter: ^4.1.0
   pretty_qr_code: ^3.3.0
-  cached_network_image: ^3.3.1
+  cached_network_image: ^3.4.0
   modal_bottom_sheet: ^3.0.0
   auto_size_text: ^3.0.0
   text_scroll: ^0.2.0
@@ -172,6 +174,9 @@ dependencies:
   flame: ^1.18.0
   flame_forge2d: ^0.18.1
   sudoku_solver_generator: ^2.1.0+1
+
+dependency_overrides:
+  webview_flutter_android: 3.16.1
 
 dev_dependencies:
   flutter_test: { sdk: flutter }

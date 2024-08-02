@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:sit/settings/settings.dart';
 import 'package:sit/timetable/i18n.dart' as $timetable;
 import 'package:sit/school/i18n.dart' as $school;
 import 'package:sit/life/i18n.dart' as $life;
@@ -74,14 +75,15 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
             label: $life.i18n.navigation,
           )
         ),
-      (
-        route: "/game",
-        item: (
-          icon: context.icons.game,
-          activeIcon: context.icons.gameFilled,
-          label: $game.i18n.navigation,
-        )
-      ),
+      if (ref.watch(Settings.game.$showGameNavigation) ?? true)
+        (
+          route: "/game",
+          item: (
+            icon: context.icons.game,
+            activeIcon: context.icons.gameFilled,
+            label: $game.i18n.navigation,
+          )
+        ),
       (
         route: "/bbs",
         item: (

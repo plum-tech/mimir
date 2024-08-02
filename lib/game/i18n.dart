@@ -52,4 +52,8 @@ class _Settings {
   String get enableHapticFeedback => "$ns.enableHapticFeedback.title".tr();
 
   String get enableHapticFeedbackDesc => "$ns.enableHapticFeedback.desc".tr();
+
+  String get showGameNavigation => "$ns.showGameNavigation.title".tr();
+
+  String get showGameNavigationDesc => "$ns.showGameNavigation.desc".tr();
 }

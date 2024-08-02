@@ -4,6 +4,7 @@ import 'package:sit/utils/hive.dart';
 class _K {
   static const ns = "/game";
   static const enableHapticFeedback = "$ns/enableHapticFeedback";
+  static const showGameNavigation = "$ns/showGameNavigation";
 }
 
 class GameSettings {
@@ -11,21 +12,15 @@ class GameSettings {
 
   GameSettings(this.box);
 
-  late final k2048 = _2048(box);
-
   bool get enableHapticFeedback => box.safeGet<bool>(_K.enableHapticFeedback) ?? true;
 
   set enableHapticFeedback(bool newV) => box.safePut<bool>(_K.enableHapticFeedback, newV);
 
   late final $enableHapticFeedback = box.provider<bool>(_K.enableHapticFeedback);
-}
 
-class _2048K {
-  static const ns = "${_K.ns}/2048";
-}
+  bool get showGameNavigation => box.safeGet<bool>(_K.showGameNavigation) ?? true;
 
-class _2048 {
-  final Box box;
+  set showGameNavigation(bool newV) => box.safePut<bool>(_K.showGameNavigation, newV);
 
-  const _2048(this.box);
+  late final $showGameNavigation = box.provider<bool>(_K.showGameNavigation);
 }

@@ -10,10 +10,10 @@ class GameSettingsPage extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<GameSettingsPage> createState() => _SchoolSettingsPageState();
+  ConsumerState<GameSettingsPage> createState() => _GameSettingsPageState();
 }
 
-class _SchoolSettingsPageState extends ConsumerState<GameSettingsPage> {
+class _GameSettingsPageState extends ConsumerState<GameSettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,6 +29,7 @@ class _SchoolSettingsPageState extends ConsumerState<GameSettingsPage> {
           SliverList.list(
             children: const [
               HapticFeedbackTile(),
+              ShowGameNavigationTile(),
             ],
           ),
         ],
@@ -56,3 +57,25 @@ class HapticFeedbackTile extends ConsumerWidget {
     );
   }
 }
+
+
+class ShowGameNavigationTile extends ConsumerWidget {
+  const ShowGameNavigationTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final on = ref.watch(Settings.game.$showGameNavigation) ?? true;
+    return ListTile(
+      title: i18n.settings.showGameNavigation.text(),
+      subtitle: i18n.settings.showGameNavigationDesc.text(),
+      leading: const Icon(Icons.vibration),
+      trailing: Switch.adaptive(
+        value: on,
+        onChanged: (newV) {
+          ref.read(Settings.game.$showGameNavigation.notifier).set(newV);
+        },
+      ),
+    );
+  }
+}
+
