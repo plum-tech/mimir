@@ -175,6 +175,9 @@ dependencies:
   flame_forge2d: ^0.18.1
   sudoku_solver_generator: ^2.1.0+1
 
+dependency_overrides:
+  webview_flutter_android: 3.16.1
+
 dev_dependencies:
   flutter_test: { sdk: flutter }
   flutter_lints: ^4.0.0
