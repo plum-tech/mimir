@@ -1769,10 +1769,10 @@ packages:
     dependency: "direct main"
     description:
       name: pull_down_button
-      sha256: "48b928203afdeafa4a8be5dc96980523bc8a2ddbd04569f766071a722be22379"
+      sha256: e0bb612f8f0971e71355b02a46039f969f0dc88892cfaaeb7c31550e06032b78
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.4"
+    version: "0.10.0"
   qr:
     dependency: transitive
     description:
