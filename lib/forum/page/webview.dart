@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:sit/utils/guard_launch.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 class ForumWebviewPage extends StatefulWidget {
   final WebUri initialUri;
@@ -62,29 +63,7 @@ class _ForumWebviewPageState extends State<ForumWebviewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: ButtonBar(
-          alignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            ElevatedButton(
-              child: const Icon(Icons.arrow_back),
-              onPressed: () {
-                webViewController?.goBack();
-              },
-            ),
-            ElevatedButton(
-              child: const Icon(Icons.refresh),
-              onPressed: () {
-                webViewController?.reload();
-              },
-            ),
-            ElevatedButton(
-              child: const Icon(Icons.arrow_forward),
-              onPressed: () {
-                webViewController?.goForward();
-              },
-            ),
-          ],
-        ),
+        title: UniversalPlatform.isAndroid ? buildNaviBar(): null,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(4),
           child: progress < 1.0 ? LinearProgressIndicator(value: progress) : const SizedBox.shrink(),
@@ -146,6 +125,32 @@ class _ForumWebviewPageState extends State<ForumWebviewPage> {
           }
         },
       ),
+    );
+  }
+
+  Widget buildNaviBar(){
+    return ButtonBar(
+      alignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        ElevatedButton(
+          child: const Icon(Icons.arrow_back),
+          onPressed: () {
+            webViewController?.goBack();
+          },
+        ),
+        ElevatedButton(
+          child: const Icon(Icons.refresh),
+          onPressed: () {
+            webViewController?.reload();
+          },
+        ),
+        ElevatedButton(
+          child: const Icon(Icons.arrow_forward),
+          onPressed: () {
+            webViewController?.goForward();
+          },
+        ),
+      ],
     );
   }
 }

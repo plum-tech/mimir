@@ -14,6 +14,9 @@ PODS:
     - FlutterMacOS
   - flutter_image_compress_macos (1.0.0):
     - FlutterMacOS
+  - flutter_inappwebview_macos (0.0.1):
+    - FlutterMacOS
+    - OrderedSet (~> 5.0)
   - FlutterMacOS (1.0.0)
   - irondash_engine_context (0.0.1):
     - FlutterMacOS
@@ -21,6 +24,7 @@ PODS:
     - FlutterMacOS
   - mobile_scanner (5.1.1):
     - FlutterMacOS
+  - OrderedSet (5.0.0)
   - package_info_plus (0.0.1):
     - FlutterMacOS
   - path_provider_foundation (0.0.1):
@@ -58,6 +62,7 @@ DEPENDENCIES:
   - dynamic_color (from `Flutter/ephemeral/.symlinks/plugins/dynamic_color/macos`)
   - file_selector_macos (from `Flutter/ephemeral/.symlinks/plugins/file_selector_macos/macos`)
   - flutter_image_compress_macos (from `Flutter/ephemeral/.symlinks/plugins/flutter_image_compress_macos/macos`)
+  - flutter_inappwebview_macos (from `Flutter/ephemeral/.symlinks/plugins/flutter_inappwebview_macos/macos`)
   - FlutterMacOS (from `Flutter/ephemeral`)
   - irondash_engine_context (from `Flutter/ephemeral/.symlinks/plugins/irondash_engine_context/macos`)
   - just_audio (from `Flutter/ephemeral/.symlinks/plugins/just_audio/macos`)
@@ -75,6 +80,10 @@ DEPENDENCIES:
   - wakelock_plus (from `Flutter/ephemeral/.symlinks/plugins/wakelock_plus/macos`)
   - window_manager (from `Flutter/ephemeral/.symlinks/plugins/window_manager/macos`)
 
+SPEC REPOS:
+  trunk:
+    - OrderedSet
+
 EXTERNAL SOURCES:
   app_links:
     :path: Flutter/ephemeral/.symlinks/plugins/app_links/macos
@@ -90,6 +99,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/file_selector_macos/macos
   flutter_image_compress_macos:
     :path: Flutter/ephemeral/.symlinks/plugins/flutter_image_compress_macos/macos
+  flutter_inappwebview_macos:
+    :path: Flutter/ephemeral/.symlinks/plugins/flutter_inappwebview_macos/macos
   FlutterMacOS:
     :path: Flutter/ephemeral
   irondash_engine_context:
@@ -131,10 +142,12 @@ SPEC CHECKSUMS:
   dynamic_color: 2eaa27267de1ca20d879fbd6e01259773fb1670f
   file_selector_macos: 54fdab7caa3ac3fc43c9fac4d7d8d231277f8cf2
   flutter_image_compress_macos: c26c3c13ea0f28ae6dea4e139b3292e7729f99f1
+  flutter_inappwebview_macos: 9600c9df9fdb346aaa8933812009f8d94304203d
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   irondash_engine_context: da62996ee25616d2f01bbeb85dc115d813359478
   just_audio: 9b67ca7b97c61cfc9784ea23cd8cc55eb226d489
   mobile_scanner: 1efac1e53c294b24e3bb55bcc7f4deee0233a86b
+  OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   package_info_plus: fa739dd842b393193c5ca93c26798dff6e3d0e0c
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
   screen_retriever: 59634572a57080243dd1bf715e55b6c54f241a38

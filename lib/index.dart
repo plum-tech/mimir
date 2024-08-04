@@ -77,8 +77,8 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
             label: $life.i18n.navigation,
           )
         ),
-      // in-app webview only supports Android, iOS, macOS and web
-      if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS || UniversalPlatform.isMacOS)
+      // in-app webview only supports Android, and iOS
+      if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)
         (
           route: "/forum",
           item: (
