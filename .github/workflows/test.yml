@@ -4,7 +4,7 @@ on:
   - push
 
 env:
-  flutter_version: '3.22.3'
+  flutter_version: '3.24.0'
 
 jobs:
   test:
