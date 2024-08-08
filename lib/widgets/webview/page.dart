@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/l10n/common.dart';
 import 'package:sit/utils/error.dart';
@@ -126,15 +127,20 @@ class _WebViewPageState extends State<WebViewPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
         try {
           final canGoBack = await controller.canGoBack();
-          if (canGoBack) await controller.goBack();
-          return !canGoBack;
+          if (canGoBack) {
+            await controller.goBack();
+          } else {
+            if (!context.mounted) return;
+            return context.pop();
+          }
         } catch (error, stackTrack) {
           debugPrintError(error, stackTrack);
-          return true;
         }
       },
       child: Scaffold(

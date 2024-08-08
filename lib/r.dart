@@ -82,4 +82,6 @@ class R {
     schoolCardUri,
     libraryUri,
   ];
+
+  static final websiteUri = Uri(scheme: "https", host: "www.mysit.life");
 }

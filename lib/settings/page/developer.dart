@@ -33,6 +33,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/update/init.dart';
 import 'package:sit/utils/guard_launch.dart';
+import 'package:sit/widgets/inapp_webview/page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../i18n.dart';
 
@@ -243,16 +244,18 @@ class DebugWebViewTile extends StatelessWidget {
     return TextInputActionTile(
       leading: const Icon(Icons.web),
       title: "Type URL".text(),
-      hintText: "https://www.google.com",
-      canSubmit: (url) {
-        if (url.isEmpty) return false;
-        final uri = Uri.tryParse(url);
-        if (uri == null) return false;
-        if (uri.isScheme("http") || uri.isScheme("https")) return true;
-        return false;
-      },
+      hintText: R.websiteUri.toString(),
+      canSubmit: (url) => url.isEmpty || Uri.tryParse(url) != null,
       onSubmit: (url) {
-        guardLaunchUrlString(context, url);
+        if (url.isEmpty) {
+          url = R.websiteUri.toString();
+        }
+        var uri = Uri.tryParse(url);
+        if (uri == null) return false;
+        if (uri.scheme.isEmpty) {
+          uri = uri.replace(scheme: "https");
+        }
+        guardLaunchUrl(context, uri);
         return true;
       },
     );
@@ -551,10 +554,10 @@ class GoInAppWebviewTile extends ConsumerWidget {
       leading: const Icon(Icons.route_outlined),
       title: "In-app Webview".text(),
       canSubmit: (url) => url.isEmpty || Uri.tryParse(url) != null,
-      hintText: "https://mysit.life",
+      hintText: R.websiteUri.toString(),
       onSubmit: (url) {
         if (url.isEmpty) {
-          url = "https://mysit.life/";
+          url = R.websiteUri.toString();
         }
         var uri = Uri.tryParse(url);
         if (uri == null) return false;
@@ -562,162 +565,10 @@ class GoInAppWebviewTile extends ConsumerWidget {
           uri = uri.replace(scheme: "https");
         }
         context.navigator.push(MaterialPageRoute(
-          builder: (ctx) => TestInAppWebviewPage(initialUri: WebUri.uri(uri!)),
+          builder: (ctx) => InAppWebviewPage(initialUri: WebUri.uri(uri!)),
         ));
         return true;
       },
-    );
-  }
-}
-
-class TestInAppWebviewPage extends StatefulWidget {
-  final WebUri initialUri;
-
-  const TestInAppWebviewPage({
-    super.key,
-    required this.initialUri,
-  });
-
-  @override
-  State<TestInAppWebviewPage> createState() => _TestInAppWebviewPageState();
-}
-
-class _TestInAppWebviewPageState extends State<TestInAppWebviewPage> {
-  final GlobalKey webViewKey = GlobalKey();
-
-  InAppWebViewController? webViewController;
-  InAppWebViewSettings settings = InAppWebViewSettings(
-    isInspectable: kDebugMode,
-    mediaPlaybackRequiresUserGesture: false,
-    allowsInlineMediaPlayback: true,
-    iframeAllow: "camera; microphone",
-    iframeAllowFullscreen: true,
-  );
-
-  PullToRefreshController? pullToRefreshController;
-  double progress = 0;
-  final $url = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-
-    pullToRefreshController = kIsWeb
-        ? null
-        : PullToRefreshController(
-            settings: PullToRefreshSettings(
-              color: Colors.blue,
-            ),
-            onRefresh: () async {
-              if (defaultTargetPlatform == TargetPlatform.android) {
-                webViewController?.reload();
-              } else if (defaultTargetPlatform == TargetPlatform.iOS) {
-                webViewController?.loadUrl(urlRequest: URLRequest(url: await webViewController?.getUrl()));
-              }
-            },
-          );
-  }
-
-  @override
-  void dispose() {
-    pullToRefreshController?.dispose();
-    webViewController?.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text($url.text.isNotEmpty ? $url.text : widget.initialUri.toString()),
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(4),
-          child: progress < 1.0 ? LinearProgressIndicator(value: progress) : const SizedBox.shrink(),
-        ),
-      ),
-      body: InAppWebView(
-        key: webViewKey,
-        initialUrlRequest: URLRequest(url: widget.initialUri),
-        initialSettings: settings,
-        pullToRefreshController: pullToRefreshController,
-        onWebViewCreated: (controller) {
-          webViewController = controller;
-        },
-        onLoadStart: (controller, url) {
-          setState(() {
-            $url.text = url.toString();
-          });
-        },
-        onPermissionRequest: (controller, request) async {
-          return PermissionResponse(resources: request.resources, action: PermissionResponseAction.GRANT);
-        },
-        shouldOverrideUrlLoading: (controller, navigationAction) async {
-          var uri = navigationAction.request.url!;
-
-          if (!["http", "https", "file", "chrome", "data", "javascript", "about"].contains(uri.scheme)) {
-            if (await canLaunchUrl(uri)) {
-              // Launch the App
-              await launchUrl(
-                uri,
-              );
-              // and cancel the request
-              return NavigationActionPolicy.CANCEL;
-            }
-          }
-
-          return NavigationActionPolicy.ALLOW;
-        },
-        onLoadStop: (controller, url) async {
-          pullToRefreshController?.endRefreshing();
-          setState(() {
-            $url.text = url.toString();
-          });
-        },
-        onReceivedError: (controller, request, error) {
-          pullToRefreshController?.endRefreshing();
-        },
-        onProgressChanged: (controller, progress) {
-          if (progress == 100) {
-            pullToRefreshController?.endRefreshing();
-          }
-          setState(() {
-            this.progress = progress / 100;
-          });
-        },
-        onUpdateVisitedHistory: (controller, url, androidIsReload) {
-          setState(() {
-            $url.text = url.toString();
-          });
-        },
-        onConsoleMessage: (controller, consoleMessage) {
-          if (kDebugMode) {
-            print(consoleMessage);
-          }
-        },
-      ),
-      bottomNavigationBar: OverflowBar(
-        alignment: MainAxisAlignment.center,
-        children: <Widget>[
-          ElevatedButton(
-            child: const Icon(Icons.arrow_back),
-            onPressed: () {
-              webViewController?.goBack();
-            },
-          ),
-          ElevatedButton(
-            child: const Icon(Icons.arrow_forward),
-            onPressed: () {
-              webViewController?.goForward();
-            },
-          ),
-          ElevatedButton(
-            child: const Icon(Icons.refresh),
-            onPressed: () {
-              webViewController?.reload();
-            },
-          ),
-        ],
-      ),
     );
   }
 }

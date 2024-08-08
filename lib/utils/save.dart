@@ -24,9 +24,7 @@ class PromptSaveBeforeQuitScope extends StatelessWidget {
     return PopScope(
       canPop: !changed,
       onPopInvokedWithResult: (didPop, result) async {
-        if (didPop) {
-          return;
-        }
+        if (didPop) return;
         final confirmSave = await context.showDialogRequest(
           desc: _i18n.request,
           primary: _i18n.saveAndQuit,
