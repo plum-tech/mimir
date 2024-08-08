@@ -19,7 +19,7 @@ class GameHudMistake extends StatelessWidget {
   Widget build(BuildContext context) {
     return [
       const Icon(Icons.heart_broken),
-      Text("$mistakes / $maxMistakes", style: TextStyle(fontSize: 18)),
+      Text("$mistakes / $maxMistakes", style: const TextStyle(fontSize: 18)),
     ].row(
       mas: MainAxisSize.min,
     );
@@ -36,7 +36,10 @@ class GameHudHint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return [Icon(Icons.lightbulb), Text(" x ${hintCount}", style: TextStyle(fontSize: 18))].row(mas: MainAxisSize.min);
+    return [
+      const Icon(Icons.lightbulb),
+      Text(" x $hintCount", style: const TextStyle(fontSize: 18)),
+    ].row(mas: MainAxisSize.min);
   }
 }
 

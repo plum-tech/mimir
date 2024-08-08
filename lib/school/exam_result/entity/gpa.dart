@@ -41,7 +41,7 @@ class ExamResultGpaItem {
       ...resit.map((e) => e.score),
       ...retake.map((e) => e.score),
       initial.score,
-    ].whereNotNull().maxOrNull;
+    ].nonNulls.maxOrNull;
   }
 
   bool get passed {

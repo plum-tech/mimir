@@ -62,7 +62,7 @@ class _ForumWebviewPageState extends State<ForumWebviewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: ButtonBar(
+        title: OverflowBar(
           alignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             ElevatedButton(

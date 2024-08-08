@@ -23,7 +23,7 @@ class PromptSaveBeforeQuitScope extends StatelessWidget {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: !changed,
-      onPopInvoked: (didPop) async {
+      onPopInvokedWithResult: (didPop, result) async {
         if (didPop) {
           return;
         }

@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
@@ -221,7 +220,7 @@ class _AttendedActivityPageState extends ConsumerState<AttendedActivityPage> {
             });
           },
         ).padH(4),
-        ...(attended ?? const []).map((activity) => activity.category.pointType).whereNotNull().toSet().map(
+        ...(attended ?? const []).map((activity) => activity.category.pointType).nonNulls.toSet().map(
               (scoreType) => ChoiceChip(
                 label: scoreType.l10nFullName().text(),
                 selected: selectedScoreType == scoreType,

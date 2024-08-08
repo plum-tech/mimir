@@ -31,7 +31,7 @@ class DemoTimetableService implements TimetableService {
           timeslots: (start: 0, end: 2),
           courseCredit: 6.0,
           dayIndex: 0,
-          teachers: [],
+          teachers: const [],
         ),
         "$key": SitCourse(
           courseKey: key++,
@@ -45,7 +45,7 @@ class DemoTimetableService implements TimetableService {
           timeslots: (start: 5, end: 7),
           courseCredit: 6.0,
           dayIndex: 2,
-          teachers: [],
+          teachers: const [],
         ),
         "$key": SitCourse(
           courseKey: key++,
@@ -59,7 +59,7 @@ class DemoTimetableService implements TimetableService {
           timeslots: (start: 2, end: 4),
           courseCredit: 3.0,
           dayIndex: 4,
-          teachers: [],
+          teachers: const [],
         ),
         "$key": SitCourse(
           courseKey: key++,
@@ -73,7 +73,7 @@ class DemoTimetableService implements TimetableService {
           timeslots: (start: 0, end: 1),
           courseCredit: 1.0,
           dayIndex: 3,
-          teachers: [],
+          teachers: const [],
         ),
         "$key": SitCourse(
           courseKey: key++,
@@ -87,7 +87,7 @@ class DemoTimetableService implements TimetableService {
           timeslots: (start: 5, end: 6),
           courseCredit: 1.0,
           dayIndex: 1,
-          teachers: [],
+          teachers: const [],
         ),
         "$key": SitCourse(
           courseKey: key++,
@@ -101,7 +101,7 @@ class DemoTimetableService implements TimetableService {
           timeslots: (start: 2, end: 3),
           courseCredit: 1.0,
           dayIndex: 1,
-          teachers: [],
+          teachers: const [],
         ),
         "$key": SitCourse(
           courseKey: key++,
@@ -115,7 +115,7 @@ class DemoTimetableService implements TimetableService {
           timeslots: (start: 1, end: 2),
           courseCredit: 1.0,
           dayIndex: 2,
-          teachers: [],
+          teachers: const [],
         ),
       },
       lastCourseKey: key,

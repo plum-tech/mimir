@@ -695,7 +695,7 @@ class _TestInAppWebviewPageState extends State<TestInAppWebviewPage> {
           }
         },
       ),
-      bottomNavigationBar: ButtonBar(
+      bottomNavigationBar: OverflowBar(
         alignment: MainAxisAlignment.center,
         children: <Widget>[
           ElevatedButton(

@@ -65,7 +65,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
   Widget buildBody() {
     return [
       buildForm(),
-      SizedBox(height: 10),
+      const SizedBox(height: 10),
       buildLoginButton(),
     ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25).center();
   }
