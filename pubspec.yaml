@@ -103,7 +103,7 @@ dependencies:
   web_browser_detect: ^2.0.3
 
   # Desktop support
-  window_manager: ^0.3.9
+  window_manager: ^0.4.0
   win32_registry: ^1.1.4
   # Get package info (version)
   package_info_plus: ^8.0.1
@@ -152,7 +152,7 @@ dependencies:
   carousel_slider_plus: ^7.0.0
   # iCalendar file generator
   enough_icalendar: ^0.16.0
-  super_context_menu: ^0.8.18
+  super_context_menu: ^0.8.19
   animated_size_and_fade: ^4.0.0
   dismissible_page: ^1.0.2
 
