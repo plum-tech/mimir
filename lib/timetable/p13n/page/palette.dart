@@ -484,8 +484,7 @@ class TimetableP13nLivePreview extends StatelessWidget {
       options: CarouselOptions(
         height: cellSize.height,
         viewportFraction: 0.24,
-        // FIXME: https://github.com/serenader2014/flutter_carousel_slider/issues/291
-        enableInfiniteScroll: true,
+        enableInfiniteScroll: false,
         padEnds: false,
         autoPlay: true,
         autoPlayInterval: const Duration(milliseconds: 1500),
