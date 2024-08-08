@@ -33,7 +33,7 @@ class ClearNumberButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlatformIconButton(
-      icon: Icon(Icons.delete),
+      icon: const Icon(Icons.delete),
       onPressed: onTap,
     );
   }
@@ -50,7 +50,7 @@ class HintButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PlatformIconButton(
-      icon: Icon(Icons.lightbulb),
+      icon: const Icon(Icons.lightbulb),
       onPressed: onTap,
     );
   }

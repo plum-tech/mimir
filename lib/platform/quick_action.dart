@@ -29,11 +29,11 @@ class QuickAction {
   static void init(BuildContext context) {
     _quickActions.initialize(quickActionHandler);
     _quickActions.setShortcutItems(<ShortcutItem>[
-      ShortcutItem(
+      const ShortcutItem(
         type: _Type.examArrange,
         localizedTitle: "Exam arrangement",
       ),
-      ShortcutItem(
+      const ShortcutItem(
         type: _Type.oaAnnounce,
         localizedTitle: "OA announcement",
       ),

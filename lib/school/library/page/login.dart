@@ -61,7 +61,7 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
   Widget buildBody() {
     return [
       buildForm(),
-      SizedBox(height: 10),
+      const SizedBox(height: 10),
       buildLoginButton(),
     ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25).center();
   }

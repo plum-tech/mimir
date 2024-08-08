@@ -129,7 +129,7 @@ class _ForumWebviewPageState extends State<ForumWebviewPage> {
   }
 
   Widget buildNaviBar(){
-    return ButtonBar(
+    return OverflowBar(
       alignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         ElevatedButton(

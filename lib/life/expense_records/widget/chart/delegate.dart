@@ -88,7 +88,7 @@ class StatisticsDelegate {
           axisSide: mate.axisSide,
           child: Text(
             style: ctx.textTheme.labelMedium,
-            "${index}",
+            "$index",
           ),
         );
       },

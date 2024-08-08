@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -287,7 +286,7 @@ String _buildGpaText({
     final maxScore = item.maxScore;
     if (maxScore == null) return null;
     return (score: maxScore, credit: item.credit);
-  }).whereNotNull();
+  }).nonNulls;
   final (:gpa, :credit) = calcGPA(validItems);
   var text = "${i18n.gpa.credit(credit)} ${i18n.gpa.gpaResult(gpa)}";
   if (showSelectedCount) {

@@ -725,7 +725,7 @@ class DurationPickerDialogState extends State<DurationPickerDialog> {
 
     final Widget actions = ButtonBarTheme(
       data: ButtonBarTheme.of(context),
-      child: ButtonBar(
+      child: OverflowBar(
         children: <Widget>[
           TextButton(
             onPressed: _handleCancel,

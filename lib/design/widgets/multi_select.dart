@@ -261,7 +261,7 @@ class _MultiselectScopeState<T> extends State<MultiselectScope<T>> {
     return widget.clearSelectionOnPop
         ? PopScope(
             canPop: !_multiselectController.selectedAny,
-            onPopInvoked: (didPop) {
+            onPopInvokedWithResult: (didPop, result) {
               if (!didPop) {
                 _multiselectController.clearSelection();
               }

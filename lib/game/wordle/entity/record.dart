@@ -32,7 +32,7 @@ class RecordWordle extends GameRecord {
     required List<String> attempts,
     required WordleVocabulary vocabulary,
   }) {
-    final blueprint = BlueprintWordle(
+    const blueprint = BlueprintWordle(
       word: "APPLE",
     );
     return RecordWordle(

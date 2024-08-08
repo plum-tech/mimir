@@ -53,6 +53,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
         final index = patches.indexOf(initialEditing);
         final ctx = initialEditingKey.currentContext;
         if (index >= 0 && ctx != null) {
+          if (!ctx.mounted) return;
           await Scrollable.ensureVisible(ctx);
           if (initialEditing is TimetablePatch) {
             editPatch(index, initialEditing);

@@ -53,7 +53,7 @@ final networkLogger = Logger(
     // Number of method calls to be displayed
     errorMethodCount: 8,
     // Print an emoji for each log message
-    printTime: true, // Should each log print contain a timestamp
+    dateTimeFormat : DateTimeFormat.onlyTimeAndSinceStart, // Should each log print contain a timestamp
   ),
 );
 

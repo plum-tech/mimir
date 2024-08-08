@@ -12,7 +12,7 @@ import '../entity/save.dart';
 import '../storage.dart';
 
 class GameLogic extends StateNotifier<GameStateWordle> {
-  GameLogic([GameStateWordle? initial]) : super(initial ?? GameStateWordle.byDefault());
+  GameLogic([GameStateWordle? initial]) : super(initial ?? const GameStateWordle.byDefault());
 
   void initGame({required WordleVocabulary vocabulary}) {
     state = GameStateWordle.newGame(

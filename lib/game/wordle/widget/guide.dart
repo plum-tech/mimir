@@ -72,20 +72,20 @@ class InstructionDialog extends StatelessWidget {
             style: context.textTheme.headlineSmall,
           ),
           //Content of # AIM OF THE GAME
-          Text(
+          const Text(
             "The aim of the WORDLE game is to guess a word within six tries.",
           ),
-          Text(
+          const Text(
             "Each guess should be a valid word which matches the length of the hidden word, length of which by default is five characters long.",
           ),
-          Text(
+          const Text(
             "After each guess, the color of the tiles will change to infer how close your answer is to the word. The meaning of the colors is shown below.",
           ),
           Text(
             "Read The Colors",
             style: context.textTheme.headlineSmall,
           ),
-          Padding(
+          const Padding(
             padding: EdgeInsets.symmetric(vertical: 10.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -98,10 +98,10 @@ class InstructionDialog extends StatelessWidget {
               ],
             ),
           ),
-          Text(
+          const Text(
             "The green tile shows that letter B is in the word and it's in the right spot.",
           ),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               WordleGuideLetterBox("S", LetterStatus.correct),
@@ -110,10 +110,10 @@ class InstructionDialog extends StatelessWidget {
               WordleGuideLetterBox("U", LetterStatus.neutral),
             ],
           ),
-          Text(
+          const Text(
             "The yellow tile shows that letter Y is in the word but it's not in the right spot.",
           ),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               WordleGuideLetterBox("O", LetterStatus.wrong),
@@ -122,7 +122,7 @@ class InstructionDialog extends StatelessWidget {
               WordleGuideLetterBox("S", LetterStatus.wrong),
             ],
           ),
-          Text(
+          const Text(
             "A grey tile shows the letter is not in the word. For example, O, P, S are not in the word.",
           ),
         ]),
