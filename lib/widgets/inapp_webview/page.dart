@@ -36,6 +36,7 @@ class _InAppWebviewPageState extends State<InAppWebviewPage> {
       isInspectable: kDebugMode,
       mediaPlaybackRequiresUserGesture: false,
       allowsInlineMediaPlayback: true,
+      cacheMode: CacheMode.LOAD_CACHE_ELSE_NETWORK,
       iframeAllow: "camera; microphone",
       iframeAllowFullscreen: true,
     );
