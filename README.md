@@ -35,7 +35,7 @@ The source codes and configurations are open source under [GPL v3](LICENSE).
 
 ### Copyright
 
-Copyright©️2023–2024 Liplum Dev. All Rights Reserved.
+Copyright©️2024 Plum Technology Ltd. All Rights Reserved.
 
 </div>
 

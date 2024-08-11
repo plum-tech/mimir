@@ -1,6 +1,6 @@
 // Thanks to "https://github.com/einsitang/sudoku-flutter"
 // LICENSE: https://github.com/einsitang/sudoku-flutter/blob/fc31c063d84ba272bf30219ea08724272167b8ef/LICENSE
-// Modifications copyright©️2023–2024 Liplum Dev.
+// Modifications copyright©️2024 Plum Technology Ltd.
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
