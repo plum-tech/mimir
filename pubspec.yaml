@@ -32,7 +32,7 @@ dependencies:
   yaml: ^3.1.2
   path: ^1.8.3
   collection: ^1.18.0
-  shared_preferences: ^2.3.1
+  shared_preferences: ^2.3.2
   flutter_riverpod: ^2.5.1
   hive: ^2.2.3
   hive_flutter: ^1.1.0
@@ -54,7 +54,7 @@ dependencies:
   # Encryption (AES)
   encrypt: ^5.0.1
   # Hash (MD5)
-  crypto: ^3.0.3
+  crypto: ^3.0.5
   pointycastle: ^3.9.1
   # Codec
   hashlib_codecs: ^2.5.0
@@ -68,7 +68,7 @@ dependencies:
   html: ^0.15.4
 
   # Dio (http client)
-  dio: ^5.5.0+1
+  dio: ^5.6.0
   dio_cookie_manager: ^3.1.1
 
   # WebView and browser related
@@ -189,7 +189,7 @@ dev_dependencies:
   freezed: ^2.5.7
   copy_with_extension_gen: ^5.0.4
   test: ^1.24.9
-  msix: ^3.16.7
+  msix: ^3.16.8
 
 # ------------------------------------------------------------------------------
 
