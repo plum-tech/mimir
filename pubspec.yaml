@@ -103,7 +103,7 @@ dependencies:
   web_browser_detect: ^2.0.3
 
   # Desktop support
-  window_manager: ^0.4.0
+  window_manager: ^0.4.2
   win32_registry: ^1.1.4
   # Get package info (version)
   package_info_plus: ^8.0.2
