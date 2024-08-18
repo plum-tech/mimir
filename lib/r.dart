@@ -84,4 +84,5 @@ class R {
   ];
 
   static final websiteUri = Uri(scheme: "https", host: "www.mysit.life");
+  static final forumUri = Uri(scheme: "https", host: "forum.mysit.life");
 }

@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/r.dart';
 import 'package:sit/utils/guard_launch.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -40,7 +40,6 @@ class _InAppWebviewPageState extends State<InAppWebviewPage> {
       iframeAllow: "camera; microphone",
       iframeAllowFullscreen: true,
     );
-
     pullToRefreshController = kIsWeb
         ? null
         : PullToRefreshController(
@@ -106,8 +105,7 @@ class _InAppWebviewPageState extends State<InAppWebviewPage> {
           },
           shouldOverrideUrlLoading: (controller, navigationAction) async {
             var uri = navigationAction.request.url!;
-
-            if (!["http", "https", "file", "chrome", "data", "javascript", "about"].contains(uri.scheme)) {
+            if (uri.scheme != R.forumUri.scheme || uri.host != R.forumUri.host) {
               if (await guardLaunchUrl(context, uri)) {
                 // cancel the request
                 return NavigationActionPolicy.CANCEL;
