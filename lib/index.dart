@@ -78,7 +78,7 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
           )
         ),
       // in-app webview only supports Android, and iOS
-      if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)
+      if (false && (UniversalPlatform.isAndroid || UniversalPlatform.isIOS))
         (
           route: "/forum",
           item: (

@@ -565,7 +565,7 @@ class GoInAppWebviewTile extends ConsumerWidget {
           uri = uri.replace(scheme: "https");
         }
         context.navigator.push(MaterialPageRoute(
-          builder: (ctx) => InAppWebviewPage(initialUri: WebUri.uri(uri!)),
+          builder: (ctx) => InAppWebViewPage(initialUri: WebUri.uri(uri!)),
         ));
         return true;
       },

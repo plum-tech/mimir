@@ -1,28 +1,31 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/r.dart';
 import 'package:sit/utils/guard_launch.dart';
-import 'package:universal_platform/universal_platform.dart';
 
-class InAppWebviewPage extends StatefulWidget {
+class InAppWebViewPage extends StatefulWidget {
   final WebUri initialUri;
 
-  const InAppWebviewPage({
+  const InAppWebViewPage({
     super.key,
     required this.initialUri,
   });
 
   @override
-  State<InAppWebviewPage> createState() => _InAppWebviewPageState();
+  State<InAppWebViewPage> createState() => _InAppWebViewPageState();
 }
 
-class _InAppWebviewPageState extends State<InAppWebviewPage> {
+class _InAppWebViewPageState extends State<InAppWebViewPage> {
   final webViewKey = GlobalKey();
 
   InAppWebViewController? webViewController;
   late InAppWebViewSettings settings;
+  bool canBack = false;
+  bool canForward = false;
 
   PullToRefreshController? pullToRefreshController;
   var progress = 0.0;
@@ -58,7 +61,6 @@ class _InAppWebviewPageState extends State<InAppWebviewPage> {
 
   @override
   void dispose() {
-    pullToRefreshController?.dispose();
     webViewController?.dispose();
     super.dispose();
   }
@@ -81,12 +83,11 @@ class _InAppWebviewPageState extends State<InAppWebviewPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: UniversalPlatform.isIOS ? null : buildNaviBar(),
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(4),
-            child: progress < 1.0 ? LinearProgressIndicator(value: progress) : const SizedBox.shrink(),
-          ),
+          automaticallyImplyLeading: false,
+          toolbarHeight: 4,
+          title: progress < 1.0 ? LinearProgressIndicator(value: progress) : const SizedBox.shrink(),
         ),
+        bottomNavigationBar: buildNaviBar(),
         body: InAppWebView(
           key: webViewKey,
           initialUrlRequest: URLRequest(url: widget.initialUri),
@@ -101,16 +102,19 @@ class _InAppWebviewPageState extends State<InAppWebviewPage> {
             });
           },
           onPermissionRequest: (controller, request) async {
-            return PermissionResponse(resources: request.resources, action: PermissionResponseAction.GRANT);
+            return PermissionResponse(
+              resources: request.resources,
+              action: PermissionResponseAction.GRANT,
+            );
           },
           shouldOverrideUrlLoading: (controller, navigationAction) async {
-            var uri = navigationAction.request.url!;
-            if (uri.scheme != R.forumUri.scheme || uri.host != R.forumUri.host) {
-              if (await guardLaunchUrl(context, uri)) {
-                // cancel the request
-                return NavigationActionPolicy.CANCEL;
-              }
-            }
+            // var uri = navigationAction.request.url!;
+            // if (uri.scheme != R.forumUri.scheme || uri.host != R.forumUri.host) {
+            //   if (await guardLaunchUrl(context, uri)) {
+            //     // cancel the request
+            //     return NavigationActionPolicy.CANCEL;
+            //   }
+            // }
 
             return NavigationActionPolicy.ALLOW;
           },
@@ -131,10 +135,11 @@ class _InAppWebviewPageState extends State<InAppWebviewPage> {
               this.progress = progress / 100;
             });
           },
-          onUpdateVisitedHistory: (controller, url, androidIsReload) {
+          onUpdateVisitedHistory: (controller, url, androidIsReload) async {
             setState(() {
               $url.text = url.toString();
             });
+            await updateBackOrForward(controller);
           },
           onConsoleMessage: (controller, consoleMessage) {
             if (kDebugMode) {
@@ -146,27 +151,46 @@ class _InAppWebviewPageState extends State<InAppWebviewPage> {
     );
   }
 
+  Future<void> updateBackOrForward(InAppWebViewController controller) async {
+    final canBack = await controller.canGoBack();
+    final canForward = await controller.canGoForward();
+    setState(() {
+      this.canBack = canBack;
+      this.canForward = canForward;
+    });
+  }
+
   Widget buildNaviBar() {
     return OverflowBar(
       alignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
-        ElevatedButton(
-          child: const Icon(Icons.arrow_back),
+        PlatformIconButton(
+          icon: Icon(context.icons.close),
           onPressed: () {
-            webViewController?.goBack();
+            context.pop();
           },
         ),
-        ElevatedButton(
-          child: const Icon(Icons.refresh),
+        PlatformIconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: !canBack
+              ? null
+              : () {
+                  webViewController?.goBack();
+                },
+        ),
+        PlatformIconButton(
+          icon: const Icon(Icons.refresh),
           onPressed: () {
             webViewController?.reload();
           },
         ),
-        ElevatedButton(
-          child: const Icon(Icons.arrow_forward),
-          onPressed: () {
-            webViewController?.goForward();
-          },
+        PlatformIconButton(
+          icon: const Icon(Icons.arrow_forward),
+          onPressed: !canForward
+              ? null
+              : () {
+                  webViewController?.goForward();
+                },
         ),
       ],
     );

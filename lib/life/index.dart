@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/entity/campus.dart';
+import 'package:sit/forum/card.dart';
 import 'package:sit/life/electricity/card.dart';
 import 'package:sit/life/expense_records/card.dart';
 import 'package:sit/life/lab_door/card.dart';
@@ -54,6 +55,7 @@ class _LifePageState extends ConsumerState<LifePage> {
               SliverList.list(children: [
                 if (loginStatus != LoginStatus.never) const ExpenseRecordsAppCard(),
                 if (campus.capability.enableElectricity) const ElectricityBalanceAppCard(),
+                const ForumAppCard(),
                 if (!kIsWeb &&
                     oaCredentials != null &&
                     OpenLabDoorAppCard.isAvailable(oaAccount: oaCredentials.account))

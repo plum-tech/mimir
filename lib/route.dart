@@ -85,7 +85,7 @@ final $SchoolShellKey = GlobalKey<NavigatorState>();
 final $LifeShellKey = GlobalKey<NavigatorState>();
 final $GameShellKey = GlobalKey<NavigatorState>();
 final $MeShellKey = GlobalKey<NavigatorState>();
-final $BbsShellKey = GlobalKey<NavigatorState>();
+final $ForumShellKey = GlobalKey<NavigatorState>();
 
 bool isLoginGuarded(BuildContext ctx) {
   if (Dev.demoMode) return false;
@@ -215,10 +215,11 @@ final _meShellRoute = GoRoute(
   path: "/me",
   builder: (ctx, state) => const MePage(),
 );
-final _bbsShellRoute = GoRoute(
+final _forumShellRoute = GoRoute(
   path: "/forum",
   builder: (ctx, state) => const ForumPage(),
 );
+
 final _toolsRoutes = [
   GoRoute(
     path: "/tools/network-tool",
@@ -583,12 +584,13 @@ RoutingConfig buildCommonRoutingConfig() {
               _gameShellRoute,
             ],
           ),
-          StatefulShellBranch(
-            navigatorKey: $BbsShellKey,
-            routes: [
-              _bbsShellRoute,
-            ],
-          ),
+          if (false)
+            StatefulShellBranch(
+              navigatorKey: $ForumShellKey,
+              routes: [
+                _forumShellRoute,
+              ],
+            ),
           StatefulShellBranch(
             navigatorKey: $MeShellKey,
             routes: [
@@ -597,6 +599,7 @@ RoutingConfig buildCommonRoutingConfig() {
           ),
         ],
       ),
+      _forumShellRoute,
       ..._timetableRoutes,
       _browserRoute,
       _expenseRoute,
@@ -650,6 +653,7 @@ RoutingConfig buildTimetableFocusRouter() {
       _imageRoute,
       ..._gameRoutes,
       _courseSelectionRoute,
+      _forumShellRoute,
     ],
   );
 }

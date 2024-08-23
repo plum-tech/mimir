@@ -28,6 +28,8 @@ extension BuildContextPlatformIconsX on BuildContext {
 extension PlatformIconsX on PlatformIcons {
   IconData get lock => isMaterial(context) ? Icons.lock : CupertinoIcons.lock;
 
+  IconData get unlock => isMaterial(context) ? Icons.lock_open : CupertinoIcons.lock_open;
+
   IconData get copy => isMaterial(context) ? Icons.copy : CupertinoIcons.plus_square_on_square;
 
   IconData get calendar => isMaterial(context) ? Icons.calendar_month : CupertinoIcons.calendar;
@@ -57,4 +59,6 @@ extension PlatformIconsX on PlatformIcons {
   IconData get sun => isMaterial(context) ? Icons.light_mode : CupertinoIcons.sun_max;
 
   IconData get moon => isMaterial(context) ? Icons.dark_mode : CupertinoIcons.moon;
+
+  IconData get close => isMaterial(context) ? Icons.close : CupertinoIcons.clear;
 }

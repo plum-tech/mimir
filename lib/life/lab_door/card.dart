@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sit/design/adaptive/dialog.dart';
+import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/app.dart';
 import 'package:sit/init.dart';
 import 'package:rettulf/rettulf.dart';
@@ -42,7 +43,7 @@ class _OpenLabDoorAppCardState extends ConsumerState<OpenLabDoorAppCard> {
       subtitle: '请先连接 Wi-Fi "Robot"'.text(),
       leftActions: [
         FilledButton.icon(
-          icon: const Icon(Icons.assignment),
+          icon: Icon(context.icons.unlock),
           onPressed: opening ? null : openDoor,
           label: "开门".text(),
         ),
