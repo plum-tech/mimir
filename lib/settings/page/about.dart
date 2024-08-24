@@ -7,7 +7,7 @@ import 'package:sit/design/widgets/list_tile.dart';
 import 'package:sit/r.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/update/utils.dart';
+import 'package:sit/backend/update/utils.dart';
 import 'package:sit/utils/error.dart';
 import 'package:sit/utils/guard_launch.dart';
 import '../i18n.dart';

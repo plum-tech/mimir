@@ -54,9 +54,7 @@ class _MePageState extends ConsumerState<MePage> {
               ),
             ],
           ),
-          const SliverToBoxAdapter(
-            child: EduEmailAppCard(),
-          ),
+          const EduEmailAppCard().sliver(),
           SliverList.list(children: [
             buildQQGroupTile(),
             buildWechatOfficialAccountTile(),

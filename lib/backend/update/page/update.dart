@@ -5,7 +5,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:sit/r.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/update/entity/artifact.dart';
+import '../entity/artifact.dart';
 import 'package:sit/widgets/markdown.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';

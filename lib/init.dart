@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sit/backend/init.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/entity/user_type.dart';
@@ -35,7 +36,6 @@ import 'package:dio/dio.dart';
 import 'package:sit/storage/hive/cookie.dart';
 import 'package:sit/network/dio.dart';
 import 'package:sit/session/sso.dart';
-import 'package:sit/update/init.dart';
 
 import '../widgets/captcha_box.dart';
 
@@ -117,7 +117,7 @@ class Init {
     CredentialsInit.init();
     TimetableInit.init();
     if (!kIsWeb) {
-      UpdateInit.init();
+      BackendInit.init();
       OaAnnounceInit.init();
       ExamResultInit.init();
       ExamArrangeInit.init();
@@ -137,7 +137,7 @@ class Init {
     CredentialsInit.initStorage();
     TimetableInit.initStorage();
     if (!kIsWeb) {
-      UpdateInit.initStorage();
+      BackendInit.initStorage();
       OaAnnounceInit.initStorage();
       ExamResultInit.initStorage();
       ExamArrangeInit.initStorage();

@@ -17,7 +17,7 @@ import 'package:sit/r.dart';
 import 'package:sit/route.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/update/utils.dart';
+import 'package:sit/backend/update/utils.dart';
 import 'package:sit/utils/color.dart';
 import 'package:system_theme/system_theme.dart';
 

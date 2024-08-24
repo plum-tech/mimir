@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:sit/app.dart';
+import 'package:sit/backend/init.dart';
 import 'package:sit/credentials/entity/credential.dart';
 import 'package:sit/credentials/entity/login_status.dart';
 import 'package:sit/credentials/entity/user_type.dart';
@@ -31,7 +32,6 @@ import 'package:sit/settings/dev.dart';
 import 'package:sit/design/widgets/navigation.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
-import 'package:sit/update/init.dart';
 import 'package:sit/utils/guard_launch.dart';
 import 'package:sit/widgets/inapp_webview/page.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -102,7 +102,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                 DebugFetchVersionTile(
                   title: "Official".text(),
                   fetch: () async {
-                    final info = await UpdateInit.service.getLatestVersionFromOfficial();
+                    final info = await BackendInit.update.getLatestVersionFromOfficial();
                     return info.version.toString();
                   },
                 ),
@@ -111,7 +111,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                   leading: const Icon(SimpleIcons.apple),
                   title: "App Store CN".text(),
                   fetch: () async {
-                    final info = await UpdateInit.service.getLatestVersionFromAppStore();
+                    final info = await BackendInit.update.getLatestVersionFromAppStore();
                     return "${info!}";
                   },
                 ),
@@ -120,7 +120,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                   leading: const Icon(SimpleIcons.apple),
                   title: "App Store".text(),
                   fetch: () async {
-                    final info = await UpdateInit.service.getLatestVersionFromAppStore(iosAppStoreRegion: null);
+                    final info = await BackendInit.update.getLatestVersionFromAppStore(iosAppStoreRegion: null);
                     return "${info!}";
                   },
                 ),

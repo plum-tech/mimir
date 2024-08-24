@@ -22,7 +22,9 @@ mixin _$Fruit {
   PaletteEntry get color => throw _privateConstructorUsedError;
   String get image => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Fruit
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FruitCopyWith<Fruit> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -42,6 +44,8 @@ class _$FruitCopyWithImpl<$Res, $Val extends Fruit> implements $FruitCopyWith<$R
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Fruit
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -89,6 +93,8 @@ class __$$FruitImplCopyWithImpl<$Res> extends _$FruitCopyWithImpl<$Res, _$FruitI
     implements _$$FruitImplCopyWith<$Res> {
   __$$FruitImplCopyWithImpl(_$FruitImpl _value, $Res Function(_$FruitImpl) _then) : super(_value, _then);
 
+  /// Create a copy of Fruit
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -160,7 +166,9 @@ class _$FruitImpl extends _Fruit {
   @override
   int get hashCode => Object.hash(runtimeType, id, pos, radius, color, image);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Fruit
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FruitImplCopyWith<_$FruitImpl> get copyWith => __$$FruitImplCopyWithImpl<_$FruitImpl>(this, _$identity);
@@ -185,7 +193,10 @@ abstract class _Fruit extends Fruit {
   PaletteEntry get color;
   @override
   String get image;
+
+  /// Create a copy of Fruit
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FruitImplCopyWith<_$FruitImpl> get copyWith => throw _privateConstructorUsedError;
 }

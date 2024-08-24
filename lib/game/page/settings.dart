@@ -58,7 +58,6 @@ class HapticFeedbackTile extends ConsumerWidget {
   }
 }
 
-
 class ShowGameNavigationTile extends ConsumerWidget {
   const ShowGameNavigationTile({super.key});
 
@@ -78,4 +77,3 @@ class ShowGameNavigationTile extends ConsumerWidget {
     );
   }
 }
-

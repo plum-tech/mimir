@@ -16,8 +16,8 @@ import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:version/version.dart';
 
+import '../init.dart';
 import 'entity/artifact.dart';
-import 'init.dart';
 import 'i18n.dart';
 import 'page/update.dart';
 
@@ -78,7 +78,7 @@ Future<void> _checkAppUpdateFromOfficial({
   Duration delayAtLeast = Duration.zero,
   required bool manually,
 }) async {
-  final latest = await UpdateInit.service.getLatestVersionFromOfficial();
+  final latest = await BackendInit.update.getLatestVersionFromOfficial();
   debugPrint(latest.toString());
   final currentVersion = R.meta.version;
   if (latest.downloadOf(R.meta.platform) == null) return;
@@ -105,7 +105,7 @@ Future<void> _checkAppUpdateFromApple({
   Duration delayAtLeast = Duration.zero,
   required bool manually,
 }) async {
-  final latest = await UpdateInit.service.getLatestVersionFromAppStoreAndOfficial();
+  final latest = await BackendInit.update.getLatestVersionFromAppStoreAndOfficial();
   if (latest == null) {
     // if the version from iTunes isn't identical to official's
     if (manually) {
