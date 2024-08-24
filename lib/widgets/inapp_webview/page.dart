@@ -5,12 +5,30 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 
+typedef NavigationRule = Future<bool> Function(WebUri uri);
+
+NavigationRule limitOrigin(
+  Uri originUri, {
+  Future<void> Function(Uri uri)? onBlock,
+}) {
+  return (uri) async {
+    if (uri.scheme != originUri.scheme || uri.host != originUri.host) {
+      // cancel the request
+      onBlock?.call(uri);
+      return false;
+    }
+    return true;
+  };
+}
+
 class InAppWebViewPage extends StatefulWidget {
   final WebUri initialUri;
+  final NavigationRule? canNavigate;
 
   const InAppWebViewPage({
     super.key,
     required this.initialUri,
+    this.canNavigate,
   });
 
   @override
@@ -106,15 +124,21 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
             );
           },
           shouldOverrideUrlLoading: (controller, navigationAction) async {
-            // var uri = navigationAction.request.url!;
+            final uri = navigationAction.request.url;
+            if (uri == null) {
+              return NavigationActionPolicy.CANCEL;
+            }
+            final canNavigateTo = widget.canNavigate;
+            if (canNavigateTo == null || await canNavigateTo(uri)) {
+              return NavigationActionPolicy.ALLOW;
+            }
             // if (uri.scheme != R.forumUri.scheme || uri.host != R.forumUri.host) {
             //   if (await guardLaunchUrl(context, uri)) {
             //     // cancel the request
             //     return NavigationActionPolicy.CANCEL;
             //   }
             // }
-
-            return NavigationActionPolicy.ALLOW;
+            return NavigationActionPolicy.CANCEL;
           },
           onLoadStop: (controller, url) async {
             pullToRefreshController?.endRefreshing();
