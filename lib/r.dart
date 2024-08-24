@@ -44,7 +44,6 @@ class R {
   }
 
   static late List<String> roomList;
-  static late List<String> userAgentList;
   static late List<SchoolContact> yellowPages;
   static const enLocale = Locale('en');
   static const zhHansLocale = Locale.fromSubtags(languageCode: "zh", scriptCode: "Hans");

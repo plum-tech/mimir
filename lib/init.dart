@@ -68,16 +68,25 @@ class Init {
       receiveTimeout: const Duration(milliseconds: 8000),
       sendTimeout: const Duration(milliseconds: 8000),
     );
-    dio = await DioInit.init(
+    dio = Dio();
+    DioInit.initWith(
+      dio,
       cookieJar: cookieJar,
       config: dioOptions,
     );
-    dioNoCookie = await DioInit.init(
+    DioInit.initUserAgent(dio);
+    dioNoCookie = Dio();
+    DioInit.initWith(
+      dioNoCookie,
       config: dioOptions,
     );
-    mimirDio = await DioInit.init(
+    DioInit.initUserAgent(dioNoCookie);
+    mimirDio = Dio();
+    DioInit.initWith(
+      mimirDio,
       config: dioOptions,
     );
+    DioInit.initMimirUserAgent(mimirDio);
     mimirSession = MimirSession(
       dio: mimirDio,
     );

@@ -75,7 +75,6 @@ void main() async {
   await migrations.perform(MigrationPhrase.beforeHive);
 
   R.roomList = await _loadRoomNumberList();
-  R.userAgentList = await _loadUserAgents();
   R.yellowPages = await _loadYellowPages();
 
   // Initialize Hive
@@ -123,12 +122,6 @@ Future<List<String>> _loadRoomNumberList() async {
   String jsonData = await rootBundle.loadString("assets/room_list.json");
   List<dynamic> list = jsonDecode(jsonData);
   return list.map((e) => e.toString()).toList();
-}
-
-Future<List<String>> _loadUserAgents() async {
-  String jsonData = await rootBundle.loadString("assets/user_agent.json");
-  List<dynamic> list = jsonDecode(jsonData);
-  return list.cast<String>();
 }
 
 Future<List<SchoolContact>> _loadYellowPages() async {
