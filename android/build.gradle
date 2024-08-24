@@ -3,14 +3,7 @@ allprojects {
     google()
     mavenCentral()
   }
-}
-
-rootProject.buildDir = '../build'
-subprojects {
-  project.buildDir = "${rootProject.buildDir}/${project.name}"
-}
-subprojects {
-  //  fix for verifyReleaseResources: https://github.com/isar/isar/issues/1654#issuecomment-2295028039
+  // fix for verifyReleaseResources: https://github.com/isar/isar/issues/1654#issuecomment-2295028039
   // ============
   afterEvaluate { project ->
     if (project.plugins.hasPlugin("com.android.application") ||
@@ -29,6 +22,13 @@ subprojects {
     }
   }
   // ============
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+  project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
   project.evaluationDependsOn(':app')
 }
 
