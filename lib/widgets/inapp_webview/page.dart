@@ -4,8 +4,6 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/r.dart';
-import 'package:sit/utils/guard_launch.dart';
 
 class InAppWebViewPage extends StatefulWidget {
   final WebUri initialUri;
@@ -87,7 +85,7 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
           toolbarHeight: 4,
           title: progress < 1.0 ? LinearProgressIndicator(value: progress) : const SizedBox.shrink(),
         ),
-        bottomNavigationBar: buildNaviBar(),
+        persistentFooterButtons: buildNavigationButtons(),
         body: InAppWebView(
           key: webViewKey,
           initialUrlRequest: URLRequest(url: widget.initialUri),
@@ -160,39 +158,36 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
     });
   }
 
-  Widget buildNaviBar() {
-    return OverflowBar(
-      alignment: MainAxisAlignment.spaceEvenly,
-      children: <Widget>[
-        PlatformIconButton(
-          icon: Icon(context.icons.close),
-          onPressed: () {
-            context.pop();
-          },
-        ),
-        PlatformIconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: !canBack
-              ? null
-              : () {
-                  webViewController?.goBack();
-                },
-        ),
-        PlatformIconButton(
-          icon: const Icon(Icons.refresh),
-          onPressed: () {
-            webViewController?.reload();
-          },
-        ),
-        PlatformIconButton(
-          icon: const Icon(Icons.arrow_forward),
-          onPressed: !canForward
-              ? null
-              : () {
-                  webViewController?.goForward();
-                },
-        ),
-      ],
-    );
+  List<Widget> buildNavigationButtons() {
+    return [
+      PlatformIconButton(
+        icon: Icon(context.icons.close),
+        onPressed: () {
+          context.pop();
+        },
+      ),
+      PlatformIconButton(
+        icon: const Icon(Icons.arrow_back),
+        onPressed: !canBack
+            ? null
+            : () {
+                webViewController?.goBack();
+              },
+      ),
+      PlatformIconButton(
+        icon: const Icon(Icons.refresh),
+        onPressed: () {
+          webViewController?.reload();
+        },
+      ),
+      PlatformIconButton(
+        icon: const Icon(Icons.arrow_forward),
+        onPressed: !canForward
+            ? null
+            : () {
+                webViewController?.goForward();
+              },
+      ),
+    ];
   }
 }

@@ -133,7 +133,11 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
           overlayColour: Colors.black26,
         ),
       ].stack(),
-      bottomNavigationBar: buildControllerView(),
+      persistentFooterButtons: [
+        buildTorchButton(),
+        buildSwitchButton(),
+        if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) buildScanImageButton(),
+      ],
     );
   }
 
@@ -141,17 +145,6 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
     return MobileScanner(
       controller: controller,
       fit: BoxFit.contain,
-    );
-  }
-
-  Widget buildControllerView() {
-    return [
-      buildTorchButton(),
-      buildSwitchButton(),
-      if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) buildScanImageButton(),
-    ].row(
-      caa: CrossAxisAlignment.center,
-      maa: MainAxisAlignment.spaceEvenly,
     );
   }
 

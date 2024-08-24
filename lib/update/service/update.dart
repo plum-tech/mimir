@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sit/files.dart';
 import 'package:sit/init.dart';
-import 'package:sit/session/backend.dart';
+import 'package:sit/session/mimir.dart';
 import 'package:sit/utils/error.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:version/version.dart';
@@ -15,7 +15,7 @@ import '../entity/artifact.dart';
 const _itunesURL = 'https://itunes.apple.com';
 
 class UpdateService {
-  BackendSession get _session => Init.backend;
+  MimirSession get _session => Init.mimirSession;
 
   Dio get _dio => Init.dio;
 
@@ -24,12 +24,12 @@ class UpdateService {
   Future<ArtifactVersionInfo> getLatestVersionFromOfficial() async {
     late Response res;
     try {
-      res = await _session.get(
+      res = await _session.request(
         "https://g.mysit.life/artifact/latest.json",
       );
     } catch (error, stackTrace) {
       debugPrintError(error, stackTrace);
-      res = await _session.get(
+      res = await _session.request(
         "https://get.mysit.life/artifact/latest.json",
       );
     }

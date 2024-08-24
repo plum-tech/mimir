@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
 
 /// mysit.life
-class BackendSession {
+class MimirSession {
   final Dio dio;
 
-  const BackendSession({required this.dio});
+  const MimirSession({required this.dio});
 
   /// get.mysit.life is a static server, authentication is not required.
-  Future<Response> get(
+  Future<Response> request(
     String url, {
     Map<String, String>? para,
     data,

@@ -8,7 +8,7 @@ import 'package:sit/entity/campus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sit/credentials/init.dart';
 import 'package:sit/lifecycle.dart';
-import 'package:sit/session/backend.dart';
+import 'package:sit/session/mimir.dart';
 import 'package:sit/settings/entity/proxy.dart';
 import 'package:sit/storage/hive/init.dart';
 import 'package:sit/session/class2nd.dart';
@@ -44,8 +44,9 @@ class Init {
 
   static late CookieJar cookieJar;
   static late Dio dio;
+  static late Dio mimirDio;
   static late Dio dioNoCookie;
-  static late BackendSession backend;
+  static late MimirSession mimirSession;
   static late SsoSession ssoSession;
   static late UgRegistrationSession ugRegSession;
   static late PgRegistrationSession pgRegSession;
@@ -74,8 +75,11 @@ class Init {
     dioNoCookie = await DioInit.init(
       config: dioOptions,
     );
-    backend = BackendSession(
-      dio: dio,
+    mimirDio = await DioInit.init(
+      config: dioOptions,
+    );
+    mimirSession = MimirSession(
+      dio: mimirDio,
     );
     ssoSession = SsoSession(
       dio: dio,
