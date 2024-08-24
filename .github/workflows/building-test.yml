@@ -4,7 +4,7 @@ on:
   - pull_request
 
 env:
-  flutter_version: '3.24.0'
+  flutter_version: '3.24.1'
 
 jobs:
   build_android:
