@@ -61,8 +61,6 @@ jobs:
           alias: ${{ secrets.APK_SIGN_ALIAS }}
           keyStorePassword: ${{ secrets.APK_SIGN_PASS }}
           keyPassword: ${{ secrets.APK_SIGN_ALIAS_PASS }}
-        env:
-          BUILD_TOOLS_VERSION: "30.0.3"
 
       - name: Get Git info
         id: get_git_info
