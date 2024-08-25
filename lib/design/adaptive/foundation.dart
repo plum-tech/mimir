@@ -286,5 +286,5 @@ const Border _kDefaultRoundedBorder = Border(
 );
 
 extension ColorEx on BuildContext {
-  Color get $red$ => isCupertino ? CupertinoDynamicColor.resolve(CupertinoColors.systemRed, this) : Colors.redAccent;
+  Color get $red$ => isCupertino ? CupertinoColors.destructiveRed : Colors.redAccent;
 }

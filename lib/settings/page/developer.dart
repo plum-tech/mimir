@@ -34,6 +34,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:sit/settings/settings.dart';
 import 'package:sit/utils/guard_launch.dart';
 import 'package:sit/widgets/inapp_webview/page.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../i18n.dart';
 
@@ -97,7 +98,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
               const DebugGoRouteTile(),
               const DebugWebViewTile(),
               const DebugDeepLinkTile(),
-              const GoInAppWebviewTile(),
+              if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) const GoInAppWebviewTile(),
               if (!kIsWeb)
                 DebugFetchVersionTile(
                   title: "Official".text(),

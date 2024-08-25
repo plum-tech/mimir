@@ -1,8 +1,17 @@
 # Changelog
 
+## v2.5.2
+- Remember selected semester info only in current session.
+
 ## v2.5.1
 - Revealed the `game` navigation.
 - Redesigned details pages of OA announcement and second class activity.
+- Added Forum page.
+- Added bulletin, temporarily display on the forum app card.
+- Settings for hiding `game` navigation.
+- Checking connectivity of the school server.
+- Display disqualified tag on exam card.
+- Display exam result and arrangement in descending order.
 
 ## v2.4.3
 - Fixed 2048 not working on portrait mode.
