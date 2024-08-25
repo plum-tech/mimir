@@ -32,13 +32,21 @@ class _I18n with CommonI18nMixin {
 
   String get schoolServerUnavailable => "$ns.schoolServerUnavailable".tr();
 
-  String get studentRegAvailable => "$ns.studentRegAvailable".tr();
-
-  String get studentRegUnavailable => "$ns.studentRegUnavailable".tr();
-
   String get schoolServerAvailableTip => "$ns.schoolServerAvailableTip".tr();
 
   String get schoolServerUnavailableTip => "$ns.schoolServerUnavailableTip".tr();
+
+  String get ywbAvailable => "$ns.ywbAvailable".tr();
+
+  String get ywbUnavailable => "$ns.ywbUnavailable".tr();
+
+  String get ywbAvailableTip => "$ns.ywbAvailableTip".tr();
+
+  String get ywbUnavailableTip => "$ns.ywbUnavailableTip".tr();
+
+  String get studentRegAvailable => "$ns.studentRegAvailable".tr();
+
+  String get studentRegUnavailable => "$ns.studentRegUnavailable".tr();
 
   String get ugRegAvailableTip => "$ns.ugRegAvailableTip".tr();
 

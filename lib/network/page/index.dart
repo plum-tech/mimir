@@ -10,6 +10,7 @@ import 'package:sit/init.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sit/network/service/network.dart';
 import 'package:sit/network/widgets/buttons.dart';
+import 'package:sit/settings/dev.dart';
 import '../connectivity.dart';
 
 import '../i18n.dart';
@@ -25,10 +26,12 @@ class NetworkToolPage extends StatefulWidget {
 class _NetworkToolPageState extends State<NetworkToolPage> {
   bool? studentRegAvailable;
   bool? schoolServerAvailable;
+  bool? ywbAvailable;
   CampusNetworkStatus? campusNetworkStatus;
   ConnectivityStatus? connectivityStatus;
   late StreamSubscription<bool> studentRegChecker;
   late StreamSubscription<bool> schoolServerChecker;
+  late StreamSubscription<bool> ywbChecker;
   late StreamSubscription<ConnectivityStatus> connectivityChecker;
   late StreamSubscription<CampusNetworkStatus?> campusNetworkChecker;
 
@@ -91,6 +94,24 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
         });
       }
     });
+    if (Dev.on) {
+      ywbChecker = checkPeriodic(
+        period: const Duration(milliseconds: 4000),
+        check: () async {
+          try {
+            return await Init.ywbSession.checkConnectivity();
+          } catch (err) {
+            return false;
+          }
+        },
+      ).listen((connected) {
+        if (ywbAvailable != connected) {
+          setState(() {
+            ywbAvailable = connected;
+          });
+        }
+      });
+    }
   }
 
   @override
@@ -99,6 +120,7 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
     studentRegChecker.cancel();
     campusNetworkChecker.cancel();
     schoolServerChecker.cancel();
+    if (Dev.on) ywbChecker.cancel();
     super.dispose();
   }
 
@@ -117,32 +139,35 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
             children: [
               ConnectivityInfo(
                 status: connectivityStatus,
-              ).padSymmetric(v: 16, h: 8).inOutlinedCard().animatedSized(),
+              ),
               CampusNetworkConnectivityInfo(
                 status: campusNetworkStatus,
-              ).padSymmetric(v: 16, h: 8).inOutlinedCard().animatedSized(),
+              ),
               SchoolServerConnectivityInfo(
                 connected: schoolServerAvailable,
-              ).padSymmetric(v: 16, h: 8).inOutlinedCard().animatedSized(),
+              ),
               StudentRegConnectivityInfo(
                 connected: studentRegAvailable,
-              ).padSymmetric(v: 16, h: 8).inOutlinedCard().animatedSized(),
+              ),
               if (studentRegAvailable == false && campusNetworkStatus != null)
-                i18n.studentRegUnavailableButCampusNetworkConnected
-                    .text(
-                      style: context.textTheme.bodyLarge,
-                      textAlign: TextAlign.center,
-                    )
-                    .padSymmetric(v: 16, h: 8)
-                    .inOutlinedCard(),
+                i18n.studentRegUnavailableButCampusNetworkConnected.text(
+                  style: context.textTheme.bodyLarge,
+                  textAlign: TextAlign.center,
+                ),
               if (studentRegAvailable == false)
                 [
                   i18n.troubleshoot.text(style: context.textTheme.titleMedium),
                   i18n.studentRegTroubleshoot.text(
                     style: context.textTheme.bodyMedium,
                   )
-                ].column().padSymmetric(v: 16, h: 8).inOutlinedCard(),
-            ],
+                ].column(),
+              if (Dev.on)
+                YwbServerConnectivityInfo(
+                  connected: ywbAvailable,
+                ),
+            ].map((widget) {
+              return widget.padSymmetric(v: 16, h: 8).inOutlinedCard().animatedSized();
+            }).toList(),
           ),
         ],
       ),
@@ -153,9 +178,9 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
           children: const [
             LaunchEasyConnectButton(),
             SizedBox(width: 8),
-            OpenWifiSettingsButton(),
-            SizedBox(width: 8),
             OpenInAppProxyButton(),
+            SizedBox(width: 8),
+            OpenWifiSettingsButton(),
           ],
         ),
       ),
@@ -217,6 +242,45 @@ class SchoolServerConnectivityInfo extends ConsumerWidget {
         widgets.add(buildTip(i18n.schoolServerAvailableTip));
       case false:
         widgets.add(buildTip(i18n.schoolServerUnavailableTip));
+      case null:
+    }
+    return widgets.column(caa: CrossAxisAlignment.center);
+  }
+}
+
+class YwbServerConnectivityInfo extends ConsumerWidget {
+  final bool? connected;
+
+  const YwbServerConnectivityInfo({
+    super.key,
+    required this.connected,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final widgets = <Widget>[];
+    final connected = this.connected;
+    final textTheme = context.textTheme;
+    widgets.add((switch (connected) {
+      null => i18n.connecting,
+      true => i18n.ywbAvailable,
+      false => i18n.ywbUnavailable,
+    })
+        .text(
+      style: textTheme.titleMedium,
+    ));
+    Widget buildTip(String tip) {
+      return tip.text(
+        textAlign: TextAlign.center,
+        style: textTheme.bodyMedium,
+      );
+    }
+
+    switch (connected) {
+      case true:
+        widgets.add(buildTip(i18n.ywbAvailableTip));
+      case false:
+        widgets.add(buildTip(i18n.ywbUnavailableTip));
       case null:
     }
     return widgets.column(caa: CrossAxisAlignment.center);

@@ -3,6 +3,7 @@ import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:sit/credentials/error.dart';
 import 'package:sit/credentials/init.dart';
+import 'package:sit/init.dart';
 import 'package:sit/session/sso.dart';
 
 /// 应网办 official website
@@ -17,6 +18,27 @@ class YwbSession {
   YwbSession({
     required this.dio,
   });
+
+  Future<bool> checkConnectivity({
+    String url = "https://ywb.sit.edu.cn",
+  }) async {
+    try {
+      await Init.dioNoCookie.request(
+        url,
+        options: Options(
+          method: "GET",
+          sendTimeout: const Duration(milliseconds: 3000),
+          receiveTimeout: const Duration(milliseconds: 3000),
+          contentType: Headers.formUrlEncodedContentType,
+          followRedirects: false,
+          validateStatus: (status) => status! < 400,
+        ),
+      );
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
   Future<void> _login({
     required String username,
