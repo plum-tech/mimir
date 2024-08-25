@@ -23,10 +23,6 @@ class ExamArrangeStorage {
   void setExamList(SemesterInfo info, List<ExamEntry>? exams) =>
       box.safePut<String>(_K.examList(info), encodeJsonList(exams, (e) => e.toJson()));
 
-  SemesterInfo? get lastSemesterInfo => box.safeGet<SemesterInfo>(_K.lastSemesterInfo);
-
-  set lastSemesterInfo(SemesterInfo? newV) => box.safePut<SemesterInfo>(_K.lastSemesterInfo, newV);
-
   Stream<BoxEvent> watchExamList(SemesterInfo Function() getFilter) =>
       box.watch().where((event) => event.key == _K.examList(getFilter()));
 

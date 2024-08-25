@@ -25,10 +25,6 @@ class ExamResultUgStorage {
 
   ValueListenable<Box> listenResultList(SemesterInfo info) => box.listenable(keys: [_K.resultList(info)]);
 
-  SemesterInfo? get lastSemesterInfo => box.safeGet<SemesterInfo>(_K.lastSemesterInfo);
-
-  set lastSemesterInfo(SemesterInfo? newV) => box.safePut<SemesterInfo>(_K.lastSemesterInfo, newV);
-
   Stream<BoxEvent> watchResultList(SemesterInfo Function() getFilter) =>
       box.watch().where((event) => event.key == _K.resultList(getFilter()));
 
