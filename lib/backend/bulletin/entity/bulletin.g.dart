@@ -14,7 +14,7 @@ abstract class _$MimirBulletinCWProxy {
   /// MimirBulletin(...).copyWith(id: 12, name: "My name")
   /// ````
   MimirBulletin call({
-    int? id,
+    String? id,
     DateTime? createdAt,
     String? short,
     String? content,
@@ -45,7 +45,7 @@ class _$MimirBulletinCWProxyImpl implements _$MimirBulletinCWProxy {
       id: id == const $CopyWithPlaceholder() || id == null
           ? _value.id
           // ignore: cast_nullable_to_non_nullable
-          : id as int,
+          : id as String,
       createdAt: createdAt == const $CopyWithPlaceholder() || createdAt == null
           ? _value.createdAt
           // ignore: cast_nullable_to_non_nullable
@@ -73,7 +73,7 @@ extension $MimirBulletinCopyWith on MimirBulletin {
 // **************************************************************************
 
 MimirBulletin _$MimirBulletinFromJson(Map<String, dynamic> json) => MimirBulletin(
-      id: (json['id'] as num).toInt(),
+      id: json['id'] as String,
       createdAt: DateTime.parse(json['createdAt'] as String),
       short: _trim(json['short'] as String),
       content: _trim(json['content'] as String),

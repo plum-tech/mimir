@@ -8,7 +8,7 @@ String _trim(String s) => s.trim();
 @JsonSerializable(createToJson: false)
 @CopyWith(skipFields: true)
 class MimirBulletin {
-  final int id;
+  final String id;
   final DateTime createdAt;
   @JsonKey(fromJson: _trim)
   final String short;
