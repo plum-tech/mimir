@@ -9,10 +9,13 @@ class BulletinService {
 
   const BulletinService();
 
-  Future<MimirBulletin> getLatest() async {
+  Future<MimirBulletin?> getLatest() async {
     final res = await _session.request(
       "https://bulletin.api.mysit.life/v1/latest",
     );
+    if (res.statusCode != 200) {
+      return null;
+    }
     return MimirBulletin.fromJson(res.data);
   }
 }

@@ -91,9 +91,9 @@ dependencies:
   # Android / iOS Home screen quick actions
   quick_actions: ^1.0.7
   # Deep links on Android and custom scheme links on iOS
-  app_links: ^6.2.1
+  app_links: ^6.3.0
   # Open with other APP/programs
-  open_file: ^3.3.2
+  open_file: ^3.4.0
   url_launcher: ^6.3.0
   # Open Android / iOS system image picker
   image_picker: ^1.1.2
