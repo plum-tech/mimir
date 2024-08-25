@@ -22,7 +22,9 @@ PODS:
     - FlutterMacOS
   - just_audio (0.0.1):
     - FlutterMacOS
-  - mobile_scanner (5.1.1):
+  - mobile_scanner (5.2.1):
+    - FlutterMacOS
+  - open_file (0.0.1):
     - FlutterMacOS
   - OrderedSet (5.0.0)
   - package_info_plus (0.0.1):
@@ -51,6 +53,9 @@ PODS:
     - FlutterMacOS
   - wakelock_plus (0.0.1):
     - FlutterMacOS
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
+    - FlutterMacOS
   - window_manager (0.2.0):
     - FlutterMacOS
 
@@ -67,6 +72,7 @@ DEPENDENCIES:
   - irondash_engine_context (from `Flutter/ephemeral/.symlinks/plugins/irondash_engine_context/macos`)
   - just_audio (from `Flutter/ephemeral/.symlinks/plugins/just_audio/macos`)
   - mobile_scanner (from `Flutter/ephemeral/.symlinks/plugins/mobile_scanner/macos`)
+  - open_file (from `Flutter/ephemeral/.symlinks/plugins/open_file/macos`)
   - package_info_plus (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
   - screen_retriever (from `Flutter/ephemeral/.symlinks/plugins/screen_retriever/macos`)
@@ -78,6 +84,7 @@ DEPENDENCIES:
   - url_launcher_macos (from `Flutter/ephemeral/.symlinks/plugins/url_launcher_macos/macos`)
   - video_player_avfoundation (from `Flutter/ephemeral/.symlinks/plugins/video_player_avfoundation/darwin`)
   - wakelock_plus (from `Flutter/ephemeral/.symlinks/plugins/wakelock_plus/macos`)
+  - webview_flutter_wkwebview (from `Flutter/ephemeral/.symlinks/plugins/webview_flutter_wkwebview/darwin`)
   - window_manager (from `Flutter/ephemeral/.symlinks/plugins/window_manager/macos`)
 
 SPEC REPOS:
@@ -109,6 +116,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/just_audio/macos
   mobile_scanner:
     :path: Flutter/ephemeral/.symlinks/plugins/mobile_scanner/macos
+  open_file:
+    :path: Flutter/ephemeral/.symlinks/plugins/open_file/macos
   package_info_plus:
     :path: Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos
   path_provider_foundation:
@@ -131,6 +140,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/video_player_avfoundation/darwin
   wakelock_plus:
     :path: Flutter/ephemeral/.symlinks/plugins/wakelock_plus/macos
+  webview_flutter_wkwebview:
+    :path: Flutter/ephemeral/.symlinks/plugins/webview_flutter_wkwebview/darwin
   window_manager:
     :path: Flutter/ephemeral/.symlinks/plugins/window_manager/macos
 
@@ -146,7 +157,8 @@ SPEC CHECKSUMS:
   FlutterMacOS: 8f6f14fa908a6fb3fba0cd85dbd81ec4b251fb24
   irondash_engine_context: da62996ee25616d2f01bbeb85dc115d813359478
   just_audio: 9b67ca7b97c61cfc9784ea23cd8cc55eb226d489
-  mobile_scanner: 1efac1e53c294b24e3bb55bcc7f4deee0233a86b
+  mobile_scanner: 4d1f08373cb0321594c81c7709aa460c17b8b84f
+  open_file: ec718d1cd8c570d8e1ca8f6996d413fab0bf92a4
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   package_info_plus: fa739dd842b393193c5ca93c26798dff6e3d0e0c
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
@@ -159,6 +171,7 @@ SPEC CHECKSUMS:
   url_launcher_macos: 5f437abeda8c85500ceb03f5c1938a8c5a705399
   video_player_avfoundation: 7c6c11d8470e1675df7397027218274b6d2360b3
   wakelock_plus: 4783562c9a43d209c458cb9b30692134af456269
+  webview_flutter_wkwebview: 0982481e3d9c78fd5c6f62a002fcd24fc791f1e4
   window_manager: 3a1844359a6295ab1e47659b1a777e36773cd6e8
 
 PODFILE CHECKSUM: ce7dbe26c78bfc7ba46736094c1e2d25982870fa

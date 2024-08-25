@@ -7,7 +7,9 @@ import 'package:sit/backend/init.dart';
 import 'package:sit/design/adaptive/multiplatform.dart';
 import 'package:sit/design/widgets/app.dart';
 import 'package:sit/l10n/extension.dart';
+import 'package:sit/utils/guard_launch.dart';
 import 'package:text_scroll/text_scroll.dart';
+import 'package:universal_platform/universal_platform.dart';
 
 class ForumAppCard extends ConsumerStatefulWidget {
   const ForumAppCard({super.key});
@@ -22,7 +24,11 @@ class _ForumAppCardState extends ConsumerState<ForumAppCard> {
   Future<void> updateBulletin() async {
     final bulletin = await BackendInit.bulletin.getLatest();
     setState(() {
-      this.bulletin = bulletin;
+      if (bulletin == null) {
+        this.bulletin = null;
+      } else {
+        this.bulletin = bulletin.isEmpty ? null : bulletin;
+      }
     });
   }
 
@@ -41,7 +47,11 @@ class _ForumAppCardState extends ConsumerState<ForumAppCard> {
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
-            await context.push("/forum");
+            if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
+              await context.push("/forum");
+            } else {
+              await guardLaunchUrl(context, R.forumUri);
+            }
           },
           label: "进入".text(),
           icon: Icon(context.icons.home),
@@ -51,10 +61,20 @@ class _ForumAppCardState extends ConsumerState<ForumAppCard> {
   }
 
   Widget buildBulletin(MimirBulletin bulletin) {
+    var title = bulletin.short;
+    var subtitle = bulletin.content;
+    if (title.isEmpty && bulletin.content.isNotEmpty) {
+      title = bulletin.content;
+    }
+    if (title == subtitle) {
+      subtitle = "";
+    }
+
     return ListTile(
       leading: const Icon(Icons.announcement),
-      title: TextScroll(bulletin.content.trim()),
-      subtitle: context.formatYmdhmNum(bulletin.createdAt).text(),
+      title: TextScroll(title),
+      subtitle: subtitle.isNotEmpty ? TextScroll(subtitle) : null,
+      // subtitle: context.formatYmdhmNum(bulletin.createdAt).text(),
     ).inCard();
   }
 }

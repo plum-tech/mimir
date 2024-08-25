@@ -3,12 +3,16 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'bulletin.g.dart';
 
+String _trim(String s) => s.trim();
+
 @JsonSerializable(createToJson: false)
 @CopyWith(skipFields: true)
 class MimirBulletin {
   final int id;
   final DateTime createdAt;
+  @JsonKey(fromJson: _trim)
   final String short;
+  @JsonKey(fromJson: _trim)
   final String content;
 
   const MimirBulletin({
@@ -29,4 +33,6 @@ class MimirBulletin {
       "content": content,
     }.toString();
   }
+
+  bool get isEmpty => short.isEmpty && content.isEmpty;
 }

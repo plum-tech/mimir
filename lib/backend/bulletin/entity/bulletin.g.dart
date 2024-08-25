@@ -75,6 +75,6 @@ extension $MimirBulletinCopyWith on MimirBulletin {
 MimirBulletin _$MimirBulletinFromJson(Map<String, dynamic> json) => MimirBulletin(
       id: (json['id'] as num).toInt(),
       createdAt: DateTime.parse(json['createdAt'] as String),
-      short: json['short'] as String,
-      content: json['content'] as String,
+      short: _trim(json['short'] as String),
+      content: _trim(json['content'] as String),
     );
