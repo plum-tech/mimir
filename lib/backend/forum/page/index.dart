@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:sit/r.dart';
-import 'package:sit/utils/guard_launch.dart';
-import 'package:sit/widgets/inapp_webview/page.dart';
+import 'package:mimir/r.dart';
+import 'package:mimir/utils/guard_launch.dart';
+import 'package:mimir/widgets/inapp_webview/page.dart';
 
 class ForumPage extends StatefulWidget {
   const ForumPage({super.key});

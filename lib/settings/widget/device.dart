@@ -1,7 +1,7 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_icons/simple_icons.dart';
-import 'package:sit/entity/meta.dart';
+import 'package:mimir/entity/meta.dart';
 import 'package:web_browser_detect/web_browser_detect.dart';
 
 IconData getDeviceIcon(AppMeta meta) {

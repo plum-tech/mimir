@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:sit/credentials/init.dart';
+import 'package:mimir/credentials/init.dart';
 
-import 'package:sit/school/library/init.dart';
+import 'package:mimir/school/library/init.dart';
 
 class LibrarySession {
   final Dio dio;

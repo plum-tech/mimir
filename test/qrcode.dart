@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sit/qrcode/utils.dart';
-import 'package:sit/timetable/p13n/builtin.dart';
+import 'package:mimir/qrcode/utils.dart';
+import 'package:mimir/timetable/p13n/builtin.dart';
 
 void main() {
   group("Timetable palette", () {

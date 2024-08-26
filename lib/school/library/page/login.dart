@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/credentials/entity/credential.dart';
-import 'package:sit/credentials/init.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/login/utils.dart';
-import 'package:sit/login/widgets/forgot_pwd.dart';
+import 'package:mimir/credentials/entity/credential.dart';
+import 'package:mimir/credentials/init.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/login/utils.dart';
+import 'package:mimir/login/widgets/forgot_pwd.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/school/library/api.dart';
-import 'package:sit/settings/dev.dart';
-import 'package:sit/utils/error.dart';
+import 'package:mimir/school/library/api.dart';
+import 'package:mimir/settings/dev.dart';
+import 'package:mimir/utils/error.dart';
 import '../init.dart';
 import '../i18n.dart';
 

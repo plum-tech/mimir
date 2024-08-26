@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/utils/error.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/utils/error.dart';
 
 import 'init.dart';
 import 'i18n.dart';

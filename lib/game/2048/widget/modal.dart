@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sit/game/entity/game_status.dart';
+import 'package:mimir/game/entity/game_status.dart';
 
 import '../page/game.dart';
 import '../theme.dart';

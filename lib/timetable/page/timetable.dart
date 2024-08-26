@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/design/adaptive/menu.dart';
-import 'package:sit/design/widgets/fab.dart';
+import 'package:mimir/design/adaptive/menu.dart';
+import 'package:mimir/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/settings/settings.dart';
-import 'package:sit/timetable/page/screenshot.dart';
+import 'package:mimir/settings/settings.dart';
+import 'package:mimir/timetable/page/screenshot.dart';
 import '../entity/display.dart';
 import '../entity/timetable.dart';
 import '../events.dart';

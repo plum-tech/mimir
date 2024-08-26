@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:sit/lifecycle.dart';
+import 'package:mimir/lifecycle.dart';
 
 bool isLeapYear(int year) {
   if (year % 400 == 0) return true;

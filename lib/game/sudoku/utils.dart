@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/game/sudoku/entity/board.dart';
+import 'package:mimir/game/sudoku/entity/board.dart';
 
 Color getCellBgColor({
   required BuildContext context,

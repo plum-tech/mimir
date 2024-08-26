@@ -3,8 +3,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/utils/date.dart';
-import 'package:sit/utils/format.dart';
+import 'package:mimir/utils/date.dart';
+import 'package:mimir/utils/format.dart';
 
 import '../../entity/statistics.dart';
 import '../../utils.dart';

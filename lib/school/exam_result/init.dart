@@ -1,5 +1,5 @@
-import 'package:sit/school/exam_result/service/result.ug.demo.dart';
-import 'package:sit/settings/dev.dart';
+import 'package:mimir/school/exam_result/service/result.ug.demo.dart';
+import 'package:mimir/settings/dev.dart';
 
 import 'service/result.pg.dart';
 import 'service/result.pg.demo.dart';

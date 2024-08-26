@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/design/adaptive/menu.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/school/i18n.dart' as $school;
-import 'package:sit/life/i18n.dart' as $life;
-import 'package:sit/game/i18n.dart' as $game;
-import 'package:sit/me/i18n.dart' as $me;
+import 'package:mimir/design/adaptive/menu.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/school/i18n.dart' as $school;
+import 'package:mimir/life/i18n.dart' as $life;
+import 'package:mimir/game/i18n.dart' as $game;
+import 'package:mimir/me/i18n.dart' as $me;
 
 List<PullDownEntry> buildFocusPopupActions(BuildContext context) {
   return [

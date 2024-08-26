@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/utils/list2d/edge.dart';
+import 'package:mimir/utils/list2d/edge.dart';
 
 import '../entity/board.dart';
 import '../entity/note.dart';

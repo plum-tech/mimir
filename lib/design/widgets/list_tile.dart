@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/l10n/common.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/l10n/common.dart';
 
 class DetailListTile extends StatelessWidget {
   final String? title;

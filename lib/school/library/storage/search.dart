@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sit/utils/hive.dart';
-import 'package:sit/storage/hive/init.dart';
-import 'package:sit/utils/collection.dart';
-import 'package:sit/utils/json.dart';
+import 'package:mimir/utils/hive.dart';
+import 'package:mimir/storage/hive/init.dart';
+import 'package:mimir/utils/collection.dart';
+import 'package:mimir/utils/json.dart';
 import '../entity/search.dart';
 
 class _K {

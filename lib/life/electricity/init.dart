@@ -1,5 +1,5 @@
-import 'package:sit/life/electricity/service/electricity.demo.dart';
-import 'package:sit/settings/dev.dart';
+import 'package:mimir/life/electricity/service/electricity.demo.dart';
+import 'package:mimir/settings/dev.dart';
 
 import 'service/electricity.dart';
 import 'storage/electricity.dart';

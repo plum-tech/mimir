@@ -1,9 +1,9 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
 import 'package:intl/intl.dart';
-import 'package:sit/init.dart';
+import 'package:mimir/init.dart';
 
-import 'package:sit/session/library.dart';
+import 'package:mimir/session/library.dart';
 
 import '../entity/borrow.dart';
 import '../api.dart';

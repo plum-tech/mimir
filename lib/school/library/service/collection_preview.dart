@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
-import 'package:sit/init.dart';
+import 'package:mimir/init.dart';
 
-import 'package:sit/session/library.dart';
+import 'package:mimir/session/library.dart';
 
 import '../entity/collection_preview.dart';
 import '../api.dart';

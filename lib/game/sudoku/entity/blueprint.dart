@@ -1,8 +1,8 @@
 import 'package:meta/meta.dart';
-import 'package:sit/game/entity/blueprint.dart';
-import 'package:sit/qrcode/utils.dart';
-import 'package:sit/utils/byte_io/reader.dart';
-import 'package:sit/utils/byte_io/writer.dart';
+import 'package:mimir/game/entity/blueprint.dart';
+import 'package:mimir/qrcode/utils.dart';
+import 'package:mimir/utils/byte_io/reader.dart';
+import 'package:mimir/utils/byte_io/writer.dart';
 
 import 'board.dart';
 import 'mode.dart';

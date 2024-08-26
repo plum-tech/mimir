@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:sit/game/entity/game_status.dart';
+import 'package:mimir/game/entity/game_status.dart';
 import 'package:uuid/uuid.dart';
 
 import '../entity/tile.dart';

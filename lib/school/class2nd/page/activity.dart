@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/design/widgets/common.dart';
-import 'package:sit/utils/collection.dart';
-import 'package:sit/utils/error.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/utils/collection.dart';
+import 'package:mimir/utils/error.dart';
 
 import '../entity/activity.dart';
 import '../init.dart';

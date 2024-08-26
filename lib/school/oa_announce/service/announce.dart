@@ -2,9 +2,9 @@ import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:intl/intl.dart';
-import 'package:sit/init.dart';
-import 'package:sit/school/utils.dart';
-import 'package:sit/session/sso.dart';
+import 'package:mimir/init.dart';
+import 'package:mimir/school/utils.dart';
+import 'package:mimir/session/sso.dart';
 
 import '../entity/announce.dart';
 import '../entity/page.dart';

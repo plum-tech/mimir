@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/utils/color.dart';
+import 'package:mimir/utils/color.dart';
 
 part "cell_style.g.dart";
 

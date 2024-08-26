@@ -1,5 +1,5 @@
 import '../entity/exam.dart';
-import 'package:sit/school/entity/school.dart';
+import 'package:mimir/school/entity/school.dart';
 
 import 'exam.dart';
 

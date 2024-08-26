@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sit/credentials/entity/credential.dart';
-import 'package:sit/credentials/init.dart';
-import 'package:sit/l10n/common.dart';
-import 'package:sit/utils/timer.dart';
+import 'package:mimir/credentials/entity/credential.dart';
+import 'package:mimir/credentials/init.dart';
+import 'package:mimir/l10n/common.dart';
+import 'package:mimir/utils/timer.dart';
 import 'package:rettulf/rettulf.dart';
 
 class Greeting extends ConsumerStatefulWidget {

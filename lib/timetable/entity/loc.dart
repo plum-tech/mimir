@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/l10n/extension.dart';
-import 'package:sit/l10n/time.dart';
-import 'package:sit/lifecycle.dart';
-import 'package:sit/utils/byte_io/byte_io.dart';
+import 'package:mimir/l10n/extension.dart';
+import 'package:mimir/l10n/time.dart';
+import 'package:mimir/lifecycle.dart';
+import 'package:mimir/utils/byte_io/byte_io.dart';
 import 'pos.dart';
 import 'timetable_entity.dart';
 

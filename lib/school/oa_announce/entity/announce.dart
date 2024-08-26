@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:sit/credentials/entity/user_type.dart';
-import 'package:sit/storage/hive/type_id.dart';
+import 'package:mimir/credentials/entity/user_type.dart';
+import 'package:mimir/storage/hive/type_id.dart';
 
 part 'announce.g.dart';
 

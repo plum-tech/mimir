@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:sit/design/widgets/common.dart';
+import 'package:mimir/design/widgets/common.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/utils/error.dart';
+import 'package:mimir/utils/error.dart';
 
 import '../entity/application.dart';
 import '../init.dart';

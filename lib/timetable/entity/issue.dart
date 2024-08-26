@@ -1,5 +1,5 @@
-import 'package:sit/l10n/time.dart';
-import 'package:sit/settings/dev.dart';
+import 'package:mimir/l10n/time.dart';
+import 'package:mimir/settings/dev.dart';
 import 'package:statistics/statistics.dart';
 
 import '../patch/entity/patch.dart';

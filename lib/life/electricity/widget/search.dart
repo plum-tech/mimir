@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/design/adaptive/swipe.dart';
-import 'package:sit/design/widgets/common.dart';
-import 'package:sit/life/electricity/entity/room.dart';
-import 'package:sit/widgets/search.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/design/adaptive/swipe.dart';
+import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/life/electricity/entity/room.dart';
+import 'package:mimir/widgets/search.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 

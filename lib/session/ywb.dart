@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
-import 'package:sit/credentials/error.dart';
-import 'package:sit/credentials/init.dart';
-import 'package:sit/init.dart';
-import 'package:sit/session/sso.dart';
+import 'package:mimir/credentials/error.dart';
+import 'package:mimir/credentials/init.dart';
+import 'package:mimir/init.dart';
+import 'package:mimir/session/sso.dart';
 
 /// 应网办 official website
 const _ywbUrl = "https://ywb.sit.edu.cn/v1";

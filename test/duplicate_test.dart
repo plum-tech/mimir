@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sit/utils/format.dart';
+import 'package:mimir/utils/format.dart';
 
 void main() {
   group("One file", () {

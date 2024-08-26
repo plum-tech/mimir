@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:mimir/settings/settings.dart';
 
 enum HapticFeedbackIntensity {
   light,

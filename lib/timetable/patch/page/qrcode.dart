@@ -3,10 +3,10 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/timetable/entity/timetable.dart';
-import 'package:sit/timetable/patch/page/patch.dart';
-import 'package:sit/timetable/page/preview.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
+import 'package:mimir/timetable/entity/timetable.dart';
+import 'package:mimir/timetable/patch/page/patch.dart';
+import 'package:mimir/timetable/page/preview.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../../i18n.dart';

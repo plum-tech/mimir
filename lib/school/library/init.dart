@@ -1,7 +1,7 @@
-import 'package:sit/school/library/service/auth.dart';
-import 'package:sit/school/library/storage/book.dart';
-import 'package:sit/school/library/storage/borrow.dart';
-import 'package:sit/settings/dev.dart';
+import 'package:mimir/school/library/service/auth.dart';
+import 'package:mimir/school/library/storage/book.dart';
+import 'package:mimir/school/library/storage/borrow.dart';
+import 'package:mimir/settings/dev.dart';
 
 import 'service/book.demo.dart';
 import 'service/details.dart';

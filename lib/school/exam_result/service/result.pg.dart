@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:html/parser.dart';
-import 'package:sit/init.dart';
-import 'package:sit/school/utils.dart';
-import 'package:sit/session/pg_registration.dart';
+import 'package:mimir/init.dart';
+import 'package:mimir/school/utils.dart';
+import 'package:mimir/session/pg_registration.dart';
 
 import '../entity/result.pg.dart';
 

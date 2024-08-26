@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/widgets/common.dart';
-import 'package:sit/settings/dev.dart';
+import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/settings/dev.dart';
 
 class NotFoundPage extends StatelessWidget {
   final String routeName;

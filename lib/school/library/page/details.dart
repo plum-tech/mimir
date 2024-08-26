@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/design/widgets/list_tile.dart';
-import 'package:sit/school/library/aggregated.dart';
-import 'package:sit/school/library/page/details.model.dart';
-import 'package:sit/school/library/widgets/book.dart';
-import 'package:sit/utils/error.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/design/widgets/list_tile.dart';
+import 'package:mimir/school/library/aggregated.dart';
+import 'package:mimir/school/library/page/details.model.dart';
+import 'package:mimir/school/library/widgets/book.dart';
+import 'package:mimir/utils/error.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../entity/book.dart';

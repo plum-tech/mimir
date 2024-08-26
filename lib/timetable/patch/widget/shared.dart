@@ -2,12 +2,12 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/design/adaptive/menu.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/l10n/extension.dart';
-import 'package:sit/qrcode/page/view.dart';
-import 'package:sit/timetable/entity/pos.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
+import 'package:mimir/design/adaptive/menu.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/l10n/extension.dart';
+import 'package:mimir/qrcode/page/view.dart';
+import 'package:mimir/timetable/entity/pos.dart';
 
 import '../../entity/loc.dart';
 import '../../entity/timetable.dart';

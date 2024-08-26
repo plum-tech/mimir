@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/game/2048/card.dart';
-import 'package:sit/game/minesweeper/card.dart';
-import 'package:sit/game/sudoku/card.dart';
-import 'package:sit/game/wordle/card.dart';
-import 'package:sit/settings/dev.dart';
+import 'package:mimir/game/2048/card.dart';
+import 'package:mimir/game/minesweeper/card.dart';
+import 'package:mimir/game/sudoku/card.dart';
+import 'package:mimir/game/wordle/card.dart';
+import 'package:mimir/settings/dev.dart';
 
 import "i18n.dart";
 import 'widget/card.dart';

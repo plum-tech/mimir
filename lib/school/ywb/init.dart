@@ -1,5 +1,5 @@
-import 'package:sit/school/ywb/service/application.demo.dart';
-import 'package:sit/settings/dev.dart';
+import 'package:mimir/school/ywb/service/application.demo.dart';
+import 'package:mimir/settings/dev.dart';
 
 import 'service/service.dart';
 import 'service/application.dart';

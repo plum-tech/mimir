@@ -1,4 +1,4 @@
-import 'package:sit/game/minesweeper/entity/board.dart';
+import 'package:mimir/game/minesweeper/entity/board.dart';
 
 class MinesweeperResolver {
   final int rowClick;

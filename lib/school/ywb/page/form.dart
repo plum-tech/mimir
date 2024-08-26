@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sit/init.dart';
-import 'package:sit/utils/cookies.dart';
+import 'package:mimir/init.dart';
+import 'package:mimir/utils/cookies.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 const ywbUrl = 'https://xgfy.sit.edu.cn';

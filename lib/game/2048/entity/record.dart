@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/game/entity/record.dart';
+import 'package:mimir/game/entity/record.dart';
 
 part "record.g.dart";
 

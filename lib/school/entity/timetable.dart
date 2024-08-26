@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:sit/entity/campus.dart';
-import 'package:sit/l10n/common.dart';
-import 'package:sit/l10n/extension.dart';
+import 'package:mimir/entity/campus.dart';
+import 'package:mimir/l10n/common.dart';
+import 'package:mimir/l10n/extension.dart';
 
 class TimePoint {
   final int hour;

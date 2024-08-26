@@ -1,4 +1,4 @@
-import 'package:sit/school/ywb/entity/service.dart';
+import 'package:mimir/school/ywb/entity/service.dart';
 
 import 'service.dart';
 

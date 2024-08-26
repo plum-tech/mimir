@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
 
 typedef NavigationRule = Future<bool> Function(WebUri uri);
 

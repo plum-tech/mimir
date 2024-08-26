@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/dialog.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
 import '../entity/keyboard.dart';
 import '../entity/letter.dart';
 import '../entity/status.dart';

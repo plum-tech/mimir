@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/design/adaptive/menu.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/game/entity/game_result.dart';
-import 'package:sit/game/page/records.dart';
-import 'package:sit/l10n/extension.dart';
-import 'package:sit/qrcode/page/view.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
+import 'package:mimir/design/adaptive/menu.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/game/entity/game_result.dart';
+import 'package:mimir/game/page/records.dart';
+import 'package:mimir/l10n/extension.dart';
+import 'package:mimir/qrcode/page/view.dart';
 
 import '../qrcode/blueprint.dart';
 import '../storage.dart';

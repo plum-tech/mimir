@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/game/minesweeper/r.dart';
-import 'package:sit/game/qrcode/blueprint.dart';
+import 'package:mimir/game/minesweeper/r.dart';
+import 'package:mimir/game/qrcode/blueprint.dart';
 
 import '../entity/blueprint.dart';
 import '../storage.dart';

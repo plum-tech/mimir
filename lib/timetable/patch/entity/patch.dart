@@ -8,9 +8,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/utils/byte_io/byte_io.dart';
-import 'package:sit/utils/error.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
+import 'package:mimir/utils/byte_io/byte_io.dart';
+import 'package:mimir/utils/error.dart';
 import 'package:statistics/statistics.dart';
 
 import '../../entity/loc.dart';

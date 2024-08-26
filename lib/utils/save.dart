@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/design/adaptive/dialog.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
 
 const _i18n = _I18n();
 

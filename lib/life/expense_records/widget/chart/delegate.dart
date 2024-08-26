@@ -4,11 +4,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/l10n/time.dart';
-import 'package:sit/life/expense_records/utils.dart';
-import 'package:sit/lifecycle.dart';
-import 'package:sit/utils/date.dart';
-import 'package:sit/utils/format.dart';
+import 'package:mimir/l10n/time.dart';
+import 'package:mimir/life/expense_records/utils.dart';
+import 'package:mimir/lifecycle.dart';
+import 'package:mimir/utils/date.dart';
+import 'package:mimir/utils/format.dart';
 import 'package:statistics/statistics.dart';
 
 import '../../entity/local.dart';

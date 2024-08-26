@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/game/storage/save.dart';
-import 'package:sit/storage/hive/init.dart';
-import 'package:sit/utils/list2d/list2d.dart';
+import 'package:mimir/game/storage/save.dart';
+import 'package:mimir/storage/hive/init.dart';
+import 'package:mimir/utils/list2d/list2d.dart';
 
 import 'mode.dart';
 import 'board.dart';

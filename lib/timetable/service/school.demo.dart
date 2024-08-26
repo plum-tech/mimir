@@ -1,6 +1,6 @@
-import 'package:sit/credentials/init.dart';
-import 'package:sit/entity/campus.dart';
-import 'package:sit/school/entity/school.dart';
+import 'package:mimir/credentials/init.dart';
+import 'package:mimir/entity/campus.dart';
+import 'package:mimir/school/entity/school.dart';
 import '../entity/timetable.dart';
 import 'school.dart';
 

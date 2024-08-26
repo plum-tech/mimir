@@ -1,10 +1,10 @@
-import 'package:sit/credentials/entity/credential.dart';
-import 'package:sit/credentials/entity/login_status.dart';
-import 'package:sit/credentials/init.dart';
-import 'package:sit/credentials/utils.dart';
-import 'package:sit/init.dart';
-import 'package:sit/settings/meta.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:mimir/credentials/entity/credential.dart';
+import 'package:mimir/credentials/entity/login_status.dart';
+import 'package:mimir/credentials/init.dart';
+import 'package:mimir/credentials/utils.dart';
+import 'package:mimir/init.dart';
+import 'package:mimir/settings/meta.dart';
+import 'package:mimir/settings/settings.dart';
 
 import 'init.dart';
 

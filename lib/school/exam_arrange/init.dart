@@ -1,5 +1,5 @@
-import 'package:sit/school/exam_arrange/storage/exam.dart';
-import 'package:sit/settings/dev.dart';
+import 'package:mimir/school/exam_arrange/storage/exam.dart';
+import 'package:mimir/settings/dev.dart';
 
 import 'service/exam.dart';
 import 'service/exam.demo.dart';

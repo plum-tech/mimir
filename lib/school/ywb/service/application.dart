@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:sit/design/animation/progress.dart';
-import 'package:sit/init.dart';
+import 'package:mimir/design/animation/progress.dart';
+import 'package:mimir/init.dart';
 
-import 'package:sit/session/ywb.dart';
+import 'package:mimir/session/ywb.dart';
 
 import '../entity/application.dart';
 

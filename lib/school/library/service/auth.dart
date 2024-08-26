@@ -4,10 +4,10 @@ import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:encrypt/encrypt.dart';
 import 'package:pointycastle/pointycastle.dart';
-import 'package:sit/credentials/entity/credential.dart';
-import 'package:sit/credentials/error.dart';
-import 'package:sit/init.dart';
-import 'package:sit/utils/dio.dart';
+import 'package:mimir/credentials/entity/credential.dart';
+import 'package:mimir/credentials/error.dart';
+import 'package:mimir/init.dart';
+import 'package:mimir/utils/dio.dart';
 
 const _opacUrl = 'http://210.35.66.106/opac';
 const _pemUrl = '$_opacUrl/certificate/pem';

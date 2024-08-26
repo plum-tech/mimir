@@ -1,4 +1,4 @@
-import 'package:sit/settings/dev.dart';
+import 'package:mimir/settings/dev.dart';
 
 import 'service/fetch.dart';
 import 'service/fetch.demo.dart';

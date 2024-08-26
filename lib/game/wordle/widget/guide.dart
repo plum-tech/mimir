@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/design/entity/dual_color.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/design/entity/dual_color.dart';
 
 import '../entity/status.dart';
 

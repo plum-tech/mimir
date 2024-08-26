@@ -4,8 +4,8 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sit/utils/hive.dart';
-import 'package:sit/utils/riverpod.dart';
+import 'package:mimir/utils/hive.dart';
+import 'package:mimir/utils/riverpod.dart';
 
 const _kLastId = "lastId";
 const _kIdList = "idList";

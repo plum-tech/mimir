@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:sit/credentials/error.dart';
-import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/lifecycle.dart';
-import 'package:sit/login/i18n.dart';
+import 'package:mimir/credentials/error.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/lifecycle.dart';
+import 'package:mimir/login/i18n.dart';
 
 void debugPrintError(Object? error, [StackTrace? stackTrace]) {
   if (error == null) {

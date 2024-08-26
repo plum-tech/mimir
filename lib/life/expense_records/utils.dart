@@ -1,11 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
-import 'package:sit/life/expense_records/entity/local.dart';
-import 'package:sit/lifecycle.dart';
+import 'package:mimir/life/expense_records/entity/local.dart';
+import 'package:mimir/lifecycle.dart';
 
-import 'package:sit/school/utils.dart';
-import 'package:sit/utils/date.dart';
+import 'package:mimir/school/utils.dart';
+import 'package:mimir/utils/date.dart';
 
 import 'entity/remote.dart';
 import 'entity/statistics.dart';

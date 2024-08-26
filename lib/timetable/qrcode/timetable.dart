@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:sit/qrcode/deep_link.dart';
-import 'package:sit/qrcode/utils.dart';
-import 'package:sit/r.dart';
-import 'package:sit/timetable/entity/timetable.dart';
+import 'package:mimir/qrcode/deep_link.dart';
+import 'package:mimir/qrcode/utils.dart';
+import 'package:mimir/r.dart';
+import 'package:mimir/timetable/entity/timetable.dart';
 
 import '../page/mine.dart';
 

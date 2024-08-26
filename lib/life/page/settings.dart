@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 

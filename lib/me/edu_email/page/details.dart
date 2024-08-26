@@ -2,8 +2,8 @@ import 'package:enough_mail/enough_mail.dart';
 import 'package:enough_mail_html/enough_mail_html.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:sit/l10n/extension.dart';
-import 'package:sit/widgets/html.dart';
+import 'package:mimir/l10n/extension.dart';
+import 'package:mimir/widgets/html.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../i18n.dart';

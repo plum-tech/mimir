@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/design/animation/animated.dart';
-import 'package:sit/network/connectivity.dart';
-import 'package:sit/utils/error.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/design/animation/animated.dart';
+import 'package:mimir/network/connectivity.dart';
+import 'package:mimir/utils/error.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../utils.dart';

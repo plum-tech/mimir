@@ -3,10 +3,10 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:sit/files.dart';
-import 'package:sit/init.dart';
-import 'package:sit/session/mimir.dart';
-import 'package:sit/utils/error.dart';
+import 'package:mimir/files.dart';
+import 'package:mimir/init.dart';
+import 'package:mimir/session/mimir.dart';
+import 'package:mimir/utils/error.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:version/version.dart';
 

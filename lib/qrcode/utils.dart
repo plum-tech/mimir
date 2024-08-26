@@ -5,9 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hashlib_codecs/hashlib_codecs.dart';
-import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/settings/dev.dart';
-import 'package:sit/utils/guard_launch.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/settings/dev.dart';
+import 'package:mimir/utils/guard_launch.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import 'handle.dart';

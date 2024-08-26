@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/settings/settings.dart';
-import 'package:sit/utils/save.dart';
+import 'package:mimir/settings/settings.dart';
+import 'package:mimir/utils/save.dart';
 
 import '../widget/style.dart';
 import '../../i18n.dart';

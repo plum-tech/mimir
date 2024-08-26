@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/r.dart';
-import 'package:sit/school/yellow_pages/init.dart';
-import 'package:sit/school/yellow_pages/storage/contact.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/r.dart';
+import 'package:mimir/school/yellow_pages/init.dart';
+import 'package:mimir/school/yellow_pages/storage/contact.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../widgets/list.dart';

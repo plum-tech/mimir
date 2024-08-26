@@ -2,8 +2,8 @@ import 'dart:typed_data';
 
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/storage/hive/type_id.dart';
-import 'package:sit/utils/byte_io/byte_io.dart';
+import 'package:mimir/storage/hive/type_id.dart';
+import 'package:mimir/utils/byte_io/byte_io.dart';
 
 part "proxy.g.dart";
 

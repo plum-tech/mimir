@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:sit/credentials/error.dart';
-import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/session/sso.dart';
-import 'package:sit/utils/error.dart';
+import 'package:mimir/credentials/error.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/session/sso.dart';
+import 'package:mimir/utils/error.dart';
 import "./i18n.dart";
 
 const _i18n = OaLoginI18n();

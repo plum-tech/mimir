@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:sit/init.dart';
-import 'package:sit/r.dart';
+import 'package:mimir/init.dart';
+import 'package:mimir/r.dart';
 
-import 'package:sit/session/sso.dart';
+import 'package:mimir/session/sso.dart';
 
 /// jwxt.sit.edu.cn
 /// Student registration system for undergraduate

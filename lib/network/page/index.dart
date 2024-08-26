@@ -2,15 +2,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sit/credentials/entity/user_type.dart';
-import 'package:sit/credentials/init.dart';
-import 'package:sit/design/animation/animated.dart';
-import 'package:sit/design/widgets/icon.dart';
-import 'package:sit/init.dart';
+import 'package:mimir/credentials/entity/user_type.dart';
+import 'package:mimir/credentials/init.dart';
+import 'package:mimir/design/animation/animated.dart';
+import 'package:mimir/design/widgets/icon.dart';
+import 'package:mimir/init.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/network/service/network.dart';
-import 'package:sit/network/widgets/buttons.dart';
-import 'package:sit/settings/dev.dart';
+import 'package:mimir/network/service/network.dart';
+import 'package:mimir/network/widgets/buttons.dart';
+import 'package:mimir/settings/dev.dart';
 import '../connectivity.dart';
 
 import '../i18n.dart';

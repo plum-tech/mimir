@@ -2,8 +2,8 @@ import 'dart:math';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
-import 'package:sit/game/entity/game_status.dart';
-import 'package:sit/game/utils.dart';
+import 'package:mimir/game/entity/game_status.dart';
+import 'package:mimir/game/utils.dart';
 import 'package:uuid/uuid.dart';
 
 import '../entity/record.dart';

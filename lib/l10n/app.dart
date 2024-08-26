@@ -1,7 +1,7 @@
-import 'package:sit/timetable/i18n.dart' as t;
-import 'package:sit/school/i18n.dart' as s;
-import 'package:sit/life/i18n.dart' as l;
-import 'package:sit/game/i18n.dart' as g;
+import 'package:mimir/timetable/i18n.dart' as t;
+import 'package:mimir/school/i18n.dart' as s;
+import 'package:mimir/life/i18n.dart' as l;
+import 'package:mimir/game/i18n.dart' as g;
 
 class AppI18n {
   const AppI18n();

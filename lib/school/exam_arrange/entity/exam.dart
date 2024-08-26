@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/l10n/extension.dart';
-import 'package:sit/school/utils.dart';
-import 'package:sit/utils/date.dart';
+import 'package:mimir/l10n/extension.dart';
+import 'package:mimir/school/utils.dart';
+import 'package:mimir/utils/date.dart';
 
 part 'exam.g.dart';
 

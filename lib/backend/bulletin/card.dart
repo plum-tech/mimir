@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/widgets/app.dart';
+import 'package:mimir/design/widgets/app.dart';
 
 class BulletinAppCard extends ConsumerStatefulWidget {
   const BulletinAppCard({super.key});

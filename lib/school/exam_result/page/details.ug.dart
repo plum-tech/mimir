@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/widgets/list_tile.dart';
-import 'package:sit/design/widgets/navigation.dart';
-import 'package:sit/l10n/extension.dart';
-import 'package:sit/school/entity/school.dart';
-import 'package:sit/school/exam_result/entity/result.ug.dart';
+import 'package:mimir/design/widgets/list_tile.dart';
+import 'package:mimir/design/widgets/navigation.dart';
+import 'package:mimir/l10n/extension.dart';
+import 'package:mimir/school/entity/school.dart';
+import 'package:mimir/school/exam_result/entity/result.ug.dart';
 import '../i18n.dart';
 
 class ExamResultUgDetailsPage extends StatefulWidget {

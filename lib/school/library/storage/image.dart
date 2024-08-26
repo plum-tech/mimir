@@ -1,6 +1,6 @@
 import 'package:hive/hive.dart';
-import 'package:sit/storage/hive/init.dart';
-import 'package:sit/utils/hive.dart';
+import 'package:mimir/storage/hive/init.dart';
+import 'package:mimir/utils/hive.dart';
 
 import '../entity/image.dart';
 

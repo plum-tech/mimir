@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:fk_user_agent/fk_user_agent.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sit/r.dart';
+import 'package:mimir/r.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 final _rand = Random();

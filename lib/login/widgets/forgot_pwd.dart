@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/utils/guard_launch.dart';
+import 'package:mimir/utils/guard_launch.dart';
 import '../i18n.dart';
 
 const _i18n = OaLoginI18n();

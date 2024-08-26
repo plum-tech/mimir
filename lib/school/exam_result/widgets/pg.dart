@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/design/widgets/card.dart';
-import 'package:sit/school/widgets/course.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
+import 'package:mimir/design/widgets/card.dart';
+import 'package:mimir/school/widgets/course.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:text_scroll/text_scroll.dart';
 

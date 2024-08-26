@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/settings/settings.dart';
-import 'package:sit/utils/screenshot.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
+import 'package:mimir/settings/settings.dart';
+import 'package:mimir/utils/screenshot.dart';
 
 import "../i18n.dart";
 import '../p13n/widget/style.dart';

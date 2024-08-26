@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:sit/files.dart';
+import 'package:mimir/files.dart';
 
 import '../../p13n/entity/background.dart';
 

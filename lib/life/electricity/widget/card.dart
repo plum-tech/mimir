@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sit/design/animation/number.dart';
+import 'package:mimir/design/animation/number.dart';
 import '../entity/balance.dart';
 import 'package:rettulf/rettulf.dart';
 

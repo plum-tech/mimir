@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:sit/init.dart';
+import 'package:mimir/init.dart';
 
-import 'package:sit/session/library.dart';
+import 'package:mimir/session/library.dart';
 
 import '../entity/image.dart';
 import '../api.dart';

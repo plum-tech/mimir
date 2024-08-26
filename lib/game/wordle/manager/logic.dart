@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sit/game/entity/game_result.dart';
-import 'package:sit/game/entity/game_status.dart';
-import 'package:sit/game/utils.dart';
-import 'package:sit/game/wordle/entity/letter.dart';
+import 'package:mimir/game/entity/game_result.dart';
+import 'package:mimir/game/entity/game_status.dart';
+import 'package:mimir/game/utils.dart';
+import 'package:mimir/game/wordle/entity/letter.dart';
 
 import '../entity/keyboard.dart';
 import '../entity/state.dart';

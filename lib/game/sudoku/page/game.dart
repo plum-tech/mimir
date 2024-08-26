@@ -5,15 +5,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/game/ability/ability.dart';
-import 'package:sit/game/ability/autosave.dart';
-import 'package:sit/game/ability/timer.dart';
-import 'package:sit/game/entity/game_status.dart';
-import 'package:sit/game/entity/timer.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/game/ability/ability.dart';
+import 'package:mimir/game/ability/autosave.dart';
+import 'package:mimir/game/ability/timer.dart';
+import 'package:mimir/game/entity/game_status.dart';
+import 'package:mimir/game/entity/timer.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/game/widget/party_popper.dart';
-import 'package:sit/utils/keyboard.dart';
+import 'package:mimir/game/widget/party_popper.dart';
+import 'package:mimir/utils/keyboard.dart';
 
 import '../entity/state.dart';
 import '../entity/note.dart';

@@ -6,7 +6,7 @@ Clone the repository to a local folder.
 Note: you have to put it in a folder named as `mimir`.
 
 ``` shell
-git clone https://github.com/Liplum/Mimir mimir
+git clone https://github.com/liplum-dev/mimir mimir
 ```
 
 Then run the necessary build steps.

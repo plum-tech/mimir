@@ -1,9 +1,9 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
-import 'package:sit/init.dart';
+import 'package:mimir/init.dart';
 
-import 'package:sit/session/sso.dart';
-import 'package:sit/utils/error.dart';
+import 'package:mimir/session/sso.dart';
+import 'package:mimir/utils/error.dart';
 
 class AuthServerService {
   SsoSession get session => Init.ssoSession;

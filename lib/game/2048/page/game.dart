@@ -4,12 +4,12 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_swipe_detector/flutter_swipe_detector.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/game/2048/storage.dart';
-import 'package:sit/game/ability/ability.dart';
-import 'package:sit/game/ability/autosave.dart';
-import 'package:sit/game/entity/game_status.dart';
-import 'package:sit/game/widget/party_popper.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/game/2048/storage.dart';
+import 'package:mimir/game/ability/ability.dart';
+import 'package:mimir/game/ability/autosave.dart';
+import 'package:mimir/game/entity/game_status.dart';
+import 'package:mimir/game/widget/party_popper.dart';
 
 import '../entity/board.dart';
 import '../widget/empty_board.dart';

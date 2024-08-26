@@ -1,4 +1,4 @@
-import 'package:sit/design/adaptive/editor.dart';
+import 'package:mimir/design/adaptive/editor.dart';
 
 import 'entity/school.dart';
 

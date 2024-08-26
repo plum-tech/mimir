@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:sit/qrcode/deep_link.dart';
-import 'package:sit/r.dart';
-import 'package:sit/utils/error.dart';
+import 'package:mimir/qrcode/deep_link.dart';
+import 'package:mimir/r.dart';
+import 'package:mimir/utils/error.dart';
 
 enum DeepLinkHandleResult {
   success,

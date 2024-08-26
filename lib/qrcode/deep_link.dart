@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sit/game/minesweeper/qrcode/blueprint.dart';
-import 'package:sit/game/sudoku/qrcode/blueprint.dart';
-import 'package:sit/r.dart';
-import 'package:sit/settings/qrcode/proxy.dart';
-import 'package:sit/timetable/qrcode/palette.dart';
-import 'package:sit/timetable/qrcode/timetable.dart';
+import 'package:mimir/game/minesweeper/qrcode/blueprint.dart';
+import 'package:mimir/game/sudoku/qrcode/blueprint.dart';
+import 'package:mimir/r.dart';
+import 'package:mimir/settings/qrcode/proxy.dart';
+import 'package:mimir/timetable/qrcode/palette.dart';
+import 'package:mimir/timetable/qrcode/timetable.dart';
 
 import '../timetable/qrcode/patch.dart';
 

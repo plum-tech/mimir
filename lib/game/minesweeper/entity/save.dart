@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/utils/list2d/list2d.dart';
+import 'package:mimir/utils/list2d/list2d.dart';
 
 import 'mode.dart';
 import 'cell.dart';

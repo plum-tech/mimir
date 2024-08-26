@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:sit/init.dart';
+import 'package:mimir/init.dart';
 
-import 'package:sit/session/class2nd.dart';
+import 'package:mimir/session/class2nd.dart';
 
 enum Class2ndApplicationCheckResponse {
   successfulCheck,

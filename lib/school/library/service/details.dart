@@ -2,9 +2,9 @@ import 'dart:collection';
 
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
-import 'package:sit/init.dart';
+import 'package:mimir/init.dart';
 
-import 'package:sit/session/library.dart';
+import 'package:mimir/session/library.dart';
 
 import '../api.dart';
 import '../entity/book.dart';

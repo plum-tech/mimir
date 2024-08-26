@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sit/design/entity/dual_color.dart';
+import 'package:mimir/design/entity/dual_color.dart';
 
 enum LetterStatus {
   /// 0

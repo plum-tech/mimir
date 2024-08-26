@@ -1,5 +1,5 @@
-import 'package:sit/school/class2nd/service/points.demo.dart';
-import 'package:sit/settings/dev.dart';
+import 'package:mimir/school/class2nd/service/points.demo.dart';
+import 'package:mimir/settings/dev.dart';
 
 import 'service/activity.dart';
 import 'service/activity.demo.dart';

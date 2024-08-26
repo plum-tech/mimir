@@ -1,14 +1,14 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:sit/credentials/init.dart';
-import 'package:sit/init.dart';
+import 'package:mimir/credentials/init.dart';
+import 'package:mimir/init.dart';
 
-import 'package:sit/school/entity/school.dart';
-import 'package:sit/school/exam_result/init.dart';
-import 'package:sit/session/pg_registration.dart';
-import 'package:sit/session/ug_registration.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:mimir/school/entity/school.dart';
+import 'package:mimir/school/exam_result/init.dart';
+import 'package:mimir/session/pg_registration.dart';
+import 'package:mimir/session/ug_registration.dart';
+import 'package:mimir/settings/settings.dart';
 
 import '../entity/timetable.dart';
 import '../utils.dart';

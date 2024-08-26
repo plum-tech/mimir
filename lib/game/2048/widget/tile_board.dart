@@ -3,7 +3,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/game/2048/widget/tile.dart';
+import 'package:mimir/game/2048/widget/tile.dart';
 
 import '../page/game.dart';
 import '../theme.dart';

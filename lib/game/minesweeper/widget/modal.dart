@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/game/minesweeper/page/game.dart';
+import 'package:mimir/game/minesweeper/page/game.dart';
 import '../theme.dart';
 import '../i18n.dart';
 

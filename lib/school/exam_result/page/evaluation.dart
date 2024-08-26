@@ -2,12 +2,12 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sit/init.dart';
+import 'package:mimir/init.dart';
 
-import 'package:sit/settings/dev.dart';
-import 'package:sit/utils/cookies.dart';
-import 'package:sit/widgets/webview/injectable.dart';
-import 'package:sit/widgets/webview/page.dart';
+import 'package:mimir/settings/dev.dart';
+import 'package:mimir/utils/cookies.dart';
+import 'package:mimir/widgets/webview/injectable.dart';
+import 'package:mimir/widgets/webview/page.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 

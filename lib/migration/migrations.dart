@@ -1,11 +1,11 @@
 import 'package:flutter/foundation.dart';
-import 'package:sit/files.dart';
-import 'package:sit/settings/entity/proxy.dart';
-import 'package:sit/settings/settings.dart';
-import 'package:sit/storage/hive/init.dart';
-import 'package:sit/timetable/init.dart';
-import 'package:sit/utils/error.dart';
-import 'package:sit/utils/hive.dart';
+import 'package:mimir/files.dart';
+import 'package:mimir/settings/entity/proxy.dart';
+import 'package:mimir/settings/settings.dart';
+import 'package:mimir/storage/hive/init.dart';
+import 'package:mimir/timetable/init.dart';
+import 'package:mimir/utils/error.dart';
+import 'package:mimir/utils/hive.dart';
 import 'package:version/version.dart';
 
 import 'foundation.dart';

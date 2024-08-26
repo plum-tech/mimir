@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:sit/credentials/i18n.dart';
-import 'package:sit/l10n/common.dart';
+import 'package:mimir/credentials/i18n.dart';
+import 'package:mimir/l10n/common.dart';
 
 class CommonLoginI18n with CommonI18nMixin {
   const CommonLoginI18n();

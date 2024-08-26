@@ -1,8 +1,8 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sit/storage/hive/init.dart';
-import 'package:sit/storage/hive/table.dart';
-import 'package:sit/utils/hive.dart';
-import 'package:sit/timetable/entity/timetable.dart';
+import 'package:mimir/storage/hive/init.dart';
+import 'package:mimir/storage/hive/table.dart';
+import 'package:mimir/utils/hive.dart';
+import 'package:mimir/timetable/entity/timetable.dart';
 
 import '../entity/display.dart';
 import '../p13n/builtin.dart';

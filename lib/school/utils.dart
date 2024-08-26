@@ -1,5 +1,5 @@
-import 'package:sit/l10n/time.dart';
-import 'package:sit/school/entity/school.dart';
+import 'package:mimir/l10n/time.dart';
+import 'package:mimir/school/entity/school.dart';
 
 /// 将 "第几周、周几" 转换为日期. 如, 开学日期为 2021-9-1, 那么将第一周周一转换为 2021-9-1
 DateTime reflectWeekDayIndexToDate({

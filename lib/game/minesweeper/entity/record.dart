@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
-import 'package:sit/game/entity/game_result.dart';
-import 'package:sit/game/entity/record.dart';
+import 'package:mimir/game/entity/game_result.dart';
+import 'package:mimir/game/entity/record.dart';
 
 import 'blueprint.dart';
 import 'board.dart';

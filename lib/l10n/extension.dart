@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:sit/l10n/time.dart';
+import 'package:mimir/l10n/time.dart';
 
 import 'lang.dart';
 
-export 'package:sit/r.dart';
+export 'package:mimir/r.dart';
 
 export 'lang.dart';
 

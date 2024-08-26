@@ -1,5 +1,5 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:sit/storage/hive/type_id.dart';
+import 'package:mimir/storage/hive/type_id.dart';
 
 part 'credential.g.dart';
 

@@ -1,7 +1,7 @@
-import 'package:sit/init.dart';
-import 'package:sit/lifecycle.dart';
+import 'package:mimir/init.dart';
+import 'package:mimir/lifecycle.dart';
 
-import 'package:sit/session/mimir.dart';
+import 'package:mimir/session/mimir.dart';
 
 import '../entity/bulletin.dart';
 

@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:sit/init.dart';
-import 'package:sit/r.dart';
+import 'package:mimir/init.dart';
+import 'package:mimir/r.dart';
 import '../entity/balance.dart';
 
 const _balanceUrl = "https://xgfy.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?DoType=DBAccess_RunSQLReturnTable";

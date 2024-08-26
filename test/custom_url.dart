@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sit/r.dart';
+import 'package:mimir/r.dart';
 
 void main() {
   group("Parse URL", () {

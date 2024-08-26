@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:sit/l10n/common.dart';
-import 'package:sit/school/i18n.dart';
+import 'package:mimir/l10n/common.dart';
+import 'package:mimir/school/i18n.dart';
 
 import 'entity/issue.dart';
 

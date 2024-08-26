@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/backend/bulletin/entity/bulletin.dart';
-import 'package:sit/backend/init.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/design/widgets/app.dart';
-import 'package:sit/l10n/extension.dart';
-import 'package:sit/settings/dev.dart';
-import 'package:sit/utils/guard_launch.dart';
+import 'package:mimir/backend/bulletin/entity/bulletin.dart';
+import 'package:mimir/backend/init.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/design/widgets/app.dart';
+import 'package:mimir/l10n/extension.dart';
+import 'package:mimir/settings/dev.dart';
+import 'package:mimir/utils/guard_launch.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -57,9 +57,7 @@ class _ForumAppCardState extends ConsumerState<ForumAppCard> {
                     await guardLaunchUrl(context, R.forumUri);
                   }
                 },
-          label: !dev
-              ? "敬请期待".text()
-              : "进入".text(),
+          label: !dev ? "敬请期待".text() : "进入".text(),
           icon: Icon(context.icons.home),
         ),
       ],

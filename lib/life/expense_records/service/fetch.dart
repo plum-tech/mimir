@@ -3,9 +3,9 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
-import 'package:sit/init.dart';
+import 'package:mimir/init.dart';
 
-import 'package:sit/session/sso.dart';
+import 'package:mimir/session/sso.dart';
 
 import '../entity/local.dart';
 import '../entity/remote.dart';

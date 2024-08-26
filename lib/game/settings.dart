@@ -1,5 +1,5 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sit/utils/hive.dart';
+import 'package:mimir/utils/hive.dart';
 
 class _K {
   static const ns = "/game";

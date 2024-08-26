@@ -1,9 +1,9 @@
 import 'package:flutter/widgets.dart';
-import 'package:sit/qrcode/deep_link.dart';
-import 'package:sit/qrcode/utils.dart';
-import 'package:sit/r.dart';
-import 'package:sit/settings/entity/proxy.dart';
-import 'package:sit/settings/page/proxy.dart';
+import 'package:mimir/qrcode/deep_link.dart';
+import 'package:mimir/qrcode/utils.dart';
+import 'package:mimir/r.dart';
+import 'package:mimir/settings/entity/proxy.dart';
+import 'package:mimir/settings/page/proxy.dart';
 
 class ProxyDeepLink extends DeepLinkHandlerProtocol {
   static const host = "proxy";

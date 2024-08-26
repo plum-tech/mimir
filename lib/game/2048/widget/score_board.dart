@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/animation/number.dart';
-import 'package:sit/game/2048/storage.dart';
+import 'package:mimir/design/animation/number.dart';
+import 'package:mimir/game/2048/storage.dart';
 import '../page/game.dart';
 import '../i18n.dart';
 

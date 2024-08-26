@@ -2,10 +2,10 @@ import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
-import 'package:sit/credentials/entity/credential.dart';
-import 'package:sit/life/lab_door/card.dart';
-import 'package:sit/school/yellow_pages/entity/contact.dart';
-import 'package:sit/entity/meta.dart';
+import 'package:mimir/credentials/entity/credential.dart';
+import 'package:mimir/life/lab_door/card.dart';
+import 'package:mimir/school/yellow_pages/entity/contact.dart';
+import 'package:mimir/entity/meta.dart';
 
 class R {
   const R._();

@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/game/entity/game_mode.dart';
+import 'package:mimir/game/entity/game_mode.dart';
 
 @JsonSerializable(createToJson: false, createFactory: false)
 class WordleVocabulary extends GameMode {

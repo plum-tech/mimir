@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sit/timetable/file_type/timetable.dart';
+import 'package:mimir/timetable/file_type/timetable.dart';
 import 'package:path/path.dart';
 
 abstract class FileTypeHandlerProtocol {

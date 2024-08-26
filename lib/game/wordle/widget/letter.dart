@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sit/design/entity/dual_color.dart';
-import 'package:sit/game/wordle/entity/status.dart';
+import 'package:mimir/design/entity/dual_color.dart';
+import 'package:mimir/game/wordle/entity/status.dart';
 
 class LetterBox extends StatelessWidget {
   final String letter;

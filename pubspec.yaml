@@ -1,4 +1,4 @@
-name: sit
+name: mimir
 description: "A multiplatform app for SIT students."
 
 # The build version numbers is incremented automatically.

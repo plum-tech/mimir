@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sit/design/entity/dual_color.dart';
-import 'package:sit/timetable/p13n/entity/palette.dart';
+import 'package:mimir/design/entity/dual_color.dart';
+import 'package:mimir/timetable/p13n/entity/palette.dart';
 
 import '../entity/timetable.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/game/sudoku/page/game.dart';
+import 'package:mimir/game/sudoku/page/game.dart';
 import '../i18n.dart';
 
 class GameOverModal extends ConsumerWidget {

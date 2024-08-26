@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
-import 'package:sit/r.dart';
+import 'package:mimir/r.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class Files {

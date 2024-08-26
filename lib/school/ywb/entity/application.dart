@@ -1,8 +1,8 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/storage/hive/type_id.dart';
-import 'package:sit/school/utils.dart';
+import 'package:mimir/storage/hive/type_id.dart';
+import 'package:mimir/school/utils.dart';
 
 part 'application.g.dart';
 

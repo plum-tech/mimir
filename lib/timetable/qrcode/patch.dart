@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
-import 'package:sit/qrcode/deep_link.dart';
-import 'package:sit/qrcode/utils.dart';
-import 'package:sit/r.dart';
+import 'package:mimir/qrcode/deep_link.dart';
+import 'package:mimir/qrcode/utils.dart';
+import 'package:mimir/r.dart';
 
 import '../patch/entity/patch.dart';
 import '../patch/page/qrcode.dart';

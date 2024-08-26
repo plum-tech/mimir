@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/design/widgets/tags.dart';
-import 'package:sit/l10n/extension.dart';
+import 'package:mimir/design/widgets/tags.dart';
+import 'package:mimir/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/school/class2nd/utils.dart';
+import 'package:mimir/school/class2nd/utils.dart';
 
 import '../entity/announce.dart';
 

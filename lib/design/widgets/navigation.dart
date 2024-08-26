@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
 
 class PageNavigationTile extends StatelessWidget {
   final Widget? title;

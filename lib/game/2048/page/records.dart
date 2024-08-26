@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/game/page/records.dart';
-import 'package:sit/l10n/extension.dart';
+import 'package:mimir/game/page/records.dart';
+import 'package:mimir/l10n/extension.dart';
 
 import '../storage.dart';
 import '../entity/record.dart';

@@ -3,9 +3,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/school/library/storage/search.dart';
-import 'package:sit/school/library/widgets/search.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/school/library/storage/search.dart';
+import 'package:mimir/school/library/widgets/search.dart';
 
 import '../entity/search.dart';
 import '../init.dart';

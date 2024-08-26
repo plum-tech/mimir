@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/school/entity/icon.dart';
+import 'package:mimir/school/entity/icon.dart';
 
 class CourseIcon extends StatelessWidget {
   final String courseName;

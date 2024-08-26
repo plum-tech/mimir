@@ -1,4 +1,4 @@
-import 'package:sit/storage/hive/type_id.dart';
+import 'package:mimir/storage/hive/type_id.dart';
 
 part 'details.g.dart';
 

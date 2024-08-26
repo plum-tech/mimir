@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sit/entity/campus.dart';
-import 'package:sit/files.dart';
-import 'package:sit/school/entity/school.dart';
-import 'package:sit/timetable/entity/timetable.dart';
-import 'package:sit/timetable/entity/timetable_entity.dart';
+import 'package:mimir/entity/campus.dart';
+import 'package:mimir/files.dart';
+import 'package:mimir/school/entity/school.dart';
+import 'package:mimir/timetable/entity/timetable.dart';
+import 'package:mimir/timetable/entity/timetable_entity.dart';
 import 'package:statistics/statistics.dart';
 
 void main() {

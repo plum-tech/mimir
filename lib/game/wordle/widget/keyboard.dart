@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/design/entity/dual_color.dart';
-import 'package:sit/game/wordle/entity/status.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/design/entity/dual_color.dart';
+import 'package:mimir/game/wordle/entity/status.dart';
 import '../entity/keyboard.dart';
 import '../event_bus.dart';
 

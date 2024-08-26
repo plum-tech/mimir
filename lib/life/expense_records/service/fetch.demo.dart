@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:screenshot/screenshot.dart';
-import 'package:sit/credentials/init.dart';
-import 'package:sit/r.dart';
-import 'package:sit/utils/random.dart';
+import 'package:mimir/credentials/init.dart';
+import 'package:mimir/r.dart';
+import 'package:mimir/utils/random.dart';
 
 import '../entity/local.dart';
 import 'fetch.dart';

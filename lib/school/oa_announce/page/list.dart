@@ -3,13 +3,13 @@ import 'dart:math';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sit/credentials/init.dart';
-import 'package:sit/design/widgets/common.dart';
+import 'package:mimir/credentials/init.dart';
+import 'package:mimir/design/widgets/common.dart';
 
-import 'package:sit/school/oa_announce/widget/tile.dart';
+import 'package:mimir/school/oa_announce/widget/tile.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/utils/collection.dart';
-import 'package:sit/utils/error.dart';
+import 'package:mimir/utils/collection.dart';
+import 'package:mimir/utils/error.dart';
 
 import '../entity/announce.dart';
 import '../init.dart';

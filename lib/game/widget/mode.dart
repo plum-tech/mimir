@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/game/entity/game_mode.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/game/entity/game_mode.dart';
 
 import '../i18n.dart';
 

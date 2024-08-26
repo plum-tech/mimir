@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sit/utils/hive.dart';
-import 'package:sit/utils/json.dart';
+import 'package:mimir/utils/hive.dart';
+import 'package:mimir/utils/json.dart';
 
 import 'p13n/entity/background.dart';
 import 'p13n/entity/cell_style.dart';

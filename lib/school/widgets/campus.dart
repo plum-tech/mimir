@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/entity/campus.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/entity/campus.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 
 class CampusSelector extends ConsumerWidget {

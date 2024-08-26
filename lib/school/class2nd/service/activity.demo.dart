@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:sit/school/class2nd/entity/details.dart';
+import 'package:mimir/school/class2nd/entity/details.dart';
 
 import '../entity/activity.dart';
 import 'activity.dart';

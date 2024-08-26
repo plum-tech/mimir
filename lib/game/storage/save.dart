@@ -3,7 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sit/utils/hive.dart';
+import 'package:mimir/utils/hive.dart';
 
 Map<String, dynamic> _defaultToJson(dynamic obj) {
   return obj.toJson();

@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:sit/utils/strings.dart';
+import 'package:mimir/utils/strings.dart';
 
 Options disableRedirectFormEncodedOptions({
   Map<String, dynamic>? headers,

@@ -1,7 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sit/credentials/entity/user_type.dart';
-import 'package:sit/storage/hive/init.dart';
-import 'package:sit/utils/hive.dart';
+import 'package:mimir/credentials/entity/user_type.dart';
+import 'package:mimir/storage/hive/init.dart';
+import 'package:mimir/utils/hive.dart';
 
 import '../entity/credential.dart';
 import '../entity/login_status.dart';

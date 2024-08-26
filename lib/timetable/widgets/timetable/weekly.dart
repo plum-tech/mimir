@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/design/dash.dart';
-import 'package:sit/design/entity/dual_color.dart';
-import 'package:sit/school/utils.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
+import 'package:mimir/design/dash.dart';
+import 'package:mimir/design/entity/dual_color.dart';
+import 'package:mimir/school/utils.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
 

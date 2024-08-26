@@ -1,7 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sit/game/entity/record.dart';
-import 'package:sit/storage/hive/table.dart';
-import 'package:sit/utils/hive.dart';
+import 'package:mimir/game/entity/record.dart';
+import 'package:mimir/storage/hive/table.dart';
+import 'package:mimir/utils/hive.dart';
 
 class GameRecordStorage<TRecord extends GameRecord> {
   final Box Function() box;

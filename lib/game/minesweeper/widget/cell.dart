@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/game/entity/game_status.dart';
+import 'package:mimir/game/entity/game_status.dart';
 import '../entity/cell.dart';
 import 'cell/button.dart';
 import 'cell/cover.dart';

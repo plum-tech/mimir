@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sit/credentials/entity/login_status.dart';
-import 'package:sit/credentials/entity/user_type.dart';
-import 'package:sit/credentials/init.dart';
-import 'package:sit/school/class2nd/index.dart';
-import 'package:sit/school/event.dart';
-import 'package:sit/school/exam_arrange/index.dart';
-import 'package:sit/school/exam_result/index.pg.dart';
-import 'package:sit/school/exam_result/index.ug.dart';
-import 'package:sit/school/library/index.dart';
-import 'package:sit/school/oa_announce/index.dart';
-import 'package:sit/school/student_plan/card.dart';
-import 'package:sit/school/yellow_pages/card.dart';
-import 'package:sit/school/ywb/index.dart';
+import 'package:mimir/credentials/entity/login_status.dart';
+import 'package:mimir/credentials/entity/user_type.dart';
+import 'package:mimir/credentials/init.dart';
+import 'package:mimir/school/class2nd/index.dart';
+import 'package:mimir/school/event.dart';
+import 'package:mimir/school/exam_arrange/index.dart';
+import 'package:mimir/school/exam_result/index.pg.dart';
+import 'package:mimir/school/exam_result/index.ug.dart';
+import 'package:mimir/school/library/index.dart';
+import 'package:mimir/school/oa_announce/index.dart';
+import 'package:mimir/school/student_plan/card.dart';
+import 'package:mimir/school/yellow_pages/card.dart';
+import 'package:mimir/school/ywb/index.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/settings/dev.dart';
+import 'package:mimir/settings/dev.dart';
 import 'i18n.dart';
 
 class SchoolPage extends ConsumerStatefulWidget {

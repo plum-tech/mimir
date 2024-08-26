@@ -1,4 +1,4 @@
-import 'package:sit/utils/hive.dart';
+import 'package:mimir/utils/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class _K {

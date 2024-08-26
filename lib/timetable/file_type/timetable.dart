@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:sit/file_type/protocol.dart';
-import 'package:sit/timetable/utils.dart';
+import 'package:mimir/file_type/protocol.dart';
+import 'package:mimir/timetable/utils.dart';
 
 import '../page/mine.dart';
 

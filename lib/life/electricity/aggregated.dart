@@ -1,5 +1,5 @@
-import 'package:sit/life/electricity/init.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:mimir/life/electricity/init.dart';
+import 'package:mimir/settings/settings.dart';
 
 class ElectricityAggregated {
   static void addSearchHistory(String room) {

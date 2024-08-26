@@ -3,7 +3,7 @@ import 'dart:core';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'activity.dart';
-import 'package:sit/storage/hive/type_id.dart';
+import 'package:mimir/storage/hive/type_id.dart';
 
 part 'application.g.dart';
 

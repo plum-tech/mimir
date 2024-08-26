@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/game/sudoku/entity/pref.dart';
-import 'package:sit/game/sudoku/storage.dart';
-import 'package:sit/game/widget/mode.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/game/sudoku/entity/pref.dart';
+import 'package:mimir/game/sudoku/storage.dart';
+import 'package:mimir/game/widget/mode.dart';
 import 'entity/mode.dart';
-import 'package:sit/game/widget/card.dart';
+import 'package:mimir/game/widget/card.dart';
 
 import 'i18n.dart';
 import 'settings.dart';

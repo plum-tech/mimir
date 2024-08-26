@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/school/utils.dart';
+import 'package:mimir/school/utils.dart';
 
 import '../entity/school.dart';
 import "../i18n.dart";

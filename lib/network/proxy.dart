@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:sit/r.dart';
-import 'package:sit/settings/entity/proxy.dart';
-import 'package:sit/settings/settings.dart';
+import 'package:mimir/r.dart';
+import 'package:mimir/settings/entity/proxy.dart';
+import 'package:mimir/settings/settings.dart';
 
 class SitHttpOverrides extends HttpOverrides {
   SitHttpOverrides();

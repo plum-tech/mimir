@@ -1,7 +1,7 @@
-import 'package:sit/game/entity/game_result.dart';
-import 'package:sit/game/minesweeper/entity/record.dart';
-import 'package:sit/game/minesweeper/entity/save.dart';
-import 'package:sit/game/utils.dart';
+import 'package:mimir/game/entity/game_result.dart';
+import 'package:mimir/game/minesweeper/entity/record.dart';
+import 'package:mimir/game/minesweeper/entity/save.dart';
+import 'package:mimir/game/utils.dart';
 
 import '../entity/mode.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +10,7 @@ import 'package:logger/logger.dart';
 import '../entity/board.dart';
 import '../entity/cell.dart';
 import '../entity/state.dart';
-import 'package:sit/game/entity/game_status.dart';
+import 'package:mimir/game/entity/game_status.dart';
 
 import '../storage.dart';
 

@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 
-const String _thisLibrary = 'package:sit/utils/event_bus.dart';
+const String _thisLibrary = 'package:mimir/utils/event_bus.dart';
 
 class AsyncEventEmitter implements Listenable {
   int _count = 0;

@@ -1,10 +1,10 @@
 import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sit/credentials/entity/credential.dart';
-import 'package:sit/credentials/init.dart';
+import 'package:mimir/credentials/entity/credential.dart';
+import 'package:mimir/credentials/init.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/utils/error.dart';
+import 'package:mimir/utils/error.dart';
 
 import '../init.dart';
 import '../i18n.dart';

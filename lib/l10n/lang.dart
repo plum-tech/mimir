@@ -1,8 +1,8 @@
 import 'dart:ui';
 
 import 'package:intl/intl.dart';
-import 'package:sit/l10n/time.dart';
-import 'package:sit/r.dart';
+import 'package:mimir/l10n/time.dart';
+import 'package:mimir/r.dart';
 
 abstract class RegionalFormatter {
   DateFormat get hms;

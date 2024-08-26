@@ -4,8 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/l10n/common.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
+import 'package:mimir/l10n/common.dart';
 
 const _i18n = CaptchaI18n();
 

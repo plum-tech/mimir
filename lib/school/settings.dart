@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:sit/utils/hive.dart';
+import 'package:mimir/utils/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 const _kClass2ndAutoRefresh = true;

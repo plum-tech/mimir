@@ -3,12 +3,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/design/widgets/app.dart';
-import 'package:sit/init.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/design/widgets/app.dart';
+import 'package:mimir/init.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/utils/error.dart';
+import 'package:mimir/utils/error.dart';
 
 const _whitelist = {
   "221042Y213",

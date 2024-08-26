@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/design/adaptive/swipe.dart';
-import 'package:sit/design/widgets/common.dart';
-import 'package:sit/game/entity/record.dart';
-import 'package:sit/game/storage/record.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/design/adaptive/swipe.dart';
+import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/game/entity/record.dart';
+import 'package:mimir/game/storage/record.dart';
 import "../i18n.dart";
 
 class GameRecordsPage<TRecord extends GameRecord> extends ConsumerStatefulWidget {

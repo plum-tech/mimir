@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:sit/init.dart';
-import 'package:sit/session/sso.dart';
+import 'package:mimir/init.dart';
+import 'package:mimir/session/sso.dart';
 
 class Class2ndSession {
   final SsoSession ssoSession;

@@ -11,11 +11,11 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/settings/dev.dart';
-import 'package:sit/utils/screenshot.dart';
-import 'package:sit/widgets/modal_image_view.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/settings/dev.dart';
+import 'package:mimir/utils/screenshot.dart';
+import 'package:mimir/widgets/modal_image_view.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../i18n.dart';

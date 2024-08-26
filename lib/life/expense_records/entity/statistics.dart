@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:sit/lifecycle.dart';
-import 'package:sit/utils/date.dart';
+import 'package:mimir/lifecycle.dart';
+import 'package:mimir/utils/date.dart';
 
 import 'local.dart';
 

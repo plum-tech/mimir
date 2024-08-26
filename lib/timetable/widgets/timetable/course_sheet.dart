@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/entity/campus.dart';
-import 'package:sit/l10n/time.dart';
+import 'package:mimir/entity/campus.dart';
+import 'package:mimir/l10n/time.dart';
 import 'package:text_scroll/text_scroll.dart';
 import '../../entity/timetable_entity.dart';
 

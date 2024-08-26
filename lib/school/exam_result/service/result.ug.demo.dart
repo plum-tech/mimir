@@ -1,7 +1,7 @@
 import 'dart:math';
 
-import 'package:sit/school/entity/school.dart';
-import 'package:sit/school/utils.dart';
+import 'package:mimir/school/entity/school.dart';
+import 'package:mimir/school/utils.dart';
 
 import '../entity/result.ug.dart';
 import 'result.ug.dart';

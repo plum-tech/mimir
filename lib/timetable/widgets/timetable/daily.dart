@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:sit/design/adaptive/foundation.dart';
-import 'package:sit/design/entity/dual_color.dart';
-import 'package:sit/l10n/time.dart';
-import 'package:sit/school/utils.dart';
-import 'package:sit/school/entity/timetable.dart';
-import 'package:sit/school/widgets/course.dart';
-import 'package:sit/timetable/widgets/timetable/course_sheet.dart';
-import 'package:sit/timetable/widgets/free.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
+import 'package:mimir/design/entity/dual_color.dart';
+import 'package:mimir/l10n/time.dart';
+import 'package:mimir/school/utils.dart';
+import 'package:mimir/school/entity/timetable.dart';
+import 'package:mimir/school/widgets/course.dart';
+import 'package:mimir/timetable/widgets/timetable/course_sheet.dart';
+import 'package:mimir/timetable/widgets/free.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../entity/timetable.dart';

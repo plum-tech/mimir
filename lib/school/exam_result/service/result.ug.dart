@@ -1,10 +1,10 @@
 import 'package:beautiful_soup_dart/beautiful_soup.dart';
 import 'package:dio/dio.dart';
-import 'package:sit/design/animation/progress.dart';
-import 'package:sit/init.dart';
+import 'package:mimir/design/animation/progress.dart';
+import 'package:mimir/init.dart';
 
-import 'package:sit/school/entity/school.dart';
-import 'package:sit/session/ug_registration.dart';
+import 'package:mimir/school/entity/school.dart';
+import 'package:mimir/session/ug_registration.dart';
 
 import '../entity/result.ug.dart';
 

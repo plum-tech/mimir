@@ -1,5 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:sit/utils/strings.dart';
+import 'package:mimir/utils/strings.dart';
 
 class DormitoryRoom {
   final int building;

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/design/widgets/common.dart';
-import 'package:sit/l10n/time.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/l10n/time.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/timetable/utils.dart';
+import 'package:mimir/timetable/utils.dart';
 import '../entity/pos.dart';
 import '../entity/timetable_entity.dart';
 import '../events.dart';

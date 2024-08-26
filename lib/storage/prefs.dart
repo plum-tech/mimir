@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sit/r.dart';
+import 'package:mimir/r.dart';
 
 class _K {
   static const lastVersion = "${R.appId}.lastVersion";

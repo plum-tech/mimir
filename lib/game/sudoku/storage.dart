@@ -1,6 +1,6 @@
-import 'package:sit/game/storage/record.dart';
-import 'package:sit/game/storage/save.dart';
-import 'package:sit/storage/hive/init.dart';
+import 'package:mimir/game/storage/record.dart';
+import 'package:mimir/game/storage/save.dart';
+import 'package:mimir/storage/hive/init.dart';
 
 import 'entity/record.dart';
 import 'entity/save.dart';

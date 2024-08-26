@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/widgets/card.dart';
-import 'package:sit/design/widgets/expansion_tile.dart';
-import 'package:sit/entity/campus.dart';
-import 'package:sit/l10n/time.dart';
-import 'package:sit/school/widgets/course.dart';
-import 'package:sit/timetable/entity/timetable.dart';
+import 'package:mimir/design/widgets/card.dart';
+import 'package:mimir/design/widgets/expansion_tile.dart';
+import 'package:mimir/entity/campus.dart';
+import 'package:mimir/l10n/time.dart';
+import 'package:mimir/school/widgets/course.dart';
+import 'package:mimir/timetable/entity/timetable.dart';
 import '../i18n.dart';
 
 class TimetableCourseCard extends StatelessWidget {

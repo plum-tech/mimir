@@ -2,8 +2,8 @@ import 'package:app_settings/app_settings.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/l10n/common.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/l10n/common.dart';
 
 Future<bool> ensurePermission(Permission permission) async {
   PermissionStatus status = await permission.status;

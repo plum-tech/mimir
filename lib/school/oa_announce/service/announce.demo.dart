@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flame/extensions.dart';
-import 'package:sit/school/oa_announce/entity/announce.dart';
+import 'package:mimir/school/oa_announce/entity/announce.dart';
 
-import 'package:sit/school/oa_announce/entity/page.dart';
+import 'package:mimir/school/oa_announce/entity/page.dart';
 
 import 'announce.dart';
 

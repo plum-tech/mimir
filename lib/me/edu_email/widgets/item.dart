@@ -1,6 +1,6 @@
 import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
-import 'package:sit/l10n/extension.dart';
+import 'package:mimir/l10n/extension.dart';
 
 import '../page/details.dart';
 

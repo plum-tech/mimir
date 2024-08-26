@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:open_file/open_file.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:screenshot/screenshot.dart';
-import 'package:sit/files.dart';
+import 'package:mimir/files.dart';
 
 Future<File> takeWidgetScreenshot({
   required BuildContext context,

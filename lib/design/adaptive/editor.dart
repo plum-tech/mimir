@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/l10n/common.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/l10n/common.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'foundation.dart';

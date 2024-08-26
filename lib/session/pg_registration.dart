@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 
-import 'package:sit/session/sso.dart';
+import 'package:mimir/session/sso.dart';
 
 /// gms.sit.edu.cn
 /// Student registration system for postgraduate

@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:sit/school/entity/school.dart';
+import 'package:mimir/school/entity/school.dart';
 
 import 'entity/gpa.dart';
 import 'entity/result.ug.dart';

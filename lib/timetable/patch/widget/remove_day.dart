@@ -4,12 +4,12 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:sit/design/adaptive/multiplatform.dart';
-import 'package:sit/design/adaptive/swipe.dart';
-import 'package:sit/timetable/entity/loc.dart';
-import 'package:sit/timetable/entity/pos.dart';
-import 'package:sit/utils/date.dart';
-import 'package:sit/utils/save.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/design/adaptive/swipe.dart';
+import 'package:mimir/timetable/entity/loc.dart';
+import 'package:mimir/timetable/entity/pos.dart';
+import 'package:mimir/utils/date.dart';
+import 'package:mimir/utils/save.dart';
 
 import '../../entity/timetable.dart';
 import '../../page/preview.dart';

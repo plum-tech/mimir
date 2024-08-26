@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame_forge2d/flame_forge2d.dart';
-import 'package:sit/game/utils.dart';
+import 'package:mimir/game/utils.dart';
 import '../model/fruit.dart';
 import '../entity/fruit.dart';
 import '../entity/wall.dart';

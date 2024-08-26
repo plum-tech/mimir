@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sit/game/minesweeper/utils.dart';
-import 'package:sit/utils/list2d/impl.dart';
+import 'package:mimir/game/minesweeper/utils.dart';
+import 'package:mimir/utils/list2d/impl.dart';
 import 'package:sudoku_solver_generator/sudoku_solver_generator.dart';
 
 void main() {

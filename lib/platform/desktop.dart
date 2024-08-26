@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sit/r.dart';
-import 'package:sit/storage/prefs.dart';
+import 'package:mimir/r.dart';
+import 'package:mimir/storage/prefs.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:window_manager/window_manager.dart';
 

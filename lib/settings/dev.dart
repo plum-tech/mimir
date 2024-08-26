@@ -1,7 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sit/utils/hive.dart';
-import 'package:sit/credentials/entity/credential.dart';
-import 'package:sit/utils/collection.dart';
+import 'package:mimir/utils/hive.dart';
+import 'package:mimir/credentials/entity/credential.dart';
+import 'package:mimir/utils/collection.dart';
 
 class _K {
   static const ns = '/dev';

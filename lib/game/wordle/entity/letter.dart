@@ -1,6 +1,6 @@
 import 'package:flutter/animation.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:sit/game/wordle/entity/status.dart';
+import 'package:mimir/game/wordle/entity/status.dart';
 
 part "letter.g.dart";
 

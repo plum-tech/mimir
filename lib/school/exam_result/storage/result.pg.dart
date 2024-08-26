@@ -1,7 +1,7 @@
-import 'package:sit/utils/hive.dart';
+import 'package:mimir/utils/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:sit/school/exam_result/entity/result.pg.dart';
-import 'package:sit/storage/hive/init.dart';
+import 'package:mimir/school/exam_result/entity/result.pg.dart';
+import 'package:mimir/storage/hive/init.dart';
 
 class _K {
   static const ns = "/pg";

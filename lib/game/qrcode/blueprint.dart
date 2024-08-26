@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:sit/design/adaptive/dialog.dart';
-import 'package:sit/qrcode/deep_link.dart';
-import 'package:sit/r.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/qrcode/deep_link.dart';
+import 'package:mimir/r.dart';
 
 import '../entity/blueprint.dart';
 import '../i18n.dart';

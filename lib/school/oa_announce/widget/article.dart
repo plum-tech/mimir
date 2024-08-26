@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:sit/utils/tel.dart';
-import 'package:sit/widgets/html.dart';
+import 'package:mimir/utils/tel.dart';
+import 'package:mimir/widgets/html.dart';
 
 import '../entity/announce.dart';
 
