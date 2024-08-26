@@ -23,6 +23,7 @@ import 'package:sit/settings/meta.dart';
 import 'package:sit/settings/dev.dart';
 import 'package:sit/entity/meta.dart';
 import 'package:sit/storage/prefs.dart';
+import 'package:sit/utils/error.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:version/version.dart';
 
@@ -32,10 +33,14 @@ import 'l10n/yaml_assets_loader.dart';
 import 'r.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (kIsWeb && kDebugMode) {
+    // waiting for debugger connecting to chrome
+    await Future.delayed(const Duration(seconds: 5));
+  }
   // debugRepaintRainbowEnabled = true;
   // debugRepaintTextRainbowEnabled = true;
   // debugPaintSizeEnabled = true;
-  WidgetsFlutterBinding.ensureInitialized();
   GoRouter.optionURLReflectsImperativeAPIs = kDebugMode;
   if (kDebugMode && !kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
     await InAppWebViewController.setWebContentsDebuggingEnabled(kDebugMode);
@@ -50,7 +55,11 @@ void main() async {
     await prefs.setInstallTime(DateTime.now());
   }
   // Initialize the window size before others for a better experience when loading.
-  await SystemTheme.accentColor.load();
+  try {
+    await SystemTheme.accentColor.load();
+  } catch (error, stackTrace) {
+    debugPrintError(error, stackTrace);
+  }
   await EasyLocalization.ensureInitialized();
   Migrations.init();
 
