@@ -154,7 +154,7 @@ dependencies:
   carousel_slider_plus: ^7.0.0
   # iCalendar file generator
   enough_icalendar: ^0.16.0
-  super_context_menu: ^0.8.19
+  super_context_menu: ^0.8.20
   animated_size_and_fade: ^4.0.0
   dismissible_page: ^1.0.2
 
@@ -176,13 +176,11 @@ dependencies:
   flame: ^1.18.0
   flame_forge2d: ^0.18.1
   sudoku_solver_generator: ^2.1.0+1
-  web: ^1.0.0
 
 dependency_overrides:
   webview_flutter_android: 3.16.1
   data_serializer: 1.2.0
   collection: 1.19.0
-  web: 1.0.0
 
 dev_dependencies:
   flutter_test: { sdk: flutter }
