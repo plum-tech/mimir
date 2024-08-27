@@ -1,7 +1,7 @@
 import 'package:mimir/life/electricity/init.dart';
 import 'package:mimir/settings/settings.dart';
 
-class ElectricityAggregated {
+class XElectricity {
   static void addSearchHistory(String room) {
     final storage = ElectricityBalanceInit.storage;
     final searchHistory = storage.searchHistory ?? <String>[];

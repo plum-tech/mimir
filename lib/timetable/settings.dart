@@ -48,10 +48,15 @@ class TimetableSettings {
 
   ValueListenable listenCellStyle() => box.listenable(keys: [_K.cellStyle]);
 
-  BackgroundImage? get backgroundImage =>
-      decodeJsonObject(box.safeGet<String>(_K.backgroundImage), (obj) => BackgroundImage.fromJson(obj));
+  BackgroundImage? get backgroundImage => decodeJsonObject(
+        box.safeGet<String>(_K.backgroundImage),
+        (obj) => BackgroundImage.fromJson(obj),
+      );
 
-  set backgroundImage(BackgroundImage? newV) => box.safePut<String>(_K.backgroundImage, jsonEncode(newV?.toJson()));
+  set backgroundImage(BackgroundImage? newV) => box.safePut<String>(
+        _K.backgroundImage,
+        jsonEncode(newV?.toJson()),
+      );
 
   late final $backgroundImage = box.provider(
     _K.backgroundImage,

@@ -15,7 +15,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:super_context_menu/super_context_menu.dart';
 
 import '../event.dart';
-import 'aggregated.dart';
+import 'x.dart';
 import 'entity/balance.dart';
 import 'i18n.dart';
 import 'init.dart';
@@ -54,7 +54,7 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
     final selectedRoom = Settings.life.electricity.selectedRoom;
     if (selectedRoom == null) return;
     try {
-      await ElectricityAggregated.refresh(
+      await XElectricity.refresh(
         selectedRoom: selectedRoom,
       );
     } catch (error) {
@@ -106,7 +106,7 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
             $searchHistory.dispose();
             if (room == null) return;
             if (Settings.life.electricity.selectedRoom != room) {
-              ElectricityAggregated.selectNewRoom(room);
+              XElectricity.selectNewRoom(room);
               await refresh(active: true);
             }
           },
@@ -141,7 +141,7 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
         key: const ValueKey("Balance"),
         onDismissed: (dir) async {
           await HapticFeedback.heavyImpact();
-          ElectricityAggregated.clearSelectedRoom();
+          XElectricity.clearSelectedRoom();
         },
         child: buildCard(balance),
       );

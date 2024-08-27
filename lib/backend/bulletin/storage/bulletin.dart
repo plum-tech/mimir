@@ -30,9 +30,18 @@ class BulletinStorage {
     set: (v) => latest = v,
   );
 
-  List<MimirBulletin>? get list => box.safeGet(_K.list);
+  List<MimirBulletin>? get list => decodeJsonList(
+        box.safeGet<String>(_K.list),
+        (obj) => MimirBulletin.fromJson(obj),
+      );
 
-  set list(List<MimirBulletin>? newV) {
-    box.safePut(_K.list, newV);
-  }
+  set list(List<MimirBulletin>? newV) => box.safePut<String>(
+        _K.list,
+        encodeJsonList(newV),
+      );
+  late final $list = box.provider(
+    _K.list,
+    get: () => list,
+    set: (v) => list = v,
+  );
 }

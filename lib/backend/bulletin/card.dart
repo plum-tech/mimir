@@ -24,10 +24,10 @@ class _BulletinAppCardState extends ConsumerState<BulletinAppCard> {
   }
 }
 
-class BulletinCard extends StatelessWidget {
+class BulletinCardInAppCard extends StatelessWidget {
   final MimirBulletin bulletin;
 
-  const BulletinCard(
+  const BulletinCardInAppCard(
     this.bulletin, {
     super.key,
   });
@@ -44,10 +44,10 @@ class BulletinCard extends StatelessWidget {
     }
 
     return ListTile(
+      isThreeLine: subtitle.isNotEmpty,
       leading: const Icon(Icons.announcement),
       title: TextScroll(title),
       subtitle: subtitle.isNotEmpty ? subtitle.text(maxLines: 3) : null,
-      // subtitle: context.formatYmdhmNum(bulletin.createdAt).text(),
       onTap: () async {
         context.showSheet(
           useRootNavigator: true,

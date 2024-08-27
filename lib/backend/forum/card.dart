@@ -45,7 +45,7 @@ class _ForumAppCardState extends ConsumerState<ForumAppCard> {
     final dev = ref.watch(Dev.$on);
     return AppCard(
       title: "小应社区".text(),
-      view: bulletin == null ? null : BulletinCard(bulletin),
+      view: bulletin == null ? null : BulletinCardInAppCard(bulletin),
       leftActions: [
         FilledButton.icon(
           onPressed: !dev

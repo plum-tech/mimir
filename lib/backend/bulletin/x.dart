@@ -10,4 +10,10 @@ class XBulletin {
     BackendInit.bulletinStorage.latest = bulletin;
     return bulletin;
   }
+
+  static Future<List<MimirBulletin>> getList() async {
+    final list = await BackendInit.bulletin.getList();
+    BackendInit.bulletinStorage.list = list;
+    return list;
+  }
 }

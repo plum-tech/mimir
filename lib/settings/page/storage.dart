@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/utils/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -292,7 +291,6 @@ class _BoxItemState extends State<BoxItem> {
           title: i18n.delete,
           icon: context.icons.delete,
           onTap: () async {
-            ctx.pop();
             final confirm = await _showDeleteItemRequest(ctx);
             if (confirm == true) {
               widget.box.delete(key);
