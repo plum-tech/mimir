@@ -2,74 +2,68 @@ import 'dart:async';
 
 import 'package:version/version.dart';
 
-enum MigrationPhrase {
-  beforeHive,
-  afterHive,
-  afterInitStorage,
-}
-
 /// Migration happens after Hive is initialized, but before all other initializations.
 /// If the interval is long enough, each migration between two versions will be performed in sequence.
-abstract class Migration {
+abstract class Migration<TPhrase> {
   const Migration();
 
-  factory Migration.run(FutureOr<void> Function(MigrationPhrase phrase) func) {
+  factory Migration.run(FutureOr<void> Function(TPhrase phrase) func) {
     return _FunctionalMigration(func);
   }
 
   /// Perform the migration for a specific version.
-  Future<void> perform(MigrationPhrase phrase);
+  Future<void> perform(TPhrase phrase);
 
   Migration operator +(Migration then) => ChainedMigration([this, then]);
 }
 
-class _FunctionalMigration extends Migration {
-  final FutureOr<void> Function(MigrationPhrase phrase) func;
+class _FunctionalMigration<TPhrase> extends Migration<TPhrase> {
+  final FutureOr<void> Function(TPhrase phrase) func;
 
   const _FunctionalMigration(this.func);
 
   @override
-  Future<void> perform(MigrationPhrase phrase) async {
+  Future<void> perform(TPhrase phrase) async {
     await func(phrase);
   }
 }
 
-class ChainedMigration extends Migration {
+class ChainedMigration<TPhrase> extends Migration<TPhrase> {
   final List<Migration> migrations;
 
   ChainedMigration(this.migrations);
 
   @override
-  Future<void> perform(MigrationPhrase phrase) async {
+  Future<void> perform(TPhrase phrase) async {
     for (final migration in migrations) {
       await migration.perform(phrase);
     }
   }
 }
 
-class _MigrationEntry implements Comparable<_MigrationEntry> {
+class _MigrationEntry<TPhrase> implements Comparable<_MigrationEntry<TPhrase>> {
   final Version version;
-  final Migration migration;
+  final Migration<TPhrase> migration;
 
   _MigrationEntry(this.version, this.migration);
 
   @override
-  int compareTo(_MigrationEntry other) {
+  int compareTo(_MigrationEntry<TPhrase> other) {
     return version.compareTo(other.version);
   }
 }
 
-class MigrationManager {
-  final List<_MigrationEntry> _migrations = [];
+class MigrationManager<TPhrase> {
+  final List<_MigrationEntry<TPhrase>> _migrations = [];
 
   /// Add a migration when
-  void addWhen(Version version, {required Migration perform}) {
+  void addWhen(Version version, {required Migration<TPhrase> perform}) {
     _migrations.add(_MigrationEntry(version, perform));
   }
 
   /// [from] is exclusive.
   /// [current] is inclusive.
-  List<Migration> collectBetween(Version from, Version current) {
+  List<Migration<TPhrase>> collectBetween(Version from, Version current) {
     if (from == current) return [];
     _migrations.sort();
     final involved = _migrations.where((m) {

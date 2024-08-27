@@ -10,19 +10,28 @@ import 'package:version/version.dart';
 
 import 'foundation.dart';
 
+enum MigrationPhrase {
+  beforeHive,
+  afterHive,
+  afterInitStorage,
+}
+
+typedef MimirMigration = Migration<MigrationPhrase>;
+typedef MimirMigrationManager = MigrationManager<MigrationPhrase>;
+
 class Migrations {
-  static final _manager = MigrationManager();
-  static Migration? _onNullVersion;
+  static final _manager = MimirMigrationManager();
+  static Migration<MigrationPhrase>? _onNullVersion;
 
   static void init() {
     Version(1, 0, 0) <<
-        Migration.run((phrase) async {
+        MimirMigration.run((phrase) async {
           if (phrase == MigrationPhrase.afterHive) {
             await HiveInit.clearCache();
           }
         });
     Version(2, 4, 0) <<
-        Migration.run((phrase) async {
+        MimirMigration.run((phrase) async {
           if (kIsWeb) return;
           switch (phrase) {
             case MigrationPhrase.beforeHive:
@@ -62,7 +71,7 @@ class Migrations {
           }
         });
     Version(2, 5, 1) <<
-        Migration.run((phrase) async {
+        MimirMigration.run((phrase) async {
           if (phrase == MigrationPhrase.afterHive) {
             // Refresh timetable json
             final rows = TimetableInit.storage.timetable.getRows();
@@ -77,7 +86,7 @@ class Migrations {
     required Version? from,
     required Version? to,
   }) {
-    final result = <Migration>[];
+    final result = <MimirMigration>[];
     if (from == null) {
       final onNullVersion = _onNullVersion;
       if (onNullVersion != null) {
@@ -92,7 +101,7 @@ class Migrations {
 }
 
 class MigrationMatch {
-  final List<Migration> _migrations;
+  final List<MimirMigration> _migrations;
 
   const MigrationMatch(this._migrations);
 
@@ -108,7 +117,7 @@ class MigrationMatch {
 }
 
 extension _MigrationEx on Version {
-  void operator <<(Migration migration) {
+  void operator <<(MimirMigration migration) {
     Migrations._manager.addWhen(this, perform: migration);
   }
 }
