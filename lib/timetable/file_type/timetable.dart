@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:mimir/file_type/protocol.dart';
+import 'package:mimir/intent/file_type/protocol.dart';
 import 'package:mimir/timetable/utils.dart';
 
 import '../page/mine.dart';

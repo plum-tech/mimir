@@ -27,7 +27,7 @@ import 'package:mimir/init.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/login/aggregated.dart';
 import 'package:mimir/login/utils.dart';
-import 'package:mimir/qrcode/handle.dart';
+import 'package:mimir/intent/qrcode/handle.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/design/widgets/navigation.dart';
 import 'package:rettulf/rettulf.dart';
@@ -35,7 +35,6 @@ import 'package:mimir/settings/settings.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:mimir/widgets/inapp_webview/page.dart';
 import 'package:universal_platform/universal_platform.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../i18n.dart';
 
 class DeveloperOptionsPage extends ConsumerStatefulWidget {

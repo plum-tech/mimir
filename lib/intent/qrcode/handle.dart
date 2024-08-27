@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:mimir/qrcode/deep_link.dart';
+import 'package:mimir/intent/qrcode/deep_link.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/utils/error.dart';
 

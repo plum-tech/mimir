@@ -7,7 +7,7 @@ import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/game/entity/game_result.dart';
 import 'package:mimir/game/page/records.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/qrcode/page/view.dart';
+import 'package:mimir/intent/qrcode/page/view.dart';
 
 import '../qrcode/blueprint.dart';
 import '../storage.dart';

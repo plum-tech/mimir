@@ -9,7 +9,7 @@ import 'package:mimir/game/minesweeper/entity/record.dart';
 import 'package:mimir/game/minesweeper/storage.dart';
 import 'package:mimir/game/page/records.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/qrcode/page/view.dart';
+import 'package:mimir/intent/qrcode/page/view.dart';
 
 import '../qrcode/blueprint.dart';
 import '../i18n.dart';

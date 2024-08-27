@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mimir/qrcode/utils.dart';
+import 'package:mimir/intent/qrcode/utils.dart';
 import 'package:mimir/timetable/p13n/builtin.dart';
 
 void main() {

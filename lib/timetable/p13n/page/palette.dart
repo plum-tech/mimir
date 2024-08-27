@@ -12,7 +12,7 @@ import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/entity/dual_color.dart';
 import 'package:mimir/design/widgets/entry_card.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/qrcode/page/view.dart';
+import 'package:mimir/intent/qrcode/page/view.dart';
 import 'package:mimir/timetable/p13n/entity/palette.dart';
 import 'package:mimir/timetable/entity/timetable.dart';
 import 'package:mimir/timetable/init.dart';

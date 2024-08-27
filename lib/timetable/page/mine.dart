@@ -14,7 +14,7 @@ import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/widgets/entry_card.dart';
 import 'package:mimir/design/widgets/fab.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/qrcode/page/view.dart';
+import 'package:mimir/intent/qrcode/page/view.dart';
 import 'package:mimir/route.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/dev.dart';

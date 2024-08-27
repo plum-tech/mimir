@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
-import 'package:mimir/file_type/protocol.dart';
 import 'package:mimir/l10n/common.dart';
+import 'protocol.dart';
 
 const _i18n = CommonI18n();
 

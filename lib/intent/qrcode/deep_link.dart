@@ -4,9 +4,8 @@ import 'package:mimir/game/sudoku/qrcode/blueprint.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/settings/qrcode/proxy.dart';
 import 'package:mimir/timetable/qrcode/palette.dart';
+import 'package:mimir/timetable/qrcode/patch.dart';
 import 'package:mimir/timetable/qrcode/timetable.dart';
-
-import '../timetable/qrcode/patch.dart';
 
 /// convert any data to a URI with [R.scheme].
 abstract class DeepLinkHandlerProtocol {

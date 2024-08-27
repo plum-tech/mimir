@@ -6,7 +6,7 @@ import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/adaptive/menu.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/qrcode/page/view.dart';
+import 'package:mimir/intent/qrcode/page/view.dart';
 import 'package:mimir/timetable/entity/pos.dart';
 
 import '../../entity/loc.dart';

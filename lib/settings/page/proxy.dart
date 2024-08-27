@@ -13,7 +13,7 @@ import 'package:mimir/design/widgets/list_tile.dart';
 import 'package:mimir/design/widgets/tooltip.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/network/widgets/checker.dart';
-import 'package:mimir/qrcode/page/view.dart';
+import 'package:mimir/intent/qrcode/page/view.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/dev.dart';
