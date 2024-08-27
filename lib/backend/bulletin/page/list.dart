@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/backend/bulletin/x.dart';
 import 'package:mimir/backend/init.dart';
 import 'package:mimir/l10n/extension.dart';
+import 'package:mimir/widgets/markdown.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:text_scroll/text_scroll.dart';
 
 import '../entity/bulletin.dart';
 
@@ -37,7 +37,7 @@ class _BulletinListPageState extends ConsumerState<BulletinListPage> {
     }
   }
 
-  List<MimirBulletin>? watchList(){
+  List<MimirBulletin>? watchList() {
     var list = ref.watch(BackendInit.bulletinStorage.$list);
     if (list == null) {
       final latest = ref.read(BackendInit.bulletinStorage.$latest);
@@ -86,21 +86,23 @@ class BulletinCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var title = bulletin.short;
-    var subtitle = bulletin.content;
-    if (title.isEmpty && bulletin.content.isNotEmpty) {
-      title = bulletin.content;
-    }
-    if (title == subtitle) {
-      subtitle = "";
-    }
-
-    return ListTile(
-      title: TextScroll(title),
-      subtitle: [
-        if (subtitle.isNotEmpty) subtitle.text(maxLines: 3),
-        context.formatYmdhmNum(bulletin.createdAt).text(textAlign: TextAlign.end).padOnly(t: 4),
-      ].column(caa: CrossAxisAlignment.stretch),
-    ).inFilledCard();
+    return [
+      bulletin.short
+          .text(
+            style: context.textTheme.titleMedium,
+            textAlign: TextAlign.center,
+          )
+          .padOnly(b: 8),
+      FeaturedMarkdownWidget(
+        data: bulletin.content,
+      ),
+      context
+          .formatYmdhmNum(bulletin.createdAt)
+          .text(
+            textAlign: TextAlign.end,
+            style: context.textTheme.labelLarge,
+          )
+          .padOnly(t: 4),
+    ].column(caa: CrossAxisAlignment.stretch).padAll(12).inFilledCard();
   }
 }

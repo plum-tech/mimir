@@ -24,10 +24,10 @@ class _BulletinAppCardState extends ConsumerState<BulletinAppCard> {
   }
 }
 
-class BulletinCardInAppCard extends StatelessWidget {
+class BulletinLatestSummaryCard extends StatelessWidget {
   final MimirBulletin bulletin;
 
-  const BulletinCardInAppCard(
+  const BulletinLatestSummaryCard(
     this.bulletin, {
     super.key,
   });
@@ -35,19 +35,23 @@ class BulletinCardInAppCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var title = bulletin.short;
-    var subtitle = bulletin.content;
-    if (title.isEmpty && bulletin.content.isNotEmpty) {
-      title = bulletin.content;
+    var subtitle = bulletin.text;
+    if (title.isEmpty && bulletin.text.isNotEmpty) {
+      title = bulletin.text;
     }
     if (title == subtitle) {
       subtitle = "";
     }
 
     return ListTile(
-      isThreeLine: subtitle.isNotEmpty,
       leading: const Icon(Icons.announcement),
       title: TextScroll(title),
-      subtitle: subtitle.isNotEmpty ? subtitle.text(maxLines: 3) : null,
+      subtitle: subtitle.isNotEmpty
+          ? subtitle.text(
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            )
+          : null,
       onTap: () async {
         context.showSheet(
           useRootNavigator: true,

@@ -9,12 +9,14 @@ class RestyledHtmlWidget extends StatelessWidget {
   final String html;
   final RenderMode renderMode;
   final TextStyle? textStyle;
+  final bool async;
 
   const RestyledHtmlWidget(
     this.html, {
     super.key,
     this.renderMode = RenderMode.column,
     this.textStyle,
+    this.async = true,
   });
 
   @override
@@ -22,7 +24,7 @@ class RestyledHtmlWidget extends StatelessWidget {
     final textStyle = this.textStyle ?? context.textTheme.bodyMedium;
     return HtmlWidget(
       html,
-      buildAsync: true,
+      buildAsync: async,
       renderMode: renderMode,
       factoryBuilder: () => RestyledWidgetFactory(
         textStyle: textStyle,

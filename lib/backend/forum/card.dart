@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/backend/bulletin/card.dart';
+import 'package:mimir/backend/bulletin/page/list.dart';
 import 'package:mimir/backend/bulletin/x.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/life/event.dart';
 import 'package:mimir/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
@@ -45,7 +47,7 @@ class _ForumAppCardState extends ConsumerState<ForumAppCard> {
     final dev = ref.watch(Dev.$on);
     return AppCard(
       title: "小应社区".text(),
-      view: bulletin == null ? null : BulletinCardInAppCard(bulletin),
+      view: bulletin == null ? null : BulletinLatestSummaryCard(bulletin),
       leftActions: [
         FilledButton.icon(
           onPressed: !dev
@@ -59,6 +61,16 @@ class _ForumAppCardState extends ConsumerState<ForumAppCard> {
                 },
           label: !dev ? "敬请期待".text() : "进入".text(),
           icon: Icon(context.icons.home),
+        ),
+        OutlinedButton.icon(
+          onPressed: () async {
+            context.showSheet(
+              useRootNavigator: true,
+              (ctx) => const BulletinListPage(),
+            );
+          },
+          label: "布告栏".text(),
+          icon: const Icon(Icons.list_alt),
         ),
       ],
     );

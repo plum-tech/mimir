@@ -13,12 +13,15 @@ class MimirBulletin {
   @JsonKey(fromJson: _trim)
   final String short;
   @JsonKey(fromJson: _trim)
+  final String text;
+  @JsonKey(fromJson: _trim)
   final String content;
 
   const MimirBulletin({
     required this.id,
     required this.createdAt,
     required this.short,
+    required this.text,
     required this.content,
   });
 
@@ -32,9 +35,10 @@ class MimirBulletin {
       "id": id,
       "createdAt": createdAt,
       "short": short,
+      "text": text,
       "content": content,
     }.toString();
   }
 
-  bool get isEmpty => short.isEmpty && content.isEmpty;
+  bool get isEmpty => short.isEmpty && content.isEmpty && text.isEmpty;
 }
