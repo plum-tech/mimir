@@ -119,7 +119,7 @@ dependencies:
 
   # UI
   go_router: ^14.2.7
-  fl_chart: ^0.68.0
+  fl_chart: ^0.69.0
   flutter_svg: ^2.0.10+1
   flutter_svg_provider: ^1.0.7
   visibility_detector: ^0.4.0+2
@@ -137,7 +137,7 @@ dependencies:
   markdown_widget: ^2.3.2+6
   animations: ^2.0.11
   dynamic_color: ^1.7.0
-  unicons: ^2.1.2
+  unicons: ^3.0.0
   simple_icons: ^10.1.3
   sliver_tools: ^0.2.12
   flutter_staggered_grid_view: ^0.7.0
