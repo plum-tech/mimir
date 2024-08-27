@@ -2,8 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/utils/error.dart';
 
-import '../aggregated.dart';
 import '../entity/image.dart';
+import '../x.dart';
 
 class AsyncBookImage extends StatefulWidget {
   final String isbn;
@@ -20,7 +20,7 @@ class AsyncBookImage extends StatefulWidget {
 }
 
 class _AsyncBookImageState extends State<AsyncBookImage> {
-  late BookImage? image = LibraryAggregated.getCachedBookImageByIsbn(widget.isbn);
+  late BookImage? image = XLibrary.getCachedBookImageByIsbn(widget.isbn);
 
   @override
   void initState() {
@@ -33,7 +33,7 @@ class _AsyncBookImageState extends State<AsyncBookImage> {
 
   Future<void> fetch() async {
     try {
-      final image = await LibraryAggregated.fetchBookImage(isbn: widget.isbn);
+      final image = await XLibrary.fetchBookImage(isbn: widget.isbn);
       if (!mounted) return;
       setState(() {
         this.image = image;

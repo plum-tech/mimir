@@ -7,7 +7,7 @@ import 'package:mimir/utils/json.dart';
 import '../entity/exam.dart';
 
 class _K {
-  static const lastSemesterInfo = "/lastSemesterInfo";
+  // static const lastSemesterInfo = "/lastSemesterInfo";
 
   static String examList(SemesterInfo info) => "/examList/$info";
 }

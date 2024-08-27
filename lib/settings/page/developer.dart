@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +8,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/login/x.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:mimir/app.dart';
 import 'package:mimir/backend/init.dart';
@@ -25,7 +25,6 @@ import 'package:mimir/design/widgets/expansion_tile.dart';
 import 'package:mimir/game/widget/party_popper.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/login/aggregated.dart';
 import 'package:mimir/login/utils.dart';
 import 'package:mimir/intent/qrcode/handle.dart';
 import 'package:mimir/settings/dev.dart';
@@ -432,7 +431,7 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
     setState(() => isLoggingIn = true);
     try {
       await Init.cookieJar.deleteAll();
-      await LoginAggregated.login(credentials);
+      await XLogin.login(credentials);
       final former = Dev.getSavedOaCredentialsList() ?? [];
       former.add(credentials);
       await Dev.setSavedOaCredentialsList(former);

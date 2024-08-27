@@ -3,7 +3,7 @@ import 'package:mimir/settings/dev.dart';
 import 'entity/local.dart';
 import 'init.dart';
 
-class ExpenseAggregated {
+class XExpense {
   static Future<void> fetchAndSaveTransactionUntilNow({
     required String oaAccount,
   }) async {

@@ -22,9 +22,9 @@ import 'package:mimir/settings/meta.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 
-import '../aggregated.dart';
 import '../i18n.dart';
 import '../widgets/forgot_pwd.dart';
+import '../x.dart';
 
 const i18n = OaLoginI18n();
 
@@ -131,7 +131,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     }
 
     try {
-      await LoginAggregated.login(Credentials(account: account, password: password));
+      await XLogin.login(Credentials(account: account, password: password));
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       context.go("/");

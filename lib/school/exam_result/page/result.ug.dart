@@ -6,7 +6,6 @@ import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/animation/progress.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/design/widgets/fab.dart';
-import 'package:mimir/school/exam_result/aggregated.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/school/widgets/semester.dart';
 import 'package:rettulf/rettulf.dart';
@@ -17,6 +16,7 @@ import '../entity/result.ug.dart';
 import '../init.dart';
 import '../widgets/ug.dart';
 import '../i18n.dart';
+import '../x.dart';
 
 class ExamResultUgPage extends ConsumerStatefulWidget {
   const ExamResultUgPage({super.key});
@@ -53,7 +53,7 @@ class _ExamResultUgPageState extends ConsumerState<ExamResultUgPage> {
       isFetching = true;
     });
     try {
-      final (:semester2Results, all: _) = await ExamResultAggregated.fetchAndCacheExamResultUgEachSemester(
+      final (:semester2Results, all: _) = await XExamResult.fetchAndCacheExamResultUgEachSemester(
         onProgress: (p) {
           if (!mounted) return;
           $loadingProgress.value = p;

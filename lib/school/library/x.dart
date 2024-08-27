@@ -3,7 +3,7 @@ import 'entity/image.dart';
 import 'entity/book.dart';
 import 'init.dart';
 
-class LibraryAggregated {
+class XLibrary {
   /// The result isbn the same as [isbnList]
   static Future<Map<String, BookImage>> fetchBookImages({
     required List<String> isbnList,

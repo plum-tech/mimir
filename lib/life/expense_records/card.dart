@@ -11,12 +11,12 @@ import 'package:mimir/life/event.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/life/expense_records/init.dart';
 import 'package:mimir/utils/async_event.dart';
-import 'aggregated.dart';
 import 'widget/balance.dart';
 import 'package:rettulf/rettulf.dart';
 
 import "i18n.dart";
 import 'widget/transaction.dart';
+import 'x.dart';
 
 class ExpenseRecordsAppCard extends ConsumerStatefulWidget {
   const ExpenseRecordsAppCard({super.key});
@@ -58,7 +58,7 @@ class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> {
     final credentials = ref.read(CredentialsInit.storage.$oaCredentials);
     if (credentials == null) return;
     try {
-      await ExpenseAggregated.fetchAndSaveTransactionUntilNow(
+      await XExpense.fetchAndSaveTransactionUntilNow(
         oaAccount: credentials.account,
       );
     } catch (error) {

@@ -4,7 +4,7 @@ import 'package:mimir/school/entity/school.dart';
 import 'entity/result.ug.dart';
 import 'init.dart';
 
-class ExamResultAggregated {
+class XExamResult {
   static Future<({Map<SemesterInfo, List<ExamResultUg>> semester2Results, List<ExamResultUg> all})>
       fetchAndCacheExamResultUgEachSemester({
     void Function(double progress)? onProgress,

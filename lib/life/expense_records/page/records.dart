@@ -11,11 +11,11 @@ import 'package:rettulf/rettulf.dart';
 import 'package:mimir/life/expense_records/widget/group.dart';
 import 'package:mimir/utils/error.dart';
 
-import '../aggregated.dart';
 import '../entity/local.dart';
 import '../init.dart';
 import '../i18n.dart';
 import '../utils.dart';
+import '../x.dart';
 
 class ExpenseRecordsPage extends ConsumerStatefulWidget {
   const ExpenseRecordsPage({super.key});
@@ -51,7 +51,7 @@ class _ExpenseRecordsPageState extends ConsumerState<ExpenseRecordsPage> {
       isFetching = true;
     });
     try {
-      await ExpenseAggregated.fetchAndSaveTransactionUntilNow(
+      await XExpense.fetchAndSaveTransactionUntilNow(
         oaAccount: credentials.account,
       );
       updateRecords(ExpenseRecordsInit.storage.getTransactionsByRange());

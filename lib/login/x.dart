@@ -8,7 +8,7 @@ import 'package:mimir/settings/settings.dart';
 
 import 'init.dart';
 
-class LoginAggregated {
+class XLogin {
   static Future<void> login(Credentials credentials) async {
     credentials = credentials.copyWith(
       account: credentials.account.toUpperCase(),

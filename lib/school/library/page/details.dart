@@ -3,7 +3,6 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widgets/list_tile.dart';
-import 'package:mimir/school/library/aggregated.dart';
 import 'package:mimir/school/library/page/details.model.dart';
 import 'package:mimir/school/library/widgets/book.dart';
 import 'package:mimir/utils/error.dart';
@@ -14,6 +13,7 @@ import '../entity/collection_preview.dart';
 import '../entity/search.dart';
 import '../init.dart';
 import '../i18n.dart';
+import '../x.dart';
 import 'search_result.dart';
 
 class BookDetailsPage extends StatefulWidget {
@@ -227,7 +227,7 @@ class _BookCollectionPreviewListState extends State<BookCollectionPreviewList> {
     });
     final bookId = widget.book.bookId;
     try {
-      final holding = await LibraryAggregated.fetchBookCollectionPreviewList(bookId: bookId);
+      final holding = await XLibrary.fetchBookCollectionPreviewList(bookId: bookId);
       if (!mounted) return;
       setState(() {
         this.holding = holding;
