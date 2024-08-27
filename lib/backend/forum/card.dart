@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/backend/bulletin/card.dart';
+import 'package:mimir/life/event.dart';
+import 'package:mimir/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/backend/bulletin/entity/bulletin.dart';
 import 'package:mimir/backend/init.dart';
@@ -9,7 +12,6 @@ import 'package:mimir/design/widgets/app.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/utils/guard_launch.dart';
-import 'package:text_scroll/text_scroll.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 class ForumAppCard extends ConsumerStatefulWidget {
@@ -21,6 +23,22 @@ class ForumAppCard extends ConsumerStatefulWidget {
 
 class _ForumAppCardState extends ConsumerState<ForumAppCard> {
   MimirBulletin? bulletin;
+  late final EventSubscription $refreshEvent;
+
+  @override
+  void initState() {
+    super.initState();
+    $refreshEvent = lifeEventBus.addListener(() async {
+      await updateBulletin();
+    });
+    updateBulletin();
+  }
+
+  @override
+  dispose() {
+    $refreshEvent.cancel();
+    super.dispose();
+  }
 
   Future<void> updateBulletin() async {
     final bulletin = await BackendInit.bulletin.getLatest();
@@ -34,18 +52,12 @@ class _ForumAppCardState extends ConsumerState<ForumAppCard> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    updateBulletin();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final bulletin = this.bulletin;
     final dev = ref.watch(Dev.$on);
     return AppCard(
       title: "小应社区".text(),
-      view: bulletin == null ? null : buildBulletin(bulletin),
+      view: bulletin == null ? null : BulletinCard(bulletin),
       leftActions: [
         FilledButton.icon(
           onPressed: !dev
@@ -62,23 +74,5 @@ class _ForumAppCardState extends ConsumerState<ForumAppCard> {
         ),
       ],
     );
-  }
-
-  Widget buildBulletin(MimirBulletin bulletin) {
-    var title = bulletin.short;
-    var subtitle = bulletin.content;
-    if (title.isEmpty && bulletin.content.isNotEmpty) {
-      title = bulletin.content;
-    }
-    if (title == subtitle) {
-      subtitle = "";
-    }
-
-    return ListTile(
-      leading: const Icon(Icons.announcement),
-      title: TextScroll(title),
-      subtitle: subtitle.isNotEmpty ? TextScroll(subtitle) : null,
-      // subtitle: context.formatYmdhmNum(bulletin.createdAt).text(),
-    ).inCard();
   }
 }
