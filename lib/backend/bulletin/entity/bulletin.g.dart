@@ -78,3 +78,10 @@ MimirBulletin _$MimirBulletinFromJson(Map<String, dynamic> json) => MimirBulleti
       short: _trim(json['short'] as String),
       content: _trim(json['content'] as String),
     );
+
+Map<String, dynamic> _$MimirBulletinToJson(MimirBulletin instance) => <String, dynamic>{
+      'id': instance.id,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'short': instance.short,
+      'content': instance.content,
+    };

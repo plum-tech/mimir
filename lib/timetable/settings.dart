@@ -30,11 +30,15 @@ class TimetableSettings {
 
   late final $autoUseImported = box.provider<bool>(_K.autoUseImported);
 
-  CourseCellStyle? get cellStyle =>
-      decodeJsonObject(box.safeGet<String>(_K.cellStyle), (obj) => CourseCellStyle.fromJson(obj));
+  CourseCellStyle? get cellStyle => decodeJsonObject(
+        box.safeGet<String>(_K.cellStyle),
+        (obj) => CourseCellStyle.fromJson(obj),
+      );
 
-  set cellStyle(CourseCellStyle? newV) =>
-      box.safePut<String>(_K.cellStyle, encodeJsonObject(newV, (obj) => obj.toJson()));
+  set cellStyle(CourseCellStyle? newV) => box.safePut<String>(
+        _K.cellStyle,
+        encodeJsonObject(newV, (obj) => obj.toJson()),
+      );
 
   late final $cellStyle = box.provider(
     _K.cellStyle,

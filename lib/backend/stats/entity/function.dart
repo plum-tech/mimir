@@ -1,3 +1,1 @@
-class StatsFunctionUsage {
-
-}
+class StatsFunctionUsage {}

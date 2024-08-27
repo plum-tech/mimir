@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mimir/backend/bulletin/page/list.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/widgets/app.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -46,6 +48,12 @@ class BulletinCard extends StatelessWidget {
       title: TextScroll(title),
       subtitle: subtitle.isNotEmpty ? subtitle.text(maxLines: 3) : null,
       // subtitle: context.formatYmdhmNum(bulletin.createdAt).text(),
+      onTap: () async {
+        context.showSheet(
+          useRootNavigator: true,
+          (ctx) => const BulletinListPage(),
+        );
+      },
     ).inCard();
   }
 }

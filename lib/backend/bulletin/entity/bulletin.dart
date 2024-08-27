@@ -5,7 +5,7 @@ part 'bulletin.g.dart';
 
 String _trim(String s) => s.trim();
 
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 @CopyWith(skipFields: true)
 class MimirBulletin {
   final String id;
@@ -23,6 +23,8 @@ class MimirBulletin {
   });
 
   factory MimirBulletin.fromJson(Map<String, dynamic> json) => _$MimirBulletinFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MimirBulletinToJson(this);
 
   @override
   String toString() {

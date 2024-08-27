@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/backend/bulletin/card.dart';
+import 'package:mimir/backend/bulletin/x.dart';
 import 'package:mimir/life/event.dart';
 import 'package:mimir/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/backend/bulletin/entity/bulletin.dart';
 import 'package:mimir/backend/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widgets/app.dart';
@@ -22,16 +22,15 @@ class ForumAppCard extends ConsumerStatefulWidget {
 }
 
 class _ForumAppCardState extends ConsumerState<ForumAppCard> {
-  MimirBulletin? bulletin;
   late final EventSubscription $refreshEvent;
 
   @override
   void initState() {
     super.initState();
     $refreshEvent = lifeEventBus.addListener(() async {
-      await updateBulletin();
+      await XBulletin.getLatest();
     });
-    updateBulletin();
+    XBulletin.getLatest();
   }
 
   @override
@@ -40,20 +39,9 @@ class _ForumAppCardState extends ConsumerState<ForumAppCard> {
     super.dispose();
   }
 
-  Future<void> updateBulletin() async {
-    final bulletin = await BackendInit.bulletin.getLatest();
-    setState(() {
-      if (bulletin == null) {
-        this.bulletin = null;
-      } else {
-        this.bulletin = bulletin.isEmpty ? null : bulletin;
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    final bulletin = this.bulletin;
+    final bulletin = ref.watch(BackendInit.bulletinStorage.$latest);
     final dev = ref.watch(Dev.$on);
     return AppCard(
       title: "小应社区".text(),

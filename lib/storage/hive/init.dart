@@ -17,8 +17,14 @@ class HiveInit {
 
   static late Box //
       credentials,
-      library,
       timetable,
+      settings,
+      meta,
+      dev,
+      bulletin;
+
+  static late Box //
+      library,
       expense,
       yellowPages,
       class2nd,
@@ -27,11 +33,8 @@ class HiveInit {
       oaAnnounce,
       ywb,
       eduEmail,
-      settings,
       electricity,
-      meta,
-      cookies,
-      dev;
+      cookies;
 
   static late Box //
       game2048,
@@ -66,6 +69,7 @@ class HiveInit {
       meta = await core.openBox('meta'),
       timetable = await core.openBox('timetable'),
       dev = await core.openBox("dev"),
+      bulletin = await core.openBox("bulletin"),
       ...cacheBoxes = [
         yellowPages = await cache.openBox('yellow-pages'),
         eduEmail = await cache.openBox('edu-email'),
