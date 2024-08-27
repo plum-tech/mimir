@@ -902,6 +902,9 @@ game:
       toefl: 托福
 forum:
   navigation: 社群
+  title: 小應社群
+bulletin:
+  title: 佈告欄
 permission:
   permissionDenied: 沒有權限
   permissionDeniedDescOf: "{}權限未授予許可，請檢查應用程式的設定。"
@@ -956,3 +959,5 @@ unspecified: 未指定
 shareQrCode: 分享 QR 碼
 add: 增加
 rename: 重新命名
+enter: 進入
+comingSoon: 即將推出

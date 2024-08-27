@@ -1,4 +1,5 @@
 import 'package:mimir/init.dart';
+import 'package:mimir/lifecycle.dart';
 
 import 'package:mimir/session/mimir.dart';
 
@@ -11,7 +12,7 @@ class BulletinService {
 
   Future<MimirBulletin?> getLatest() async {
     final res = await _session.request(
-      "https://bulletin.mysit.life/v1/latest",
+      "https://bulletin.mysit.life/v1/latest?lang=${$locale}",
     );
     if (res.statusCode != 200) {
       return null;
@@ -21,7 +22,7 @@ class BulletinService {
 
   Future<List<MimirBulletin>> getList() async {
     final res = await _session.request(
-      "https://bulletin.mysit.life/v1/list",
+      "https://bulletin.mysit.life/v1/list?lang=${$locale}",
     );
     if (res.statusCode != 200) {
       return const [];

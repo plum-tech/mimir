@@ -7,6 +7,7 @@ import 'package:mimir/widgets/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/bulletin.dart';
+import '../i18n.dart';
 
 class BulletinListPage extends ConsumerStatefulWidget {
   const BulletinListPage({super.key});
@@ -55,7 +56,7 @@ class _BulletinListPageState extends ConsumerState<BulletinListPage> {
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
-            title: "Bulletin List".text(),
+            title: i18n.title.text(),
             bottom: !fetching
                 ? null
                 : const PreferredSize(

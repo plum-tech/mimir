@@ -902,6 +902,9 @@ game:
       toefl: 托福
 forum:
   navigation: 社区
+  title: 小应社区
+bulletin:
+  title: 布告栏
 permission:
   permissionDenied: 没有权限
   permissionDeniedDescOf: "{}权限未被授权，请检查应用的设置。"
@@ -956,3 +959,5 @@ unspecified: 未指定
 shareQrCode: 分享二维码
 add: 添加
 rename: 重命名
+enter: 进入
+comingSoon: 敬请期待

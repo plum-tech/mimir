@@ -15,6 +15,8 @@ import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:universal_platform/universal_platform.dart';
+import "package:mimir/backend/bulletin/i18n.dart" as $bulletin;
+import 'i18n.dart';
 
 class ForumAppCard extends ConsumerStatefulWidget {
   const ForumAppCard({super.key});
@@ -46,7 +48,7 @@ class _ForumAppCardState extends ConsumerState<ForumAppCard> {
     final bulletin = ref.watch(BackendInit.bulletinStorage.$latest);
     final dev = ref.watch(Dev.$on);
     return AppCard(
-      title: "小应社区".text(),
+      title: i18n.title.text(),
       view: bulletin == null ? null : BulletinLatestSummaryCard(bulletin),
       leftActions: [
         FilledButton.icon(
@@ -59,7 +61,7 @@ class _ForumAppCardState extends ConsumerState<ForumAppCard> {
                     await guardLaunchUrl(context, R.forumUri);
                   }
                 },
-          label: !dev ? "敬请期待".text() : "进入".text(),
+          label: !dev ? i18n.comingSoon.text() : i18n.enter.text(),
           icon: Icon(context.icons.home),
         ),
         OutlinedButton.icon(
@@ -69,7 +71,7 @@ class _ForumAppCardState extends ConsumerState<ForumAppCard> {
               (ctx) => const BulletinListPage(),
             );
           },
-          label: "布告栏".text(),
+          label: $bulletin.i18n.title.text(),
           icon: const Icon(Icons.list_alt),
         ),
       ],

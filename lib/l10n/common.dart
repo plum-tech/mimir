@@ -88,6 +88,10 @@ mixin class CommonI18nMixin {
   String get add => "add".tr();
 
   String get rename => "rename".tr();
+
+  String get enter => "enter".tr();
+
+  String get comingSoon => "comingSoon".tr();
 }
 
 class CommonI18n with CommonI18nMixin {

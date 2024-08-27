@@ -902,6 +902,9 @@ game:
       toefl: TOEFL
 forum:
   navigation: Forum
+  title: SIT Forum
+bulletin:
+  title: Bulletin
 permission:
   permissionDenied: Permission denied
   permissionDeniedDescOf: "{} permission was not granted. Please check the app settings."
@@ -956,3 +959,5 @@ unspecified: Unspecified
 shareQrCode: Share QR code
 add: Add
 rename: Rename
+enter: Enter
+comingSoon: COMING SOON
