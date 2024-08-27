@@ -1542,10 +1542,66 @@ packages:
     dependency: "direct main"
     description:
       name: open_file
-      sha256: "0ebdc2ad29df46e4b1dcb92edb369e3066efe195349170c830fdf2cb669f0eb8"
+      sha256: "912ec376959805cb6c83d90c9d260ec03fd9b6fb04918da092b0e5d74eabf347"
       url: "https://pub.dev"
     source: hosted
-    version: "3.4.0"
+    version: "3.5.0+1"
+  open_file_android:
+    dependency: transitive
+    description:
+      name: open_file_android
+      sha256: "43f9ddb0e2eb76e560f44c83ea1959962699526b6f59ec88f87eca009271c56f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  open_file_ios:
+    dependency: transitive
+    description:
+      name: open_file_ios
+      sha256: "9f019f10045dc88c0c01acdac9ee038cbaa0dc898e756aa336d6b015cdb8ddb9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  open_file_linux:
+    dependency: transitive
+    description:
+      name: open_file_linux
+      sha256: bb55a5285e797af159cf0d76a0c14b9dc7d3f1930b80cb85a597a595249750f1
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
+  open_file_mac:
+    dependency: transitive
+    description:
+      name: open_file_mac
+      sha256: f878b6863af99e6abae4cde8c4c1fe2e58e1e7f3f0c4c5e4c65fb2e697cbd28d
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  open_file_platform_interface:
+    dependency: transitive
+    description:
+      name: open_file_platform_interface
+      sha256: e410d18264a0f3166f0c7f5460e931920a14f680ec38e2a25c8e0a8a901da838
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
+  open_file_web:
+    dependency: transitive
+    description:
+      name: open_file_web
+      sha256: "34d1da10b30911066c939f11b79f420ecb85e0c3372eefa7c1adb37693dc930e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
+  open_file_windows:
+    dependency: transitive
+    description:
+      name: open_file_windows
+      sha256: a13e754c131eabf3a8e5dce0adb2fff4e3827fe3acd71219da3a57f65a22920c
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   ordered_set:
     dependency: transitive
     description:

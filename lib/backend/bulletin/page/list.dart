@@ -68,7 +68,7 @@ class _BulletinListPageState extends ConsumerState<BulletinListPage> {
             SliverList.builder(
               itemCount: list.length,
               itemBuilder: (ctx, i) {
-                return BulletinCard(list[i]);
+                return BulletinCard(list[i]).padAll(4);
               },
             )
         ],
