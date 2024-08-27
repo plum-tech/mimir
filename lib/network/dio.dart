@@ -14,7 +14,6 @@ class DioInit {
   static void initWith(
     Dio dio, {
     CookieJar? cookieJar,
-    BaseOptions? config,
   }) async {
     if (!kIsWeb && cookieJar != null) {
       dio.interceptors.add(CookieManager(cookieJar));
@@ -25,13 +24,6 @@ class DioInit {
     if (kDebugMode && R.debugNetwork && R.poorNetworkSimulation) {
       dio.interceptors.add(PoorNetworkDioInterceptor());
     }
-    if (config != null) {
-      dio.options = config;
-    }
-  }
-
-  static Future<void> initMimirUserAgent(Dio dio) async {
-    dio.options.headers["User-Agent"] = "Mimir ${R.meta.version} ${R.meta.platform}";
   }
 
   static Future<void> initUserAgent(Dio dio) async {

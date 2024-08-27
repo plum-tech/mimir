@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -97,33 +99,21 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
               const DebugWebViewTile(),
               const DebugDeepLinkTile(),
               if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) const GoInAppWebviewTile(),
+              ListTile(
+                title: "Device info".text(),
+                trailing: Icon(context.icons.rightChevron),
+                onTap: () {
+                  context.showSheet((ctx) => const DeviceInfoPage());
+                },
+              ),
               if (!kIsWeb)
-                DebugFetchVersionTile(
-                  title: "Official".text(),
-                  fetch: () async {
-                    final info = await BackendInit.update.getLatestVersionFromOfficial();
-                    return info.version.toString();
+                ListTile(
+                  title: "Check version".text(),
+                  trailing: Icon(context.icons.rightChevron),
+                  onTap: () {
+                    context.showSheet((ctx) => const VersionCheckerPage());
                   },
                 ),
-              if (!kIsWeb)
-                DebugFetchVersionTile(
-                  leading: const Icon(SimpleIcons.apple),
-                  title: "App Store CN".text(),
-                  fetch: () async {
-                    final info = await BackendInit.update.getLatestVersionFromAppStore();
-                    return "${info!}";
-                  },
-                ),
-              if (!kIsWeb)
-                DebugFetchVersionTile(
-                  leading: const Icon(SimpleIcons.apple),
-                  title: "App Store".text(),
-                  fetch: () async {
-                    final info = await BackendInit.update.getLatestVersionFromAppStore(iosAppStoreRegion: null);
-                    return "${info!}";
-                  },
-                ),
-              // const DebugDeviceInfoTile(),
               buildPartyPopper(),
             ]),
           ),
@@ -137,6 +127,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
       leading: "🎉".text(style: context.textTheme.headlineLarge),
       title: "Party popper 🎉".text(),
       subtitle: "Tap me!".text(),
+      trailing: Icon(context.icons.rightChevron),
       onTap: () {
         context.showSheet((ctx) => Scaffold(
               body: [
@@ -483,6 +474,34 @@ class DebugExpenseUserOverrideTile extends ConsumerWidget {
   }
 }
 
+class GoInAppWebviewTile extends ConsumerWidget {
+  const GoInAppWebviewTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return TextInputActionTile(
+      leading: const Icon(Icons.route_outlined),
+      title: "In-app Webview".text(),
+      canSubmit: (url) => url.isEmpty || Uri.tryParse(url) != null,
+      hintText: R.websiteUri.toString(),
+      onSubmit: (url) {
+        if (url.isEmpty) {
+          url = R.websiteUri.toString();
+        }
+        var uri = Uri.tryParse(url);
+        if (uri == null) return false;
+        if (uri.scheme.isEmpty) {
+          uri = uri.replace(scheme: "https");
+        }
+        context.navigator.push(MaterialPageRoute(
+          builder: (ctx) => InAppWebViewPage(initialUri: WebUri.uri(uri!)),
+        ));
+        return true;
+      },
+    );
+  }
+}
+
 class DebugFetchVersionTile extends StatefulWidget {
   final Widget? title;
   final Widget? leading;
@@ -532,42 +551,86 @@ class _DebugFetchVersionTileState extends State<DebugFetchVersionTile> {
   }
 }
 
-class DebugDeviceInfoTile extends StatelessWidget {
-  const DebugDeviceInfoTile({super.key});
+class VersionCheckerPage extends ConsumerStatefulWidget {
+  const VersionCheckerPage({super.key});
 
   @override
+  ConsumerState createState() => _VersionCheckerPageState();
+}
+
+class _VersionCheckerPageState extends ConsumerState<VersionCheckerPage> {
+  @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: "Device info".text(),
-      subtitle: R.meta.deviceInfo.toString().text(),
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          SliverList.list(children: [
+            DebugFetchVersionTile(
+              title: "Official".text(),
+              fetch: () async {
+                final info = await BackendInit.update.getLatestVersionFromOfficial();
+                return info.version.toString();
+              },
+            ),
+            DebugFetchVersionTile(
+              leading: const Icon(SimpleIcons.apple),
+              title: "App Store CN".text(),
+              fetch: () async {
+                final info = await BackendInit.update.getLatestVersionFromAppStore();
+                return "${info!}";
+              },
+            ),
+            DebugFetchVersionTile(
+              leading: const Icon(SimpleIcons.apple),
+              title: "App Store".text(),
+              fetch: () async {
+                final info = await BackendInit.update.getLatestVersionFromAppStore(iosAppStoreRegion: null);
+                return "${info!}";
+              },
+            ),
+          ])
+        ],
+      ),
     );
   }
 }
 
-class GoInAppWebviewTile extends ConsumerWidget {
-  const GoInAppWebviewTile({super.key});
+class DeviceInfoPage extends ConsumerStatefulWidget {
+  const DeviceInfoPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return TextInputActionTile(
-      leading: const Icon(Icons.route_outlined),
-      title: "In-app Webview".text(),
-      canSubmit: (url) => url.isEmpty || Uri.tryParse(url) != null,
-      hintText: R.websiteUri.toString(),
-      onSubmit: (url) {
-        if (url.isEmpty) {
-          url = R.websiteUri.toString();
-        }
-        var uri = Uri.tryParse(url);
-        if (uri == null) return false;
-        if (uri.scheme.isEmpty) {
-          uri = uri.replace(scheme: "https");
-        }
-        context.navigator.push(MaterialPageRoute(
-          builder: (ctx) => InAppWebViewPage(initialUri: WebUri.uri(uri!)),
-        ));
-        return true;
-      },
+  ConsumerState createState() => _DeviceInfoPageState();
+}
+
+class _DeviceInfoPageState extends ConsumerState<DeviceInfoPage> {
+  @override
+  Widget build(BuildContext context) {
+    const encoder = JsonEncoder.withIndent("  ");
+    final json = encoder.convert(R.meta.deviceInfo.data);
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          json.text().scrolled().padAll(8).sliver(),
+        ],
+      ),
     );
+  }
+
+  List<Widget> buildWidgets() {
+    final info = R.meta.deviceInfo;
+    if (info is AndroidDeviceInfo) {
+      info.device;
+    } else if (info is IosDeviceInfo) {
+      info.model;
+    }else if(info is WindowsDeviceInfo){
+      info.productName;
+    }else if(info is MacOsDeviceInfo){
+      info.model;
+    }else if(info is WebBrowserInfo){
+
+    }else if(info is LinuxDeviceInfo){
+      info.name;
+    }
+    return [];
   }
 }
