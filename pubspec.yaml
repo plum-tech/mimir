@@ -93,7 +93,7 @@ dependencies:
   # Deep links on Android and custom scheme links on iOS
   app_links: ^6.3.0
   # Open with other APP/programs
-  open_file: ^3.5.0+1
+  open_file: ^3.5.1
   url_launcher: ^6.3.0
   # Open Android / iOS system image picker
   image_picker: ^1.1.2

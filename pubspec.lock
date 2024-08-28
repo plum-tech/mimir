@@ -410,10 +410,10 @@ packages:
     dependency: transitive
     description:
       name: coverage
-      sha256: "576aaab8b1abdd452e0f656c3e73da9ead9d7880e15bdc494189d9c1a1baf0db"
+      sha256: "7b594a150942e0d3be99cd45a1d0b5caff27ba5a27f292ed8e8d904ba3f167b5"
       url: "https://pub.dev"
     source: hosted
-    version: "1.9.0"
+    version: "1.9.1"
   cross_file:
     dependency: transitive
     description:
@@ -1542,10 +1542,10 @@ packages:
     dependency: "direct main"
     description:
       name: open_file
-      sha256: "912ec376959805cb6c83d90c9d260ec03fd9b6fb04918da092b0e5d74eabf347"
+      sha256: ef75e05a43b2a84e890877ba7eb5a6792a95d61ef5fc83aa9eb00c5c55d9f6c6
       url: "https://pub.dev"
     source: hosted
-    version: "3.5.0+1"
+    version: "3.5.1"
   open_file_android:
     dependency: transitive
     description:
@@ -1566,10 +1566,10 @@ packages:
     dependency: transitive
     description:
       name: open_file_linux
-      sha256: bb55a5285e797af159cf0d76a0c14b9dc7d3f1930b80cb85a597a595249750f1
+      sha256: "2c7c8e6a9ce430b2fae8cbc5551466369d657402c1527eef49be5c9cc9c92944"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.2"
+    version: "0.0.3"
   open_file_mac:
     dependency: transitive
     description:
