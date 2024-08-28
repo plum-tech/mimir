@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/backend/init.dart';
-import 'package:mimir/backend/ua.dart';
+import 'package:mimir/backend/network/ua.dart';
 import 'package:mimir/credentials/entity/credential.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/entity/user_type.dart';
@@ -99,6 +99,8 @@ class Init {
       mimirDio,
       cookieJar: cookieJar,
     );
+
+    mimirDio.interceptors.add(MimirUALanguageDioInterceptor());
 
     mimirSession = MimirSession(
       dio: mimirDio,

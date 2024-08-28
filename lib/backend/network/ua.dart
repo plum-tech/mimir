@@ -1,3 +1,5 @@
+import 'package:dio/dio.dart';
+import 'package:mimir/lifecycle.dart';
 import 'package:mimir/r.dart';
 
 String getMimirUa() {
@@ -23,4 +25,13 @@ String encodeMimirUa(List<String> fixed, Map<String, String?> kv) {
     }
   }
   return list.join(";");
+}
+
+class MimirUALanguageDioInterceptor extends Interceptor {
+  @override
+  Future<void> onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+    final ua = options.headers["User-Agent"];
+    options.headers["User-Agent"] = "$ua;lang=${$locale.toLanguageTag()};";
+    handler.next(options);
+  }
 }
