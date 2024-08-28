@@ -61,6 +61,7 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
       isInspectable: kDebugMode,
       mediaPlaybackRequiresUserGesture: false,
       allowsInlineMediaPlayback: true,
+      mixedContentMode: MixedContentMode.MIXED_CONTENT_ALWAYS_ALLOW,
       cacheMode: CacheMode.LOAD_CACHE_ELSE_NETWORK,
       iframeAllow: "camera; microphone",
       iframeAllowFullscreen: true,
@@ -127,9 +128,6 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
               $url.text = url.toString();
             });
           },
-          // onScrollChanged: (controller, x, y) {
-          //   print("${x},${y}");
-          // },
           onPermissionRequest: (controller, request) async {
             return PermissionResponse(
               resources: request.resources,
@@ -142,16 +140,15 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
               return NavigationActionPolicy.CANCEL;
             }
             final canNavigateTo = widget.canNavigate;
-            if (canNavigateTo == null || await canNavigateTo(uri)) {
-              return NavigationActionPolicy.ALLOW;
+            if (canNavigateTo != null && !await canNavigateTo(uri)) {
+              return NavigationActionPolicy.CANCEL;
             }
-            // if (uri.scheme != R.forumUri.scheme || uri.host != R.forumUri.host) {
-            //   if (await guardLaunchUrl(context, uri)) {
-            //     // cancel the request
-            //     return NavigationActionPolicy.CANCEL;
-            //   }
-            // }
-            return NavigationActionPolicy.CANCEL;
+            if (!const ["http", "https", "file", "chrome", "data", "javascript", "about"].contains(uri.scheme)) {
+              if (await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+                return NavigationActionPolicy.CANCEL;
+              }
+            }
+            return NavigationActionPolicy.ALLOW;
           },
           onLoadStop: (controller, url) async {
             pullToRefreshController?.endRefreshing();
@@ -178,7 +175,7 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
           },
           onConsoleMessage: (controller, consoleMessage) {
             if (kDebugMode) {
-              print(consoleMessage);
+              print(consoleMessage.message);
             }
           },
         ),

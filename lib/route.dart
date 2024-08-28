@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/backend/forum/page/index.dart';
@@ -55,6 +56,7 @@ import 'package:mimir/timetable/page/edit/editor.dart';
 import 'package:mimir/timetable/p13n/page/palette_editor.dart';
 import 'package:mimir/timetable/patch/page/patch.dart';
 import 'package:mimir/timetable/page/settings.dart';
+import 'package:mimir/widgets/inapp_webview/page.dart';
 import 'package:mimir/widgets/not_found.dart';
 import 'package:mimir/school/oa_announce/entity/announce.dart';
 import 'package:mimir/school/oa_announce/page/details.dart';
@@ -469,8 +471,8 @@ final _browserRoute = GoRoute(
       if (!url.startsWith("http://") && !url.startsWith("https://")) {
         url = "http://$url";
       }
-      return WebViewPage(initialUrl: url);
-      // return InAppWebViewPage(initialUri: WebUri(url));
+      // return WebViewPage(initialUrl: url);
+      return InAppWebViewPage(initialUri: WebUri(url));
     }
     throw 400;
   },
