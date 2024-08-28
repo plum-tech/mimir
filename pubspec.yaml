@@ -173,8 +173,8 @@ dependencies:
   screenshot: ^3.0.0
 
   # game
-  flame: ^1.18.0
-  flame_forge2d: ^0.18.1
+  flame: ^1.19.0
+  flame_forge2d: ^0.18.2
   sudoku_solver_generator: ^2.1.0+1
 
 dependency_overrides:

@@ -722,18 +722,18 @@ packages:
     dependency: "direct main"
     description:
       name: flame
-      sha256: "79133dc46a3ff870950f41d0dc1598414e7bd7ae2c29bd9f0a9de208d9a70cb7"
+      sha256: e6873a8540a197a9bfe251e10c9e1f200329041d6e6d70df2cf38aa681cf2ef7
       url: "https://pub.dev"
     source: hosted
-    version: "1.18.0"
+    version: "1.19.0"
   flame_forge2d:
     dependency: "direct main"
     description:
       name: flame_forge2d
-      sha256: "1ec1c5b4978b64d2d16ca90f86de469959991ef996970866c3f9de580b3dbe40"
+      sha256: c233dde1600c0e58391969c74a64a4775affb1dbe34a6d7dbca78e137822b07f
       url: "https://pub.dev"
     source: hosted
-    version: "0.18.1"
+    version: "0.18.2"
   flex_color_picker:
     dependency: "direct main"
     description:
@@ -1606,10 +1606,10 @@ packages:
     dependency: transitive
     description:
       name: ordered_set
-      sha256: "1bfaaaee0419e43ecc9eaebd410eb4bd5039657b72011de75ff3e2915c9aac60"
+      sha256: "984658d0c28c69516ed22f780db7511932a223339463a16c0cc48b3055e926c4"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.3"
+    version: "6.0.1"
   package_config:
     dependency: transitive
     description:
