@@ -12,7 +12,7 @@ class BulletinService {
 
   Future<MimirBulletin?> getLatest() async {
     final res = await _session.request(
-      "https://bulletin.mysit.life/v1/latest?lang=${$locale}",
+      "https://bulletin.mysit.life/v1/latest?lang=${$locale.toLanguageTag()}",
     );
     if (res.statusCode != 200) {
       return null;
@@ -22,7 +22,7 @@ class BulletinService {
 
   Future<List<MimirBulletin>> getList() async {
     final res = await _session.request(
-      "https://bulletin.mysit.life/v1/list?lang=${$locale}",
+      "https://bulletin.mysit.life/v1/list?lang=${$locale.toLanguageTag()}",
     );
     if (res.statusCode != 200) {
       return const [];
