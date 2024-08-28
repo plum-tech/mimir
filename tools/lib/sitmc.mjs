@@ -2,54 +2,47 @@ import { readFile } from "fs/promises"
 import * as path from "path"
 import mime from 'mime'
 import { sanitizeNameForUri } from "./utils.mjs"
+import axios from "axios"
+import env from "@liplum/env"
 
-const prodUrl = "https://temp.sitmc.club"
-const debugUrl = "http://127.0.0.1:5000"
-const url = prodUrl
+const auth = env("SITMC_TEMP_SERVER_AUTH").string()
+const io = axios.create({
+  // baseURL: "http://127.0.0.1:5000",
+  baseURL: "https://temp.sitmc.club",
+  headers: {
+    Authorization: auth,
+  }
+})
+
 /**
  *
- * @param {{auth:string,filePath:string, uploadPath:string}} param0
+ * @param {{filePath:string, uploadPath:string}} param0
  */
-export async function uploadFile({ auth, localFilePath, remotePath }) {
+export async function uploadFile({ localFilePath, remotePath }) {
   const formData = new FormData()
 
   const file = new Blob([await readFile(localFilePath)], { type: mime.getType(localFilePath) })
   formData.append('file', file, path.basename(localFilePath))
   formData.append('path', remotePath)
 
-  const res = await fetch(`${url}/admin`, {
-    method: 'PUT',
-    headers: {
-      Authorization: auth,
-    },
-    body: formData
+  const res = await io.put("/admin", formData, {
+    timeout: 5000
   })
-  if (res.ok) {
-    return await res.json()
-  } else {
-    return await res.text()
-  }
+
+  return res.data
 }
 /**
  *
- * @param {{auth:string,deletePath:string}} param0
+ * @param {{deletePath:string}} param0
  */
-export async function deleteFile({ auth, remotePath }) {
+export async function deleteFile({ remotePath }) {
   const formData = new FormData()
   formData.append('path', remotePath)
 
-  const res = await fetch(`${url}/admin`, {
-    method: 'DELETE',
-    headers: {
-      Authorization: auth,
-    },
-    body: formData
+  const res = await io.delete("/admin", formData, {
+    timeout: 5000
   })
-  if (res.ok) {
-    return await res.json()
-  } else {
-    return await res.text()
-  }
+  return res.data
 }
 
 /**

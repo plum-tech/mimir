@@ -1,4 +1,5 @@
 import { context } from "@actions/github"
+import axios from "axios"
 
 export { context } from "@actions/github"
 export var github = context.payload
@@ -8,9 +9,8 @@ export const setGitHub = (ctx, key) => {
 }
 
 export const setGithubFromUrl = async (url, key) => {
-  const res = await fetch(url)
-  const payload = await res.json()
-  setGitHub(payload, key)
+  const res = await axios.get(url)
+  setGitHub(res.data, key)
 }
 
 export const getLatestReleaseApiUrl = (repo) => {

@@ -23,24 +23,26 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: 'npm'
-          cache-dependency-path: tools/package-lock.json
+          node-version: 22
+          cache: 'pnpm'
+          cache-dependency-path: tools/pnpm-lock.yaml
+
+      - name: Pnpm install
+        run: |
+          cd tools && pnpm i && cd ..
 
       - name: Setup git config
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Npm install
-        run: |
-          cd tools && npm i && cd ..
-
       - name: Upload artifacts onto SIT-MC sever
         if: github.repository == 'liplum-dev/mimir'
         continue-on-error: true
+        env:
+          SITMC_TEMP_SERVER_AUTH: ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
         run: |
-          node tools/upload-release-sitmc.mjs -k ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
+          node tools/upload-release-sitmc.mjs
 
       - name: Deploy
         if: github.repository == 'liplum-dev/mimir'
@@ -50,5 +52,7 @@ jobs:
       - name: Notify the latest release
         if: github.repository == 'liplum-dev/mimir'
         continue-on-error: true
+        env:
+          QQBOT_URL: ${{ secrets.gocq_sendgroupmsg_url }}
         run: |
-          node tools/bot-notify-release.mjs ${{ secrets.gocq_sendgroupmsg_url }}
+          node tools/bot-notify-release.mjs

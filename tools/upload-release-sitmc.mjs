@@ -6,22 +6,17 @@ import esMain from "es-main"
 import { downloadFile, sanitizeNameForUri } from "./lib/utils.mjs"
 import { github } from "./lib/github.mjs"
 import os from "os"
+import "dotenv/config"
 
 const main = async () => {
   const args = cli({
     name: 'upload-release-sitmc',
-    description: 'Upload release files onto SIT-MC server.',
-    examples: ['node ./upload-release-sitmc.mjs -k <auth>',],
-    require: ["auth"],
-    options: [{
-      name: 'auth',
-      alias: "k",
-      defaultOption: true,
-      description: 'The authentication key of SIT-MC server.'
-    }],
+    description: 'Upload release files onto SIT-MC server. Env $SITMC_FILE_TOKEN required.',
+    examples: ['node ./upload-release-sitmc.mjs',],
+    require: [],
+    options: [],
   })
 
-  const auth = args.auth
   const tag = github.release.tag_name
   const apk = await searchAndGetAssetInfo(({ name }) => path.extname(name) === ".apk")
   if (!apk) {
@@ -32,7 +27,6 @@ const main = async () => {
   const apkPath = path.join(os.tmpdir(), apk.name)
   await downloadFile(apk.url, apkPath)
   const res = await uploadFile({
-    auth,
     localFilePath: apkPath,
     remotePath: `${tag}/${sanitizeNameForUri(apk.name)}`,
   })
