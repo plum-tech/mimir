@@ -5,36 +5,70 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/utils/color.dart';
 import 'package:mimir/utils/guard_launch.dart';
+import 'package:mimir/utils/tel.dart';
 import 'package:rettulf/rettulf.dart';
 
-class RestyledHtmlWidget extends StatelessWidget {
-  final String html;
+class RestyledHtmlWidget extends StatefulWidget {
+  final String content;
   final RenderMode renderMode;
   final TextStyle? textStyle;
   final bool async;
   final bool keepOriginalFontSize;
+  final bool linkifyPhoneNumbers;
 
   const RestyledHtmlWidget(
-    this.html, {
+    this.content, {
     super.key,
     this.renderMode = RenderMode.column,
     this.textStyle,
     this.async = true,
     this.keepOriginalFontSize = false,
+    this.linkifyPhoneNumbers = false,
   });
 
   @override
+  State<RestyledHtmlWidget> createState() => _RestyledHtmlWidgetState();
+}
+
+class _RestyledHtmlWidgetState extends State<RestyledHtmlWidget> {
+  late String html;
+
+  @override
+  void initState() {
+    super.initState();
+    html = buildHtml();
+  }
+
+  @override
+  void didUpdateWidget(RestyledHtmlWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.content != widget.content || oldWidget.linkifyPhoneNumbers != widget.linkifyPhoneNumbers) {
+      setState(() {
+        html = buildHtml();
+      });
+    }
+  }
+
+  String buildHtml() {
+    var html = widget.content;
+    if (widget.linkifyPhoneNumbers) {
+      html = linkifyPhoneNumbers(widget.content);
+    }
+    return html;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final textStyle = this.textStyle ?? context.textTheme.bodyMedium;
+    final textStyle = widget.textStyle ?? context.textTheme.bodyMedium;
     return HtmlWidget(
       html,
-      buildAsync: async,
-      renderMode: renderMode,
+      buildAsync: widget.async,
+      renderMode: widget.renderMode,
       factoryBuilder: () => RestyledWidgetFactory(
         textStyle: textStyle,
         borderColor: context.colorScheme.surfaceContainerHighest,
         darkMode: context.isDarkMode,
-        keepOriginFontSize: keepOriginalFontSize,
+        keepOriginFontSize: widget.keepOriginalFontSize,
       ),
       textStyle: textStyle,
       onTapUrl: (url) async {

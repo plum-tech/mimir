@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:mimir/design/widgets/list_tile.dart';
 import 'package:mimir/design/widgets/tags.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/school/class2nd/utils.dart';
-import 'package:mimir/school/oa_announce/widget/article.dart';
+import 'package:mimir/widgets/html.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -106,7 +107,11 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
               const Divider().sliver(),
               SliverPadding(
                 padding: const EdgeInsets.all(8),
-                sliver: AnnounceArticle(details),
+                sliver: RestyledHtmlWidget(
+                  details.content,
+                  linkifyPhoneNumbers: true,
+                  renderMode: RenderMode.sliverList,
+                ),
               ),
             ]
           ],
