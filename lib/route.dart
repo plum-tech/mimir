@@ -45,6 +45,7 @@ import 'package:mimir/me/edu_email/page/inbox.dart';
 import 'package:mimir/network/page/index.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/page/theme_color.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/p13n/entity/palette.dart';
 import 'package:mimir/timetable/entity/timetable.dart';
 import 'package:mimir/timetable/init.dart';
@@ -546,13 +547,31 @@ GoRouter buildRouter(ValueNotifier<RoutingConfig> $routingConfig) {
   );
 }
 
+String _getRootRoute() {
+  final available = [
+    "/timetable",
+    "/life",
+    "/school",
+    "/game",
+    "/me",
+  ];
+  if (!Settings.timetable.showTimetableNavigation) {
+    available.remove("/timetable");
+  }
+  if (kIsWeb) {
+    available.remove("/school");
+    available.remove("/life");
+  }
+  return available.first;
+}
+
 RoutingConfig buildCommonRoutingConfig() {
   return RoutingConfig(
     redirect: _redirectRoot,
     routes: [
       GoRoute(
         path: "/",
-        redirect: (ctx, state) => "/timetable",
+        redirect: (ctx, state) => _getRootRoute(),
       ),
       StatefulShellRoute.indexedStack(
         builder: (ctx, state, navigationShell) {
@@ -628,7 +647,7 @@ RoutingConfig buildTimetableFocusRouter() {
     routes: [
       GoRoute(
         path: "/",
-        redirect: (ctx, state) => "/timetable",
+        redirect: (ctx, state) => _getRootRoute(),
       ),
       _timetableShellRoute,
       ..._timetableRoutes,

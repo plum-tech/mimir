@@ -404,6 +404,10 @@ class _Settings {
 
   String get autoUseImportedDesc => "$ns.autoUseImported.desc".tr();
 
+  String get showTimetableNavigation => "$ns.showTimetableNavigation.title".tr();
+
+  String get showTimetableNavigationDesc => "$ns.showTimetableNavigation.desc".tr();
+
   String get palette => "$ns.palette.title".tr();
 
   String get paletteDesc => "$ns.palette.desc".tr();

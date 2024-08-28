@@ -35,6 +35,7 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
               buildCellStyle(),
               buildP13n(),
               buildBackground(),
+              const ShowTimetableNavigationTile(),
             ],
           ),
         ],
@@ -113,6 +114,28 @@ class AutoUseImportedTile extends ConsumerWidget {
         value: on,
         onChanged: (newV) {
           ref.read(Settings.timetable.$autoUseImported.notifier).set(newV);
+        },
+      ),
+    );
+  }
+}
+
+
+
+class ShowTimetableNavigationTile extends ConsumerWidget {
+  const ShowTimetableNavigationTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final on = ref.watch(Settings.timetable.$showTimetableNavigation) ?? true;
+    return ListTile(
+      title: i18n.settings.showTimetableNavigation.text(),
+      subtitle: i18n.settings.showTimetableNavigation.text(),
+      leading: const Icon(Icons.vibration),
+      trailing: Switch.adaptive(
+        value: on,
+        onChanged: (newV) {
+          ref.read(Settings.timetable.$showTimetableNavigation.notifier).set(newV);
         },
       ),
     );

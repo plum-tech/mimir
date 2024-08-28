@@ -11,9 +11,9 @@ import 'package:mimir/school/i18n.dart' as $school;
 import 'package:mimir/life/i18n.dart' as $life;
 import 'package:mimir/game/i18n.dart' as $game;
 import 'package:mimir/me/i18n.dart' as $me;
+
 // import 'package:mimir/backend/forum/i18n.dart' as $forum;
 import 'package:rettulf/rettulf.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 class MainStagePage extends ConsumerStatefulWidget {
   final StatefulNavigationShell navigationShell;
@@ -47,18 +47,17 @@ extension _NavigationDestX on _NavigationDest {
 typedef NavigationItems = List<({String route, _NavigationDest item})>;
 
 class _MainStagePageState extends ConsumerState<MainStagePage> {
-  var currentStage = 0;
-
   NavigationItems buildItems() {
     return [
-      (
-        route: "/timetable",
-        item: (
-          icon: Icons.calendar_month_outlined,
-          activeIcon: Icons.calendar_month,
-          label: $timetable.i18n.navigation,
-        )
-      ),
+      if (ref.watch(Settings.timetable.$showTimetableNavigation) ?? true)
+        (
+          route: "/timetable",
+          item: (
+            icon: Icons.calendar_month_outlined,
+            activeIcon: Icons.calendar_month,
+            label: $timetable.i18n.navigation,
+          )
+        ),
       if (!kIsWeb)
         (
           route: "/school",

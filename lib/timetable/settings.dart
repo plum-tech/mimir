@@ -18,7 +18,7 @@ class _K {
   static const cellStyle = "$ns/cellStyle";
   static const quickLookLessonOnTap = "$ns/quickLookLessonOnTap";
   static const focusTimetable = '$ns/focusTimetable';
-
+  static const showTimetableNavigation = '$ns/showTimetableNavigation';
 }
 
 class TimetableSettings {
@@ -31,6 +31,12 @@ class TimetableSettings {
   set focusTimetable(bool newV) => box.safePut<bool>(_K.focusTimetable, newV);
 
   late final $focusTimetable = box.provider<bool>(_K.focusTimetable);
+
+  bool get showTimetableNavigation => box.safeGet<bool>(_K.showTimetableNavigation) ?? true;
+
+  set showTimetableNavigation(bool newV) => box.safePut<bool>(_K.showTimetableNavigation, newV);
+
+  late final $showTimetableNavigation = box.provider<bool>(_K.showTimetableNavigation);
 
   bool get autoUseImported => box.safeGet<bool>(_K.autoUseImported) ?? _kAutoUseImported;
 
