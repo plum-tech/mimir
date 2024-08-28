@@ -18,7 +18,9 @@ String encodeMimirUa(List<String> fixed, Map<String, String?> kv) {
   }
   list.add("*");
   for (final MapEntry(:key, :value) in kv.entries) {
-    list.add("$key=$value");
+    if (value != null) {
+      list.add("$key=$value");
+    }
   }
   return list.join(";");
 }
