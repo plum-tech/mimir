@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/backend/init.dart';
+import 'package:mimir/backend/ua.dart';
 import 'package:mimir/credentials/entity/credential.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/entity/user_type.dart';
@@ -9,7 +10,6 @@ import 'package:mimir/entity/campus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/lifecycle.dart';
-import 'package:mimir/r.dart';
 import 'package:mimir/session/mimir.dart';
 import 'package:mimir/settings/entity/proxy.dart';
 import 'package:mimir/storage/hive/init.dart';
@@ -87,12 +87,13 @@ class Init {
     DioInit.initUserAgent(dioNoCookie);
 
     mimirDio = Dio(BaseOptions(
-        connectTimeout: const Duration(milliseconds: 8000),
-        receiveTimeout: const Duration(milliseconds: 8000),
-        sendTimeout: const Duration(milliseconds: 8000),
-        headers: {
-          "User-Agent": "Flutter; ${R.meta.version}; ${R.meta.platform.name}; installer:${R.meta.installerStore}; ",
-        }));
+      connectTimeout: const Duration(milliseconds: 8000),
+      receiveTimeout: const Duration(milliseconds: 8000),
+      sendTimeout: const Duration(milliseconds: 8000),
+      headers: {
+        "User-Agent": getMimirUa(),
+      },
+    ));
 
     DioInit.initWith(
       mimirDio,
