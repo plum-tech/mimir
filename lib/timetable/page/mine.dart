@@ -54,8 +54,9 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
     final timetables = ref.watch(storage.$rows);
     final selectedId = ref.watch(storage.$selectedId);
     timetables.sort((a, b) => b.row.lastModified.compareTo(a.row.lastModified));
+    final focusMode = ref.watch(Settings.timetable.$focusTimetable) ?? false;
     final actions = [
-      if (Settings.focusTimetable)
+      if (focusMode)
         buildMoreActionsButton()
       else
         PlatformIconButton(
@@ -160,7 +161,7 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
   }
 
   Widget buildMoreActionsButton() {
-    final focusMode = Settings.focusTimetable;
+    final focusMode = ref.watch(Settings.timetable.$focusTimetable) ?? false;
     return PullDownMenuButton(
       itemBuilder: (ctx) => [
         PullDownItem(
@@ -190,7 +191,7 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
           title: i18n.focusTimetable,
           selected: focusMode,
           onTap: () async {
-            Settings.focusTimetable = !focusMode;
+            Settings.timetable.focusTimetable = !focusMode;
           },
         ),
       ],
