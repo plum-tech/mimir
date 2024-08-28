@@ -15,6 +15,8 @@ class _ForumPageState extends State<ForumPage> {
   @override
   Widget build(BuildContext context) {
     return InAppWebViewPage(
+      enableShare: false,
+      enableOpenInBrowser: false,
       initialUri: WebUri.uri(R.forumUri),
       canNavigate: limitOrigin(R.forumUri, onBlock: (uri) async {
         await guardLaunchUrl(context, uri);

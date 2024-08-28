@@ -4,6 +4,8 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 typedef NavigationRule = Future<bool> Function(WebUri uri);
 
@@ -24,11 +26,15 @@ NavigationRule limitOrigin(
 class InAppWebViewPage extends StatefulWidget {
   final WebUri initialUri;
   final NavigationRule? canNavigate;
+  final bool enableShare;
+  final bool enableOpenInBrowser;
 
   const InAppWebViewPage({
     super.key,
     required this.initialUri,
     this.canNavigate,
+    this.enableShare = true,
+    this.enableOpenInBrowser = true,
   });
 
   @override
@@ -38,7 +44,7 @@ class InAppWebViewPage extends StatefulWidget {
 class _InAppWebViewPageState extends State<InAppWebViewPage> {
   final webViewKey = GlobalKey();
 
-  InAppWebViewController? webViewController;
+  InAppWebViewController? controller;
   late InAppWebViewSettings settings;
   bool canBack = false;
   bool canForward = false;
@@ -67,9 +73,9 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
             ),
             onRefresh: () async {
               if (defaultTargetPlatform == TargetPlatform.android) {
-                webViewController?.reload();
+                controller?.reload();
               } else if (defaultTargetPlatform == TargetPlatform.iOS) {
-                webViewController?.loadUrl(urlRequest: URLRequest(url: await webViewController?.getUrl()));
+                controller?.loadUrl(urlRequest: URLRequest(url: await controller?.getUrl()));
               }
             },
           );
@@ -77,7 +83,7 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
 
   @override
   void dispose() {
-    webViewController?.dispose();
+    controller?.dispose();
     super.dispose();
   }
 
@@ -87,7 +93,7 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
         if (didPop) return;
-        final controller = webViewController;
+        final controller = this.controller;
         if (controller == null) return context.pop();
         final canGoBack = await controller.canGoBack();
         if (canGoBack) {
@@ -99,24 +105,31 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
-          toolbarHeight: 4,
-          title: progress < 1.0 ? LinearProgressIndicator(value: progress) : const SizedBox.shrink(),
+          leading: PlatformIconButton(
+            icon: Icon(context.icons.close),
+            onPressed: () {
+              context.pop();
+            },
+          ),
+          actions: buildNavigationButtons(),
         ),
-        persistentFooterButtons: buildNavigationButtons(),
+        floatingActionButton: progress < 1.0 ? CircularProgressIndicator.adaptive(value: progress) : null,
         body: InAppWebView(
           key: webViewKey,
           initialUrlRequest: URLRequest(url: widget.initialUri),
           initialSettings: settings,
           pullToRefreshController: pullToRefreshController,
           onWebViewCreated: (controller) {
-            webViewController = controller;
+            this.controller = controller;
           },
           onLoadStart: (controller, url) {
             setState(() {
               $url.text = url.toString();
             });
           },
+          // onScrollChanged: (controller, x, y) {
+          //   print("${x},${y}");
+          // },
           onPermissionRequest: (controller, request) async {
             return PermissionResponse(
               resources: request.resources,
@@ -184,24 +197,28 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
 
   List<Widget> buildNavigationButtons() {
     return [
-      PlatformIconButton(
-        icon: Icon(context.icons.close),
-        onPressed: () {
-          context.pop();
-        },
-      ),
+      if (widget.enableShare)
+        PlatformIconButton(
+          onPressed: _onShared,
+          icon: Icon(context.icons.share),
+        ),
+      if (widget.enableOpenInBrowser)
+        PlatformIconButton(
+          onPressed: _onOpenInBrowser,
+          icon: const Icon(Icons.open_in_browser),
+        ),
       PlatformIconButton(
         icon: const Icon(Icons.arrow_back),
         onPressed: !canBack
             ? null
             : () {
-                webViewController?.goBack();
+                controller?.goBack();
               },
       ),
       PlatformIconButton(
         icon: const Icon(Icons.refresh),
         onPressed: () {
-          webViewController?.reload();
+          controller?.reload();
         },
       ),
       PlatformIconButton(
@@ -209,9 +226,24 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
         onPressed: !canForward
             ? null
             : () {
-                webViewController?.goForward();
+                controller?.goForward();
               },
       ),
     ];
+  }
+
+  void _onShared() async {
+    final url = await controller?.getUrl();
+    if (url == null) return;
+    await Share.shareUri(url);
+  }
+
+  void _onOpenInBrowser() async {
+    final url = await controller?.getUrl();
+    if (url == null) return;
+    await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    );
   }
 }

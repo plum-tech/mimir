@@ -32,14 +32,9 @@ class WebViewPage extends StatefulWidget {
   /// JavaScript injection when page finished.
   final List<Injection>? pageFinishedInjections;
 
-  /// 显示分享按钮(默认不显示)
-  final bool showSharedButton;
-
-  /// 显示刷新按钮(默认显示)
-  final bool showRefreshButton;
-
-  /// 显示在浏览器中打开按钮(默认不显示)
-  final bool showOpenInBrowser;
+  final bool enableShare;
+  final bool enableRefresh;
+  final bool enableOpenInBrowser;
 
   /// 浮动按钮控件
   final Widget? floatingActionButton;
@@ -75,9 +70,9 @@ class WebViewPage extends StatefulWidget {
     this.pageStartedInjections,
     this.pageFinishedInjections,
     this.floatingActionButton,
-    this.showSharedButton = true,
-    this.showRefreshButton = true,
-    this.showOpenInBrowser = true,
+    this.enableShare = true,
+    this.enableRefresh = true,
+    this.enableOpenInBrowser = true,
     this.userAgent = _kUserAgent,
     this.javaScriptChannels,
     this.onPageStarted,
@@ -187,17 +182,17 @@ class _WebViewPageState extends State<WebViewPage> {
 
   AppBar buildAppBar() {
     final actions = <Widget>[
-      if (widget.showRefreshButton)
+      if (widget.enableRefresh)
         PlatformIconButton(
           onPressed: _onRefresh,
           icon: Icon(context.icons.refresh),
         ),
-      if (widget.showSharedButton)
+      if (widget.enableShare)
         PlatformIconButton(
           onPressed: _onShared,
           icon: Icon(context.icons.share),
         ),
-      if (widget.showOpenInBrowser)
+      if (widget.enableOpenInBrowser)
         PlatformIconButton(
           onPressed: () => launchUrlString(
             widget.initialUrl,
