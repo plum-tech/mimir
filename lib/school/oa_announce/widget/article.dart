@@ -9,7 +9,10 @@ import '../entity/announce.dart';
 class AnnounceArticle extends StatelessWidget {
   final OaAnnounceDetails details;
 
-  const AnnounceArticle(this.details, {super.key});
+  const AnnounceArticle(
+    this.details, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

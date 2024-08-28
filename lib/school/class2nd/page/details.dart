@@ -196,7 +196,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
 
   Widget buildDesc(String description) {
     return SliverPadding(
-      padding: const EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.all(8),
       sliver: RestyledHtmlWidget(
         description,
         renderMode: RenderMode.sliverList,

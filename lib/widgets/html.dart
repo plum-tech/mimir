@@ -1,7 +1,9 @@
+import 'package:flame/palette.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/utils/color.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -10,6 +12,7 @@ class RestyledHtmlWidget extends StatelessWidget {
   final RenderMode renderMode;
   final TextStyle? textStyle;
   final bool async;
+  final bool keepOriginalFontSize;
 
   const RestyledHtmlWidget(
     this.html, {
@@ -17,6 +20,7 @@ class RestyledHtmlWidget extends StatelessWidget {
     this.renderMode = RenderMode.column,
     this.textStyle,
     this.async = true,
+    this.keepOriginalFontSize = false,
   });
 
   @override
@@ -29,6 +33,8 @@ class RestyledHtmlWidget extends StatelessWidget {
       factoryBuilder: () => RestyledWidgetFactory(
         textStyle: textStyle,
         borderColor: context.colorScheme.surfaceContainerHighest,
+        darkMode: context.isDarkMode,
+        keepOriginFontSize: keepOriginalFontSize,
       ),
       textStyle: textStyle,
       onTapUrl: (url) async {
@@ -52,10 +58,14 @@ class RestyledHtmlWidget extends StatelessWidget {
 class RestyledWidgetFactory extends WidgetFactory {
   final TextStyle? textStyle;
   final Color? borderColor;
+  final bool darkMode;
+  final bool keepOriginFontSize;
 
   RestyledWidgetFactory({
     this.textStyle,
     this.borderColor,
+    required this.darkMode,
+    required this.keepOriginFontSize,
   });
 
   @override
@@ -65,16 +75,21 @@ class RestyledWidgetFactory extends WidgetFactory {
     TextStyle? style,
     String? text,
   }) {
+    var color = style?.color;
+    if (darkMode && color != null && color.luminance < 0.5) {
+      color = color.brighten(1 - color.luminance);
+    }
     return super.buildTextSpan(
       children: children,
       recognizer: recognizer,
       style: textStyle?.copyWith(
-        color: style?.color,
+        color: color,
         decoration: style?.decoration,
         decorationColor: style?.decorationColor,
         decorationStyle: style?.decorationStyle,
         decorationThickness: style?.decorationThickness,
         fontStyle: style?.fontStyle,
+        fontSize: keepOriginFontSize ? style?.fontSize : null,
       ),
       text: text,
     );

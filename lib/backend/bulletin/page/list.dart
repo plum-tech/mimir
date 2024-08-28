@@ -87,23 +87,25 @@ class BulletinCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return [
-      bulletin.short
-          .text(
-            style: context.textTheme.titleMedium,
-            textAlign: TextAlign.center,
-          )
-          .padOnly(b: 8),
-      FeaturedMarkdownWidget(
-        data: bulletin.content,
-      ),
-      context
-          .formatYmdhmNum(bulletin.createdAt)
-          .text(
-            textAlign: TextAlign.end,
-            style: context.textTheme.labelLarge,
-          )
-          .padOnly(t: 4),
-    ].column(caa: CrossAxisAlignment.stretch).padAll(12).inFilledCard();
+    return SelectionArea(
+      child: [
+        bulletin.short
+            .text(
+              style: context.textTheme.titleMedium,
+              textAlign: TextAlign.center,
+            )
+            .padOnly(b: 8),
+        FeaturedMarkdownWidget(
+          data: bulletin.content,
+        ),
+        context
+            .formatYmdhmNum(bulletin.createdAt)
+            .text(
+              textAlign: TextAlign.end,
+              style: context.textTheme.labelLarge,
+            )
+            .padOnly(t: 4),
+      ].column(caa: CrossAxisAlignment.stretch).padAll(12).inFilledCard(),
+    );
   }
 }

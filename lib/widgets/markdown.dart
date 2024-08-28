@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:markdown/markdown.dart';
 
 import 'html.dart';
@@ -7,13 +6,11 @@ import 'html.dart';
 class FeaturedMarkdownWidget extends StatefulWidget {
   final String data;
   final bool async;
-  final bool restyle;
 
   const FeaturedMarkdownWidget({
     super.key,
     required this.data,
     this.async = false,
-    this.restyle = false,
   });
 
   @override
@@ -57,16 +54,10 @@ class _FeaturedMarkdownWidgetState extends State<FeaturedMarkdownWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.restyle) {
-      return RestyledHtmlWidget(
-        html,
-        async: widget.async,
-      );
-    } else {
-      return HtmlWidget(
-        html,
-        buildAsync: widget.async,
-      );
-    }
+    return RestyledHtmlWidget(
+      html,
+      async: widget.async,
+      keepOriginalFontSize: true,
+    );
   }
 }

@@ -105,7 +105,7 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
             if (details != null) ...[
               const Divider().sliver(),
               SliverPadding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding: const EdgeInsets.all(8),
                 sliver: AnnounceArticle(details),
               ),
             ]
