@@ -227,6 +227,9 @@ timetable:
     autoUseImported:
       title: 自動使用匯入的
       desc: 使用新匯入的課程表
+    showTimetableNavigation:
+      title: '顯示 "課程表" 導覽'
+      desc: '在底部導覽列上顯示 "課程表"'
     palette:
       title: 調色盤
       desc: 自訂課程表的調色盤

@@ -226,6 +226,9 @@ timetable:
     autoUseImported:
       title: 自动使用新课程表
       desc: 自动使用新导入的课程表
+    showTimetableNavigation:
+      title: '显示 "课程表" 导航'
+      desc: '在底部导航栏上显示 "课程表"'
     palette:
       title: 配色方案
       desc: 自定义课程表的颜色

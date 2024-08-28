@@ -226,6 +226,9 @@ timetable:
     autoUseImported:
       title: Auto-use imported
       desc: Use the timetable just imported
+    showTimetableNavigation:
+      title: 'Show "Timetable" navigation'
+      desc: 'Show "Timetable" on the bottom navigation bar'
     palette:
       title: Palettes
       desc: Customize timetable colors
