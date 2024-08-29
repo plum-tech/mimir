@@ -6,10 +6,10 @@ import '../entity/bulletin.dart';
 
 const _base = "https://bulletin.mysit.life/v1";
 
-class BulletinService {
+class MimirBulletinService {
   MimirSession get _session => Init.mimirSession;
 
-  const BulletinService();
+  const MimirBulletinService();
 
   Future<MimirBulletin?> getLatest() async {
     final res = await _session.request("$_base/latest");

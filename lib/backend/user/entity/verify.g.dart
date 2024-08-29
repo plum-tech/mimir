@@ -6,6 +6,6 @@ part of 'verify.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-MimirVerifyMethods _$MimirVerifyMethodsFromJson(Map<String, dynamic> json) => MimirVerifyMethods(
+MimirAuthMethods _$MimirAuthMethodsFromJson(Map<String, dynamic> json) => MimirAuthMethods(
       schoolId: json['school-id'] as bool,
     );

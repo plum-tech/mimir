@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mimir/backend/user/x.dart';
 import 'package:mimir/design/widgets/app.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -38,7 +39,9 @@ class _MimirLoginAppCardState extends ConsumerState<MimirLoginAppCard> {
       leftActions: [
         FilledButton.icon(
           icon: const Icon(Icons.login),
-          onPressed: () {},
+          onPressed: () async {
+            await XMimirUser.login(context);
+          },
           label: "Login".text(),
         ),
       ],

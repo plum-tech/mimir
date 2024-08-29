@@ -14,12 +14,12 @@ import '../entity/artifact.dart';
 
 const _itunesURL = 'https://itunes.apple.com';
 
-class UpdateService {
+class MimirUpdateService {
   MimirSession get _session => Init.mimirSession;
 
   Dio get _dio => Init.dio;
 
-  const UpdateService();
+  const MimirUpdateService();
 
   Future<ArtifactVersionInfo> getLatestVersionFromOfficial() async {
     late Response res;

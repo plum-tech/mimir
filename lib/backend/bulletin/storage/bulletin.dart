@@ -10,10 +10,10 @@ class _K {
   static const list = "/list";
 }
 
-class BulletinStorage {
+class MimirBulletinStorage {
   Box get box => HiveInit.bulletin;
 
-  BulletinStorage();
+  MimirBulletinStorage();
 
   MimirBulletin? get latest => decodeJsonObject(
         box.safeGet<String>(_K.latest),
