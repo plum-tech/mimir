@@ -3,9 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/design/adaptive/menu.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/l10n/common.dart';
+import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:text_scroll/text_scroll.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+const _i18n = CommonI18n();
 
 typedef NavigationRule = Future<bool> Function(WebUri uri);
 
@@ -43,11 +49,10 @@ class InAppWebViewPage extends StatefulWidget {
 
 class _InAppWebViewPageState extends State<InAppWebViewPage> {
   final webViewKey = GlobalKey();
+  String? title;
 
   InAppWebViewController? controller;
   late InAppWebViewSettings settings;
-  bool canBack = false;
-  bool canForward = false;
 
   PullToRefreshController? pullToRefreshController;
   var progress = 0.0;
@@ -90,6 +95,7 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
 
   @override
   Widget build(BuildContext context) {
+    final title = this.title;
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (didPop, result) async {
@@ -106,13 +112,22 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
       },
       child: Scaffold(
         appBar: AppBar(
+          toolbarHeight: 42,
+          centerTitle: true,
+          titleTextStyle: context.textTheme.titleMedium,
+          title: title != null
+              ? TextScroll(
+                  title,
+                  velocity: const Velocity(pixelsPerSecond: Offset(20, 0)),
+                )
+              : null,
           leading: PlatformIconButton(
             icon: Icon(context.icons.close),
             onPressed: () {
               context.pop();
             },
           ),
-          actions: buildNavigationButtons(),
+          actions: [buildAction()],
         ),
         floatingActionButton: progress < 1.0 ? CircularProgressIndicator.adaptive(value: progress) : null,
         body: InAppWebView(
@@ -126,6 +141,17 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
           onLoadStart: (controller, url) {
             setState(() {
               $url.text = url.toString();
+            });
+          },
+          onLoadStop: (controller, url) async {
+            pullToRefreshController?.endRefreshing();
+            setState(() {
+              $url.text = url.toString();
+            });
+          },
+          onTitleChanged: (controller, title) async {
+            setState(() {
+              this.title = title?.trim();
             });
           },
           onPermissionRequest: (controller, request) async {
@@ -150,12 +176,6 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
             }
             return NavigationActionPolicy.ALLOW;
           },
-          onLoadStop: (controller, url) async {
-            pullToRefreshController?.endRefreshing();
-            setState(() {
-              $url.text = url.toString();
-            });
-          },
           onReceivedError: (controller, request, error) {
             pullToRefreshController?.endRefreshing();
           },
@@ -171,7 +191,6 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
             setState(() {
               $url.text = url.toString();
             });
-            await updateBackOrForward(controller);
           },
           onConsoleMessage: (controller, consoleMessage) {
             if (kDebugMode) {
@@ -183,50 +202,47 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
     );
   }
 
-  Future<void> updateBackOrForward(InAppWebViewController controller) async {
-    final canBack = await controller.canGoBack();
-    final canForward = await controller.canGoForward();
-    setState(() {
-      this.canBack = canBack;
-      this.canForward = canForward;
-    });
-  }
-
-  List<Widget> buildNavigationButtons() {
-    return [
-      if (widget.enableShare)
-        PlatformIconButton(
-          onPressed: _onShared,
-          icon: Icon(context.icons.share),
-        ),
-      if (widget.enableOpenInBrowser)
-        PlatformIconButton(
-          onPressed: _onOpenInBrowser,
-          icon: const Icon(Icons.open_in_browser),
-        ),
-      PlatformIconButton(
-        icon: const Icon(Icons.arrow_back),
-        onPressed: !canBack
-            ? null
-            : () {
-                controller?.goBack();
-              },
-      ),
-      PlatformIconButton(
+  Widget buildAction() {
+    var actions = 0;
+    actions++; // refresh
+    if (widget.enableShare) actions++;
+    if (widget.enableOpenInBrowser) actions++;
+    if (actions <= 1) {
+      return PlatformIconButton(
         icon: const Icon(Icons.refresh),
         onPressed: () {
           controller?.reload();
         },
-      ),
-      PlatformIconButton(
-        icon: const Icon(Icons.arrow_forward),
-        onPressed: !canForward
-            ? null
-            : () {
-                controller?.goForward();
-              },
-      ),
-    ];
+      );
+    } else {
+      return buildPullDownMenu();
+    }
+  }
+
+  Widget buildPullDownMenu() {
+    return PullDownMenuButton(
+      itemBuilder: (ctx) => [
+        PullDownItem(
+          title: _i18n.refresh,
+          icon: context.icons.refresh,
+          onTap: () {
+            controller?.reload();
+          },
+        ),
+        if (widget.enableShare)
+          PullDownItem(
+            title: _i18n.share,
+            icon: context.icons.share,
+            onTap: _onShared,
+          ),
+        if (widget.enableOpenInBrowser)
+          PullDownItem(
+            title: _i18n.openInBrowser,
+            icon: Icons.open_in_browser,
+            onTap: _onOpenInBrowser,
+          ),
+      ],
+    );
   }
 
   void _onShared() async {
