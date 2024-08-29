@@ -11,7 +11,8 @@ const io = axios.create({
   baseURL: "https://temp.sitmc.club",
   headers: {
     Authorization: auth,
-  }
+  },
+  timeout: 20 * 1000, //ms
 })
 
 /**
@@ -25,9 +26,7 @@ export async function uploadFile({ localFilePath, remotePath }) {
   formData.append('file', file, path.basename(localFilePath))
   formData.append('path', remotePath)
 
-  const res = await io.put("/admin", formData, {
-    timeout: 5000
-  })
+  const res = await io.put("/admin", formData)
 
   return res.data
 }
@@ -39,9 +38,7 @@ export async function deleteFile({ remotePath }) {
   const formData = new FormData()
   formData.append('path', remotePath)
 
-  const res = await io.delete("/admin", formData, {
-    timeout: 5000
-  })
+  const res = await io.delete("/admin", formData)
   return res.data
 }
 
