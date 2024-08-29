@@ -20,7 +20,7 @@ class LibraryMyBorrowingHistoryPage extends StatefulWidget {
 }
 
 class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistoryPage> {
-  bool isFetching = false;
+  bool fetching = false;
   List<BookBorrowingHistoryItem>? history = LibraryInit.borrowStorage.getBorrowHistory();
 
   @override
@@ -32,7 +32,7 @@ class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistor
   Future<void> fetch() async {
     if (!mounted) return;
     setState(() {
-      isFetching = true;
+      fetching = true;
     });
     try {
       final history = await LibraryInit.borrowService.getHistoryBorrowBookList();
@@ -40,13 +40,13 @@ class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistor
       if (!mounted) return;
       setState(() {
         this.history = history;
-        isFetching = false;
+        fetching = false;
       });
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
-        isFetching = false;
+        fetching = false;
       });
     }
   }
@@ -55,16 +55,11 @@ class _LibraryMyBorrowingHistoryPageState extends State<LibraryMyBorrowingHistor
   Widget build(BuildContext context) {
     final history = this.history;
     return Scaffold(
+      floatingActionButton: !fetching ? null : const CircularProgressIndicator.adaptive(),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             title: i18n.history.title.text(),
-            bottom: isFetching
-                ? const PreferredSize(
-                    preferredSize: Size.fromHeight(4),
-                    child: LinearProgressIndicator(),
-                  )
-                : null,
           ),
           if (history != null)
             if (history.isEmpty)

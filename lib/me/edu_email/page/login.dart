@@ -56,6 +56,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
                 )
               : null,
         ),
+        floatingActionButton: !isLoggingIn ? null : const CircularProgressIndicator.adaptive(),
         body: buildBody(),
         bottomNavigationBar: const ForgotPasswordButton(url: _forgotLoginPasswordUrl),
       ),

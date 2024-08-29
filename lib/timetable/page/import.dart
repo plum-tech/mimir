@@ -61,13 +61,8 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
             child: i18n.import.fromFileBtn.text(),
           ),
         ],
-        bottom: !isImporting
-            ? null
-            : const PreferredSize(
-                preferredSize: Size.fromHeight(4),
-                child: LinearProgressIndicator(),
-              ),
       ),
+      floatingActionButton: !isImporting ? null : const CircularProgressIndicator.adaptive(),
       body: buildImportPage(),
     );
   }

@@ -33,63 +33,59 @@ class _ActivityListPageState extends State<ActivityListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: PreferredSize(
-        preferredSize: const Size.fromHeight(4),
-        child: $loadingStates >>
-            (ctx, states) {
-              return !states.any((state) => state == true) ? const SizedBox.shrink() : const LinearProgressIndicator();
-            },
-      ),
-      body: DefaultTabController(
-        length: commonClass2ndCategories.length,
-        child: NestedScrollView(
-          floatHeaderSlivers: true,
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            // These are the slivers that show up in the "outer" scroll view.
-            return <Widget>[
-              SliverOverlapAbsorber(
-                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                sliver: SliverAppBar(
-                  floating: true,
-                  title: i18n.title.text(),
-                  forceElevated: innerBoxIsScrolled,
-                  actions: [
-                    PlatformIconButton(
-                      icon: Icon(context.icons.search),
-                      onPressed: () => showSearch(context: context, delegate: ActivitySearchDelegate()),
-                    ),
-                  ],
-                  bottom: TabBar(
-                    isScrollable: true,
-                    tabs: commonClass2ndCategories
-                        .mapIndexed(
-                          (i, e) => Tab(
-                            child: e.l10nName().text(),
+    return $loadingStates >>
+        (ctx, states) => Scaffold(
+              floatingActionButton:
+                  !states.any((state) => state == true) ? null : const CircularProgressIndicator.adaptive(),
+              body: DefaultTabController(
+                length: commonClass2ndCategories.length,
+                child: NestedScrollView(
+                  floatHeaderSlivers: true,
+                  headerSliverBuilder: (context, innerBoxIsScrolled) {
+                    // These are the slivers that show up in the "outer" scroll view.
+                    return <Widget>[
+                      SliverOverlapAbsorber(
+                        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                        sliver: SliverAppBar(
+                          floating: true,
+                          title: i18n.title.text(),
+                          forceElevated: innerBoxIsScrolled,
+                          actions: [
+                            PlatformIconButton(
+                              icon: Icon(context.icons.search),
+                              onPressed: () => showSearch(context: context, delegate: ActivitySearchDelegate()),
+                            ),
+                          ],
+                          bottom: TabBar(
+                            isScrollable: true,
+                            tabs: commonClass2ndCategories
+                                .mapIndexed(
+                                  (i, e) => Tab(
+                                    child: e.l10nName().text(),
+                                  ),
+                                )
+                                .toList(),
                           ),
-                        )
-                        .toList(),
+                        ),
+                      ),
+                    ];
+                  },
+                  body: TabBarView(
+                    // These are the contents of the tab views, below the tabs.
+                    children: commonClass2ndCategories.mapIndexed((i, cat) {
+                      return ActivityLoadingList(
+                        cat: cat,
+                        onLoadingChanged: (state) {
+                          final newStates = List.of($loadingStates.value);
+                          newStates[i] = state;
+                          $loadingStates.value = newStates;
+                        },
+                      );
+                    }).toList(),
                   ),
                 ),
               ),
-            ];
-          },
-          body: TabBarView(
-            // These are the contents of the tab views, below the tabs.
-            children: commonClass2ndCategories.mapIndexed((i, cat) {
-              return ActivityLoadingList(
-                cat: cat,
-                onLoadingChanged: (state) {
-                  final newStates = List.of($loadingStates.value);
-                  newStates[i] = state;
-                  $loadingStates.value = newStates;
-                },
-              );
-            }).toList(),
-          ),
-        ),
-      ),
-    );
+            );
   }
 }
 

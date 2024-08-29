@@ -46,7 +46,7 @@ class Class2ndActivityDetailsPage extends StatefulWidget {
 class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPage> {
   int get activityId => widget.activityId;
   late Class2ndActivityDetails? details = Class2ndInit.activityStorage.getActivityDetails(activityId);
-  bool isFetching = false;
+  bool fetching = false;
   var showMore = false;
 
   @override
@@ -58,13 +58,13 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
   Future<void> fetch() async {
     if (details != null) return;
     setState(() {
-      isFetching = true;
+      fetching = true;
     });
     final data = await Class2ndInit.activityService.getActivityDetails(activityId);
     await Class2ndInit.activityStorage.setActivityDetails(activityId, data);
     setState(() {
       details = data;
-      isFetching = false;
+      fetching = false;
     });
   }
 
@@ -108,12 +108,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
           ],
         ),
       ),
-      bottomNavigationBar: isFetching
-          ? const PreferredSize(
-              preferredSize: Size.fromHeight(4),
-              child: LinearProgressIndicator(),
-            )
-          : null,
+      floatingActionButton: !fetching ? null : const CircularProgressIndicator.adaptive(),
     );
   }
 

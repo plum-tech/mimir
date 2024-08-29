@@ -25,7 +25,7 @@ class ExpenseRecordsPage extends ConsumerStatefulWidget {
 }
 
 class _ExpenseRecordsPageState extends ConsumerState<ExpenseRecordsPage> {
-  bool isFetching = false;
+  bool fetching = false;
   List<Transaction>? records;
   List<({YearMonth time, List<Transaction> records})>? month2records;
 
@@ -48,7 +48,7 @@ class _ExpenseRecordsPageState extends ConsumerState<ExpenseRecordsPage> {
     if (credentials == null) return;
     if (!mounted) return;
     setState(() {
-      isFetching = true;
+      fetching = true;
     });
     try {
       await XExpense.fetchAndSaveTransactionUntilNow(
@@ -56,12 +56,12 @@ class _ExpenseRecordsPageState extends ConsumerState<ExpenseRecordsPage> {
       );
       updateRecords(ExpenseRecordsInit.storage.getTransactionsByRange());
       setState(() {
-        isFetching = false;
+        fetching = false;
       });
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
       setState(() {
-        isFetching = false;
+        fetching = false;
       });
     }
   }
@@ -92,13 +92,8 @@ class _ExpenseRecordsPageState extends ConsumerState<ExpenseRecordsPage> {
           ),
         ],
         centerTitle: true,
-        bottom: isFetching
-            ? const PreferredSize(
-                preferredSize: Size.fromHeight(4),
-                child: LinearProgressIndicator(),
-              )
-            : null,
       ),
+      floatingActionButton: !fetching ? null : const CircularProgressIndicator.adaptive(),
       body: RefreshIndicator.adaptive(
         onRefresh: () async {
           await HapticFeedback.heavyImpact();

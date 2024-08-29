@@ -34,7 +34,7 @@ class BookDetailsPage extends StatefulWidget {
 
 class _BookDetailsPageState extends State<BookDetailsPage> {
   late BookDetails? details = LibraryInit.bookStorage.getBookDetails(widget.book.bookId);
-  bool isFetching = false;
+  bool fetching = false;
   final $hasImage = ValueNotifier(true);
 
   @override
@@ -47,7 +47,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
     if (details != null) return;
     if (!mounted) return;
     setState(() {
-      isFetching = true;
+      fetching = true;
     });
     final bookId = widget.book.bookId;
     try {
@@ -56,7 +56,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
       if (!mounted) return;
       setState(() {
         this.details = details;
-        isFetching = false;
+        fetching = false;
       });
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
@@ -64,7 +64,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
     }
     if (!mounted) return;
     setState(() {
-      isFetching = false;
+      fetching = false;
     });
   }
 
@@ -77,6 +77,7 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
     final publishDate = book.publishDate;
     return SelectionArea(
       child: Scaffold(
+        floatingActionButton: !fetching ? null : const CircularProgressIndicator.adaptive(),
         body: CustomScrollView(
           slivers: [
             $hasImage >>
@@ -101,12 +102,6 @@ class _BookDetailsPageState extends State<BookDetailsPage> {
                             ),
                           ),
                           actions: widget.actions,
-                          bottom: isFetching
-                              ? const PreferredSize(
-                                  preferredSize: Size.fromHeight(4),
-                                  child: LinearProgressIndicator(),
-                                )
-                              : null,
                         );
                       },
                     ),

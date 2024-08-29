@@ -45,13 +45,8 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
       child: Scaffold(
         appBar: AppBar(
           title: i18n.login.title.text(),
-          bottom: isLoggingIn
-              ? const PreferredSize(
-                  preferredSize: Size.fromHeight(4),
-                  child: LinearProgressIndicator(),
-                )
-              : null,
         ),
+        floatingActionButton: !isLoggingIn ? null : const CircularProgressIndicator.adaptive(),
         body: buildBody(),
         bottomNavigationBar: const ForgotPasswordButton(url: LibraryApi.forgotLoginPasswordUrl),
       ),

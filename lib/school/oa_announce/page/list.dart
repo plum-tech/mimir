@@ -54,56 +54,52 @@ class _OaAnnounceListPageInternalState extends State<OaAnnounceListPageInternal>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: PreferredSize(
-        preferredSize: const Size.fromHeight(4),
-        child: $loadingStates >>
-            (ctx, states) {
-              return !states.any((state) => state == true) ? const SizedBox.shrink() : const LinearProgressIndicator();
-            },
-      ),
-      body: DefaultTabController(
-        length: widget.cats.length,
-        child: NestedScrollView(
-          floatHeaderSlivers: true,
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            // These are the slivers that show up in the "outer" scroll view.
-            return <Widget>[
-              SliverOverlapAbsorber(
-                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                sliver: SliverAppBar(
-                  floating: true,
-                  title: i18n.title.text(),
-                  forceElevated: innerBoxIsScrolled,
-                  bottom: TabBar(
-                    isScrollable: true,
-                    tabs: widget.cats
-                        .map((cat) => Tab(
-                              child: cat.l10nName().text(),
-                            ))
-                        .toList(),
+    return $loadingStates >>
+        (ctx, states) => Scaffold(
+              floatingActionButton:
+                  !states.any((state) => state == true) ? null : const CircularProgressIndicator.adaptive(),
+              body: DefaultTabController(
+                length: widget.cats.length,
+                child: NestedScrollView(
+                  floatHeaderSlivers: true,
+                  headerSliverBuilder: (context, innerBoxIsScrolled) {
+                    // These are the slivers that show up in the "outer" scroll view.
+                    return <Widget>[
+                      SliverOverlapAbsorber(
+                        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                        sliver: SliverAppBar(
+                          floating: true,
+                          title: i18n.title.text(),
+                          forceElevated: innerBoxIsScrolled,
+                          bottom: TabBar(
+                            isScrollable: true,
+                            tabs: widget.cats
+                                .map((cat) => Tab(
+                                      child: cat.l10nName().text(),
+                                    ))
+                                .toList(),
+                          ),
+                        ),
+                      ),
+                    ];
+                  },
+                  body: TabBarView(
+                    // These are the contents of the tab views, below the tabs.
+                    children: widget.cats.mapIndexed((i, cat) {
+                      return OaAnnounceLoadingList(
+                        key: ValueKey(cat),
+                        cat: cat,
+                        onLoadingChanged: (state) {
+                          final newStates = List.of($loadingStates.value);
+                          newStates[i] = state;
+                          $loadingStates.value = newStates;
+                        },
+                      );
+                    }).toList(),
                   ),
                 ),
               ),
-            ];
-          },
-          body: TabBarView(
-            // These are the contents of the tab views, below the tabs.
-            children: widget.cats.mapIndexed((i, cat) {
-              return OaAnnounceLoadingList(
-                key: ValueKey(cat),
-                cat: cat,
-                onLoadingChanged: (state) {
-                  final newStates = List.of($loadingStates.value);
-                  newStates[i] = state;
-                  $loadingStates.value = newStates;
-                },
-              );
-            }).toList(),
-          ),
-        ),
-      ),
-    );
+            );
   }
 }
 

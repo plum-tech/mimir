@@ -24,7 +24,7 @@ class ExamArrangementListPage extends ConsumerStatefulWidget {
 class _ExamArrangementListPageState extends ConsumerState<ExamArrangementListPage> {
   static SemesterInfo? _lastSemesterInfo;
   List<ExamEntry>? examList;
-  bool isFetching = false;
+  bool fetching = false;
   late SemesterInfo initial = _lastSemesterInfo ?? estimateSemesterInfo();
   late SemesterInfo selected = initial;
 
@@ -38,7 +38,7 @@ class _ExamArrangementListPageState extends ConsumerState<ExamArrangementListPag
     if (!mounted) return;
     setState(() {
       examList = ExamArrangeInit.storage.getExamList(info);
-      isFetching = true;
+      fetching = true;
     });
     try {
       final examList = await ExamArrangeInit.service.fetchExamList(info);
@@ -47,14 +47,14 @@ class _ExamArrangementListPageState extends ConsumerState<ExamArrangementListPag
         if (!mounted) return;
         setState(() {
           this.examList = examList;
-          isFetching = false;
+          fetching = false;
         });
       }
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
-        isFetching = false;
+        fetching = false;
       });
     }
   }
@@ -93,12 +93,7 @@ class _ExamArrangementListPageState extends ConsumerState<ExamArrangementListPag
               ),
         ],
       ),
-      bottomNavigationBar: isFetching
-          ? const PreferredSize(
-              preferredSize: Size.fromHeight(4),
-              child: LinearProgressIndicator(),
-            )
-          : null,
+      floatingActionButton: !fetching ? null : const CircularProgressIndicator.adaptive(),
     );
   }
 

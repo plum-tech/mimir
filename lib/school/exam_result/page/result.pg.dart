@@ -18,7 +18,7 @@ class ExamResultPgPage extends StatefulWidget {
 
 class _ExamResultPgPageState extends State<ExamResultPgPage> {
   List<ExamResultPg>? resultList;
-  bool isFetching = false;
+  bool fetching = false;
   bool isSelecting = false;
 
   Dispose? screenShotDispose;
@@ -47,7 +47,7 @@ class _ExamResultPgPageState extends State<ExamResultPgPage> {
     if (!mounted) return;
     setState(() {
       resultList = ExamResultInit.pgStorage.getResultList();
-      isFetching = true;
+      fetching = true;
     });
     try {
       final resultList = await ExamResultInit.pgService.fetchResultList();
@@ -55,13 +55,13 @@ class _ExamResultPgPageState extends State<ExamResultPgPage> {
       if (!mounted) return;
       setState(() {
         this.resultList = resultList;
-        isFetching = false;
+        fetching = false;
       });
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
-        isFetching = false;
+        fetching = false;
       });
     }
   }
@@ -70,18 +70,13 @@ class _ExamResultPgPageState extends State<ExamResultPgPage> {
   Widget build(BuildContext context) {
     final resultList = this.resultList;
     return Scaffold(
+      floatingActionButton: !fetching ? null : const CircularProgressIndicator.adaptive(),
       body: CustomScrollView(
         key: scrollAreaKey,
         controller: scrollController,
         slivers: [
           SliverAppBar.medium(
             title: i18n.title.text(),
-            bottom: isFetching
-                ? const PreferredSize(
-                    preferredSize: Size.fromHeight(4),
-                    child: LinearProgressIndicator(),
-                  )
-                : null,
           ),
           if (resultList != null)
             if (resultList.isEmpty)

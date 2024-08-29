@@ -43,7 +43,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
   static const sizePerPage = 30;
   BookSearchResult? lastResult;
   List<Book>? books;
-  bool isFetching = false;
+  bool fetching = false;
 
   @override
   void initState() {
@@ -64,11 +64,11 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
   }
 
   Future<void> fetchNextPage() async {
-    if (isFetching) return;
+    if (fetching) return;
     final lastResult = this.lastResult;
     if (lastResult != null && lastResult.currentPage > lastResult.totalPage) return;
     setState(() {
-      isFetching = true;
+      fetching = true;
     });
     try {
       final searchResult = await LibraryInit.bookSearch.search(
@@ -82,13 +82,13 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
         final books = this.books ??= <Book>[];
         books.addAll(searchResult.books);
         this.lastResult = searchResult;
-        isFetching = false;
+        fetching = false;
       });
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
-        isFetching = false;
+        fetching = false;
       });
     }
   }
@@ -115,12 +115,7 @@ class _BookSearchResultWidgetState extends State<BookSearchResultWidget> with Au
               buildGrid(books)
         ],
       ),
-      bottomNavigationBar: isFetching
-          ? const PreferredSize(
-              preferredSize: Size.fromHeight(4),
-              child: LinearProgressIndicator(),
-            )
-          : null,
+      floatingActionButton: !fetching ? null : const CircularProgressIndicator.adaptive(),
     );
   }
 

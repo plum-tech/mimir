@@ -53,16 +53,11 @@ class _BulletinListPageState extends ConsumerState<BulletinListPage> {
   Widget build(BuildContext context) {
     var list = watchList();
     return Scaffold(
+      floatingActionButton: !fetching ? null : const CircularProgressIndicator.adaptive(),
       body: CustomScrollView(
         slivers: [
           SliverAppBar.medium(
             title: i18n.title.text(),
-            bottom: !fetching
-                ? null
-                : const PreferredSize(
-                    preferredSize: Size.fromHeight(4),
-                    child: LinearProgressIndicator(),
-                  ),
           ),
           if (list != null)
             SliverList.builder(

@@ -24,7 +24,7 @@ class LibraryBorrowingPage extends StatefulWidget {
 }
 
 class _LibraryBorrowingPageState extends State<LibraryBorrowingPage> {
-  bool isFetching = false;
+  bool fetching = false;
   List<BorrowedBookItem>? borrowed = LibraryInit.borrowStorage.getBorrowedBooks();
 
   @override
@@ -36,7 +36,7 @@ class _LibraryBorrowingPageState extends State<LibraryBorrowingPage> {
   Future<void> fetch() async {
     if (!mounted) return;
     setState(() {
-      isFetching = true;
+      fetching = true;
     });
     try {
       final borrowed = await LibraryInit.borrowService.getMyBorrowBookList();
@@ -44,13 +44,13 @@ class _LibraryBorrowingPageState extends State<LibraryBorrowingPage> {
       if (!mounted) return;
       setState(() {
         this.borrowed = borrowed;
-        isFetching = false;
+        fetching = false;
       });
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
-        isFetching = false;
+        fetching = false;
       });
     }
   }
@@ -59,6 +59,7 @@ class _LibraryBorrowingPageState extends State<LibraryBorrowingPage> {
   Widget build(BuildContext context) {
     final borrowed = this.borrowed;
     return Scaffold(
+      floatingActionButton: !fetching ? null : const CircularProgressIndicator.adaptive(),
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -71,12 +72,6 @@ class _LibraryBorrowingPageState extends State<LibraryBorrowingPage> {
                 },
               ),
             ],
-            bottom: isFetching
-                ? const PreferredSize(
-                    preferredSize: Size.fromHeight(4),
-                    child: LinearProgressIndicator(),
-                  )
-                : null,
           ),
           if (borrowed != null)
             if (borrowed.isEmpty)

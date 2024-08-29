@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/adaptive/multiplatform.dart';
-import 'package:mimir/design/widgets/fab.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
@@ -31,7 +29,7 @@ class _YwbServiceDetailsPageState extends State<YwbServiceDetailsPage> {
   String get name => widget.meta.name;
   late YwbServiceDetails? details = YwbInit.serviceStorage.getServiceDetails(id);
   final controller = ScrollController();
-  bool isFetching = false;
+  bool fetching = false;
 
   @override
   void initState() {
@@ -42,21 +40,21 @@ class _YwbServiceDetailsPageState extends State<YwbServiceDetailsPage> {
   Future<void> refresh() async {
     if (!mounted) return;
     setState(() {
-      isFetching = true;
+      fetching = true;
     });
     try {
       final meta = await YwbInit.serviceService.getServiceDetails(id);
       YwbInit.serviceStorage.setMetaDetails(id, meta);
       if (!mounted) return;
       setState(() {
-        isFetching = false;
+        fetching = false;
         details = meta;
       });
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
-        isFetching = false;
+        fetching = false;
       });
     }
   }
@@ -87,18 +85,14 @@ class _YwbServiceDetailsPageState extends State<YwbServiceDetailsPage> {
           ],
         ),
       ),
-      floatingActionButton: AutoHideFAB.extended(
-        controller: controller,
-        onPressed: () => openInApp(),
-        icon: Icon(context.icons.rightChevron),
-        label: i18n.details.apply.text(),
-      ),
-      bottomNavigationBar: isFetching
-          ? const PreferredSize(
-              preferredSize: Size.fromHeight(4),
-              child: LinearProgressIndicator(),
-            )
-          : null,
+      // TODO: Fix ywb application
+      // floatingActionButton: AutoHideFAB.extended(
+      //   controller: controller,
+      //   onPressed: () => openInApp(),
+      //   icon: Icon(context.icons.rightChevron),
+      //   label: i18n.details.apply.text(),
+      // ),
+      floatingActionButton: !fetching ? null : const CircularProgressIndicator.adaptive(),
     );
   }
 

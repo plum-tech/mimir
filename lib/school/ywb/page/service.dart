@@ -25,7 +25,7 @@ class _YwbServiceListPageState extends State<YwbServiceListPage> {
 
   /// in descending order
   List<YwbService>? metaList;
-  bool isLoading = false;
+  bool fetching = false;
 
   @override
   void initState() {
@@ -54,7 +54,7 @@ class _YwbServiceListPageState extends State<YwbServiceListPage> {
     if (!mounted) return;
     setState(() {
       metaList = YwbInit.serviceStorage.serviceList;
-      isLoading = true;
+      fetching = true;
     });
     try {
       final metaList = await YwbInit.serviceService.getServices();
@@ -63,13 +63,13 @@ class _YwbServiceListPageState extends State<YwbServiceListPage> {
       if (!mounted) return;
       setState(() {
         this.metaList = metaList;
-        isLoading = false;
+        fetching = false;
       });
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
-        isLoading = false;
+        fetching = false;
       });
     }
   }
@@ -78,6 +78,7 @@ class _YwbServiceListPageState extends State<YwbServiceListPage> {
   Widget build(BuildContext context) {
     final metaList = this.metaList;
     return Scaffold(
+      floatingActionButton: !fetching ? null : const CircularProgressIndicator.adaptive(),
       body: CustomScrollView(
         key: scrollAreaKey,
         controller: scrollController,
@@ -92,12 +93,6 @@ class _YwbServiceListPageState extends State<YwbServiceListPage> {
                 child: Icon(context.icons.info).padAll(8),
               ),
             ],
-            bottom: isLoading
-                ? const PreferredSize(
-                    preferredSize: Size.fromHeight(4),
-                    child: LinearProgressIndicator(),
-                  )
-                : null,
           ),
           if (metaList != null)
             if (metaList.isEmpty)

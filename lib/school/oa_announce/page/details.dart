@@ -30,7 +30,7 @@ class AnnounceDetailsPage extends StatefulWidget {
 
 class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
   late OaAnnounceDetails? details = OaAnnounceInit.storage.getAnnounceDetails(widget.record.uuid);
-  bool isFetching = false;
+  bool fetching = false;
 
   @override
   void initState() {
@@ -42,7 +42,7 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
     if (details != null) return;
     if (!mounted) return;
     setState(() {
-      isFetching = true;
+      fetching = true;
     });
     try {
       final catalogId = widget.record.catalogId;
@@ -52,13 +52,13 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
       if (!mounted) return;
       setState(() {
         this.details = details;
-        isFetching = false;
+        fetching = false;
       });
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
-        isFetching = false;
+        fetching = false;
       });
     }
   }
@@ -117,12 +117,7 @@ class _AnnounceDetailsPageState extends State<AnnounceDetailsPage> {
           ],
         ),
       ),
-      bottomNavigationBar: isFetching
-          ? const PreferredSize(
-              preferredSize: Size.fromHeight(4),
-              child: LinearProgressIndicator(),
-            )
-          : null,
+      floatingActionButton: !fetching ? null : const CircularProgressIndicator.adaptive(),
     );
   }
 
