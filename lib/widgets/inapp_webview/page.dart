@@ -5,6 +5,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/adaptive/menu.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/design/animation/progress.dart';
 import 'package:mimir/l10n/common.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
@@ -130,11 +131,7 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
           actions: [buildAction()],
         ),
         floatingActionButton: progress < 1.0
-            ? TweenAnimationBuilder(
-                tween: Tween(begin: progress, end: progress),
-                duration: Durations.medium1,
-                builder: (ctx, v, _) => CircularProgressIndicator.adaptive(value: v),
-              )
+            ? AnimatedProgressCircle(value: progress)
             : null,
         body: InAppWebView(
           key: webViewKey,

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/design/animation/progress.dart';
 import 'package:mimir/l10n/common.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:mimir/widgets/webview/injectable.dart';
@@ -91,7 +92,7 @@ class WebViewPage extends StatefulWidget {
 class _WebViewPageState extends State<WebViewPage> {
   late WebViewController controller;
   late String? title = Uri.tryParse(widget.initialUrl)?.authority;
-  int progress = 0;
+  double progress = 0;
 
   @override
   void initState() {
@@ -109,15 +110,6 @@ class _WebViewPageState extends State<WebViewPage> {
     if (uri != null) {
       Share.shareUri(uri);
     }
-  }
-
-  PreferredSizeWidget buildTopIndicator() {
-    return PreferredSize(
-      preferredSize: const Size.fromHeight(4),
-      child: LinearProgressIndicator(
-        value: progress / 100,
-      ),
-    );
   }
 
   @override
@@ -141,7 +133,7 @@ class _WebViewPageState extends State<WebViewPage> {
       child: Scaffold(
         appBar: widget.appBar ? buildAppBar() : null,
         bottomNavigationBar: widget.bottomNavigationBar,
-        floatingActionButton: widget.floatingActionButton,
+        floatingActionButton: progress < 1.0 ? AnimatedProgressCircle(value: progress) : null,
         body: InjectableWebView(
           initialUrl: widget.initialUrl,
           controller: widget.controller,
@@ -161,7 +153,7 @@ class _WebViewPageState extends State<WebViewPage> {
           onProgress: (value) {
             if (!mounted) return;
             widget.onProgress?.call(value);
-            setState(() => progress = value % 100);
+            setState(() => progress = value % 100 / 100);
           },
           pageStartedInjections: widget.pageStartedInjections,
           pageFinishedInjections: [
@@ -181,35 +173,33 @@ class _WebViewPageState extends State<WebViewPage> {
   }
 
   AppBar buildAppBar() {
-    final actions = <Widget>[
-      if (widget.enableRefresh)
-        PlatformIconButton(
-          onPressed: _onRefresh,
-          icon: Icon(context.icons.refresh),
-        ),
-      if (widget.enableShare)
-        PlatformIconButton(
-          onPressed: _onShared,
-          icon: Icon(context.icons.share),
-        ),
-      if (widget.enableOpenInBrowser)
-        PlatformIconButton(
-          onPressed: () => launchUrlString(
-            widget.initialUrl,
-            mode: LaunchMode.externalApplication,
-          ),
-          icon: const Icon(Icons.open_in_browser),
-        ),
-      ...?widget.otherActions,
-    ];
     final curTitle = widget.fixedTitle ?? title ?? const CommonI18n().untitled;
     return AppBar(
       title: TextScroll(
         curTitle,
         velocity: const Velocity(pixelsPerSecond: Offset(40, 0)),
       ),
-      actions: actions,
-      bottom: buildTopIndicator(),
+      actions: [
+        if (widget.enableRefresh)
+          PlatformIconButton(
+            onPressed: _onRefresh,
+            icon: Icon(context.icons.refresh),
+          ),
+        if (widget.enableShare)
+          PlatformIconButton(
+            onPressed: _onShared,
+            icon: Icon(context.icons.share),
+          ),
+        if (widget.enableOpenInBrowser)
+          PlatformIconButton(
+            onPressed: () => launchUrlString(
+              widget.initialUrl,
+              mode: LaunchMode.externalApplication,
+            ),
+            icon: const Icon(Icons.open_in_browser),
+          ),
+        ...?widget.otherActions,
+      ],
     );
   }
 }

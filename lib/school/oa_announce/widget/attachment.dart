@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/design/animation/progress.dart';
 import 'package:sanitize_filename/sanitize_filename.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:open_file/open_file.dart';
@@ -47,7 +48,7 @@ class _AttachmentLinkTileState extends State<AttachmentLinkTile> {
       ),
       subtitle: progress == null
           ? null
-          : LinearProgressIndicator(
+          : AnimatedProgressBar(
               value: progress.isNaN ? null : progress,
             ),
     );

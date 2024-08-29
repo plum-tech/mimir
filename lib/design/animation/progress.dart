@@ -18,25 +18,51 @@ class ProgressWatcher {
 }
 
 class AnimatedProgressBar extends StatelessWidget {
-  final double value;
+  final double? value;
   final Duration duration;
 
   const AnimatedProgressBar({
     super.key,
     required this.value,
-    this.duration = const Duration(milliseconds: 250),
+    this.duration = Durations.medium1,
   });
 
   @override
   Widget build(BuildContext context) {
+    final value = this.value;
+    if (value == null) {
+      return const LinearProgressIndicator();
+    }
     return TweenAnimationBuilder<double>(
       duration: duration,
       curve: Curves.easeInOut,
-      tween: Tween<double>(
-        begin: 0,
-        end: value,
-      ),
+      tween: Tween<double>(begin: 0, end: value),
       builder: (context, value, _) => LinearProgressIndicator(value: value),
+    );
+  }
+}
+
+class AnimatedProgressCircle extends StatelessWidget {
+  final double? value;
+  final Duration duration;
+
+  const AnimatedProgressCircle({
+    super.key,
+    required this.value,
+    this.duration = Durations.medium1,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final value = this.value;
+    if (value == null) {
+      return const CircularProgressIndicator.adaptive();
+    }
+    return TweenAnimationBuilder<double>(
+      duration: duration,
+      curve: Curves.easeInOut,
+      tween: Tween<double>(begin: value, end: value),
+      builder: (context, value, _) => CircularProgressIndicator.adaptive(value: value),
     );
   }
 }
