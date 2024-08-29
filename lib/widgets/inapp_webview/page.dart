@@ -130,9 +130,7 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
           ),
           actions: [buildAction()],
         ),
-        floatingActionButton: progress < 1.0
-            ? AnimatedProgressCircle(value: progress)
-            : null,
+        floatingActionButton: progress < 1.0 ? AnimatedProgressCircle(value: progress) : null,
         body: InAppWebView(
           key: webViewKey,
           initialUrlRequest: URLRequest(url: widget.initialUri),

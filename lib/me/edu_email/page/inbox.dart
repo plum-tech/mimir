@@ -60,9 +60,7 @@ class _EduEmailInboxPageState extends ConsumerState<EduEmailInboxPage> {
     final credentials = ref.watch(CredentialsInit.storage.$eduEmailCredentials);
     final messages = this.messages;
     return Scaffold(
-      floatingActionButton: credentials != null && messages == null
-          ? const CircularProgressIndicator.adaptive()
-          : null,
+      floatingActionButton: credentials != null && messages == null ? const CircularProgressIndicator.adaptive() : null,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(

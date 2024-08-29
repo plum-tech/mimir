@@ -11,4 +11,3 @@ class _I18n with CommonI18nMixin {
   String get navigation => "$ns.navigation".tr();
   String get title => "$ns.title".tr();
 }
-

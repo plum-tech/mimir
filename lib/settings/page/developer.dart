@@ -622,13 +622,12 @@ class _DeviceInfoPageState extends ConsumerState<DeviceInfoPage> {
       info.device;
     } else if (info is IosDeviceInfo) {
       info.model;
-    }else if(info is WindowsDeviceInfo){
+    } else if (info is WindowsDeviceInfo) {
       info.productName;
-    }else if(info is MacOsDeviceInfo){
+    } else if (info is MacOsDeviceInfo) {
       info.model;
-    }else if(info is WebBrowserInfo){
-
-    }else if(info is LinuxDeviceInfo){
+    } else if (info is WebBrowserInfo) {
+    } else if (info is LinuxDeviceInfo) {
       info.name;
     }
     return [];

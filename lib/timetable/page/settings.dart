@@ -120,8 +120,6 @@ class AutoUseImportedTile extends ConsumerWidget {
   }
 }
 
-
-
 class ShowTimetableNavigationTile extends ConsumerWidget {
   const ShowTimetableNavigationTile({super.key});
 
