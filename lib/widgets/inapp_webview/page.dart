@@ -129,7 +129,13 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
           ),
           actions: [buildAction()],
         ),
-        floatingActionButton: progress < 1.0 ? CircularProgressIndicator.adaptive(value: progress) : null,
+        floatingActionButton: progress < 1.0
+            ? TweenAnimationBuilder(
+                tween: Tween(begin: progress, end: progress),
+                duration: Durations.medium1,
+                builder: (ctx, v, _) => CircularProgressIndicator.adaptive(value: v),
+              )
+            : null,
         body: InAppWebView(
           key: webViewKey,
           initialUrlRequest: URLRequest(url: widget.initialUri),
@@ -141,12 +147,14 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
           onLoadStart: (controller, url) {
             setState(() {
               $url.text = url.toString();
+              progress = 0;
             });
           },
           onLoadStop: (controller, url) async {
             pullToRefreshController?.endRefreshing();
             setState(() {
               $url.text = url.toString();
+              progress = 1;
             });
           },
           onTitleChanged: (controller, title) async {
