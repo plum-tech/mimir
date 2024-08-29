@@ -1,4 +1,4 @@
-import 'package:mimir/backend/login/entity/verify.dart';
+import 'package:mimir/backend/user/entity/verify.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/session/mimir.dart';
 

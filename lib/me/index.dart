@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/backend/user/card.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
@@ -54,6 +55,7 @@ class _MePageState extends ConsumerState<MePage> {
               ),
             ],
           ),
+          const UserProfileAppCard().sliver(),
           const EduEmailAppCard().sliver(),
           SliverList.list(children: [
             buildQQGroupTile(),
