@@ -5,7 +5,7 @@ part 'verify.g.dart';
 @JsonSerializable(createToJson: false)
 class MimirAuthMethods {
   @JsonKey(name: "school-id")
-  final bool schoolId;
+  final bool? schoolId;
 
   const MimirAuthMethods({
     required this.schoolId,

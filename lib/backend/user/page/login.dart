@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/backend/user/entity/verify.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/utils/save.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../init.dart';
@@ -30,30 +32,66 @@ class _MimirLoginPageState extends ConsumerState<MimirLoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: "Login SIT Life".text(),
+    return PromptSaveBeforeQuitScope(
+      changed: true,
+      onSave: () {},
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          toolbarHeight: 90,
+          title: buildSchoolSelector(),
+        ),
+        body: [
+          buildHeader(),
+          const Divider(),
+          buildLoginForm().padAll(8).expanded(),
+        ].column(),
       ),
-      body: buildBody(),
     );
   }
 
-  Widget buildBody() {
+  Widget buildHeader() {
     final authMethods = this.authMethods;
     return [
-      buildSchoolSelector(),
-      if (authMethods != null) buildAuthButtons(authMethods),
-    ].column().padAll(8);
+      "Login SIT Life".text(
+        style: context.textTheme.displaySmall,
+        textAlign: TextAlign.center,
+      ),
+      const Padding(padding: EdgeInsets.only(top: 40)),
+      if (authMethods != null) buildAuthSegments(authMethods),
+      // buildSchoolIdField(),
+    ].column(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.center).center().padAll(8);
   }
 
-  Widget buildAuthButtons(MimirAuthMethods methods) {
-    return [
-      if (methods.schoolId)
-        FilledButton(
-          onPressed: () {},
-          child: "School Id".text(),
+  Widget buildLoginForm() {
+    return SchoolIdLoginForm();
+  }
+
+  Widget buildAuthSegments(MimirAuthMethods methods) {
+    return SegmentedButton(
+      segments: [
+        if (methods.schoolId != null)
+          ButtonSegment(
+            label: "School ID".text(),
+            value: "school-id",
+            enabled: methods.schoolId == true,
+          ),
+        ButtonSegment(
+          label: "Phone".text(),
+          value: "phone-number",
+          enabled: false,
         ),
-    ].wrap();
+      ],
+      selected: const {"school-id"},
+      onSelectionChanged: (newSelection) {},
+    );
+  }
+
+  Widget buildPhoneNumber() {
+    return FilledButton(
+      onPressed: () {},
+      child: "Phone Number".text(),
+    );
   }
 
   Widget buildSchoolSelector() {
@@ -69,6 +107,41 @@ class _MimirLoginPageState extends ConsumerState<MimirLoginPage> {
           label: "SIT",
         )
       ],
+    );
+  }
+}
+
+class SchoolIdLoginForm extends ConsumerStatefulWidget {
+  const SchoolIdLoginForm({super.key});
+
+  @override
+  ConsumerState createState() => _SchoolIdLoginFormState();
+}
+
+class _SchoolIdLoginFormState extends ConsumerState<SchoolIdLoginForm> {
+  final $schoolId = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      buildSchoolIdField(),
+    ].column();
+  }
+
+  Widget buildSchoolIdField() {
+    return TextFormField(
+      controller: $schoolId,
+      autofillHints: const [AutofillHints.username],
+      textInputAction: TextInputAction.next,
+      autocorrect: false,
+      // readOnly: isLoggingIn,
+      enableSuggestions: false,
+      // validator: (account) => studentIdValidator(account, () => i18n.invalidAccountFormat),
+      decoration: InputDecoration(
+        labelText: "School ID",
+        hintText: "Student ID/Worker ID",
+        icon: Icon(context.icons.person),
+      ),
     );
   }
 }

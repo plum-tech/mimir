@@ -7,5 +7,5 @@ part of 'verify.dart';
 // **************************************************************************
 
 MimirAuthMethods _$MimirAuthMethodsFromJson(Map<String, dynamic> json) => MimirAuthMethods(
-      schoolId: json['school-id'] as bool,
+      schoolId: json['school-id'] as bool?,
     );
