@@ -6,6 +6,7 @@ import 'package:mimir/utils/save.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../init.dart';
+import '../entity/user.dart';
 
 class MimirLoginPage extends ConsumerStatefulWidget {
   const MimirLoginPage({super.key});
@@ -16,6 +17,7 @@ class MimirLoginPage extends ConsumerStatefulWidget {
 
 class _MimirLoginPageState extends ConsumerState<MimirLoginPage> {
   MimirAuthMethods? authMethods;
+  var school = SchoolCode.sit;
 
   @override
   void initState() {
@@ -24,7 +26,10 @@ class _MimirLoginPageState extends ConsumerState<MimirLoginPage> {
   }
 
   Future<void> fetchAuthMethods() async {
-    final authMethods = await BackendInit.login.fetchAuthMethods();
+    setState(() {
+      this.authMethods = null;
+    });
+    final authMethods = await BackendInit.login.fetchAuthMethods(school: school);
     setState(() {
       this.authMethods = authMethods;
     });
@@ -58,12 +63,15 @@ class _MimirLoginPageState extends ConsumerState<MimirLoginPage> {
         textAlign: TextAlign.center,
       ),
       const Padding(padding: EdgeInsets.only(top: 40)),
-      if (authMethods != null) buildAuthSegments(authMethods),
+      if (authMethods != null) buildAuthSegments(authMethods) else const CircularProgressIndicator.adaptive(),
       // buildSchoolIdField(),
     ].column(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.center).center().padAll(8);
   }
 
   Widget buildLoginForm() {
+    if (authMethods == null) {
+      return const CircularProgressIndicator.adaptive();
+    }
     return SchoolIdLoginForm();
   }
 
@@ -95,18 +103,24 @@ class _MimirLoginPageState extends ConsumerState<MimirLoginPage> {
   }
 
   Widget buildSchoolSelector() {
-    return DropdownMenu<String>(
+    return DropdownMenu<SchoolCode>(
       label: "School".text(),
-      initialSelection: "10259",
-      onSelected: (String? newSelection) {
-        print(newSelection);
+      initialSelection: school,
+      onSelected: (newSelection) {
+        final selected = newSelection ?? SchoolCode.sit;
+        if (school != selected) {
+          setState(() {
+            school = selected;
+          });
+          fetchAuthMethods();
+        }
       },
-      dropdownMenuEntries: [
-        DropdownMenuEntry<String>(
-          value: "10259",
-          label: "SIT",
-        )
-      ],
+      dropdownMenuEntries: SchoolCode.values
+          .map((school) => DropdownMenuEntry<SchoolCode>(
+                value: school,
+                label: school.l10n(),
+              ))
+          .toList(),
     );
   }
 }

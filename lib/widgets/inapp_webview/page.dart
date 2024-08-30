@@ -10,6 +10,7 @@ import 'package:mimir/l10n/common.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:text_scroll/text_scroll.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 const _i18n = CommonI18n();
@@ -72,9 +73,8 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
       iframeAllow: "camera; microphone",
       iframeAllowFullscreen: true,
     );
-    pullToRefreshController = kIsWeb
-        ? null
-        : PullToRefreshController(
+    pullToRefreshController = !kIsWeb && UniversalPlatform.isMobile
+        ? PullToRefreshController(
             settings: PullToRefreshSettings(
               color: Colors.blue,
             ),
@@ -85,7 +85,8 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
                 controller?.loadUrl(urlRequest: URLRequest(url: await controller?.getUrl()));
               }
             },
-          );
+          )
+        : null;
   }
 
   @override
