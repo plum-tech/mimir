@@ -113,7 +113,7 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          toolbarHeight: 42,
+          toolbarHeight: 48,
           centerTitle: true,
           titleTextStyle: context.textTheme.titleMedium,
           title: title != null

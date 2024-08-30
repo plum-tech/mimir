@@ -7,6 +7,7 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' hide Key;
 import 'package:logger/logger.dart';
+import 'package:mimir/backend/init.dart';
 import 'package:mimir/credentials/entity/credential.dart';
 import 'package:mimir/credentials/error.dart';
 import 'package:mimir/credentials/init.dart';
@@ -14,7 +15,6 @@ import 'package:mimir/init.dart';
 import 'package:mimir/lifecycle.dart';
 import 'package:mimir/r.dart';
 
-import 'package:mimir/session/auth.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:mimir/utils/riverpod.dart';
 import 'package:encrypt/encrypt.dart';
@@ -111,7 +111,7 @@ class SsoSession {
       try {
         final byAutoCaptcha = await _login(
           credentials,
-          inputCaptcha: (captchaImage) => AuthSession.recognizeOaCaptcha(captchaImage),
+          inputCaptcha: (captchaImage) => BackendInit.ocr.recognizeSchoolCaptcha(captchaImage),
         );
         return byAutoCaptcha;
       } catch (error, stackTrace) {
