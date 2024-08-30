@@ -585,9 +585,9 @@ networkTool:
   schoolServerAvailable: 可以访问学校服务器
   schoolServerUnavailable: 无法访问学校服务器
   schoolServerAvailableTip: |
-    您可以登录 OA，查看 OA 公告，以及访问其他需要学校服务器的服务。
+    你可以登录 OA，查看 OA 公告，以及访问其他需要学校服务器的服务。
   schoolServerUnavailableTip: |
-    您无法登录 OA，也无法访问任何需要学校服务器的服务。
+    你无法登录 OA，也无法访问任何需要学校服务器的服务。
   studentRegAvailable: 可以访问教务系统
   studentRegUnavailable: 无法访问教务系统
   ugRegAvailableTip: |
@@ -915,9 +915,12 @@ permission:
   type:
     storage: 存储
     camera: 相机
-saveAndQuitPrompt:
-  request: 您有未保存的更改，想要保存吗？
+quitPrompt:
+  request:
+    saveAndQuit: 你有未保存的更改，想要保存吗？
+    discardAndQuit: 你的进度无法被保存，想要丢弃吗？
   saveAndQuit: 保存并退出
+  discardAndQuit: 丢弃并退出
   discard: 丢弃
 dormitoryRoom: "{building}号楼 #{room}"
 open: 打开

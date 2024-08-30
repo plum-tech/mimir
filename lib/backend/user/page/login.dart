@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/backend/user/entity/verify.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/utils/save.dart';
+import 'package:mimir/widgets/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../init.dart';
@@ -37,9 +39,8 @@ class _MimirLoginPageState extends ConsumerState<MimirLoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PromptSaveBeforeQuitScope(
+    return PromptDiscardBeforeQuitScope(
       changed: true,
-      onSave: () {},
       child: Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -61,7 +62,7 @@ class _MimirLoginPageState extends ConsumerState<MimirLoginPage> {
   Widget buildHeader() {
     final authMethods = this.authMethods;
     return [
-      "Login SIT Life".text(
+      "Sign-in SIT Life".text(
         style: context.textTheme.displaySmall,
         textAlign: TextAlign.center,
       ),
@@ -140,15 +141,28 @@ class SchoolIdLoginForm extends ConsumerStatefulWidget {
 
 class _SchoolIdLoginFormState extends ConsumerState<SchoolIdLoginForm> {
   final $schoolId = TextEditingController();
+  final $password = TextEditingController();
+  bool isPasswordClear = false;
+  bool isLoggingIn = false;
+  bool accepted = false;
 
   @override
   Widget build(BuildContext context) {
     return [
-      buildSchoolIdField(),
+      buildSchoolId(),
+      buildPassword(),
+      MimirSchoolIdDisclaimerCard(
+        accepted: accepted,
+        onAccepted: (value) {
+          setState(() {
+            accepted = value;
+          });
+        },
+      ).padV(8),
     ].column();
   }
 
-  Widget buildSchoolIdField() {
+  Widget buildSchoolId() {
     return TextFormField(
       controller: $schoolId,
       autofillHints: const [AutofillHints.username],
@@ -163,5 +177,71 @@ class _SchoolIdLoginFormState extends ConsumerState<SchoolIdLoginForm> {
         icon: Icon(context.icons.person),
       ),
     );
+  }
+
+  Widget buildPassword() {
+    return TextFormField(
+      controller: $password,
+      keyboardType: isPasswordClear ? TextInputType.visiblePassword : null,
+      autofillHints: const [AutofillHints.password],
+      textInputAction: TextInputAction.send,
+      readOnly: isLoggingIn,
+      contextMenuBuilder: (ctx, state) {
+        return AdaptiveTextSelectionToolbar.editableText(
+          editableTextState: state,
+        );
+      },
+      autocorrect: false,
+      enableSuggestions: false,
+      obscureText: !isPasswordClear,
+      onFieldSubmitted: (inputted) async {},
+      decoration: InputDecoration(
+        labelText: "Password",
+        hintText: "School password",
+        icon: Icon(context.icons.lock),
+        suffixIcon: PlatformIconButton(
+          icon: Icon(isPasswordClear ? context.icons.eyeSolid : context.icons.eyeSlashSolid),
+          onPressed: () {
+            setState(() {
+              isPasswordClear = !isPasswordClear;
+            });
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class MimirSchoolIdDisclaimerCard extends StatelessWidget {
+  final bool accepted;
+  final ValueChanged<bool> onAccepted;
+
+  const MimirSchoolIdDisclaimerCard({
+    super.key,
+    required this.accepted,
+    required this.onAccepted,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final md = """
+## Disclaimer
+We prioritize your data security.
+Your School ID and password are used for verification and are immediately discarded after confirming your identity.
+
+Please read the [Privacy Policy](https://www.mysit.life/privacy-policy) and [Term of Service](https://www.mysit.life/tos) before.
+""";
+    return [
+      FeaturedMarkdownWidget(data: md),
+      CheckboxListTile.adaptive(
+        title: "I've read and accepted".text(),
+        value: accepted,
+        onChanged: (value) {
+          if (value != null) {
+            onAccepted(value);
+          }
+        },
+      ),
+    ].column(caa: CrossAxisAlignment.stretch).padAll(12).inOutlinedCard();
   }
 }

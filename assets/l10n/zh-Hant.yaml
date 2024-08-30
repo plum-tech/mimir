@@ -585,9 +585,9 @@ networkTool:
   schoolServerAvailable: 學校伺服器可用
   schoolServerUnavailable: 學校伺服器不可用
   schoolServerAvailableTip: |
-    您可以登入 OA，查看 OA 公告，並訪問需要學校伺服器的其他服務。
+    你可以登入 OA，查看 OA 公告，並訪問需要學校伺服器的其他服務。
   schoolServerUnavailableTip: |
-    您無法登入 OA，也無法訪問任何需要學校伺服器的服務。
+    你無法登入 OA，也無法訪問任何需要學校伺服器的服務。
   studentRegAvailable: 教務系統可用
   studentRegUnavailable: 教務系統不可用
   ugRegAvailableTip: |
@@ -915,9 +915,12 @@ permission:
   type:
     storage: 儲存
     camera: 相機
-saveAndQuitPrompt:
-  request: 你有未儲存的變更，想要儲存嗎？
-  saveAndQuit: 儲存並離開@:appName
+quitPrompt:
+  request:
+    saveAndQuit: 你有未儲存的變更，想要儲存嗎？
+    discardAndQuit: 你的進度無法保存，想要丟棄嗎？
+  saveAndQuit: 儲存並離開
+  discardAndQuit: 丟棄並離開
   discard: 丟棄
 dormitoryRoom: "{building}號樓 #{room}"
 open: 打開

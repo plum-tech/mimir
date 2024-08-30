@@ -915,9 +915,12 @@ permission:
   type:
     storage: Storage
     camera: Camera
-saveAndQuitPrompt:
-  request: You have unsaved changes, do you want to save them?
+quitPrompt:
+  request:
+    saveAndQuit: You have unsaved changes, do you want to save them?
+    discardAndQuit: Your progress can't be saved, do you want to discard them?
   saveAndQuit: Save&Quit
+  discardAndQuit: Discard&Quit
   discard: Discard
 dormitoryRoom: "Building {building} #{room}"
 open: Open
