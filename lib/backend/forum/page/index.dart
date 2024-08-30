@@ -4,14 +4,14 @@ import 'package:mimir/r.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:mimir/widgets/inapp_webview/page.dart';
 
-class ForumPage extends StatefulWidget {
-  const ForumPage({super.key});
+class MimirForumPage extends StatefulWidget {
+  const MimirForumPage({super.key});
 
   @override
-  State<ForumPage> createState() => _ForumPageState();
+  State<MimirForumPage> createState() => _MimirForumPageState();
 }
 
-class _ForumPageState extends State<ForumPage> {
+class _MimirForumPageState extends State<MimirForumPage> {
   @override
   Widget build(BuildContext context) {
     return InAppWebViewPage(

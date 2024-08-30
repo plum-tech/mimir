@@ -56,7 +56,7 @@ class _ForumAppCardState extends ConsumerState<ForumAppCard> {
               ? null
               : () async {
                   if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
-                    await context.push("/forum");
+                    await context.push("/mimir/forum");
                   } else {
                     await guardLaunchUrl(context, R.forumUri);
                   }

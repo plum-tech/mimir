@@ -49,7 +49,10 @@ class _MimirLoginPageState extends ConsumerState<MimirLoginPage> {
         body: [
           buildHeader(),
           const Divider(),
-          buildLoginForm().padAll(8).expanded(),
+          AnimatedSwitcher(
+            duration: Durations.medium2,
+            child: buildLoginForm(),
+          ).padAll(8).expanded(),
         ].column(),
       ),
     );
@@ -63,14 +66,17 @@ class _MimirLoginPageState extends ConsumerState<MimirLoginPage> {
         textAlign: TextAlign.center,
       ),
       const Padding(padding: EdgeInsets.only(top: 40)),
-      if (authMethods != null) buildAuthSegments(authMethods) else const CircularProgressIndicator.adaptive(),
+      AnimatedSwitcher(
+        duration: Durations.medium2,
+        child: authMethods != null ? buildAuthSegments(authMethods) : const CircularProgressIndicator.adaptive(),
+      ),
       // buildSchoolIdField(),
     ].column(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.center).center().padAll(8);
   }
 
   Widget buildLoginForm() {
     if (authMethods == null) {
-      return const CircularProgressIndicator.adaptive();
+      return const CircularProgressIndicator.adaptive().center();
     }
     return SchoolIdLoginForm();
   }

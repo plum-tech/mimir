@@ -1,12 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:mimir/backend/user/page/login.dart';
-import 'package:mimir/design/adaptive/foundation.dart';
+import 'package:go_router/go_router.dart';
 
 class XMimirUser {
   static Future<void> login(BuildContext context) async {
-    await context.showSheet(
-      useRootNavigator: true,
-      (ctx) => const MimirLoginPage(),
-    );
+    await context.push("/mimir/login");
   }
 }

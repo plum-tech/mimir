@@ -6,6 +6,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/backend/forum/page/index.dart';
+import 'package:mimir/backend/user/page/login.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/game/2048/page/index.dart';
@@ -79,7 +80,6 @@ import 'package:mimir/timetable/page/index.dart';
 import 'package:mimir/timetable/page/mine.dart';
 import 'package:mimir/timetable/p13n/page/palette.dart';
 import 'package:mimir/widgets/image.dart';
-import 'package:mimir/widgets/webview/page.dart';
 
 import 'game/minesweeper/page/records.dart';
 
@@ -218,11 +218,16 @@ final _meShellRoute = GoRoute(
   path: "/me",
   builder: (ctx, state) => const MePage(),
 );
-final _forumShellRoute = GoRoute(
-  path: "/forum",
-  builder: (ctx, state) => const ForumPage(),
-);
-
+final _mimirRoutes = [
+  GoRoute(
+    path: "/mimir/login",
+    builder: (ctx, state) => const MimirLoginPage(),
+  ),
+  GoRoute(
+    path: "/mimir/forum",
+    builder: (ctx, state) => const MimirForumPage(),
+  ),
+];
 final _toolsRoutes = [
   GoRoute(
     path: "/tools/network-tool",
@@ -620,7 +625,7 @@ RoutingConfig buildCommonRoutingConfig() {
           ),
         ],
       ),
-      _forumShellRoute,
+      ..._mimirRoutes,
       ..._timetableRoutes,
       _browserRoute,
       _expenseRoute,
@@ -651,6 +656,7 @@ RoutingConfig buildTimetableFocusRouter() {
         path: "/",
         redirect: (ctx, state) => _getRootRoute(),
       ),
+      ..._mimirRoutes,
       _timetableShellRoute,
       ..._timetableRoutes,
       _schoolShellRoute,
@@ -674,7 +680,6 @@ RoutingConfig buildTimetableFocusRouter() {
       _imageRoute,
       ..._gameRoutes,
       _courseSelectionRoute,
-      _forumShellRoute,
     ],
   );
 }
