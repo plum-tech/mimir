@@ -12,7 +12,7 @@ const io = axios.create({
   headers: {
     Authorization: auth,
   },
-  timeout: 20 * 1000, //ms
+  timeout: 60 * 1000, //ms
 })
 
 /**
