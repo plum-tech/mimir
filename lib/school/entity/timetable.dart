@@ -88,8 +88,25 @@ const fengxianTimetable = <ClassTime>[
   // morning
   (begin: TimePoint(8, 20), end: TimePoint(9, 05)),
   (begin: TimePoint(9, 10), end: TimePoint(9, 55)),
-  (begin: TimePoint(10, 15), end: TimePoint(11, 00)),
-  (begin: TimePoint(11, 05), end: TimePoint(11, 50)),
+  (begin: TimePoint(10, 10), end: TimePoint(10, 55)),
+  (begin: TimePoint(11, 00), end: TimePoint(11, 45)),
+  // afternoon
+  (begin: TimePoint(13, 00), end: TimePoint(13, 45)),
+  (begin: TimePoint(13, 50), end: TimePoint(14, 35)),
+  (begin: TimePoint(14, 55), end: TimePoint(15, 40)),
+  (begin: TimePoint(15, 45), end: TimePoint(16, 30)),
+  // night
+  (begin: TimePoint(18, 00), end: TimePoint(18, 45)),
+  (begin: TimePoint(18, 50), end: TimePoint(19, 35)),
+  (begin: TimePoint(19, 40), end: TimePoint(20, 25)),
+];
+
+const fengxian1stTeachingBuildingTimetable = <ClassTime>[
+  // morning
+  (begin: TimePoint(8, 20), end: TimePoint(9, 05)),
+  (begin: TimePoint(9, 10), end: TimePoint(9, 55)),
+  (begin: TimePoint(10, 25), end: TimePoint(11, 10)),
+  (begin: TimePoint(11, 15), end: TimePoint(12, 00)),
   // afternoon
   (begin: TimePoint(13, 00), end: TimePoint(13, 45)),
   (begin: TimePoint(13, 50), end: TimePoint(14, 35)),
@@ -123,6 +140,9 @@ List<ClassTime> getTeachingBuildingTimetable(Campus campus, [String? place]) {
     return xuhuiCampusTimetable;
   }
   if (campus == Campus.fengxian) {
+    if (place != null && place.contains("一教")) {
+      return fengxian1stTeachingBuildingTimetable;
+    }
     return fengxianTimetable;
   }
   return fengxianTimetable;
