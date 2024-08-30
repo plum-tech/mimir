@@ -34,5 +34,5 @@ Future<File> takeWidgetScreenshot({
 }
 
 Future<void> onScreenshotTaken(String path) async {
-  await OpenFile.open(path, type: "image/png", uti: "public.png");
+  await OpenFile.open(path, type: "image/png");
 }

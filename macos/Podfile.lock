@@ -24,7 +24,7 @@ PODS:
     - FlutterMacOS
   - mobile_scanner (5.2.1):
     - FlutterMacOS
-  - open_file (0.0.1):
+  - open_file_mac (0.0.1):
     - FlutterMacOS
   - OrderedSet (5.0.0)
   - package_info_plus (0.0.1):
@@ -72,7 +72,7 @@ DEPENDENCIES:
   - irondash_engine_context (from `Flutter/ephemeral/.symlinks/plugins/irondash_engine_context/macos`)
   - just_audio (from `Flutter/ephemeral/.symlinks/plugins/just_audio/macos`)
   - mobile_scanner (from `Flutter/ephemeral/.symlinks/plugins/mobile_scanner/macos`)
-  - open_file (from `Flutter/ephemeral/.symlinks/plugins/open_file/macos`)
+  - open_file_mac (from `Flutter/ephemeral/.symlinks/plugins/open_file_mac/macos`)
   - package_info_plus (from `Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos`)
   - path_provider_foundation (from `Flutter/ephemeral/.symlinks/plugins/path_provider_foundation/darwin`)
   - screen_retriever (from `Flutter/ephemeral/.symlinks/plugins/screen_retriever/macos`)
@@ -116,8 +116,8 @@ EXTERNAL SOURCES:
     :path: Flutter/ephemeral/.symlinks/plugins/just_audio/macos
   mobile_scanner:
     :path: Flutter/ephemeral/.symlinks/plugins/mobile_scanner/macos
-  open_file:
-    :path: Flutter/ephemeral/.symlinks/plugins/open_file/macos
+  open_file_mac:
+    :path: Flutter/ephemeral/.symlinks/plugins/open_file_mac/macos
   package_info_plus:
     :path: Flutter/ephemeral/.symlinks/plugins/package_info_plus/macos
   path_provider_foundation:
@@ -158,7 +158,7 @@ SPEC CHECKSUMS:
   irondash_engine_context: da62996ee25616d2f01bbeb85dc115d813359478
   just_audio: 9b67ca7b97c61cfc9784ea23cd8cc55eb226d489
   mobile_scanner: 4d1f08373cb0321594c81c7709aa460c17b8b84f
-  open_file: ec718d1cd8c570d8e1ca8f6996d413fab0bf92a4
+  open_file_mac: 0e554648e2a87ce59e9438e3e5ca3e552e90d89a
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   package_info_plus: fa739dd842b393193c5ca93c26798dff6e3d0e0c
   path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
