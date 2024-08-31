@@ -46,13 +46,26 @@ class _Oa {
 
 class _MimirK {
   static const ns = "/mimir";
-  static const loginStatus = "$ns/loginStatus";
+  static const lastAuthTime = "$ns/lastAuthTime";
+  static const signedIn = "$ns/signedIn";
 }
 
 class _Mimir {
   final Box box;
 
   _Mimir(this.box);
+
+  DateTime? get lastAuthTime => box.safeGet<DateTime>(_MimirK.lastAuthTime);
+
+  set lastAuthTime(DateTime? newV) => box.safePut<DateTime>(_MimirK.lastAuthTime, newV);
+
+  late final $lastAuthTime = box.provider<DateTime>(_MimirK.lastAuthTime);
+
+  bool? get signedIn => box.safeGet<bool>(_MimirK.signedIn) ?? false;
+
+  set signedIn(bool? newV) => box.safePut<bool>(_MimirK.signedIn, newV);
+
+  late final $signedIn = box.providerWithDefault<bool>(_MimirK.signedIn, () => false);
 }
 
 class _EmailK {

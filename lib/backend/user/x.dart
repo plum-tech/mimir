@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/credentials/init.dart';
 
 import '../init.dart';
 import 'entity/user.dart';
@@ -21,6 +22,8 @@ class XMimirUser {
       schoolId: schoolId,
       password: password,
     );
+    CredentialsInit.storage.mimir.signedIn = true;
+    CredentialsInit.storage.mimir.lastAuthTime = DateTime.now();
     return true;
   }
 
@@ -36,6 +39,8 @@ class XMimirUser {
       schoolId: schoolId,
       password: password,
     );
+    CredentialsInit.storage.mimir.signedIn = true;
+    CredentialsInit.storage.mimir.lastAuthTime = DateTime.now();
     return true;
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/backend/user/x.dart';
+import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/widgets/app.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -16,11 +17,15 @@ class UserProfileAppCard extends ConsumerStatefulWidget {
 class _UserProfileAppCardState extends ConsumerState<UserProfileAppCard> {
   @override
   Widget build(BuildContext context) {
-    return const MimirLoginAppCard();
-    return AppCard(
-      title: "Login SIT Life".text(),
-      leftActions: [],
-    );
+    final signedIn = ref.watch(CredentialsInit.storage.mimir.$signedIn);
+    if (signedIn) {
+      return AppCard(
+        title: "Your profile".text(),
+        leftActions: [],
+      );
+    } else {
+      return const MimirLoginAppCard();
+    }
   }
 }
 
