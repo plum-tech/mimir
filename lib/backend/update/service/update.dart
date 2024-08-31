@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:mimir/files.dart';
 import 'package:mimir/init.dart';
-import 'package:mimir/session/mimir.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:version/version.dart';
@@ -15,21 +14,19 @@ import '../entity/artifact.dart';
 const _itunesURL = 'https://itunes.apple.com';
 
 class MimirUpdateService {
-  MimirSession get _session => Init.mimirSession;
-
-  Dio get _dio => Init.dio;
+  Dio get _dio => Init.mimirDio;
 
   const MimirUpdateService();
 
   Future<ArtifactVersionInfo> getLatestVersionFromOfficial() async {
     late Response res;
     try {
-      res = await _session.request(
+      res = await _dio.get(
         "https://g.mysit.life/artifact/latest.json",
       );
     } catch (error, stackTrace) {
       debugPrintError(error, stackTrace);
-      res = await _session.request(
+      res = await _dio.get(
         "https://get.mysit.life/artifact/latest.json",
       );
     }

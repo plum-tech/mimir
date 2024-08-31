@@ -3,26 +3,22 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:mimir/init.dart';
-import 'package:mimir/session/mimir.dart';
 
 const _base = "https://ocr.mysit.life/v1";
 
 class MimirOcrService {
-  MimirSession get _session => Init.mimirSession;
+  Dio get _dio => Init.mimirDio;
 
   const MimirOcrService();
 
   Future<String?> recognizeSchoolCaptcha(Uint8List imageData) async {
     final image = base64Encode(imageData);
     try {
-      final res = await _session.request(
+      final res = await _dio.post(
         "$_base/school-captcha",
         data: {
           "imageBase64": image,
         },
-        options: Options(
-          method: "POST",
-        ),
       );
       final result = res.data;
       if (result["success"]) {

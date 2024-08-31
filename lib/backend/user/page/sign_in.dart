@@ -3,6 +3,8 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/backend/user/entity/verify.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/login/page/index.dart';
+import 'package:mimir/login/widgets/forgot_pwd.dart';
 import 'package:mimir/utils/save.dart';
 import 'package:mimir/widgets/markdown.dart';
 import 'package:rettulf/rettulf.dart';
@@ -31,7 +33,7 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
     setState(() {
       this.authMethods = null;
     });
-    final authMethods = await BackendInit.login.fetchAuthMethods(school: school);
+    final authMethods = await BackendInit.auth.fetchAuthMethods(school: school);
     setState(() {
       this.authMethods = authMethods;
     });
@@ -62,8 +64,8 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
           AnimatedSwitcher(
             duration: Durations.medium2,
             child: buildLoginForm(),
-          ).padAll(12).expanded(),
-        ].column(),
+          ).padAll(12),
+        ].listview(),
       );
     } else {
       return Scaffold(
@@ -78,7 +80,7 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
           AnimatedSwitcher(
             duration: Durations.medium2,
             child: buildLoginForm(),
-          ).padAll(8).expanded(),
+          ).padAll(8),
         ].row(),
       );
     }
@@ -105,7 +107,9 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
     if (authMethods == null) {
       return const CircularProgressIndicator.adaptive().center();
     }
-    return SchoolIdSignInForm();
+    return SchoolIdSignInForm(
+      school: school,
+    );
   }
 
   Widget buildAuthSegments(MimirAuthMethods methods) {
@@ -159,37 +163,81 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
 }
 
 class SchoolIdSignInForm extends ConsumerStatefulWidget {
-  const SchoolIdSignInForm({super.key});
+  final SchoolCode school;
+
+  const SchoolIdSignInForm({
+    super.key,
+    required this.school,
+  });
 
   @override
   ConsumerState createState() => _SchoolIdSignInFormState();
 }
 
+enum _SignInStatus {
+  none,
+  notFound,
+  existing,
+}
+
 class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
-  final $schoolId = TextEditingController();
   final $password = TextEditingController();
+  var schoolId = "";
   bool isPasswordClear = false;
   bool isLoggingIn = false;
   bool accepted = false;
+  var status = _SignInStatus.none;
+  final $schoolIdForm = GlobalKey<FormState>();
+  var checkingExisting = false;
 
   @override
   Widget build(BuildContext context) {
+    return buildBody();
+  }
+
+  @override
+  void dispose() {
+    $password.dispose();
+    super.dispose();
+  }
+
+  Widget buildBody() {
     final widgets = [
       [
-        buildSchoolId(),
-        buildPassword(),
+        [
+          buildSchoolId().expanded(),
+          if (status == _SignInStatus.none)
+            checkingExisting
+                ? const CircularProgressIndicator.adaptive()
+                : IconButton.filledTonal(
+                    icon: const Icon(Icons.chevron_right),
+                    onPressed: schoolId.isEmpty
+                        ? null
+                        : () async {
+                            await checkExisting(schoolId);
+                          },
+                  ),
+        ].row(),
+        if (status != _SignInStatus.none) buildPassword(),
       ].column(),
-      MimirSchoolIdDisclaimerCard(
-        accepted: accepted,
-        onAccepted: (value) {
-          setState(() {
-            accepted = value;
-          });
-        },
-      ),
-      buildLogin(),
-      "Don't have a SIT Life account?\n It will automatically sign-up for you.".text(),
+      if (status != _SignInStatus.none)
+        MimirSchoolIdDisclaimerCard(
+          accepted: accepted,
+          onAccepted: (value) {
+            setState(() {
+              accepted = value;
+            });
+          },
+        ),
+      if (status == _SignInStatus.existing) buildSignIn(),
+      if (status == _SignInStatus.notFound) buildSignUp(),
+      // if (status != MimirSchoolIdSignInStatus.none)
+      //   "Don't have a SIT Life account?\n It will automatically sign-up for you.".text(),
+      const ForgotPasswordButton(url: "https://www.mysit.life"),
     ];
+    return widgets.map((w) => w.padV(8)).toList().column(
+          maa: MainAxisAlignment.spaceEvenly,
+        );
     return ListView.separated(
       itemCount: widgets.length,
       itemBuilder: (ctx, i) => widgets[i],
@@ -197,19 +245,55 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
     );
   }
 
+  Future<void> checkExisting(String schoolId) async {
+    if ($schoolIdForm.currentState?.validate() != true) {
+      return;
+    }
+    FocusScope.of(context).requestFocus(FocusNode());
+    setState(() {
+      checkingExisting = true;
+    });
+    final existing = await BackendInit.auth.checkExistingBySchoolId(
+      school: widget.school,
+      schoolId: schoolId,
+    );
+    setState(() {
+      status = existing ? _SignInStatus.existing : _SignInStatus.notFound;
+      checkingExisting = false;
+    });
+  }
+
+  Widget buildForgotPassword() {
+    return PlatformTextButton(
+      onPressed: () {},
+      child: "Forgot password?".text(),
+    );
+  }
+
   Widget buildSchoolId() {
-    return TextFormField(
-      controller: $schoolId,
-      autofillHints: const [AutofillHints.username],
-      textInputAction: TextInputAction.next,
-      autocorrect: false,
-      // readOnly: isLoggingIn,
-      enableSuggestions: false,
-      // validator: (account) => studentIdValidator(account, () => i18n.invalidAccountFormat),
-      decoration: InputDecoration(
-        labelText: "School ID",
-        hintText: "Student ID/Worker ID",
-        icon: Icon(context.icons.person),
+    return Form(
+      key: $schoolIdForm,
+      child: TextFormField(
+        autofillHints: const [AutofillHints.username],
+        textInputAction: TextInputAction.next,
+        autocorrect: false,
+        // readOnly: isLoggingIn,
+        enableSuggestions: false,
+        validator: (account) => studentIdValidator(account, () => i18n.invalidAccountFormat),
+        decoration: InputDecoration(
+          labelText: "School ID",
+          hintText: "Student ID/Worker ID",
+          icon: Icon(context.icons.person),
+        ),
+        onChanged: (text) async {
+          setState(() {
+            schoolId = text;
+            status = _SignInStatus.none;
+          });
+        },
+        onFieldSubmitted: (text) async {
+          await checkExisting(text);
+        },
       ),
     );
   }
@@ -246,11 +330,19 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
     );
   }
 
-  Widget buildLogin() {
+  Widget buildSignIn() {
     return FilledButton.icon(
       onPressed: () {},
       icon: Icon(Icons.login),
       label: "Sign in".text(),
+    );
+  }
+
+  Widget buildSignUp() {
+    return FilledButton.icon(
+      onPressed: () {},
+      icon: Icon(Icons.create),
+      label: "Sign up".text(),
     );
   }
 }

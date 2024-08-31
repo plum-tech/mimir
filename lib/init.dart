@@ -10,7 +10,6 @@ import 'package:mimir/entity/campus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/lifecycle.dart';
-import 'package:mimir/session/mimir.dart';
 import 'package:mimir/settings/entity/proxy.dart';
 import 'package:mimir/storage/hive/init.dart';
 import 'package:mimir/session/class2nd.dart';
@@ -47,7 +46,6 @@ class Init {
   static late Dio dio;
   static late Dio mimirDio;
   static late Dio dioNoCookie;
-  static late MimirSession mimirSession;
   static late SsoSession ssoSession;
   static late UgRegistrationSession ugRegSession;
   static late PgRegistrationSession pgRegSession;
@@ -87,9 +85,6 @@ class Init {
     DioInit.initUserAgent(dioNoCookie);
 
     mimirDio = Dio(BaseOptions(
-      connectTimeout: const Duration(milliseconds: 8000),
-      receiveTimeout: const Duration(milliseconds: 8000),
-      sendTimeout: const Duration(milliseconds: 8000),
       headers: {
         "User-Agent": getMimirUa(),
       },
@@ -102,9 +97,6 @@ class Init {
 
     mimirDio.interceptors.add(MimirUALanguageDioInterceptor());
 
-    mimirSession = MimirSession(
-      dio: mimirDio,
-    );
     ssoSession = SsoSession(
       dio: dio,
       cookieJar: cookieJar,

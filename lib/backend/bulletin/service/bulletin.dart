@@ -1,18 +1,17 @@
+import 'package:dio/dio.dart';
 import 'package:mimir/init.dart';
-
-import 'package:mimir/session/mimir.dart';
 
 import '../entity/bulletin.dart';
 
 const _base = "https://bulletin.mysit.life/v1";
 
 class MimirBulletinService {
-  MimirSession get _session => Init.mimirSession;
+  Dio get _dio => Init.mimirDio;
 
   const MimirBulletinService();
 
   Future<MimirBulletin?> getLatest() async {
-    final res = await _session.request("$_base/latest");
+    final res = await _dio.get("$_base/latest");
     if (res.statusCode != 200) {
       return null;
     }
@@ -20,7 +19,7 @@ class MimirBulletinService {
   }
 
   Future<List<MimirBulletin>> getList() async {
-    final res = await _session.request("$_base/list");
+    final res = await _dio.get("$_base/list");
     if (res.statusCode != 200) {
       return const [];
     }
