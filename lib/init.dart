@@ -43,6 +43,7 @@ class Init {
   const Init._();
 
   static late CookieJar cookieJar;
+  static late CookieJar mimirCookieJar;
   static late Dio dio;
   static late Dio mimirDio;
   static late Dio dioNoCookie;
@@ -57,43 +58,39 @@ class Init {
     debugPrint("Initializing network");
     if (kIsWeb) {
       cookieJar = WebCookieJar();
+      mimirCookieJar = WebCookieJar();
     } else {
       cookieJar = PersistCookieJar(
         storage: HiveCookieJar(HiveInit.cookies),
       );
+      mimirCookieJar = PersistCookieJar(
+        storage: HiveCookieJar(HiveInit.mimirCookies),
+      );
     }
-
+    final uaForSchoolServer = await getUserAgentForSchoolServer();
     dio = Dio(BaseOptions(
       connectTimeout: const Duration(milliseconds: 8000),
       receiveTimeout: const Duration(milliseconds: 8000),
       sendTimeout: const Duration(milliseconds: 8000),
-    ));
-    DioInit.initWith(
-      dio,
-      cookieJar: cookieJar,
-    );
-    DioInit.initUserAgent(dio);
+      headers: {
+        "User-Agent": uaForSchoolServer,
+      },
+    )).withCookieJar(cookieJar).withDebugging();
 
     dioNoCookie = Dio(BaseOptions(
       connectTimeout: const Duration(milliseconds: 8000),
       receiveTimeout: const Duration(milliseconds: 8000),
       sendTimeout: const Duration(milliseconds: 8000),
-    ));
-    DioInit.initWith(
-      dioNoCookie,
-    );
-    DioInit.initUserAgent(dioNoCookie);
+      headers: {
+        "User-Agent": uaForSchoolServer,
+      },
+    )).withDebugging();
 
     mimirDio = Dio(BaseOptions(
       headers: {
         "User-Agent": getMimirUa(),
       },
-    ));
-
-    DioInit.initWith(
-      mimirDio,
-      cookieJar: cookieJar,
-    );
+    )).withCookieJar(mimirCookieJar).withDebugging();
 
     mimirDio.interceptors.add(MimirUALanguageDioInterceptor());
 

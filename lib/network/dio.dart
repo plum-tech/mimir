@@ -8,36 +8,38 @@ import 'package:flutter/foundation.dart';
 import 'package:mimir/r.dart';
 import 'package:universal_platform/universal_platform.dart';
 
-final _rand = Random();
+Future<String> getUserAgentForSchoolServer() async {
+  if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
+    await FkUserAgent.init();
+    return FkUserAgent.webViewUserAgent ?? _getRandomUa();
+  } else {
+    return _getRandomUa();
+  }
+}
 
-class DioInit {
-  static void initWith(
-    Dio dio, {
-    CookieJar? cookieJar,
-  }) async {
-    if (!kIsWeb && cookieJar != null) {
-      dio.interceptors.add(CookieManager(cookieJar));
+extension DioX on Dio {
+  Dio withCookieJar(CookieJar cookieJar) {
+    if (!kIsWeb) {
+      interceptors.add(CookieManager(cookieJar));
     }
-    if (kDebugMode && R.debugNetwork) {
-      dio.interceptors.add(LogInterceptor());
-    }
-    if (kDebugMode && R.debugNetwork && R.poorNetworkSimulation) {
-      dio.interceptors.add(PoorNetworkDioInterceptor());
-    }
+    return this;
   }
 
-  static Future<void> initUserAgent(Dio dio) async {
-    if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) {
-      await FkUserAgent.init();
-      dio.options.headers['User-Agent'] = FkUserAgent.webViewUserAgent ?? _getRandomUa();
-    } else {
-      dio.options.headers['User-Agent'] = _getRandomUa();
+  Dio withDebugging() {
+    if (kDebugMode && R.debugNetwork) {
+      interceptors.add(LogInterceptor());
     }
+    if (kDebugMode && R.debugNetwork && R.poorNetworkSimulation) {
+      interceptors.add(PoorNetworkDioInterceptor());
+    }
+    return this;
   }
 }
 
 final _debugRequests = <RequestOptions>[];
 final _debugResponses = <Response>[];
+
+final _rand = Random();
 
 class PoorNetworkDioInterceptor extends Interceptor {
   @override

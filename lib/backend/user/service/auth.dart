@@ -5,6 +5,7 @@ import 'package:mimir/init.dart';
 import '../entity/user.dart';
 
 // const _base = "https://api.mysit.life/v1";
+// const _base = "https://beta-api.mysit.life/v1";
 const _base = "http://192.168.1.5:8000/v1";
 
 class MimirAuthService {

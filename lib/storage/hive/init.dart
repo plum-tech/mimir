@@ -21,7 +21,8 @@ class HiveInit {
       settings,
       meta,
       dev,
-      bulletin;
+      bulletin,
+      mimirCookies;
 
   static late Box //
       library,
@@ -69,11 +70,12 @@ class HiveInit {
       meta = await core.openBox('meta'),
       timetable = await core.openBox('timetable'),
       dev = await core.openBox("dev"),
-      bulletin = await core.openBox("bulletin"),
       ...cacheBoxes = [
+        bulletin = await cache.openBox("mimir-bulletin"),
         yellowPages = await cache.openBox('yellow-pages'),
         eduEmail = await cache.openBox('edu-email'),
         if (!kIsWeb) cookies = await cache.openBox('cookies'),
+        if (!kIsWeb) mimirCookies = await cache.openBox('mimir-cookies'),
         if (!kIsWeb) expense = await cache.openBox('expense'),
         if (!kIsWeb) library = await cache.openBox('library'),
         if (!kIsWeb) examArrange = await cache.openBox('exam-arrange'),
