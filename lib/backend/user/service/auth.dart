@@ -38,13 +38,29 @@ class MimirAuthService {
     required SchoolCode school,
     required String schoolId,
     required String password,
-  }) async {}
+  }) async {
+    final res = await _dio.post("$_base/auth/sign-in/school-id", queryParameters: {
+      "schoolCode": school.code,
+    }, data: {
+      "schoolId": schoolId,
+      "password": password,
+    });
+    final result = res.data as Map<String, dynamic>;
+    final token = result["token"] as String;
+  }
 
   Future<void> signUpBySchoolId({
     required SchoolCode school,
     required String schoolId,
     required String password,
   }) async {
-
+    final res = await _dio.post("$_base/auth/sign-up/school-id", queryParameters: {
+      "schoolCode": school.code,
+    }, data: {
+      "schoolId": schoolId,
+      "password": password,
+    });
+    final result = res.data as Map<String, dynamic>;
+    final token = result["token"] as String;
   }
 }

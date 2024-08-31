@@ -201,7 +201,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   final $password = TextEditingController(text: CredentialsInit.storage.oaCredentials?.password);
   bool isPasswordClear = false;
   bool isLoggingIn = false;
-  bool accepted = false;
+  bool acceptedAgreements = false;
   var status = _SignInStatus.none;
   final $schoolIdForm = GlobalKey<FormState>();
   var checkingExisting = false;
@@ -220,26 +220,28 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
 
   Widget buildBody() {
     final widgets = [
-      [
-        [
-          buildSchoolId().expanded(),
-          if (status == _SignInStatus.none)
-            checkingExisting
-                ? const CircularProgressIndicator.adaptive()
-                : $schoolId >>
-                    (ctx, $schoolId) => IconButton.filledTonal(
-                          icon: const Icon(Icons.chevron_right),
-                          onPressed: $schoolId.text.isEmpty ? null : checkExisting,
-                        ),
-        ].row(),
-        if (status != _SignInStatus.none) buildPassword(),
-      ].column(),
+      AutofillGroup(
+        child: [
+          [
+            buildSchoolId().expanded(),
+            if (status == _SignInStatus.none)
+              checkingExisting
+                  ? const CircularProgressIndicator.adaptive()
+                  : $schoolId >>
+                      (ctx, $schoolId) => IconButton.filledTonal(
+                            icon: const Icon(Icons.chevron_right),
+                            onPressed: $schoolId.text.isEmpty ? null : checkExisting,
+                          ),
+          ].row(),
+          if (status != _SignInStatus.none) buildPassword(),
+        ].column(),
+      ),
       if (status != _SignInStatus.none)
         MimirSchoolIdDisclaimerCard(
-          accepted: accepted,
+          accepted: acceptedAgreements,
           onAccepted: (value) {
             setState(() {
-              accepted = value;
+              acceptedAgreements = value;
             });
           },
         ),
@@ -247,7 +249,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
       if (status == _SignInStatus.notFound) buildSignUp(),
       // if (status != MimirSchoolIdSignInStatus.none)
       //   "Don't have a SIT Life account?\n It will automatically sign-up for you.".text(),
-      const ForgotPasswordButton(url: "https://www.mysit.life"),
+      const ForgotPasswordButton(url: oaForgotLoginPasswordUrl),
     ];
     return widgets.map((w) => w.padV(8)).toList().column(
           maa: MainAxisAlignment.spaceEvenly,
@@ -276,13 +278,6 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
       status = existing ? _SignInStatus.existing : _SignInStatus.notFound;
       checkingExisting = false;
     });
-  }
-
-  Widget buildForgotPassword() {
-    return PlatformTextButton(
-      onPressed: () {},
-      child: "Forgot password?".text(),
-    );
   }
 
   Widget buildSchoolId() {
@@ -347,7 +342,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
 
   Widget buildSignIn() {
     return FilledButton.icon(
-      onPressed: () {},
+      onPressed: !acceptedAgreements ? null : signIn,
       icon: Icon(Icons.login),
       label: "Sign in".text(),
     );
@@ -355,15 +350,27 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
 
   Widget buildSignUp() {
     return FilledButton.icon(
-      onPressed: () {},
+      onPressed: !acceptedAgreements ? null : signUp,
       icon: Icon(Icons.create),
       label: "Sign up".text(),
     );
   }
 
-  Future<void> signIn() async {}
+  Future<void> signIn() async {
+    await BackendInit.auth.signInBySchoolId(
+      school: widget.school,
+      schoolId: $schoolId.text,
+      password: $password.text,
+    );
+  }
 
-  Future<void> signUp() async {}
+  Future<void> signUp() async {
+    await BackendInit.auth.signUpBySchoolId(
+      school: widget.school,
+      schoolId: $schoolId.text,
+      password: $password.text,
+    );
+  }
 }
 
 class MimirSchoolIdDisclaimerCard extends StatelessWidget {
@@ -378,15 +385,24 @@ class MimirSchoolIdDisclaimerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final mdZh = """
+你即将登录小应账号，仅用于小应生活App的各项拓展服务。
+
+本账号与你学校提供的账号无关，且不互通。若需使用课程表，考试、分数查询等基础功能，请[点击此处](/go-route)。
+
+我们非常重视你的信息安全，你的学号与密码**仅用于核验在校生身份**，这些信息不会存储在服务器上。
+
+请先阅读 [《隐私政策》](https://www.mysit.life/privacy-policy)和[《使用协议》](https://www.mysit.life/tos)。
+  """;
     final md = """
 ## Disclaimer
 We prioritize your data security.
 Your School ID and password are used for verification and are immediately discarded after confirming your identity.
 
-Please read the [Privacy Policy](https://www.mysit.life/privacy-policy) and [Term of Service](https://www.mysit.life/tos) before.
+Please read the [Privacy Policy](https://www.mysit.life/privacy-policy) and [Privacy Policy](https://www.mysit.life/tos) before.
 """;
     return [
-      FeaturedMarkdownWidget(data: md),
+      FeaturedMarkdownWidget(data: mdZh),
       CheckboxListTile.adaptive(
         title: "I've read and accepted".text(),
         value: accepted,

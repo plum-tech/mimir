@@ -39,15 +39,19 @@ class _FeaturedMarkdownWidgetState extends State<FeaturedMarkdownWidget> {
   String buildHtml() {
     return markdownToHtml(
       widget.data,
+      extensionSet: ExtensionSet.gitHubFlavored,
       inlineSyntaxes: [
-        InlineHtmlSyntax(),
-        StrikethroughSyntax(),
-        AutolinkExtensionSyntax(),
-        EmojiSyntax(),
+        LineBreakSyntax(),
+        AutolinkSyntax(),
+        EmailAutolinkSyntax(),
+        ImageSyntax(),
+        EscapeSyntax(),
+        EmphasisSyntax.asterisk(),
+        EmphasisSyntax.underscore(),
       ],
       blockSyntaxes: const [
-        FencedCodeBlockSyntax(),
-        TableSyntax(),
+        OrderedListSyntax(),
+        UnorderedListSyntax(),
       ],
     );
   }

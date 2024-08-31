@@ -35,14 +35,14 @@ class _MimirLoginAppCardState extends ConsumerState<MimirLoginAppCard> {
   @override
   Widget build(BuildContext context) {
     return AppCard(
-      title: "Login SIT Life".text(),
+      title: "Sign in SIT Life".text(),
       leftActions: [
         FilledButton.icon(
           icon: const Icon(Icons.login),
           onPressed: () async {
             await XMimirUser.signIn(context);
           },
-          label: "Login".text(),
+          label: "Sign in".text(),
         ),
       ],
     );

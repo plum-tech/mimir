@@ -28,7 +28,7 @@ import '../x.dart';
 
 const i18n = OaLoginI18n();
 
-const _forgotLoginPasswordUrl =
+const oaForgotLoginPasswordUrl =
     "https://authserver.sit.edu.cn/authserver/getBackPasswordMainPage.do?service=https%3A%2F%2Fmyportal.sit.edu.cn%3A443%2F";
 
 class LoginPage extends ConsumerStatefulWidget {
@@ -178,7 +178,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         ),
         body: buildBody(),
         //to avoid overflow when keyboard is up.
-        bottomNavigationBar: const ForgotPasswordButton(url: _forgotLoginPasswordUrl),
+        bottomNavigationBar: const ForgotPasswordButton(url: oaForgotLoginPasswordUrl),
       ),
     );
   }
