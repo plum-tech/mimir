@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/backend/user/entity/verify.dart';
+import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/login/page/index.dart';
 import 'package:mimir/login/widgets/forgot_pwd.dart';
@@ -54,12 +55,13 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
           centerTitle: true,
           toolbarHeight: 90,
           title: buildSchoolSelector(),
+          actions: [
+            buildHelp(),
+          ],
         ),
         body: [
-          [
-            buildHeader(),
-            buildAuthMethods(),
-          ].column(maa: MainAxisAlignment.spaceEvenly),
+          buildHeader(),
+          buildAuthMethods(),
           const Divider(),
           AnimatedSwitcher(
             duration: Durations.medium2,
@@ -84,6 +86,13 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
         ].row(),
       );
     }
+  }
+
+  Widget buildHelp() {
+    return PlatformIconButton(
+      icon: const Icon(Icons.help),
+      onPressed: () {},
+    );
   }
 
   Widget buildHeader() {
@@ -121,11 +130,18 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
             value: "school-id",
             enabled: methods.schoolId == true,
           ),
-        ButtonSegment(
-          label: "Phone".text(),
-          value: "phone-number",
-          enabled: false,
-        ),
+        if (methods.eduEmail != null)
+          ButtonSegment(
+            label: "Edu email".text(),
+            value: "edu-email",
+            enabled: methods.eduEmail == true,
+          ),
+        if (methods.phoneNumber != null)
+          ButtonSegment(
+            label: "Phone".text(),
+            value: "phone-number",
+            enabled: methods.phoneNumber == true,
+          ),
       ],
       selected: const {"school-id"},
       onSelectionChanged: (newSelection) {},
@@ -181,8 +197,8 @@ enum _SignInStatus {
 }
 
 class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
-  final $password = TextEditingController();
-  var schoolId = "";
+  final $schoolId = TextEditingController(text: CredentialsInit.storage.oaCredentials?.account);
+  final $password = TextEditingController(text: CredentialsInit.storage.oaCredentials?.password);
   bool isPasswordClear = false;
   bool isLoggingIn = false;
   bool accepted = false;
@@ -197,6 +213,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
 
   @override
   void dispose() {
+    $schoolId.dispose();
     $password.dispose();
     super.dispose();
   }
@@ -209,14 +226,11 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
           if (status == _SignInStatus.none)
             checkingExisting
                 ? const CircularProgressIndicator.adaptive()
-                : IconButton.filledTonal(
-                    icon: const Icon(Icons.chevron_right),
-                    onPressed: schoolId.isEmpty
-                        ? null
-                        : () async {
-                            await checkExisting(schoolId);
-                          },
-                  ),
+                : $schoolId >>
+                    (ctx, $schoolId) => IconButton.filledTonal(
+                          icon: const Icon(Icons.chevron_right),
+                          onPressed: $schoolId.text.isEmpty ? null : checkExisting,
+                        ),
         ].row(),
         if (status != _SignInStatus.none) buildPassword(),
       ].column(),
@@ -245,7 +259,8 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
     );
   }
 
-  Future<void> checkExisting(String schoolId) async {
+  Future<void> checkExisting() async {
+    final schoolId = $schoolId.text;
     if ($schoolIdForm.currentState?.validate() != true) {
       return;
     }
@@ -274,6 +289,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
     return Form(
       key: $schoolIdForm,
       child: TextFormField(
+        controller: $schoolId,
         autofillHints: const [AutofillHints.username],
         textInputAction: TextInputAction.next,
         autocorrect: false,
@@ -287,12 +303,11 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
         ),
         onChanged: (text) async {
           setState(() {
-            schoolId = text;
             status = _SignInStatus.none;
           });
         },
         onFieldSubmitted: (text) async {
-          await checkExisting(text);
+          await checkExisting();
         },
       ),
     );
@@ -345,6 +360,10 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
       label: "Sign up".text(),
     );
   }
+
+  Future<void> signIn() async {}
+
+  Future<void> signUp() async {}
 }
 
 class MimirSchoolIdDisclaimerCard extends StatelessWidget {

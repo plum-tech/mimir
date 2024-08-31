@@ -33,4 +33,18 @@ class MimirAuthService {
     final result = res.data as Map;
     return result["existing"] == true;
   }
+
+  Future<void> signInBySchoolId({
+    required SchoolCode school,
+    required String schoolId,
+    required String password,
+  }) async {}
+
+  Future<void> signUpBySchoolId({
+    required SchoolCode school,
+    required String schoolId,
+    required String password,
+  }) async {
+
+  }
 }

@@ -220,7 +220,7 @@ final _meShellRoute = GoRoute(
 );
 final _mimirRoutes = [
   GoRoute(
-    path: "/mimir/login",
+    path: "/mimir/sign-in",
     builder: (ctx, state) => const MimirSignInPage(),
   ),
   GoRoute(

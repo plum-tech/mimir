@@ -40,7 +40,7 @@ class _MimirLoginAppCardState extends ConsumerState<MimirLoginAppCard> {
         FilledButton.icon(
           icon: const Icon(Icons.login),
           onPressed: () async {
-            await XMimirUser.login(context);
+            await XMimirUser.signIn(context);
           },
           label: "Login".text(),
         ),
