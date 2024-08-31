@@ -53,19 +53,19 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   }
 
   List<Widget> buildEntries() {
-    final credentials = ref.watch(CredentialsInit.storage.oa.$credentials);
-    final loginStatus = ref.watch(CredentialsInit.storage.oa.$loginStatus);
+    final oaCredentials = ref.watch(CredentialsInit.storage.oa.$credentials);
+    final oaLoginStatus = ref.watch(CredentialsInit.storage.oa.$loginStatus);
     final devOn = ref.watch(Dev.$on);
     final all = <Widget>[];
-    if (loginStatus != LoginStatus.never) {
+    if (oaLoginStatus != LoginStatus.never) {
       all.add(const CampusSelector().padSymmetric(h: 8));
     }
-    if (credentials != null) {
+    if (oaCredentials != null) {
       all.add(PageNavigationTile(
         title: i18n.oaCredentials.oaAccount.text(),
-        subtitle: credentials.account.text(),
+        subtitle: oaCredentials.account.text(),
         leading: const Icon(Icons.person_rounded),
-        path: "/settings/credentials",
+        path: "/settings/oa",
       ));
     } else {
       const oaLogin = OaLoginI18n();
@@ -74,10 +74,31 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         subtitle: oaLogin.neverLoggedInTip.text(),
         leading: const Icon(Icons.person_rounded),
         onTap: () {
-          context.go("/login");
+          context.go("/oa/login");
         },
       ));
     }
+
+    final signedIn = ref.watch(CredentialsInit.storage.mimir.$signedIn);
+    if (signedIn) {
+      all.add(PageNavigationTile(
+        title: "SIT Life".text(),
+        subtitle: "SIT Life".text(),
+        leading: const Icon(Icons.person_rounded),
+        path: "/settings/mimir",
+      ));
+    } else {
+      const oaLogin = OaLoginI18n();
+      all.add(ListTile(
+        title: "Sign in SIT Life".text(),
+        subtitle: "Sign in your SIT Life account".text(),
+        leading: const Icon(Icons.person_rounded),
+        onTap: () {
+          context.push("/mimir/sign-in");
+        },
+      ));
+    }
+
     all.add(const Divider());
 
     all.add(PageNavigationTile(
@@ -94,7 +115,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     ));
     all.add(const Divider());
 
-    if (loginStatus != LoginStatus.never) {
+    if (oaLoginStatus != LoginStatus.never) {
       all.add(PageNavigationTile(
         leading: const Icon(Icons.calendar_month_outlined),
         title: i18n.app.navigation.timetable.text(),
@@ -135,7 +156,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       ));
       all.add(const NetworkToolEntranceTile());
     }
-    if (loginStatus != LoginStatus.never) {
+    if (oaLoginStatus != LoginStatus.never) {
       all.add(const ClearCacheTile());
     }
     all.add(const WipeDataTile());

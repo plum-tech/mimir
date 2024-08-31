@@ -36,6 +36,8 @@ import 'package:mimir/school/ywb/page/service.dart';
 import 'package:mimir/school/ywb/page/application.dart';
 import 'package:mimir/settings/page/about.dart';
 import 'package:mimir/settings/page/language.dart';
+import 'package:mimir/settings/page/mimir.dart';
+import 'package:mimir/settings/page/oa.dart';
 import 'package:mimir/settings/page/proxy.dart';
 import 'package:mimir/school/page/settings.dart';
 import 'package:mimir/settings/page/storage.dart';
@@ -70,7 +72,6 @@ import 'package:mimir/school/class2nd/page/attended.dart';
 import 'package:mimir/school/exam_result/page/evaluation.dart';
 import 'package:mimir/school/exam_result/page/result.ug.dart';
 import 'package:mimir/school/yellow_pages/page/index.dart';
-import 'package:mimir/settings/page/credentials.dart';
 import 'package:mimir/settings/page/developer.dart';
 import 'package:mimir/settings/page/index.dart';
 import 'package:mimir/me/index.dart';
@@ -98,7 +99,7 @@ bool isLoginGuarded(BuildContext ctx) {
 }
 
 String? _loginRequired(BuildContext ctx, GoRouterState state) {
-  if (isLoginGuarded(ctx)) return "/login?guard=true";
+  if (isLoginGuarded(ctx)) return "/oa/login?guard=true";
   return null;
 }
 
@@ -111,7 +112,7 @@ FutureOr<String?> _redirectRoot(BuildContext ctx, GoRouterState state) {
     if (state.matchedLocation.startsWith("/settings")) return null;
 // allow to access browser page.
     if (state.matchedLocation == "/browser") return null;
-    return "/login";
+    return "/oa/login";
   }
   return null;
 }
@@ -244,6 +245,10 @@ final _settingsRoute = GoRoute(
   builder: (ctx, state) => const SettingsPage(),
   routes: [
     GoRoute(
+      path: "mimir",
+      builder: (ctx, state) => const MimirSettingsPage(),
+    ),
+    GoRoute(
       path: "language",
       builder: (ctx, state) => const LanguagePage(),
     ),
@@ -252,8 +257,8 @@ final _settingsRoute = GoRoute(
       builder: (ctx, state) => const ThemeColorPage(),
     ),
     GoRoute(
-      path: "credentials",
-      builder: (ctx, state) => const CredentialsPage(),
+      path: "oa",
+      builder: (ctx, state) => const OaSettingsPage(),
     ),
     GoRoute(
       path: "timetable",
@@ -416,8 +421,8 @@ final _imageRoute = GoRoute(
   },
 );
 
-final _loginRoute = GoRoute(
-  path: "/login",
+final _oaLoginRoute = GoRoute(
+  path: "/oa/login",
   builder: (ctx, state) {
     final guarded = state.uri.queryParameters["guard"] == "true";
     return LoginPage(isGuarded: guarded);
@@ -640,7 +645,7 @@ RoutingConfig buildCommonRoutingConfig() {
       _examArrange,
       ..._libraryRoutes,
       _teacherEvalRoute,
-      _loginRoute,
+      _oaLoginRoute,
       _imageRoute,
       ..._gameRoutes,
       _courseSelectionRoute,
@@ -676,7 +681,7 @@ RoutingConfig buildTimetableFocusRouter() {
       _examArrange,
       ..._libraryRoutes,
       _teacherEvalRoute,
-      _loginRoute,
+      _oaLoginRoute,
       _imageRoute,
       ..._gameRoutes,
       _courseSelectionRoute,

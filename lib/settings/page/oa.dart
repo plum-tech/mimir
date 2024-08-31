@@ -14,14 +14,14 @@ import '../i18n.dart';
 
 const _changePasswordUrl = "https://authserver.sit.edu.cn/authserver/passwordChange.do";
 
-class CredentialsPage extends ConsumerStatefulWidget {
-  const CredentialsPage({super.key});
+class OaSettingsPage extends ConsumerStatefulWidget {
+  const OaSettingsPage({super.key});
 
   @override
-  ConsumerState<CredentialsPage> createState() => _CredentialsPageState();
+  ConsumerState<OaSettingsPage> createState() => _CredentialsPageState();
 }
 
-class _CredentialsPageState extends ConsumerState<CredentialsPage> {
+class _CredentialsPageState extends ConsumerState<OaSettingsPage> {
   var showPassword = false;
 
   @override
