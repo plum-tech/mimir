@@ -197,7 +197,7 @@ void _onClearCache(BuildContext context) async {
     destructive: true,
   );
   if (confirm == true) {
-    await Init.cookieJar.deleteAll();
+    await Init.schoolCookieJar.deleteAll();
     await HiveInit.clearCache();
   }
 }

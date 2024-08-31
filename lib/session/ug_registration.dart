@@ -16,7 +16,7 @@ class UgRegistrationSession {
   }) : _ssoSession = ssoSession;
 
   Future<void> _refreshCookie() async {
-    await Init.cookieJar.delete(R.ugRegUri, true);
+    await Init.schoolCookieJar.delete(R.ugRegUri, true);
     await _ssoSession.request(
       'http://jwxt.sit.edu.cn/sso/jziotlogin',
       options: Options(

@@ -23,7 +23,7 @@ class _YwbInAppViewPageState extends State<YwbInAppViewPage> {
   @override
   void initState() {
     super.initState();
-    Init.cookieJar.loadAsWebViewCookie(Uri.parse(ywbUrl)).then((value) {
+    Init.schoolCookieJar.loadAsWebViewCookie(Uri.parse(ywbUrl)).then((value) {
       cookies = value;
       for (final cookie in value) {
         cookieManager.setCookie(cookie);

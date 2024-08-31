@@ -184,7 +184,7 @@ class SsoSession {
   }
 
   Future<Cookie?> getJSessionId() async {
-    final cookies = await Init.cookieJar.loadForRequest(Uri.parse(_authServerUrl));
+    final cookies = await Init.schoolCookieJar.loadForRequest(Uri.parse(_authServerUrl));
     return cookies.firstWhereOrNull((cookie) => cookie.name == "JSESSIONID");
   }
 

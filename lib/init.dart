@@ -42,9 +42,9 @@ import '../widgets/captcha_box.dart';
 class Init {
   const Init._();
 
+  static late CookieJar schoolCookieJar;
   static late CookieJar cookieJar;
-  static late CookieJar mimirCookieJar;
-  static late Dio dio;
+  static late Dio schoolDio;
   static late Dio mimirDio;
   static late Dio dioNoCookie;
   static late SsoSession ssoSession;
@@ -57,25 +57,25 @@ class Init {
   static Future<void> initNetwork() async {
     debugPrint("Initializing network");
     if (kIsWeb) {
+      schoolCookieJar = WebCookieJar();
       cookieJar = WebCookieJar();
-      mimirCookieJar = WebCookieJar();
     } else {
+      schoolCookieJar = PersistCookieJar(
+        storage: HiveCookieJar(HiveInit.schoolCookies),
+      );
       cookieJar = PersistCookieJar(
         storage: HiveCookieJar(HiveInit.cookies),
       );
-      mimirCookieJar = PersistCookieJar(
-        storage: HiveCookieJar(HiveInit.mimirCookies),
-      );
     }
     final uaForSchoolServer = await getUserAgentForSchoolServer();
-    dio = Dio(BaseOptions(
+    schoolDio = Dio(BaseOptions(
       connectTimeout: const Duration(milliseconds: 8000),
       receiveTimeout: const Duration(milliseconds: 8000),
       sendTimeout: const Duration(milliseconds: 8000),
       headers: {
         "User-Agent": uaForSchoolServer,
       },
-    )).withCookieJar(cookieJar).withDebugging();
+    )).withCookieJar(schoolCookieJar).withDebugging();
 
     dioNoCookie = Dio(BaseOptions(
       connectTimeout: const Duration(milliseconds: 8000),
@@ -90,23 +90,23 @@ class Init {
       headers: {
         "User-Agent": getMimirUa(),
       },
-    )).withCookieJar(mimirCookieJar).withDebugging();
+    )).withCookieJar(cookieJar).withDebugging();
 
     mimirDio.interceptors.add(MimirUALanguageDioInterceptor());
 
     ssoSession = SsoSession(
-      dio: dio,
-      cookieJar: cookieJar,
+      dio: schoolDio,
+      cookieJar: schoolCookieJar,
       inputCaptcha: _inputCaptcha,
     );
     ugRegSession = UgRegistrationSession(
       ssoSession: ssoSession,
     );
     ywbSession = YwbSession(
-      dio: dio,
+      dio: schoolDio,
     );
     librarySession = LibrarySession(
-      dio: dio,
+      dio: schoolDio,
     );
     class2ndSession = Class2ndSession(
       ssoSession: ssoSession,

@@ -14,7 +14,7 @@ const _pemUrl = '$_opacUrl/certificate/pem';
 const _loginUrl = '$_opacUrl/reader/doLogin';
 
 class LibraryAuthService {
-  Dio get dio => Init.dio;
+  Dio get dio => Init.schoolDio;
 
   const LibraryAuthService();
 

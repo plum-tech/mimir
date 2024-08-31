@@ -85,7 +85,7 @@ class _TeacherEvaluationPageState extends ConsumerState<TeacherEvaluationPage> {
         method: "GET",
       ),
     );
-    final cookies = await Init.cookieJar.loadAsWebViewCookie(teacherEvaluationUri);
+    final cookies = await Init.schoolCookieJar.loadAsWebViewCookie(teacherEvaluationUri);
     setState(() {
       this.cookies = cookies;
     });

@@ -12,7 +12,7 @@ import '../api.dart';
 class BookImageSearchService {
   LibrarySession get session => Init.librarySession;
 
-  Dio get dio => Init.dio;
+  Dio get dio => Init.schoolDio;
 
   const BookImageSearchService();
 

@@ -120,7 +120,7 @@ Future<void> _onDownloadFile({
 }) async {
   debugPrint('Start downloading [$name]($url) to $target');
   // 如果文件不存在，那么下载文件
-  await Init.dio.download(
+  await Init.schoolDio.download(
     url,
     target.path,
     onReceiveProgress: (int count, int total) {

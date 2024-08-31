@@ -86,7 +86,7 @@ class MimirUpdateService {
     ProgressCallback? onProgress,
   }) async {
     final file = Files.artifact.subFile(name);
-    await Init.dio.download(url, file.path, onReceiveProgress: onProgress);
+    await Init.schoolDio.download(url, file.path, onReceiveProgress: onProgress);
     return file;
   }
 }

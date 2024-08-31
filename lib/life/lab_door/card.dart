@@ -78,7 +78,7 @@ const _url =
 
 Future<bool> _openDoor() async {
   try {
-    final res = await Init.dio.get(
+    final res = await Init.schoolDio.get(
       String.fromCharCodes(base64Decode(_url)),
     );
     return res.data.toString() == "1,5000";

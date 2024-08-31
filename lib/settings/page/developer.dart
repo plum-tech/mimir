@@ -421,7 +421,7 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
   Future<void> loginWith(Credentials credentials) async {
     setState(() => isLoggingIn = true);
     try {
-      await Init.cookieJar.deleteAll();
+      await Init.schoolCookieJar.deleteAll();
       await XLogin.login(credentials);
       final former = Dev.getSavedOaCredentialsList() ?? [];
       former.add(credentials);
