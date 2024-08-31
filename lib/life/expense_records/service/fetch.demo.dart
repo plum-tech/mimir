@@ -17,7 +17,7 @@ class DemoExpenseService implements ExpenseService {
     required DateTime from,
     required DateTime to,
   }) async {
-    final rand = Random((CredentialsInit.storage.oaCredentials?.account ?? R.demoModeOaCredentials.account).hashCode);
+    final rand = Random((CredentialsInit.storage.oa.credentials?.account ?? R.demoModeOaCredentials.account).hashCode);
     return _generate(300, rand);
   }
 }

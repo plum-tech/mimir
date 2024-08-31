@@ -43,7 +43,7 @@ class _CredentialsPageState extends ConsumerState<CredentialsPage> {
   }
 
   Widget buildBody() {
-    final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
+    final credentials = ref.watch(CredentialsInit.storage.oa.$credentials);
     final all = <WidgetBuilder>[];
     if (credentials != null) {
       all.add((_) => buildAccount(credentials));
@@ -93,7 +93,7 @@ class _CredentialsPageState extends ConsumerState<CredentialsPage> {
               );
               if (newPwd != credential.password) {
                 if (!mounted) return;
-                CredentialsInit.storage.oaCredentials = credential.copyWith(password: newPwd);
+                CredentialsInit.storage.oa.credentials = credential.copyWith(password: newPwd);
                 setState(() {});
               }
             },

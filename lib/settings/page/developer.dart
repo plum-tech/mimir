@@ -50,7 +50,7 @@ class DeveloperOptionsPage extends ConsumerStatefulWidget {
 class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
   @override
   Widget build(BuildContext context) {
-    final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
+    final credentials = ref.watch(CredentialsInit.storage.oa.$credentials);
     final demoMode = ref.watch(Dev.$demoMode);
     return Scaffold(
       body: CustomScrollView(
@@ -86,10 +86,10 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                   trailing: const Icon(Icons.login),
                   onTap: () async {
                     Settings.lastSignature ??= "Liplum";
-                    CredentialsInit.storage.oaCredentials = R.demoModeOaCredentials;
-                    CredentialsInit.storage.oaLoginStatus = LoginStatus.validated;
-                    CredentialsInit.storage.oaLastAuthTime = DateTime.now();
-                    CredentialsInit.storage.oaUserType = OaUserType.undergraduate;
+                    CredentialsInit.storage.oa.credentials = R.demoModeOaCredentials;
+                    CredentialsInit.storage.oa.loginStatus = LoginStatus.validated;
+                    CredentialsInit.storage.oa.lastAuthTime = DateTime.now();
+                    CredentialsInit.storage.oa.userType = OaUserType.undergraduate;
                     await Init.initModules();
                     if (!context.mounted) return;
                     context.go("/");

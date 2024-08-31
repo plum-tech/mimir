@@ -72,7 +72,7 @@ class _Class2ndAppCardState extends ConsumerState<Class2ndAppCard> {
   }
 
   Class2ndPointsSummary getTargetScore() {
-    final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
+    final credentials = ref.watch(CredentialsInit.storage.oa.$credentials);
     final admissionYear = getAdmissionYearFromStudentId(credentials?.account);
     return getTargetScoreOf(admissionYear: admissionYear);
   }

@@ -20,9 +20,9 @@ class XLogin {
     final personName = await LoginInit.authServerService.getPersonName();
     Meta.userRealName ??= personName;
     Settings.lastSignature ??= personName;
-    CredentialsInit.storage.oaCredentials = credentials;
-    CredentialsInit.storage.oaLoginStatus = LoginStatus.validated;
-    CredentialsInit.storage.oaLastAuthTime = DateTime.now();
-    CredentialsInit.storage.oaUserType = userType;
+    CredentialsInit.storage.oa.credentials = credentials;
+    CredentialsInit.storage.oa.loginStatus = LoginStatus.validated;
+    CredentialsInit.storage.oa.lastAuthTime = DateTime.now();
+    CredentialsInit.storage.oa.userType = userType;
   }
 }

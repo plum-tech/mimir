@@ -87,10 +87,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     await Future.delayed(Duration(milliseconds: rand.nextInt(2000)));
     Meta.userRealName = "Liplum";
     Settings.lastSignature ??= "Liplum";
-    CredentialsInit.storage.oaCredentials = R.demoModeOaCredentials;
-    CredentialsInit.storage.oaLoginStatus = LoginStatus.validated;
-    CredentialsInit.storage.oaLastAuthTime = DateTime.now();
-    CredentialsInit.storage.oaUserType = OaUserType.undergraduate;
+    CredentialsInit.storage.oa.credentials = R.demoModeOaCredentials;
+    CredentialsInit.storage.oa.loginStatus = LoginStatus.validated;
+    CredentialsInit.storage.oa.lastAuthTime = DateTime.now();
+    CredentialsInit.storage.oa.userType = OaUserType.undergraduate;
     Dev.demoMode = true;
     await Init.initModules();
     if (!mounted) return;
@@ -146,7 +146,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(CredentialsInit.storage.$oaCredentials, (pre, next) {
+    ref.listen(CredentialsInit.storage.oa.$credentials, (pre, next) {
       if (next != null) {
         $account.text = next.account;
         $password.text = next.password;
@@ -286,7 +286,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       onPressed: account.text.isNotEmpty || password.text.isNotEmpty
                           ? null
                           : () {
-                              CredentialsInit.storage.oaLoginStatus = LoginStatus.offline;
+                              CredentialsInit.storage.oa.loginStatus = LoginStatus.offline;
                               context.go("/");
                             },
                       child: i18n.offlineModeBtn.text(),

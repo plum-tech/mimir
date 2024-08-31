@@ -55,7 +55,7 @@ class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> {
   }
 
   Future<void> refresh({required bool active}) async {
-    final credentials = ref.read(CredentialsInit.storage.$oaCredentials);
+    final credentials = ref.read(CredentialsInit.storage.oa.$credentials);
     if (credentials == null) return;
     try {
       await XExpense.fetchAndSaveTransactionUntilNow(

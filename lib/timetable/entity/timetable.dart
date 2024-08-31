@@ -32,7 +32,7 @@ Campus _defaultCampus() {
 }
 
 String _defaultStudentId() {
-  return CredentialsInit.storage.oaCredentials?.account ?? "";
+  return CredentialsInit.storage.oa.credentials?.account ?? "";
 }
 
 @JsonSerializable()

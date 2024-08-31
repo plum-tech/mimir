@@ -25,7 +25,7 @@ class _LibraryAppCardState extends ConsumerState<LibraryAppCard> {
   @override
   Widget build(BuildContext context) {
     final storage = LibraryInit.borrowStorage;
-    final credentials = ref.watch(CredentialsInit.storage.$libraryCredentials);
+    final credentials = ref.watch(CredentialsInit.storage.library.$credentials);
     final borrowedBooks = ref.watch(storage.$borrowed);
     return AppCard(
       title: i18n.title.text(),

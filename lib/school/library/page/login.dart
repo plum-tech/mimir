@@ -21,7 +21,7 @@ class LibraryLoginPage extends StatefulWidget {
 }
 
 class _LibraryLoginPageState extends State<LibraryLoginPage> {
-  final initialAccount = CredentialsInit.storage.oaCredentials?.account;
+  final initialAccount = CredentialsInit.storage.oa.credentials?.account;
   late final $readerId = TextEditingController(text: initialAccount);
   final $password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -144,7 +144,7 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
       if (!mounted) return;
       setState(() => isLoggingIn = true);
       await LibraryInit.auth.login(credential);
-      CredentialsInit.storage.libraryCredentials = credential;
+      CredentialsInit.storage.library.credentials = credential;
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       context.replace("/library/borrowing");

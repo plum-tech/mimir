@@ -104,7 +104,7 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
   }
 
   Widget buildImportPage({Key? key}) {
-    final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
+    final credentials = ref.watch(CredentialsInit.storage.oa.$credentials);
     return [
       buildTip(context).padSymmetric(v: 30),
       SemesterSelector(
@@ -128,7 +128,7 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
   }) async {
     final SemesterInfo(:exactYear, :semester) = info;
     // fetch start date of current semester from ug reg
-    final userType = ref.read(CredentialsInit.storage.$oaUserType);
+    final userType = ref.read(CredentialsInit.storage.oa.$userType);
     final resolvedStartDate = await fetchStartDateOfCurrentSemester(info, userType);
     timetable = timetable.copyWith(
       semester: semester,
@@ -160,7 +160,7 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
   }
 
   Future<SitTimetable> fetchTimetable(SemesterInfo info) async {
-    final userType = ref.read(CredentialsInit.storage.$oaUserType);
+    final userType = ref.read(CredentialsInit.storage.oa.$userType);
     return switch (userType) {
       OaUserType.undergraduate => TimetableInit.service.fetchUgTimetable(info),
       OaUserType.postgraduate => TimetableInit.service.fetchPgTimetable(info),
@@ -185,7 +185,7 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
       final newTimetable = await handleTimetableData(
         timetable,
         selected,
-        fillFundamentalInfo: ref.read(CredentialsInit.storage.$oaUserType) != OaUserType.undergraduate,
+        fillFundamentalInfo: ref.read(CredentialsInit.storage.oa.$userType) != OaUserType.undergraduate,
       );
       if (!mounted) return;
       context.pop(newTimetable);

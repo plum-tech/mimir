@@ -25,7 +25,7 @@ class EduEmailLoginPage extends StatefulWidget {
 }
 
 class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
-  final initialAccount = CredentialsInit.storage.oaCredentials?.account;
+  final initialAccount = CredentialsInit.storage.oa.credentials?.account;
   late final $username = TextEditingController(text: initialAccount);
   final $password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -160,7 +160,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
       if (!mounted) return;
       setState(() => isLoggingIn = true);
       await EduEmailInit.service.login(credential);
-      CredentialsInit.storage.eduEmailCredentials = credential;
+      CredentialsInit.storage.email.credentials = credential;
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       context.replace("/edu-email/inbox");

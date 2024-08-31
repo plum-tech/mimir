@@ -58,7 +58,7 @@ class _GreetingState extends ConsumerState<Greeting> {
 
   @override
   Widget build(BuildContext context) {
-    final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
+    final credentials = ref.watch(CredentialsInit.storage.oa.$credentials);
     final studyDays = credentials == null ? 0 : _getStudyDaysAndInitState(credentials);
 
     final days = studyDays;

@@ -98,7 +98,7 @@ class _ExamArrangementListPageState extends ConsumerState<ExamArrangementListPag
   }
 
   Widget buildSemesterSelector() {
-    final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
+    final credentials = ref.watch(CredentialsInit.storage.oa.$credentials);
     return SemesterSelector(
       initial: initial,
       baseYear: getAdmissionYearFromStudentId(credentials?.account),

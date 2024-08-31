@@ -92,8 +92,8 @@ final $ForumShellKey = GlobalKey<NavigatorState>();
 
 bool isLoginGuarded(BuildContext ctx) {
   if (Dev.demoMode) return false;
-  final loginStatus = ProviderScope.containerOf(ctx).read(CredentialsInit.storage.$oaLoginStatus);
-  final credentials = ProviderScope.containerOf(ctx).read(CredentialsInit.storage.$oaCredentials);
+  final loginStatus = ProviderScope.containerOf(ctx).read(CredentialsInit.storage.oa.$loginStatus);
+  final credentials = ProviderScope.containerOf(ctx).read(CredentialsInit.storage.oa.$credentials);
   return loginStatus != LoginStatus.validated && credentials == null;
 }
 
@@ -103,8 +103,8 @@ String? _loginRequired(BuildContext ctx, GoRouterState state) {
 }
 
 FutureOr<String?> _redirectRoot(BuildContext ctx, GoRouterState state) {
-  // `ctx.riverpod().read(CredentialsInit.storage.$oaLoginStatus)` would return `LoginStatus.never` after just logged in.
-  final loginStatus = CredentialsInit.storage.oaLoginStatus;
+  // `ctx.riverpod().read(CredentialsInit.storage.oa.$loginStatus)` would return `LoginStatus.never` after just logged in.
+  final loginStatus = CredentialsInit.storage.oa.loginStatus;
   if (loginStatus == LoginStatus.never) {
 // allow to access settings page.
     if (state.matchedLocation.startsWith("/tools")) return null;

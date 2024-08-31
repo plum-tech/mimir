@@ -44,7 +44,7 @@ class _ExpenseRecordsPageState extends ConsumerState<ExpenseRecordsPage> {
   }
 
   Future<void> refresh() async {
-    final credentials = ref.read(CredentialsInit.storage.$oaCredentials);
+    final credentials = ref.read(CredentialsInit.storage.oa.$credentials);
     if (credentials == null) return;
     if (!mounted) return;
     setState(() {

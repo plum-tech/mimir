@@ -18,7 +18,7 @@ class SchoolSettingsPage extends ConsumerStatefulWidget {
 class _SchoolSettingsPageState extends ConsumerState<SchoolSettingsPage> {
   @override
   Widget build(BuildContext context) {
-    final userType = ref.watch(CredentialsInit.storage.$oaUserType);
+    final userType = ref.watch(CredentialsInit.storage.oa.$userType);
     return Scaffold(
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),

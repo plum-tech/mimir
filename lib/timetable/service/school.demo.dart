@@ -17,7 +17,7 @@ class DemoTimetableService implements TimetableService {
     var key = 0;
     return SitTimetable(
       campus: Campus.fengxian,
-      studentId: CredentialsInit.storage.oaCredentials?.account ?? "",
+      studentId: CredentialsInit.storage.oa.credentials?.account ?? "",
       courses: {
         "$key": SitCourse(
           courseKey: key++,

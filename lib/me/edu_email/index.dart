@@ -21,7 +21,7 @@ class EduEmailAppCard extends ConsumerStatefulWidget {
 class _EduEmailAppCardState extends ConsumerState<EduEmailAppCard> {
   @override
   Widget build(BuildContext context) {
-    final credentials = ref.watch(CredentialsInit.storage.$eduEmailCredentials);
+    final credentials = ref.watch(CredentialsInit.storage.email.$credentials);
     final email = credentials?.account.toString();
     return AppCard(
       title: i18n.title.text(),

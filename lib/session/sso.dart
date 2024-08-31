@@ -163,7 +163,7 @@ class SsoSession {
 
     // check if the response is the login page. if so, login it first.
     if (firstResponse.realUri.toString().contains(_loginUrl)) {
-      final credentials = CredentialsInit.storage.oaCredentials;
+      final credentials = CredentialsInit.storage.oa.credentials;
       if (credentials == null) {
         throw OaCredentialsRequiredException(url: url);
       }
@@ -243,7 +243,7 @@ class SsoSession {
       throw Exception(response.data.toString());
     }
     debugPrint('${credentials.account} logged in');
-    CredentialsInit.storage.oaLastAuthTime = DateTime.now();
+    CredentialsInit.storage.oa.lastAuthTime = DateTime.now();
     _setOnline(true);
     return response;
   }

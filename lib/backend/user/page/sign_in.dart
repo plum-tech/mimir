@@ -212,8 +212,8 @@ enum _SignInStatus {
 }
 
 class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
-  final $schoolId = TextEditingController(text: CredentialsInit.storage.oaCredentials?.account);
-  final $password = TextEditingController(text: CredentialsInit.storage.oaCredentials?.password);
+  final $schoolId = TextEditingController(text: CredentialsInit.storage.oa.credentials?.account);
+  final $password = TextEditingController(text: CredentialsInit.storage.oa.credentials?.password);
   bool isPasswordClear = false;
   bool acceptedAgreements = false;
   var status = _SignInStatus.none;
@@ -259,18 +259,11 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
         ),
       if (status == _SignInStatus.existing) buildSignIn(),
       if (status == _SignInStatus.notFound) buildSignUp(),
-      // if (status != MimirSchoolIdSignInStatus.none)
-      //   "Don't have a SIT Life account?\n It will automatically sign-up for you.".text(),
       const ForgotPasswordButton(url: oaForgotLoginPasswordUrl),
     ];
     return widgets.map((w) => w.padV(8)).toList().column(
           maa: MainAxisAlignment.spaceEvenly,
         );
-    return ListView.separated(
-      itemCount: widgets.length,
-      itemBuilder: (ctx, i) => widgets[i],
-      separatorBuilder: (ctx, i) => const SizedBox(height: 8),
-    );
   }
 
   Future<void> checkExisting() async {

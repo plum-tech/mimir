@@ -25,9 +25,9 @@ class LifePage extends ConsumerStatefulWidget {
 class _LifePageState extends ConsumerState<LifePage> {
   @override
   Widget build(BuildContext context) {
-    final loginStatus = ref.watch(CredentialsInit.storage.$oaLoginStatus);
+    final loginStatus = ref.watch(CredentialsInit.storage.oa.$loginStatus);
     final campus = ref.watch(Settings.$campus) ?? Campus.fengxian;
-    final oaCredentials = ref.watch(CredentialsInit.storage.$oaCredentials);
+    final oaCredentials = ref.watch(CredentialsInit.storage.oa.$credentials);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: NestedScrollView(

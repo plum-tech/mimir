@@ -24,7 +24,7 @@ class _EduEmailInboxPageState extends ConsumerState<EduEmailInboxPage> {
   @override
   initState() {
     super.initState();
-    final credentials = ref.read(CredentialsInit.storage.$eduEmailCredentials);
+    final credentials = ref.read(CredentialsInit.storage.email.$credentials);
     if (credentials != null) {
       refresh(credentials);
     }
@@ -36,7 +36,7 @@ class _EduEmailInboxPageState extends ConsumerState<EduEmailInboxPage> {
       await EduEmailInit.service.login(credentials);
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
-      CredentialsInit.storage.eduEmailCredentials = null;
+      CredentialsInit.storage.email.credentials = null;
       return;
     }
     try {
@@ -57,7 +57,7 @@ class _EduEmailInboxPageState extends ConsumerState<EduEmailInboxPage> {
 
   @override
   Widget build(BuildContext context) {
-    final credentials = ref.watch(CredentialsInit.storage.$eduEmailCredentials);
+    final credentials = ref.watch(CredentialsInit.storage.email.$credentials);
     final messages = this.messages;
     return Scaffold(
       floatingActionButton: credentials != null && messages == null ? const CircularProgressIndicator.adaptive() : null,

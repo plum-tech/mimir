@@ -28,8 +28,8 @@ class SchoolPage extends ConsumerStatefulWidget {
 class _SchoolPageState extends ConsumerState<SchoolPage> {
   @override
   Widget build(BuildContext context) {
-    final userType = ref.watch(CredentialsInit.storage.$oaUserType);
-    final loginStatus = ref.watch(CredentialsInit.storage.$oaLoginStatus);
+    final userType = ref.watch(CredentialsInit.storage.oa.$userType);
+    final loginStatus = ref.watch(CredentialsInit.storage.oa.$loginStatus);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: NestedScrollView(

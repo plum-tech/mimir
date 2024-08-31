@@ -53,8 +53,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   }
 
   List<Widget> buildEntries() {
-    final credentials = ref.watch(CredentialsInit.storage.$oaCredentials);
-    final loginStatus = ref.watch(CredentialsInit.storage.$oaLoginStatus);
+    final credentials = ref.watch(CredentialsInit.storage.oa.$credentials);
+    final loginStatus = ref.watch(CredentialsInit.storage.oa.$loginStatus);
     final devOn = ref.watch(Dev.$on);
     final all = <Widget>[];
     if (loginStatus != LoginStatus.never) {

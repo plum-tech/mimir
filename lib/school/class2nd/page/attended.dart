@@ -83,7 +83,7 @@ class _AttendedActivityPageState extends ConsumerState<AttendedActivityPage> {
   }
 
   Class2ndPointsSummary getTargetScore() {
-    final credentials = ref.read(CredentialsInit.storage.$oaCredentials);
+    final credentials = ref.read(CredentialsInit.storage.oa.$credentials);
     final admissionYear = int.tryParse(credentials?.account.substring(0, 2) ?? "") ?? 2000;
     return getTargetScoreOf(admissionYear: admissionYear);
   }

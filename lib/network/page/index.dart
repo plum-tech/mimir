@@ -297,7 +297,7 @@ class StudentRegConnectivityInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userType = ref.watch(CredentialsInit.storage.$oaUserType);
+    final userType = ref.watch(CredentialsInit.storage.oa.$userType);
     final widgets = <Widget>[];
     final connected = this.connected;
     final textTheme = context.textTheme;

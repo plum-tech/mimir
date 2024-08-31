@@ -25,7 +25,7 @@ class OaAnnounceListPage extends ConsumerStatefulWidget {
 class _OaAnnounceListPageState extends ConsumerState<OaAnnounceListPage> {
   @override
   Widget build(BuildContext context) {
-    final userType = ref.watch(CredentialsInit.storage.$oaUserType);
+    final userType = ref.watch(CredentialsInit.storage.oa.$userType);
     final cats = OaAnnounceCat.resolve(userType);
     return OaAnnounceListPageInternal(cats: cats);
   }

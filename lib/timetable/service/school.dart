@@ -66,7 +66,7 @@ class TimetableService {
       resultList: await ExamResultInit.pgService.fetchResultRawList(),
       pageHtml: timetableRes.data,
       campus: Settings.campus,
-      studentId: CredentialsInit.storage.oaCredentials?.account ?? "",
+      studentId: CredentialsInit.storage.oa.credentials?.account ?? "",
     );
   }
 
