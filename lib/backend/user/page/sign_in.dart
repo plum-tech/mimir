@@ -6,6 +6,7 @@ import 'package:mimir/backend/user/entity/verify.dart';
 import 'package:mimir/backend/user/x.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/design/animation/animated.dart';
 import 'package:mimir/login/page/index.dart';
 import 'package:mimir/login/widgets/forgot_pwd.dart';
 import 'package:mimir/utils/save.dart';
@@ -239,33 +240,36 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
         child: Form(
           key: $schoolIdForm,
           child: [
-            [
-              buildSchoolId().expanded(),
-              if (status == _SignInStatus.none)
-                $schoolId >>
-                    (ctx, $schoolId) => IconButton.filledTonal(
-                          icon: const Icon(Icons.chevron_right),
-                          onPressed: $schoolId.text.isEmpty || widget.signingIn ? null : checkExisting,
-                        ),
-            ].row(),
-            if (status != _SignInStatus.none) buildPassword(),
+            buildSchoolId(),
+            AnimatedShowUp(
+              when: status != _SignInStatus.none,
+              builder: (context) => buildPassword().padV(8),
+            ),
           ].column(),
         ),
       ),
-      if (status != _SignInStatus.none)
-        MimirSchoolIdDisclaimerCard(
+      AnimatedShowUp(
+        when: status != _SignInStatus.none,
+        builder: (context) => MimirSchoolIdDisclaimerCard(
           accepted: acceptedAgreements,
           onAccepted: (value) {
             setState(() {
               acceptedAgreements = value;
             });
           },
-        ),
-      if (status == _SignInStatus.existing) buildSignIn(),
-      if (status == _SignInStatus.notFound) buildSignUp(),
-      const ForgotPasswordButton(url: oaForgotLoginPasswordUrl),
+        ).padV(8),
+      ),
+      AnimatedShowUp(
+        when: status == _SignInStatus.existing,
+        builder: (context) => buildSignIn().padV(8),
+      ),
+      AnimatedShowUp(
+        when: status == _SignInStatus.notFound,
+        builder: (context) => buildSignUp().padV(8),
+      ),
+      const ForgotPasswordButton(url: oaForgotLoginPasswordUrl).padV(8),
     ];
-    return widgets.map((w) => w.padV(8)).toList().column(
+    return widgets.column(
           maa: MainAxisAlignment.spaceEvenly,
         );
   }
@@ -291,6 +295,18 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   }
 
   Widget buildSchoolId() {
+    return [
+      buildSchoolIdForm().expanded(),
+      if (status == _SignInStatus.none)
+        $schoolId >>
+            (ctx, $schoolId) => IconButton.filledTonal(
+                  icon: const Icon(Icons.chevron_right),
+                  onPressed: $schoolId.text.isEmpty || widget.signingIn ? null : checkExisting,
+                ),
+    ].row();
+  }
+
+  Widget buildSchoolIdForm() {
     return TextFormField(
       controller: $schoolId,
       autofillHints: const [AutofillHints.username],

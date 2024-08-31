@@ -48,3 +48,28 @@ class AnimatedSwitched extends StatelessWidget {
     );
   }
 }
+
+class AnimatedShowUp extends StatelessWidget {
+  final Duration duration;
+  final Curve switchInCurve;
+  final Curve switchOutCurve;
+  final bool when;
+  final WidgetBuilder builder;
+
+  const AnimatedShowUp({
+    super.key,
+    this.duration = Durations.medium2,
+    required this.when,
+    required this.builder,
+    this.switchInCurve = Curves.linear,
+    this.switchOutCurve = Curves.linear,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: duration,
+      child: when ? builder(context) : const SizedBox(),
+    );
+  }
+}
