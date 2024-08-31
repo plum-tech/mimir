@@ -2,10 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:open_file/open_file.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rettulf/rettulf.dart';
@@ -641,15 +640,13 @@ Future<int?> selectWeekInTimetable({
         count: 20,
         controller: controller,
         ok: submitLabel,
-        okEnabled: (curSelected) => curSelected != initialWeekIndex,
+        okDefault: true,
         actions: [
-          (ctx, curSelected) => PlatformTextButton(
-                onPressed: (curSelected == todayIndex)
-                    ? null
-                    : () {
-                        controller.animateToItem(todayIndex,
-                            duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
-                      },
+          (ctx, curSelected) => CupertinoActionSheetAction(
+                onPressed: () {
+                  controller.animateToItem(todayIndex,
+                      duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
+                },
                 child: i18n.findToday.text(),
               )
         ],
@@ -681,18 +678,17 @@ Future<TimetablePos?> selectDayInTimetable({
         controllerA: $week,
         controllerB: $day,
         ok: submitLabel,
+        okDefault: true,
         okEnabled: (weekSelected, daySelected) => weekSelected != initialWeekIndex || daySelected != initialDayIndex,
         actions: [
-          (ctx, week, day) => PlatformTextButton(
-                onPressed: (week == todayWeekIndex && day == todayDayIndex)
-                    ? null
-                    : () {
-                        $week.animateToItem(todayWeekIndex,
-                            duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
+          (ctx, week, day) => CupertinoActionSheetAction(
+                onPressed: () {
+                  $week.animateToItem(todayWeekIndex,
+                      duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
 
-                        $day.animateToItem(todayDayIndex,
-                            duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
-                      },
+                  $day.animateToItem(todayDayIndex,
+                      duration: const Duration(milliseconds: 500), curve: Curves.fastEaseInToSlowEaseOut);
+                },
                 child: i18n.findToday.text(),
               )
         ],

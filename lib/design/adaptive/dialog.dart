@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -173,9 +172,9 @@ extension DialogEx on BuildContext {
   Future<int?> showPicker({
     required int count,
     String? ok,
-    bool Function(int? selected)? okEnabled,
     double targetHeight = 240,
-    bool highlight = false,
+    bool okDefault = false,
+    bool okDestructive = false,
     FixedExtentScrollController? controller,
     List<PickerActionWidgetBuilder>? actions,
     required IndexedWidgetBuilder make,
@@ -187,9 +186,9 @@ extension DialogEx on BuildContext {
           count: count,
           controller: controller,
           ok: ok,
-          okEnabled: okEnabled,
           targetHeight: targetHeight,
-          highlight: highlight,
+          okDefault: okDefault,
+          okDestructive: okDestructive,
           actions: actions,
         ),
       ),
@@ -208,7 +207,8 @@ extension DialogEx on BuildContext {
     String? ok,
     bool Function(int? selectedA, int? selectedB)? okEnabled,
     double targetHeight = 240,
-    bool highlight = false,
+    bool okDefault = false,
+    bool okDestructive = false,
     FixedExtentScrollController? controllerA,
     FixedExtentScrollController? controllerB,
     List<DualPickerActionWidgetBuilder>? actions,
@@ -225,9 +225,9 @@ extension DialogEx on BuildContext {
           controllerA: controllerA,
           controllerB: controllerB,
           ok: ok,
-          okEnabled: okEnabled,
           targetHeight: targetHeight,
-          highlight: highlight,
+          okDefault: okDefault,
+          okDestructive: okDestructive,
           actions: actions,
         ),
       ),
@@ -244,9 +244,9 @@ extension DialogEx on BuildContext {
 class SoloPicker extends StatefulWidget {
   final int count;
   final String? ok;
-  final bool Function(int? selected)? okEnabled;
   final double targetHeight;
-  final bool highlight;
+  final bool okDefault;
+  final bool okDestructive;
   final FixedExtentScrollController? controller;
   final List<PickerActionWidgetBuilder>? actions;
   final IndexedWidgetBuilder make;
@@ -255,10 +255,10 @@ class SoloPicker extends StatefulWidget {
     super.key,
     required this.count,
     this.ok,
-    this.okEnabled,
     this.controller,
     this.targetHeight = 240,
-    this.highlight = false,
+    this.okDefault = false,
+    this.okDestructive = false,
     this.actions,
     required this.make,
   });
@@ -298,14 +298,14 @@ class _SoloPickerState extends State<SoloPicker> {
           .toList(),
       cancelButton: ok == null
           ? null
-          : $selected >>
-              (ctx, selected) => PlatformTextButton(
-                  onPressed: widget.okEnabled?.call(selected) ?? true
-                      ? () {
-                          Navigator.of(ctx).pop($selected.value);
-                        }
-                      : null,
-                  child: ok.text(style: TextStyle(color: widget.highlight ? ctx.$red$ : null))),
+          : CupertinoActionSheetAction(
+              onPressed: () {
+                context.pop($selected.value);
+              },
+              isDefaultAction: widget.okDefault,
+              isDestructiveAction: widget.okDestructive,
+              child: ok.text(),
+            ),
     );
   }
 }
@@ -316,7 +316,8 @@ class DualPicker extends StatefulWidget {
   final int countA;
   final int countB;
   final String? ok;
-  final bool Function(int? selectedA, int? selectedB)? okEnabled;
+  final bool okDefault;
+  final bool okDestructive;
   final double targetHeight;
   final bool highlight;
   final List<DualPickerActionWidgetBuilder>? actions;
@@ -326,7 +327,6 @@ class DualPicker extends StatefulWidget {
   const DualPicker({
     super.key,
     this.ok,
-    this.okEnabled,
     this.actions,
     this.highlight = false,
     this.targetHeight = 240,
@@ -336,6 +336,8 @@ class DualPicker extends StatefulWidget {
     required this.countA,
     required this.countB,
     required this.makeB,
+    this.okDefault = false,
+    this.okDestructive = false,
   });
 
   @override
@@ -386,21 +388,14 @@ class _DualPickerState extends State<DualPicker> {
       actions: widget.actions?.map((e) => $selectedA >> (ctx, a) => $selectedB >> (ctx, b) => e(ctx, a, b)).toList(),
       cancelButton: ok == null
           ? null
-          : $selectedA >>
-              (ctx, a) =>
-                  $selectedB >>
-                  (ctx, b) => CupertinoButton(
-                        onPressed: widget.okEnabled?.call(a, b) ?? true
-                            ? () {
-                                Navigator.of(ctx).pop(($selectedA.value, $selectedB.value));
-                              }
-                            : null,
-                        child: ok.text(
-                          style: TextStyle(
-                            color: widget.highlight ? ctx.$red$ : null,
-                          ),
-                        ),
-                      ),
+          : CupertinoActionSheetAction(
+              isDefaultAction: widget.okDefault,
+              isDestructiveAction: widget.okDestructive,
+              onPressed: () {
+                context.pop(($selectedA.value, $selectedB.value));
+              },
+              child: ok.text(),
+            ),
     );
   }
 }
