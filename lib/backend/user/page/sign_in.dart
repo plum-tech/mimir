@@ -10,14 +10,14 @@ import 'package:rettulf/rettulf.dart';
 import '../../init.dart';
 import '../entity/user.dart';
 
-class MimirLoginPage extends ConsumerStatefulWidget {
-  const MimirLoginPage({super.key});
+class MimirSignInPage extends ConsumerStatefulWidget {
+  const MimirSignInPage({super.key});
 
   @override
-  ConsumerState createState() => _MimirLoginPageState();
+  ConsumerState createState() => _MimirSignInPageState();
 }
 
-class _MimirLoginPageState extends ConsumerState<MimirLoginPage> {
+class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
   MimirAuthMethods? authMethods;
   var school = SchoolCode.sit;
 
@@ -41,45 +41,71 @@ class _MimirLoginPageState extends ConsumerState<MimirLoginPage> {
   Widget build(BuildContext context) {
     return PromptDiscardBeforeQuitScope(
       changed: true,
-      child: Scaffold(
+      child: buildBody(),
+    );
+  }
+
+  Widget buildBody() {
+    if (context.isPortrait) {
+      return Scaffold(
         appBar: AppBar(
           centerTitle: true,
           toolbarHeight: 90,
           title: buildSchoolSelector(),
         ),
         body: [
-          buildHeader(),
+          [
+            buildHeader(),
+            buildAuthMethods(),
+          ].column(maa: MainAxisAlignment.spaceEvenly),
           const Divider(),
           AnimatedSwitcher(
             duration: Durations.medium2,
             child: buildLoginForm(),
-          ).padAll(8).expanded(),
+          ).padAll(12).expanded(),
         ].column(),
-      ),
-    );
+      );
+    } else {
+      return Scaffold(
+        appBar: AppBar(),
+        body: [
+          [
+            buildHeader(),
+            buildSchoolSelector(),
+            buildAuthMethods(),
+          ].column(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.spaceEvenly),
+          const VerticalDivider(),
+          AnimatedSwitcher(
+            duration: Durations.medium2,
+            child: buildLoginForm(),
+          ).padAll(8).expanded(),
+        ].row(),
+      );
+    }
   }
 
   Widget buildHeader() {
+    return "Sign-in SIT Life"
+        .text(
+          style: context.textTheme.displaySmall,
+          textAlign: TextAlign.center,
+        )
+        .padSymmetric(v: 20);
+  }
+
+  Widget buildAuthMethods() {
     final authMethods = this.authMethods;
-    return [
-      "Sign-in SIT Life".text(
-        style: context.textTheme.displaySmall,
-        textAlign: TextAlign.center,
-      ),
-      const Padding(padding: EdgeInsets.only(top: 40)),
-      AnimatedSwitcher(
-        duration: Durations.medium2,
-        child: authMethods != null ? buildAuthSegments(authMethods) : const CircularProgressIndicator.adaptive(),
-      ),
-      // buildSchoolIdField(),
-    ].column(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.center).center().padAll(8);
+    return AnimatedSwitcher(
+      duration: Durations.medium2,
+      child: authMethods != null ? buildAuthSegments(authMethods) : const CircularProgressIndicator.adaptive(),
+    );
   }
 
   Widget buildLoginForm() {
     if (authMethods == null) {
       return const CircularProgressIndicator.adaptive().center();
     }
-    return SchoolIdLoginForm();
+    return SchoolIdSignInForm();
   }
 
   Widget buildAuthSegments(MimirAuthMethods methods) {
@@ -132,14 +158,14 @@ class _MimirLoginPageState extends ConsumerState<MimirLoginPage> {
   }
 }
 
-class SchoolIdLoginForm extends ConsumerStatefulWidget {
-  const SchoolIdLoginForm({super.key});
+class SchoolIdSignInForm extends ConsumerStatefulWidget {
+  const SchoolIdSignInForm({super.key});
 
   @override
-  ConsumerState createState() => _SchoolIdLoginFormState();
+  ConsumerState createState() => _SchoolIdSignInFormState();
 }
 
-class _SchoolIdLoginFormState extends ConsumerState<SchoolIdLoginForm> {
+class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   final $schoolId = TextEditingController();
   final $password = TextEditingController();
   bool isPasswordClear = false;
@@ -148,9 +174,11 @@ class _SchoolIdLoginFormState extends ConsumerState<SchoolIdLoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return [
-      buildSchoolId(),
-      buildPassword(),
+    final widgets = [
+      [
+        buildSchoolId(),
+        buildPassword(),
+      ].column(),
       MimirSchoolIdDisclaimerCard(
         accepted: accepted,
         onAccepted: (value) {
@@ -158,8 +186,15 @@ class _SchoolIdLoginFormState extends ConsumerState<SchoolIdLoginForm> {
             accepted = value;
           });
         },
-      ).padV(8),
-    ].column();
+      ),
+      buildLogin(),
+      "Don't have a SIT Life account?\n It will automatically sign-up for you.".text(),
+    ];
+    return ListView.separated(
+      itemCount: widgets.length,
+      itemBuilder: (ctx, i) => widgets[i],
+      separatorBuilder: (ctx, i) => const SizedBox(height: 8),
+    );
   }
 
   Widget buildSchoolId() {
@@ -208,6 +243,14 @@ class _SchoolIdLoginFormState extends ConsumerState<SchoolIdLoginForm> {
           },
         ),
       ),
+    );
+  }
+
+  Widget buildLogin() {
+    return FilledButton.icon(
+      onPressed: () {},
+      icon: Icon(Icons.login),
+      label: "Sign in".text(),
     );
   }
 }

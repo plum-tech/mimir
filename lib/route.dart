@@ -6,7 +6,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/backend/forum/page/index.dart';
-import 'package:mimir/backend/user/page/login.dart';
+import 'package:mimir/backend/user/page/sign_in.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/game/2048/page/index.dart';
@@ -221,7 +221,7 @@ final _meShellRoute = GoRoute(
 final _mimirRoutes = [
   GoRoute(
     path: "/mimir/login",
-    builder: (ctx, state) => const MimirLoginPage(),
+    builder: (ctx, state) => const MimirSignInPage(),
   ),
   GoRoute(
     path: "/mimir/forum",
