@@ -25,3 +25,26 @@ extension AnimatedEx on Widget {
         child: this,
       );
 }
+
+class AnimatedSwitched extends StatelessWidget {
+  final Duration duration;
+  final Widget? child;
+  final Curve switchInCurve;
+  final Curve switchOutCurve;
+
+  const AnimatedSwitched({
+    super.key,
+    this.duration = Durations.medium2,
+    this.child,
+    this.switchInCurve = Curves.linear,
+    this.switchOutCurve = Curves.linear,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSwitcher(
+      duration: duration,
+      child: child ?? const SizedBox(),
+    );
+  }
+}

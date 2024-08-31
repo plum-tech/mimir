@@ -236,18 +236,21 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   Widget buildBody() {
     final widgets = [
       AutofillGroup(
-        child: [
-          [
-            buildSchoolId().expanded(),
-            if (status == _SignInStatus.none)
-              $schoolId >>
-                  (ctx, $schoolId) => IconButton.filledTonal(
-                        icon: const Icon(Icons.chevron_right),
-                        onPressed: $schoolId.text.isEmpty || widget.signingIn ? null : checkExisting,
-                      ),
-          ].row(),
-          if (status != _SignInStatus.none) buildPassword(),
-        ].column(),
+        child: Form(
+          key: $schoolIdForm,
+          child: [
+            [
+              buildSchoolId().expanded(),
+              if (status == _SignInStatus.none)
+                $schoolId >>
+                    (ctx, $schoolId) => IconButton.filledTonal(
+                          icon: const Icon(Icons.chevron_right),
+                          onPressed: $schoolId.text.isEmpty || widget.signingIn ? null : checkExisting,
+                        ),
+            ].row(),
+            if (status != _SignInStatus.none) buildPassword(),
+          ].column(),
+        ),
       ),
       if (status != _SignInStatus.none)
         MimirSchoolIdDisclaimerCard(
@@ -288,30 +291,27 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   }
 
   Widget buildSchoolId() {
-    return Form(
-      key: $schoolIdForm,
-      child: TextFormField(
-        controller: $schoolId,
-        autofillHints: const [AutofillHints.username],
-        textInputAction: TextInputAction.next,
-        autocorrect: false,
-        readOnly: widget.signingIn,
-        enableSuggestions: false,
-        validator: (account) => studentIdValidator(account, () => i18n.login.invalidAccountFormat),
-        decoration: InputDecoration(
-          labelText: "School ID",
-          hintText: "Student ID/Worker ID",
-          icon: Icon(context.icons.person),
-        ),
-        onChanged: (text) async {
-          setState(() {
-            status = _SignInStatus.none;
-          });
-        },
-        onFieldSubmitted: (text) async {
-          await checkExisting();
-        },
+    return TextFormField(
+      controller: $schoolId,
+      autofillHints: const [AutofillHints.username],
+      textInputAction: TextInputAction.next,
+      autocorrect: false,
+      readOnly: widget.signingIn,
+      enableSuggestions: false,
+      validator: (account) => studentIdValidator(account, () => i18n.login.invalidAccountFormat),
+      decoration: InputDecoration(
+        labelText: "School ID",
+        hintText: "Student ID/Worker ID",
+        icon: Icon(context.icons.person),
       ),
+      onChanged: (text) async {
+        setState(() {
+          status = _SignInStatus.none;
+        });
+      },
+      onFieldSubmitted: (text) async {
+        await checkExisting();
+      },
     );
   }
 
