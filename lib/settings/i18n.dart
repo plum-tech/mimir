@@ -93,7 +93,7 @@ class _About {
 
   String get icpLicense => "$ns.icpLicense".tr();
 
-  String get termsOfUse => "$ns.termsOfUse".tr();
+  String get termsOfService => "$ns.termsOfService".tr();
 
   String get privacyPolicy => "$ns.privacyPolicy".tr();
 

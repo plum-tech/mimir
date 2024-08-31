@@ -770,7 +770,7 @@ settings:
     title: About
     version: Version
     icpLicense: ICP License
-    termsOfUse: Term of use
+    termsOfService: Term of service
     privacyPolicy: Privacy policy
     checkUpdate: Check update
 oaAnnounce:

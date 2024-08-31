@@ -53,19 +53,17 @@ class _AboutSettingsPageState extends ConsumerState<AboutSettingsPage> {
                 },
               ),
               ListTile(
-                title: i18n.about.termsOfUse.text(),
+                title: i18n.about.termsOfService.text(),
                 trailing: const Icon(Icons.open_in_browser),
                 onTap: () async {
-                  await guardLaunchUrlString(
-                      context, "https://github.com/liplum-dev/mimir/blob/master/Terms%20of%20use.md");
+                  await guardLaunchUrlString(context, "https://www.mysit.life/tos");
                 },
               ),
               ListTile(
                 title: i18n.about.privacyPolicy.text(),
                 trailing: const Icon(Icons.open_in_browser),
                 onTap: () async {
-                  await guardLaunchUrlString(
-                      context, "https://github.com/liplum-dev/mimir/blob/master/Privacy%20Policy.md");
+                  await guardLaunchUrlString(context, "https://www.mysit.life/privacy-policy");
                 },
               ),
               AboutListTile(
