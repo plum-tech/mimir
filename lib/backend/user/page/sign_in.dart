@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/backend/user/entity/verify.dart';
+import 'package:mimir/backend/user/x.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/login/page/index.dart';
@@ -23,6 +25,7 @@ class MimirSignInPage extends ConsumerStatefulWidget {
 class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
   MimirAuthMethods? authMethods;
   var school = SchoolCode.sit;
+  var signingIn = false;
 
   @override
   void initState() {
@@ -59,6 +62,7 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
             buildHelp(),
           ],
         ),
+        floatingActionButton: signingIn ? const CircularProgressIndicator.adaptive() : null,
         body: [
           buildHeader(),
           buildAuthMethods(),
@@ -72,6 +76,7 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
     } else {
       return Scaffold(
         appBar: AppBar(),
+        floatingActionButton: signingIn ? const CircularProgressIndicator.adaptive() : null,
         body: [
           [
             buildHeader(),
@@ -118,6 +123,12 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
     }
     return SchoolIdSignInForm(
       school: school,
+      signingIn: signingIn,
+      onSigningIn: (value) {
+        setState(() {
+          signingIn = value;
+        });
+      },
     );
   }
 
@@ -180,10 +191,14 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
 
 class SchoolIdSignInForm extends ConsumerStatefulWidget {
   final SchoolCode school;
+  final bool signingIn;
+  final ValueChanged<bool> onSigningIn;
 
   const SchoolIdSignInForm({
     super.key,
     required this.school,
+    this.signingIn = false,
+    required this.onSigningIn,
   });
 
   @override
@@ -200,7 +215,6 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   final $schoolId = TextEditingController(text: CredentialsInit.storage.oaCredentials?.account);
   final $password = TextEditingController(text: CredentialsInit.storage.oaCredentials?.password);
   bool isPasswordClear = false;
-  bool isLoggingIn = false;
   bool acceptedAgreements = false;
   var status = _SignInStatus.none;
   final $schoolIdForm = GlobalKey<FormState>();
@@ -225,13 +239,11 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
           [
             buildSchoolId().expanded(),
             if (status == _SignInStatus.none)
-              checkingExisting
-                  ? const CircularProgressIndicator.adaptive()
-                  : $schoolId >>
-                      (ctx, $schoolId) => IconButton.filledTonal(
-                            icon: const Icon(Icons.chevron_right),
-                            onPressed: $schoolId.text.isEmpty ? null : checkExisting,
-                          ),
+              $schoolId >>
+                  (ctx, $schoolId) => IconButton.filledTonal(
+                        icon: const Icon(Icons.chevron_right),
+                        onPressed: $schoolId.text.isEmpty || widget.signingIn ? null : checkExisting,
+                      ),
           ].row(),
           if (status != _SignInStatus.none) buildPassword(),
         ].column(),
@@ -267,17 +279,18 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
       return;
     }
     FocusScope.of(context).requestFocus(FocusNode());
-    setState(() {
-      checkingExisting = true;
-    });
-    final existing = await BackendInit.auth.checkExistingBySchoolId(
-      school: widget.school,
-      schoolId: schoolId,
-    );
-    setState(() {
-      status = existing ? _SignInStatus.existing : _SignInStatus.notFound;
-      checkingExisting = false;
-    });
+    widget.onSigningIn(true);
+    try {
+      final existing = await BackendInit.auth.checkExistingBySchoolId(
+        school: widget.school,
+        schoolId: schoolId,
+      );
+      setState(() {
+        status = existing ? _SignInStatus.existing : _SignInStatus.notFound;
+      });
+    } finally {
+      widget.onSigningIn(false);
+    }
   }
 
   Widget buildSchoolId() {
@@ -288,7 +301,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
         autofillHints: const [AutofillHints.username],
         textInputAction: TextInputAction.next,
         autocorrect: false,
-        // readOnly: isLoggingIn,
+        readOnly: widget.signingIn,
         enableSuggestions: false,
         validator: (account) => studentIdValidator(account, () => i18n.invalidAccountFormat),
         decoration: InputDecoration(
@@ -314,7 +327,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
       keyboardType: isPasswordClear ? TextInputType.visiblePassword : null,
       autofillHints: const [AutofillHints.password],
       textInputAction: TextInputAction.send,
-      readOnly: isLoggingIn,
+      readOnly: widget.signingIn,
       contextMenuBuilder: (ctx, state) {
         return AdaptiveTextSelectionToolbar.editableText(
           editableTextState: state,
@@ -342,7 +355,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
 
   Widget buildSignIn() {
     return FilledButton.icon(
-      onPressed: !acceptedAgreements ? null : signIn,
+      onPressed: !acceptedAgreements || widget.signingIn ? null : signIn,
       icon: Icon(Icons.login),
       label: "Sign in".text(),
     );
@@ -350,26 +363,40 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
 
   Widget buildSignUp() {
     return FilledButton.icon(
-      onPressed: !acceptedAgreements ? null : signUp,
+      onPressed: !acceptedAgreements || widget.signingIn ? null : signUp,
       icon: Icon(Icons.create),
       label: "Sign up".text(),
     );
   }
 
   Future<void> signIn() async {
-    await BackendInit.auth.signInBySchoolId(
+    widget.onSigningIn(true);
+    final success = await XMimirUser.signInMimir(
+      context,
       school: widget.school,
       schoolId: $schoolId.text,
       password: $password.text,
     );
+    if (!mounted) return;
+    if (success) {
+      context.pop();
+    }
+    widget.onSigningIn(false);
   }
 
   Future<void> signUp() async {
-    await BackendInit.auth.signUpBySchoolId(
+    widget.onSigningIn(true);
+    final success = await XMimirUser.signUpMimir(
+      context,
       school: widget.school,
       schoolId: $schoolId.text,
       password: $password.text,
     );
+    if (!mounted) return;
+    if (success) {
+      context.pop();
+    }
+    widget.onSigningIn(false);
   }
 }
 

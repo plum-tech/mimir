@@ -66,6 +66,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
             delegate: SliverChildListDelegate([
               buildDevModeToggle(),
               buildDemoModeToggle(),
+              buildMimirBetaApiToggle(),
               PageNavigationTile(
                 title: i18n.dev.localStorage.text(),
                 subtitle: i18n.dev.localStorageDesc.text(),
@@ -149,6 +150,20 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
         value: on,
         onChanged: (newV) {
           ref.read(Dev.$on.notifier).set(newV);
+        },
+      ),
+    );
+  }
+
+  Widget buildMimirBetaApiToggle() {
+    final on = ref.watch(Dev.$betaBackendAPI);
+    return ListTile(
+      title: "Beta API backend".text(),
+      leading: const Icon(Icons.developer_board),
+      trailing: Switch.adaptive(
+        value: on,
+        onChanged: (newV) {
+          ref.read(Dev.$betaBackendAPI.notifier).set(newV);
         },
       ),
     );

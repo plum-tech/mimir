@@ -9,6 +9,7 @@ class _K {
   static const savedOaCredentialsList = '$ns/savedOaCredentialsList';
   static const demoMode = '$ns/demoMode';
   static const expenseUserOverride = '$ns/expenseUserOverride';
+  static const betaBackendAPI = '$ns/betaBackendAPI';
 }
 
 // ignore: non_constant_identifier_names
@@ -32,6 +33,13 @@ class DevSettingsImpl {
   set demoMode(bool newV) => box.safePut<bool>(_K.demoMode, newV);
 
   late final $demoMode = box.providerWithDefault<bool>(_K.demoMode, () => false);
+
+  /// [false] by default.
+  bool get betaBackendAPI => box.safeGet<bool>(_K.betaBackendAPI) ?? false;
+
+  set betaBackendAPI(bool newV) => box.safePut<bool>(_K.betaBackendAPI, newV);
+
+  late final $betaBackendAPI = box.providerWithDefault<bool>(_K.betaBackendAPI, () => false);
 
   String? get expenseUserOverride => box.safeGet<String>(_K.expenseUserOverride);
 

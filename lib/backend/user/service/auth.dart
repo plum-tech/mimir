@@ -1,12 +1,16 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:mimir/backend/user/entity/verify.dart';
 import 'package:mimir/init.dart';
+import 'package:mimir/settings/dev.dart';
 
 import '../entity/user.dart';
 
-// const _base = "https://api.mysit.life/v1";
-// const _base = "https://beta-api.mysit.life/v1";
-const _base = "http://192.168.1.5:8000/v1";
+String get _base => Dev.betaBackendAPI
+    ? "https://beta-api.mysit.life/v1"
+    : kDebugMode
+        ? "http://192.168.1.5:8000/v1"
+        : "https://api.mysit.life/v1";
 
 class MimirAuthService {
   Dio get _dio => Init.mimirDio;
@@ -35,7 +39,7 @@ class MimirAuthService {
     return result["existing"] == true;
   }
 
-  Future<void> signInBySchoolId({
+  Future<String> signInBySchoolId({
     required SchoolCode school,
     required String schoolId,
     required String password,
@@ -48,9 +52,10 @@ class MimirAuthService {
     });
     final result = res.data as Map<String, dynamic>;
     final token = result["token"] as String;
+    return token;
   }
 
-  Future<void> signUpBySchoolId({
+  Future<String> signUpBySchoolId({
     required SchoolCode school,
     required String schoolId,
     required String password,
@@ -63,5 +68,6 @@ class MimirAuthService {
     });
     final result = res.data as Map<String, dynamic>;
     final token = result["token"] as String;
+    return token;
   }
 }
