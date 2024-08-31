@@ -14,6 +14,7 @@ import 'package:mimir/intent/qrcode/utils.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import "i18n.dart";
 
 const _qGroupNumber = "917740212";
 const _joinQGroupMobileUri =
@@ -84,7 +85,7 @@ class _MePageState extends ConsumerState<MePage> {
             debugPrintError(error, stackTrace);
             await Clipboard.setData(const ClipboardData(text: _qGroupNumber));
             if (!mounted) return;
-            context.showSnackBar(content: "已复制到剪贴板".text());
+            context.showSnackBar(content: i18n.copyTipOf("QQ交流群").text());
           }
         },
         icon: const Icon(Icons.group),
