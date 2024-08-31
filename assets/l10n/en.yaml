@@ -1,4 +1,18 @@
 appName: SIT Life
+mimir:
+  auth:
+    schoolId:
+      disclaimer: |
+        You will sign in to your SIT Life account,
+        which is exclusively for the extended services of the @:appName App.
+
+        This account is NOT LINKED to the account provided by your school and DOES NOT share any data with it.
+        If you need basic features such as timetable, please [click here](/go-route).
+
+        We prioritize your data security.
+        Your school ID and password are used ONLY FOR student status verification and are NOT STORED on servers.
+
+        Please read our [Privacy Policy](https://www.mysit.life/privacy-policy) and [Terms of Service](https://www.mysit.life/tos) before proceeding.
 timetable:
   navigation: Timetable
   jump: Jump

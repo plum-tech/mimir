@@ -14,6 +14,7 @@ import 'package:rettulf/rettulf.dart';
 
 import '../../init.dart';
 import '../entity/user.dart';
+import "../i18n.dart";
 
 class MimirSignInPage extends ConsumerStatefulWidget {
   const MimirSignInPage({super.key});
@@ -296,7 +297,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
         autocorrect: false,
         readOnly: widget.signingIn,
         enableSuggestions: false,
-        validator: (account) => studentIdValidator(account, () => i18n.invalidAccountFormat),
+        validator: (account) => studentIdValidator(account, () => i18n.login.invalidAccountFormat),
         decoration: InputDecoration(
           labelText: "School ID",
           hintText: "Student ID/Worker ID",
@@ -405,24 +406,10 @@ class MimirSchoolIdDisclaimerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mdZh = """
-你即将登录小应账号，仅用于小应生活App的各项拓展服务。
-
-本账号与你学校提供的账号无关，且不互通。若需使用课程表，考试、分数查询等基础功能，请[点击此处](/go-route)。
-
-我们非常重视你的信息安全，你的学号与密码**仅用于核验在校生身份**，这些信息不会存储在服务器上。
-
-请先阅读 [《隐私政策》](https://www.mysit.life/privacy-policy)和[《使用协议》](https://www.mysit.life/tos)。
-  """;
-    final md = """
-## Disclaimer
-We prioritize your data security.
-Your School ID and password are used for verification and are immediately discarded after confirming your identity.
-
-Please read the [Privacy Policy](https://www.mysit.life/privacy-policy) and [Privacy Policy](https://www.mysit.life/tos) before.
-""";
     return [
-      FeaturedMarkdownWidget(data: mdZh),
+      FeaturedMarkdownWidget(
+        data: i18n.schoolIdDisclaimer,
+      ),
       CheckboxListTile.adaptive(
         title: "I've read and accepted".text(),
         value: accepted,

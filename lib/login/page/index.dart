@@ -26,7 +26,7 @@ import '../i18n.dart';
 import '../widgets/forgot_pwd.dart';
 import '../x.dart';
 
-const i18n = OaLoginI18n();
+const _i18n = OaLoginI18n();
 
 const oaForgotLoginPasswordUrl =
     "https://authserver.sit.edu.cn/authserver/getBackPasswordMainPage.do?service=https%3A%2F%2Fmyportal.sit.edu.cn%3A443%2F";
@@ -107,9 +107,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final userType = estimateOaUserType(account);
     if (!formatValid || userType == null || account.isEmpty || password.isEmpty) {
       await context.showTip(
-        title: i18n.formatError,
-        desc: i18n.validateInputAccountPwdRequest,
-        primary: i18n.close,
+        title: _i18n.formatError,
+        desc: _i18n.validateInputAccountPwdRequest,
+        primary: _i18n.close,
         serious: true,
       );
       return;
@@ -122,9 +122,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       await context.showTip(
-        title: i18n.network.error,
-        desc: i18n.network.noAccessTip,
-        primary: i18n.close,
+        title: _i18n.network.error,
+        desc: _i18n.network.noAccessTip,
+        primary: _i18n.close,
         serious: true,
       );
       return;
@@ -160,7 +160,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          title: widget.isGuarded ? i18n.loginRequired.text() : const CampusSelector(),
+          title: widget.isGuarded ? _i18n.loginRequired.text() : const CampusSelector(),
           actions: [
             PlatformIconButton(
               icon: isCupertino ? const Icon(CupertinoIcons.settings) : const Icon(Icons.settings),
@@ -190,7 +190,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               Icons.person_off_outlined,
               size: 120,
             )
-          : i18n.welcomeHeader.text(
+          : _i18n.welcomeHeader.text(
               style: context.textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
@@ -217,10 +217,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               autofocus: true,
               readOnly: isLoggingIn,
               enableSuggestions: false,
-              validator: (account) => studentIdValidator(account, () => i18n.invalidAccountFormat),
+              validator: (account) => studentIdValidator(account, () => _i18n.invalidAccountFormat),
               decoration: InputDecoration(
-                labelText: i18n.credentials.account,
-                hintText: i18n.accountHint,
+                labelText: _i18n.credentials.account,
+                hintText: _i18n.accountHint,
                 icon: Icon(context.icons.person),
               ),
             ),
@@ -243,8 +243,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 await login();
               },
               decoration: InputDecoration(
-                labelText: i18n.credentials.oaPwd,
-                hintText: i18n.oaPwdHint,
+                labelText: _i18n.credentials.oaPwd,
+                hintText: _i18n.oaPwdHint,
                 icon: Icon(context.icons.lock),
                 suffixIcon: PlatformIconButton(
                   icon: Icon(isPasswordClear ? context.icons.eyeSolid : context.icons.eyeSlashSolid),
@@ -275,7 +275,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       }
                     : null,
                 icon: const Icon(Icons.login),
-                label: i18n.login.text(),
+                label: _i18n.login.text(),
               ),
       if (!widget.isGuarded)
         $account >>
@@ -289,7 +289,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               CredentialsInit.storage.oa.loginStatus = LoginStatus.offline;
                               context.go("/");
                             },
-                      child: i18n.offlineModeBtn.text(),
+                      child: _i18n.offlineModeBtn.text(),
                     ),
     ].row(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.spaceAround);
   }
