@@ -67,28 +67,7 @@ which can be mapped to a valid dart variable name.
 
 ### Build Tool
 
-Build tool always works on the latest python.
-Requirements:
-
-```
-ruamel.yaml
-#IF Windows
-    pywin32
-#ELSE
-    curses
-#ENDIF
-```
-
-The [entry point](/tool/main.py) is located in [tool folder](/tool).
-
-If the current working directory is [the root of project](..).
-
-```shell
-python ./tool/main.py
-```
-
-Build tool will locate the project automatically,
-so you can run the [main.py](/tool/main.py) anywhere.
+Read more about the [tools folder](/tools).
 
 ### Web icon
 

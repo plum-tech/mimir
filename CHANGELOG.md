@@ -9,6 +9,9 @@
 - Sign in Ing Account.
 - Renamed routes.
 - Updated campus timetable on Fengxian campus and the first teaching building.
+- Timetable patch recommendations.
+- Unified the swipe-to-delete action on both TimetablePatch and TimetablePatchSet.
+- Keep html and markdown widgets alive to improve performance.
 
 ## v2.5.1
 - Revealed the `game` navigation.

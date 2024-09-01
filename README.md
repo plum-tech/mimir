@@ -18,7 +18,7 @@
 | Importing       |   Yellow Pages   |   Expense Records   |  Network Tool   |
 | Sharing         |   Exam Results   | Electricity Balance | QR Code Sharing |
 | Personalization | Exam Arrangement |      Edu Email      |   HTTP proxy    |
-| Screenshot      | OA Announcement  |                     |  Localization   |
+| Screenshot      | OA Announcement  |        Forum        |  Localization   |
 | Patching        |   Second Class   |                     |   Mini Games    |
 |                 |     SIT YWB      |                     |                 |
 |                 |     Library      |                     |                 |
