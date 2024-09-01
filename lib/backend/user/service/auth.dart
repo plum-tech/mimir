@@ -9,7 +9,7 @@ import '../entity/user.dart';
 String get _base => Dev.betaBackendAPI
     ? "https://beta-api.mysit.life/v1"
     : kDebugMode
-        ? "http://192.168.1.5:8000/v1"
+        ? "http://192.168.3.17:8000/v1"
         : "https://api.mysit.life/v1";
 
 class MimirAuthService {
