@@ -29,7 +29,7 @@ String _encodeMimirUa(List<String> fixed, Map<String, String?> kv) {
   for (final value in fixed) {
     list.add(value);
   }
-  list.add("*");
+  list.add("*;");
   for (final MapEntry(:key, :value) in kv.entries) {
     if (value != null) {
       list.add("$key=$value");
