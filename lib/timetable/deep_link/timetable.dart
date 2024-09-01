@@ -20,7 +20,7 @@ class TimetableDeepLink implements DeepLinkHandlerProtocol {
   bool match(Uri encoded) {
     // for backwards support
     if (encoded.host.isEmpty && encoded.path == "timetable") return true;
-    return encoded.host == host;
+    return encoded.host == host && encoded.path.isEmpty;
   }
 
   @override

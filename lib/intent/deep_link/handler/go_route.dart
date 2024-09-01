@@ -16,7 +16,7 @@ class GoRouteDeepLink implements DeepLinkHandlerProtocol {
 
   @override
   bool match(Uri encoded) {
-    return encoded.host == host;
+    return encoded.host == host && encoded.path.isEmpty;
   }
 
   @override
