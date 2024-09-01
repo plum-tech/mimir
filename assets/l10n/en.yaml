@@ -8,7 +8,7 @@ mimir:
   auth:
     schoolId:
       disclaimer: |
-        You will sign in to your SIT Life account,
+        You will sign in to your Ing ID,
         which is exclusively for the extended services of the @:appName App.
 
         This account is NOT LINKED to the account provided by your school and DOES NOT share any data with it.

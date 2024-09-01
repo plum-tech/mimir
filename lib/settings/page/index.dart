@@ -79,24 +79,26 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       ));
     }
 
-    final signedIn = ref.watch(CredentialsInit.storage.mimir.$signedIn);
-    if (signedIn) {
-      all.add(PageNavigationTile(
-        title: "SIT Life".text(),
-        subtitle: "SIT Life".text(),
-        leading: const Icon(Icons.person_rounded),
-        path: "/settings/mimir",
-      ));
-    } else {
-      const oaLogin = OaLoginI18n();
-      all.add(ListTile(
-        title: "Sign in SIT Life".text(),
-        subtitle: "Sign in your SIT Life account".text(),
-        leading: const Icon(Icons.person_rounded),
-        onTap: () {
-          context.push("/mimir/sign-in");
-        },
-      ));
+    if (devOn) {
+      final signedIn = ref.watch(CredentialsInit.storage.mimir.$signedIn);
+      if (signedIn) {
+        all.add(PageNavigationTile(
+          title: "Ing ID".text(),
+          subtitle: "Ing ID".text(),
+          leading: const Icon(Icons.person_rounded),
+          path: "/settings/mimir",
+        ));
+      } else {
+        const oaLogin = OaLoginI18n();
+        all.add(ListTile(
+          title: "Sign in Ing ID".text(),
+          subtitle: "Sign in your Ing ID".text(),
+          leading: const Icon(Icons.person_rounded),
+          onTap: () {
+            context.push("/mimir/sign-in");
+          },
+        ));
+      }
     }
 
     all.add(const Divider());

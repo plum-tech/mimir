@@ -158,7 +158,8 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
   Widget buildMimirBetaApiToggle() {
     final on = ref.watch(Dev.$betaBackendAPI);
     return ListTile(
-      title: "Beta API backend".text(),
+      title: "Beta backend API".text(),
+      subtitle: "Switch available features to beta backend".text(),
       leading: const Icon(Icons.developer_board),
       trailing: Switch.adaptive(
         value: on,

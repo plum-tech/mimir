@@ -3,6 +3,7 @@ enum AppFeature {
   mimirForum("mimir.forum"),
   mimirBulletin("mimir.bulletin"),
   mimirUser("mimir.user"),
+  mimirSitRobotGate("mimir.sitRobot.gate"),
   // school
   secondClass("school.secondClass"),
   secondClassScore("school.secondClass.score"),
@@ -39,7 +40,7 @@ enum AppFeature {
   settingsProxy("basic.settings.proxy"),
   settingsNetworkTool("basic.settings.networkTool"),
   about("basic.about"),
-  checkUpdate("basic.checkUpdate"),
+  update("basic.update"),
   // game
   game2048("game.2048"),
   gameMinesweeper("game.minesweeper"),

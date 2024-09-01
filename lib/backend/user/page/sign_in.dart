@@ -103,7 +103,7 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
   }
 
   Widget buildHeader() {
-    return "Sign-in SIT Life"
+    return "Sign-in Ing ID"
         .text(
           style: context.textTheme.displaySmall,
           textAlign: TextAlign.center,
