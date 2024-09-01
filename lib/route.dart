@@ -95,7 +95,7 @@ bool isLoginGuarded(BuildContext ctx) {
   if (Dev.demoMode) return false;
   final loginStatus = ProviderScope.containerOf(ctx).read(CredentialsInit.storage.oa.$loginStatus);
   final credentials = ProviderScope.containerOf(ctx).read(CredentialsInit.storage.oa.$credentials);
-  return loginStatus != LoginStatus.validated && credentials == null;
+  return loginStatus != OaLoginStatus.validated && credentials == null;
 }
 
 String? _loginRequired(BuildContext ctx, GoRouterState state) {
@@ -106,11 +106,13 @@ String? _loginRequired(BuildContext ctx, GoRouterState state) {
 FutureOr<String?> _redirectRoot(BuildContext ctx, GoRouterState state) {
   // `ctx.riverpod().read(CredentialsInit.storage.oa.$loginStatus)` would return `LoginStatus.never` after just logged in.
   final loginStatus = CredentialsInit.storage.oa.loginStatus;
-  if (loginStatus == LoginStatus.never) {
+  if (loginStatus == OaLoginStatus.never) {
 // allow to access settings page.
     if (state.matchedLocation.startsWith("/tools")) return null;
     if (state.matchedLocation.startsWith("/settings")) return null;
-// allow to access browser page.
+// allow to access mimir sign-in page
+    if (state.matchedLocation.startsWith("/mimir/sign-in")) return null;
+// allow to access browser page
     if (state.matchedLocation == "/browser") return null;
     return "/oa/login";
   }
@@ -246,6 +248,12 @@ final _settingsRoute = GoRoute(
   routes: [
     GoRoute(
       path: "mimir",
+      redirect: (ctx, state) {
+        if (CredentialsInit.storage.mimir.signedIn != true) {
+          return "/mimir/sign-in";
+        }
+        return null;
+      },
       builder: (ctx, state) => const MimirSettingsPage(),
     ),
     GoRoute(
@@ -258,6 +266,12 @@ final _settingsRoute = GoRoute(
     ),
     GoRoute(
       path: "oa",
+      redirect: (ctx, state) {
+        if (CredentialsInit.storage.oa.credentials == null) {
+          return "/oa/login";
+        }
+        return null;
+      },
       builder: (ctx, state) => const OaSettingsPage(),
     ),
     GoRoute(

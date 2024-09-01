@@ -7,6 +7,7 @@ import 'package:mimir/timetable/qrcode/patch.dart';
 import 'package:mimir/timetable/qrcode/timetable.dart';
 
 import 'handler/go_route.dart';
+import 'handler/webview.dart';
 import 'protocol.dart';
 
 /// convert any data to a URI with [R.scheme].
@@ -17,6 +18,7 @@ class DeepLinkHandlers {
     const TimetablePatchDeepLink(),
     const TimetableDeepLink(),
     const GoRouteDeepLink(),
+    const WebviewDeepLink(),
     blueprintMinesweeperDeepLink,
     blueprintSudokuDeepLink,
   ];

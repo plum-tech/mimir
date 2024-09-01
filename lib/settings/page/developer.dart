@@ -87,7 +87,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                   onTap: () async {
                     Settings.lastSignature ??= "Liplum";
                     CredentialsInit.storage.oa.credentials = R.demoModeOaCredentials;
-                    CredentialsInit.storage.oa.loginStatus = LoginStatus.validated;
+                    CredentialsInit.storage.oa.loginStatus = OaLoginStatus.validated;
                     CredentialsInit.storage.oa.lastAuthTime = DateTime.now();
                     CredentialsInit.storage.oa.userType = OaUserType.undergraduate;
                     await Init.initModules();

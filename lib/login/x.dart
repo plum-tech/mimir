@@ -21,7 +21,7 @@ class XLogin {
     Meta.userRealName ??= personName;
     Settings.lastSignature ??= personName;
     CredentialsInit.storage.oa.credentials = credentials;
-    CredentialsInit.storage.oa.loginStatus = LoginStatus.validated;
+    CredentialsInit.storage.oa.loginStatus = OaLoginStatus.validated;
     CredentialsInit.storage.oa.lastAuthTime = DateTime.now();
     CredentialsInit.storage.oa.userType = userType;
   }

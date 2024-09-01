@@ -57,7 +57,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     final oaLoginStatus = ref.watch(CredentialsInit.storage.oa.$loginStatus);
     final devOn = ref.watch(Dev.$on);
     final all = <Widget>[];
-    if (oaLoginStatus != LoginStatus.never) {
+    if (oaLoginStatus != OaLoginStatus.never) {
       all.add(const CampusSelector().padSymmetric(h: 8));
     }
     if (oaCredentials != null) {
@@ -117,7 +117,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     ));
     all.add(const Divider());
 
-    if (oaLoginStatus != LoginStatus.never) {
+    if (oaLoginStatus != OaLoginStatus.never) {
       all.add(PageNavigationTile(
         leading: const Icon(Icons.calendar_month_outlined),
         title: i18n.app.navigation.timetable.text(),
@@ -158,7 +158,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       ));
       all.add(const NetworkToolEntranceTile());
     }
-    if (oaLoginStatus != LoginStatus.never) {
+    if (oaLoginStatus != OaLoginStatus.never) {
       all.add(const ClearCacheTile());
     }
     all.add(const WipeDataTile());

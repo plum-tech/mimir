@@ -3,8 +3,6 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/intent/deep_link/handle.dart';
-import 'package:mimir/r.dart';
 import 'package:mimir/utils/color.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:mimir/utils/tel.dart';
@@ -17,6 +15,7 @@ class RestyledHtmlWidget extends StatefulWidget {
   final bool async;
   final bool keepOriginalFontSize;
   final bool linkifyPhoneNumbers;
+  final Uri? baseUri;
 
   const RestyledHtmlWidget(
     this.content, {
@@ -26,6 +25,7 @@ class RestyledHtmlWidget extends StatefulWidget {
     this.async = true,
     this.keepOriginalFontSize = false,
     this.linkifyPhoneNumbers = false,
+    this.baseUri,
   });
 
   @override
@@ -76,12 +76,11 @@ class _RestyledHtmlWidgetState extends State<RestyledHtmlWidget> {
       onTapUrl: (url) async {
         final uri = Uri.tryParse(url);
         if (uri == null) return false;
-        // if (uri.scheme == R.scheme) {
-        //   final result = await onHandleDeepLink(context: context, deepLink: uri);
-        //   if (result == DeepLinkHandleResult.success) {
-        //     return true;
-        //   }
-        // }
+        final baseUri = widget.baseUri;
+        if (uri.scheme.isEmpty && baseUri != null) {
+          final related = baseUri.resolveUri(uri);
+          return await guardLaunchUrl(context, related);
+        }
         if (!context.mounted) return true;
         return await guardLaunchUrlString(context, url);
       },

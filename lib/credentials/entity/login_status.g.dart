@@ -6,39 +6,39 @@ part of 'login_status.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class LoginStatusAdapter extends TypeAdapter<LoginStatus> {
+class OaLoginStatusAdapter extends TypeAdapter<OaLoginStatus> {
   @override
   final int typeId = 5;
 
   @override
-  LoginStatus read(BinaryReader reader) {
+  OaLoginStatus read(BinaryReader reader) {
     switch (reader.readByte()) {
       case 0:
-        return LoginStatus.never;
+        return OaLoginStatus.never;
       case 2:
-        return LoginStatus.offline;
+        return OaLoginStatus.offline;
       case 3:
-        return LoginStatus.validated;
+        return OaLoginStatus.validated;
       case 4:
-        return LoginStatus.everLogin;
+        return OaLoginStatus.everLogin;
       default:
-        return LoginStatus.never;
+        return OaLoginStatus.never;
     }
   }
 
   @override
-  void write(BinaryWriter writer, LoginStatus obj) {
+  void write(BinaryWriter writer, OaLoginStatus obj) {
     switch (obj) {
-      case LoginStatus.never:
+      case OaLoginStatus.never:
         writer.writeByte(0);
         break;
-      case LoginStatus.offline:
+      case OaLoginStatus.offline:
         writer.writeByte(2);
         break;
-      case LoginStatus.validated:
+      case OaLoginStatus.validated:
         writer.writeByte(3);
         break;
-      case LoginStatus.everLogin:
+      case OaLoginStatus.everLogin:
         writer.writeByte(4);
         break;
     }
@@ -50,5 +50,5 @@ class LoginStatusAdapter extends TypeAdapter<LoginStatus> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is LoginStatusAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is OaLoginStatusAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

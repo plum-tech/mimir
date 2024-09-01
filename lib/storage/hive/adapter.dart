@@ -38,7 +38,7 @@ class HiveAdapter {
 
     // Credential
     hive.addAdapter(CredentialsAdapter());
-    hive.addAdapter(LoginStatusAdapter());
+    hive.addAdapter(OaLoginStatusAdapter());
     hive.addAdapter(OaUserTypeAdapter());
 
     // Settings

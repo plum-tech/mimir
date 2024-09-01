@@ -168,7 +168,7 @@ class Init {
           title: desc,
           ctor: (values) => Credentials(account: values[0], password: values[1]),
         ));
-    EditorEx.registerEnumEditor(LoginStatus.values);
+    EditorEx.registerEnumEditor(OaLoginStatus.values);
     EditorEx.registerEnumEditor(OaUserType.values);
   }
 }

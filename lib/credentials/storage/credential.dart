@@ -31,11 +31,11 @@ class _Oa {
 
   late final $lastAuthTime = box.provider<DateTime>(_OaK.lastAuthTime);
 
-  LoginStatus? get loginStatus => box.safeGet<LoginStatus>(_OaK.loginStatus) ?? LoginStatus.never;
+  OaLoginStatus? get loginStatus => box.safeGet<OaLoginStatus>(_OaK.loginStatus) ?? OaLoginStatus.never;
 
-  set loginStatus(LoginStatus? newV) => box.safePut<LoginStatus>(_OaK.loginStatus, newV);
+  set loginStatus(OaLoginStatus? newV) => box.safePut<OaLoginStatus>(_OaK.loginStatus, newV);
 
-  late final $loginStatus = box.providerWithDefault<LoginStatus>(_OaK.loginStatus, () => LoginStatus.never);
+  late final $loginStatus = box.providerWithDefault<OaLoginStatus>(_OaK.loginStatus, () => OaLoginStatus.never);
 
   OaUserType? get userType => box.safeGet<OaUserType>(_OaK.userType);
 

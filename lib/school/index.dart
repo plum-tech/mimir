@@ -54,7 +54,7 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
           },
           child: CustomScrollView(
             slivers: [
-              if (loginStatus != LoginStatus.never) ...[
+              if (loginStatus != OaLoginStatus.never) ...[
                 if (userType?.capability.enableClass2nd == true) const Class2ndAppCard().sliver(),
                 if (userType?.capability.enableExamArrange == true) const ExamArrangeAppCard().sliver(),
                 if (userType?.capability.enableExamResult == true)

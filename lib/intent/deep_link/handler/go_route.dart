@@ -5,7 +5,6 @@ import 'package:mimir/intent/deep_link/protocol.dart';
 
 class GoRouteDeepLink implements DeepLinkHandlerProtocol {
   static const host = "go";
-  static const path = "/to";
 
   const GoRouteDeepLink();
 
@@ -17,7 +16,7 @@ class GoRouteDeepLink implements DeepLinkHandlerProtocol {
 
   @override
   bool match(Uri encoded) {
-    return encoded.host == host && encoded.path == path;
+    return encoded.host == host;
   }
 
   @override
@@ -27,6 +26,6 @@ class GoRouteDeepLink implements DeepLinkHandlerProtocol {
   }) async {
     final target = decode(data);
     if (target == null) return;
-    context.push(target);
+    await context.push(target);
   }
 }

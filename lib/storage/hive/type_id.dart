@@ -7,7 +7,7 @@ class CoreHiveType {
   static const version = 2;
   static const campus = 3;
   static const credentials = 4;
-  static const loginStatus = 5;
+  static const oaLoginStatus = 5;
   static const oaUserType = 6;
   static const proxyMode = 7;
 }

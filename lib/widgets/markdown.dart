@@ -6,11 +6,13 @@ import 'html.dart';
 class FeaturedMarkdownWidget extends StatefulWidget {
   final String data;
   final bool async;
+  final Uri? baseUri;
 
   const FeaturedMarkdownWidget({
     super.key,
     required this.data,
     this.async = false,
+    this.baseUri,
   });
 
   @override
@@ -62,6 +64,7 @@ class _FeaturedMarkdownWidgetState extends State<FeaturedMarkdownWidget> {
       html,
       async: widget.async,
       keepOriginalFontSize: true,
+      baseUri: widget.baseUri,
     );
   }
 }

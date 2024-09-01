@@ -88,7 +88,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     Meta.userRealName = "Liplum";
     Settings.lastSignature ??= "Liplum";
     CredentialsInit.storage.oa.credentials = R.demoModeOaCredentials;
-    CredentialsInit.storage.oa.loginStatus = LoginStatus.validated;
+    CredentialsInit.storage.oa.loginStatus = OaLoginStatus.validated;
     CredentialsInit.storage.oa.lastAuthTime = DateTime.now();
     CredentialsInit.storage.oa.userType = OaUserType.undergraduate;
     Dev.demoMode = true;
@@ -286,7 +286,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       onPressed: account.text.isNotEmpty || password.text.isNotEmpty
                           ? null
                           : () {
-                              CredentialsInit.storage.oa.loginStatus = LoginStatus.offline;
+                              CredentialsInit.storage.oa.loginStatus = OaLoginStatus.offline;
                               context.go("/");
                             },
                       child: _i18n.offlineModeBtn.text(),
