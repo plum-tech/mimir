@@ -28,6 +28,7 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
   MimirAuthMethods? authMethods;
   var school = SchoolCode.sit;
   var signingIn = false;
+  MimirAuthMethod? authMethod;
 
   @override
   void initState() {
@@ -42,6 +43,7 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
     final authMethods = await BackendInit.auth.fetchAuthMethods(school: school);
     setState(() {
       this.authMethods = authMethods;
+      authMethod = authMethods.availableMethods.first;
     });
   }
 
@@ -113,51 +115,50 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
 
   Widget buildAuthMethods() {
     final authMethods = this.authMethods;
+    final authMethod = this.authMethod;
     return AnimatedSwitcher(
       duration: Durations.medium2,
-      child: authMethods != null ? buildAuthSegments(authMethods) : const CircularProgressIndicator.adaptive(),
+      child: authMethods != null && authMethod != null
+          ? buildAuthSegments(authMethods, authMethod)
+          : const CircularProgressIndicator.adaptive(),
     );
   }
 
   Widget buildLoginForm() {
-    if (authMethods == null) {
+    final authMethod = this.authMethod;
+    if (authMethods == null || authMethod == null) {
       return const CircularProgressIndicator.adaptive().center();
     }
-    return SchoolIdSignInForm(
-      school: school,
-      signingIn: signingIn,
-      onSigningIn: (value) {
-        setState(() {
-          signingIn = value;
-        });
-      },
-    );
+    return switch(authMethod){
+      MimirAuthMethod.schoolId => SchoolIdSignInForm(
+        school: school,
+        signingIn: signingIn,
+        onSigningIn: (value) {
+          setState(() {
+            signingIn = value;
+          });
+        },
+      ),
+      MimirAuthMethod.eduEmail => const UnavailableSignInForm(),
+      MimirAuthMethod.phoneNumber => const UnavailableSignInForm(),
+    };
   }
 
-  Widget buildAuthSegments(MimirAuthMethods methods) {
-    return SegmentedButton(
-      segments: [
-        if (methods.schoolId != null)
-          ButtonSegment(
-            label: "School ID".text(),
-            value: "school-id",
-            enabled: methods.schoolId == true,
-          ),
-        if (methods.eduEmail != null)
-          ButtonSegment(
-            label: "Edu email".text(),
-            value: "edu-email",
-            enabled: methods.eduEmail == true,
-          ),
-        if (methods.phoneNumber != null)
-          ButtonSegment(
-            label: "Phone".text(),
-            value: "phone-number",
-            enabled: methods.phoneNumber == true,
-          ),
-      ],
-      selected: const {"school-id"},
-      onSelectionChanged: (newSelection) {},
+  Widget buildAuthSegments(MimirAuthMethods methods, MimirAuthMethod selected) {
+    return SegmentedButton<MimirAuthMethod>(
+      segments: methods.supportedMethods
+          .map((m) => ButtonSegment(
+                label: m.l10n().text(),
+                value: m,
+                enabled: methods.isAvailable(m),
+              ))
+          .toList(),
+      selected: {selected},
+      onSelectionChanged: (newSelection) {
+        setState(() {
+          authMethod = newSelection.first;
+        });
+      },
     );
   }
 
@@ -270,8 +271,8 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
       const ForgotPasswordButton(url: oaForgotLoginPasswordUrl).padV(8),
     ];
     return widgets.column(
-          maa: MainAxisAlignment.spaceEvenly,
-        );
+      maa: MainAxisAlignment.spaceEvenly,
+    );
   }
 
   Future<void> checkExisting() async {
@@ -436,5 +437,14 @@ class MimirSchoolIdDisclaimerCard extends StatelessWidget {
         },
       ),
     ].column(caa: CrossAxisAlignment.stretch).padAll(12).inOutlinedCard();
+  }
+}
+
+class UnavailableSignInForm extends StatelessWidget {
+  const UnavailableSignInForm({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }

@@ -15,6 +15,10 @@ mimir:
         我们非常重视您的隐私安全。您的学号与密码仅用于**核验在校生身份**，服务器不会存储。
 
         请先阅读 [《隐私政策》](https://www.mysit.life/privacy-policy) 和 [《使用协议》](https://www.mysit.life/tos)。
+    eduEmail:
+      name: 教育邮箱
+    phoneNumber:
+      name: 手机号
 timetable:
   navigation: 课程表
   jump: 跳转

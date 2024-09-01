@@ -7,6 +7,7 @@ mimir:
     title: Bulletin
   auth:
     schoolId:
+      name: School ID
       disclaimer: |
         You will sign in to your Ing ID,
         which is exclusively for the extended services of the @:appName App.
@@ -18,6 +19,10 @@ mimir:
         Your school ID and password are used ONLY FOR student status verification and are NOT STORED on servers.
 
         Please read our [Privacy Policy](https://www.mysit.life/privacy-policy) and [Terms of Service](https://www.mysit.life/tos) before proceeding.
+    eduEmail:
+      name: Edu email
+    phoneNumber:
+      name: Phone
 timetable:
   navigation: Timetable
   jump: Jump
