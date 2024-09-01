@@ -48,7 +48,7 @@ class _MimirLoginAppCardState extends ConsumerState<MimirLoginAppCard> {
   @override
   Widget build(BuildContext context) {
     return AppCard(
-      title: "Sign in Ing ID".text(),
+      title: "Sign in Ing Account".text(),
       leftActions: [
         FilledButton.icon(
           icon: const Icon(Icons.login),

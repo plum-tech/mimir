@@ -112,8 +112,8 @@ FutureOr<String?> _redirectRoot(BuildContext ctx, GoRouterState state) {
     if (state.matchedLocation.startsWith("/settings")) return null;
 // allow to access mimir sign-in page
     if (state.matchedLocation.startsWith("/mimir/sign-in")) return null;
-// allow to access browser page
-    if (state.matchedLocation == "/browser") return null;
+// allow to access webview page
+    if (state.matchedLocation == "/webview") return null;
     return "/oa/login";
   }
   return null;
@@ -487,8 +487,8 @@ final _examResultRoute = GoRoute(
   redirect: _loginRequired,
 );
 
-final _browserRoute = GoRoute(
-  path: "/browser",
+final _webviewRoute = GoRoute(
+  path: "/webview",
   builder: (ctx, state) {
     var url = state.uri.queryParameters["url"] ?? state.extra;
     if (url is String) {
@@ -646,7 +646,7 @@ RoutingConfig buildCommonRoutingConfig() {
       ),
       ..._mimirRoutes,
       ..._timetableRoutes,
-      _browserRoute,
+      _webviewRoute,
       _expenseRoute,
       _settingsRoute,
       _yellowPagesRoute,
@@ -682,7 +682,7 @@ RoutingConfig buildTimetableFocusRouter() {
       _gameShellRoute,
       _lifeShellRoute,
       _meShellRoute,
-      _browserRoute,
+      _webviewRoute,
       _expenseRoute,
       _settingsRoute,
       _yellowPagesRoute,

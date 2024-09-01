@@ -34,7 +34,7 @@ class WebviewDeepLink implements DeepLinkHandlerProtocol {
       await launchUrl(target, mode: LaunchMode.externalApplication);
     }
     final redirect = Uri(
-      path: "/browser",
+      path: "/webview",
       queryParameters: {"url": target.toString()},
     ).toString();
     if (!context.mounted) return;

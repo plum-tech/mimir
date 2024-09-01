@@ -83,16 +83,16 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       final signedIn = ref.watch(CredentialsInit.storage.mimir.$signedIn);
       if (signedIn) {
         all.add(PageNavigationTile(
-          title: "Ing ID".text(),
-          subtitle: "Ing ID".text(),
+          title: "Ing Account".text(),
+          subtitle: "Ing Account".text(),
           leading: const Icon(Icons.person_rounded),
           path: "/settings/mimir",
         ));
       } else {
         const oaLogin = OaLoginI18n();
         all.add(ListTile(
-          title: "Sign in Ing ID".text(),
-          subtitle: "Sign in your Ing ID".text(),
+          title: "Sign in Ing Account".text(),
+          subtitle: "Sign in your Ing Account".text(),
           leading: const Icon(Icons.person_rounded),
           onTap: () {
             context.push("/mimir/sign-in");

@@ -2,6 +2,13 @@
 
 ## v2.5.2
 - Remember selected semester info only in current session.
+- Mimir User agent.
+- a convenient theme mode switcher in the timetable palette editor was added.
+- Updated the built-in timetable palettes with inverse text color.
+- A new deep link handler, Go route. Usage: `sit-life://go?/route`.
+- Sign in Ing Account.
+- Renamed routes.
+- Updated campus timetable on Fengxian campus and the first teaching building.
 
 ## v2.5.1
 - Revealed the `game` navigation.

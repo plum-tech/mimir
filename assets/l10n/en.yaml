@@ -9,7 +9,7 @@ mimir:
     schoolId:
       name: School ID
       disclaimer: |
-        You will sign in to your Ing ID,
+        You will sign in to your Ing Account,
         which is exclusively for the extended services of the @:appName App.
 
         This account is NOT LINKED to the account provided by your school and DOES NOT share any data with it.

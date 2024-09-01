@@ -13,7 +13,7 @@ Future<bool> guardLaunchUrl(BuildContext ctx, Uri url) async {
         return await launchUrl(url, mode: LaunchMode.externalApplication);
       }
       final target = Uri(
-        path: "/browser",
+        path: "/webview",
         queryParameters: {"url": url.toString()},
       ).toString();
       ctx.push(target);
