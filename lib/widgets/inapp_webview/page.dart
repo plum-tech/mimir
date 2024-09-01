@@ -171,12 +171,12 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
             if (uri == null) {
               return NavigationActionPolicy.CANCEL;
             }
-            if (uri.scheme == R.scheme) {
-              final result = await onHandleDeepLink(context: context, deepLink: uri);
-              if (result == DeepLinkHandleResult.success) {
-                return NavigationActionPolicy.CANCEL;
-              }
-            }
+            // if (uri.scheme == R.scheme) {
+            //   final result = await onHandleDeepLink(context: context, deepLink: uri);
+            //   if (result == DeepLinkHandleResult.success) {
+            //     return NavigationActionPolicy.CANCEL;
+            //   }
+            // }
             final canNavigateTo = widget.canNavigate;
             if (canNavigateTo != null && !await canNavigateTo(uri)) {
               return NavigationActionPolicy.CANCEL;

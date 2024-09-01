@@ -76,12 +76,12 @@ class _RestyledHtmlWidgetState extends State<RestyledHtmlWidget> {
       onTapUrl: (url) async {
         final uri = Uri.tryParse(url);
         if (uri == null) return false;
-        if (uri.scheme == R.scheme) {
-          final result = await onHandleDeepLink(context: context, deepLink: uri);
-          if (result == DeepLinkHandleResult.success) {
-            return true;
-          }
-        }
+        // if (uri.scheme == R.scheme) {
+        //   final result = await onHandleDeepLink(context: context, deepLink: uri);
+        //   if (result == DeepLinkHandleResult.success) {
+        //     return true;
+        //   }
+        // }
         if (!context.mounted) return true;
         return await guardLaunchUrlString(context, url);
       },
