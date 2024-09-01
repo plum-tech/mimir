@@ -355,7 +355,7 @@ class TimetablePatchEntryRecommendationCard extends StatelessWidget {
       Card.outlined(
         child: [
           ListTile(
-            title: "Recommendation".text(),
+            title: i18n.recommendation.text(style: const TextStyle(fontWeight: FontWeight.bold)),
             trailing: onClose == null
                 ? null
                 : PlatformIconButton(
@@ -364,12 +364,12 @@ class TimetablePatchEntryRecommendationCard extends StatelessWidget {
                   ),
           ),
           if (patch is TimetablePatch)
-            buildPatch(context, patch as TimetablePatch)
+            buildPatch(context, patch as TimetablePatch).padH(8)
           else if (patch is TimetablePatchSet)
-            buildPatchSet(context, patch as TimetablePatchSet),
+            buildPatchSet(context, patch as TimetablePatchSet).padH(8),
           FilledButton.tonalIcon(
             icon: Icon(context.icons.add),
-            label: "Add this".text(),
+            label: i18n.add.text(),
             onPressed: onAdded,
           ).padAll(8),
         ].column(caa: CrossAxisAlignment.end),
