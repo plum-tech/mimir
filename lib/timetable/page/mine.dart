@@ -52,8 +52,28 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
     final timetables = ref.watch(storage.$rows);
     final selectedId = ref.watch(storage.$selectedId);
     timetables.sort((a, b) => b.row.lastModified.compareTo(a.row.lastModified));
+
+    if (timetables.isEmpty) {
+      return buildEmptyTimetableBody();
+    } else {
+      return buildTimetablesBody(
+        timetables: timetables,
+        selectedId: selectedId,
+      );
+    }
+  }
+
+  Widget buildFab() {
+    return FloatingActionButton.extended(
+      onPressed: goImport,
+      label: Text(isLoginGuarded(context) ? i18n.import.fromFile : i18n.import.import),
+      icon: Icon(context.icons.add),
+    );
+  }
+
+  List<Widget> buildActions() {
     final focusMode = ref.watch(Settings.timetable.$focusTimetable) ?? false;
-    final actions = [
+    return [
       if (focusMode)
         buildMoreActionsButton()
       else
@@ -64,47 +84,52 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
           },
         ),
     ];
+  }
+
+  Widget buildEmptyTimetableBody() {
     return Scaffold(
+      appBar: AppBar(
+        title: i18n.mine.title.text(),
+        actions: buildActions(),
+      ),
+      floatingActionButton: buildFab(),
+      body: LeavingBlank(
+        icon: Icons.calendar_month_rounded,
+        desc: i18n.mine.emptyTip,
+        action: FilledButton(
+          onPressed: goImport,
+          child: i18n.import.import.text(),
+        ),
+      ),
+    );
+  }
+
+  Widget buildTimetablesBody({
+    required List<({int id, SitTimetable row})> timetables,
+    required int? selectedId,
+  }) {
+    return Scaffold(
+      floatingActionButton: buildFab(),
       body: CustomScrollView(
         slivers: [
-          if (timetables.isEmpty)
-            SliverAppBar(
-              title: i18n.mine.title.text(),
-              actions: actions,
-            )
-          else
-            SliverAppBar.medium(
-              title: i18n.mine.title.text(),
-              actions: actions,
-            ),
-          if (timetables.isEmpty)
-            SliverFillRemaining(
-              child: LeavingBlank(
-                icon: Icons.calendar_month_rounded,
-                desc: i18n.mine.emptyTip,
-                onIconTap: goImport,
-              ),
-            )
-          else
-            SliverList.builder(
-              itemCount: timetables.length,
-              itemBuilder: (ctx, i) {
-                final (:id, row: timetable) = timetables[i];
-                return TimetableCard(
-                  id: id,
-                  timetable: timetable,
-                  selected: selectedId == id,
-                  allTimetableNames: timetables.map((t) => t.row.name).toList(),
-                ).padH(6);
-              },
-            ),
+          SliverAppBar.medium(
+            title: i18n.mine.title.text(),
+            actions: buildActions(),
+          ),
+          SliverList.builder(
+            itemCount: timetables.length,
+            itemBuilder: (ctx, i) {
+              final (:id, row: timetable) = timetables[i];
+              return TimetableCard(
+                id: id,
+                timetable: timetable,
+                selected: selectedId == id,
+                allTimetableNames: timetables.map((t) => t.row.name).toList(),
+              ).padH(6);
+            },
+          ),
           const FloatingActionButtonSpace().sliver(),
         ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: goImport,
-        label: Text(isLoginGuarded(context) ? i18n.import.fromFile : i18n.import.import),
-        icon: Icon(context.icons.add),
       ),
     );
   }
@@ -236,7 +261,8 @@ class TimetableCard extends StatelessWidget {
         icon: context.icons.delete,
         action: () async {
           final confirm = await ctx.showActionRequest(
-            action: i18n.mine.deleteRequest,
+            title: i18n.mine.deleteRequest,
+            action: i18n.delete,
             desc: i18n.mine.deleteRequestDesc,
             cancel: i18n.cancel,
             destructive: true,

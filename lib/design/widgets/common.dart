@@ -5,24 +5,30 @@ import 'package:rettulf/rettulf.dart';
 class LeavingBlank extends StatelessWidget {
   final WidgetBuilder iconBuilder;
   final String? desc;
-  final VoidCallback? onIconTap;
   final Widget? subtitle;
+  final Widget? action;
 
-  const LeavingBlank.builder({super.key, required this.iconBuilder, required this.desc, this.onIconTap, this.subtitle});
+  const LeavingBlank.builder({
+    super.key,
+    required this.iconBuilder,
+    required this.desc,
+    this.subtitle,
+    this.action,
+  });
 
   factory LeavingBlank({
     Key? key,
     required IconData icon,
     String? desc,
-    VoidCallback? onIconTap,
     double size = 120,
     Widget? subtitle,
+    Widget? action,
   }) {
     return LeavingBlank.builder(
       iconBuilder: (ctx) => icon.make(size: size, color: ctx.colorScheme.primary),
       desc: desc,
-      onIconTap: onIconTap,
       subtitle: subtitle,
+      action: action,
     );
   }
 
@@ -34,33 +40,28 @@ class LeavingBlank extends StatelessWidget {
     double width = 120,
     double height = 120,
     Widget? subtitle,
+    Widget? action,
   }) {
     return LeavingBlank.builder(
       iconBuilder: (ctx) => SvgPicture.asset(assetName, width: width, height: height),
       desc: desc,
-      onIconTap: onIconTap,
       subtitle: subtitle,
+      action: action,
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final desc = this.desc;
+    final action = this.action;
+    final subtitle = this.subtitle;
     Widget icon = iconBuilder(context).padAll(20);
-    if (onIconTap != null) {
-      icon = icon.on(tap: onIconTap);
-    }
-    if (subtitle != null) {
-      return [
-        icon,
-        if (desc != null) buildDesc(context, desc!),
-        subtitle!,
-      ].column(maa: MainAxisAlignment.spaceAround, mas: MainAxisSize.min).center();
-    } else {
-      return [
-        icon,
-        if (desc != null) buildDesc(context, desc!),
-      ].column(maa: MainAxisAlignment.spaceAround, mas: MainAxisSize.min).center();
-    }
+    return [
+      icon,
+      if (desc != null) buildDesc(context, desc),
+      if (subtitle != null) subtitle,
+      if (action != null) action,
+    ].column(maa: MainAxisAlignment.spaceAround, mas: MainAxisSize.min).center();
   }
 
   Widget buildDesc(BuildContext ctx, String desc) {

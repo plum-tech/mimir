@@ -94,8 +94,11 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
               SliverFillRemaining(
                 child: LeavingBlank(
                   icon: Icons.dashboard_customize,
-                  desc: i18n.patch.noPatchesTip,
-                  onIconTap: openPrefab,
+                  desc: i18n.patch.noPatches,
+                  action: FilledButton(
+                    onPressed: openPrefab,
+                    child: i18n.patch.addPrefab.text(),
+                  ),
                 ),
               )
             else

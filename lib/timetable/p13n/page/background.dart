@@ -269,7 +269,6 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
       return LeavingBlank(
         icon: Icons.add_photo_alternate_outlined,
         desc: i18n.p13n.background.pickTip,
-        onIconTap: renderImageFile == null ? chooseImage : null,
       ).sized(h: height);
     }
   }

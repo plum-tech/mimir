@@ -77,7 +77,7 @@ timetable:
     defaultName: New Patch set
     unpack: Unpack
     noPatches: No patches
-    noPatchesTip: No patches here, how about adding a prefab?
+    addPrefab: Add a prefab
     patchSetName: Patch set name
     dateOutOfRangeTip: One or more dates are out of semester in which the current timetable falls
     removeDay: "Remove lessons on {day}"

@@ -297,7 +297,7 @@ class _Patch {
 
   String get noPatches => "$ns.noPatches".tr();
 
-  String get noPatchesTip => "$ns.noPatchesTip".tr();
+  String get addPrefab => "$ns.addPrefab".tr();
 
   String get patchSetName => "$ns.patchSetName".tr();
 

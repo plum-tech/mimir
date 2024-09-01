@@ -74,8 +74,8 @@ timetable:
     defaultName: 新的调课组合
     unpack: 拆散
     noPatches: 没有调课
-    noPatchesTip: 没有调课，添加一个预制的如何？
     patchSetName: 调课组合名称
+    addPrefab: 添加预制
     dateOutOfRangeTip: 一个或多个日期不在当前课程表所处学期的时间范围内
     removeDay: "删除 {day} 的课"
     swapDays: "交换 {a} 和 {b} 的课"
