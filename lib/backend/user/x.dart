@@ -54,4 +54,16 @@ class XMimirUser {
       return false;
     }
   }
+
+  /// returns whether signing-up is success
+  static Future<bool> verifyAuth(BuildContext context) async {
+    try {
+      final authorized = await BackendInit.auth.verify();
+      CredentialsInit.storage.mimir.signedIn = authorized;
+      return true;
+    } catch (error, stackTrace) {
+      debugPrintError(error, stackTrace);
+      return false;
+    }
+  }
 }

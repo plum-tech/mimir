@@ -16,6 +16,14 @@ class UserProfileAppCard extends ConsumerStatefulWidget {
 
 class _UserProfileAppCardState extends ConsumerState<UserProfileAppCard> {
   @override
+  void initState() {
+    super.initState();
+    if (CredentialsInit.storage.mimir.signedIn == true) {
+      XMimirUser.verifyAuth(context);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final signedIn = ref.watch(CredentialsInit.storage.mimir.$signedIn);
     if (signedIn) {

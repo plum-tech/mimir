@@ -66,4 +66,13 @@ class MimirAuthService {
     });
     return;
   }
+
+  Future<bool> verify() async {
+    try {
+      final res = await _dio.get("$_base/auth/verify");
+      return res.statusCode == 200;
+    } catch (_) {
+      return false;
+    }
+  }
 }
