@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:mimir/lifecycle.dart';
 import 'package:mimir/r.dart';
-import 'package:uuid/uuid.dart';
 
 class MimirUserAgentDioInterceptor extends Interceptor {
   @override
@@ -17,7 +16,7 @@ class MimirUserAgentDioInterceptor extends Interceptor {
       "${R.meta.version}",
       $locale.toLanguageTag(),
       R.meta.platform.name,
-      const Uuid().v4(),
+      R.uuid,
     ], {
       "installer": R.meta.installerStore,
     });

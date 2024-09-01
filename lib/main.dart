@@ -25,6 +25,7 @@ import 'package:mimir/entity/meta.dart';
 import 'package:mimir/storage/prefs.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:system_theme/system_theme.dart';
+import 'package:uuid/uuid.dart';
 import 'package:version/version.dart';
 
 import 'app.dart';
@@ -54,6 +55,15 @@ void main() async {
   if (installationTime == null) {
     await prefs.setInstallTime(DateTime.now());
   }
+  final uuid = prefs.getUuid();
+  if (uuid == null) {
+    final newUuid = const Uuid().v4();
+    await prefs.setUuid(newUuid);
+    R.uuid = newUuid;
+  } else {
+    R.uuid = uuid;
+  }
+
   // Initialize the window size before others for a better experience when loading.
   try {
     await SystemTheme.accentColor.load();

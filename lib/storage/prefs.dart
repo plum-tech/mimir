@@ -7,6 +7,7 @@ class _K {
   static const lastVersion = "${R.appId}.lastVersion";
   static const lastWindowSize = "${R.appId}.lastWindowSize";
   static const installTime = "${R.appId}.installTime";
+  static const uuid = "${R.appId}.uuid";
 }
 
 extension PrefsX on SharedPreferences {
@@ -26,6 +27,10 @@ extension PrefsX on SharedPreferences {
   }
 
   Future<void> setInstallTime(DateTime value) => setString(_K.installTime, value.toString());
+
+  String? getUuid() => getString(_K.uuid);
+
+  Future<void> setUuid(String value) => setString(_K.uuid, value);
 }
 
 Size? _string2Size(String? value) {

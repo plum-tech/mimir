@@ -20,6 +20,7 @@ class R {
   static String get appNameL10n => "appName".tr();
 
   static late AppMeta meta;
+  static late String uuid;
 
   /// For debugging iOS on other platforms.
   static const debugCupertino = kDebugMode ? false : false;
