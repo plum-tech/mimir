@@ -4,6 +4,9 @@ import 'entity/patch.dart';
 class BuiltinTimetablePatchSets {
   static final vacationShift2024 = BuiltinTimetablePatchSet(
     key: "sitVacationShift2024",
+    recommended: (timetable) {
+      return timetable.schoolYear == 2024 || timetable.schoolYear == 2023;
+    },
     patches: [
       // New Year's Day
       TimetableRemoveDayPatch.oneDay(loc: TimetableDayLoc.byDate(2024, 1, 1)),

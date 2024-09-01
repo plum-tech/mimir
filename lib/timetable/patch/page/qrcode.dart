@@ -19,29 +19,62 @@ Future<void> onTimetablePatchFromQrCode({
   required TimetablePatchEntry patch,
 }) async {
   await context.showSheet(
-    (ctx) => TimetablePatchFromQrCodeSheet(patch: patch),
+    (ctx) => TimetablePatchFromQrCodePage(patch: patch),
     dismissible: false,
     useRootNavigator: true,
   );
 }
 
-class TimetablePatchFromQrCodeSheet extends ConsumerStatefulWidget {
+class TimetablePatchFromQrCodePage extends ConsumerWidget {
   final TimetablePatchEntry patch;
 
-  const TimetablePatchFromQrCodeSheet({
+  const TimetablePatchFromQrCodePage({
     super.key,
     required this.patch,
   });
 
   @override
-  ConsumerState<TimetablePatchFromQrCodeSheet> createState() => _TimetablePatchFromQrCodeSheetState();
-}
-
-class _TimetablePatchFromQrCodeSheetState extends ConsumerState<TimetablePatchFromQrCodeSheet> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final storage = TimetableInit.storage.timetable;
     final timetables = ref.watch(storage.$rows);
+    return TimetablePatchViewerPage(
+      patch: patch,
+      actions: [
+        PlatformTextButton(
+          onPressed: timetables.isEmpty
+              ? null
+              : () async {
+                  final timetable = await context.showSheet<SitTimetable>(
+                    (context) => TimetablePatchUseSheet(patch: patch),
+                  );
+                  if (timetable == null) return;
+                  if (!context.mounted) return;
+                  context.pop();
+                },
+          child: i18n.use.text(),
+        )
+      ],
+    );
+  }
+}
+
+class TimetablePatchViewerPage extends ConsumerStatefulWidget {
+  final TimetablePatchEntry patch;
+  final List<Widget>? actions;
+
+  const TimetablePatchViewerPage({
+    super.key,
+    required this.patch,
+    this.actions,
+  });
+
+  @override
+  ConsumerState<TimetablePatchViewerPage> createState() => _TimetablePatchViewerPageState();
+}
+
+class _TimetablePatchViewerPageState extends ConsumerState<TimetablePatchViewerPage> {
+  @override
+  Widget build(BuildContext context) {
     final patch = widget.patch;
     return Scaffold(
       body: CustomScrollView(
@@ -53,21 +86,7 @@ class _TimetablePatchFromQrCodeSheetState extends ConsumerState<TimetablePatchFr
                     TextScroll(patch.name).expanded(),
                   ].row()
                 : i18n.patch.title.text(),
-            actions: [
-              PlatformTextButton(
-                onPressed: timetables.isEmpty
-                    ? null
-                    : () async {
-                        final timetable = await context.showSheet<SitTimetable>(
-                          (context) => TimetablePatchUseSheet(patch: patch),
-                        );
-                        if (timetable == null) return;
-                        if (!context.mounted) return;
-                        context.pop();
-                      },
-                child: i18n.use.text(),
-              )
-            ],
+            actions: widget.actions,
           ),
           if (patch is TimetablePatchSet)
             SliverList.builder(
@@ -181,13 +200,13 @@ class TimetablePatchReceiverCard extends StatelessWidget {
                 child: i18n.add.text(),
               ),
             if (onPreview != null)
-              OutlinedButton(
+              FilledButton.tonal(
                 onPressed: onPreview,
                 child: i18n.preview.text(),
               ),
           ].wrap(spacing: 4),
         ],
-      ),
+      ).padV(8),
     ].column(caa: CrossAxisAlignment.start).padSymmetric(v: 10, h: 15).inOutlinedCard();
   }
 }

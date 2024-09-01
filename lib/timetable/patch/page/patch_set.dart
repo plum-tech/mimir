@@ -201,3 +201,17 @@ class _TimetablePatchSetEditorPageState extends State<TimetablePatchSetEditorPag
     );
   }
 }
+
+class TimetablePatchSetPatchesPreview extends StatelessWidget {
+  final TimetablePatchSet set;
+
+  const TimetablePatchSetPatchesPreview(
+    this.set, {
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return set.patches.map((patch) => Icon(patch.type.icon)).toList().wrap(spacing: 4);
+  }
+}

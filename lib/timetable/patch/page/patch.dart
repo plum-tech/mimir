@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/design/animation/animated.dart';
 import 'package:reorderables/reorderables.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
@@ -13,6 +14,7 @@ import 'package:mimir/timetable/patch/widget/shared.dart';
 import 'package:mimir/utils/format.dart';
 import 'package:mimir/utils/save.dart';
 
+import '../builtin.dart';
 import '../entity/patch.dart';
 import 'patch_prefab.dart';
 import '../../entity/timetable.dart';
@@ -20,6 +22,7 @@ import '../../i18n.dart';
 import '../widget/patch_set.dart';
 import '../../page/preview.dart';
 import 'patch_set.dart';
+import 'qrcode.dart';
 
 class TimetablePatchEditorPage extends StatefulWidget {
   final SitTimetable timetable;
@@ -40,6 +43,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
   final initialEditingKey = GlobalKey(debugLabel: "Initial editing");
   final controller = ScrollController();
   var anyChanged = false;
+  TimetablePatchSet? recommended;
 
   void markChanged() => anyChanged |= true;
 
@@ -63,6 +67,17 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
         }
       });
     }
+    evaluateRecommendation();
+  }
+
+  Future<void> evaluateRecommendation() async {
+    if (patches.isNotEmpty) return;
+    await Future.delayed(Durations.extralong4);
+    final recommendations =
+        BuiltinTimetablePatchSets.all.where((set) => set.recommended?.call(widget.timetable) == true).toList();
+    setState(() {
+      recommended = recommendations.firstOrNull;
+    });
   }
 
   @override
@@ -73,53 +88,75 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
 
   @override
   Widget build(BuildContext context) {
+    final recommended = this.recommended;
     return PromptSaveBeforeQuitScope(
       changed: anyChanged,
       onSave: onSave,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar.medium(
-              title: i18n.patch.title.text(),
-              actions: [
-                PlatformTextButton(
-                  onPressed: onSave,
-                  child: i18n.save.text(),
+        body: Stack(
+          children: [
+            CustomScrollView(
+              slivers: [
+                SliverAppBar.medium(
+                  title: i18n.patch.title.text(),
+                  actions: [
+                    PlatformTextButton(
+                      onPressed: onSave,
+                      child: i18n.save.text(),
+                    ),
+                    buildMoreActions(),
+                  ],
                 ),
-                buildMoreActions(),
+                if (patches.isEmpty)
+                  SliverFillRemaining(
+                    child: LeavingBlank(
+                      icon: Icons.dashboard_customize,
+                      desc: i18n.patch.noPatches,
+                      action: FilledButton(
+                        onPressed: openPrefab,
+                        child: i18n.patch.addPrefab.text(),
+                      ),
+                    ),
+                  )
+                else
+                  ReorderableSliverList(
+                    controller: controller,
+                    onReorder: (int oldIndex, int newIndex) {
+                      setState(() {
+                        final patch = patches.removeAt(oldIndex);
+                        patches.insert(newIndex, patch);
+                      });
+                      markChanged();
+                    },
+                    delegate: ReorderableSliverChildBuilderDelegate(
+                      childCount: patches.length,
+                      (context, i) {
+                        final patch = patches[i];
+                        final timetable = widget.timetable.copyWith(patches: patches.sublist(0, i + 1));
+                        return buildPatchEntry(patch, i, timetable);
+                      },
+                    ),
+                  ),
               ],
             ),
-            if (patches.isEmpty)
-              SliverFillRemaining(
-                child: LeavingBlank(
-                  icon: Icons.dashboard_customize,
-                  desc: i18n.patch.noPatches,
-                  action: FilledButton(
-                    onPressed: openPrefab,
-                    child: i18n.patch.addPrefab.text(),
-                  ),
-                ),
-              )
-            else
-              ReorderableSliverList(
-                controller: controller,
-                onReorder: (int oldIndex, int newIndex) {
+            AnimatedShowUp(
+              when: recommended != null,
+              builder: (ctx) => TimetablePatchEntryRecommendationCard(
+                recommended!,
+                onClose: () {
                   setState(() {
-                    final patch = patches.removeAt(oldIndex);
-                    patches.insert(newIndex, patch);
+                    this.recommended = null;
                   });
-                  markChanged();
                 },
-                delegate: ReorderableSliverChildBuilderDelegate(
-                  childCount: patches.length,
-                  (context, i) {
-                    final patch = patches[i];
-                    final timetable = widget.timetable.copyWith(patches: patches.sublist(0, i + 1));
-                    return buildPatchEntry(patch, i, timetable);
-                  },
-                ),
+                onAdded: () {
+                  addPatch(recommended);
+                  setState(() {
+                    this.recommended = null;
+                  });
+                },
               ),
+            ).align(at: Alignment.bottomCenter),
           ],
         ),
         bottomNavigationBar: BottomAppBar(
@@ -295,6 +332,83 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
     return widget.timetable.copyWith(
       patches: List.of(patches),
       lastModified: DateTime.now(),
+    );
+  }
+}
+
+class TimetablePatchEntryRecommendationCard extends StatelessWidget {
+  final TimetablePatchEntry patch;
+  final VoidCallback? onClose;
+  final VoidCallback? onAdded;
+
+  const TimetablePatchEntryRecommendationCard(
+    this.patch, {
+    super.key,
+    this.onClose,
+    this.onAdded,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final onClose = this.onClose;
+    return [
+      Card.outlined(
+        child: [
+          ListTile(
+            title: "Recommendation".text(),
+            trailing: onClose == null
+                ? null
+                : PlatformIconButton(
+                    icon: Icon(context.icons.close),
+                    onPressed: onClose,
+                  ),
+          ),
+          if (patch is TimetablePatch)
+            buildPatch(context, patch as TimetablePatch)
+          else if (patch is TimetablePatchSet)
+            buildPatchSet(context, patch as TimetablePatchSet),
+          FilledButton.tonalIcon(
+            icon: Icon(context.icons.add),
+            label: "Add this".text(),
+            onPressed: onAdded,
+          ).padAll(8),
+        ].column(caa: CrossAxisAlignment.end),
+      ),
+    ].column(mas: MainAxisSize.min).padAll(8);
+  }
+
+  Widget buildPatch(BuildContext context, TimetablePatch patch) {
+    return ListTile(
+      leading: PatchIcon(icon: patch.type.icon),
+      title: patch.type.l10n().text(),
+      subtitle: patch.l10n().text(),
+    );
+  }
+
+  Widget buildPatchSet(BuildContext context, TimetablePatchSet set) {
+    return ListTile(
+      title: set.name.text(),
+      subtitle: TimetablePatchSetPatchesPreview(set),
+      onTap: () async {
+        await context.showSheet(
+          (ctx) => TimetablePatchViewerPage(
+            patch: set,
+            actions: [
+              PlatformTextButton(
+                onPressed: onAdded == null
+                    ? null
+                    : () {
+                        context.pop();
+                        onAdded?.call();
+                      },
+                child: i18n.add.text(),
+              )
+            ],
+          ),
+          dismissible: false,
+          useRootNavigator: true,
+        );
+      },
     );
   }
 }

@@ -260,6 +260,7 @@ class TimetablePatchSet extends TimetablePatchEntry {
 
 class BuiltinTimetablePatchSet implements TimetablePatchSet {
   final String key;
+  final bool Function(SitTimetable timetable)? recommended;
 
   @override
   String get name => "timetable.patch.builtin.$key".tr();
@@ -269,6 +270,7 @@ class BuiltinTimetablePatchSet implements TimetablePatchSet {
   const BuiltinTimetablePatchSet({
     required this.key,
     required this.patches,
+    required this.recommended,
   });
 
   @override
