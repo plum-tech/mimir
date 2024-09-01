@@ -159,15 +159,15 @@ final _timetableRoutes = [
   ),
   GoRoute(
     path: "/timetable/p13n",
-    builder: (ctx, state) => const TimetableP13nPage(),
+    builder: (ctx, state) => const TimetablePaletteListPage(),
     routes: [
       GoRoute(
         path: "custom",
-        builder: (ctx, state) => const TimetableP13nPage(tab: TimetableP13nTab.custom),
+        builder: (ctx, state) => const TimetablePaletteListPage(tab: TimetableP13nTab.custom),
       ),
       GoRoute(
         path: "builtin",
-        builder: (ctx, state) => const TimetableP13nPage(tab: TimetableP13nTab.builtin),
+        builder: (ctx, state) => const TimetablePaletteListPage(tab: TimetableP13nTab.builtin),
       ),
     ],
   ),

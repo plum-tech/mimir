@@ -179,7 +179,7 @@ timetable:
       authorPlaceholder: Your name, email, or url
       color: color
       details: Details
-      fab: Palette
+      fab: Create
       newPaletteName: New palette
       deleteRequest: Conform to delete?
       deleteRequestDesc: The palette will be deleted permanently without unless a QR code backup is saved

@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+class FloatingActionButtonSpace extends StatelessWidget {
+  const FloatingActionButtonSpace({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(height: 80);
+  }
+}
+
+
 enum _FABType {
   regular,
   small,

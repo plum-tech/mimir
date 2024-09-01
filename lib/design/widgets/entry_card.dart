@@ -103,12 +103,12 @@ class EntryCard extends StatelessWidget {
       if (selectAction != null) {
         all.add(
           selected
-              ? FilledButton.icon(
+              ? FilledButton.tonalIcon(
                   icon: Icon(context.icons.checkMark),
                   onPressed: null,
                   label: selectAction.selectedLabel.text(),
                 )
-              : FilledButton(
+              : FilledButton.tonal(
                   onPressed: selectAction.action,
                   child: selectAction.selectLabel.text(),
                 ),

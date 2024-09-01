@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mimir/settings/page/index.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
@@ -66,46 +67,95 @@ class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEdi
       changed: anyChanged,
       onSave: onSave,
       child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              pinned: true,
-              title: i18n.p13n.palette.title.text(),
-              actions: [
-                if (timetable != null && colors.isNotEmpty)
-                  PlatformTextButton(
-                    child: i18n.preview.text(),
-                    onPressed: () async {
-                      await previewTimetable(
-                        context,
-                        timetable: timetable,
-                        palette: buildPalette(),
-                      );
-                    },
-                  ),
-                PlatformTextButton(
-                  onPressed: onSave,
-                  child: i18n.save.text(),
+        body: Stack(
+          children: [
+            CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  pinned: true,
+                  title: i18n.p13n.palette.title.text(),
+                  actions: [
+                    if (timetable != null && colors.isNotEmpty)
+                      PlatformTextButton(
+                        child: i18n.preview.text(),
+                        onPressed: () async {
+                          await previewTimetable(
+                            context,
+                            timetable: timetable,
+                            palette: buildPalette(),
+                          );
+                        },
+                      ),
+                    PlatformTextButton(
+                      onPressed: onSave,
+                      child: i18n.save.text(),
+                    ),
+                  ],
                 ),
+                SliverList.list(children: [
+                  buildName(),
+                  buildAuthor(),
+                ]),
+                const Divider().sliver(),
+                FilledButton.tonal(
+                  child: const LightDarkColorsHeaderTitle(),
+                  onPressed: () {
+                    setState(() {
+                      colors.insert(0, TimetablePalette.defaultColor);
+                    });
+                    markChanged();
+                  },
+                ).padAll(8).sliver(),
+                SliverList.builder(
+                  itemCount: colors.length,
+                  itemBuilder: buildColorTile,
+                ),
+                const SizedBox(height: 80).sliver(),
               ],
             ),
-            SliverList.list(children: [
-              buildName(),
-              buildAuthor(),
-            ]),
-            const Divider().sliver(),
-            FilledButton.tonal(
-              child: const LightDarkColorsHeaderTitle(),
-              onPressed: () {
-                setState(() {
-                  colors.insert(0, TimetablePalette.defaultColor);
-                });
-                markChanged();
+            DraggableScrollableSheet(
+              initialChildSize: 0.08,
+              minChildSize: 0.08,
+              maxChildSize: 0.2,
+              snap: true,
+              builder: (ctx, controller) {
+                return Scaffold(
+                  body: CustomScrollView(
+                    controller: controller,
+                    slivers: [
+                      SliverAppBar(
+                        shape: const ContinuousRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(64),
+                          ),
+                        ),
+                        primary: false,
+                        pinned: true,
+                        forceElevated: true,
+                        automaticallyImplyLeading: false,
+                        centerTitle: true,
+                        title: SizedBox(
+                          height: kMinInteractiveDimension,
+                          width: kMinInteractiveDimension,
+                          child: Center(
+                            child: Container(
+                              height: 4,
+                              width: 32,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4/2),
+                                color: context.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SliverList.list(children: const [
+                        ThemeModeTile(),
+                      ]),
+                    ],
+                  ),
+                );
               },
-            ).padAll(8).sliver(),
-            SliverList.builder(
-              itemCount: colors.length,
-              itemBuilder: buildColorTile,
             ),
           ],
         ),

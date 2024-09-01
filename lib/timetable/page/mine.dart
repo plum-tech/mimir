@@ -46,8 +46,6 @@ class MyTimetableListPage extends ConsumerStatefulWidget {
 }
 
 class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
-  final scrollController = ScrollController();
-
   @override
   Widget build(BuildContext context) {
     final storage = TimetableInit.storage.timetable;
@@ -68,7 +66,6 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
     ];
     return Scaffold(
       body: CustomScrollView(
-        controller: scrollController,
         slivers: [
           if (timetables.isEmpty)
             SliverAppBar(
@@ -101,10 +98,10 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
                 ).padH(6);
               },
             ),
+          const FloatingActionButtonSpace().sliver(),
         ],
       ),
-      floatingActionButton: AutoHideFAB.extended(
-        controller: scrollController,
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: goImport,
         label: Text(isLoginGuarded(context) ? i18n.import.fromFile : i18n.import.import),
         icon: Icon(context.icons.add),

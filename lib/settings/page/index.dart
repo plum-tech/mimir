@@ -109,12 +109,8 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       leading: const Icon(Icons.translate_rounded),
       path: "/settings/language",
     ));
-    all.add(buildThemeMode());
-    all.add(PageNavigationTile(
-      leading: const Icon(Icons.color_lens_outlined),
-      title: i18n.themeColor.text(),
-      path: "/settings/theme-color",
-    ));
+    all.add(const ThemeModeTile());
+    all.add(const ThemeColorTile());
     all.add(const Divider());
 
     if (oaLoginStatus != OaLoginStatus.never) {
@@ -170,8 +166,27 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     all[all.length - 1] = all.last.safeArea(t: false);
     return all;
   }
+}
 
-  Widget buildThemeMode() {
+class ThemeColorTile extends StatelessWidget {
+  const ThemeColorTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return PageNavigationTile(
+      leading: const Icon(Icons.color_lens_outlined),
+      title: i18n.themeColor.text(),
+      path: "/settings/theme-color",
+    );
+  }
+}
+
+
+class ThemeModeTile extends ConsumerWidget {
+  const ThemeModeTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     final themeMode = ref.watch(Settings.theme.$themeMode) ?? ThemeMode.system;
     return ListTile(
       leading: switch (themeMode) {

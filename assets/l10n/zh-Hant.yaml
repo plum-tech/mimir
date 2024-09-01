@@ -162,7 +162,7 @@ timetable:
       authorPlaceholder: 你的姓名，電郵，或 url
       color: 顏色
       details: 詳細資料
-      fab: 調色盤
+      fab: 創作
       newPaletteName: 新的調色盤
       deleteRequest: 確認刪除？
       deleteRequestDesc: 除非儲存了 QR 碼備份，否則調色板將被永久刪除

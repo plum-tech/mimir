@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/design/widgets/fab.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
@@ -27,16 +28,16 @@ import '../../widgets/timetable/weekly.dart';
 import 'palette_editor.dart';
 import '../../page/preview.dart';
 
-class TimetableP13nPage extends ConsumerStatefulWidget {
+class TimetablePaletteListPage extends ConsumerStatefulWidget {
   final int? tab;
 
-  const TimetableP13nPage({
+  const TimetablePaletteListPage({
     super.key,
     this.tab,
   }) : assert(tab == null || (0 <= tab && tab < TimetableP13nTab.length), "#$tab tab not found");
 
   @override
-  ConsumerState<TimetableP13nPage> createState() => _TimetableP13nPageState();
+  ConsumerState<TimetablePaletteListPage> createState() => _TimetableP13nPageState();
 }
 
 class TimetableP13nTab {
@@ -45,7 +46,7 @@ class TimetableP13nTab {
   static const builtin = 1;
 }
 
-class _TimetableP13nPageState extends ConsumerState<TimetableP13nPage> with SingleTickerProviderStateMixin {
+class _TimetableP13nPageState extends ConsumerState<TimetablePaletteListPage> with SingleTickerProviderStateMixin {
   late final TabController tabController;
 
   @override
@@ -72,7 +73,7 @@ class _TimetableP13nPageState extends ConsumerState<TimetableP13nPage> with Sing
     final palettes = ref.watch(TimetableInit.storage.palette.$rows);
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        label: i18n.p13n.palette.fab.text(),
+        label: i18n.cancel.text(),
         icon: Icon(context.icons.add),
         onPressed: addPalette,
       ),
@@ -147,6 +148,7 @@ class _TimetableP13nPageState extends ConsumerState<TimetableP13nPage> with Sing
             ).padH(6);
           },
         ),
+        const FloatingActionButtonSpace().sliver(),
       ],
     );
   }
