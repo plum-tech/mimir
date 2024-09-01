@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/game/qrcode/blueprint.dart';
+import 'package:mimir/game/deep_link/blueprint.dart';
 import 'package:mimir/game/sudoku/r.dart';
 
 import '../entity/blueprint.dart';

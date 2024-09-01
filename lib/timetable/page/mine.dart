@@ -20,7 +20,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/page/ical.dart';
-import 'package:mimir/timetable/qrcode/timetable.dart';
+import 'package:mimir/timetable/deep_link/timetable.dart';
 import 'package:mimir/timetable/widgets/course.dart';
 import 'package:mimir/utils/format.dart';
 import 'package:text_scroll/text_scroll.dart';

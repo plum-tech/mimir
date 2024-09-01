@@ -21,7 +21,7 @@ import 'package:mimir/utils/error.dart';
 import 'package:mimir/utils/save.dart';
 import '../entity/proxy.dart';
 import '../i18n.dart';
-import '../qrcode/proxy.dart';
+import '../deep_link/proxy.dart';
 
 class ProxySettingsPage extends ConsumerStatefulWidget {
   const ProxySettingsPage({

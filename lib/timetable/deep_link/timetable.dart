@@ -8,12 +8,11 @@ import '../page/mine.dart';
 
 class TimetableDeepLink implements DeepLinkHandlerProtocol {
   static const host = "timetable";
-  static const path = "/timetable";
 
   const TimetableDeepLink();
 
   Uri encode(SitTimetable timetable) =>
-      Uri(scheme: R.scheme, host: host, path: path, query: encodeBytesForUrl(SitTimetable.encodeByteList(timetable)));
+      Uri(scheme: R.scheme, host: host, query: encodeBytesForUrl(SitTimetable.encodeByteList(timetable)));
 
   SitTimetable decode(Uri qrCodeData) => (SitTimetable.decodeByteList(decodeBytesFromUrl(qrCodeData.query)));
 
@@ -21,7 +20,7 @@ class TimetableDeepLink implements DeepLinkHandlerProtocol {
   bool match(Uri encoded) {
     // for backwards support
     if (encoded.host.isEmpty && encoded.path == "timetable") return true;
-    return encoded.host == host && encoded.path == path;
+    return encoded.host == host;
   }
 
   @override

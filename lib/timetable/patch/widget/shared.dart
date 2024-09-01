@@ -13,7 +13,7 @@ import '../../entity/loc.dart';
 import '../../entity/timetable.dart';
 import '../../i18n.dart';
 import '../../page/preview.dart';
-import '../../qrcode/patch.dart';
+import '../../deep_link/patch.dart';
 import '../../utils.dart';
 import '../entity/patch.dart';
 

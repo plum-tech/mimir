@@ -89,7 +89,7 @@ final $SchoolShellKey = GlobalKey<NavigatorState>();
 final $LifeShellKey = GlobalKey<NavigatorState>();
 final $GameShellKey = GlobalKey<NavigatorState>();
 final $MeShellKey = GlobalKey<NavigatorState>();
-final $ForumShellKey = GlobalKey<NavigatorState>();
+// final $ForumShellKey = GlobalKey<NavigatorState>();
 
 bool isLoginGuarded(BuildContext ctx) {
   if (Dev.demoMode) return false;

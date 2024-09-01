@@ -20,7 +20,7 @@ import 'package:mimir/utils/format.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../../i18n.dart';
-import '../../qrcode/palette.dart';
+import '../../deep_link/palette.dart';
 import '../builtin.dart';
 import '../widget/style.dart';
 import '../../widgets/timetable/weekly.dart';
