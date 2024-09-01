@@ -1,5 +1,10 @@
 appName: SIT Life
 mimir:
+  forum:
+    navigation: Forum
+    title: Ing Forum
+  bulletin:
+    title: Bulletin
   auth:
     schoolId:
       disclaimer: |
@@ -917,11 +922,6 @@ game:
       cet-6: CET 6
       ielts: IELTS
       toefl: TOEFL
-forum:
-  navigation: Forum
-  title: SIT Forum
-bulletin:
-  title: Bulletin
 permission:
   permissionDenied: Permission denied
   permissionDeniedDescOf: "{} permission was not granted. Please check the app settings."

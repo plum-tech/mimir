@@ -1,4 +1,10 @@
 appName: 小應生活
+mimir:
+  forum:
+    navigation: 社群
+    title: 小應社群
+  bulletin:
+    title: 佈告欄
 timetable:
   navigation: 課程表
   jump: 前往
@@ -903,11 +909,6 @@ game:
       cet-6: 大學六級
       ielts: 雅思
       toefl: 托福
-forum:
-  navigation: 社群
-  title: 小應社群
-bulletin:
-  title: 佈告欄
 permission:
   permissionDenied: 沒有權限
   permissionDeniedDescOf: "{}權限未授予許可，請檢查應用程式的設定。"

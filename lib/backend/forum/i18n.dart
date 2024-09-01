@@ -6,7 +6,7 @@ const i18n = _I18n();
 class _I18n with CommonI18nMixin {
   const _I18n();
 
-  static const ns = "forum";
+  static const ns = "mimir.forum";
 
   String get navigation => "$ns.navigation".tr();
   String get title => "$ns.title".tr();
