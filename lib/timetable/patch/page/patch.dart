@@ -219,76 +219,75 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
   }
 
   Widget buildPatchEntry(TimetablePatchEntry entry, int index, SitTimetable timetable) {
-    return switch (entry) {
-      TimetablePatchSet() => TimetablePatchEntryDroppable(
-          patch: entry,
-          onMerged: (other) {
-            removePatch(patches.indexOf(other));
-            patches[index] = entry.copyWith(patches: List.of(entry.patches)..add(other));
-            markChanged();
-          },
-          builder: (dropping) => TimetablePatchSetCard(
-            key: widget.initialEditing == entry ? initialEditingKey : null,
-            selected: dropping,
-            patchSet: entry,
-            timetable: timetable,
-            optimizedForTouch: true,
-            onDeleted: () {
-              removePatch(index);
-            },
-            onUnpacked: () {
-              removePatch(index);
-              patches.insertAll(index, entry.patches);
-              markChanged();
-            },
-            onEdit: () async {
-              await editPatchSet(index, entry);
-            },
-          ).padSymmetric(v: 4),
-        ),
-      TimetablePatch() => WithSwipeAction(
-          key: widget.initialEditing == entry ? initialEditingKey : null,
-          childKey: ValueKey(entry),
-          right: SwipeAction.delete(
-            icon: context.icons.delete,
-            action: () {
-              removePatch(index);
-            },
-          ),
-          child: TimetablePatchEntryDroppable(
+    return WithSwipeAction(
+      key: widget.initialEditing == entry ? initialEditingKey : null,
+      childKey: ValueKey(entry),
+      right: SwipeAction.delete(
+        icon: context.icons.delete,
+        action: () {
+          removePatch(index);
+        },
+      ),
+      child: switch (entry) {
+        TimetablePatchSet() => TimetablePatchEntryDroppable(
             patch: entry,
             onMerged: (other) {
-              final patchSet = TimetablePatchSet(
-                name: allocValidFileName(
-                  i18n.patch.defaultName,
-                  all: patches.whereType<TimetablePatchSet>().map((set) => set.name).toList(),
-                ),
-                patches: [entry, other],
-              );
-              patches.insert(index, patchSet);
-              removePatch(patches.indexOf(entry));
               removePatch(patches.indexOf(other));
+              patches[index] = entry.copyWith(patches: List.of(entry.patches)..add(other));
               markChanged();
             },
-            builder: (dropping) => TimetablePatchWidget<TimetablePatch>(
-              selected: dropping || widget.initialEditing == entry,
-              optimizedForTouch: true,
-              leading: (ctx, child) => TimetablePatchDraggable(
-                patch: entry,
-                child: child,
-              ),
-              patch: entry,
+            builder: (dropping) => TimetablePatchSetWidget(
+              selected: dropping,
+              patchSet: entry,
               timetable: timetable,
+              optimizedForTouch: true,
               onDeleted: () {
                 removePatch(index);
               },
-              onEdit: () async {
-                await editPatch(index, entry);
+              onUnpacked: () {
+                removePatch(index);
+                patches.insertAll(index, entry.patches);
+                markChanged();
               },
+              onEdit: () async {
+                await editPatchSet(index, entry);
+              },
+            ).padSymmetric(v: 4),
+          ),
+        TimetablePatch() => TimetablePatchEntryDroppable(
+          patch: entry,
+          onMerged: (other) {
+            final patchSet = TimetablePatchSet(
+              name: allocValidFileName(
+                i18n.patch.defaultName,
+                all: patches.whereType<TimetablePatchSet>().map((set) => set.name).toList(),
+              ),
+              patches: [entry, other],
+            );
+            patches.insert(index, patchSet);
+            removePatch(patches.indexOf(entry));
+            removePatch(patches.indexOf(other));
+            markChanged();
+          },
+          builder: (dropping) => TimetablePatchWidget<TimetablePatch>(
+            selected: dropping || widget.initialEditing == entry,
+            optimizedForTouch: true,
+            leading: (ctx, child) => TimetablePatchDraggable(
+              patch: entry,
+              child: child,
             ),
+            patch: entry,
+            timetable: timetable,
+            onDeleted: () {
+              removePatch(index);
+            },
+            onEdit: () async {
+              await editPatch(index, entry);
+            },
           ),
         ),
-    };
+      },
+    );
   }
 
   Future<void> editPatchSet(int index, TimetablePatchSet patchSet) async {
@@ -508,7 +507,7 @@ class ReadonlyTimetablePatchEntryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final entry = this.entry;
     return switch (entry) {
-      TimetablePatchSet() => TimetablePatchSetCard(
+      TimetablePatchSet() => TimetablePatchSetWidget(
           patchSet: entry,
           enableQrCode: enableQrCode,
         ),

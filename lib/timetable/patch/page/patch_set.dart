@@ -138,18 +138,6 @@ class _TimetablePatchSetEditorPageState extends State<TimetablePatchSetEditorPag
               }
             },
           ),
-          PullDownItem.delete(
-            icon: context.icons.clear,
-            title: i18n.clear,
-            onTap: patches.isNotEmpty
-                ? () {
-                    setState(() {
-                      patches.clear();
-                    });
-                    markChanged();
-                  }
-                : null,
-          ),
         ];
       },
     );
@@ -203,15 +191,15 @@ class _TimetablePatchSetEditorPageState extends State<TimetablePatchSetEditorPag
 }
 
 class TimetablePatchSetPatchesPreview extends StatelessWidget {
-  final TimetablePatchSet set;
+  final TimetablePatchSet patchSet;
 
   const TimetablePatchSetPatchesPreview(
-    this.set, {
+    this.patchSet, {
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return set.patches.map((patch) => Icon(patch.type.icon)).toList().wrap(spacing: 4);
+    return patchSet.patches.map((patch) => Icon(patch.type.icon)).toList().wrap(spacing: 4);
   }
 }
