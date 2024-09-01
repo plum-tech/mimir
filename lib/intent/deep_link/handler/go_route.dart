@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:mimir/intent/deep_link/protocol.dart';
 import 'package:mimir/intent/deep_link/utils.dart';
-import 'package:mimir/timetable/entity/timetable.dart';
+import "package:pub_semver/pub_semver.dart";
 
 class GoRouteDeepLink implements DeepLinkHandlerProtocol {
   static const host = "app";
