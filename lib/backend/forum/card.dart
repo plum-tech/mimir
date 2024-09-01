@@ -64,7 +64,7 @@ class _ForumAppCardState extends ConsumerState<ForumAppCard> {
           label: !dev ? i18n.comingSoon.text() : i18n.enter.text(),
           icon: Icon(context.icons.home),
         ),
-        OutlinedButton.icon(
+        FilledButton.tonalIcon(
           onPressed: () async {
             context.showSheet(
               useRootNavigator: true,

@@ -94,7 +94,7 @@ class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEdi
               buildAuthor(),
             ]),
             const Divider().sliver(),
-            OutlinedButton(
+            FilledButton.tonal(
               child: const LightDarkColorsHeaderTitle(),
               onPressed: () {
                 setState(() {
@@ -153,7 +153,7 @@ class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEdi
           });
           markChanged();
         },
-      ),
+      ).padH(8),
     );
   }
 

@@ -54,7 +54,7 @@ class _EduEmailAppCardState extends ConsumerState<EduEmailAppCard> {
                     icon: const Icon(Icons.inbox),
                     label: i18n.action.inbox.text(),
                   ),
-                  OutlinedButton.icon(
+        FilledButton.tonalIcon(
                     onPressed: () {
                       context.push("/edu-email/outbox");
                     },

@@ -51,7 +51,7 @@ class OfflineGameAppCard extends ConsumerWidget {
             },
             child: i18n.continueGame.text(),
           ),
-          OutlinedButton(
+          FilledButton.tonal(
             onPressed: () {
               context.push("/game$baseRoute");
             },

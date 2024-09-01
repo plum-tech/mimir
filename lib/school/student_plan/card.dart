@@ -23,7 +23,7 @@ class _StudentPlanAppCardState extends State<StudentPlanAppCard> {
           label: "Select course".text(),
           icon: const Icon(Icons.select_all),
         ),
-        OutlinedButton(
+        FilledButton.tonal(
           onPressed: null,
           child: "Plan".text(),
         )

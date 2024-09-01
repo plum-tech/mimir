@@ -103,7 +103,7 @@ class _Class2ndAppCardState extends ConsumerState<Class2ndAppCard> {
           label: i18n.activityAction.text(),
           icon: const Icon(Icons.local_activity),
         ),
-        OutlinedButton(
+        FilledButton.tonal(
           onPressed: () async {
             await context.push("/class2nd/attended");
           },

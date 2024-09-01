@@ -100,7 +100,7 @@ class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> {
           },
           label: i18n.list.text(),
         ),
-        OutlinedButton(
+        FilledButton.tonal(
           onPressed: lastTransaction == null
               ? null
               : () async {

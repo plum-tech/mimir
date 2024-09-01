@@ -38,7 +38,7 @@ class _YwbAppCardState extends ConsumerState<YwbAppCard> {
           icon: const Icon(Icons.list_alt),
           label: i18n.seeAll.text(),
         ),
-        OutlinedButton.icon(
+        FilledButton.tonalIcon(
           onPressed: () {
             context.push("/ywb/mine");
           },

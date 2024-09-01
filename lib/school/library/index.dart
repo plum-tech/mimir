@@ -39,14 +39,14 @@ class _LibraryAppCardState extends ConsumerState<LibraryAppCard> {
           label: i18n.action.searchBooks.text(),
         ),
         if (credentials == null)
-          OutlinedButton(
+          FilledButton.tonal(
             onPressed: () async {
               await context.push("/library/login");
             },
             child: i18n.action.login.text(),
           )
         else
-          OutlinedButton.icon(
+          FilledButton.tonalIcon(
             onPressed: () async {
               await context.push("/library/borrowing");
             },

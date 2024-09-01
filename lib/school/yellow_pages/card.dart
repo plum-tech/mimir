@@ -41,7 +41,7 @@ class _YellowPagesAppCardState extends ConsumerState<YellowPagesAppCard> {
           label: i18n.search.text(),
           icon: const Icon(Icons.search),
         ),
-        OutlinedButton(
+        FilledButton.tonal(
           onPressed: () {
             context.push("/yellow-pages");
           },

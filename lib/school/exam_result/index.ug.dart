@@ -48,7 +48,7 @@ class _ExamResultUgAppCardState extends ConsumerState<ExamResultUgAppCard> {
           icon: const Icon(Icons.fact_check),
           label: i18n.check.text(),
         ),
-        OutlinedButton.icon(
+        FilledButton.tonalIcon(
           onPressed: () async {
             if (UniversalPlatform.isDesktop) {
               await guardLaunchUrl(context, teacherEvaluationUri);
