@@ -1,7 +1,9 @@
 import 'package:flutter/widgets.dart';
-import 'package:mimir/intent/qrcode/deep_link.dart';
+import 'package:mimir/intent/link/deep_link.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/utils/error.dart';
+
+import 'registry.dart';
 
 enum DeepLinkHandleResult {
   success,
@@ -31,10 +33,10 @@ DeepLinkHandlerProtocol? getFirstDeepLinkHandler({
 }) {
   if (_allowedScheme(deepLink.scheme)) return null;
   assert(() {
-    return DeepLinkHandlerProtocol.all.where((handler) => handler.match(deepLink)).length <= 1;
+    return DeepLinkHandlers.all.where((handler) => handler.match(deepLink)).length <= 1;
   }(),
-      "Matched multiple handlers: ${DeepLinkHandlerProtocol.all.where((handler) => handler.match(deepLink)).toList()}");
-  for (final handler in DeepLinkHandlerProtocol.all) {
+      "Matched multiple handlers: ${DeepLinkHandlers.all.where((handler) => handler.match(deepLink)).toList()}");
+  for (final handler in DeepLinkHandlers.all) {
     if (handler.match(deepLink)) {
       return handler;
     }

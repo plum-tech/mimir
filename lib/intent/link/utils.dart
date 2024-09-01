@@ -11,7 +11,7 @@ import 'package:mimir/utils/guard_launch.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import 'handle.dart';
-import 'i18n.dart';
+import '../qrcode/i18n.dart';
 
 final _codec = ZLibCodec(level: 6);
 final _decoder = _codec.decoder;
