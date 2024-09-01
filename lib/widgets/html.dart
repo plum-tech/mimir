@@ -32,7 +32,7 @@ class RestyledHtmlWidget extends StatefulWidget {
   State<RestyledHtmlWidget> createState() => _RestyledHtmlWidgetState();
 }
 
-class _RestyledHtmlWidgetState extends State<RestyledHtmlWidget> {
+class _RestyledHtmlWidgetState extends State<RestyledHtmlWidget> with AutomaticKeepAliveClientMixin {
   late String html;
 
   @override
@@ -60,7 +60,11 @@ class _RestyledHtmlWidgetState extends State<RestyledHtmlWidget> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     final textStyle = widget.textStyle ?? context.textTheme.bodyMedium;
     return HtmlWidget(
       html,

@@ -19,7 +19,7 @@ class FeaturedMarkdownWidget extends StatefulWidget {
   State<FeaturedMarkdownWidget> createState() => _FeaturedMarkdownWidgetState();
 }
 
-class _FeaturedMarkdownWidgetState extends State<FeaturedMarkdownWidget> {
+class _FeaturedMarkdownWidgetState extends State<FeaturedMarkdownWidget> with AutomaticKeepAliveClientMixin {
   late String html;
 
   @override
@@ -59,7 +59,11 @@ class _FeaturedMarkdownWidgetState extends State<FeaturedMarkdownWidget> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return RestyledHtmlWidget(
       html,
       async: widget.async,
