@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credentials/init.dart';
+import 'package:mimir/utils/error.dart';
 
 import '../init.dart';
 import 'entity/user.dart';
@@ -17,14 +18,19 @@ class XMimirUser {
     required String schoolId,
     required String password,
   }) async {
-    final token = await BackendInit.auth.signInBySchoolId(
-      school: school,
-      schoolId: schoolId,
-      password: password,
-    );
-    CredentialsInit.storage.mimir.signedIn = true;
-    CredentialsInit.storage.mimir.lastAuthTime = DateTime.now();
-    return true;
+    try {
+      await BackendInit.auth.signInBySchoolId(
+        school: school,
+        schoolId: schoolId,
+        password: password,
+      );
+      CredentialsInit.storage.mimir.signedIn = true;
+      CredentialsInit.storage.mimir.lastAuthTime = DateTime.now();
+      return true;
+    } catch (error, stackTrace) {
+      debugPrintError(error, stackTrace);
+      return false;
+    }
   }
 
   /// returns whether signing-up is success
@@ -34,13 +40,18 @@ class XMimirUser {
     required String schoolId,
     required String password,
   }) async {
-    final token = await BackendInit.auth.signUpBySchoolId(
-      school: school,
-      schoolId: schoolId,
-      password: password,
-    );
-    CredentialsInit.storage.mimir.signedIn = true;
-    CredentialsInit.storage.mimir.lastAuthTime = DateTime.now();
-    return true;
+    try {
+      await BackendInit.auth.signUpBySchoolId(
+        school: school,
+        schoolId: schoolId,
+        password: password,
+      );
+      CredentialsInit.storage.mimir.signedIn = true;
+      CredentialsInit.storage.mimir.lastAuthTime = DateTime.now();
+      return true;
+    } catch (error, stackTrace) {
+      debugPrintError(error, stackTrace);
+      return false;
+    }
   }
 }

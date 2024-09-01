@@ -39,7 +39,7 @@ class MimirAuthService {
     return result["existing"] == true;
   }
 
-  Future<String> signInBySchoolId({
+  Future<void> signInBySchoolId({
     required SchoolCode school,
     required String schoolId,
     required String password,
@@ -50,12 +50,10 @@ class MimirAuthService {
       "schoolId": schoolId,
       "password": password,
     });
-    final result = res.data as Map<String, dynamic>;
-    final token = result["token"] as String;
-    return token;
+    return;
   }
 
-  Future<String> signUpBySchoolId({
+  Future<void> signUpBySchoolId({
     required SchoolCode school,
     required String schoolId,
     required String password,
@@ -66,8 +64,6 @@ class MimirAuthService {
       "schoolId": schoolId,
       "password": password,
     });
-    final result = res.data as Map<String, dynamic>;
-    final token = result["token"] as String;
-    return token;
+    return;
   }
 }
