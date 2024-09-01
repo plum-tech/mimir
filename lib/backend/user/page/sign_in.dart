@@ -43,7 +43,7 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
     final authMethods = await BackendInit.auth.fetchAuthMethods(school: school);
     setState(() {
       this.authMethods = authMethods;
-      authMethod = authMethods.availableMethods.first;
+      authMethod = authMethods.availableMethods.firstOrNull;
     });
   }
 
@@ -118,29 +118,39 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
     final authMethod = this.authMethod;
     return AnimatedSwitcher(
       duration: Durations.medium2,
-      child: authMethods != null && authMethod != null
-          ? buildAuthSegments(authMethods, authMethod)
+      child: authMethods != null
+          ? authMethod != null
+              ? buildAuthSegments(authMethods, authMethod)
+              : "We can't verify student status of your school currently."
+                  .text(
+                    textAlign: TextAlign.center,
+                    style: context.textTheme.titleMedium,
+                  )
+                  .padH(20)
           : const CircularProgressIndicator.adaptive(),
     );
   }
 
   Widget buildLoginForm() {
     final authMethod = this.authMethod;
-    if (authMethods == null || authMethod == null) {
+    if (authMethods == null) {
       return const CircularProgressIndicator.adaptive().center();
     }
-    return switch(authMethod){
+    if (authMethod == null) {
+      return const SizedBox.shrink();
+    }
+    return switch (authMethod) {
       MimirAuthMethod.schoolId => SchoolIdSignInForm(
-        school: school,
-        signingIn: signingIn,
-        onSigningIn: (value) {
-          setState(() {
-            signingIn = value;
-          });
-        },
-      ),
-      MimirAuthMethod.eduEmail => const UnavailableSignInForm(),
-      MimirAuthMethod.phoneNumber => const UnavailableSignInForm(),
+          school: school,
+          signingIn: signingIn,
+          onSigningIn: (value) {
+            setState(() {
+              signingIn = value;
+            });
+          },
+        ),
+      MimirAuthMethod.eduEmail => const UnimplementedSignInForm(),
+      MimirAuthMethod.phoneNumber => const UnimplementedSignInForm(),
     };
   }
 
@@ -440,11 +450,15 @@ class MimirSchoolIdDisclaimerCard extends StatelessWidget {
   }
 }
 
-class UnavailableSignInForm extends StatelessWidget {
-  const UnavailableSignInForm({super.key});
+class UnimplementedSignInForm extends StatelessWidget {
+  const UnimplementedSignInForm({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return "The App on the current version can't verify student status in this way. Please choose another one if available."
+        .text(
+      textAlign: TextAlign.center,
+      style: context.textTheme.titleMedium,
+    );
   }
 }
