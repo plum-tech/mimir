@@ -20,6 +20,7 @@
     "fetch-cookie": "^3.0.1",
     "mime": "^4.0.3",
     "node-rsa": "^1.1.1",
+    "progress": "^2.0.3",
     "simple-git": "^3.24.0",
     "split-lines": "^3.0.0"
   },
