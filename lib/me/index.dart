@@ -11,7 +11,7 @@ import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/me/edu_email/index.dart';
 import 'package:mimir/me/widgets/greeting.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/intent/link/utils.dart';
+import 'package:mimir/intent/deep_link/utils.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';

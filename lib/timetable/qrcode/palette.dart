@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
-import 'package:mimir/intent/link/deep_link.dart';
-import 'package:mimir/intent/link/utils.dart';
+import 'package:mimir/intent/deep_link/protocol.dart';
+import 'package:mimir/intent/deep_link/utils.dart';
 import 'package:mimir/r.dart';
 
 import '../p13n/entity/palette.dart';

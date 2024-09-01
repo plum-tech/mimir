@@ -12,7 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/files.dart';
 import 'package:mimir/intent/file_type/handle.dart';
 import 'package:mimir/lifecycle.dart';
-import 'package:mimir/intent/link/handle.dart';
+import 'package:mimir/intent/deep_link/handle.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/settings/dev.dart';

@@ -6,7 +6,7 @@ import 'package:mimir/timetable/qrcode/palette.dart';
 import 'package:mimir/timetable/qrcode/patch.dart';
 import 'package:mimir/timetable/qrcode/timetable.dart';
 
-import 'deep_link.dart';
+import 'protocol.dart';
 
 /// convert any data to a URI with [R.scheme].
 class DeepLinkHandlers {

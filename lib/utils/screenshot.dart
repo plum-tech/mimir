@@ -29,6 +29,7 @@ Future<File> takeWidgetScreenshot({
     pixelRatio: View.of(context).devicePixelRatio,
   );
   final imgFi = Files.screenshot.subFile(name);
+  await Files.screenshot.create(recursive: true);
   await imgFi.writeAsBytes(screenshot);
   return imgFi;
 }

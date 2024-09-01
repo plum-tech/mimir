@@ -28,7 +28,7 @@ import 'package:mimir/game/widget/party_popper.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/login/utils.dart';
-import 'package:mimir/intent/link/handle.dart';
+import 'package:mimir/intent/deep_link/handle.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/design/widgets/navigation.dart';
 import 'package:rettulf/rettulf.dart';
