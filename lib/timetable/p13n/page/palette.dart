@@ -397,6 +397,8 @@ class PaletteColorsPreview extends StatelessWidget {
     return colors
         .map((c) {
           final color = c.byBrightness(brightness);
+          final textColor = (context.brightness == brightness ? color : color.copyWith(inverseText: !color.inverseText))
+              .textColor(context);
           return Card.outlined(
             margin: EdgeInsets.zero,
             child: TweenAnimationBuilder(
@@ -405,9 +407,16 @@ class PaletteColorsPreview extends StatelessWidget {
               builder: (ctx, value, child) => Card.filled(
                 margin: EdgeInsets.zero,
                 color: value,
-                child: const SizedBox(
+                child: SizedBox(
                   width: 32,
                   height: 32,
+                  child: "A"
+                      .text(
+                          style: context.textTheme.bodyLarge?.copyWith(
+                        color: textColor,
+                        fontWeight: FontWeight.bold,
+                      ))
+                      .center(),
                 ),
               ),
             ),
