@@ -86,13 +86,9 @@ class Init {
       },
     )).withDebugging();
 
-    mimirDio = Dio(BaseOptions(
-      headers: {
-        "User-Agent": getMimirUa(),
-      },
-    )).withCookieJar(cookieJar).withDebugging();
+    mimirDio = Dio(BaseOptions()).withCookieJar(cookieJar).withDebugging();
 
-    mimirDio.interceptors.add(MimirUALanguageDioInterceptor());
+    mimirDio.interceptors.add(MimirUserAgentDioInterceptor());
 
     ssoSession = SsoSession(
       dio: schoolDio,
