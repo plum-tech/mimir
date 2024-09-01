@@ -3,6 +3,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/intent/deep_link/handle.dart';
+import 'package:mimir/r.dart';
 import 'package:mimir/utils/color.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:mimir/utils/tel.dart';
@@ -72,6 +74,15 @@ class _RestyledHtmlWidgetState extends State<RestyledHtmlWidget> {
       ),
       textStyle: textStyle,
       onTapUrl: (url) async {
+        final uri = Uri.tryParse(url);
+        if (uri == null) return false;
+        if (uri.scheme == R.scheme) {
+          final result = await onHandleDeepLink(context: context, deepLink: uri);
+          if (result == DeepLinkHandleResult.success) {
+            return true;
+          }
+        }
+        if (!context.mounted) return true;
         return await guardLaunchUrlString(context, url);
       },
       onTapImage: (ImageMetadata image) {

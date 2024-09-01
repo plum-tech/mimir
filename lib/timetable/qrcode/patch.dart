@@ -28,9 +28,9 @@ class TimetablePatchDeepLink implements DeepLinkHandlerProtocol {
   @override
   Future<void> onHandle({
     required BuildContext context,
-    required Uri qrCodeData,
+    required Uri data,
   }) async {
-    final patch = decode(qrCodeData);
+    final patch = decode(data);
     await onTimetablePatchFromQrCode(
       context: context,
       patch: patch,

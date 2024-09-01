@@ -42,9 +42,9 @@ class GameBlueprintDeepLink<TBlueprint extends GameBlueprint> implements DeepLin
   @override
   Future<void> onHandle({
     required BuildContext context,
-    required Uri qrCodeData,
+    required Uri data,
   }) async {
-    final blueprint = qrCodeData.query;
+    final blueprint = data.query;
     final confirm = await context.showActionRequest(
       action: i18n.loadGame,
       desc: i18n.loadGameFromQrCode(gameName),

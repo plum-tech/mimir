@@ -1,18 +1,19 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/intent/deep_link/protocol.dart';
-import 'package:mimir/intent/deep_link/utils.dart';
-import "package:pub_semver/pub_semver.dart";
 
 class GoRouteDeepLink implements DeepLinkHandlerProtocol {
-  static const host = "app";
-  static const path = "/go";
+  static const host = "go";
+  static const path = "/to";
 
   const GoRouteDeepLink();
 
-  // Uri decode(Uri qrCodeData){
-  //   Uri.encodeComponent(component)
-  //   qrCodeData.query;
-  // }
+  String? decode(Uri data) {
+    final params = data.queryParameters;
+    final target = params.entries.firstWhereOrNull((p) => p.value.isEmpty)?.key;
+    return target;
+  }
 
   @override
   bool match(Uri encoded) {
@@ -22,9 +23,10 @@ class GoRouteDeepLink implements DeepLinkHandlerProtocol {
   @override
   Future<void> onHandle({
     required BuildContext context,
-    required Uri qrCodeData,
+    required Uri data,
   }) async {
-    // final timetable = decode(qrCodeData);
-
+    final target = decode(data);
+    if (target == null) return;
+    context.push(target);
   }
 }

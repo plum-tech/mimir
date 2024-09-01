@@ -52,7 +52,7 @@ Future<DeepLinkHandleResult> onHandleDeepLink({
   final handler = getFirstDeepLinkHandler(deepLink: deepLink);
   if (handler == null) return DeepLinkHandleResult.unhandled;
   try {
-    await handler.onHandle(context: context, qrCodeData: deepLink);
+    await handler.onHandle(context: context, data: deepLink);
     return DeepLinkHandleResult.success;
   } catch (error, stackTrace) {
     debugPrintError(error, stackTrace);

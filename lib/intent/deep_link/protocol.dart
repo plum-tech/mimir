@@ -9,6 +9,6 @@ abstract class DeepLinkHandlerProtocol {
 
   Future<void> onHandle({
     required BuildContext context,
-    required Uri qrCodeData,
+    required Uri data,
   });
 }

@@ -36,9 +36,9 @@ class TimetablePaletteDeepLink implements DeepLinkHandlerProtocol {
   @override
   Future<void> onHandle({
     required BuildContext context,
-    required Uri qrCodeData,
+    required Uri data,
   }) async {
-    final palette = decode(qrCodeData);
+    final palette = decode(data);
     await onTimetablePaletteFromQrCode(
       context: context,
       palette: palette,

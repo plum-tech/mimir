@@ -10,4 +10,12 @@ void main() {
       });
     }
   });
+  group("Parsing URI", () {
+    test("Go Route", () {
+      final uri = Uri.parse("sit-life://app/go?/login&3.0.0=/oa/login");
+      print(uri.query);
+      print(uri.queryParameters);
+      print(uri.queryParametersAll);
+    });
+  });
 }

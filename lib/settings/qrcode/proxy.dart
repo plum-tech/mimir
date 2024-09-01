@@ -43,9 +43,9 @@ class ProxyDeepLink extends DeepLinkHandlerProtocol {
   @override
   Future<void> onHandle({
     required BuildContext context,
-    required Uri qrCodeData,
+    required Uri data,
   }) async {
-    final (:http, :https, :all) = decode(qrCodeData);
+    final (:http, :https, :all) = decode(data);
     await onProxyFromQrCode(
       context: context,
       http: http,

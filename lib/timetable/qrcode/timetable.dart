@@ -27,9 +27,9 @@ class TimetableDeepLink implements DeepLinkHandlerProtocol {
   @override
   Future<void> onHandle({
     required BuildContext context,
-    required Uri qrCodeData,
+    required Uri data,
   }) async {
-    final timetable = decode(qrCodeData);
+    final timetable = decode(data);
     await onTimetableFromFile(
       context: context,
       timetable: timetable,

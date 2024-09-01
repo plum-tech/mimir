@@ -6,7 +6,9 @@ import 'package:go_router/go_router.dart';
 import 'package:mimir/design/adaptive/menu.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/animation/progress.dart';
+import 'package:mimir/intent/deep_link/handle.dart';
 import 'package:mimir/l10n/common.dart';
+import 'package:mimir/r.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -168,6 +170,12 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
             final uri = navigationAction.request.url;
             if (uri == null) {
               return NavigationActionPolicy.CANCEL;
+            }
+            if (uri.scheme == R.scheme) {
+              final result = await onHandleDeepLink(context: context, deepLink: uri);
+              if (result == DeepLinkHandleResult.success) {
+                return NavigationActionPolicy.CANCEL;
+              }
             }
             final canNavigateTo = widget.canNavigate;
             if (canNavigateTo != null && !await canNavigateTo(uri)) {
