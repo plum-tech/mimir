@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:rettulf/rettulf.dart';
@@ -43,6 +44,11 @@ class ColorEntry {
       inverseText: reader.b(),
     );
   }
+
+  @override
+  String toString() {
+    return "ColorEntry${inverseText ? ".inverse" : ""}(Color(0x${color.hexAlpha}))";
+  }
 }
 
 @JsonSerializable()
@@ -76,6 +82,11 @@ class DualColor {
       light: ColorEntry.deserialize(reader),
       dark: ColorEntry.deserialize(reader),
     );
+  }
+
+  @override
+  String toString() {
+    return "DualColor(dark:$dark,light:$light)";
   }
 }
 
