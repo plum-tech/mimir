@@ -80,7 +80,7 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
         PlatformIconButton(
           icon: const Icon(Icons.color_lens_outlined),
           onPressed: () {
-            context.push("/timetable/p13n");
+            context.push("/timetable/palettes");
           },
         ),
     ];
@@ -190,7 +190,7 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
           icon: Icons.palette_outlined,
           title: i18n.p13n.palette.title,
           onTap: () async {
-            await context.push("/timetable/p13n");
+            await context.push("/timetable/palettes");
           },
         ),
         PullDownItem(

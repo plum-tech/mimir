@@ -50,7 +50,7 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
       subtitle: i18n.settings.paletteDesc.text(),
       trailing: const Icon(Icons.open_in_new),
       onTap: () async {
-        await context.push("/timetable/p13n");
+        await context.push("/timetable/palettes");
       },
     );
   }

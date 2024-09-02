@@ -159,7 +159,7 @@ final _timetableRoutes = [
     builder: (ctx, state) => const MyTimetableListPage(),
   ),
   GoRoute(
-    path: "/timetable/p13n",
+    path: "/timetable/palettes",
     builder: (ctx, state) => const TimetablePaletteListPage(),
     routes: [
       GoRoute(
