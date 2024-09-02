@@ -589,29 +589,33 @@ networkTool:
   openInAppProxySettingsBtn: 打開應用程式內代理伺服器設定
   campusNetworkConnected: 已連線校園網路
   campusNetworkNotConnected: 未連線校園網路
-  schoolServerAvailable: 學校伺服器可用
-  schoolServerUnavailable: 學校伺服器不可用
-  schoolServerAvailableTip: |
+  schoolServerAvailable: |
+    ## <center>學校伺服器可用</center>
     你可以登入 OA，查看 OA 公告，並訪問需要學校伺服器的其他服務。
-  schoolServerUnavailableTip: |
+  schoolServerUnavailable: |
+    ## <center>學校伺服器不可用</center>
     你無法登入 OA，也無法訪問任何需要學校伺服器的服務。
-  studentRegAvailable: 教務系統可用
-  studentRegUnavailable: 教務系統不可用
-  ugRegAvailableTip: |
+  studentRegAvailable: |
+    ## <center>教務系統可用</center>
     你可以從教務系統匯入課程表，並查看你的考試安排和考試成績（包括GPA）。
-  ugRegUnavailableTip: |
+  studentRegUnavailable: |
+    ## <center>教務系統不可用</center>
     你無法從教務系統匯入課程表，匯入的唯一方法是從裝置上的檔案中載入它們。
+
     你的考試安排和考試成績（包括GPA）無法及時加載和更新，但如果你已經加載過一次，仍然可以查看。
-  pgRegAvailableTip: |
-    你可以從教務系統匯入課程表，並查看你的考試成績。
-  pgRegUnavailableTip: |
-    你無法從教務系統匯入課程表，匯入的唯一方法是從裝置上的檔案中載入它們。
-    你的考試成績無法及時加載和更新，但如果你已經加載過一次，仍然可以查看。
-  troubleshoot: 疑難排解
+  ywbAvailable: |
+    ## <center>應網辦可用</center>
+    你可以查看應網辦的服務並提交申請。
+  ywbUnavailable: |
+    ## <center>應網辦不可用</center>
   studentRegTroubleshoot: |
+    ## <center>疑難排解</center>
     1. 嘗試連線學校的Wi-Fi: "i-SIT","i-SIT-1x" 或 "eduroam"。
+
     2. 嘗試啟用"EasyConnect" VPN 連線校園網路。
+
     3. 嘗試通過自建的 HTTP Proxy 伺服器連線校園網路。
+
     如果上述都無法工作, 或許因為學校伺服器停機維護或崩潰, 請稍後重試。
     夜間，學校伺服器可能會暫時關閉，請等到工作日早上再試。
   studentRegUnavailableButCampusNetworkConnected: |
@@ -970,3 +974,4 @@ rename: 重新命名
 enter: 進入
 comingSoon: 即將推出
 recommendation: 推薦
+troubleshoot: 疑難排解

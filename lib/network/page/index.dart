@@ -2,16 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mimir/credentials/entity/user_type.dart';
-import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/animation/animated.dart';
 import 'package:mimir/design/widgets/icon.dart';
 import 'package:mimir/init.dart';
+import 'package:mimir/widgets/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/network/service/network.dart';
 import 'package:mimir/network/widgets/buttons.dart';
 
-// import 'package:mimir/settings/dev.dart';
 import '../connectivity.dart';
 
 import '../i18n.dart';
@@ -149,17 +147,8 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
                 connected: studentRegAvailable,
               ),
               if (studentRegAvailable == false && campusNetworkStatus != null)
-                i18n.studentRegUnavailableButCampusNetworkConnected.text(
-                  style: context.textTheme.bodyLarge,
-                  textAlign: TextAlign.center,
-                ),
-              if (studentRegAvailable == false)
-                [
-                  i18n.troubleshoot.text(style: context.textTheme.titleMedium),
-                  i18n.studentRegTroubleshoot.text(
-                    style: context.textTheme.bodyMedium,
-                  )
-                ].column(),
+                FeaturedMarkdownWidget(data: i18n.studentRegUnavailableButCampusNetworkConnected),
+              if (studentRegAvailable == false) FeaturedMarkdownWidget(data: i18n.studentRegTroubleshoot),
               YwbServerConnectivityInfo(
                 connected: ywbAvailable,
               ),
@@ -217,32 +206,12 @@ class SchoolServerConnectivityInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final widgets = <Widget>[];
     final connected = this.connected;
-    final textTheme = context.textTheme;
-    widgets.add((switch (connected) {
-      null => i18n.connecting,
-      true => i18n.schoolServerAvailable,
-      false => i18n.schoolServerUnavailable,
-    })
-        .text(
-      style: textTheme.titleMedium,
-    ));
-    Widget buildTip(String tip) {
-      return tip.text(
-        textAlign: TextAlign.center,
-        style: textTheme.bodyMedium,
-      );
-    }
-
-    switch (connected) {
-      case true:
-        widgets.add(buildTip(i18n.schoolServerAvailableTip));
-      case false:
-        widgets.add(buildTip(i18n.schoolServerUnavailableTip));
-      case null:
-    }
-    return widgets.column(caa: CrossAxisAlignment.center);
+    return switch (connected) {
+      null => i18n.connecting.text(textAlign: TextAlign.center),
+      true => FeaturedMarkdownWidget(data: i18n.schoolServerAvailable),
+      false => FeaturedMarkdownWidget(data: i18n.schoolServerUnavailable),
+    };
   }
 }
 
@@ -256,32 +225,12 @@ class YwbServerConnectivityInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final widgets = <Widget>[];
     final connected = this.connected;
-    final textTheme = context.textTheme;
-    widgets.add((switch (connected) {
-      null => i18n.connecting,
-      true => i18n.ywbAvailable,
-      false => i18n.ywbUnavailable,
-    })
-        .text(
-      style: textTheme.titleMedium,
-    ));
-    Widget buildTip(String tip) {
-      return tip.text(
-        textAlign: TextAlign.center,
-        style: textTheme.bodyMedium,
-      );
-    }
-
-    switch (connected) {
-      case true:
-        widgets.add(buildTip(i18n.ywbAvailableTip));
-      case false:
-        widgets.add(buildTip(i18n.ywbUnavailableTip));
-      case null:
-    }
-    return widgets.column(caa: CrossAxisAlignment.center);
+    return switch (connected) {
+      null => i18n.connecting.text(textAlign: TextAlign.center),
+      true => FeaturedMarkdownWidget(data: i18n.ywbAvailable),
+      false => FeaturedMarkdownWidget(data: i18n.ywbUnavailable),
+    };
   }
 }
 
@@ -295,41 +244,12 @@ class StudentRegConnectivityInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userType = ref.watch(CredentialsInit.storage.oa.$userType);
-    final widgets = <Widget>[];
     final connected = this.connected;
-    final textTheme = context.textTheme;
-    widgets.add((switch (connected) {
-      null => i18n.connecting,
-      true => i18n.studentRegAvailable,
-      false => i18n.studentRegUnavailable,
-    })
-        .text(
-      style: textTheme.titleMedium,
-    ));
-    Widget buildTip(String tip) {
-      return tip.text(
-        textAlign: TextAlign.center,
-        style: textTheme.bodyMedium,
-      );
-    }
-
-    switch (connected) {
-      case true:
-        if (userType == OaUserType.undergraduate) {
-          widgets.add(buildTip(i18n.ugRegAvailableTip));
-        } else if (userType == OaUserType.postgraduate) {
-          widgets.add(buildTip(i18n.pgRegAvailableTip));
-        }
-      case false:
-        if (userType == OaUserType.undergraduate) {
-          widgets.add(buildTip(i18n.ugRegUnavailableTip));
-        } else if (userType == OaUserType.postgraduate) {
-          widgets.add(buildTip(i18n.pgRegUnavailableTip));
-        }
-      case null:
-    }
-    return widgets.column(caa: CrossAxisAlignment.center);
+    return switch (connected) {
+      null => i18n.connecting.text(textAlign: TextAlign.center),
+      true => FeaturedMarkdownWidget(data: i18n.studentRegAvailable),
+      false => FeaturedMarkdownWidget(data: i18n.studentRegUnavailable),
+    };
   }
 }
 
@@ -353,7 +273,7 @@ class CampusNetworkConnectivityInfo extends StatelessWidget {
     }
     return [
       (status == null ? i18n.campusNetworkNotConnected : i18n.campusNetworkConnected).text(
-        style: context.textTheme.titleMedium,
+        style: context.textTheme.titleLarge,
       ),
       if (studentId != null) "${i18n.credentials.studentId}: $studentId".text(style: style),
       if (ip != null) "${i18n.network.ipAddress}: $ip".text(style: style),

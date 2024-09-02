@@ -610,34 +610,36 @@ networkTool:
   openInAppProxySettingsBtn: Open in-app proxy settings
   campusNetworkConnected: Connected to campus network
   campusNetworkNotConnected: Not connected to campus network
-  schoolServerAvailable: School server available
-  schoolServerUnavailable: School server unavailable
-  schoolServerAvailableTip: |
+  schoolServerAvailable: |
+    ## <center>School server available</center>
     You can log in to OA, view OA announcements, and access other services that require the school server.
-  schoolServerUnavailableTip: |
+  schoolServerUnavailable: |
+    ## <center>School server unavailable</center>
     You can't log in to OA, and can't access any services that requires the school server.
-  studentRegAvailable: Student registration system available
-  studentRegUnavailable: Student registration system unavailable
-  ugRegAvailableTip: |
+  studentRegAvailable: |
+    ## <center>Student registration system available</center>
     You can import timetables from student registration system, and check your exam arrangements and exam results (including GPA).
-  ugRegUnavailableTip: |
+  studentRegUnavailable: |
+    ## <center>Student registration system unavailable</center>
     You can't import timetables from student registration system. The only way to import timetables is to load them from a file on your device.
+
     Your exam arrangements, and exam results (including GPA) can't be loaded and updated in time, but can still be viewed if you have already loaded them once.
-  pgRegAvailableTip: |
-    You can import timetables from student registration system, and check your exam results.
-  pgRegUnavailableTip: |
-    You can't import timetable from student registration system. The only way to import timetables is to load them from a file on your device.
-    Your exam results can't be loaded and updated in time, but can still be viewed if you have already loaded them once.
-  ywbAvailable: SIT YWB available
-  ywbUnavailable: SIT YWB unavailable
-  ywbAvailableTip: SIT YWB is available,
-  ywbUnavailableTip:
-  troubleshoot: Troubleshoot
+  ywbAvailable: |
+    ## <center>SIT YWB available</center>
+    You can view the SIT YWB services and apply them. You can also [charge the electricity balance](https://ywb.sit.edu.cn/v1/#/app?appID=097).
+  ywbUnavailable: |
+    ## <center>SIT YWB unavailable</center>
   studentRegTroubleshoot: |
+    ## <center>Troubleshoot</center>
+
     1. Attempt to connect to the school's Wi-Fi, "i-SIT","i-SIT-1x" or "eduroam".
+
     2. Attempt to launch "EasyConnect" VPN to connect to school.
+
     3. Attempt to use a self-built proxy server to connect to campus network via HTTP proxy.
+
     If they all didn't work, it's probably due to school server downtime for maintenance or even crash, please try again later.
+
     During the night, the school server may be temporarily shut down, so please wait until the morning of a weekday to try again.
   studentRegUnavailableButCampusNetworkConnected: |
     The campus network has been connected, but school server is still inaccessible.
@@ -992,3 +994,4 @@ rename: Rename
 enter: Enter
 comingSoon: COMING SOON
 recommendation: Recommendation
+troubleshoot: Troubleshoot

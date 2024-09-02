@@ -96,6 +96,8 @@ mixin class CommonI18nMixin {
   String get create => "create".tr();
 
   String get recommendation => "recommendation".tr();
+
+  String get troubleshoot => "troubleshoot".tr();
 }
 
 class CommonI18n with CommonI18nMixin {
