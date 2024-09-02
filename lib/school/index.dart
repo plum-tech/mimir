@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -62,7 +63,8 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
                     const ExamResultUgAppCard().sliver()
                   else if (userType == OaUserType.postgraduate)
                     const ExamResultPgAppCard().sliver(),
-                if (userType == OaUserType.undergraduate && ref.watch(Dev.$on)) const StudentPlanAppCard().sliver(),
+                if (kDebugMode && userType == OaUserType.undergraduate && ref.watch(Dev.$on))
+                  const StudentPlanAppCard().sliver(),
                 const OaAnnounceAppCard().sliver(),
                 const YwbAppCard().sliver(),
               ],
