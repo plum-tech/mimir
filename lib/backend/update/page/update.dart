@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:markdown_widget/markdown_widget.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:mimir/r.dart';
@@ -49,7 +48,7 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
             leading: const Icon(Icons.featured_play_list),
             title: info.version.toString().text(),
           ),
-          MarkdownWidget(data: info.releaseNote).expanded(),
+          FeaturedMarkdownWidget(data: info.releaseNote).expanded(),
         ].column().padH(8).expanded(),
         buildSkipTile().padH(32),
         [

@@ -25,6 +25,8 @@ extension $BuildContextEx$ on BuildContext {
     } else {
       // dismissible not working with CustomScrollView
       // see https://github.com/flutter/flutter/issues/36283
+      var enableDrag = dismissible;
+      var showDragHandle = enableDrag;
       return await showModalBottomSheet<T>(
         context: this,
         builder: builder,
@@ -32,7 +34,8 @@ extension $BuildContextEx$ on BuildContext {
         isScrollControlled: true,
         useSafeArea: true,
         // It's a workaround
-        showDragHandle: true,
+        showDragHandle: showDragHandle,
+        enableDrag: enableDrag,
         useRootNavigator: useRootNavigator,
       );
     }
