@@ -4,7 +4,7 @@ import mime from 'mime'
 import { sanitizeNameForUri } from "./utils.mjs"
 import axios from "axios"
 import env from "@liplum/env"
-import ProgressBar from 'progress'
+import { Bar, Presets as BarPresets } from "cli-progress"
 const auth = env("SITMC_TEMP_SERVER_AUTH").string()
 const io = axios.create({
   // baseURL: "http://127.0.0.1:5000",
@@ -26,19 +26,21 @@ export async function uploadFile({ localFilePath, remotePath }) {
   formData.append('file', file, path.basename(localFilePath))
   formData.append('path', remotePath)
 
-  const bar = new ProgressBar('[:bar] :percent :rate/bps :etas', {
-    complete: '=',
-    head: ">",
-    incomplete: ' ',
-    width: 20,
-    total: 100,
+  const bar = new Bar({
+    noTTYOutput: true,
+    notTTYSchedule: 0,
+  }, BarPresets.shades_classic)
+  bar.start(1, 0, {
+    speed: "N/A"
   })
+
   const res = await io.put("/admin", formData, {
     onUploadProgress: (e) => {
-      const pct = Math.round((e.loaded * 100) / e.total)
-      bar.update(pct)
+      console.log(`${(e.progress * 100).toFixed(2)}%`)
+      bar.update(e.progress)
     }
   })
+  bar.stop()
 
   return res.data
 }

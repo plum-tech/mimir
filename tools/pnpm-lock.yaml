@@ -20,6 +20,9 @@ importers:
       axios:
         specifier: ^1.7.5
         version: 1.7.5
+      cli-progress:
+        specifier: ^3.12.0
+        version: 3.12.0
       csv:
         specifier: ^6.3.9
         version: 6.3.10
@@ -38,9 +41,6 @@ importers:
       node-rsa:
         specifier: ^1.1.1
         version: 1.1.1
-      progress:
-        specifier: ^2.0.3
-        version: 2.0.3
       simple-git:
         specifier: ^3.24.0
         version: 3.25.0
@@ -272,6 +272,10 @@ packages:
   chalk@5.3.0:
     resolution: {integrity: sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
+
+  cli-progress@3.12.0:
+    resolution: {integrity: sha512-tRkV3HJ1ASwm19THiiLIXLO7Im7wlTuKnvkYaTkyoAPefqjNg7W7DHKUlGRxy9vxDvbyCYQkQozvptuMkGCg8A==}
+    engines: {node: '>=4'}
 
   color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
@@ -611,10 +615,6 @@ packages:
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
-
-  progress@2.0.3:
-    resolution: {integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==}
-    engines: {node: '>=0.4.0'}
 
   proxy-from-env@1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
@@ -1009,6 +1009,10 @@ snapshots:
 
   chalk@5.3.0: {}
 
+  cli-progress@3.12.0:
+    dependencies:
+      string-width: 4.2.3
+
   color-convert@2.0.1:
     dependencies:
       color-name: 1.1.4
@@ -1337,8 +1341,6 @@ snapshots:
       minipass: 7.1.2
 
   prelude-ls@1.2.1: {}
-
-  progress@2.0.3: {}
 
   proxy-from-env@1.1.0: {}
 
