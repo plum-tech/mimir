@@ -1,10 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mimir/credentials/entity/credential.dart';
+import 'package:mimir/credentials/init.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/r.dart';
+import 'package:mimir/school/entity/school.dart';
 
 import 'package:mimir/session/sso.dart';
+import 'package:mimir/utils/dio.dart';
 
 /// jwxt.sit.edu.cn
 /// Student registration system for undergraduate
@@ -14,6 +18,41 @@ class UgRegistrationSession {
   const UgRegistrationSession({
     required SsoSession ssoSession,
   }) : _ssoSession = ssoSession;
+
+  Future<Response> importTimetable(String url, SemesterInfo info) async {
+    await Init.schoolCookieJar.deleteAll();
+    final loginRes = await _ssoSession.loginLocked(CredentialsInit.storage.oa.credentials!);
+    final response = await Init.schoolDio.request(
+      "http://jwxt.sit.edu.cn/sso/jziotlogin",
+      options: Options(
+        followRedirects: false,
+        validateStatus: (status) {
+          return status! < 400;
+        },
+      ),
+    );
+    final debugDepths = <Response>[];
+    final finalResponse = await processRedirect(
+      Init.schoolDio,
+      response,
+      debugDepths: debugDepths,
+    );
+    print(debugDepths);
+    final timetableRes = await Init.schoolDio.get(
+      url,
+      options: Options(
+        method: "POST",
+      ),
+      queryParameters: {'gnmkdm': 'N253508'},
+      data: FormData.fromMap({
+        // 学年名
+        'xnm': info.exactYear.toString(),
+        // 学期名
+        'xqm': info.semester.toUgRegFormField()
+      }),
+    );
+    return timetableRes;
+  }
 
   Future<void> _refreshCookie() async {
     await Init.schoolCookieJar.delete(R.ugRegUri, true);
@@ -57,6 +96,7 @@ class UgRegistrationSession {
       );
     }
 
+    await _refreshCookie();
     final response = await fetch();
     if (_isRedirectedToLoginPage(response)) {
       debugPrint('JwxtSession requires login');
@@ -69,6 +109,7 @@ class UgRegistrationSession {
   Future<bool> checkConnectivity({
     String url = 'http://jwxt.sit.edu.cn/',
   }) async {
+    return true;
     try {
       await Init.dioNoCookie.request(
         url,

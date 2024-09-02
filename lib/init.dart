@@ -69,18 +69,18 @@ class Init {
     }
     final uaForSchoolServer = await getUserAgentForSchoolServer();
     schoolDio = Dio(BaseOptions(
-      connectTimeout: const Duration(milliseconds: 8000),
-      receiveTimeout: const Duration(milliseconds: 8000),
-      sendTimeout: const Duration(milliseconds: 8000),
+      connectTimeout: const Duration(milliseconds: 16000),
+      receiveTimeout: const Duration(milliseconds: 16000),
+      sendTimeout: const Duration(milliseconds: 16000),
       headers: {
         "User-Agent": uaForSchoolServer,
       },
     )).withCookieJar(schoolCookieJar).withDebugging();
 
     dioNoCookie = Dio(BaseOptions(
-      connectTimeout: const Duration(milliseconds: 8000),
-      receiveTimeout: const Duration(milliseconds: 8000),
-      sendTimeout: const Duration(milliseconds: 8000),
+      connectTimeout: const Duration(milliseconds: 16000),
+      receiveTimeout: const Duration(milliseconds: 16000),
+      sendTimeout: const Duration(milliseconds: 16000),
       headers: {
         "User-Agent": uaForSchoolServer,
       },

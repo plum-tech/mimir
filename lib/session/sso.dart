@@ -44,7 +44,7 @@ const _neededHeaders = {
   "Sec-Fetch-Mode": "navigate",
   "Sec-Fetch-Site": "same-origin",
   "Sec-Fetch-User": "?1",
-  "Referer": "https://authserver.sit.edu.cn/authserver/login",
+  // "Referer": "https://authserver.sit.edu.cn/authserver/login",
 };
 
 final networkLogger = Logger(
