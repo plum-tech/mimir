@@ -28,9 +28,10 @@ export async function uploadFile({ localFilePath, remotePath }) {
 
   const bar = new ProgressBar('[:bar] :percent :rate/bps :etas', {
     complete: '=',
+    head: ">",
     incomplete: ' ',
     width: 20,
-    total: 10,
+    total: 100,
   })
   const res = await io.put("/admin", formData, {
     onUploadProgress: (e) => {

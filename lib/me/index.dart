@@ -58,8 +58,8 @@ class _MePageState extends ConsumerState<MePage> {
               ),
             ],
           ),
-          const UserProfileAppCard().sliver(),
-          if (dev) const EduEmailAppCard().sliver(),
+          if (dev) const UserProfileAppCard().sliver(),
+          const EduEmailAppCard().sliver(),
           SliverList.list(children: [
             buildQQGroupTile(),
             buildWechatOfficialAccountTile(),
