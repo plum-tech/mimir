@@ -1,18 +1,18 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mimir/settings/dev.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:universal_platform/universal_platform.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../entity/service.dart';
 import '../init.dart';
-import '../page/form.dart';
 import '../widgets/detail.dart';
 import "../i18n.dart";
 
-class YwbServiceDetailsPage extends StatefulWidget {
+class YwbServiceDetailsPage extends ConsumerStatefulWidget {
   final YwbService meta;
 
   const YwbServiceDetailsPage({
@@ -21,10 +21,10 @@ class YwbServiceDetailsPage extends StatefulWidget {
   });
 
   @override
-  State<YwbServiceDetailsPage> createState() => _YwbServiceDetailsPageState();
+  ConsumerState<YwbServiceDetailsPage> createState() => _YwbServiceDetailsPageState();
 }
 
-class _YwbServiceDetailsPageState extends State<YwbServiceDetailsPage> {
+class _YwbServiceDetailsPageState extends ConsumerState<YwbServiceDetailsPage> {
   String get id => widget.meta.id;
 
   String get name => widget.meta.name;
@@ -75,7 +75,7 @@ class _YwbServiceDetailsPageState extends State<YwbServiceDetailsPage> {
           controller: controller,
           slivers: [
             SliverAppBar.medium(
-              title: name.text(),
+              title: (ref.watch(Dev.$on) ? "$name#$id": name).text(),
               actions: [
                 PlatformTextButton(
                   onPressed: openInApp,
@@ -96,19 +96,26 @@ class _YwbServiceDetailsPageState extends State<YwbServiceDetailsPage> {
     );
   }
 
-  void openInApp() {
-    if (kIsWeb || UniversalPlatform.isDesktop) {
-      guardLaunchUrlString(context, "http://ywb.sit.edu.cn/v1/#/");
+  Future<void> openInApp() async {
+    final serviceUrl = "http://ywb.sit.edu.cn/v1/#/app?appID=${widget.meta.id}&appName=${widget.meta.name}";
+    if (_blocked.contains(widget.meta.id)) {
+      await launchUrlString(serviceUrl, mode: LaunchMode.externalApplication);
     } else {
-      // 跳转到申请页面
-      final String applyUrl =
-          'http://ywb.sit.edu.cn/v1/#/flow?src=http://ywb.sit.edu.cn/unifri-flow/WF/MyFlow.htm?FK_Flow=$id&title=${widget.meta.name}';
-      context.navigator.push(MaterialPageRoute(
-        builder: (_) => YwbInAppViewPage(
-          title: name,
-          url: "http://ywb.sit.edu.cn/v1/#/app?appID=${widget.meta.id}&appName=${widget.meta.name}",
-        ),
-      ));
+      await guardLaunchUrlString(context, serviceUrl);
     }
+
+    // // 跳转到申请页面
+    // final String applyUrl =
+    //     'http://ywb.sit.edu.cn/v1/#/flow?src=http://ywb.sit.edu.cn/unifri-flow/WF/MyFlow.htm?FK_Flow=$id&title=${widget.meta.name}';
+    // context.navigator.push(MaterialPageRoute(
+    //   builder: (_) => YwbInAppViewPage(
+    //     title: name,
+    //     url: "http://ywb.sit.edu.cn/v1/#/app?appID=${widget.meta.id}&appName=${widget.meta.name}",
+    //   ),
+    // ));
   }
 }
+
+const _blocked = [
+  "097",
+];
