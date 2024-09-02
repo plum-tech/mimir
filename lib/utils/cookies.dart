@@ -16,6 +16,7 @@ extension WebViewCookieX on Cookie {
       name: name,
       value: value,
       domain: domain ?? uri.host,
+      path: path ?? "/",
     );
   }
 }

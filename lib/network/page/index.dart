@@ -10,6 +10,7 @@ import 'package:mimir/init.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/network/service/network.dart';
 import 'package:mimir/network/widgets/buttons.dart';
+
 // import 'package:mimir/settings/dev.dart';
 import '../connectivity.dart';
 
@@ -26,12 +27,12 @@ class NetworkToolPage extends StatefulWidget {
 class _NetworkToolPageState extends State<NetworkToolPage> {
   bool? studentRegAvailable;
   bool? schoolServerAvailable;
-  // bool? ywbAvailable;
+  bool? ywbAvailable;
   CampusNetworkStatus? campusNetworkStatus;
   ConnectivityStatus? connectivityStatus;
   late StreamSubscription<bool> studentRegChecker;
   late StreamSubscription<bool> schoolServerChecker;
-  // late StreamSubscription<bool> ywbChecker;
+  late StreamSubscription<bool> ywbChecker;
   late StreamSubscription<ConnectivityStatus> connectivityChecker;
   late StreamSubscription<CampusNetworkStatus?> campusNetworkChecker;
 
@@ -94,24 +95,22 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
         });
       }
     });
-    // if (Dev.on) {
-    //   ywbChecker = checkPeriodic(
-    //     period: const Duration(milliseconds: 4000),
-    //     check: () async {
-    //       try {
-    //         return await Init.ywbSession.checkConnectivity();
-    //       } catch (err) {
-    //         return false;
-    //       }
-    //     },
-    //   ).listen((connected) {
-    //     if (ywbAvailable != connected) {
-    //       setState(() {
-    //         ywbAvailable = connected;
-    //       });
-    //     }
-    //   });
-    // }
+    ywbChecker = checkPeriodic(
+      period: const Duration(milliseconds: 4000),
+      check: () async {
+        try {
+          return await Init.ywbSession.checkConnectivity();
+        } catch (err) {
+          return false;
+        }
+      },
+    ).listen((connected) {
+      if (ywbAvailable != connected) {
+        setState(() {
+          ywbAvailable = connected;
+        });
+      }
+    });
   }
 
   @override
@@ -120,7 +119,7 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
     studentRegChecker.cancel();
     campusNetworkChecker.cancel();
     schoolServerChecker.cancel();
-    // if (Dev.on) ywbChecker.cancel();
+    ywbChecker.cancel();
     super.dispose();
   }
 
@@ -161,10 +160,9 @@ class _NetworkToolPageState extends State<NetworkToolPage> {
                     style: context.textTheme.bodyMedium,
                   )
                 ].column(),
-              // if (Dev.on)
-              //   YwbServerConnectivityInfo(
-              //     connected: ywbAvailable,
-              //   ),
+              YwbServerConnectivityInfo(
+                connected: ywbAvailable,
+              ),
             ].map((widget) {
               return widget.padSymmetric(v: 16, h: 8).inOutlinedCard().animatedSized();
             }).toList(),

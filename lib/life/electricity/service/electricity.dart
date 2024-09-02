@@ -5,7 +5,7 @@ import 'package:mimir/init.dart';
 import 'package:mimir/r.dart';
 import '../entity/balance.dart';
 
-const _balanceUrl = "https://xgfy.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?DoType=DBAccess_RunSQLReturnTable";
+const _balanceUrl = "https://ywb.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?DoType=DBAccess_RunSQLReturnTable";
 
 class ElectricityService {
   Dio get _dio => Init.schoolDio;

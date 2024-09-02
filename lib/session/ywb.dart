@@ -20,15 +20,15 @@ class YwbSession {
   });
 
   Future<bool> checkConnectivity({
-    String url = "https://ywb.sit.edu.cn",
+    String url = "https://ywb.sit.edu.cn/v1",
   }) async {
     try {
       await Init.dioNoCookie.request(
         url,
         options: Options(
           method: "GET",
-          sendTimeout: const Duration(milliseconds: 3000),
-          receiveTimeout: const Duration(milliseconds: 3000),
+          sendTimeout: const Duration(milliseconds: 5000),
+          receiveTimeout: const Duration(milliseconds: 5000),
           contentType: Headers.formUrlEncodedContentType,
           followRedirects: false,
           validateStatus: (status) => status! < 400,
@@ -45,7 +45,7 @@ class YwbSession {
     required String password,
   }) async {
     final response = await dio.post(
-      "https://xgfy.sit.edu.cn/unifri-flow/login",
+      "https://ywb.sit.edu.cn/unifri-flow/login",
       data: {
         'account': username,
         'userPassword': password,

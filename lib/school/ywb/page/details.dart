@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
@@ -75,6 +76,12 @@ class _YwbServiceDetailsPageState extends State<YwbServiceDetailsPage> {
           slivers: [
             SliverAppBar.medium(
               title: name.text(),
+              actions: [
+                PlatformTextButton(
+                  onPressed: openInApp,
+                  child: i18n.details.apply.text(),
+                )
+              ],
             ),
             if (details != null)
               SliverList.separated(
@@ -85,13 +92,6 @@ class _YwbServiceDetailsPageState extends State<YwbServiceDetailsPage> {
           ],
         ),
       ),
-      // TODO: Fix ywb application
-      // floatingActionButton: AutoHideFAB.extended(
-      //   controller: controller,
-      //   onPressed: () => openInApp(),
-      //   icon: Icon(context.icons.rightChevron),
-      //   label: i18n.details.apply.text(),
-      // ),
       floatingActionButton: !fetching ? null : const CircularProgressIndicator.adaptive(),
     );
   }
@@ -102,8 +102,13 @@ class _YwbServiceDetailsPageState extends State<YwbServiceDetailsPage> {
     } else {
       // 跳转到申请页面
       final String applyUrl =
-          'http://ywb.sit.edu.cn/v1/#/flow?src=http://ywb.sit.edu.cn/unifri-flow/WF/MyFlow.htm?FK_Flow=$id';
-      context.navigator.push(MaterialPageRoute(builder: (_) => YwbInAppViewPage(title: name, url: applyUrl)));
+          'http://ywb.sit.edu.cn/v1/#/flow?src=http://ywb.sit.edu.cn/unifri-flow/WF/MyFlow.htm?FK_Flow=$id&title=${widget.meta.name}';
+      context.navigator.push(MaterialPageRoute(
+        builder: (_) => YwbInAppViewPage(
+          title: name,
+          url: "http://ywb.sit.edu.cn/v1/#/app?appID=${widget.meta.id}&appName=${widget.meta.name}",
+        ),
+      ));
     }
   }
 }

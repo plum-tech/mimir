@@ -38,7 +38,7 @@ class YwbApplicationDetailSectionBlock extends StatelessWidget {
 
   Widget buildHtmlSection(String content) {
     // TODO: cannot download pdf files
-    final html = content.replaceAll('../app/files/', 'https://xgfy.sit.edu.cn/app/files/');
+    final html = content.replaceAll('../app/files/', 'https://ywb.sit.edu.cn/app/files/');
     return RestyledHtmlWidget(
       html,
       async: false,

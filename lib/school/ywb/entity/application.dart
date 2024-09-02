@@ -18,7 +18,7 @@ enum YwbApplicationType {
   String l10nName() => "ywb.type.$name".tr();
 
   String get messageListUrl =>
-      'https://xgfy.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?DoType=HttpHandler&DoMethod=$method&HttpHandlerName=BP.WF.HttpHandler.WF';
+      'https://ywb.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?DoType=HttpHandler&DoMethod=$method&HttpHandlerName=BP.WF.HttpHandler.WF';
 }
 
 final _tsFormat = DateFormat("yyyy-MM-dd hh:mm");

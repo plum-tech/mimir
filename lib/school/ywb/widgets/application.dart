@@ -51,6 +51,6 @@ class YwbApplicationTrackTile extends StatelessWidget {
 }
 
 // final String resultUrl =
-//     'https://xgfy.sit.edu.cn/unifri-flow/WF/mobile/index.html?ismobile=1&FK_Flow=${msg.functionId}&WorkID=${msg.workId}&IsReadonly=1&IsView=1';
+//     'https://ywb.sit.edu.cn/unifri-flow/WF/mobile/index.html?ismobile=1&FK_Flow=${msg.functionId}&WorkID=${msg.workId}&IsReadonly=1&IsView=1';
 // Navigator.of(context)
 //     .push(MaterialPageRoute(builder: (_) => YwbInAppViewPage(title: msg.name, url: resultUrl)));
