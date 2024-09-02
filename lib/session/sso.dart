@@ -44,7 +44,6 @@ const _neededHeaders = {
   "Sec-Fetch-Mode": "navigate",
   "Sec-Fetch-Site": "same-origin",
   "Sec-Fetch-User": "?1",
-  // "Referer": "https://authserver.sit.edu.cn/authserver/login",
 };
 
 final networkLogger = Logger(
@@ -91,8 +90,8 @@ class SsoSession {
         url,
         options: Options(
           method: "GET",
-          sendTimeout: const Duration(milliseconds: 3000),
-          receiveTimeout: const Duration(milliseconds: 3000),
+          sendTimeout: const Duration(milliseconds: 5000),
+          receiveTimeout: const Duration(milliseconds: 5000),
           contentType: Headers.formUrlEncodedContentType,
           followRedirects: false,
           validateStatus: (status) => status! < 400,
@@ -128,30 +127,27 @@ class SsoSession {
   Future<Response> _request(
     String url, {
     Map<String, String>? queryParameters,
-    dynamic data,
+    dynamic Function()? data,
     Options? options,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    options ??= Options();
     final debugDepths = <Response>[];
-    Future<Response> requestNormally() async {
+    Future<Response> fetch() async {
+      debugDepths.clear();
       final response = await dio.request(
         url,
         queryParameters: queryParameters,
-        options: options?.copyWith(
+        options: (options ?? Options()).copyWith(
           followRedirects: false,
           headers: _neededHeaders,
-          validateStatus: (status) {
-            return status! < 400;
-          },
+          validateStatus: (status) => status! < 400,
         ),
-        data: data,
+        data: data?.call(),
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      final finalResponse = await processRedirect(
-        dio,
+      final finalResponse = await dio.processRedirect(
         response,
         debugDepths: debugDepths,
       );
@@ -159,21 +155,21 @@ class SsoSession {
     }
 
     // request normally at first
-    final firstResponse = await requestNormally();
+    var res = await fetch();
 
     // check if the response is the login page. if so, login it first.
-    if (firstResponse.realUri.toString().contains(_loginUrl)) {
+    if (res.realUri.toString().contains(_loginUrl)) {
       final credentials = CredentialsInit.storage.oa.credentials;
       if (credentials == null) {
         throw OaCredentialsRequiredException(url: url);
       }
+      await cookieJar.delete(R.authServerUri, true);
+      await cookieJar.delete(R.sitUri, true);
       await cookieJar.delete(Uri.parse(url), true);
       await loginLocked(credentials);
-      debugDepths.clear();
-      return await requestNormally();
-    } else {
-      return firstResponse;
+      res = await fetch();
     }
+    return res;
   }
 
   void _setOnline(bool isOnline) {
@@ -357,8 +353,7 @@ class SsoSession {
       ),
     );
     final debugDepths = <Response>[];
-    final finalResponse = await processRedirect(
-      dio,
+    final finalResponse = await dio.processRedirect(
       res,
       headers: _neededHeaders,
       debugDepths: debugDepths,
@@ -369,7 +364,7 @@ class SsoSession {
   Future<Response> request(
     String url, {
     Map<String, String>? queryParameters,
-    data,
+    dynamic Function()? data,
     Options? options,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
@@ -377,17 +372,13 @@ class SsoSession {
     networkLogger.i("$SsoSession.request ${DateTime.now().toIso8601String()}");
     return await _ssoLock.run<Response>(() async {
       networkLogger.i("$SsoSession.request-locked ${DateTime.now().toIso8601String()}");
-      try {
-        return await _request(
-          url,
-          queryParameters: queryParameters,
-          data: data,
-          options: options,
-        );
-      } catch (error, stackTrace) {
-        debugPrintError(error, stackTrace);
-        rethrow;
-      }
+      final res = await _request(
+        url,
+        queryParameters: queryParameters,
+        data: data,
+        options: options,
+      );
+      return res;
     });
   }
 }

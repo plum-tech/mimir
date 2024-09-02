@@ -103,11 +103,7 @@ class OaAnnounceService {
 
   Future<OaAnnounceListPayload> getAnnounceList(OaAnnounceCat cat, int pageIndex) async {
     final response = await _session.request(
-      'https://myportal.sit.edu.cn/detach.portal?pageIndex=$pageIndex&groupid=&action=bulletinsMoreView&.ia=false&pageSize=&.pmn=view&.pen=${cat.internalId}',
-      options: Options(
-        method: "GET",
-      ),
-    );
+        'https://myportal.sit.edu.cn/detach.portal?pageIndex=$pageIndex&groupid=&action=bulletinsMoreView&.ia=false&pageSize=&.pmn=view&.pen=${cat.internalId}');
     final html = BeautifulSoup(response.data);
     return _parseAnnounceListPage(html.html!);
   }

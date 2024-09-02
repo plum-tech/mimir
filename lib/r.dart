@@ -56,6 +56,7 @@ class R {
     zhHantLocale,
   ];
 
+  static final sitUri = Uri(scheme: "https", host: "sit.edu.cn");
   static final ugRegUri = Uri(scheme: "http", host: "jwxt.sit.edu.cn");
   static final pgRegUri = Uri(scheme: "http", host: "gms.sit.edu.cn");
   static final authServerUri = Uri(scheme: "https", host: "authserver.sit.edu.cn");

@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -79,12 +78,7 @@ class _TeacherEvaluationPageState extends ConsumerState<TeacherEvaluationPage> {
 
   Future<void> loadCookies() async {
     // refresh the cookies
-    await Init.ugRegSession.request(
-      teacherEvaluationUri.toString(),
-      options: Options(
-        method: "GET",
-      ),
-    );
+    await Init.ugRegSession.request(teacherEvaluationUri.toString());
     final cookies = await Init.schoolCookieJar.loadAsWebViewCookie(teacherEvaluationUri);
     setState(() {
       this.cookies = cookies;
@@ -99,6 +93,7 @@ class _TeacherEvaluationPageState extends ConsumerState<TeacherEvaluationPage> {
         appBar: AppBar(
           title: i18n.teacherEvalTitle.text(),
         ),
+        body: const CircularProgressIndicator.adaptive().center(),
       );
     }
     return WebViewPage(

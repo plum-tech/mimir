@@ -46,7 +46,7 @@ class LibraryAuthService {
       },
       options: disableRedirectFormEncodedOptions(),
     );
-    return processRedirect(dio, response);
+    return dio.processRedirect(response);
   }
 
   Future<RSAAsymmetricKey> _getRSAPublicKey() async {

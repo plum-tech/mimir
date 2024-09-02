@@ -1,14 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/credentials/entity/credential.dart';
-import 'package:mimir/credentials/init.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/r.dart';
-import 'package:mimir/school/entity/school.dart';
-
 import 'package:mimir/session/sso.dart';
-import 'package:mimir/utils/dio.dart';
 
 /// jwxt.sit.edu.cn
 /// Student registration system for undergraduate
@@ -19,52 +14,41 @@ class UgRegistrationSession {
     required SsoSession ssoSession,
   }) : _ssoSession = ssoSession;
 
-  Future<Response> importTimetable(String url, SemesterInfo info) async {
-    await Init.schoolCookieJar.deleteAll();
-    final loginRes = await _ssoSession.loginLocked(CredentialsInit.storage.oa.credentials!);
-    final response = await Init.schoolDio.request(
-      "http://jwxt.sit.edu.cn/sso/jziotlogin",
-      options: Options(
-        followRedirects: false,
-        validateStatus: (status) {
-          return status! < 400;
-        },
-      ),
-    );
-    final debugDepths = <Response>[];
-    final finalResponse = await processRedirect(
-      Init.schoolDio,
-      response,
-      debugDepths: debugDepths,
-    );
-    print(debugDepths);
-    final timetableRes = await Init.schoolDio.get(
-      url,
-      options: Options(
-        method: "POST",
-      ),
-      queryParameters: {'gnmkdm': 'N253508'},
-      data: FormData.fromMap({
-        // 学年名
-        'xnm': info.exactYear.toString(),
-        // 学期名
-        'xqm': info.semester.toUgRegFormField()
-      }),
-    );
-    return timetableRes;
-  }
+  // Future<Response> importTimetable(String url, SemesterInfo info) async {
+  //   await Init.schoolCookieJar.deleteAll();
+  //   final loginRes = await _ssoSession.loginLocked(CredentialsInit.storage.oa.credentials!);
+  //   final response = await Init.schoolDio.request(
+  //     "http://jwxt.sit.edu.cn/sso/jziotlogin",
+  //     options: Options(
+  //       followRedirects: false,
+  //       validateStatus: (status) {
+  //         return status! < 400;
+  //       },
+  //     ),
+  //   );
+  //   final debugDepths = <Response>[];
+  //   final finalResponse = await Init.schoolDio.processRedirect(
+  //     response,
+  //     debugDepths: debugDepths,
+  //   );
+  //   print(debugDepths);
+  //   final timetableRes = await Init.schoolDio.get(
+  //     url,
+  //     options: Options(
+  //       method: "POST",
+  //     ),
+  //     queryParameters: {'gnmkdm': 'N253508'},
+  //     data: FormData.fromMap({
+  //       // 学年名
+  //       'xnm': info.exactYear.toString(),
+  //       // 学期名
+  //       'xqm': info.semester.toUgRegFormField()
+  //     }),
+  //   );
+  //   return timetableRes;
+  // }
 
-  Future<void> _refreshCookie() async {
-    await Init.schoolCookieJar.delete(R.ugRegUri, true);
-    await _ssoSession.request(
-      'http://jwxt.sit.edu.cn/sso/jziotlogin',
-      options: Options(
-        method: "GET",
-      ),
-    );
-  }
-
-  bool _isRedirectedToLoginPage(Response response) {
+  bool _isLoginRequired(Response response) {
     final realPath = response.realUri.path;
     return realPath.endsWith('jwglxt/xtgl/login_slogin.html');
   }
@@ -72,36 +56,32 @@ class UgRegistrationSession {
   Future<Response> request(
     String url, {
     Map<String, String>? queryParameters,
-    data,
+    FormData Function()? data,
     Options? options,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    options ??= Options();
-    // TODO: is this really necessary?
-    options.contentType = 'application/x-www-form-urlencoded;charset=utf-8';
     Future<Response> fetch() async {
       return await _ssoSession.request(
         url,
         queryParameters: queryParameters,
         data: data,
-        options: options?.copyWith(
+        options: (options ?? Options()).copyWith(
           followRedirects: false,
-          validateStatus: (status) {
-            return status! < 400;
-          },
+          validateStatus: (status) => status! < 400,
         ),
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
     }
 
-    await _refreshCookie();
-    final response = await fetch();
-    if (_isRedirectedToLoginPage(response)) {
+    var response = await fetch();
+    if (_isLoginRequired(response)) {
       debugPrint('JwxtSession requires login');
-      await _refreshCookie();
-      return await fetch();
+      await Init.schoolCookieJar.delete(R.ugRegUri, true);
+      await _ssoSession.request('http://jwxt.sit.edu.cn/sso/jziotlogin');
+      // re-fetch the same
+      response = await fetch();
     }
     return response;
   }
@@ -109,15 +89,13 @@ class UgRegistrationSession {
   Future<bool> checkConnectivity({
     String url = 'http://jwxt.sit.edu.cn/',
   }) async {
-    return true;
     try {
       await Init.dioNoCookie.request(
         url,
         options: Options(
           method: "GET",
-          sendTimeout: const Duration(milliseconds: 3000),
-          receiveTimeout: const Duration(milliseconds: 3000),
-          contentType: Headers.formUrlEncodedContentType,
+          sendTimeout: const Duration(milliseconds: 6000),
+          receiveTimeout: const Duration(milliseconds: 6000),
           followRedirects: false,
           validateStatus: (status) => status! < 400,
         ),

@@ -12,21 +12,17 @@ class PgRegistrationSession {
   Future<Response> request(
     String url, {
     Map<String, String>? para,
-    data,
+    FormData Function()? data,
     Options? options,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    options ??= Options();
-    // TODO: is this really necessary?
-    options.contentType = 'application/x-www-form-urlencoded;charset=utf-8';
-
     Future<Response> fetch() async {
       return await ssoSession.request(
         url,
         queryParameters: para,
         data: data,
-        options: options,
+        options: options ?? Options(),
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
@@ -44,9 +40,6 @@ class PgRegistrationSession {
   Future<bool> authGmsService() async {
     final authRes = await ssoSession.request(
       "https://authserver.sit.edu.cn/authserver/login?service=http%3A%2F%2Fgms.sit.edu.cn%2Fepstar%2Fweb%2Fswms%2Fmainframe%2Fhome%2Findex.jsp",
-      options: Options(
-        method: "GET",
-      ),
     );
     return authRes.statusCode == 302;
   }

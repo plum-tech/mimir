@@ -47,14 +47,14 @@ class ExamResultUgService {
         'gnmkdm': 'N305005',
         'doType': 'query',
       },
-      data: {
+      data: () => FormData.fromMap({
         // 学年名
         'xnm': year == null ? "" : year.toString(),
         // 学期名
         'xqm': info.semester.toUgRegFormField(),
         // 获取成绩最大数量
         'queryModel.showCount': 5000,
-      },
+      }),
     );
     progress.value = 0.2;
     final resultList = _parseScoreList(response.data);
@@ -88,7 +88,7 @@ class ExamResultUgService {
         method: "POST",
       ),
       queryParameters: {'gnmkdm': 'N305005'},
-      data: FormData.fromMap({
+      data: () => FormData.fromMap({
         // 班级
         'jxb_id': classId,
         // 学年名

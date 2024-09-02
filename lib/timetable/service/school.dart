@@ -30,20 +30,20 @@ class TimetableService {
 
   /// 获取本科生课表
   Future<SitTimetable> fetchUgTimetable(SemesterInfo info) async {
-    // final response = await _ugRegSession.request(
-    //   _undergraduateTimetableUrl,
-    //   options: Options(
-    //     method: "POST",
-    //   ),
-    //   queryParameters: {'gnmkdm': 'N253508'},
-    //   data: {
-    //     // 学年名
-    //     'xnm': info.exactYear.toString(),
-    //     // 学期名
-    //     'xqm': info.semester.toUgRegFormField()
-    //   },
-    // );
-    final response = await _ugRegSession.importTimetable(_undergraduateTimetableUrl, info);
+    final response = await _ugRegSession.request(
+      _undergraduateTimetableUrl,
+      options: Options(
+        method: "POST",
+      ),
+      queryParameters: {'gnmkdm': 'N253508'},
+      data: () => FormData.fromMap({
+        // 学年名
+        'xnm': info.exactYear.toString(),
+        // 学期名
+        'xqm': info.semester.toUgRegFormField()
+      }),
+    );
+    // final response = await _ugRegSession.importTimetable(_undergraduateTimetableUrl, info);
     final json = response.data;
     return parseUndergraduateTimetableFromRaw(
       json,
@@ -58,10 +58,10 @@ class TimetableService {
       options: Options(
         method: "POST",
       ),
-      data: {
+      data: () => FormData.fromMap({
         "excel": "true",
         "XQDM": _toPgSemesterText(info),
-      },
+      }),
     );
     return parsePostgraduateTimetableFromRaw(
       resultList: await ExamResultInit.pgService.fetchResultRawList(),
