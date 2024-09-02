@@ -104,9 +104,11 @@ class CommonI18n with CommonI18nMixin {
   const CommonI18n();
 }
 
-class NetworkI18n {
+class NetworkI18n with NetworkI18nMixin {
   const NetworkI18n();
+}
 
+mixin class NetworkI18nMixin {
   static const ns = "network";
 
   String get error => "$ns.error".tr();

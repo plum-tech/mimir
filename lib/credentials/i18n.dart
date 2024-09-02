@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:mimir/l10n/common.dart';
 
-class CredentialsI18n with CommonI18nMixin {
+class CredentialsI18n with CredentialsI18nMixin {
   const CredentialsI18n();
+}
 
+mixin class CredentialsI18nMixin {
   static const ns = "credentials";
 
   String get account => "$ns.account".tr();
@@ -14,7 +15,7 @@ class CredentialsI18n with CommonI18nMixin {
 class OaCredentialsI18n extends CredentialsI18n {
   const OaCredentialsI18n();
 
-  static const ns = "${CredentialsI18n.ns}.oa";
+  static const ns = "${CredentialsI18nMixin.ns}.oa";
 
   String get studentId => "$ns.studentId".tr();
 

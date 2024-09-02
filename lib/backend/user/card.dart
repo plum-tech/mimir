@@ -5,7 +5,7 @@ import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/widgets/app.dart';
 import 'package:rettulf/rettulf.dart';
 
-import "i18n.dart";
+import "../i18n.dart";
 
 class UserProfileAppCard extends ConsumerStatefulWidget {
   const UserProfileAppCard({super.key});
@@ -48,14 +48,14 @@ class _MimirLoginAppCardState extends ConsumerState<MimirLoginAppCard> {
   @override
   Widget build(BuildContext context) {
     return AppCard(
-      title: "Sign in Ing Account".text(),
+      title: i18n.auth.signInTitle.text(),
       leftActions: [
         FilledButton.icon(
           icon: const Icon(Icons.login),
           onPressed: () async {
             await XMimirUser.signIn(context);
           },
-          label: "Sign in".text(),
+          label: i18n.auth.signIn.text(),
         ),
       ],
     );

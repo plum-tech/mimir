@@ -19,6 +19,8 @@ class R {
 
   static String get appNameL10n => "appName".tr();
 
+  static String get accountNameL10n => "accountName".tr();
+
   static late AppMeta meta;
   static late String uuid;
 

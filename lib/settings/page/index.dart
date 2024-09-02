@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/backend/settings/page/index.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
@@ -80,25 +81,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     }
 
     if (devOn) {
-      final signedIn = ref.watch(CredentialsInit.storage.mimir.$signedIn);
-      if (signedIn) {
-        all.add(PageNavigationTile(
-          title: "Ing Account".text(),
-          subtitle: "Ing Account".text(),
-          leading: const Icon(Icons.person_rounded),
-          path: "/settings/mimir",
-        ));
-      } else {
-        const oaLogin = OaLoginI18n();
-        all.add(ListTile(
-          title: "Sign in Ing Account".text(),
-          subtitle: "Sign in your Ing Account".text(),
-          leading: const Icon(Icons.person_rounded),
-          onTap: () {
-            context.push("/mimir/sign-in");
-          },
-        ));
-      }
+      all.add(const MimirCredentialsSettingsTile());
     }
 
     all.add(const Divider());

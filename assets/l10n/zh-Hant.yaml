@@ -1,4 +1,5 @@
 appName: 小應生活
+accountName: 小應賬戶
 mimir:
   forum:
     navigation: 社群
@@ -621,7 +622,10 @@ networkTool:
   studentRegUnavailableButCampusNetworkConnected: |
     已經連線到校園網路，但依然無法訪問學校伺服器。
     這或許因為學校伺服器停機維護或崩潰, 請稍後重試。
-login:
+auth:
+  signIn: 登入
+  signUp: 註冊
+  signOut: 登出
   login: 登入
   forgotPwd: 忘記密碼?
   validateInputAccountPwdRequest: 請檢查你鍵入的賬戶和密碼

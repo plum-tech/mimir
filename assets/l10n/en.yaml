@@ -1,15 +1,23 @@
 appName: SIT Life
+accountName: Ing Account
 mimir:
   forum:
     navigation: Forum
     title: Ing Forum
   bulletin:
     title: Bulletin
+  school:
+    title: School
+    10259: Shanghai Institute of Technology
   auth:
+    signInTitle: Sign-in :@accountName
+    acceptAgreements: I've read and accepted
+    authMethodsAvailable: We can't verify your student status from the school currently.
+    authMethodUnimpl: This method is no supported in the the current version of the app. Please update the app.
     schoolId:
       name: School ID
       disclaimer: |
-        You will sign in to your Ing Account,
+        You will sign in to your :@accountName,
         which is exclusively for the extended services of the @:appName App.
 
         This account is NOT LINKED to the account provided by your school and DOES NOT share any data with it.
@@ -644,7 +652,10 @@ networkTool:
   studentRegUnavailableButCampusNetworkConnected: |
     The campus network has been connected, but school server is still inaccessible.
     It's probably due to school server downtime for maintenance or even crash, please try again later.
-login:
+auth:
+  signIn: Sign in
+  signUp: Sign up
+  signOut: Sign out
   login: Login
   forgotPwd: Forgot password?
   validateInputAccountPwdRequest: Please check the account and password you entered

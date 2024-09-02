@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mimir/credentials/entity/credential.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/credentials/init.dart';
-import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/design/widgets/navigation.dart';
+import 'package:mimir/r.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/design/adaptive/multiplatform.dart';
-import '../i18n.dart';
+
+import '../../i18n.dart';
 
 class MimirSettingsPage extends ConsumerStatefulWidget {
   const MimirSettingsPage({super.key});
@@ -26,7 +26,7 @@ class _CredentialsPageState extends ConsumerState<MimirSettingsPage> {
             pinned: true,
             snap: false,
             floating: false,
-            title: "SIT Life account".text(),
+            title: R.accountNameL10n.text(),
           ),
           buildBody(),
         ],
@@ -56,28 +56,38 @@ class _CredentialsPageState extends ConsumerState<MimirSettingsPage> {
     );
   }
 
-  Widget buildAccount(Credentials credential) {
-    return ListTile(
-      title: i18n.oaCredentials.oaAccount.text(),
-      subtitle: credential.account.text(),
-      leading: Icon(context.icons.person),
-      trailing: Icon(context.icons.copy),
-      onTap: () async {
-        context.showSnackBar(content: i18n.copyTipOf(i18n.oaCredentials.oaAccount).text());
-        // Copy the student ID to clipboard
-        await Clipboard.setData(ClipboardData(text: credential.account));
-      },
-    );
-  }
-
   Widget buildSignOut() {
     return ListTile(
-      title: "Sign out".text(),
-      subtitle: "Sign out your SIT Life account".text(),
+      title: i18n.auth.signOut.text(),
+      // subtitle: "Sign out your Ing Account".text(),
       leading: const Icon(Icons.logout),
       onTap: () async {
         CredentialsInit.storage.mimir.signedIn = false;
       },
     );
+  }
+}
+
+class MimirCredentialsSettingsTile extends ConsumerWidget {
+  const MimirCredentialsSettingsTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final signedIn = ref.watch(CredentialsInit.storage.mimir.$signedIn);
+    if (signedIn) {
+      return PageNavigationTile(
+        title: R.accountNameL10n.text(),
+        leading: const Icon(Icons.person_rounded),
+        path: "/settings/mimir",
+      );
+    } else {
+      return ListTile(
+        title: i18n.auth.signInTitle.text(),
+        leading: const Icon(Icons.person_rounded),
+        onTap: () {
+          context.push("/mimir/sign-in");
+        },
+      );
+    }
   }
 }

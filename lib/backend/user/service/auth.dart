@@ -4,7 +4,7 @@ import 'package:mimir/backend/user/entity/verify.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/settings/dev.dart';
 
-import '../entity/user.dart';
+import '../../entity/user.dart';
 
 String get _base => Dev.betaBackendAPI
     ? "https://beta-api.mysit.life/v1"

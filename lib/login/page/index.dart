@@ -13,6 +13,7 @@ import 'package:mimir/credentials/utils.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/init.dart';
+import 'package:mimir/l10n/common.dart';
 import 'package:mimir/login/utils.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/school/widgets/campus.dart';
@@ -26,7 +27,13 @@ import '../i18n.dart';
 import '../widgets/forgot_pwd.dart';
 import '../x.dart';
 
-const _i18n = OaLoginI18n();
+const _i18n = _I18n();
+
+class _I18n extends OaLoginI18n {
+  const _I18n();
+
+  final network = const NetworkI18n();
+}
 
 const oaForgotLoginPasswordUrl =
     "https://authserver.sit.edu.cn/authserver/getBackPasswordMainPage.do?service=https%3A%2F%2Fmyportal.sit.edu.cn%3A443%2F";

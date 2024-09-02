@@ -29,7 +29,7 @@ void debugPrintError(Object? error, [StackTrace? stackTrace]) {
   }
 }
 
-const _i18n = CommonLoginI18n();
+const _i18n = CommonAuthI18n();
 
 Future<void> handleRequestError(Object? error, [StackTrace? stackTrace]) async {
   debugPrintError(error, stackTrace);

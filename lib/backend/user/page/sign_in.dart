@@ -14,8 +14,8 @@ import 'package:mimir/widgets/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../init.dart';
-import '../entity/user.dart';
-import "../i18n.dart";
+import '../../entity/user.dart';
+import "../../i18n.dart";
 
 class MimirSignInPage extends ConsumerStatefulWidget {
   const MimirSignInPage({super.key});
@@ -105,7 +105,7 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
   }
 
   Widget buildHeader() {
-    return "Sign-in Ing ID"
+    return i18n.auth.signInTitle
         .text(
           style: context.textTheme.displaySmall,
           textAlign: TextAlign.center,
@@ -121,7 +121,7 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
       child: authMethods != null
           ? authMethod != null
               ? buildAuthSegments(authMethods, authMethod)
-              : "We can't verify student status of your school currently."
+              : i18n.auth.authMethodsAvailable
                   .text(
                     textAlign: TextAlign.center,
                     style: context.textTheme.titleMedium,
@@ -172,16 +172,9 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
     );
   }
 
-  Widget buildPhoneNumber() {
-    return FilledButton(
-      onPressed: () {},
-      child: "Phone Number".text(),
-    );
-  }
-
   Widget buildSchoolSelector() {
     return DropdownMenu<SchoolCode>(
-      label: "School".text(),
+      label: i18n.school.text(),
       initialSelection: school,
       onSelected: (newSelection) {
         final selected = newSelection ?? SchoolCode.sit;
@@ -325,7 +318,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
       autocorrect: false,
       readOnly: widget.signingIn,
       enableSuggestions: false,
-      validator: (account) => studentIdValidator(account, () => i18n.login.invalidAccountFormat),
+      validator: (account) => studentIdValidator(account, () => i18n.auth.invalidAccountFormat),
       decoration: InputDecoration(
         labelText: "School ID",
         hintText: "Student ID/Worker ID",
@@ -377,16 +370,16 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   Widget buildSignIn() {
     return FilledButton.icon(
       onPressed: !acceptedAgreements || widget.signingIn ? null : signIn,
-      icon: Icon(Icons.login),
-      label: "Sign in".text(),
+      icon: const Icon(Icons.login),
+      label: i18n.auth.signIn.text(),
     );
   }
 
   Widget buildSignUp() {
     return FilledButton.icon(
       onPressed: !acceptedAgreements || widget.signingIn ? null : signUp,
-      icon: Icon(Icons.create),
-      label: "Sign up".text(),
+      icon: const Icon(Icons.create),
+      label: i18n.auth.signUp.text(),
     );
   }
 
@@ -435,10 +428,10 @@ class MimirSchoolIdDisclaimerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return [
       FeaturedMarkdownWidget(
-        data: i18n.schoolIdDisclaimer,
+        data: i18n.auth.schoolIdDisclaimer,
       ),
       CheckboxListTile.adaptive(
-        title: "I've read and accepted".text(),
+        title: i18n.auth.acceptAgreements.text(),
         value: accepted,
         onChanged: (value) {
           if (value != null) {
@@ -455,8 +448,7 @@ class UnimplementedSignInForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return "The App on the current version can't verify student status in this way. Please choose another one if available."
-        .text(
+    return i18n.auth.authMethodUnimpl.text(
       textAlign: TextAlign.center,
       style: context.textTheme.titleMedium,
     );

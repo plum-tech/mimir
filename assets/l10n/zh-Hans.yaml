@@ -1,19 +1,27 @@
 appName: 小应生活
+accountName: 小应账户
 mimir:
   forum:
     navigation: 社区
     title: 小应社区
   bulletin:
     title: 布告栏
+  school:
+    title: 学校
+    10259: 上海应用技术大学
   auth:
+    signInTitle: 登录@:accountName
+    acceptAgreements: 我已阅读并同意
+    authMethodsAvailable: 暂时无法验证你在该学校的核验在校生身份
+    authMethodUnimpl: 这个方式在当前App版本不受支持，请更新到最新版.
     schoolId:
       name: 学号
       disclaimer: |
-        您即将登录小应账号，仅用于@:appName App的各项拓展服务。
+        您即将登录@:accountName，仅用于@:appName App的各项拓展服务。
 
-        小应账号与您学校提供的账号无关，且不互通。如需使用课程表，考试、分数查询等基础功能，请[点击此处](/settings/oa)。
+        @:accountName与您学校提供的账号无关，且不互通。如需使用课程表，考试、分数查询等基础功能，请[点击此处](/settings/oa)。
 
-        我们非常重视您的隐私安全。您的学号与密码仅用于**核验在校生身份**，服务器不会存储。
+        我们非常重视您的隐私安全。您的学号与密码仅用于**验证在校生身份**，服务器不会存储。
 
         请先阅读 [《隐私政策》](https://www.mysit.life/privacy-policy) 和 [《使用协议》](https://www.mysit.life/tos)。
     eduEmail:
@@ -638,7 +646,10 @@ networkTool:
   studentRegUnavailableButCampusNetworkConnected: |
     已经连接至校园网，但仍然无法访问学校服务器。
     可能因为是学校服务器停机维护或崩溃，请一段时间后重试。
-login:
+auth:
+  signIn: 登录
+  signUp: 注册
+  signOut: 登出
   login: 登录
   forgotPwd: 忘记密码？
   validateInputAccountPwdRequest: 请检查你输入的账号与密码

@@ -4,7 +4,7 @@ import 'package:mimir/credentials/init.dart';
 import 'package:mimir/utils/error.dart';
 
 import '../init.dart';
-import 'entity/user.dart';
+import '../entity/user.dart';
 
 class XMimirUser {
   static Future<void> signIn(BuildContext context) async {

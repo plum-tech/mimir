@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:mimir/credentials/i18n.dart';
 import 'package:mimir/l10n/common.dart';
 import 'package:mimir/login/i18n.dart';
 
@@ -38,10 +39,11 @@ class _Action {
   String get borrowing => "$ns.borrowing".tr();
 }
 
-class _Login extends CommonLoginI18n {
+class _Login extends CommonAuthI18n {
   const _Login();
 
   static const ns = "${_I18n.ns}.login";
+  final credentials = const CredentialsI18n();
 
   String get title => "$ns.title".tr();
 
