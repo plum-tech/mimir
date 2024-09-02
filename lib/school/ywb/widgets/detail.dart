@@ -32,15 +32,16 @@ class YwbApplicationDetailSectionBlock extends StatelessWidget {
   }
 
   Widget buildJsonSection(String content) {
-    final Map kvPairs = jsonDecode(content);
-    List<Widget> items = [];
-    kvPairs.forEach((key, value) => items.add(Text('$key: $value')));
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: items);
+    final Map pairs = jsonDecode(content);
+    return pairs.entries.map((e) => '${e.key}: ${e.value}'.text()).toList().column();
   }
 
   Widget buildHtmlSection(String content) {
     // TODO: cannot download pdf files
     final html = content.replaceAll('../app/files/', 'https://xgfy.sit.edu.cn/app/files/');
-    return RestyledHtmlWidget(html);
+    return RestyledHtmlWidget(
+      html,
+      async: false,
+    );
   }
 }
