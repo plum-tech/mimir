@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mimir/backend/forum/page/index.dart';
 import 'package:mimir/backend/user/page/sign_in.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
+import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/game/2048/page/index.dart';
 import 'package:mimir/game/2048/page/records.dart';
@@ -484,7 +485,17 @@ final _examResultRoute = GoRoute(
       builder: (ctx, state) => const ExamResultPgPage(),
     ),
   ],
-  redirect: _loginRequired,
+  redirect: (ctx, state) {
+    final redirect = _loginRequired(ctx, state);
+    if (redirect != null) return redirect;
+    final currentUserType = CredentialsInit.storage.oa.userType;
+    if (currentUserType == OaUserType.undergraduate) {
+      return "/exam-result/ug";
+    } else if (currentUserType == OaUserType.postgraduate) {
+      return "/exam-result/ug";
+    }
+    return "/404";
+  },
 );
 
 final _webviewRoute = GoRoute(

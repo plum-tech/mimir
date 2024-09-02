@@ -94,8 +94,8 @@ class UgRegistrationSession {
         url,
         options: Options(
           method: "GET",
-          sendTimeout: const Duration(milliseconds: 6000),
-          receiveTimeout: const Duration(milliseconds: 6000),
+          sendTimeout: const Duration(milliseconds: 8000),
+          receiveTimeout: const Duration(milliseconds: 8000),
           followRedirects: false,
           validateStatus: (status) => status! < 400,
         ),
