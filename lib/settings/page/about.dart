@@ -128,7 +128,7 @@ class _CheckUpdateButtonState extends State<CheckUpdateButton> {
 
   @override
   Widget build(BuildContext context) {
-    return OutlinedButton(
+    return FilledButton.tonal(
       onPressed: isChecking
           ? null
           : () async {

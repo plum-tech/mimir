@@ -220,6 +220,10 @@ class _PreviewButtonState extends State<_PreviewButton> {
         onPressed: () {},
         child: i18n.themeColor.text(),
       ),
+      FilledButton.tonal(
+        onPressed: () {},
+        child: i18n.themeColor.text(),
+      ),
       OutlinedButton(
         onPressed: () {},
         child: i18n.themeColor.text(),
