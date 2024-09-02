@@ -628,6 +628,10 @@ networkTool:
   pgRegUnavailableTip: |
     You can't import timetable from student registration system. The only way to import timetables is to load them from a file on your device.
     Your exam results can't be loaded and updated in time, but can still be viewed if you have already loaded them once.
+  ywbAvailable: SIT YWB available
+  ywbUnavailable: SIT YWB unavailable
+  ywbAvailableTip: SIT YWB is available,
+  ywbUnavailableTip:
   troubleshoot: Troubleshoot
   studentRegTroubleshoot: |
     1. Attempt to connect to the school's Wi-Fi, "i-SIT","i-SIT-1x" or "eduroam".
