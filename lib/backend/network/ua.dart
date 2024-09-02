@@ -24,15 +24,16 @@ class MimirUserAgentDioInterceptor extends Interceptor {
 }
 
 String _encodeMimirUa(List<String> fixed, Map<String, String?> kv) {
-  final list = <String>[];
+  final buffer = StringBuffer();
   for (final value in fixed) {
-    list.add(value);
+    buffer.write(value);
+    buffer.write(";");
   }
-  list.add("*;");
+  buffer.write("*;");
   for (final MapEntry(:key, :value) in kv.entries) {
     if (value != null) {
-      list.add("$key=$value");
+      buffer.write("$key=$value;");
     }
   }
-  return list.join(";");
+  return buffer.toString();
 }
