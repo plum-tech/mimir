@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/intent/deep_link/protocol.dart';
@@ -8,15 +7,9 @@ class GoRouteDeepLink implements DeepLinkHandlerProtocol {
 
   const GoRouteDeepLink();
 
-  String? decode(Uri data) {
-    final params = data.queryParameters;
-    final target = params.entries.firstWhereOrNull((p) => p.value.isEmpty)?.key;
-    return target;
-  }
-
   @override
   bool match(Uri encoded) {
-    return encoded.host == host && encoded.path.isEmpty;
+    return encoded.host == host;
   }
 
   @override
@@ -24,8 +17,8 @@ class GoRouteDeepLink implements DeepLinkHandlerProtocol {
     required BuildContext context,
     required Uri data,
   }) async {
-    final target = decode(data);
-    if (target == null) return;
+    final target = data.path;
+    if (target.isEmpty) return;
     await context.push(target);
   }
 }

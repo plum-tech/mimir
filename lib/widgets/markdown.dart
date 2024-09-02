@@ -7,12 +7,14 @@ class FeaturedMarkdownWidget extends StatefulWidget {
   final String data;
   final bool async;
   final Uri? baseUri;
+  final bool enableGoRoute;
 
   const FeaturedMarkdownWidget({
     super.key,
     required this.data,
     this.async = false,
     this.baseUri,
+    this.enableGoRoute = true,
   });
 
   @override
@@ -69,6 +71,7 @@ class _FeaturedMarkdownWidgetState extends State<FeaturedMarkdownWidget> with Au
       async: widget.async,
       keepOriginalFontSize: true,
       baseUri: widget.baseUri,
+      enableGoRoute: widget.enableGoRoute,
     );
   }
 }

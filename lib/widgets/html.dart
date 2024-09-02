@@ -8,6 +8,8 @@ import 'package:mimir/utils/guard_launch.dart';
 import 'package:mimir/utils/tel.dart';
 import 'package:rettulf/rettulf.dart';
 
+final _go = Uri(scheme: "sit-life", host: "go");
+
 class RestyledHtmlWidget extends StatefulWidget {
   final String content;
   final RenderMode renderMode;
@@ -16,6 +18,7 @@ class RestyledHtmlWidget extends StatefulWidget {
   final bool keepOriginalFontSize;
   final bool linkifyPhoneNumbers;
   final Uri? baseUri;
+  final bool enableGoRoute;
 
   const RestyledHtmlWidget(
     this.content, {
@@ -26,6 +29,7 @@ class RestyledHtmlWidget extends StatefulWidget {
     this.keepOriginalFontSize = false,
     this.linkifyPhoneNumbers = false,
     this.baseUri,
+    this.enableGoRoute = false,
   });
 
   @override
@@ -80,7 +84,10 @@ class _RestyledHtmlWidgetState extends State<RestyledHtmlWidget> with AutomaticK
       onTapUrl: (url) async {
         final uri = Uri.tryParse(url);
         if (uri == null) return false;
-        final baseUri = widget.baseUri;
+        var baseUri = widget.baseUri;
+        if (widget.enableGoRoute) {
+          baseUri ??= _go;
+        }
         if (uri.scheme.isEmpty && baseUri != null) {
           final related = baseUri.resolveUri(uri);
           return await guardLaunchUrl(context, related);

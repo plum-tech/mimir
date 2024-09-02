@@ -11,7 +11,7 @@ mimir:
       disclaimer: |
         您即将登录小应账号，仅用于@:appName App的各项拓展服务。
 
-        小应账号与您学校提供的账号无关，且不互通。如需使用课程表，考试、分数查询等基础功能，请[点击此处](sit-life://go?/settings/oa)。
+        小应账号与您学校提供的账号无关，且不互通。如需使用课程表，考试、分数查询等基础功能，请[点击此处](/settings/oa)。
 
         我们非常重视您的隐私安全。您的学号与密码仅用于**核验在校生身份**，服务器不会存储。
 
@@ -606,13 +606,13 @@ networkTool:
   campusNetworkNotConnected: 未连接校园网
   schoolServerAvailable: |
     ## <center>可以访问学校服务器</center>
-    你可以登录 OA，查看 [OA 公告](sit-life://go?/oa-announce)，以及访问其他需要学校服务器的服务。
+    你可以登录 OA，查看 [OA 公告](/oa-announce)，以及访问其他需要学校服务器的服务。
   schoolServerUnavailable: |
     ## <center>无法访问学校服务器</center>
     你无法登录 OA，也无法访问任何需要学校服务器的服务。
   studentRegAvailable: |
     ## <center>可以访问教务系统</center>
-    你可以从教务系统中导入课程表，并查看[考试安排](sit-life://go?/exam-arrange)和[考试成绩](sit-life://go?/exam-result)（包括[绩点]((sit-life://go?/exam-result/ug/gpa)）
+    你可以从教务系统中导入课程表，并查看[考试安排](/exam-arrange)和[考试成绩](/exam-result)（包括[绩点](/exam-result/ug/gpa)）
   studentRegUnavailable: |
     ## <center>无法访问教务系统</center>
     你无法从教务系统中导入课程表，唯一的导入方法是从你的设备上的文件中加载。
@@ -620,7 +620,7 @@ networkTool:
     你的考试安排和考试成绩（包括绩点）无法加载和及时更新，但如果你已经加载过一次，则仍可查看。
   ywbAvailable: |
     ## <center>可用访问应网办</center>
-    你可以查看[应网办的服务](sit-life://go?/ywb)并提交申请。
+    你可以查看[应网办的服务](/ywb)并提交申请。
   ywbUnavailable: |
     ## <center>无法访问应网办</center>
   studentRegTroubleshoot: |

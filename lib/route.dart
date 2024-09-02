@@ -474,12 +474,16 @@ final _examArrange = GoRoute(
 final _examResultRoute = GoRoute(
   path: "/exam-result",
   routes: [
-    GoRoute(path: "ug", builder: (ctx, state) => const ExamResultUgPage(), routes: [
-      GoRoute(
-        path: "gpa",
-        builder: (ctx, state) => const GpaCalculatorPage(),
-      ),
-    ]),
+    GoRoute(
+      path: "ug",
+      builder: (ctx, state) => const ExamResultUgPage(),
+      routes: [
+        GoRoute(
+          path: "gpa",
+          builder: (ctx, state) => const GpaCalculatorPage(),
+        ),
+      ],
+    ),
     GoRoute(
       path: "pg",
       builder: (ctx, state) => const ExamResultPgPage(),
@@ -488,13 +492,15 @@ final _examResultRoute = GoRoute(
   redirect: (ctx, state) {
     final redirect = _loginRequired(ctx, state);
     if (redirect != null) return redirect;
-    final currentUserType = CredentialsInit.storage.oa.userType;
-    if (currentUserType == OaUserType.undergraduate) {
-      return "/exam-result/ug";
-    } else if (currentUserType == OaUserType.postgraduate) {
-      return "/exam-result/ug";
+    if (state.fullPath == "/exam-result") {
+      final currentUserType = CredentialsInit.storage.oa.userType;
+      if (currentUserType == OaUserType.undergraduate) {
+        return "/exam-result/ug";
+      } else if (currentUserType == OaUserType.postgraduate) {
+        return "/exam-result/ug";
+      }
     }
-    return "/404";
+    return null;
   },
 );
 

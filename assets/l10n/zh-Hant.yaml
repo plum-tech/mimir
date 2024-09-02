@@ -591,13 +591,13 @@ networkTool:
   campusNetworkNotConnected: 未連線校園網路
   schoolServerAvailable: |
     ## <center>學校伺服器可用</center>
-    你可以登入 OA，查看 [OA 公告](sit-life://go?/oa-announce)，並訪問需要學校伺服器的其他服務。
+    你可以登入 OA，查看 [OA 公告](/oa-announce)，並訪問需要學校伺服器的其他服務。
   schoolServerUnavailable: |
     ## <center>學校伺服器不可用</center>
     你無法登入 OA，也無法訪問任何需要學校伺服器的服務。
   studentRegAvailable: |
     ## <center>教務系統可用</center>
-    你可以從教務系統[匯入課程表](sit-life://go?/timetable/import)，並查看你的[考試安排](sit-life://go?/exam-arrange)和[考試成績](sit-life://go?/exam-result)（包括[GPA]((sit-life://go?/exam-result/ug/gpa)）。
+    你可以從教務系統[匯入課程表](/timetable/import)，並查看你的[考試安排](/exam-arrange)和[考試成績](/exam-result)（包括[GPA](/exam-result/ug/gpa)）。
   studentRegUnavailable: |
     ## <center>教務系統不可用</center>
     你無法從教務系統匯入課程表，匯入的唯一方法是從裝置上的檔案中載入它們。
@@ -605,7 +605,7 @@ networkTool:
     你的考試安排和考試成績（包括GPA）無法及時加載和更新，但如果你已經加載過一次，仍然可以查看。
   ywbAvailable: |
     ## <center>應網辦可用</center>
-    你可以查看[應網辦的服務](sit-life://go?/ywb)並提交申請。
+    你可以查看[應網辦的服務](/ywb)並提交申請。
   ywbUnavailable: |
     ## <center>應網辦不可用</center>
   studentRegTroubleshoot: |
