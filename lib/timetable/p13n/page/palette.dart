@@ -73,7 +73,7 @@ class _TimetableP13nPageState extends ConsumerState<TimetablePaletteListPage> wi
     final palettes = ref.watch(TimetableInit.storage.palette.$rows);
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        label: i18n.cancel.text(),
+        label: i18n.add.text(),
         icon: Icon(context.icons.add),
         onPressed: addPalette,
       ),

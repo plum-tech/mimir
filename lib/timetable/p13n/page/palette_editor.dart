@@ -112,7 +112,7 @@ class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEdi
             SliverList.list(children: [
               const Divider(),
               ListTile(
-                title: "App settings".text(),
+                title: i18n.p13n.palette.appSettings.text(),
               ),
               const ThemeModeTile(),
             ]),

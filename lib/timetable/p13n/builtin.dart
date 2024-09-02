@@ -96,7 +96,7 @@ class BuiltinTimetablePalettes {
     colors: [
       DualColor(dark: ColorEntry(Color(0xFF7C8787)), light: ColorEntry(Color(0xFFC3DEDE))),
       DualColor(dark: ColorEntry(Color(0xFF7E7F6D)), light: ColorEntry(Color(0xFFE5E6C4))),
-      DualColor(dark: ColorEntry(Color(0xFF4D6067)), light: ColorEntry.inverse(Color(0xFF90B2C0))),
+      DualColor(dark: ColorEntry(Color(0xFF4D6067)), light: ColorEntry(Color(0xFF90B2C0))),
       DualColor(dark: ColorEntry(Color(0xFF4E6F6D)), light: ColorEntry(Color(0xFF8FCDCA))),
       DualColor(dark: ColorEntry(Color(0xFF5E6D5E)), light: ColorEntry(Color(0xFFABC8AD))),
       DualColor(dark: ColorEntry(Color(0xFF4C5253)), light: ColorEntry(Color(0xFFB9C6C9))),

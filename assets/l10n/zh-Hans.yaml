@@ -181,6 +181,7 @@ timetable:
       deleteRequest: 确定删除？
       deleteRequestDesc: 推荐先保存二维码备份再删除
       addColor: 添加一种配色
+      appSettings: 应用设置
       builtin:
         classic:
           name: 经典

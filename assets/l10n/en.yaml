@@ -184,6 +184,7 @@ timetable:
       deleteRequest: Conform to delete?
       deleteRequestDesc: The palette will be deleted permanently without unless a QR code backup is saved
       addColor: Add a color
+      appSettings: App settings
       builtin:
         classic:
           name: Classic

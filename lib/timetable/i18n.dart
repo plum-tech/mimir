@@ -140,6 +140,8 @@ class _Palette {
   String get color => "$ns.color".tr();
 
   String get details => "$ns.details".tr();
+
+  String get appSettings => "$ns.appSettings".tr();
 }
 
 class _Background {

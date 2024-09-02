@@ -86,7 +86,7 @@ class DualColor {
 
   @override
   String toString() {
-    return "DualColor(dark:$dark,light:$light)";
+    return "DualColor(light:$light,dark:$dark)";
   }
 }
 
