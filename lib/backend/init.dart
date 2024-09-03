@@ -1,3 +1,6 @@
+import 'package:flutter/foundation.dart';
+import 'package:mimir/backend/update/service/update.mock.dart';
+
 import 'bulletin/service/bulletin.dart';
 import 'bulletin/storage/bulletin.dart';
 import 'service/ocr.dart';
@@ -12,7 +15,7 @@ class BackendInit {
   static late MimirOcrService ocr;
 
   static void init() {
-    update = const MimirUpdateService();
+    update = kDebugMode ? MimirUpdateServiceMock() : const MimirUpdateService();
     bulletin = const MimirBulletinService();
     bulletinStorage = MimirBulletinStorage();
     auth = const MimirAuthService();
