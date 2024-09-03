@@ -26,6 +26,8 @@ enum AppFeature {
   yellowPages("school.yellowPages"),
   courseSelection("school.courseSelection"),
   studentPlan("school.studentPlan"),
+  // SIT Robot
+  sitRobotOpenDoor("school.sitRobot.OpenDoor"),
   // basic
   timetable("basic.timetable"),
   timetableCelStyles("basic.timetable.cellStyles"),

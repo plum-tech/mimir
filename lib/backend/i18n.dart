@@ -10,6 +10,7 @@ class _I18n with CommonI18nMixin {
   static const ns = "mimir";
 
   final auth = const _Auth();
+  final forum = const _Forum();
 
   String get school => "$ns.school.title".tr();
 }
@@ -28,6 +29,16 @@ class _Auth with CommonAuthI18nMixin {
   String get authMethodUnimpl => "$ns.authMethodUnimpl".tr();
 
   String get schoolIdDisclaimer => "$ns.schoolId.disclaimer".tr();
+}
+
+class _Forum {
+  const _Forum();
+
+  static const ns = "${_I18n.ns}.forum";
+
+  String get navigation => "$ns.navigation".tr();
+
+  String get title => "$ns.title".tr();
 }
 
 class _Settings {

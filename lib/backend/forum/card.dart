@@ -16,7 +16,7 @@ import 'package:mimir/settings/dev.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:universal_platform/universal_platform.dart';
 import "package:mimir/backend/bulletin/i18n.dart" as $bulletin;
-import 'i18n.dart';
+import '../i18n.dart';
 
 class ForumAppCard extends ConsumerStatefulWidget {
   const ForumAppCard({super.key});
@@ -48,7 +48,7 @@ class _ForumAppCardState extends ConsumerState<ForumAppCard> {
     final bulletin = ref.watch(BackendInit.bulletinStorage.$latest);
     final dev = ref.watch(Dev.$on);
     return AppCard(
-      title: i18n.title.text(),
+      title: i18n.forum.title.text(),
       view: bulletin == null ? null : BulletinLatestSummaryCard(bulletin),
       leftActions: [
         FilledButton.icon(

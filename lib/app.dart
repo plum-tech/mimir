@@ -13,6 +13,7 @@ import 'package:mimir/files.dart';
 import 'package:mimir/intent/file_type/handle.dart';
 import 'package:mimir/lifecycle.dart';
 import 'package:mimir/intent/deep_link/handle.dart';
+import 'package:mimir/platform/quick_action.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/settings/dev.dart';
@@ -152,6 +153,7 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
         await onHandleDeepLink(context: navigateCtx, deepLink: uri);
       });
     });
+    initQuickActions();
   }
 
   @override

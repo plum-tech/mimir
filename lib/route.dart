@@ -383,20 +383,30 @@ final _yellowPagesRoute = GoRoute(
   path: "/yellow-pages",
   builder: (ctx, state) => const YellowPagesListPage(),
 );
-final _eduEmailRoutes = [
-  GoRoute(
-    path: "/edu-email/login",
-    builder: (ctx, state) => const EduEmailLoginPage(),
-  ),
-  GoRoute(
-    path: "/edu-email/inbox",
-    builder: (ctx, state) => const EduEmailInboxPage(),
-  ),
-  GoRoute(
-    path: "/edu-email/outbox",
-    builder: (ctx, state) => const EduEmailOutboxPage(),
-  ),
-];
+
+final _eduEmailRoute = GoRoute(
+  path: "/edu-email",
+  redirect: (ctx, state) {
+    if (CredentialsInit.storage.email.credentials == null) {
+      return "/edu-email/login";
+    }
+    return null;
+  },
+  routes: [
+    GoRoute(
+      path: "login",
+      builder: (ctx, state) => const EduEmailLoginPage(),
+    ),
+    GoRoute(
+      path: "inbox",
+      builder: (ctx, state) => const EduEmailInboxPage(),
+    ),
+    GoRoute(
+      path: "outbox",
+      builder: (ctx, state) => const EduEmailOutboxPage(),
+    ),
+  ],
+);
 
 final _ywbRoute = GoRoute(
   path: "/ywb",
@@ -670,7 +680,7 @@ RoutingConfig buildCommonRoutingConfig() {
       ..._toolsRoutes,
       _class2ndRoute,
       _oaAnnounceRoute,
-      ..._eduEmailRoutes,
+      _eduEmailRoute,
       _ywbRoute,
       _examResultRoute,
       _examArrange,
@@ -706,7 +716,7 @@ RoutingConfig buildTimetableFocusRouter() {
       ..._toolsRoutes,
       _class2ndRoute,
       _oaAnnounceRoute,
-      ..._eduEmailRoutes,
+      _eduEmailRoute,
       _ywbRoute,
       _examResultRoute,
       _examArrange,

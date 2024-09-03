@@ -20,6 +20,7 @@ const _whitelist = {
   "2210450230",
   "236091101",
   "236091171",
+  "2210720129",
 };
 
 class OpenLabDoorAppCard extends ConsumerStatefulWidget {
@@ -55,7 +56,7 @@ class _OpenLabDoorAppCardState extends ConsumerState<OpenLabDoorAppCard> {
     setState(() {
       opening = true;
     });
-    final result = await _openDoor();
+    final result = await sitRobotOpenDoor();
     if (result) {
       await Future.delayed(const Duration(milliseconds: 2000));
       if (!mounted) return;
@@ -76,7 +77,7 @@ class _OpenLabDoorAppCardState extends ConsumerState<OpenLabDoorAppCard> {
 const _url =
     "aHR0cDovLzIxMC4zNS45OC4xNzg6NzEwMS9MTVdlYi9XZWJBcGkvSFNoaVlhblNoaS5hc2h4P01ldGhvZD1TYXZlUmVtb3RlT3BlbkRvb3ImU2hpWWFuU2hpSUQmS2FIYW89NTE1RkY1NzImTWFjSUQ9Mjg6NTI6Rjk6MTg6ODQ6Njc=";
 
-Future<bool> _openDoor() async {
+Future<bool> sitRobotOpenDoor() async {
   try {
     final res = await Init.schoolDio.get(
       String.fromCharCodes(base64Decode(_url)),
