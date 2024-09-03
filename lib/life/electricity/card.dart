@@ -105,10 +105,8 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
             );
             $searchHistory.dispose();
             if (room == null) return;
-            if (Settings.life.electricity.selectedRoom != room) {
-              XElectricity.selectNewRoom(room);
-              await refresh(active: true);
-            }
+            XElectricity.setSelectedRoom(room);
+            await refresh(active: true);
           },
           label: i18n.searchRoom.text(),
           icon: Icon(context.icons.search),

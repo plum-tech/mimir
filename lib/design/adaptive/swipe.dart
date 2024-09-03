@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart' as w;
+import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:rettulf/rettulf.dart';
 
 class SwipeAction {
@@ -8,7 +9,7 @@ class SwipeAction {
   final String? label;
   final bool fullSwipeAction;
   final bool destructive;
-  final Color color;
+  final Color? color;
 
   const SwipeAction({
     required this.action,
@@ -25,19 +26,19 @@ class SwipeAction {
     this.label,
   })  : destructive = true,
         fullSwipeAction = true,
-        color = Colors.red;
+        color = null;
 
   w.SwipeAction build(BuildContext context) {
     return w.SwipeAction(
       title: label,
-      icon: Icon(icon),
+      icon: Icon(icon, color: Colors.white),
+      color: color ?? context.$red$,
       style: context.textTheme.titleSmall ?? const TextStyle(),
       performsFirstActionWithFullSwipe: fullSwipeAction,
       onTap: (w.CompletionHandler handler) async {
         await handler(destructive);
         action();
       },
-      color: color,
     );
   }
 }

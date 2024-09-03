@@ -10,7 +10,7 @@ class XElectricity {
     storage.searchHistory = searchHistory;
   }
 
-  static void selectNewRoom(String room) {
+  static void setSelectedRoom(String room) {
     Settings.life.electricity.selectedRoom = room;
     addSearchHistory(room);
     ElectricityBalanceInit.storage.lastUpdateTime = null;
