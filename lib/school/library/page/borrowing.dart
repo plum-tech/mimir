@@ -84,10 +84,7 @@ class _LibraryBorrowingPageState extends State<LibraryBorrowingPage> {
               SliverList.builder(
                 itemCount: borrowed.length,
                 itemBuilder: (ctx, i) {
-                  return BorrowedBookCard(
-                    borrowed[i],
-                    elevated: false,
-                  );
+                  return BorrowedBookCard(borrowed[i]);
                 },
               ),
         ],
@@ -98,12 +95,10 @@ class _LibraryBorrowingPageState extends State<LibraryBorrowingPage> {
 
 class BorrowedBookCard extends StatelessWidget {
   final BorrowedBookItem book;
-  final bool elevated;
 
   const BorrowedBookCard(
     this.book, {
     super.key,
-    required this.elevated,
   });
 
   @override

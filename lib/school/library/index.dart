@@ -60,10 +60,7 @@ class _LibraryAppCardState extends ConsumerState<LibraryAppCard> {
   Widget? buildBorrowedBook(List<BorrowedBookItem> books) {
     if (books.isEmpty) return null;
     final book = books.first;
-    final card = BorrowedBookCard(
-      book,
-      elevated: true,
-    );
+    final card = BorrowedBookCard(book);
     if (!supportContextMenu) return card;
     return Builder(
       builder: (ctx) => ContextMenuWidget(

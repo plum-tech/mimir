@@ -23,11 +23,11 @@ Future<String?> searchRoom({
       searchHistory: $searchHistory,
       emptyHistoryBuilder: (ctx) => LeavingBlank(
         icon: Icons.history,
-        desc: "No search history",
+        desc: i18n.emptyHistoryTip,
       ),
       emptyCandidateBuilder: (ctx) => LeavingBlank(
         icon: Icons.search_off,
-        desc: "No matched room numbers",
+        desc: i18n.noMatchedRoomNumbers,
       ),
       candidateBuilder: (ctx, items, highlight, selectIt) {
         return ListView.builder(

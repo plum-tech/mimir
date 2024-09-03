@@ -446,6 +446,8 @@ electricity:
   refreshSuccessTip: 電費餘額重新整理成功
   refreshFailedTip: 電費餘額重新整理失敗
   searchRoom: 搜尋房間
+  emptyHistoryTip: 無搜尋歷史
+  noMatchedRoomNumbers: 無匹配的房間號
   lastUpdateTime: "最後更新：{}"
 eduEmail:
   title: Edu 電郵

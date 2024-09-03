@@ -474,6 +474,8 @@ electricity:
   refreshSuccessTip: Electricity balance refreshed successfully
   refreshFailedTip: Failed to refresh electricity balance
   searchRoom: Search Room
+  emptyHistoryTip: No search history
+  noMatchedRoomNumbers: No matched room numbers
   lastUpdateTime: "Last update: {}"
 eduEmail:
   title: Edu email

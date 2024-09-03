@@ -468,6 +468,8 @@ electricity:
   refreshSuccessTip: 电费余额刷新成功
   refreshFailedTip: 电费余额刷新失败
   searchRoom: 搜索房间
+  emptyHistoryTip: 无搜索历史
+  noMatchedRoomNumbers: 没有匹配的房间号
   lastUpdateTime: "上次更新：{}"
 eduEmail:
   title: 教育邮箱

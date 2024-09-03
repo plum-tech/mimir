@@ -23,5 +23,9 @@ class _I18n with CommonI18nMixin {
 
   String get refreshFailedTip => "$ns.refreshFailedTip".tr();
 
+  String get emptyHistoryTip => "$ns.emptyHistoryTip".tr();
+
+  String get noMatchedRoomNumbers => "$ns.noMatchedRoomNumbers".tr();
+
   String lastUpdateTime(String time) => "$ns.lastUpdateTime".tr(args: [time]);
 }

@@ -26,21 +26,22 @@ export async function uploadFile({ localFilePath, remotePath }) {
   formData.append('file', file, path.basename(localFilePath))
   formData.append('path', remotePath)
 
-  const bar = new Bar({
-    noTTYOutput: true,
-    notTTYSchedule: 0,
-  }, BarPresets.shades_classic)
-  bar.start(1, 0, {
-    speed: "N/A"
-  })
+  // not working in GitHub workflow output
+  // const bar = new Bar({
+  //   noTTYOutput: true,
+  //   notTTYSchedule: 0,
+  // }, BarPresets.shades_classic)
+  // bar.start(1, 0, {
+  //   speed: "N/A"
+  // })
 
   const res = await io.put("/admin", formData, {
     onUploadProgress: (e) => {
       console.log(`${(e.progress * 100).toFixed(2)}%`)
-      bar.update(e.progress)
+      // bar.update(e.progress)
     }
   })
-  bar.stop()
+  // bar.stop()
 
   return res.data
 }
