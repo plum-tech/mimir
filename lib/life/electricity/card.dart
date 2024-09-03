@@ -177,7 +177,7 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
   Widget buildCard(ElectricityBalance balance) {
     return ElectricityBalanceCard(
       balance: balance,
-    ).inFilledCard().sized(h: 120);
+    ).sized(h: 120);
   }
 }
 

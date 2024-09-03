@@ -50,6 +50,6 @@ class BalanceCard extends StatelessWidget {
           maa: MainAxisAlignment.spaceEvenly,
         )
         .padAll(10)
-        .inFilledCard();
+        .inCard();
   }
 }

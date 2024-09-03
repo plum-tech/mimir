@@ -44,6 +44,6 @@ class ElectricityBalanceCard extends StatelessWidget {
               ),
         ),
       ),
-    ].column(maa: MainAxisAlignment.spaceEvenly);
+    ].column(maa: MainAxisAlignment.spaceEvenly).inCard();
   }
 }

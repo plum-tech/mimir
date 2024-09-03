@@ -52,7 +52,7 @@ class _YwbAppCardState extends ConsumerState<YwbAppCard> {
   Widget buildRunningCard(List<YwbApplication> running) {
     final applications = running.sublist(0, min(_applicationLength, running.length));
     return applications
-        .map((e) => YwbApplicationTile(e).inFilledCard(
+        .map((e) => YwbApplicationTile(e).inCard(
               clip: Clip.hardEdge,
             ))
         .toList()

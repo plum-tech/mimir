@@ -69,7 +69,7 @@ class _ExamResultUgAppCardState extends ConsumerState<ExamResultUgAppCard> {
     return results
         .map((result) => ExamResultUgTile(
               result,
-            ).inFilledCard(clip: Clip.hardEdge))
+            ).inCard(clip: Clip.hardEdge))
         .toList()
         .column();
   }

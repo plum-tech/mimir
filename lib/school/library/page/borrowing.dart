@@ -3,6 +3,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
+import 'package:mimir/design/widgets/card.dart';
 import 'package:mimir/design/widgets/common.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/school/library/init.dart';
@@ -84,7 +85,10 @@ class _LibraryBorrowingPageState extends State<LibraryBorrowingPage> {
               SliverList.builder(
                 itemCount: borrowed.length,
                 itemBuilder: (ctx, i) {
-                  return BorrowedBookCard(borrowed[i]);
+                  return BorrowedBookCard(
+                    borrowed[i],
+                    elevated: false,
+                  );
                 },
               ),
         ],
@@ -95,10 +99,12 @@ class _LibraryBorrowingPageState extends State<LibraryBorrowingPage> {
 
 class BorrowedBookCard extends StatelessWidget {
   final BorrowedBookItem book;
+  final bool elevated;
 
   const BorrowedBookCard(
     this.book, {
     super.key,
+    required this.elevated,
   });
 
   @override
@@ -127,6 +133,6 @@ class BorrowedBookCard extends StatelessWidget {
           ),
         );
       },
-    ).inFilledCard(clip: Clip.hardEdge);
+    ).inAnyCard(clip: Clip.hardEdge, type: elevated ? CardVariant.elevated : CardVariant.filled);
   }
 }

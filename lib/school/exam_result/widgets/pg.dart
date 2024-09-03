@@ -53,7 +53,7 @@ class ExamResultPgCarouselCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = context.textTheme;
-    return Card.filled(
+    return Card(
       child: [
         CourseIcon(courseName: result.courseName),
         TextScroll(result.courseName),

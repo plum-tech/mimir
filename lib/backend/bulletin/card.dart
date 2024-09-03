@@ -58,6 +58,6 @@ class BulletinLatestSummaryCard extends StatelessWidget {
           (ctx) => const BulletinListPage(),
         );
       },
-    ).inFilledCard(clip: Clip.hardEdge);
+    ).inCard(clip: Clip.hardEdge);
   }
 }
