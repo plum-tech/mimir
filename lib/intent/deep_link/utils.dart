@@ -23,10 +23,10 @@ String encodeBytesForUrl(Uint8List original, {bool compress = true}) {
   if (kDebugMode) {
     if (compress) {
       debugPrint("${original.length} => ${bytes.length}");
-      if(kDebugMode && !(bytes.length <= original.length)){
+      if (kDebugMode && !(bytes.length <= original.length)) {
         print("compressed is ${bytes.length} > original is ${original.length}");
       }
-      if(kDebugMode && !(compressedStr.length <= base64Encode(original).length)){
+      if (kDebugMode && !(compressedStr.length <= base64Encode(original).length)) {
         print("compressed string is ${compressedStr.length} > original string is ${base64Encode(original).length}");
       }
     } else {

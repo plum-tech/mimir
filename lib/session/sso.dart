@@ -64,8 +64,9 @@ class SsoSession {
   static const String _captchaUrl = '$_authServerUrl/captcha.html';
   static const String _loginSuccessUrl = 'https://authserver.sit.edu.cn/authserver/index.do';
 
-  final Dio dio;
-  final CookieJar cookieJar;
+  Dio get _dio => Init.schoolDio;
+
+  CookieJar get _cookieJar => Init.schoolCookieJar;
 
   /// Input captcha manually
   final Future<String?> Function(Uint8List imageBytes) inputCaptcha;
@@ -77,8 +78,6 @@ class SsoSession {
   static final _ssoLock = Lock();
 
   SsoSession({
-    required this.dio,
-    required this.cookieJar,
     required this.inputCaptcha,
   });
 
@@ -94,13 +93,19 @@ class SsoSession {
           receiveTimeout: const Duration(milliseconds: 5000),
           contentType: Headers.formUrlEncodedContentType,
           followRedirects: false,
-          validateStatus: (status) => status! < 400,
         ),
       );
       return true;
     } catch (e) {
       return false;
     }
+  }
+
+  Future<bool> checkAuthStatus() async {
+    final res = await _dio.requestFollowRedirect(
+      "https://myportal.sit.edu.cn/",
+    );
+    return !_isLoginRequired(res);
   }
 
   /// - User try to log in actively on a login page.
@@ -135,21 +140,20 @@ class SsoSession {
     final debugDepths = <Response>[];
     Future<Response> fetch() async {
       debugDepths.clear();
-      final response = await dio.request(
+      final response = await _dio.request(
         url,
         queryParameters: queryParameters,
         options: (options ?? Options()).copyWith(
           followRedirects: false,
           headers: _neededHeaders,
-          validateStatus: (status) => status! < 400,
         ),
         data: data?.call(),
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );
-      final finalResponse = await dio.processRedirect(
+      final finalResponse = await _dio.processRedirect(
         response,
-        debugDepths: debugDepths,
+        history: debugDepths,
       );
       return finalResponse;
     }
@@ -158,18 +162,34 @@ class SsoSession {
     var res = await fetch();
 
     // check if the response is the login page. if so, login it first.
-    if (res.realUri.toString().contains(_loginUrl)) {
+    if (_isLoginRequired(res)) {
       final credentials = CredentialsInit.storage.oa.credentials;
       if (credentials == null) {
         throw OaCredentialsRequiredException(url: url);
       }
-      await cookieJar.delete(R.authServerUri, true);
-      await cookieJar.delete(R.sitUri, true);
-      await cookieJar.delete(Uri.parse(url), true);
+      await _cookieJar.delete(R.authServerUri, true);
+      await _cookieJar.delete(R.sitUri, true);
+      await _cookieJar.delete(Uri.parse(url), true);
       await loginLocked(credentials);
       res = await fetch();
     }
     return res;
+  }
+
+  Future<Response> ssoAuth(
+    String url,
+  ) async {
+    final authorized = await checkAuthStatus();
+    if (!authorized) {
+      await loginLocked(CredentialsInit.storage.oa.credentials!);
+    }
+    // sso
+    final res = await _dio.requestFollowRedirect(url);
+    return res;
+  }
+
+  bool _isLoginRequired(Response res) {
+    return res.realUri.toString().contains(_loginUrl);
   }
 
   void _setOnline(bool isOnline) {
@@ -189,12 +209,12 @@ class SsoSession {
     required Future<String?> Function(Uint8List imageBytes) inputCaptcha,
   }) async {
     debugPrint('${credentials.account} logging in');
-    debugPrint('UA: ${dio.options.headers['User-Agent']}');
+    debugPrint('UA: ${_dio.options.headers['User-Agent']}');
     // When logging into OA,
     // the server will record the number of times a user has logged in with the same cookie
     // and the number of times the user made an input error,
     // so it is necessary to clear all cookies before logging in to avoid errors when the user retries.
-    await cookieJar.delete(R.authServerUri, true);
+    await _cookieJar.delete(R.authServerUri, true);
     // await cookieJar.delete(R.authServerUri, true);
     final Response response;
     try {
@@ -259,7 +279,7 @@ class SsoSession {
 
   Future<void> deleteSitUriCookies() async {
     for (final uri in R.sitUriList) {
-      await cookieJar.delete(uri, true);
+      await _cookieJar.delete(uri, true);
     }
   }
 
@@ -294,7 +314,7 @@ class SsoSession {
 
   /// Fetch the auth page, where the account, password and captcha box are.
   Future<String> _fetchAuthServerHtml() async {
-    final response = await dio.get(
+    final response = await _dio.get(
       _loginUrl,
       options: Options(headers: Map.from(_neededHeaders)..remove('Referer')),
     );
@@ -303,7 +323,7 @@ class SsoSession {
 
   /// check if captcha is required for this logging in
   Future<bool> isCaptchaRequired(String username) async {
-    final response = await dio.get(
+    final response = await _dio.get(
       _needCaptchaUrl,
       queryParameters: {
         'username': username,
@@ -317,7 +337,7 @@ class SsoSession {
   }
 
   Future<Uint8List> getCaptcha() async {
-    final response = await dio.get(
+    final response = await _dio.get(
       _captchaUrl,
       options: Options(
         responseType: ResponseType.bytes,
@@ -331,7 +351,7 @@ class SsoSession {
   /// Login the single sign-on
   Future<Response> _postLoginRequest(String username, String hashedPassword, String captcha, String casTicket) async {
     // Login
-    final res = await dio.post(
+    final res = await _dio.post(
       _loginUrl,
       data: {
         'username': username,
@@ -353,10 +373,10 @@ class SsoSession {
       ),
     );
     final debugDepths = <Response>[];
-    final finalResponse = await dio.processRedirect(
+    final finalResponse = await _dio.processRedirect(
       res,
       headers: _neededHeaders,
-      debugDepths: debugDepths,
+      history: debugDepths,
     );
     return finalResponse;
   }

@@ -17,7 +17,7 @@ extension DialogEx on BuildContext {
     required String primary,
     bool highlight = false,
     bool serious = false,
-    bool dismissible = false,
+    bool dismissible = true,
   }) async {
     return showAnyTip(
       title: title,

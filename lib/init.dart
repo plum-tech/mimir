@@ -69,12 +69,13 @@ class Init {
     }
     final uaForSchoolServer = await getUserAgentForSchoolServer();
     schoolDio = Dio(BaseOptions(
-      connectTimeout: const Duration(milliseconds: 16000),
-      receiveTimeout: const Duration(milliseconds: 16000),
-      sendTimeout: const Duration(milliseconds: 16000),
+      connectTimeout: const Duration(milliseconds: 16 * 1000),
+      receiveTimeout: const Duration(milliseconds: 16 * 1000),
+      sendTimeout: const Duration(milliseconds: 16 * 1000),
       headers: {
         "User-Agent": uaForSchoolServer,
       },
+      validateStatus: (status) => status! < 400,
     )).withCookieJar(schoolCookieJar).withDebugging();
 
     dioNoCookie = Dio(BaseOptions(
@@ -84,6 +85,7 @@ class Init {
       headers: {
         "User-Agent": uaForSchoolServer,
       },
+      validateStatus: (status) => status! < 400,
     )).withDebugging();
 
     mimirDio = Dio(BaseOptions()).withCookieJar(cookieJar).withDebugging();
@@ -91,13 +93,9 @@ class Init {
     mimirDio.interceptors.add(MimirUserAgentDioInterceptor());
 
     ssoSession = SsoSession(
-      dio: schoolDio,
-      cookieJar: schoolCookieJar,
       inputCaptcha: _inputCaptcha,
     );
-    ugRegSession = UgRegistrationSession(
-      ssoSession: ssoSession,
-    );
+    ugRegSession = const UgRegistrationSession();
     ywbSession = YwbSession(
       dio: schoolDio,
     );

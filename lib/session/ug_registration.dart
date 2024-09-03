@@ -1,18 +1,20 @@
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/session/sso.dart';
+import 'package:mimir/utils/dio.dart';
 
 /// jwxt.sit.edu.cn
 /// Student registration system for undergraduate
 class UgRegistrationSession {
-  final SsoSession _ssoSession;
+  Dio get _dio => Init.schoolDio;
 
-  const UgRegistrationSession({
-    required SsoSession ssoSession,
-  }) : _ssoSession = ssoSession;
+  CookieJar get _cookieJar => Init.schoolCookieJar;
+
+  SsoSession get _ssoSession => Init.ssoSession;
+
+  const UgRegistrationSession();
 
   // Future<Response> importTimetable(String url, SemesterInfo info) async {
   //   await Init.schoolCookieJar.deleteAll();
@@ -49,8 +51,19 @@ class UgRegistrationSession {
   // }
 
   bool _isLoginRequired(Response response) {
+    final data = response.data;
+    if (data is String && data.contains("请输入用户名")) {
+      return true;
+    }
     final realPath = response.realUri.path;
     return realPath.endsWith('jwglxt/xtgl/login_slogin.html');
+  }
+
+  Future<bool> checkAuthStatus() async {
+    final res = await _dio.requestFollowRedirect(
+      "http://jwxt.sit.edu.cn/sso/jziotlogin",
+    );
+    return !_isLoginRequired(res);
   }
 
   Future<Response> request(
@@ -62,10 +75,10 @@ class UgRegistrationSession {
     ProgressCallback? onReceiveProgress,
   }) async {
     Future<Response> fetch() async {
-      return await _ssoSession.request(
+      return await _dio.request(
         url,
         queryParameters: queryParameters,
-        data: data,
+        data: data?.call(),
         options: (options ?? Options()).copyWith(
           followRedirects: false,
           validateStatus: (status) => status! < 400,
@@ -75,15 +88,15 @@ class UgRegistrationSession {
       );
     }
 
-    var response = await fetch();
-    if (_isLoginRequired(response)) {
-      debugPrint('JwxtSession requires login');
-      await Init.schoolCookieJar.delete(R.ugRegUri, true);
-      await _ssoSession.request('http://jwxt.sit.edu.cn/sso/jziotlogin');
-      // re-fetch the same
-      response = await fetch();
-    }
-    return response;
+    // await _cookieJar.delete(R.ugRegUri, true);
+    await _ssoSession.ssoAuth("http://jwxt.sit.edu.cn/sso/jziotlogin");
+    // final authorized = await checkAuthStatus();
+    // if (!authorized) {
+    //   await _cookieJar.delete(R.ugRegUri, true);
+    //   await _ssoSession.ssoAuth("http://jwxt.sit.edu.cn/sso/jziotlogin");
+    // }
+    final res = await fetch();
+    return res;
   }
 
   Future<bool> checkConnectivity({
