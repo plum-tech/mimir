@@ -43,7 +43,7 @@ class AppCard extends StatelessWidget {
           alignment: Alignment.topCenter,
           curve: Curves.fastEaseInToSlowEaseOut,
           child: view ?? const SizedBox.shrink(),
-        ).align(at: Alignment.centerLeft),
+        ).align(at: Alignment.center),
         ListTile(
           leading: leading,
           titleTextStyle: textTheme.titleLarge,

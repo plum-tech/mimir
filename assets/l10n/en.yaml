@@ -10,7 +10,7 @@ mimir:
     title: School
     10259: Shanghai Institute of Technology
   auth:
-    signInTitle: Sign-in @:accountName
+    signInTitle: Sign in @:accountName
     acceptAgreements: I've read and accepted
     authMethodsAvailable: We can't verify your student status from the school currently.
     authMethodUnimpl: This method is no supported in the the current version of the app. Please update the app.
@@ -366,8 +366,8 @@ class2nd:
     contactInfo: Contact Info
     organizer: Organizer
     principal: Principal
-    signInTime: Sign-in
-    signOutTime: Sign-out
+    signInTime: Sign in
+    signOutTime: Sign out
     startTime: Start time
     undertaker: Undertaker
     duration: Duration
