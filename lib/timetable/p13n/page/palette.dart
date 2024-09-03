@@ -554,5 +554,5 @@ Future<void> onTimetablePaletteFromQrCode({
   TimetableInit.storage.palette.add(newPalette);
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
-  context.push("/timetable/p13n/custom");
+  context.push("/timetable/palettes/custom");
 }
