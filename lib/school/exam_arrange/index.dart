@@ -117,6 +117,6 @@ class ExamCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ExamCardContent(exam).inCard();
+    return ExamCardContent(exam).inFilledCard();
   }
 }

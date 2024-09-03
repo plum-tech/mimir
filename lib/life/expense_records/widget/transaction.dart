@@ -76,6 +76,6 @@ class TransactionCard extends StatelessWidget {
           maa: MainAxisAlignment.spaceEvenly,
         )
         .padAll(10)
-        .inCard();
+        .inFilledCard();
   }
 }

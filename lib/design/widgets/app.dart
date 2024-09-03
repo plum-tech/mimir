@@ -35,23 +35,15 @@ class AppCard extends StatelessWidget {
     final leftActions = this.leftActions ?? const <Widget>[];
     final rightActions = this.rightActions ?? const <Widget>[];
     final textTheme = context.textTheme;
-    return Card.filled(
+    return Card.outlined(
       clipBehavior: Clip.hardEdge,
       child: [
-        Theme(
-          data: context.theme.copyWith(
-            cardTheme: context.theme.cardTheme.copyWith(
-              // in light mode, cards look in a lower level.
-              elevation: context.isDarkMode ? 4 : 2,
-            ),
-          ),
-          child: AnimatedSize(
-            duration: Durations.long2,
-            alignment: Alignment.topCenter,
-            curve: Curves.fastEaseInToSlowEaseOut,
-            child: view ?? const SizedBox.shrink(),
-          ).align(at: Alignment.centerLeft),
-        ),
+        AnimatedSize(
+          duration: Durations.long2,
+          alignment: Alignment.topCenter,
+          curve: Curves.fastEaseInToSlowEaseOut,
+          child: view ?? const SizedBox.shrink(),
+        ).align(at: Alignment.centerLeft),
         ListTile(
           leading: leading,
           titleTextStyle: textTheme.titleLarge,

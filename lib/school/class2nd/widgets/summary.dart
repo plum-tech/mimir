@@ -20,7 +20,7 @@ class Class2ndScoreSummeryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return AspectRatio(
       aspectRatio: aspectRatio,
-      child: Card(
+      child: Card.filled(
         child: Class2ndScoreSummaryChart(targetScore: targetScore, summary: summary).padSymmetric(v: 4),
       ),
     );
