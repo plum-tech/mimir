@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +17,7 @@ import 'package:mimir/school/widgets/semester.dart';
 import 'package:mimir/settings/meta.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/utils.dart';
+import 'package:mimir/utils/error.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../i18n.dart';
@@ -79,11 +81,13 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
 
   Future<bool> checkConnectivity() async {
     if (connected) return true;
-    final result = await context.showSheet<bool>((ctx) => ConnectivityCheckerSheet(
-          desc: i18n.import.connectivityCheckerDesc,
-          check: TimetableInit.service.checkConnectivity,
-          where: WhereToCheck.studentReg,
-        ));
+    final result = await context.showSheet<bool>(
+      (ctx) => ConnectivityCheckerSheet(
+        desc: i18n.import.connectivityCheckerDesc,
+        check: TimetableInit.service.checkConnectivity,
+        where: WhereToCheck.studentReg,
+      ),
+    );
     connected = result == true;
     return connected;
   }
@@ -189,20 +193,17 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
       );
       if (!mounted) return;
       context.pop(newTimetable);
-    } catch (e, stackTrace) {
-      if (e is ParallelWaitError) {
-        final inner = e.errors.$1 as AsyncError;
-        debugPrint(inner.toString());
-        debugPrintStack(stackTrace: inner.stackTrace);
-      } else {
-        debugPrint(e.toString());
-        debugPrintStack(stackTrace: stackTrace);
-      }
+    } catch (error, stackTrace) {
+      debugPrintError(error, stackTrace);
       setState(() {
         _status = ImportStatus.failed;
       });
       if (!mounted) return;
-      await context.showTip(title: i18n.import.failed, desc: i18n.import.failedDesc, primary: i18n.ok);
+      await context.showTip(
+        title: i18n.import.failed,
+        desc: error is DioException ? i18n.import.networkFailedDesc : i18n.import.failedDesc,
+        primary: i18n.ok,
+      );
     } finally {
       if (_status == ImportStatus.importing) {
         setState(() {

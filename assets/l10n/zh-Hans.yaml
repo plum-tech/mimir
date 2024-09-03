@@ -112,6 +112,7 @@ timetable:
     selectSemesterTip: 请先选择学年与学期
     endTip: 请完善课程表的信息。
     failed: 导入失败
+    networkFailedDesc: 无法访问教务系统，请检查是否连接校园网，并稍后再试
     failedDesc: 无法导入这个课程表, 请稍后再试
     failedTip: 导入失败, 请稍后再试
     importing: 正在尝试获取课程表的数据……

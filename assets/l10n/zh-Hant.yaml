@@ -90,8 +90,9 @@ timetable:
     selectSemesterTip: 請先選擇學年與學期
     endTip: 請補充課程表的資訊。
     failed: 匯入失敗
-    failedDesc: 無法匯入課程表，請之後再試。
-    failedTip: 匯入失敗，請之後再試。
+    networkFailedDesc: 無法訪問教務系統，請檢查是否連線校園網路，請之後再試
+    failedDesc: 無法匯入課程表，請之後再試
+    failedTip: 匯入失敗，請之後再試
     importing: 正在擷取課程表數據……
     timetableInfo: 課程表資訊
     defaultName: "{semester} {yearStart} 課程表"

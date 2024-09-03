@@ -211,6 +211,8 @@ class _Import {
 
   String get failedDesc => "$ns.failedDesc".tr();
 
+  String get networkFailedDesc => "$ns.networkFailedDesc".tr();
+
   String get failedTip => "$ns.failedTip".tr();
 
   String get tryImportBtn => "$ns.tryImportBtn".tr();

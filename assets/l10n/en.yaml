@@ -111,11 +111,12 @@ timetable:
     fromFile: From File
     fromFileBtn: From file
     tryImportBtn: Try import
-    connectivityCheckerDesc: You need to check the access to Student registration system before importing a timetable.
+    connectivityCheckerDesc: You need to check the access to student registration system before importing a timetable.
     selectSemesterTip: Please select a semester first
     endTip: Please enter the info
     failed: Import Failed
-    failedDesc: Can't import the timetable, please try again
+    networkFailedDesc: Can't access the student registration system, please check if you've connect to the campus network, then try again later
+    failedDesc: Can't import the timetable, please try again later
     failedTip: Failed to import, please try again
     importing: Trying to fetch the timetable...
     timetableInfo: Timetable Info

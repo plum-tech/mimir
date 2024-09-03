@@ -31,6 +31,9 @@ class ConnectivityChecker extends StatefulWidget {
   final Duration? autoStartDelay;
   final WhereToCheck where;
 
+  /// in parallel
+  final int checkTaskNumber;
+
   /// {@template mimir.network.widgets.checker}
   /// Whether it's connected will be turned.
   /// Throw any error if connection fails.
@@ -45,7 +48,8 @@ class ConnectivityChecker extends StatefulWidget {
     required this.check,
     this.autoStartDelay,
     required this.where,
-  });
+    this.checkTaskNumber = 1,
+  }) : assert(checkTaskNumber >= 1);
 
   @override
   State<ConnectivityChecker> createState() => _ConnectivityCheckerState();
@@ -118,7 +122,7 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
       status = _Status.connecting;
     });
     try {
-      final connected = await widget.check();
+      final connected = await check();
       if (!mounted) return;
       setState(() {
         if (connected) {
@@ -134,6 +138,13 @@ class _ConnectivityCheckerState extends State<ConnectivityChecker> {
         status = _Status.disconnected;
       });
     }
+  }
+
+  Future<bool> check() async {
+    final task = await Future.any(List.generate(widget.checkTaskNumber, (i) => widget.check()));
+    return task == true;
+    // final task = await Future.wait(List.generate(widget.checkTaskNumber, (i) => widget.check()));
+    // return task.contains(true);
   }
 
   Widget buildStatus(BuildContext ctx) {
@@ -281,6 +292,7 @@ class ConnectivityCheckerSheet extends StatelessWidget {
         initialDesc: desc,
         check: check,
         where: where,
+        checkTaskNumber: 3,
         onConnected: () {
           context.pop(true);
         },

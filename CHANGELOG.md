@@ -3,7 +3,7 @@
 ## v2.5.2
 - Remember selected semester info only in current session.
 - Introduced Mimir User agent.
-- a convenient theme mode switcher in the timetable palette editor was added.
+- A convenient theme mode switcher in the timetable palette editor was added.
 - Updated the built-in timetable palettes with inverse text color.
 - A new deep link handler, Go route, to navigate to an in-app route.
 Usage: `sit-life://go/any-route`. And in FeaturedMarkdownWidget, it has a shorthand, `/any-route`.
