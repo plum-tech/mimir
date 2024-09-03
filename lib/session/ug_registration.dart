@@ -51,6 +51,7 @@ class UgRegistrationSession {
   // }
 
   bool _isLoginRequired(Response response) {
+    if (response.statusCode == 302) return true;
     final data = response.data;
     if (data is String && data.contains("请输入用户名")) {
       return true;
@@ -89,13 +90,17 @@ class UgRegistrationSession {
     }
 
     // await _cookieJar.delete(R.ugRegUri, true);
-    await _ssoSession.ssoAuth("http://jwxt.sit.edu.cn/sso/jziotlogin");
     // final authorized = await checkAuthStatus();
     // if (!authorized) {
     //   await _cookieJar.delete(R.ugRegUri, true);
     //   await _ssoSession.ssoAuth("http://jwxt.sit.edu.cn/sso/jziotlogin");
     // }
-    final res = await fetch();
+
+    var res = await fetch();
+    if (_isLoginRequired(res)) {
+      await _ssoSession.ssoAuth("http://jwxt.sit.edu.cn/sso/jziotlogin");
+      res = await fetch();
+    }
     return res;
   }
 
