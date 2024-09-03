@@ -51,6 +51,8 @@ jobs:
 
       - name: Deploy
         if: github.repository == 'liplum-dev/mimir'
+        env:
+          SITMC_TEMP_SERVER_AUTH: ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
         run: |
           node tools/publish-release.mjs
 
