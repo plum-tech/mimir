@@ -12,11 +12,11 @@ enum DeepLinkHandleResult {
   invalidFormat;
 }
 
-bool _allowedScheme(String scheme) {
-  return scheme != R.scheme &&
+bool _isSchemeAllowed(String scheme) {
+  return scheme == R.scheme ||
       // for backward compatibility
-      scheme != "sitlife" &&
-      scheme != "life.mysit";
+      scheme == "sit-life" ||
+      scheme == "life.mysit";
 }
 
 Future<DeepLinkHandleResult> onHandleDeepLinkString({
@@ -31,7 +31,7 @@ Future<DeepLinkHandleResult> onHandleDeepLinkString({
 DeepLinkHandlerProtocol? getFirstDeepLinkHandler({
   required Uri deepLink,
 }) {
-  if (_allowedScheme(deepLink.scheme)) return null;
+  if (!_isSchemeAllowed(deepLink.scheme)) return null;
   assert(() {
     return DeepLinkHandlers.all.where((handler) => handler.match(deepLink)).length <= 1;
   }(), "Matched multiple handlers: ${DeepLinkHandlers.all.where((handler) => handler.match(deepLink)).toList()}");
@@ -47,7 +47,7 @@ Future<DeepLinkHandleResult> onHandleDeepLink({
   required BuildContext context,
   required Uri deepLink,
 }) async {
-  if (_allowedScheme(deepLink.scheme)) return DeepLinkHandleResult.unrelatedScheme;
+  if (!_isSchemeAllowed(deepLink.scheme)) return DeepLinkHandleResult.unrelatedScheme;
   final handler = getFirstDeepLinkHandler(deepLink: deepLink);
   if (handler == null) return DeepLinkHandleResult.unhandled;
   try {

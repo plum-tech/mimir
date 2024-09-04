@@ -10,7 +10,7 @@ import 'package:mimir/entity/meta.dart';
 class R {
   const R._();
 
-  static const scheme = "sit-life";
+  static const scheme = "sitlife";
   static const hiveStorageVersionCache = "2.3.0";
   static const hiveStorageVersionCore = "2.1.1";
   static const appId = "life.mysit.SITLife";

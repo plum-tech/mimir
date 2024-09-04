@@ -226,8 +226,8 @@ msix_config:
   capabilities: internetClient, microphone, webcam
   languages: en,zh-hans,zh-hant
   file_extension: .timetable
-  # life.mysit for backwards support
-  protocol_activation: sit-life, life.mysit
+  # sit-life,life.mysit for backwards support
+  protocol_activation: sitlife,sit-life,life.mysit
   execution_alias: sitlife
   output_name: SIT-Life
   enable_at_startup: false
