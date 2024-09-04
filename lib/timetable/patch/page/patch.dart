@@ -405,7 +405,6 @@ class TimetablePatchEntryRecommendationCard extends StatelessWidget {
             ],
           ),
           dismissible: false,
-          useRootNavigator: true,
         );
       },
     );

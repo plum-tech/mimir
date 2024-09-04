@@ -67,7 +67,6 @@ class _ForumAppCardState extends ConsumerState<ForumAppCard> {
         FilledButton.tonalIcon(
           onPressed: () async {
             context.showSheet(
-              useRootNavigator: true,
               (ctx) => const BulletinListPage(),
             );
           },

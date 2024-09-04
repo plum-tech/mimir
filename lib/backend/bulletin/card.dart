@@ -54,7 +54,6 @@ class BulletinLatestSummaryCard extends StatelessWidget {
           : null,
       onTap: () async {
         context.showSheet(
-          useRootNavigator: true,
           (ctx) => const BulletinListPage(),
         );
       },

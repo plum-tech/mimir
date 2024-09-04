@@ -21,7 +21,6 @@ Future<void> onTimetablePatchFromQrCode({
   await context.showSheet(
     (ctx) => TimetablePatchFromQrCodePage(patch: patch),
     dismissible: false,
-    useRootNavigator: true,
   );
 }
 

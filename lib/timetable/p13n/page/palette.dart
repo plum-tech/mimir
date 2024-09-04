@@ -548,7 +548,6 @@ Future<void> onTimetablePaletteFromQrCode({
   final newPalette = await context.showSheet<TimetablePalette>(
     (ctx) => TimetablePaletteEditorPage(palette: palette),
     dismissible: false,
-    useRootNavigator: true,
   );
   if (newPalette == null) return;
   TimetableInit.storage.palette.add(newPalette);

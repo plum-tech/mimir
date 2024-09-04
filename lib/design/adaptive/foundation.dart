@@ -12,7 +12,7 @@ extension $BuildContextEx$ on BuildContext {
   Future<T?> showSheet<T>(
     WidgetBuilder builder, {
     bool dismissible = true,
-    bool useRootNavigator = false,
+    bool useRootNavigator = true,
   }) async {
     if (isCupertino) {
       return await showCupertinoModalBottomSheet<T>(

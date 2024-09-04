@@ -223,7 +223,6 @@ Future<SitTimetable?> processImportedTimetable(
     (ctx) => TimetableEditorPage(
       timetable: timetable,
     ),
-    useRootNavigator: true,
     dismissible: false,
   );
   return newTimetable;
