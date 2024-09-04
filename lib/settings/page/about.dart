@@ -66,6 +66,13 @@ class _AboutSettingsPageState extends ConsumerState<AboutSettingsPage> {
                   await guardLaunchUrlString(context, "https://www.mysit.life/privacy-policy");
                 },
               ),
+              ListTile(
+                title: "Official website".text(),
+                trailing: const Icon(Icons.open_in_browser),
+                onTap: () async {
+                  await guardLaunchUrlString(context, "https://www.mysit.life");
+                },
+              ),
               AboutListTile(
                 // FIXME: icon is buggy
                 // icon: SvgPicture.asset("assets/icon.svg").sizedAll(32),
