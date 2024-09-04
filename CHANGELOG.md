@@ -1,12 +1,15 @@
 # Changelog
 
+## 2.6.0
+- Rename scheme to `sitlife`.
+
 ## v2.5.2
 - Remember selected semester info only in current session.
 - Introduced Mimir User agent.
 - A convenient theme mode switcher in the timetable palette editor was added.
 - Updated the built-in timetable palettes with inverse text color.
 - A new deep link handler, Go route, to navigate to an in-app route.
-Usage: `sit-life://go/any-route`. And in FeaturedMarkdownWidget, it has a shorthand, `/any-route`.
+Usage: `sitlife://go/any-route`. And in FeaturedMarkdownWidget, it has a shorthand, `/any-route`.
 - Sign in Ing Account.
 - Renamed routes.
 - Updated campus timetable on Fengxian campus and the first teaching building.
@@ -14,7 +17,7 @@ Usage: `sit-life://go/any-route`. And in FeaturedMarkdownWidget, it has a shorth
 - Unified the swipe-to-delete action on both TimetablePatch and TimetablePatchSet.
 - Keep html and markdown widgets alive to improve performance.
 - A new deep link handler, Open webview, to open a page in the in-app webview.
-Usage: `sit-life://open/https://www.mysit.life`.
+Usage: `sitlife://webview/https://www.mysit.life`.
 - Redesigned the style of AppCard.
 - Rewrote the SSO authorization logic of Undergrad registration session and SSO session.
 - Open SIT YWB application in webview or browser.
