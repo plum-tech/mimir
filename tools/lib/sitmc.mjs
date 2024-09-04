@@ -12,7 +12,7 @@ const io = lateinit(() => {
     // baseURL: "http://127.0.0.1:5000",
     baseURL: "https://temp.sitmc.club",
     headers: {
-      Authorization: auth(),
+      Authorization: auth,
     },
     timeout: 120 * 1000, //ms
   })
