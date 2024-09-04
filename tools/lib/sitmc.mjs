@@ -4,15 +4,18 @@ import mime from 'mime'
 import { sanitizeNameForUri } from "./utils.mjs"
 import axios from "axios"
 import env from "@liplum/env"
+import lateinit from "@liplum/lateinit"
 import { Bar, Presets as BarPresets } from "cli-progress"
-const auth = env("SITMC_TEMP_SERVER_AUTH").string()
-const io = axios.create({
-  // baseURL: "http://127.0.0.1:5000",
-  baseURL: "https://temp.sitmc.club",
-  headers: {
-    Authorization: auth,
-  },
-  timeout: 120 * 1000, //ms
+const io = lateinit(() => {
+  const auth = env("SITMC_TEMP_SERVER_AUTH").string()
+  return axios.create({
+    // baseURL: "http://127.0.0.1:5000",
+    baseURL: "https://temp.sitmc.club",
+    headers: {
+      Authorization: auth(),
+    },
+    timeout: 120 * 1000, //ms
+  })
 })
 
 /**
@@ -35,7 +38,7 @@ export async function uploadFile({ localFilePath, remotePath }) {
   //   speed: "N/A"
   // })
 
-  const res = await io.put("/admin", formData, {
+  const res = await io().put("/admin", formData, {
     onUploadProgress: (e) => {
       console.log(`${(e.progress * 100).toFixed(2)}%`)
       // bar.update(e.progress)
@@ -53,7 +56,7 @@ export async function deleteFile({ remotePath }) {
   const formData = new FormData()
   formData.append('path', remotePath)
 
-  const res = await io.delete("/admin", formData)
+  const res = await io().delete("/admin", formData)
   return res.data
 }
 

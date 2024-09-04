@@ -17,6 +17,9 @@ importers:
       '@liplum/env':
         specifier: ^0.1.1
         version: 0.1.1
+      '@liplum/lateinit':
+        specifier: ^0.0.1
+        version: 0.0.1
       axios:
         specifier: ^1.7.5
         version: 1.7.5
@@ -122,6 +125,9 @@ packages:
 
   '@liplum/env@0.1.1':
     resolution: {integrity: sha512-oQPBi2eBQpIRWaN5HsYpSwHxIveEvad8ZOKh8UH//ihoDg7mRODH+DNH2zZteJDVNfbKvFlfEElphPbEQujrpA==}
+
+  '@liplum/lateinit@0.0.1':
+    resolution: {integrity: sha512-M5RaK3nWl9CIueA2hWdiOt0jjPI6bilh42/WByeZ0WmKu5mZRVOsSMwLmEz97FVFK3GzIJS1CaNu2i024lJdgQ==}
 
   '@liplum/str2bool@0.0.1':
     resolution: {integrity: sha512-rdwBt8cv7igi3xlG6AkXp0ut0XTWUkLzTVVcWq51JdcpziHbdZ0T2XNJ2nwgAdsodqVKKRUactvdnmBZ0z1aNA==}
@@ -860,6 +866,8 @@ snapshots:
   '@liplum/env@0.1.1':
     dependencies:
       '@liplum/str2bool': 0.0.1
+
+  '@liplum/lateinit@0.0.1': {}
 
   '@liplum/str2bool@0.0.1': {}
 
