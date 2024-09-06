@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widgets/list_tile.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/settings/dev.dart';
@@ -80,6 +81,17 @@ class _AboutSettingsPageState extends ConsumerState<AboutSettingsPage> {
                 applicationVersion: R.meta.version.toString(),
                 applicationLegalese: "Copyright©️2024 Plum Technology Ltd. All Rights Reserved.",
               ),
+              if (devMode)
+                ListTile(
+                  leading: const Icon(Icons.perm_identity),
+                  title: "UUID".text(),
+                  subtitle: R.uuid.text(),
+                  trailing: Icon(context.icons.copy),
+                  onTap: () async {
+                    context.showSnackBar(content: i18n.copyTipOf("UUID").text());
+                    await Clipboard.setData(ClipboardData(text: R.uuid));
+                  },
+                )
             ],
           ),
         ],
