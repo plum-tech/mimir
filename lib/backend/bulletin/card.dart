@@ -48,7 +48,7 @@ class BulletinLatestSummaryCard extends StatelessWidget {
       title: TextScroll(title),
       subtitle: subtitle.isNotEmpty
           ? subtitle.text(
-              maxLines: 2,
+              maxLines: 3,
               overflow: TextOverflow.ellipsis,
             )
           : null,
