@@ -21,6 +21,7 @@ import 'package:mimir/game/sudoku/page/records.dart';
 import 'package:mimir/game/suika/index.dart';
 import 'package:mimir/game/wordle/page/index.dart';
 import 'package:mimir/index.dart';
+import 'package:mimir/init.dart';
 import 'package:mimir/life/page/settings.dart';
 import 'package:mimir/lifecycle.dart';
 import 'package:mimir/me/edu_email/page/login.dart';
@@ -523,7 +524,10 @@ final _webviewRoute = GoRoute(
         url = "http://$url";
       }
       // return WebViewPage(initialUrl: url);
-      return InAppWebViewPage(initialUri: WebUri(url));
+      return InAppWebViewPage(
+        initialUri: WebUri(url),
+        cookieJar: Init.cookieJar,
+      );
     }
     throw 400;
   },

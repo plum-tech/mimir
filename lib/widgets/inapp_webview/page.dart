@@ -1,3 +1,4 @@
+import 'package:cookie_jar/cookie_jar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -36,6 +37,7 @@ class InAppWebViewPage extends StatefulWidget {
   final NavigationRule? canNavigate;
   final bool enableShare;
   final bool enableOpenInBrowser;
+  final CookieJar? cookieJar;
 
   const InAppWebViewPage({
     super.key,
@@ -43,6 +45,7 @@ class InAppWebViewPage extends StatefulWidget {
     this.canNavigate,
     this.enableShare = true,
     this.enableOpenInBrowser = true,
+    this.cookieJar,
   });
 
   @override
@@ -65,7 +68,8 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
     super.initState();
 
     settings = InAppWebViewSettings(
-      transparentBackground: true, // prevent flashing on dark mode
+      transparentBackground: true,
+      // prevent flashing on dark mode
       isInspectable: kDebugMode,
       mediaPlaybackRequiresUserGesture: false,
       allowsInlineMediaPlayback: true,
@@ -88,6 +92,28 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
             },
           )
         : null;
+    setCookie(widget.initialUri);
+  }
+
+  Future<void> setCookie(WebUri uri) async {
+    final cookieJar = widget.cookieJar;
+    if (cookieJar == null) return;
+    final cookieManager = CookieManager.instance();
+    final cookies = await cookieJar.loadForRequest(uri);
+    for (final cookie in cookies) {
+      cookieManager.setCookie(
+        url: uri,
+        name: cookie.name,
+        value: cookie.value,
+        path: cookie.path ?? "/",
+        domain: cookie.domain,
+        expiresDate: cookie.expires?.millisecondsSinceEpoch,
+        maxAge: cookie.maxAge,
+        isSecure: cookie.secure,
+        isHttpOnly: cookie.httpOnly,
+        sameSite: cookie.sameSite == null ? null : HTTPCookieSameSitePolicy.fromValue(cookie.sameSite!.name),
+      );
+    }
   }
 
   @override
@@ -141,11 +167,14 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
           onWebViewCreated: (controller) {
             this.controller = controller;
           },
-          onLoadStart: (controller, url) {
+          onLoadStart: (controller, url) async {
             setState(() {
               $url.text = url.toString();
               progress = 0;
             });
+            if (url != null) {
+              await setCookie(url);
+            }
           },
           onLoadStop: (controller, url) async {
             pullToRefreshController?.endRefreshing();
