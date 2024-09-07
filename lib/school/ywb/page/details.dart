@@ -75,7 +75,7 @@ class _YwbServiceDetailsPageState extends ConsumerState<YwbServiceDetailsPage> {
           controller: controller,
           slivers: [
             SliverAppBar.medium(
-              title: (ref.watch(Dev.$on) ? "$name#$id": name).text(),
+              title: (ref.watch(Dev.$on) ? "$name#$id" : name).text(),
               actions: [
                 PlatformTextButton(
                   onPressed: openInApp,

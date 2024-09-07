@@ -15,6 +15,7 @@ abstract class _$MimirBulletinCWProxy {
   /// ````
   MimirBulletin call({
     String? id,
+    String? hash,
     DateTime? createdAt,
     String? short,
     String? text,
@@ -38,6 +39,7 @@ class _$MimirBulletinCWProxyImpl implements _$MimirBulletinCWProxy {
   /// ````
   MimirBulletin call({
     Object? id = const $CopyWithPlaceholder(),
+    Object? hash = const $CopyWithPlaceholder(),
     Object? createdAt = const $CopyWithPlaceholder(),
     Object? short = const $CopyWithPlaceholder(),
     Object? text = const $CopyWithPlaceholder(),
@@ -48,6 +50,10 @@ class _$MimirBulletinCWProxyImpl implements _$MimirBulletinCWProxy {
           ? _value.id
           // ignore: cast_nullable_to_non_nullable
           : id as String,
+      hash: hash == const $CopyWithPlaceholder() || hash == null
+          ? _value.hash
+          // ignore: cast_nullable_to_non_nullable
+          : hash as String,
       createdAt: createdAt == const $CopyWithPlaceholder() || createdAt == null
           ? _value.createdAt
           // ignore: cast_nullable_to_non_nullable
@@ -80,6 +86,7 @@ extension $MimirBulletinCopyWith on MimirBulletin {
 
 MimirBulletin _$MimirBulletinFromJson(Map<String, dynamic> json) => MimirBulletin(
       id: json['id'] as String,
+      hash: _randHash(json['hash'] as String?),
       createdAt: DateTime.parse(json['createdAt'] as String),
       short: _trim(json['short'] as String),
       text: _trim(json['text'] as String),
@@ -88,6 +95,7 @@ MimirBulletin _$MimirBulletinFromJson(Map<String, dynamic> json) => MimirBulleti
 
 Map<String, dynamic> _$MimirBulletinToJson(MimirBulletin instance) => <String, dynamic>{
       'id': instance.id,
+      'hash': instance.hash,
       'createdAt': instance.createdAt.toIso8601String(),
       'short': instance.short,
       'text': instance.text,

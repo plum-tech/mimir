@@ -10,7 +10,6 @@ class FloatingActionButtonSpace extends StatelessWidget {
   }
 }
 
-
 enum _FABType {
   regular,
   small,

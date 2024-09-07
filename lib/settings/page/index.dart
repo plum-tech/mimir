@@ -164,7 +164,6 @@ class ThemeColorTile extends StatelessWidget {
   }
 }
 
-
 class ThemeModeTile extends ConsumerWidget {
   const ThemeModeTile({super.key});
 

@@ -255,37 +255,37 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
             ).padSymmetric(v: 4),
           ),
         TimetablePatch() => TimetablePatchEntryDroppable(
-          patch: entry,
-          onMerged: (other) {
-            final patchSet = TimetablePatchSet(
-              name: allocValidFileName(
-                i18n.patch.defaultName,
-                all: patches.whereType<TimetablePatchSet>().map((set) => set.name).toList(),
-              ),
-              patches: [entry, other],
-            );
-            patches.insert(index, patchSet);
-            removePatch(patches.indexOf(entry));
-            removePatch(patches.indexOf(other));
-            markChanged();
-          },
-          builder: (dropping) => TimetablePatchWidget<TimetablePatch>(
-            selected: dropping || widget.initialEditing == entry,
-            optimizedForTouch: true,
-            leading: (ctx, child) => TimetablePatchDraggable(
-              patch: entry,
-              child: child,
-            ),
             patch: entry,
-            timetable: timetable,
-            onDeleted: () {
-              removePatch(index);
+            onMerged: (other) {
+              final patchSet = TimetablePatchSet(
+                name: allocValidFileName(
+                  i18n.patch.defaultName,
+                  all: patches.whereType<TimetablePatchSet>().map((set) => set.name).toList(),
+                ),
+                patches: [entry, other],
+              );
+              patches.insert(index, patchSet);
+              removePatch(patches.indexOf(entry));
+              removePatch(patches.indexOf(other));
+              markChanged();
             },
-            onEdit: () async {
-              await editPatch(index, entry);
-            },
+            builder: (dropping) => TimetablePatchWidget<TimetablePatch>(
+              selected: dropping || widget.initialEditing == entry,
+              optimizedForTouch: true,
+              leading: (ctx, child) => TimetablePatchDraggable(
+                patch: entry,
+                child: child,
+              ),
+              patch: entry,
+              timetable: timetable,
+              onDeleted: () {
+                removePatch(index);
+              },
+              onEdit: () async {
+                await editPatch(index, entry);
+              },
+            ),
           ),
-        ),
       },
     );
   }
