@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/dash.dart';
@@ -420,6 +421,7 @@ class _InteractiveCourseCellWithTooltipState extends State<InteractiveCourseCell
               ? null
               : () async {
                   $tooltip.currentState?.ensureTooltipVisible();
+                  await HapticFeedback.selectionClick();
                 },
           // onDoubleTap: showDetailsSheet,
           onLongPress: showDetailsSheet,
