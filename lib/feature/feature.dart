@@ -92,6 +92,7 @@ class AppFeature {
     gameWordle,
     gameSuika,
   };
+  static final tree = AppFeatureTree.build(all);
 }
 
 class AppFeatureTreeNode {
@@ -103,6 +104,11 @@ class AppFeatureTreeNode {
   });
 
   final isRoot = false;
+
+  @override
+  String toString() {
+    return "[$name]${name2node.values}";
+  }
 }
 
 class AppFeatureTree implements AppFeatureTreeNode {
@@ -129,13 +135,11 @@ class AppFeatureTree implements AppFeatureTreeNode {
     AppFeatureTreeNode cur = this;
     while (parts.isNotEmpty) {
       final part = parts.removeFirst();
-      if (cur.name2node.containsKey(part)) {
-        var maybe = cur.name2node[part];
-        if (maybe == null) {
-          maybe = AppFeatureTreeNode(name: part);
-          cur.name2node[part] = maybe;
-        }
+      final maybe = cur.name2node[part];
+      if (maybe != null) {
         cur = maybe;
+      } else {
+        cur = cur.name2node[part] = AppFeatureTreeNode(name: part);
       }
     }
   }
@@ -146,11 +150,18 @@ class AppFeatureTree implements AppFeatureTreeNode {
     queue.addLast(this);
     while (queue.isNotEmpty && parts.isNotEmpty) {
       final node = queue.removeFirst();
-      if (node.isRoot || node.name == parts.first) {
+      if (node.isRoot) {
+        queue.addAll(node.name2node.values);
+      } else if (node.name == parts.first) {
         parts.removeFirst();
         queue.addAll(node.name2node.values);
       }
     }
-    return parts.isEmpty && queue.isEmpty;
+    return parts.isEmpty;
+  }
+
+  @override
+  String toString() {
+    return "${name2node.values}";
   }
 }
