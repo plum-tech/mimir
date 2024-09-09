@@ -21,7 +21,7 @@ extension DialogEx on BuildContext {
   }) async {
     return showAnyTip(
       title: title,
-      make: (_) => desc.text(style: const TextStyle()),
+      desc: (_) => desc.text(style: const TextStyle()),
       primary: primary,
       highlight: false,
       serious: serious,
@@ -31,7 +31,7 @@ extension DialogEx on BuildContext {
 
   Future<bool> showAnyTip({
     String? title,
-    required WidgetBuilder make,
+    required WidgetBuilder desc,
     required String primary,
     bool highlight = false,
     bool serious = false,
@@ -43,7 +43,7 @@ extension DialogEx on BuildContext {
       builder: (ctx) => $Dialog$(
           title: title,
           serious: serious,
-          make: make,
+          desc: desc,
           primary: $Action$(
             warning: highlight,
             text: primary,
@@ -150,7 +150,7 @@ extension DialogEx on BuildContext {
       builder: (ctx) => $Dialog$(
         title: title,
         serious: serious,
-        make: make,
+        desc: make,
         primary: $Action$(
           warning: primaryDestructive,
           text: primary,

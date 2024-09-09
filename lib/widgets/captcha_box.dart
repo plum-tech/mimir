@@ -39,7 +39,7 @@ class _CaptchaDialogState extends State<CaptchaDialog> {
           context.navigator.pop(null);
         },
       ),
-      make: (ctx) => [
+      desc: (ctx) => [
         Image.memory(
           widget.captchaData,
           scale: 0.5,

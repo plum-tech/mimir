@@ -4,6 +4,7 @@ import 'package:mimir/credentials/error.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/session/sso.dart';
 import 'package:mimir/utils/error.dart';
+import 'package:mimir/widgets/markdown.dart';
 import "./i18n.dart";
 
 const _i18n = OaLoginI18n();
@@ -16,10 +17,10 @@ Future<void> handleLoginException({
   debugPrintError(error, stackTrace);
   if (!context.mounted) return;
   if (error is CredentialsException) {
-    await context.showTip(
+    await context.showAnyTip(
       serious: true,
       title: _i18n.failedWarn,
-      desc: error.type.l10n(),
+      desc: (ctx) => FeaturedMarkdownWidget(data: error.type.l10n()),
       primary: _i18n.close,
     );
     return;

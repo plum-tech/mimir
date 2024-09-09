@@ -76,13 +76,13 @@ class $Dialog$ extends StatelessWidget {
 
   /// Highlight the title
   final bool serious;
-  final WidgetBuilder make;
+  final WidgetBuilder desc;
 
   const $Dialog$({
     super.key,
     this.title,
     required this.primary,
-    required this.make,
+    required this.desc,
     this.secondary,
     this.serious = false,
   });
@@ -94,7 +94,7 @@ class $Dialog$ extends StatelessWidget {
     if (isCupertino) {
       dialog = CupertinoAlertDialog(
         title: title?.text(style: TextStyle(fontWeight: FontWeight.w600, color: serious ? context.$red$ : null)),
-        content: make(context),
+        content: desc(context),
         actions: [
           if (second != null)
             CupertinoDialogAction(
@@ -120,7 +120,7 @@ class $Dialog$ extends StatelessWidget {
       dialog = AlertDialog(
         backgroundColor: context.theme.dialogBackgroundColor,
         title: title?.text(style: TextStyle(fontWeight: FontWeight.w600, color: serious ? context.$red$ : null)),
-        content: make(context),
+        content: desc(context),
         actions: [
           if (second != null)
             TextButton(

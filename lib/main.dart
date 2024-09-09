@@ -105,8 +105,10 @@ void main() async {
       cacheDir: Files.internal.subDir("hive-cache", R.hiveStorageVersionCache),
     );
     if (R.meta.version >= Version(2, 6, 0)) {
+      final objectBoxDir = Files.internal.subDir("obx", R.objectBoxStorageVersion);
+      await objectBoxDir.create(recursive: true);
       await ObjectBoxInit.init(
-        dir: Files.internal.subDir("obx", R.objectBoxStorageVersion),
+        dir: objectBoxDir,
       );
     }
   }

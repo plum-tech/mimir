@@ -168,7 +168,7 @@ Widget _readonlyEditor(BuildContext ctx, WidgetBuilder make, {String? title}) {
           onPressed: () {
             ctx.navigator.pop(false);
           }),
-      make: (ctx) => make(ctx));
+      desc: (ctx) => make(ctx));
 }
 
 class EnumEditor<T> extends StatefulWidget {
@@ -208,7 +208,7 @@ class _EnumEditorState<T> extends State<EnumEditor<T>> {
           context.navigator.pop();
         },
       ),
-      make: (ctx) => PlatformTextButton(
+      desc: (ctx) => PlatformTextButton(
         child: current.toString().text(),
         onPressed: () async {
           final controller = FixedExtentScrollController(initialItem: initialIndex);
@@ -268,7 +268,7 @@ class _DateTimeEditorState extends State<DateTimeEditor> {
           onPressed: () {
             context.navigator.pop();
           }),
-      make: (ctx) => PlatformTextButton(
+      desc: (ctx) => PlatformTextButton(
         child: current.toString().text(),
         onPressed: () async {
           final newDate = await showDatePicker(
@@ -329,7 +329,7 @@ class _IntEditorState extends State<IntEditor> {
             onPressed: () {
               context.navigator.pop();
             }),
-        make: (ctx) => buildBody(ctx));
+        desc: (ctx) => buildBody(ctx));
   }
 
   Widget buildBody(BuildContext ctx) {
@@ -400,7 +400,7 @@ class _BoolEditorState extends State<BoolEditor> {
             onPressed: () {
               context.navigator.pop();
             }),
-        make: (ctx) => $ListTile$(
+        desc: (ctx) => $ListTile$(
             title: (widget.desc ?? "").text(),
             trailing: Switch.adaptive(
               value: value,
@@ -460,7 +460,7 @@ class _StringEditorState extends State<StringEditor> {
           context.navigator.pop();
         },
       ),
-      make: (ctx) => $TextField$(
+      desc: (ctx) => $TextField$(
         maxLines: lines,
         controller: controller,
       ),
@@ -507,7 +507,7 @@ class _StringsEditorState extends State<StringsEditor> {
   Widget build(BuildContext context) {
     return $Dialog$(
       title: widget.title,
-      make: (ctx) => $values.map((e) => buildField(e.name, e.$value)).toList().column(mas: MainAxisSize.min),
+      desc: (ctx) => $values.map((e) => buildField(e.name, e.$value)).toList().column(mas: MainAxisSize.min),
       primary: $Action$(
           text: _i18n.submit,
           onPressed: () {

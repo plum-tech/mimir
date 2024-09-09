@@ -10,7 +10,7 @@ Future<void> showGuideDialog({
 }) async {
   await context.showAnyTip(
     title: "How to play",
-    make: (ctx) => const InstructionDialog(),
+    desc: (ctx) => const InstructionDialog(),
     primary: 'OK',
     dismissible: true,
   );

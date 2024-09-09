@@ -17,6 +17,7 @@ import 'package:mimir/l10n/common.dart';
 import 'package:mimir/login/utils.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/school/widgets/campus.dart';
+import 'package:mimir/widgets/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/meta.dart';
@@ -205,6 +206,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       // Form field: username and password.
       buildLoginForm(),
       const SizedBox(height: 10),
+      const OaLoginDisclaimerCard(),
       buildLoginButton(),
     ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25).center();
   }
@@ -311,3 +313,24 @@ String? studentIdValidator(String? account, String Function() invalidMessage) {
   }
   return null;
 }
+
+class OaLoginDisclaimerCard extends StatelessWidget {
+  const OaLoginDisclaimerCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      FeaturedMarkdownWidget(
+        data: _disclaimer,
+      ),
+    ].column(caa: CrossAxisAlignment.stretch).padAll(12).inOutlinedCard();
+  }
+}
+
+const _disclaimer = """
+您即将登录上海应用技术大学（简称"学校"）的[办公自动化系统（简称"OA"）](https://myportal.sit.edu.cn/)的账户。
+
+这与迎新系统间独立且不共同，请不用使用高考报名号作为账号。默认密码为：sit@+您的身份证号倒数第7位至倒数第2位，如 sit@765432。登录后
+
+我们非常重视您的隐私安全。您的学工号与OA密码仅用于提交给学校服务器进行身份验证，并仅本地存储。
+""";

@@ -12,6 +12,8 @@ class ObjectBoxInit {
   static Future<void> init({
     required Directory dir,
   }) async {
-    store = await openStore(directory: dir.toString());
+    store = await openStore(
+      // directory: dir.toString(),
+    );
   }
 }
