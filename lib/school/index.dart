@@ -10,6 +10,7 @@ import 'package:mimir/school/event.dart';
 import 'package:mimir/school/exam_arrange/index.dart';
 import 'package:mimir/school/exam_result/index.pg.dart';
 import 'package:mimir/school/exam_result/index.ug.dart';
+import 'package:mimir/school/freshman/card.dart';
 import 'package:mimir/school/library/index.dart';
 import 'package:mimir/school/oa_announce/index.dart';
 import 'package:mimir/school/student_plan/card.dart';
@@ -55,21 +56,24 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
           },
           child: CustomScrollView(
             slivers: [
-              if (loginStatus != OaLoginStatus.never && userType != null) ...[
-                if (userType.has(UserCapability.class2nd) == true) const Class2ndAppCard().sliver(),
-                if (userType.has(UserCapability.examArrange) == true) const ExamArrangeAppCard().sliver(),
-                if (userType.has(UserCapability.examResult) == true)
-                  if (userType == OaUserType.undergraduate)
-                    const ExamResultUgAppCard().sliver()
-                  else if (userType == OaUserType.postgraduate)
-                    const ExamResultPgAppCard().sliver(),
-                if (kDebugMode && userType == OaUserType.undergraduate && ref.watch(Dev.$on))
-                  const StudentPlanAppCard().sliver(),
-                const OaAnnounceAppCard().sliver(),
-                if (userType.has(UserCapability.ywb) == true) const YwbAppCard().sliver(),
-              ],
-              const LibraryAppCard().sliver(),
-              const YellowPagesAppCard().sliver(),
+              SliverList.list(children: [
+                if (userType == OaUserType.freshman) const FreshmanAppCard(),
+                if (loginStatus != OaLoginStatus.never && userType != null) ...[
+                  if (userType.has(UserCapability.class2nd) == true) const Class2ndAppCard(),
+                  if (userType.has(UserCapability.examArrange) == true) const ExamArrangeAppCard(),
+                  if (userType.has(UserCapability.examResult) == true)
+                    if (userType == OaUserType.undergraduate)
+                      const ExamResultUgAppCard()
+                    else if (userType == OaUserType.postgraduate)
+                      const ExamResultPgAppCard(),
+                  if (kDebugMode && userType == OaUserType.undergraduate && ref.watch(Dev.$on))
+                    const StudentPlanAppCard(),
+                  const OaAnnounceAppCard(),
+                  if (userType.has(UserCapability.ywb) == true) const YwbAppCard(),
+                ],
+                const LibraryAppCard(),
+                const YellowPagesAppCard(),
+              ]),
             ],
           ),
         ),

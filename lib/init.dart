@@ -10,6 +10,7 @@ import 'package:mimir/entity/campus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/lifecycle.dart';
+import 'package:mimir/session/freshman.dart';
 import 'package:mimir/settings/entity/proxy.dart';
 import 'package:mimir/storage/hive/init.dart';
 import 'package:mimir/session/class2nd.dart';
@@ -48,6 +49,7 @@ class Init {
   static late Dio mimirDio;
   static late Dio dioNoCookie;
   static late SsoSession ssoSession;
+  static late FreshmanSession freshmanSession;
   static late UgRegistrationSession ugRegSession;
   static late PgRegistrationSession pgRegSession;
   static late YwbSession ywbSession;
@@ -105,6 +107,7 @@ class Init {
     class2ndSession = Class2ndSession(
       ssoSession: ssoSession,
     );
+    freshmanSession = const FreshmanSession();
     pgRegSession = PgRegistrationSession(
       ssoSession: ssoSession,
     );

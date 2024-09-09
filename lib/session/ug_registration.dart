@@ -1,7 +1,6 @@
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:mimir/init.dart';
-import 'package:mimir/r.dart';
 import 'package:mimir/session/sso.dart';
 import 'package:mimir/utils/dio.dart';
 
@@ -15,40 +14,6 @@ class UgRegistrationSession {
   SsoSession get _ssoSession => Init.ssoSession;
 
   const UgRegistrationSession();
-
-  // Future<Response> importTimetable(String url, SemesterInfo info) async {
-  //   await Init.schoolCookieJar.deleteAll();
-  //   final loginRes = await _ssoSession.loginLocked(CredentialsInit.storage.oa.credentials!);
-  //   final response = await Init.schoolDio.request(
-  //     "http://jwxt.sit.edu.cn/sso/jziotlogin",
-  //     options: Options(
-  //       followRedirects: false,
-  //       validateStatus: (status) {
-  //         return status! < 400;
-  //       },
-  //     ),
-  //   );
-  //   final debugDepths = <Response>[];
-  //   final finalResponse = await Init.schoolDio.processRedirect(
-  //     response,
-  //     debugDepths: debugDepths,
-  //   );
-  //   print(debugDepths);
-  //   final timetableRes = await Init.schoolDio.get(
-  //     url,
-  //     options: Options(
-  //       method: "POST",
-  //     ),
-  //     queryParameters: {'gnmkdm': 'N253508'},
-  //     data: FormData.fromMap({
-  //       // 学年名
-  //       'xnm': info.exactYear.toString(),
-  //       // 学期名
-  //       'xqm': info.semester.toUgRegFormField()
-  //     }),
-  //   );
-  //   return timetableRes;
-  // }
 
   bool _isLoginRequired(Response response) {
     if (response.statusCode == 302) return true;
@@ -88,13 +53,6 @@ class UgRegistrationSession {
         onReceiveProgress: onReceiveProgress,
       );
     }
-
-    // await _cookieJar.delete(R.ugRegUri, true);
-    // final authorized = await checkAuthStatus();
-    // if (!authorized) {
-    //   await _cookieJar.delete(R.ugRegUri, true);
-    //   await _ssoSession.ssoAuth("http://jwxt.sit.edu.cn/sso/jziotlogin");
-    // }
 
     var res = await fetch();
     if (_isLoginRequired(res)) {

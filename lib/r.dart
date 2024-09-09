@@ -68,6 +68,7 @@ class R {
   static final myPortalUri = Uri(scheme: "https", host: "myportal.sit.edu.cn");
   static final libraryUri = Uri(scheme: "http", host: "210.35.66.106");
   static final ywbUri = Uri(scheme: "http", host: "ywb.sit.edu.cn");
+  static final freshmanUri = Uri(scheme: "http", host: "freshman.sit.edu.cn");
 
   /// See [OpenLabDoorAppCard]
   static final gateUri = Uri(scheme: "http", host: "210.35.98.178");
@@ -81,6 +82,7 @@ class R {
     myPortalUri,
     libraryUri,
     ywbUri,
+    freshmanUri,
   ];
   static final sitSchoolNetworkUriList = [
     ugRegUri,
@@ -88,6 +90,7 @@ class R {
     class2ndUri,
     schoolCardUri,
     libraryUri,
+    freshmanUri,
   ];
 
   static final websiteUri = Uri(scheme: "https", host: "www.mysit.life");
