@@ -1,4 +1,3 @@
-import 'package:mimir/feature/feature.dart';
 import 'package:objectbox/objectbox.dart';
 
 @Entity()
@@ -14,14 +13,4 @@ class StatsFeatureUsage {
     required this.feature,
     required this.time,
   });
-
-  factory StatsFeatureUsage.by({
-    required AppFeature feature,
-    required DateTime time,
-  }) {
-    return StatsFeatureUsage(
-      feature: feature.name,
-      time: time,
-    );
-  }
 }

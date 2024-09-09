@@ -64,7 +64,7 @@ class SsoSession {
   static const String _captchaUrl = '$_authServerUrl/captcha.html';
   static const String _loginSuccessUrl = 'https://authserver.sit.edu.cn/authserver/index.do';
 
-  Dio get _dio  => Init.schoolDio;
+  Dio get _dio => Init.schoolDio;
 
   CookieJar get _cookieJar => Init.schoolCookieJar;
 
