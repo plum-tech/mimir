@@ -58,11 +58,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   bool loggingIn = false;
   OaUserType? estimatedUserType;
   int? admissionYear;
+  // bool? schoolServerConnected;
 
   @override
   void initState() {
     super.initState();
     $account.addListener(onAccountChange);
+    // checkSchoolServerConnectivity();
   }
 
   @override
@@ -72,6 +74,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     $account.removeListener(onAccountChange);
     super.dispose();
   }
+
+  // Future<void> checkSchoolServerConnectivity() async {
+  //   final connected = await Init.ssoSession.checkConnectivity();
+  //   if (!mounted) return;
+  //   setState(() {
+  //     schoolServerConnected = connected;
+  //   });
+  // }
 
   void onAccountChange() {
     var account = $account.text;
@@ -246,6 +256,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       },
     );
   }
+
+  // Widget buildConnectivityIcon() {
+  //   return switch (schoolServerConnected) {
+  //     null => const CircularProgressIndicator.adaptive(),
+  //     true =>  const Icon(Icons.check),
+  //     false => const Icon(Icons.public_off),
+  //   };
+  // }
 
   Widget buildHeader() {
     return widget.isGuarded

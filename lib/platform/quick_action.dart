@@ -42,7 +42,7 @@ class QuickAction {
 
 final _actions = [
   QuickAction(
-    type: AppFeature.sitRobotOpenDoor.name,
+    type: AppFeature.sitRobotOpenLabDoor.name,
     action: (ctx) {
       sitRobotOpenDoor();
     },

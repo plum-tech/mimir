@@ -1,49 +1,49 @@
 enum AppFeature {
-  // mimir
+  // --- mimir ---
   mimirForum("mimir.forum"),
   mimirBulletin("mimir.bulletin"),
   mimirUser("mimir.user"),
-  mimirSitRobotGate("mimir.sitRobot.gate"),
-  // school
+  update("mimir.update"),
+  // --- school section ---
+  // second class
   secondClass("school.secondClass"),
   secondClassScore("school.secondClass.score"),
   secondClassActivity("school.secondClass.activity"),
   secondClassAttended("school.secondClass.attended"),
+  // exam result
   examResult("school.examResult"),
   examArrangement("school.examArrangement"),
   gpa("school.gpa"),
+  // teacher eval
   teacherEval("school.teacherEval"),
+  // expense records
   expenseRecords("school.expenseRecords"),
-  electricityBalance("school.electricityBalance"),
   expenseRecordsStats("school.expenseRecords.stats"),
+  // electricity balance
+  electricityBalance("school.electricityBalance"),
+  // edu email
   eduEmail("school.eduEmail"),
+  // OA announcement
   oaAnnouncement("school.oaAnnouncement"),
+  // SIT YWB
   ywb("school.ywb"),
+  // library
   library("school.library"),
   librarySearch("school.librarySearch"),
   libraryBorrowing("school.borrowing"),
-  libraryBorrowingHistory("school.History"),
+  libraryBorrowingHistory("school.borrowing.history"),
+  // yellow pages
   yellowPages("school.yellowPages"),
+  // course selection
   courseSelection("school.courseSelection"),
+  // student plan
   studentPlan("school.studentPlan"),
-  // SIT Robot
-  sitRobotOpenDoor("school.sitRobot.OpenDoor"),
-  // basic
+  // --- SIT Robot section ---
+  sitRobotOpenLabDoor("school.sitRobot.openLabDoor"),
+  // --- basic section ---
   timetable("basic.timetable"),
-  timetableCelStyles("basic.timetable.cellStyles"),
-  timetableWallpaper("basic.timetable.wallpaper"),
-  timetableScreenshot("basic.timetable.screenshot"),
-  timetablePatch("basic.timetable.patch"),
   scanner("basic.scanner"),
-  settings("basic.settings"),
-  settingsLanguage("basic.settings.language"),
-  settingsThemeColor("basic.settings.themeColor"),
-  settingsClearCache("basic.settings.clearCache"),
-  settingsProxy("basic.settings.proxy"),
-  settingsNetworkTool("basic.settings.networkTool"),
-  about("basic.about"),
-  update("basic.update"),
-  // game
+  // --- game section ---
   game2048("game.2048"),
   gameMinesweeper("game.minesweeper"),
   gameSudoku("game.sudoku"),
@@ -54,4 +54,48 @@ enum AppFeature {
   final String id;
 
   const AppFeature(this.id);
+
+  static const mimir = {
+    mimirForum,
+    mimirBulletin,
+    mimirUser,
+    update,
+  };
+  static const school = {
+    secondClass,
+    secondClassScore,
+    secondClassActivity,
+    secondClassAttended,
+    examResult,
+    examArrangement,
+    gpa,
+    teacherEval,
+    expenseRecords,
+    expenseRecordsStats,
+    electricityBalance,
+    eduEmail,
+    oaAnnouncement,
+    ywb,
+    library,
+    librarySearch,
+    libraryBorrowing,
+    libraryBorrowingHistory,
+    yellowPages,
+    courseSelection,
+    studentPlan,
+  };
+  static const sitRobot = {
+    sitRobotOpenLabDoor,
+  };
+  static const basic = {
+    timetable,
+    scanner,
+  };
+  static const game = {
+    game2048,
+    gameMinesweeper,
+    gameSudoku,
+    gameWordle,
+    gameSuika,
+  };
 }
