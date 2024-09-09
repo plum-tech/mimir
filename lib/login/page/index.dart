@@ -56,6 +56,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   bool isPasswordClear = false;
   bool isLoggingIn = false;
+  OaUserType? estimatedUserType;
 
   @override
   void initState() {
@@ -77,6 +78,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     if (old != uppercase) {
       $account.text = uppercase;
     }
+    setState(() {
+      estimatedUserType = estimateOaUserType(old);
+    });
   }
 
   /// 用户点击登录按钮后
@@ -204,16 +208,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               style: context.textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
             ),
-      const Padding(padding: EdgeInsets.only(top: 40)),
+      const Padding(padding: EdgeInsets.only(top: 20)),
       // Form field: username and password.
       buildLoginForm(),
       const SizedBox(height: 10),
       const OaLoginDisclaimerCard(),
       $account >>
           (ctx, v) => AnimatedShowUp(
-                when: estimateOaUserType(v.text) == OaUserType.undergraduate &&
+                when: estimateOaUserType(v.text) == OaUserType.freshman &&
                     getAdmissionYearFromStudentId(v.text) == DateTime.now().year,
-                builder: (ctx) => const OaLoginFreshmanTipCard(),
+                builder: (ctx) => const OaLoginFreshmanSystemTipCard(),
               ),
       buildLoginButton(),
     ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25).center();
@@ -260,8 +264,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 await login();
               },
               decoration: InputDecoration(
-                labelText: _i18n.credentials.oaPwd,
-                hintText: _i18n.oaPwdHint,
+                labelText: estimatedUserType == OaUserType.freshman ? "迎新系统密码" : _i18n.credentials.oaPwd,
+                hintText: estimatedUserType == OaUserType.freshman ? "请输入迎新系统密码" : _i18n.oaPwdHint,
                 icon: Icon(context.icons.lock),
                 suffixIcon: PlatformIconButton(
                   icon: Icon(isPasswordClear ? context.icons.eyeSolid : context.icons.eyeSlashSolid),
@@ -336,9 +340,31 @@ class OaLoginDisclaimerCard extends StatelessWidget {
 }
 
 const _disclaimer = """
-您即将登录上海应用技术大学（简称"学校"）的[统一认证服务（简称"OA"）](https://myportal.sit.edu.cn/)的账户。
+您即将登录上海应用技术大学（简称"学校"）的[信息门户（简称"OA"）](https://myportal.sit.edu.cn/)的账户，
+作为学校其他系统的统一认证服务。
 
-我们非常重视您的隐私安全。您的学工号与OA密码仅用于提交给学校服务器进行身份验证，并仅本地存储。
+我们非常重视您的隐私安全。您的账号与密码仅用于提交给学校服务器进行身份验证，并仅存储在本地。
+""";
+
+class OaLoginFreshmanSystemTipCard extends StatelessWidget {
+  const OaLoginFreshmanSystemTipCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      FeaturedMarkdownWidget(
+        data: _freshmanSystemTip,
+      ),
+    ].column(caa: CrossAxisAlignment.stretch).padAll(12).inOutlinedCard();
+  }
+}
+
+const _freshmanSystemTip = """
+您即将使用高考报名号登录迎新系统，仅可查看您的入学信息，
+如学院专业、宿舍房间号，和辅导员及其联系方式。
+请查看学生手册以了解初始密码。
+
+迎新系统不与其他系统共通，在您入学后，请使用学校为您分配的学号重新登录。
 """;
 
 class OaLoginFreshmanTipCard extends StatelessWidget {

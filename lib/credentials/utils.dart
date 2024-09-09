@@ -10,7 +10,7 @@ final _postgraduateId = RegExp(r'^(\d{2}6\d{6})$');
 final _teacherId = RegExp(r'^(\d{4})$');
 
 /// 新生（14位纯数字高考报名号）
-final _freshmanId = RegExp(r'^(\d{4})$');
+final _freshmanId = RegExp(r'^(\d{14})$');
 
 /// [schoolId] can be a student ID or a work number.
 OaUserType? estimateOaUserType(String schoolId) {
