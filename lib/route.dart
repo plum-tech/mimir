@@ -619,6 +619,9 @@ String _getRootRoute() {
   if (userType != null && !userType.has(UserCapability.timetable)) {
     available.remove("/timetable");
   }
+  if (userType == OaUserType.freshman) {
+    return "/school";
+  }
   if (kIsWeb) {
     available.remove("/school");
     available.remove("/life");

@@ -12,6 +12,5 @@ class FreshmanService {
       "http://freshman.sit.edu.cn/yyyx/checkinmanageAction.do?method=personalinfoview",
     );
     final html = res.data as String;
-
   }
 }
