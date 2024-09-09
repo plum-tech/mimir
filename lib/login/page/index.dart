@@ -12,10 +12,12 @@ import 'package:mimir/credentials/init.dart';
 import 'package:mimir/credentials/utils.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/design/animation/animated.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/l10n/common.dart';
 import 'package:mimir/login/utils.dart';
 import 'package:mimir/r.dart';
+import 'package:mimir/school/utils.dart';
 import 'package:mimir/school/widgets/campus.dart';
 import 'package:mimir/widgets/markdown.dart';
 import 'package:rettulf/rettulf.dart';
@@ -207,6 +209,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       buildLoginForm(),
       const SizedBox(height: 10),
       const OaLoginDisclaimerCard(),
+      $account >>
+          (ctx, v) => AnimatedShowUp(
+                when: estimateOaUserType(v.text) == OaUserType.undergraduate &&
+                    getAdmissionYearFromStudentId(v.text) == DateTime.now().year,
+                builder: (ctx) => const OaLoginFreshmanTipCard(),
+              ),
       buildLoginButton(),
     ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25).center();
   }
@@ -328,9 +336,25 @@ class OaLoginDisclaimerCard extends StatelessWidget {
 }
 
 const _disclaimer = """
-您即将登录上海应用技术大学（简称"学校"）的[办公自动化系统（简称"OA"）](https://myportal.sit.edu.cn/)的账户。
-
-这与迎新系统间独立且不共同，请不用使用高考报名号作为账号。默认密码为：sit@+您的身份证号倒数第7位至倒数第2位，如 sit@765432。登录后
+您即将登录上海应用技术大学（简称"学校"）的[统一认证服务（简称"OA"）](https://myportal.sit.edu.cn/)的账户。
 
 我们非常重视您的隐私安全。您的学工号与OA密码仅用于提交给学校服务器进行身份验证，并仅本地存储。
+""";
+
+class OaLoginFreshmanTipCard extends StatelessWidget {
+  const OaLoginFreshmanTipCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      FeaturedMarkdownWidget(
+        data: _freshmanTip,
+      ),
+    ].column(caa: CrossAxisAlignment.stretch).padAll(12).inOutlinedCard();
+  }
+}
+
+const _freshmanTip = """
+OA账户与迎新系统间独立且不共通，请勿使用高考报名号作为账号。默认密码为：sit@+您的身份证号倒数第7位至倒数第2位，如 sit@765432。
+在首次登录前，可能还需前往[OA官网](https://myportal.sit.edu.cn/)修改初始密码并绑定手机号。
 """;

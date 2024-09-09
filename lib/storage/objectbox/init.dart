@@ -13,7 +13,7 @@ class ObjectBoxInit {
     required Directory dir,
   }) async {
     store = await openStore(
-      // directory: dir.toString(),
+      directory: dir.path,
     );
   }
 }
