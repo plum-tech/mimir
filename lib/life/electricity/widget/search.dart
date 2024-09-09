@@ -16,6 +16,7 @@ Future<String?> searchRoom({
   required List<String> roomList,
 }) async {
   final result = await showSearch(
+    useRootNavigator: true,
     context: ctx,
     query: initial,
     delegate: ItemSearchDelegate.highlight(

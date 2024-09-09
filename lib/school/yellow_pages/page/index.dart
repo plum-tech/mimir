@@ -26,7 +26,11 @@ class _YellowPagesListPageState extends State<YellowPagesListPage> {
         actions: [
           PlatformIconButton(
             onPressed: () async {
-              final result = await showSearch(context: context, delegate: YellowPageSearchDelegate(R.yellowPages));
+              final result = await showSearch(
+                useRootNavigator: true,
+                context: context,
+                delegate: YellowPageSearchDelegate(R.yellowPages),
+              );
               if (result == null) return;
               YellowPagesInit.storage.addInteractHistory(result);
             },

@@ -33,7 +33,11 @@ class _LibraryAppCardState extends ConsumerState<LibraryAppCard> {
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
-            await showSearch(context: context, delegate: LibrarySearchDelegate());
+            await showSearch(
+              useRootNavigator: true,
+              context: context,
+              delegate: LibrarySearchDelegate(),
+            );
           },
           icon: Icon(context.icons.search),
           label: i18n.action.searchBooks.text(),

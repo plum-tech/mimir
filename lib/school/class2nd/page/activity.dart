@@ -53,7 +53,11 @@ class _ActivityListPageState extends State<ActivityListPage> {
                           actions: [
                             PlatformIconButton(
                               icon: Icon(context.icons.search),
-                              onPressed: () => showSearch(context: context, delegate: ActivitySearchDelegate()),
+                              onPressed: () => showSearch(
+                                useRootNavigator: true,
+                                context: context,
+                                delegate: ActivitySearchDelegate(),
+                              ),
                             ),
                           ],
                           bottom: TabBar(

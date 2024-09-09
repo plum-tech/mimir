@@ -35,9 +35,9 @@ class _YellowPagesAppCardState extends ConsumerState<YellowPagesAppCard> {
         FilledButton.icon(
           onPressed: () async {
             final result = await showSearch(
+              useRootNavigator: true,
               context: context,
               delegate: YellowPageSearchDelegate(R.yellowPages),
-              useRootNavigator: true,
             );
             if (result == null) return;
             YellowPagesInit.storage.addInteractHistory(result);

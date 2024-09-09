@@ -109,6 +109,7 @@ class _AttendedActivityPageState extends ConsumerState<AttendedActivityPage> {
                   PlatformIconButton(
                     onPressed: () async {
                       final result = await showSearch(
+                        useRootNavigator: true,
                         context: context,
                         delegate: AttendedActivitySearchDelegate(attended ?? []),
                       );
