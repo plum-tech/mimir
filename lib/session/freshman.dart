@@ -33,7 +33,8 @@ class FreshmanSession {
 
     var res = await fetch();
     if (_isLoginRequired(res)) {
-      await _ssoSession.ssoAuth("http://freshman.sit.edu.cn/yyyx/sso/login.jsp");
+      // TODO: make the login work
+      await _ssoSession.ssoAuth("http://freshman.sit.edu.cn/yyyx/loginAction.do?method=login");
       res = await fetch();
     }
     return res;

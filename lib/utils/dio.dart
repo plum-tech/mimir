@@ -51,7 +51,7 @@ extension DioEx on Dio {
   Future<Response> requestFollowRedirect(
     String url, {
     Map<String, String>? queryParameters,
-    FormData Function()? data,
+    dynamic Function()? data,
     Options? options,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
@@ -60,6 +60,7 @@ extension DioEx on Dio {
     final res = await request(
       url,
       queryParameters: queryParameters,
+      data: data?.call(),
       options: options.copyWith(
         followRedirects: false,
       ),

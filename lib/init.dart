@@ -10,6 +10,7 @@ import 'package:mimir/entity/campus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/lifecycle.dart';
+import 'package:mimir/school/freshman/init.dart';
 import 'package:mimir/session/freshman.dart';
 import 'package:mimir/settings/entity/proxy.dart';
 import 'package:mimir/storage/hive/init.dart';
@@ -117,8 +118,9 @@ class Init {
     debugPrint("Initializing modules");
     CredentialsInit.init();
     TimetableInit.init();
+    BackendInit.init();
     if (!kIsWeb) {
-      BackendInit.init();
+      FreshmanInit.init();
       OaAnnounceInit.init();
       ExamResultInit.init();
       ExamArrangeInit.init();

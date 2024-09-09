@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mimir/backend/bulletin/page/list.dart';
-import 'package:mimir/backend/forum/card.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/school/freshman/init.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/widgets/app.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -22,7 +21,9 @@ class _FreshmanAppCardState extends ConsumerState<FreshmanAppCard> {
       title: "Freshman".text(),
       leftActions: [
         FilledButton.icon(
-          onPressed: () {},
+          onPressed: () async {
+            final info = await FreshmanInit.service.fetchInfo();
+          },
           icon: Icon(context.icons.refresh),
           label: "Refresh".text(),
         ),
