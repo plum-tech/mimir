@@ -1,10 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/entity/meta.dart';
@@ -17,7 +14,6 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:version/version.dart';
 
 import '../init.dart';
-import 'entity/artifact.dart';
 import 'i18n.dart';
 import 'page/update.dart';
 
@@ -58,21 +54,6 @@ bool _canSkipVersion({
   return true;
 }
 
-/// randomly delay [0,2) hours after a new version release
-bool _isTimeToShow({
-  required ArtifactVersionInfo latest,
-}) {
-  final releaseTime = latest.releaseTime;
-  if (releaseTime == null) return true;
-  final now = DateTime.now();
-  if (releaseTime.isAfter(now)) return true;
-  final rand = Random(CredentialsInit.storage.oa.credentials?.account.hashCode);
-  final minuteDelta = rand.nextInt(2 * 60 * 60);
-  final delay = Duration(minutes: minuteDelta);
-  final showAfter = releaseTime.add(delay);
-  return now.isAfter(showAfter);
-}
-
 Future<void> _checkAppUpdateFromOfficial({
   required BuildContext context,
   Duration delayAtLeast = Duration.zero,
@@ -82,8 +63,6 @@ Future<void> _checkAppUpdateFromOfficial({
   debugPrint(latest.toString());
   final currentVersion = R.meta.version;
   if (latest.downloadOf(R.meta.platform) == null) return;
-  // if not manually triggered, delay a while
-  if (!manually && !_isTimeToShow(latest: latest)) return;
   // if update checking was not manually triggered, skip it.
   if (!manually && _canSkipVersion(latest: latest.version, current: currentVersion)) return;
   if (!manually) {
@@ -116,8 +95,6 @@ Future<void> _checkAppUpdateFromApple({
   }
   debugPrint(latest.toString());
   final currentVersion = R.meta.version;
-  // if not manually triggered, delay a while
-  if (!manually && !_isTimeToShow(latest: latest)) return;
   // if update checking was not manually triggered, skip it.
   if (!manually && _canSkipVersion(latest: latest.version, current: currentVersion)) return;
   if (!manually) {
