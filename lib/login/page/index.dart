@@ -55,8 +55,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final $password = TextEditingController(text: Dev.demoMode ? R.demoModeOaCredentials.password : null);
   final _formKey = GlobalKey<FormState>();
   bool isPasswordClear = false;
-  bool isLoggingIn = false;
+  bool loggingIn = false;
   OaUserType? estimatedUserType;
+  int? admissionYear;
 
   @override
   void initState() {
@@ -73,13 +74,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   void onAccountChange() {
-    final old = $account.text;
-    final uppercase = old.toUpperCase();
-    if (old != uppercase) {
-      $account.text = uppercase;
+    var account = $account.text;
+    account = account.toUpperCase();
+    if (account != $account.text) {
+      $account.text = account;
     }
     setState(() {
-      estimatedUserType = estimateOaUserType(old);
+      estimatedUserType = estimateOaUserType(account);
+      admissionYear = getAdmissionYearFromStudentId(account);
     });
   }
 
@@ -96,7 +98,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   Future<void> loginDemoMode() async {
     if (!mounted) return;
-    setState(() => isLoggingIn = true);
+    setState(() => loggingIn = true);
     final rand = Random();
     await Future.delayed(Duration(milliseconds: rand.nextInt(2000)));
     Meta.userRealName = "Liplum";
@@ -108,7 +110,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     Dev.demoMode = true;
     await Init.initModules();
     if (!mounted) return;
-    setState(() => isLoggingIn = false);
+    setState(() => loggingIn = false);
     context.go("/");
   }
 
@@ -130,11 +132,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     }
 
     if (!mounted) return;
-    setState(() => isLoggingIn = true);
+    setState(() => loggingIn = true);
     final connectionType = await Connectivity().checkConnectivity();
     if (connectionType.contains(ConnectivityResult.none)) {
       if (!mounted) return;
-      setState(() => isLoggingIn = false);
+      setState(() => loggingIn = false);
       await context.showTip(
         title: _i18n.network.error,
         desc: _i18n.network.noAccessTip,
@@ -147,11 +149,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     try {
       await XLogin.login(Credentials(account: account, password: password));
       if (!mounted) return;
-      setState(() => isLoggingIn = false);
+      setState(() => loggingIn = false);
       context.go("/");
     } catch (error, stackTrace) {
       if (!mounted) return;
-      setState(() => isLoggingIn = false);
+      setState(() => loggingIn = false);
       if (error is Exception) {
         await handleLoginException(context: context, error: error, stackTrace: stackTrace);
       }
@@ -172,55 +174,91 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         // dismiss the keyboard when tap out of TextField.
         FocusScope.of(context).requestFocus(FocusNode());
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: widget.isGuarded ? _i18n.loginRequired.text() : const CampusSelector(),
-          actions: [
-            PlatformIconButton(
-              icon: isCupertino ? const Icon(CupertinoIcons.settings) : const Icon(Icons.settings),
-              onPressed: () {
-                context.push("/settings");
-              },
-            ),
-          ],
-          bottom: isLoggingIn
-              ? const PreferredSize(
-                  preferredSize: Size.fromHeight(4),
-                  child: LinearProgressIndicator(),
-                )
-              : null,
-        ),
-        body: buildBody(),
-        //to avoid overflow when keyboard is up.
-        bottomNavigationBar: const ForgotPasswordButton(url: oaForgotLoginPasswordUrl),
-      ),
+      child: buildBody(),
     );
   }
 
   Widget buildBody() {
-    return [
-      widget.isGuarded
-          ? const Icon(
-              Icons.person_off_outlined,
-              size: 120,
-            )
-          : _i18n.welcomeHeader.text(
+    if (context.isPortrait) {
+      return Scaffold(
+        appBar: AppBar(
+          title: widget.isGuarded ? _i18n.loginRequired.text() : const CampusSelector(),
+          actions: [
+            buildSettingsAction(),
+          ],
+        ),
+        floatingActionButton: loggingIn ? const CircularProgressIndicator.adaptive() : null,
+        body: [
+          buildHeader(),
+          buildLoginForm(),
+          const Divider(),
+          const OaLoginDisclaimerCard(),
+          AnimatedShowUp(
+            when: estimatedUserType == OaUserType.freshman && admissionYear == DateTime.now().year,
+            builder: (ctx) => const OaLoginFreshmanSystemTipCard(),
+          ),
+          AnimatedShowUp(
+            when: estimatedUserType == OaUserType.undergraduate && admissionYear == DateTime.now().year,
+            builder: (ctx) => const OaLoginFreshmanTipCard(),
+          ),
+          buildLoginButton(),
+          const ForgotPasswordButton(url: oaForgotLoginPasswordUrl),
+        ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25).center(),
+      );
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          title: widget.isGuarded ? _i18n.loginRequired.text() : _i18n.welcomeHeader.text(),
+          actions: [
+            buildSettingsAction(),
+          ],
+        ),
+        floatingActionButton: loggingIn ? const CircularProgressIndicator.adaptive() : null,
+        body: [
+          [
+            const CampusSelector(),
+            const OaLoginDisclaimerCard(),
+            AnimatedShowUp(
+              when: estimatedUserType == OaUserType.freshman && admissionYear == DateTime.now().year,
+              builder: (ctx) => const OaLoginFreshmanSystemTipCard(),
+            ),
+            AnimatedShowUp(
+              when: estimatedUserType == OaUserType.undergraduate && admissionYear == DateTime.now().year,
+              builder: (ctx) => const OaLoginFreshmanTipCard(),
+            ),
+          ].column(maa: MainAxisAlignment.start).scrolled().expanded(),
+          const VerticalDivider(),
+          [
+            buildLoginForm(),
+            buildLoginButton(),
+            const ForgotPasswordButton(url: oaForgotLoginPasswordUrl),
+          ].column().scrolled().expanded(),
+        ].row(),
+      );
+    }
+  }
+
+  Widget buildSettingsAction() {
+    return PlatformIconButton(
+      icon: isCupertino ? const Icon(CupertinoIcons.settings) : const Icon(Icons.settings),
+      onPressed: () {
+        context.push("/settings");
+      },
+    );
+  }
+
+  Widget buildHeader() {
+    return widget.isGuarded
+        ? const Icon(
+            Icons.person_off_outlined,
+            size: 120,
+          )
+        : _i18n.welcomeHeader
+            .text(
               style: context.textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold),
               textAlign: TextAlign.center,
-            ),
-      const Padding(padding: EdgeInsets.only(top: 20)),
-      // Form field: username and password.
-      buildLoginForm(),
-      const SizedBox(height: 10),
-      const OaLoginDisclaimerCard(),
-      $account >>
-          (ctx, v) => AnimatedShowUp(
-                when: estimateOaUserType(v.text) == OaUserType.freshman &&
-                    getAdmissionYearFromStudentId(v.text) == DateTime.now().year,
-                builder: (ctx) => const OaLoginFreshmanSystemTipCard(),
-              ),
-      buildLoginButton(),
-    ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25).center();
+            )
+            .padSymmetric(v: 20);
   }
 
   Widget buildLoginForm() {
@@ -236,7 +274,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               textInputAction: TextInputAction.next,
               autocorrect: false,
               autofocus: true,
-              readOnly: isLoggingIn,
+              readOnly: loggingIn,
               enableSuggestions: false,
               validator: (account) => studentIdValidator(account, () => _i18n.invalidAccountFormat),
               decoration: InputDecoration(
@@ -250,7 +288,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               keyboardType: isPasswordClear ? TextInputType.visiblePassword : null,
               autofillHints: const [AutofillHints.password],
               textInputAction: TextInputAction.send,
-              readOnly: isLoggingIn,
+              readOnly: loggingIn,
               contextMenuBuilder: (ctx, state) {
                 return AdaptiveTextSelectionToolbar.editableText(
                   editableTextState: state,
@@ -288,7 +326,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       $account >>
           (ctx, account) => FilledButton.icon(
                 // Online
-                onPressed: !isLoggingIn && account.text.isNotEmpty
+                onPressed: !loggingIn && account.text.isNotEmpty
                     ? () {
                         // un-focus the text field.
                         FocusScope.of(context).requestFocus(FocusNode());
@@ -362,9 +400,9 @@ class OaLoginFreshmanSystemTipCard extends StatelessWidget {
 const _freshmanSystemTip = """
 您即将使用高考报名号登录迎新系统，仅可查看您的入学信息，
 如学院专业、宿舍房间号，和辅导员及其联系方式。
-请查看学生手册以了解初始密码。
+请查看《新生入学须知》以了解初始密码。
 
-迎新系统不与其他系统共通，在您入学后，请使用学校为您分配的学号重新登录。
+迎新系统不与其他系统共通（如课程表功能），在您入学后，请使用学校为您分配的学号重新登录。
 """;
 
 class OaLoginFreshmanTipCard extends StatelessWidget {
@@ -381,6 +419,7 @@ class OaLoginFreshmanTipCard extends StatelessWidget {
 }
 
 const _freshmanTip = """
-OA账户与迎新系统间独立且不共通，请勿使用高考报名号作为账号。默认密码为：sit@+您的身份证号倒数第7位至倒数第2位，如 sit@765432。
+OA账户与迎新系统间独立且不共通，请勿使用高考报名号作为账号。请查看《新生入学须知》以了解初始密码。
+
 在首次登录前，可能还需前往[OA官网](https://myportal.sit.edu.cn/)修改初始密码并绑定手机号。
 """;
