@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/backend/forum/card.dart';
-import 'package:mimir/credentials/entity/login_status.dart';
-import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/entity/campus.dart';
+import 'package:mimir/feature/feature.dart';
 import 'package:mimir/life/electricity/card.dart';
 import 'package:mimir/life/expense_records/card.dart';
 import 'package:mimir/life/lab_door/card.dart';
@@ -55,9 +54,9 @@ class _LifePageState extends ConsumerState<LifePage> {
           child: CustomScrollView(
             slivers: [
               SliverList.list(children: [
-                if (userType?.has(UserCapability.expenseRecords) == true && loginStatus != OaLoginStatus.never)
+                if (userType.has(AppFeature.expenseRecords) )
                   const ExpenseRecordsAppCard(),
-                if (userType?.has(UserCapability.expenseRecords) != false && campus.capability.enableElectricity)
+                if (userType.has(AppFeature.electricityBalance) && campus.capability.enableElectricity)
                   const ElectricityBalanceAppCard(),
                 const ForumAppCard(),
                 if (!kIsWeb &&

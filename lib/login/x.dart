@@ -1,5 +1,6 @@
 import 'package:mimir/credentials/entity/credential.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
+import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/credentials/utils.dart';
 import 'package:mimir/init.dart';
@@ -23,6 +24,6 @@ class XLogin {
     CredentialsInit.storage.oa.credentials = credentials;
     CredentialsInit.storage.oa.loginStatus = OaLoginStatus.validated;
     CredentialsInit.storage.oa.lastAuthTime = DateTime.now();
-    CredentialsInit.storage.oa.userType = userType;
+    CredentialsInit.storage.oa.userType = userType ?? OaUserType.none;
   }
 }

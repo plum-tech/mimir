@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/credentials/entity/user_type.dart';
+import 'package:mimir/feature/feature.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
@@ -44,7 +44,7 @@ class _LibraryAppCardState extends ConsumerState<LibraryAppCard> {
           icon: Icon(context.icons.search),
           label: i18n.action.searchBooks.text(),
         ),
-        if (userType?.has(UserCapability.libraryAccount) == true)
+        if (userType.has(AppFeature.libraryAccount$) == true)
           if (credentials == null)
             FilledButton.tonal(
               onPressed: () async {

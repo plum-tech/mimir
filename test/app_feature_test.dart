@@ -10,11 +10,11 @@ void main() {
   group("Querying", () {
     test("Querying AppFeature trees", () {
       final tree = AppFeature.tree;
-      assert(tree.find("mimir") == true);
-      assert(tree.find("mimir.bulletin") == true);
-      assert(tree.find("school.secondClass") == true);
-      assert(tree.find("notFound") == false);
-      assert(tree.find("mimir.notFound") == false);
+      assert(tree.has("mimir") == true);
+      assert(tree.has("mimir.bulletin") == true);
+      assert(tree.has("school.secondClass") == true);
+      assert(tree.has("notFound") == false);
+      assert(tree.has("mimir.notFound") == false);
     });
   });
 }

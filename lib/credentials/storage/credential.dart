@@ -37,11 +37,11 @@ class _Oa {
 
   late final $loginStatus = box.providerWithDefault<OaLoginStatus>(_OaK.loginStatus, () => OaLoginStatus.never);
 
-  OaUserType? get userType => box.safeGet<OaUserType>(_OaK.userType);
+  OaUserType get userType => box.safeGet<OaUserType>(_OaK.userType) ?? OaUserType.none;
 
-  set userType(OaUserType? newV) => box.safePut<OaUserType>(_OaK.userType, newV);
+  set userType(OaUserType newV) => box.safePut<OaUserType>(_OaK.userType, newV);
 
-  late final $userType = box.provider<OaUserType>(_OaK.userType);
+  late final $userType = box.providerWithDefault<OaUserType>(_OaK.userType, () => OaUserType.none);
 }
 
 class _MimirK {

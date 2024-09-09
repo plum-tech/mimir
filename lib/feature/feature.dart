@@ -10,22 +10,26 @@ class AppFeature {
       mimirUser = "mimir.user",
       // --- school section ---
       // second class
+      secondClass$ = "school.secondClass",
       secondClassScore = "school.secondClass.score",
       secondClassActivity = "school.secondClass.activity",
       secondClassAttended = "school.secondClass.attended",
       // exam result
+      examResult$ = "school.examResult",
       examResultPg = "school.examResult.pg",
       examResultUg = "school.examResult.ug",
+      gpa = "school.examResult.ug.gpa",
       examArrangement = "school.examArrangement",
-      gpa = "school.gpa",
       // teacher eval
       teacherEval = "school.teacherEval",
       // expense records
+      expenseRecords$ = "school.expenseRecords",
       expenseRecords = "school.expenseRecords",
       expenseRecordsStats = "school.expenseRecords.stats",
       // electricity balance
       electricityBalance = "school.electricityBalance",
       // edu email
+      eduEmail$ = "school.eduEmail",
       eduEmailInbox = "school.eduEmail.inbox",
       eduEmailOutbox = "school.eduEmail.outbox",
       // OA announcement
@@ -33,7 +37,9 @@ class AppFeature {
       // SIT YWB
       ywb = "school.ywb",
       // library
+      library$ = "school.library",
       librarySearch = "school.library.search",
+      libraryAccount$ = "school.library.account",
       libraryBorrowing = "school.library.account.borrowing",
       libraryBorrowingHistory = "school.library.account.borrowingHistory",
       // yellow pages
@@ -48,6 +54,7 @@ class AppFeature {
       timetable = "basic.timetable",
       scanner = "basic.scanner",
       // --- game section ---
+      game$ = "game",
       game2048 = "game.2048",
       gameMinesweeper = "game.minesweeper",
       gameSudoku = "game.sudoku",
@@ -144,7 +151,7 @@ class AppFeatureTree implements AppFeatureTreeNode {
     }
   }
 
-  bool find(String feature) {
+  bool has(String feature) {
     final parts = Queue.of(feature.split("."));
     final queue = Queue<AppFeatureTreeNode>();
     queue.addLast(this);

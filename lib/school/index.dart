@@ -2,9 +2,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
+import 'package:mimir/feature/feature.dart';
 import 'package:mimir/school/class2nd/index.dart';
 import 'package:mimir/school/event.dart';
 import 'package:mimir/school/exam_arrange/index.dart';
@@ -17,7 +17,6 @@ import 'package:mimir/school/student_plan/card.dart';
 import 'package:mimir/school/yellow_pages/card.dart';
 import 'package:mimir/school/ywb/index.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/settings/dev.dart';
 import 'i18n.dart';
 
 class SchoolPage extends ConsumerStatefulWidget {
@@ -58,19 +57,13 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
             slivers: [
               SliverList.list(children: [
                 if (userType == OaUserType.freshman) const FreshmanAppCard(),
-                if (loginStatus != OaLoginStatus.never && userType != null) ...[
-                  if (userType.has(UserCapability.class2nd) == true) const Class2ndAppCard(),
-                  if (userType.has(UserCapability.examArrange) == true) const ExamArrangeAppCard(),
-                  if (userType.has(UserCapability.examResult) == true)
-                    if (userType == OaUserType.undergraduate)
-                      const ExamResultUgAppCard()
-                    else if (userType == OaUserType.postgraduate)
-                      const ExamResultPgAppCard(),
-                  if (kDebugMode && userType == OaUserType.undergraduate && ref.watch(Dev.$on))
-                    const StudentPlanAppCard(),
-                  const OaAnnounceAppCard(),
-                  if (userType.has(UserCapability.ywb) == true) const YwbAppCard(),
-                ],
+                if (userType.has(AppFeature.secondClass$) == true) const Class2ndAppCard(),
+                if (userType.has(AppFeature.examArrangement) == true) const ExamArrangeAppCard(),
+                if (userType.has(AppFeature.examResultUg) == true) const ExamResultUgAppCard(),
+                if (userType.has(AppFeature.examResultPg) == true) const ExamResultPgAppCard(),
+                if (kDebugMode && userType.has(AppFeature.studentPlan)) const StudentPlanAppCard(),
+                const OaAnnounceAppCard(),
+                if (userType.has(AppFeature.ywb) == true) const YwbAppCard(),
                 const LibraryAppCard(),
                 const YellowPagesAppCard(),
               ]),

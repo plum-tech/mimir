@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/feature/feature.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
@@ -32,10 +32,8 @@ class _SchoolSettingsPageState extends ConsumerState<SchoolSettingsPage> {
           ),
           SliverList.list(
             children: [
-              if (userType != null) ...[
-                if (userType.has(UserCapability.class2nd)) buildClass2ndAutoRefreshToggle(),
-                if (userType.has(UserCapability.examResult)) buildExamResultShowResultPreviewToggle(),
-              ],
+              if (userType.has(AppFeature.secondClass$)) buildClass2ndAutoRefreshToggle(),
+              if (userType.has(AppFeature.examResult$)) buildExamResultShowResultPreviewToggle(),
             ],
           ),
         ],
