@@ -1,31 +1,34 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:mimir/feature/feature.dart';
 import 'package:mimir/storage/hive/type_id.dart';
 
 part 'campus.g.dart';
 
-enum CampusFeature {
-  electricity,
-  ;
-}
-
 @HiveType(typeId: CoreHiveType.campus)
 enum Campus {
   @HiveField(0)
-  fengxian({
-    CampusFeature.electricity,
-  }),
+  fengxian(prohibited: {}),
   @HiveField(1)
-  xuhui({
-    CampusFeature.electricity,
+  xuhui(prohibited: {
+    "school.electricityBalance",
+    "school.sitRobot",
   });
 
-  final Set<CampusFeature> features;
+  final Set<String> prohibited;
 
-  const Campus(this.features);
+  const Campus({
+    required this.prohibited,
+  });
 
   String l10nName() => "campus.$name".tr();
 
-  bool has(CampusFeature feature) {
-    return features.contains(feature);
+  static final _type2Prohibited = Map.fromEntries(Campus.values.map(
+    (v) => MapEntry(v, AppFeatureTree.build(v.prohibited)),
+  ));
+
+  bool prohibit(String feature) {
+    final tree = _type2Prohibited[this];
+    if (tree == null) return false;
+    return tree.has(feature);
   }
 }

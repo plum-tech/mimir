@@ -2,9 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mimir/credentials/entity/user_type.dart';
-import 'package:mimir/credentials/init.dart';
 import 'package:mimir/feature/feature.dart';
+import 'package:mimir/feature/utils.dart';
 import 'package:mimir/school/class2nd/index.dart';
 import 'package:mimir/school/event.dart';
 import 'package:mimir/school/exam_arrange/index.dart';
@@ -29,8 +28,6 @@ class SchoolPage extends ConsumerStatefulWidget {
 class _SchoolPageState extends ConsumerState<SchoolPage> {
   @override
   Widget build(BuildContext context) {
-    final userType = ref.watch(CredentialsInit.storage.oa.$userType);
-    final loginStatus = ref.watch(CredentialsInit.storage.oa.$loginStatus);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: NestedScrollView(
@@ -56,16 +53,16 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
           child: CustomScrollView(
             slivers: [
               SliverList.list(children: [
-                if (userType == OaUserType.freshman) const FreshmanAppCard(),
-                if (userType.has(AppFeature.secondClass$) == true) const Class2ndAppCard(),
-                if (userType.has(AppFeature.examArrangement) == true) const ExamArrangeAppCard(),
-                if (userType.has(AppFeature.examResultUg) == true) const ExamResultUgAppCard(),
-                if (userType.has(AppFeature.examResultPg) == true) const ExamResultPgAppCard(),
-                if (kDebugMode && userType.has(AppFeature.studentPlan)) const StudentPlanAppCard(),
-                const OaAnnounceAppCard(),
-                if (userType.has(AppFeature.ywb) == true) const YwbAppCard(),
-                const LibraryAppCard(),
-                const YellowPagesAppCard(),
+                if (can(AppFeature.freshman, ref)) const FreshmanAppCard(),
+                if (can(AppFeature.secondClass$, ref) == true) const Class2ndAppCard(),
+                if (can(AppFeature.examArrangement, ref) == true) const ExamArrangeAppCard(),
+                if (can(AppFeature.examResultUg, ref) == true) const ExamResultUgAppCard(),
+                if (can(AppFeature.examResultPg, ref) == true) const ExamResultPgAppCard(),
+                if (kDebugMode && can(AppFeature.studentPlan, ref)) const StudentPlanAppCard(),
+                if (can(AppFeature.oaAnnouncement, ref)) const OaAnnounceAppCard(),
+                if (can(AppFeature.ywb, ref)) const YwbAppCard(),
+                if (can(AppFeature.library$, ref)) const LibraryAppCard(),
+                if (can(AppFeature.yellowPages, ref)) const YellowPagesAppCard(),
               ]),
             ],
           ),

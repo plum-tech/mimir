@@ -4,8 +4,8 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/backend/user/card.dart';
-import 'package:mimir/credentials/init.dart';
 import 'package:mimir/feature/feature.dart';
+import 'package:mimir/feature/utils.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
@@ -37,7 +37,6 @@ class _MePageState extends ConsumerState<MePage> {
   @override
   Widget build(BuildContext context) {
     final dev = ref.watch(Dev.$on);
-    final userType = ref.watch(CredentialsInit.storage.oa.$userType);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: CustomScrollView(
@@ -62,7 +61,7 @@ class _MePageState extends ConsumerState<MePage> {
             ],
           ),
           if (dev) const UserProfileAppCard().sliver(),
-          if (userType.has(AppFeature.eduEmail$) != false) const EduEmailAppCard().sliver(),
+          if (can(AppFeature.eduEmail$, ref)) const EduEmailAppCard().sliver(),
           SliverList.list(children: [
             buildQQGroupTile(),
             buildWechatOfficialAccountTile(),

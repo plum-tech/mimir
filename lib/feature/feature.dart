@@ -34,6 +34,8 @@ class AppFeature {
       eduEmailOutbox = "school.eduEmail.outbox",
       // OA announcement
       oaAnnouncement = "school.oaAnnouncement",
+      // freshman
+      freshman = "school.freshman",
       // SIT YWB
       ywb = "school.ywb",
       // library

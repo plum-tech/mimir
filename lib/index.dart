@@ -4,9 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/feature/feature.dart';
+import 'package:mimir/feature/utils.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/i18n.dart' as $timetable;
 import 'package:mimir/school/i18n.dart' as $school;
@@ -50,10 +50,8 @@ typedef NavigationItems = List<({String route, _NavigationDest item})>;
 
 class _MainStagePageState extends ConsumerState<MainStagePage> {
   NavigationItems buildItems() {
-    final userType = ref.watch(CredentialsInit.storage.oa.$userType);
     return [
-      if (ref.watch(Settings.timetable.$showTimetableNavigation) ??
-          true && (userType.has(AppFeature.timetable)))
+      if (ref.watch(Settings.timetable.$showTimetableNavigation) ?? true && (can(AppFeature.timetable, ref)))
         (
           route: "/timetable",
           item: (

@@ -12,6 +12,7 @@ import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/feature/feature.dart';
+import 'package:mimir/feature/utils.dart';
 import 'package:mimir/game/2048/page/index.dart';
 import 'package:mimir/game/2048/page/records.dart';
 import 'package:mimir/game/index.dart';
@@ -617,7 +618,7 @@ String _getRootRoute() {
     available.remove("/timetable");
   }
   final userType = CredentialsInit.storage.oa.userType;
-  if (!userType.has(AppFeature.timetable)) {
+  if (!can(AppFeature.timetable)) {
     available.remove("/timetable");
   }
   if (userType == OaUserType.freshman) {

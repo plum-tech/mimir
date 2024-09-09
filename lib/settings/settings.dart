@@ -17,6 +17,7 @@ import 'entity/proxy.dart';
 class _K {
   static const ns = "/settings";
   static const campus = '$ns/campus';
+
   // static const focusTimetable = '$ns/focusTimetable';
   static const lastSignature = '$ns/lastSignature';
 }
@@ -46,7 +47,7 @@ class SettingsImpl {
 
   set campus(Campus newV) => box.safePut<Campus>(_K.campus, newV);
 
-  late final $campus = box.provider<Campus>(_K.campus);
+  late final $campus = box.providerWithDefault<Campus>(_K.campus, () => Campus.fengxian);
 
   String? get lastSignature => box.safeGet<String>(_K.lastSignature);
 

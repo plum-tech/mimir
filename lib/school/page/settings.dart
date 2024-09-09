@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/feature/feature.dart';
+import 'package:mimir/feature/utils.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
@@ -19,7 +19,6 @@ class SchoolSettingsPage extends ConsumerStatefulWidget {
 class _SchoolSettingsPageState extends ConsumerState<SchoolSettingsPage> {
   @override
   Widget build(BuildContext context) {
-    final userType = ref.watch(CredentialsInit.storage.oa.$userType);
     return Scaffold(
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
@@ -32,8 +31,8 @@ class _SchoolSettingsPageState extends ConsumerState<SchoolSettingsPage> {
           ),
           SliverList.list(
             children: [
-              if (userType.has(AppFeature.secondClass$)) buildClass2ndAutoRefreshToggle(),
-              if (userType.has(AppFeature.examResult$)) buildExamResultShowResultPreviewToggle(),
+              if (can(AppFeature.secondClass$, ref)) buildClass2ndAutoRefreshToggle(),
+              if (can(AppFeature.examResult$, ref)) buildExamResultShowResultPreviewToggle(),
             ],
           ),
         ],

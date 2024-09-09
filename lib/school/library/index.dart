@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/feature/feature.dart';
+import 'package:mimir/feature/utils.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
@@ -28,7 +29,6 @@ class _LibraryAppCardState extends ConsumerState<LibraryAppCard> {
     final storage = LibraryInit.borrowStorage;
     final credentials = ref.watch(CredentialsInit.storage.library.$credentials);
     final borrowedBooks = ref.watch(storage.$borrowed);
-    final userType = ref.watch(CredentialsInit.storage.oa.$userType);
     return AppCard(
       title: i18n.title.text(),
       view: borrowedBooks == null ? null : buildBorrowedBook(borrowedBooks),
@@ -44,7 +44,7 @@ class _LibraryAppCardState extends ConsumerState<LibraryAppCard> {
           icon: Icon(context.icons.search),
           label: i18n.action.searchBooks.text(),
         ),
-        if (userType.has(AppFeature.libraryAccount$) == true)
+        if (can(AppFeature.libraryAccount$))
           if (credentials == null)
             FilledButton.tonal(
               onPressed: () async {

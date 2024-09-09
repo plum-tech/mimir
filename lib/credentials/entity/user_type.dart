@@ -7,7 +7,7 @@ part 'user_type.g.dart';
 @HiveType(typeId: CoreHiveType.oaUserType)
 enum OaUserType {
   @HiveField(0)
-  undergraduate({
+  undergraduate(allowed: {
     "basic.timetable",
     "school.secondClass",
     "school.examResult.ug",
@@ -24,7 +24,7 @@ enum OaUserType {
     "game",
   }),
   @HiveField(1)
-  postgraduate({
+  postgraduate(allowed: {
     "basic.timetable",
     "school.examResult.pg",
     "school.ywb",
@@ -37,14 +37,15 @@ enum OaUserType {
     "game",
   }),
   @HiveField(2)
-  freshman({
+  freshman(allowed: {
     "school.yellowPages",
     "school.library.search",
     "school.oaAnnouncement",
+    "school.freshman",
     "game",
   }),
   @HiveField(3)
-  worker({
+  worker(allowed: {
     "school.ywb",
     "school.expenseRecords",
     "school.electricityBalance",
@@ -54,7 +55,7 @@ enum OaUserType {
     "game",
   }),
   @HiveField(4)
-  none({
+  none(allowed: {
     "school.electricityBalance",
     "school.library.search",
     "school.eduEmail",
@@ -62,18 +63,20 @@ enum OaUserType {
     "game",
   });
 
-  final Set<String> features;
+  final Set<String> allowed;
 
-  const OaUserType(this.features);
+  const OaUserType({
+    required this.allowed,
+  });
 
   String l10n() => "OaUserType.$name".tr();
 
-  static final _type2AppFeatureTree = Map.fromEntries(OaUserType.values.map(
-    (v) => MapEntry(v, AppFeatureTree.build(v.features)),
+  static final _type2Allowed = Map.fromEntries(OaUserType.values.map(
+    (v) => MapEntry(v, AppFeatureTree.build(v.allowed)),
   ));
 
-  bool has(String feature) {
-    final tree = _type2AppFeatureTree[this];
+  bool allow(String feature) {
+    final tree = _type2Allowed[this];
     if (tree == null) return false;
     return tree.has(feature);
   }

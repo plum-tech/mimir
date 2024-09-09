@@ -4,12 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/backend/forum/card.dart';
 import 'package:mimir/credentials/init.dart';
-import 'package:mimir/entity/campus.dart';
 import 'package:mimir/feature/feature.dart';
+import 'package:mimir/feature/utils.dart';
 import 'package:mimir/life/electricity/card.dart';
 import 'package:mimir/life/expense_records/card.dart';
 import 'package:mimir/life/lab_door/card.dart';
-import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'event.dart';
@@ -25,10 +24,7 @@ class LifePage extends ConsumerStatefulWidget {
 class _LifePageState extends ConsumerState<LifePage> {
   @override
   Widget build(BuildContext context) {
-    final loginStatus = ref.watch(CredentialsInit.storage.oa.$loginStatus);
-    final campus = ref.watch(Settings.$campus) ?? Campus.fengxian;
     final oaCredentials = ref.watch(CredentialsInit.storage.oa.$credentials);
-    final userType = ref.watch(CredentialsInit.storage.oa.$userType);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: NestedScrollView(
@@ -54,9 +50,8 @@ class _LifePageState extends ConsumerState<LifePage> {
           child: CustomScrollView(
             slivers: [
               SliverList.list(children: [
-                if (userType.has(AppFeature.expenseRecords)) const ExpenseRecordsAppCard(),
-                if (userType.has(AppFeature.electricityBalance) && campus.has(CampusFeature.electricity))
-                  const ElectricityBalanceAppCard(),
+                if (can(AppFeature.expenseRecords, ref)) const ExpenseRecordsAppCard(),
+                if (can(AppFeature.electricityBalance, ref)) const ElectricityBalanceAppCard(),
                 const ForumAppCard(),
                 if (!kIsWeb &&
                     oaCredentials != null &&
