@@ -168,7 +168,7 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
     return switch (userType) {
       OaUserType.undergraduate => TimetableInit.service.fetchUgTimetable(info),
       OaUserType.postgraduate => TimetableInit.service.fetchPgTimetable(info),
-      OaUserType.other => throw Exception("Timetable importing not supported"),
+      OaUserType.worker => throw Exception("Timetable importing not supported"),
       _ => throw Exception("Timetable importing not supported"),
     };
   }

@@ -25,7 +25,13 @@ enum OaUserType {
     enableExamResult: true,
   )),
   @HiveField(2)
-  other((
+  freshman((
+    enableClass2nd: false,
+    enableExamArrange: false,
+    enableExamResult: false,
+  )),
+  @HiveField(3)
+  worker((
     enableClass2nd: false,
     enableExamArrange: false,
     enableExamResult: false,

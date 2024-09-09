@@ -9,7 +9,8 @@ class PgRegistrationSession {
 
   const PgRegistrationSession({required this.ssoSession});
 
-  Future<Response> request(String url, {
+  Future<Response> request(
+    String url, {
     Map<String, String>? para,
     dynamic Function()? data,
     Options? options,
