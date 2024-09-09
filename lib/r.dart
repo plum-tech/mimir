@@ -13,6 +13,7 @@ class R {
   static const scheme = "sitlife";
   static const hiveStorageVersionCache = "2.3.0";
   static const hiveStorageVersionCore = "2.1.1";
+  static const objectBoxStorageVersion = "2.6.0";
   static const appId = "life.mysit.SITLife";
   static const appName = "SIT Life";
   static const icpLicense = "沪ICP备18042337号-3A";
