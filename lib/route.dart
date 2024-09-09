@@ -615,6 +615,10 @@ String _getRootRoute() {
   if (!Settings.timetable.showTimetableNavigation) {
     available.remove("/timetable");
   }
+  final userType = CredentialsInit.storage.oa.userType;
+  if (userType != null && !userType.has(UserCapability.timetable)) {
+    available.remove("/timetable");
+  }
   if (kIsWeb) {
     available.remove("/school");
     available.remove("/life");

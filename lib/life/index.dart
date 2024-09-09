@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/backend/forum/card.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
+import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/life/electricity/card.dart';
@@ -28,6 +29,7 @@ class _LifePageState extends ConsumerState<LifePage> {
     final loginStatus = ref.watch(CredentialsInit.storage.oa.$loginStatus);
     final campus = ref.watch(Settings.$campus) ?? Campus.fengxian;
     final oaCredentials = ref.watch(CredentialsInit.storage.oa.$credentials);
+    final userType = ref.watch(CredentialsInit.storage.oa.$userType);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: NestedScrollView(
@@ -53,8 +55,10 @@ class _LifePageState extends ConsumerState<LifePage> {
           child: CustomScrollView(
             slivers: [
               SliverList.list(children: [
-                if (loginStatus != OaLoginStatus.never) const ExpenseRecordsAppCard(),
-                if (campus.capability.enableElectricity) const ElectricityBalanceAppCard(),
+                if (userType?.has(UserCapability.expenseRecords) == true && loginStatus != OaLoginStatus.never)
+                  const ExpenseRecordsAppCard(),
+                if (userType?.has(UserCapability.expenseRecords) != false && campus.capability.enableElectricity)
+                  const ElectricityBalanceAppCard(),
                 const ForumAppCard(),
                 if (!kIsWeb &&
                     oaCredentials != null &&

@@ -55,10 +55,10 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
           },
           child: CustomScrollView(
             slivers: [
-              if (loginStatus != OaLoginStatus.never) ...[
-                if (userType?.capability.enableClass2nd == true) const Class2ndAppCard().sliver(),
-                if (userType?.capability.enableExamArrange == true) const ExamArrangeAppCard().sliver(),
-                if (userType?.capability.enableExamResult == true)
+              if (loginStatus != OaLoginStatus.never && userType != null) ...[
+                if (userType.has(UserCapability.class2nd) == true) const Class2ndAppCard().sliver(),
+                if (userType.has(UserCapability.examArrange) == true) const ExamArrangeAppCard().sliver(),
+                if (userType.has(UserCapability.examResult) == true)
                   if (userType == OaUserType.undergraduate)
                     const ExamResultUgAppCard().sliver()
                   else if (userType == OaUserType.postgraduate)
@@ -66,7 +66,7 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
                 if (kDebugMode && userType == OaUserType.undergraduate && ref.watch(Dev.$on))
                   const StudentPlanAppCard().sliver(),
                 const OaAnnounceAppCard().sliver(),
-                const YwbAppCard().sliver(),
+                if (userType.has(UserCapability.ywb) == true) const YwbAppCard().sliver(),
               ],
               const LibraryAppCard().sliver(),
               const YellowPagesAppCard().sliver(),

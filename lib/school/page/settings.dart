@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/settings/settings.dart';
@@ -31,8 +32,10 @@ class _SchoolSettingsPageState extends ConsumerState<SchoolSettingsPage> {
           ),
           SliverList.list(
             children: [
-              if (userType?.capability.enableClass2nd == true) buildClass2ndAutoRefreshToggle(),
-              if (userType?.capability.enableExamResult == true) buildExamResultShowResultPreviewToggle(),
+              if (userType != null) ...[
+                if (userType.has(UserCapability.class2nd)) buildClass2ndAutoRefreshToggle(),
+                if (userType.has(UserCapability.examResult)) buildExamResultShowResultPreviewToggle(),
+              ],
             ],
           ),
         ],
