@@ -9,10 +9,9 @@ class PgRegistrationSession {
 
   const PgRegistrationSession({required this.ssoSession});
 
-  Future<Response> request(
-    String url, {
+  Future<Response> request(String url, {
     Map<String, String>? para,
-    FormData Function()? data,
+    dynamic Function()? data,
     Options? options,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
@@ -22,7 +21,9 @@ class PgRegistrationSession {
         url,
         queryParameters: para,
         data: data,
-        options: options ?? Options(),
+        options: (options ?? Options()).copyWith(
+          contentType: Headers.formUrlEncodedContentType,
+        ),
         onSendProgress: onSendProgress,
         onReceiveProgress: onReceiveProgress,
       );

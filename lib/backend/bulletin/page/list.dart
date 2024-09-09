@@ -32,9 +32,11 @@ class _BulletinListPageState extends ConsumerState<BulletinListPage> {
     try {
       await XBulletin.getList();
     } finally {
-      setState(() {
-        fetching = false;
-      });
+      if (mounted) {
+        setState(() {
+          fetching = false;
+        });
+      }
     }
   }
 

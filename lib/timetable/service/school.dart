@@ -58,13 +58,14 @@ class TimetableService {
       options: Options(
         method: "POST",
       ),
-      data: () => FormData.fromMap({
+      data: () => {
         "excel": "true",
         "XQDM": _toPgSemesterText(info),
-      }),
+      },
     );
+    final resultRawList = await ExamResultInit.pgService.fetchResultRawList();
     return parsePostgraduateTimetableFromRaw(
-      resultList: await ExamResultInit.pgService.fetchResultRawList(),
+      resultList: resultRawList,
       pageHtml: timetableRes.data,
       campus: Settings.campus,
       studentId: CredentialsInit.storage.oa.credentials?.account ?? "",
