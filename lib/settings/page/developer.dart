@@ -10,6 +10,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/design/adaptive/swipe.dart';
 import 'package:mimir/login/x.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:mimir/app.dart';
@@ -403,34 +404,80 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
 
   Widget buildCredentialsHistoryTile(Credentials credentials) {
     final isCurrent = credentials == widget.currentCredentials;
-    return ListTile(
-      leading: Icon(context.icons.accountCircle),
-      title: credentials.account.text(),
-      subtitle: isCurrent ? "Current user".text() : estimateOaUserType(credentials.account)?.l10n().text(),
-      trailing: const Icon(Icons.login).padAll(8),
-      enabled: !isCurrent,
-      onTap: () async {
-        await loginWith(credentials);
-      },
-      onLongPress: () async {
-        context.showSnackBar(content: i18n.copyTipOf(i18n.oaCredentials.oaAccount).text());
-        await Clipboard.setData(ClipboardData(text: credentials.account));
-      },
+    return WithSwipeAction(
+      right: SwipeAction.delete(
+        icon: context.icons.delete,
+        action: () async {
+          final former = Dev.getSavedOaCredentialsList() ?? [];
+          former.remove(credentials);
+          await Dev.setSavedOaCredentialsList(former);
+        },
+      ),
+      childKey: ValueKey(credentials),
+      child: ListTile(
+        leading: Icon(context.icons.accountCircle),
+        title: credentials.account.text(),
+        subtitle: isCurrent ? "Current user".text() : estimateOaUserType(credentials.account)?.l10n().text(),
+        trailing: isCurrent
+            ? null
+            : [
+                IconButton.filledTonal(
+                  icon: const Icon(Icons.switch_account),
+                  onPressed: () async {
+                    CredentialsInit.storage.oa.credentials = credentials;
+                    CredentialsInit.storage.oa.loginStatus = OaLoginStatus.everLogin;
+                    CredentialsInit.storage.oa.lastAuthTime = DateTime.now();
+                    CredentialsInit.storage.oa.userType = estimateOaUserType(credentials.account) ?? OaUserType.none;
+                  },
+                ),
+                IconButton.filledTonal(
+                  icon: const Icon(Icons.login),
+                  onPressed: () async {
+                    await loginWith(credentials);
+                  },
+                ),
+              ].row(mas: MainAxisSize.min),
+        enabled: !isCurrent,
+        onLongPress: () async {
+          context.showSnackBar(content: i18n.copyTipOf(i18n.oaCredentials.oaAccount).text());
+          await Clipboard.setData(ClipboardData(text: credentials.account));
+        },
+      ),
     );
   }
 
   Widget buildLoginNewTile() {
     return ListTile(
-      leading: Icon(context.icons.add),
       title: "New account".text(),
-      onTap: () async {
-        final credentials = await Editor.showAnyEditor(
-          context,
-          initial: const Credentials(account: "", password: ""),
-        );
-        if (credentials == null) return;
-        await loginWith(credentials);
-      },
+      trailing: [
+        IconButton.filledTonal(
+          icon: Icon(context.icons.add),
+          onPressed: () async {
+            final credentials = await Editor.showAnyEditor(
+              context,
+              initial: const Credentials(account: "", password: ""),
+            );
+            if (credentials == null) return;
+            CredentialsInit.storage.oa.credentials = credentials;
+            CredentialsInit.storage.oa.loginStatus = OaLoginStatus.everLogin;
+            CredentialsInit.storage.oa.lastAuthTime = DateTime.now();
+            CredentialsInit.storage.oa.userType = estimateOaUserType(credentials.account) ?? OaUserType.none;
+          },
+        ),
+        IconButton.filledTonal(
+          icon: const Icon(Icons.login),
+          onPressed: () async {
+            final credentials = await Editor.showAnyEditor(
+              context,
+              initial: const Credentials(account: "", password: ""),
+            );
+            if (credentials == null || credentials.account.trim().isEmpty || credentials.password.trim().isEmpty) {
+              return;
+            }
+            await loginWith(credentials);
+          },
+        ),
+      ].row(mas: MainAxisSize.min),
     );
   }
 
