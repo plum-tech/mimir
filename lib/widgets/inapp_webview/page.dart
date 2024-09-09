@@ -74,7 +74,7 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
       mediaPlaybackRequiresUserGesture: false,
       allowsInlineMediaPlayback: true,
       mixedContentMode: MixedContentMode.MIXED_CONTENT_ALWAYS_ALLOW,
-      cacheMode: CacheMode.LOAD_CACHE_ELSE_NETWORK,
+      cacheMode: CacheMode.LOAD_DEFAULT,
       iframeAllow: "camera; microphone",
       iframeAllowFullscreen: true,
     );
