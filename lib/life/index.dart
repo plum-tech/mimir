@@ -54,9 +54,8 @@ class _LifePageState extends ConsumerState<LifePage> {
           child: CustomScrollView(
             slivers: [
               SliverList.list(children: [
-                if (userType.has(AppFeature.expenseRecords) )
-                  const ExpenseRecordsAppCard(),
-                if (userType.has(AppFeature.electricityBalance) && campus.capability.enableElectricity)
+                if (userType.has(AppFeature.expenseRecords)) const ExpenseRecordsAppCard(),
+                if (userType.has(AppFeature.electricityBalance) && campus.has(CampusFeature.electricity))
                   const ElectricityBalanceAppCard(),
                 const ForumAppCard(),
                 if (!kIsWeb &&
