@@ -16,7 +16,7 @@ class CampusSelector extends ConsumerWidget {
           .map((e) => ButtonSegment<Campus>(
                 icon: Icon(context.icons.location),
                 value: e,
-                label: e.l10nName().text(),
+                label: e.l10n().text(),
               ))
           .toList(),
       selected: <Campus>{ref.watch(Settings.$campus) ?? Campus.fengxian},

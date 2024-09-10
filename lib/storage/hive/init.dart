@@ -34,6 +34,7 @@ class HiveInit {
       oaAnnounce,
       ywb,
       eduEmail,
+      freshman,
       electricity,
       schoolCookies;
 
@@ -69,6 +70,7 @@ class HiveInit {
       settings = await core.openBox('settings'),
       meta = await core.openBox('meta'),
       timetable = await core.openBox('timetable'),
+      freshman = await core.openBox('freshman'),
       dev = await core.openBox("dev"),
       ...cacheBoxes = [
         bulletin = await cache.openBox("mimir-bulletin"),

@@ -5,8 +5,8 @@ import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/school/yellow_pages/init.dart';
 import 'package:mimir/school/yellow_pages/storage/contact.dart';
-import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../entity/contact.dart';
 
@@ -51,7 +51,7 @@ class ContactTile extends StatelessWidget {
                 icon: const Icon(Icons.phone),
                 onPressed: () async {
                   YellowPagesInit.storage.addInteractHistory(contact);
-                  await guardLaunchUrlString(context, "tel:$phoneNumber");
+                  await launchUrlString("tel:$phoneNumber", mode: LaunchMode.externalApplication);
                 },
               ),
               PlatformIconButton(

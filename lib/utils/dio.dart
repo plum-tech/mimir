@@ -56,12 +56,11 @@ extension DioEx on Dio {
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
   }) async {
-    options ??= Options();
     final res = await request(
       url,
       queryParameters: queryParameters,
       data: data?.call(),
-      options: options.copyWith(
+      options: (options ?? Options()).copyWith(
         followRedirects: false,
       ),
       onSendProgress: onSendProgress,

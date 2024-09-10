@@ -20,7 +20,7 @@ enum Campus {
     required this.prohibited,
   });
 
-  String l10nName() => "campus.$name".tr();
+  String l10n() => "campus.$name".tr();
 
   static final _type2Prohibited = Map.fromEntries(Campus.values.map(
     (v) => MapEntry(v, AppFeatureTree.build(v.prohibited)),

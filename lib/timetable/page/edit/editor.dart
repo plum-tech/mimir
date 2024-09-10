@@ -157,7 +157,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
       title: i18n.course.campus.text(),
       subtitle: Campus.values
           .map((c) => ChoiceChip(
-                label: c.l10nName().text(),
+                label: c.l10n().text(),
                 selected: c == campus,
                 onSelected: (value) {
                   setState(() {

@@ -1,6 +1,8 @@
+import 'package:mimir/credentials/init.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/session/sso.dart';
 import 'package:dio/dio.dart';
+import 'package:mimir/utils/dio.dart';
 
 class FreshmanSession {
   SsoSession get _ssoSession => Init.ssoSession;
@@ -31,13 +33,25 @@ class FreshmanSession {
       );
     }
 
-    var res = await fetch();
-    if (_isLoginRequired(res)) {
-      // TODO: make the login work
-      await _ssoSession.ssoAuth("http://freshman.sit.edu.cn/yyyx/loginAction.do?method=login");
-      res = await fetch();
-    }
+    final credentials = CredentialsInit.storage.oa.credentials!;
+    final account = credentials.account;
+    await _ssoSession.loginLocked(credentials);
+    final res1 = await _dio.get("http://freshman.sit.edu.cn/yyyx/sso/login.jsp");
+    final res2 = await _dio.get("http://freshman.sit.edu.cn/yyyx/login2.jsp");
+    final res3 =
+        await _dio.post("http://freshman.sit.edu.cn/yyyx/loginAction.do?method=login&name=$account&password=111111");
+    final res = await fetch();
     return res;
+    // await _ssoSession.ssoAuth("http://freshman.sit.edu.cn/yyyx/sso/login.jsp");
+    // await _ssoSession.ssoAuth("http://freshman.sit.edu.cn/yyyx/login2.jsp");
+    // final account = CredentialsInit.storage.oa.credentials!.account;
+    // final finalRes = await _dio.requestFollowRedirect(
+    //   "http://freshman.sit.edu.cn/yyyx/loginAction.do?method=login&name=$account&password=111111",
+    //   options: Options(
+    //     method: "POST",
+    //   ),
+    // );
+    // return await fetch();
   }
 
   bool _isLoginRequired(Response response) {

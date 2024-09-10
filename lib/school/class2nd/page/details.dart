@@ -166,7 +166,7 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
                     : PlatformIconButton(
                         icon: const Icon(Icons.call),
                         onPressed: () async {
-                          await guardLaunchUrlString(context, "tel:$phoneNumber");
+                          await launchUrlString("tel:$phoneNumber", mode: LaunchMode.externalApplication);
                         },
                       ),
               );
