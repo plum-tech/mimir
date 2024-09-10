@@ -5,6 +5,7 @@
 - Fixed timetable importing issues for postgraduate.
 - Controlled by App Feature.
 - Updated ICP licence.
+- [Android] Support of `x86` and `x86_64` was back.
 
 ## v2.5.2
 - Remember selected semester info only in current session.

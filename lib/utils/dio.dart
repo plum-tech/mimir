@@ -23,8 +23,9 @@ extension DioEx on Dio {
     List<Response>? history,
   }) async {
     var cur = response;
+    history ??= <Response>[];
     while (true) {
-      history?.add(cur);
+      history.add(cur);
       // Prevent the redirect being processed by HttpClient, with the 302 response caught manually.
       final headerLocations = cur.headers['location'];
       if (cur.statusCode == 302 && headerLocations != null && headerLocations.isNotEmpty) {
@@ -55,7 +56,9 @@ extension DioEx on Dio {
     Options? options,
     ProgressCallback? onSendProgress,
     ProgressCallback? onReceiveProgress,
+    List<Response>? history,
   }) async {
+    history ??= <Response>[];
     final res = await request(
       url,
       queryParameters: queryParameters,
@@ -66,7 +69,11 @@ extension DioEx on Dio {
       onSendProgress: onSendProgress,
       onReceiveProgress: onReceiveProgress,
     );
-    final finalRes = await processRedirect(res);
+    history.add(res);
+    final finalRes = await processRedirect(
+      res,
+      history: history,
+    );
     return finalRes;
   }
 }
