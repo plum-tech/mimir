@@ -16,7 +16,7 @@ class R {
   static const objectBoxStorageVersion = "2.6.0";
   static const appId = "life.mysit.SITLife";
   static const appName = "SIT Life";
-  static const icpLicense = "沪ICP备18042337号-3A";
+  static const icpLicense = "沪ICP备2024077945号-6A";
 
   static String get appNameL10n => "appName".tr();
 

@@ -1,7 +1,10 @@
 # Changelog
 
 ## 2.6.0
-- Rename scheme to `sitlife`.
+- Renamed URL scheme to `sitlife`.
+- Fixed timetable importing issues for postgraduate.
+- Controlled by App Feature.
+- Updated ICP licence.
 
 ## v2.5.2
 - Remember selected semester info only in current session.
