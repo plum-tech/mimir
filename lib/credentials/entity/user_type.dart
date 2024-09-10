@@ -56,6 +56,7 @@ enum OaUserType {
   }),
   @HiveField(4)
   none(allowed: {
+    "basic.timetable",
     "school.electricityBalance",
     "school.library.search",
     "school.eduEmail",

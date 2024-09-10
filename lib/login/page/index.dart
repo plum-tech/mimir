@@ -226,6 +226,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         floatingActionButton: loggingIn ? const CircularProgressIndicator.adaptive() : null,
         body: [
           [
+            buildHeader(),
             const CampusSelector(),
             const OaLoginDisclaimerCard(),
             AnimatedShowUp(

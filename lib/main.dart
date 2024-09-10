@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/storage/objectbox/init.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mimir/files.dart';
 import 'package:mimir/network/proxy.dart';
@@ -103,13 +102,13 @@ void main() async {
       // iOS will clear the cache under [getApplicationCacheDirectory()] when device has no enough storage.
       cacheDir: Files.internal.subDir("hive-cache", R.hiveStorageVersionCache),
     );
-    if (kDebugMode) {
-      final objectBoxDir = Files.internal.subDir("obx", R.objectBoxStorageVersion);
-      await objectBoxDir.create(recursive: true);
-      await ObjectBoxInit.init(
-        dir: objectBoxDir,
-      );
-    }
+    // if (kDebugMode) {
+    //   final objectBoxDir = Files.internal.subDir("obx", R.objectBoxStorageVersion);
+    //   await objectBoxDir.create(recursive: true);
+    //   await ObjectBoxInit.init(
+    //     dir: objectBoxDir,
+    //   );
+    // }
   }
   HiveInit.initAdapters();
   await HiveInit.initBox();
