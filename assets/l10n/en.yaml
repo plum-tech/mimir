@@ -930,6 +930,8 @@ themeMode:
 OaUserType:
   undergraduate: Undergraduate
   postgraduate: Postgraduate
+  freshman: Freshman
+  worker: Worker
   other: Other
 game:
   navigation: Game

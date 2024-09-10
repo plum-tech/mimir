@@ -896,6 +896,8 @@ themeMode:
 OaUserType:
   undergraduate: 大學生
   postgraduate: 研究生
+  freshman: 新生
+  worker: 職工
   other: 其他
 game:
   navigation: 電玩

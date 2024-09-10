@@ -920,6 +920,8 @@ themeMode:
 OaUserType:
   undergraduate: 本科生
   postgraduate: 研究生
+  freshman: 新生
+  worker: 职工
   other: 其他
 game:
   navigation: 游戏
