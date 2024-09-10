@@ -25,7 +25,9 @@ class ForumAppCard extends ConsumerStatefulWidget {
   ConsumerState<ForumAppCard> createState() => _ForumAppCardState();
 }
 
-class _ForumAppCardState extends ConsumerState<ForumAppCard> {
+class _ForumAppCardState extends ConsumerState<ForumAppCard> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   late final EventSubscription $refreshEvent;
 
   @override
@@ -45,6 +47,7 @@ class _ForumAppCardState extends ConsumerState<ForumAppCard> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final bulletin = ref.watch(BackendInit.bulletinStorage.$latest);
     final dev = ref.watch(Dev.$on);
     return AppCard(

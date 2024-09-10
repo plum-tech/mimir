@@ -30,7 +30,9 @@ class Class2ndAppCard extends ConsumerStatefulWidget {
   ConsumerState<Class2ndAppCard> createState() => _Class2ndAppCardState();
 }
 
-class _Class2ndAppCardState extends ConsumerState<Class2ndAppCard> {
+class _Class2ndAppCardState extends ConsumerState<Class2ndAppCard> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   late final EventSubscription $refreshEvent;
 
   @override
@@ -79,6 +81,7 @@ class _Class2ndAppCardState extends ConsumerState<Class2ndAppCard> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final storage = Class2ndInit.pointStorage;
     final summary = ref.watch(storage.$pointsSummary);
     return AppCard(

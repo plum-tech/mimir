@@ -29,7 +29,10 @@ class ElectricityBalanceAppCard extends ConsumerStatefulWidget {
   ConsumerState<ElectricityBalanceAppCard> createState() => _ElectricityBalanceAppCardState();
 }
 
-class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAppCard> {
+class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAppCard>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   late final EventSubscription $refreshEvent;
 
   @override
@@ -72,6 +75,7 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final storage = ElectricityBalanceInit.storage;
     final lastBalance = ref.watch(storage.$lastBalance);
     final selectedRoom = ref.watch(Settings.life.electricity.$selectedRoom);

@@ -21,7 +21,10 @@ class FreshmanAppCard extends ConsumerStatefulWidget {
   ConsumerState<FreshmanAppCard> createState() => _FreshmanAppCardState();
 }
 
-class _FreshmanAppCardState extends ConsumerState<FreshmanAppCard> {
+class _FreshmanAppCardState extends ConsumerState<FreshmanAppCard> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   @override
   void initState() {
     super.initState();
@@ -30,6 +33,7 @@ class _FreshmanAppCardState extends ConsumerState<FreshmanAppCard> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final info = ref.watch(FreshmanInit.storage.$info);
     return AppCard(
       title: "迎新系统".text(),

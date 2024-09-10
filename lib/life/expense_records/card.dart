@@ -29,7 +29,9 @@ class ExpenseRecordsAppCard extends ConsumerStatefulWidget {
   ConsumerState<ExpenseRecordsAppCard> createState() => _ExpenseRecordsAppCardState();
 }
 
-class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> {
+class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
   late final EventSubscription $refreshEvent;
 
   @override
@@ -80,6 +82,7 @@ class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final storage = ExpenseRecordsInit.storage;
     final lastUpdateTime = ref.watch(storage.$lastUpdateTime);
     final lastTransaction = ref.watch(storage.$lastTransaction);
