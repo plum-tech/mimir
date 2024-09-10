@@ -40,7 +40,7 @@ class _OpenLabDoorAppCardState extends ConsumerState<OpenLabDoorAppCard> {
   @override
   Widget build(BuildContext context) {
     return AppCard(
-      title: "机协实验室的门".text(),
+      title: "机协实验室".text(),
       subtitle: '请先连接 Wi-Fi "Robot"'.text(),
       leftActions: [
         FilledButton.icon(

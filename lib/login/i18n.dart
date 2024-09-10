@@ -41,7 +41,7 @@ mixin class CommonAuthI18nMixin {
 class OaLoginI18n extends CommonAuthI18n {
   const OaLoginI18n();
 
-  static const ns = "${CommonAuthI18nMixin.ns}.oa";
+  static const ns = "oa.login";
 
   final credentials = const OaCredentialsI18n();
 

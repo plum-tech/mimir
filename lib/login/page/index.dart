@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,7 +36,15 @@ const _i18n = _I18n();
 class _I18n extends OaLoginI18n {
   const _I18n();
 
+  static const ns = "oa";
+
   final network = const NetworkI18n();
+
+  String get disclaimer => "$ns.tip.disclaimer".tr();
+
+  String get freshmanTip => "$ns.tip.freshman".tr();
+
+  String get freshmanSystemTip => "$ns.tip.freshmanSystem".tr();
 }
 
 const oaForgotLoginPasswordUrl =
@@ -58,6 +67,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   bool loggingIn = false;
   OaUserType? estimatedUserType;
   int? admissionYear;
+
   // bool? schoolServerConnected;
 
   @override
@@ -388,18 +398,11 @@ class OaLoginDisclaimerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return [
       FeaturedMarkdownWidget(
-        data: _disclaimer,
+        data: _i18n.disclaimer,
       ),
     ].column(caa: CrossAxisAlignment.stretch).padAll(12).inOutlinedCard();
   }
 }
-
-const _disclaimer = """
-您即将登录上海应用技术大学（简称"学校"）的[信息门户（简称"OA"）](https://myportal.sit.edu.cn/)的账户，
-作为学校其他系统的统一认证服务。
-
-我们非常重视您的隐私安全。您的账号与密码仅用于提交给学校服务器进行身份验证，并仅存储在本地。
-""";
 
 class OaLoginFreshmanSystemTipCard extends StatelessWidget {
   const OaLoginFreshmanSystemTipCard({super.key});
@@ -408,19 +411,11 @@ class OaLoginFreshmanSystemTipCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return [
       FeaturedMarkdownWidget(
-        data: _freshmanSystemTip,
+        data: _i18n.freshmanSystemTip,
       ),
     ].column(caa: CrossAxisAlignment.stretch).padAll(12).inOutlinedCard();
   }
 }
-
-const _freshmanSystemTip = """
-您即将使用高考报名号登录迎新系统，仅可查看您的入学信息，
-如学院专业、宿舍房间号，和辅导员及其联系方式。
-请查看《新生入学须知》以了解初始密码。
-
-迎新系统不与其他系统共通（如课程表功能），在您入学后，请使用学校为您分配的学号重新登录。
-""";
 
 class OaLoginFreshmanTipCard extends StatelessWidget {
   const OaLoginFreshmanTipCard({super.key});
@@ -429,14 +424,8 @@ class OaLoginFreshmanTipCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return [
       FeaturedMarkdownWidget(
-        data: _freshmanTip,
+        data: _i18n.freshmanTip,
       ),
     ].column(caa: CrossAxisAlignment.stretch).padAll(12).inOutlinedCard();
   }
 }
-
-const _freshmanTip = """
-OA账户与迎新系统间独立且不共通，请勿使用高考报名号作为账号。请查看《新生入学须知》以了解初始密码。
-
-在首次登录前，可能还需前往[OA官网](https://myportal.sit.edu.cn/)修改初始密码并绑定手机号。
-""";

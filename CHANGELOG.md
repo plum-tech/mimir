@@ -6,6 +6,7 @@
 - Controlled by App Feature.
 - Updated ICP licence.
 - [Android] Support of `x86` and `x86_64` was back.
+- Added Topping up in expense records.
 
 ## v2.5.2
 - Remember selected semester info only in current session.

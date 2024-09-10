@@ -673,7 +673,8 @@ auth:
   offlineModeBtn: Offline mode
   failedWarn: Login Failed
   formatError: Format error
-  oa:
+oa:
+  login:
     loginOa: Login OA
     welcomeHeader: Welcome!
     accountHint: Student ID/Work number
@@ -806,6 +807,7 @@ settings:
     icpLicense: ICP License
     termsOfService: Term of service
     privacyPolicy: Privacy policy
+    marketingWebsite: Marketing website
     checkUpdate: Check update
 oaAnnounce:
   title: OA announcement

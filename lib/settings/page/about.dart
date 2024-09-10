@@ -68,7 +68,7 @@ class _AboutSettingsPageState extends ConsumerState<AboutSettingsPage> {
                 },
               ),
               ListTile(
-                title: "Official website".text(),
+                title: i18n.about.marketingWebsite.text(),
                 trailing: const Icon(Icons.open_in_browser),
                 onTap: () async {
                   await guardLaunchUrlString(context, "https://www.mysit.life");
