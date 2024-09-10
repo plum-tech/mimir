@@ -80,7 +80,7 @@ dependencies:
   flutter_inappwebview: ^6.0.0
   fk_user_agent: ^2.1.0
   flutter_widget_from_html: ^0.15.2
-  chewie: ^1.8.4
+  chewie: ^1.8.5
   cookie_jar: ^4.0.8
   flutter_html: ^3.0.0-beta.2
 
@@ -157,7 +157,7 @@ dependencies:
   carousel_slider_plus: ^7.0.1
   # iCalendar file generator
   enough_icalendar: ^0.16.0
-  super_context_menu: ^0.8.21
+  super_context_menu: ^0.8.22
   animated_size_and_fade: ^4.0.0
   dismissible_page: ^1.0.2
 

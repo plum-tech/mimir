@@ -314,10 +314,10 @@ packages:
     dependency: "direct main"
     description:
       name: chewie
-      sha256: "8210c6e8702ddae9b3337aad0d539a9ff128cc4a5baaadc0174edbd0f99b0125"
+      sha256: "335df378c025588aef400c704bd71f0daea479d4cd57c471c88c056c1144e7cd"
       url: "https://pub.dev"
     source: hosted
-    version: "1.8.4"
+    version: "1.8.5"
   cli_util:
     dependency: transitive
     description:
@@ -466,10 +466,10 @@ packages:
     dependency: transitive
     description:
       name: dart_style
-      sha256: "99e066ce75c89d6b29903d788a7bb9369cf754f7b24bf70bf4b6d6d6b26853b9"
+      sha256: "7856d364b589d1f08986e140938578ed36ed948581fbc3bc9aef1805039ac5ab"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.6"
+    version: "2.3.7"
   data_serializer:
     dependency: "direct overridden"
     description:
@@ -1782,10 +1782,10 @@ packages:
     dependency: transitive
     description:
       name: permission_handler_platform_interface
-      sha256: fe0ffe274d665be8e34f9c59705441a7d248edebbe5d9e3ec2665f88b79358ea
+      sha256: e9c8eadee926c4532d0305dff94b85bf961f16759c3af791486613152af4b4f9
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.2"
+    version: "4.2.3"
   permission_handler_windows:
     dependency: transitive
     description:
@@ -2251,18 +2251,18 @@ packages:
     dependency: "direct main"
     description:
       name: super_context_menu
-      sha256: d7ea849d50a840f5c5ef8b1e36382bbbfc0a2938f25f0942739f1afb02d98e8a
+      sha256: "4fd05200177cc154a4dcd9f8468f652d77dedecc50088f60ec3ac34be001439a"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.21"
+    version: "0.8.22"
   super_native_extensions:
     dependency: transitive
     description:
       name: super_native_extensions
-      sha256: "46d99771d50cbc37dfd4eeae90a37ca8f8eb58fd7995867b667189be2f90fed0"
+      sha256: "6a7cfb7d212da7023b86fb99c736081e9c2cd982265d15dc5fe6381a32dbc875"
       url: "https://pub.dev"
     source: hosted
-    version: "0.8.21"
+    version: "0.8.22"
   synchronized:
     dependency: transitive
     description:
