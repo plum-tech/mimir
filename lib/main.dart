@@ -104,7 +104,7 @@ void main() async {
       // iOS will clear the cache under [getApplicationCacheDirectory()] when device has no enough storage.
       cacheDir: Files.internal.subDir("hive-cache", R.hiveStorageVersionCache),
     );
-    if (R.meta.version >= Version(2, 6, 0)) {
+    if (kDebugMode) {
       final objectBoxDir = Files.internal.subDir("obx", R.objectBoxStorageVersion);
       await objectBoxDir.create(recursive: true);
       await ObjectBoxInit.init(
