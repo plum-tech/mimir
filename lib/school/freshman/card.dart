@@ -97,20 +97,20 @@ class FreshmanInfoPreviewCard extends StatelessWidget {
       ),
       ListTile(
         title: "辅导员".text(),
-        subtitle: "${info.advisorName}, ${info.advisorContact}".text(),
-        trailing: info.advisorContact.isNotEmpty
+        subtitle: "${info.counselorName}, ${info.counselorContact}".text(),
+        trailing: info.counselorContact.isNotEmpty
             ? PlatformIconButton(
                 icon: const Icon(Icons.phone),
                 onPressed: () async {
-                  await launchUrlString("tel:${info.advisorContact}", mode: LaunchMode.externalApplication);
+                  await launchUrlString("tel:${info.counselorContact}", mode: LaunchMode.externalApplication);
                 },
               )
             : null,
       ),
-      if (info.advisorNote.isNotEmpty)
+      if (info.counselorNote.isNotEmpty)
         ListTile(
           title: "辅导员备注".text(),
-          subtitle: info.advisorNote.text(),
+          subtitle: info.counselorNote.text(),
         ),
     ].column().inCard();
   }

@@ -39,13 +39,13 @@ class FreshmanInfo {
   final String bedNumber;
 
   /// 辅导员姓名
-  final String advisorName;
+  final String counselorName;
 
   /// 辅导员联系方式
-  final String advisorContact;
+  final String counselorContact;
 
   /// 辅导员补充说明
-  final String advisorNote;
+  final String counselorNote;
 
   const FreshmanInfo({
     required this.studentId,
@@ -59,9 +59,9 @@ class FreshmanInfo {
     required this.buildingNumber,
     required this.roomNumber,
     required this.bedNumber,
-    required this.advisorName,
-    required this.advisorContact,
-    required this.advisorNote,
+    required this.counselorName,
+    required this.counselorContact,
+    required this.counselorNote,
   });
 
   factory FreshmanInfo.fromJson(Map<String, dynamic> json) => _$FreshmanInfoFromJson(json);

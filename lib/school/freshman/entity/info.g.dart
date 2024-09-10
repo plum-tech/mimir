@@ -18,9 +18,9 @@ FreshmanInfo _$FreshmanInfoFromJson(Map<String, dynamic> json) => FreshmanInfo(
       buildingNumber: json['buildingNumber'] as String,
       roomNumber: json['roomNumber'] as String,
       bedNumber: json['bedNumber'] as String,
-      advisorName: json['advisorName'] as String,
-      advisorContact: json['advisorContact'] as String,
-      advisorNote: json['advisorNote'] as String,
+      counselorName: json['counselorName'] as String,
+      counselorContact: json['counselorContact'] as String,
+      counselorNote: json['counselorNote'] as String,
     );
 
 Map<String, dynamic> _$FreshmanInfoToJson(FreshmanInfo instance) => <String, dynamic>{
@@ -35,9 +35,9 @@ Map<String, dynamic> _$FreshmanInfoToJson(FreshmanInfo instance) => <String, dyn
       'buildingNumber': instance.buildingNumber,
       'roomNumber': instance.roomNumber,
       'bedNumber': instance.bedNumber,
-      'advisorName': instance.advisorName,
-      'advisorContact': instance.advisorContact,
-      'advisorNote': instance.advisorNote,
+      'counselorName': instance.counselorName,
+      'counselorContact': instance.counselorContact,
+      'counselorNote': instance.counselorNote,
     };
 
 const _$CampusEnumMap = {

@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -36,15 +35,7 @@ const _i18n = _I18n();
 class _I18n extends OaLoginI18n {
   const _I18n();
 
-  static const ns = "oa";
-
   final network = const NetworkI18n();
-
-  String get disclaimer => "$ns.tip.disclaimer".tr();
-
-  String get freshmanTip => "$ns.tip.freshman".tr();
-
-  String get freshmanSystemTip => "$ns.tip.freshmanSystem".tr();
 }
 
 const oaForgotLoginPasswordUrl =

@@ -58,4 +58,10 @@ class OaLoginI18n extends CommonAuthI18n {
   String get loginRequired => "$ns.loginRequired".tr();
 
   String get neverLoggedInTip => "$ns.neverLoggedInTip".tr();
+
+  String get disclaimer => "$ns.disclaimer".tr();
+
+  String get freshmanTip => "$ns.freshmanTip".tr();
+
+  String get freshmanSystemTip => "$ns.freshmanSystemTip".tr();
 }

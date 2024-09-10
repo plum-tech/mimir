@@ -230,20 +230,11 @@ class EduEmailLoginDisclaimerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return [
       FeaturedMarkdownWidget(
-        data: _disclaimer,
+        data: i18n.login.disclaimer,
       ),
     ].column(caa: CrossAxisAlignment.stretch).padAll(12).inOutlinedCard();
   }
 }
-
-const _disclaimer = """
-您即将登录由上海应用技术大学（简称"学校"）提供的教育邮箱。
-初始密码一般为您的OA账户的初始密码，具体详情请关注[OA公告](/oa/announcement)。
-
-如果您是第一次使用教育邮箱，请先在PC端前往官网 http://stu.mail.sit.edu.cn 进行激活。
-
-我们非常重视您的隐私安全。您的邮箱与密码仅用于提交给教育邮箱服务器进行身份验证，并仅存储在本地。
-""";
 
 class EduEmailFreshmanTipCard extends StatelessWidget {
   const EduEmailFreshmanTipCard({super.key});
@@ -252,13 +243,8 @@ class EduEmailFreshmanTipCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return [
       FeaturedMarkdownWidget(
-        data: _freshmanTip,
+        data: i18n.login.freshmanTip,
       ),
     ].column(caa: CrossAxisAlignment.stretch).padAll(12).inOutlinedCard();
   }
 }
-
-const _freshmanTip = """
-学校可能尚未为您分配教育邮箱。
-一般会在新生入学后的3个月内完成，具体详情请关注[OA公告](/oa/announcement)。
-""";

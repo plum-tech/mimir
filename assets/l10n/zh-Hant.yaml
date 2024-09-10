@@ -462,6 +462,16 @@ eduEmail:
     addressHint: 學號/工號
     passwordHint: 你的電郵密碼
     invalidEmailAddressFormatTip: 無效的電郵地址格式
+    disclaimer: |
+      您即將登入由上海應用科技大學（簡稱"學校"）提供的 Edu 電郵。
+      初始密碼一般為您的OA帳戶的初始密碼，詳細資訊請關注[OA公告](/oa/announcement)。
+
+      如果您是第一次使用教育電子郵件，請先在PC端前往官網 http://stu.mail.sit.edu.cn 進行啟用。
+
+      我們非常重視您的隱私安全。您的電子郵件與密碼僅用於提交給 Edu 電郵伺服器進行身分驗證，並僅儲存在本地。
+    freshmanTip: |
+      學校可能尚未為您分配 Edu 電郵。
+      一般會在新生入學後的3個月內完成，詳細資訊請關注[OA公告](/oa/announcement)。
   info:
     emailAddress: 電郵地址
   inbox:
@@ -652,6 +662,21 @@ oa:
     loginRequired: 需要登入
     invalidAccountFormat: 無效的學號格式
     schoolServerUnconnectedTip: 無法連接學校伺服器
+    disclaimer: |
+      您即將登入上海應用科技大學（簡稱"學校"）的[資訊門戶（簡稱"OA"）](https://myportal.sit.edu.cn/)的帳戶，
+      作為學校其他系統的統一認證服務。
+
+      我們非常重視您的隱私安全。您的賬戶與密碼僅用於提交給學校伺服器進行身分驗證，並僅儲存在本地。
+    freshmanTip: |
+      OA賬戶與迎新系統間獨立且不共通，請勿使用高考報名號作為賬戶。請查看《新生入學須知》以了解初始密碼。
+
+      在首次登入前，可能還需前往[OA官網](https://myportal.sit.edu.cn/)修改初始密碼並綁定手機號碼。
+    freshmanSystemTip: |
+      您即將使用高考報名號登入迎新系統，僅可查看您的入學資訊，
+      如學院專業、宿舍房間號，和輔導員及其聯絡方式。
+      請查看《新生入學須知》以了解初始密碼。
+
+      迎新系統不與其他系統共通（如課程表功能），在您入學後，請使用學校為您分配的學號重新登入。
 library:
   title: 圖書館
   hotPost: 熱門

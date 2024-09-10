@@ -53,6 +53,10 @@ class _Login with CommonAuthI18nMixin {
   String get passwordHint => "$ns.passwordHint".tr();
 
   String get invalidEmailAddressFormatTip => "$ns.invalidEmailAddressFormatTip".tr();
+
+  String get disclaimer => "$ns.disclaimer".tr();
+
+  String get freshmanTip => "$ns.freshmanTip".tr();
 }
 
 class _Info {

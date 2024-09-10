@@ -40,9 +40,9 @@ class FreshmanService {
       buildingNumber: title2content["楼宇"]!,
       roomNumber: title2content["房间"]!,
       bedNumber: title2content["床位"]!,
-      advisorName: title2content["辅导员姓名"]!,
-      advisorContact: title2content["辅导员联系方式"]!,
-      advisorNote: title2content["辅导员补充说明"]!,
+      counselorName: title2content["辅导员姓名"]!,
+      counselorContact: title2content["辅导员联系方式"]!,
+      counselorNote: title2content["辅导员补充说明"]!,
     );
   }
 }
