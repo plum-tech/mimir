@@ -55,7 +55,7 @@ android {
     versionName flutterVersionName
     ndk {
 //      drop the support of "x86" and "x86_64" will shrink about 12% file size.
-      abiFilters 'arm64-v8a', 'armeabi-v7a'
+      abiFilters 'arm64-v8a', 'armeabi-v7a', "x86", "x86_64"
     }
   }
 
