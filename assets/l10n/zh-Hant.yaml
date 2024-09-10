@@ -512,6 +512,9 @@ expenseRecords:
   title: 消費記錄
   list: 明細表
   statistics: 統計
+  topUp: 儲值
+  launchFailed: 啟動失敗
+  launchFailedDesc: 請確保你安裝了Alipay
   income: "入賬: ¥{}"
   outcome: "消費: ¥{}"
   balanceInCard: "卡內餘額 ¥{}"

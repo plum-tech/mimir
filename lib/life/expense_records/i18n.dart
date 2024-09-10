@@ -25,6 +25,12 @@ class _I18n with CommonI18nMixin {
 
   String get statistics => "$ns.statistics".tr();
 
+  String get topUp => "$ns.topUp".tr();
+
+  String get launchFailed => "$ns.launchFailed".tr();
+
+  String get launchFailedDesc => "$ns.launchFailedDesc".tr();
+
   String balanceInCard(String amount) => "$ns.balanceInCard".tr(args: [amount]);
 
   String lastTransaction(String amount, String place) => "$ns.lastTransaction".tr(namedArgs: {

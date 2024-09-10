@@ -465,7 +465,7 @@ credentials:
     oa-incompleteUserInfo: The OA account has incomplete user info, please access https://myportal.sit.edu.cn to complete
 easyconnect:
   launchBtn: Launch EasyConnect
-  launchFailed: Launch Failed
+  launchFailed: Launch failed
   launchFailedDesc: Failed to launch EasyConnect, have you installed it or just download it now?
 electricity:
   title: Electricity balance
@@ -540,6 +540,9 @@ expenseRecords:
   title: Expense records
   list: List
   statistics: Statistics
+  topUp: Top up
+  launchFailed: Launch failed
+  launchFailedDesc: Please ensure you've installed Alipay
   balanceInCard: "¥{} in Card"
   lastTransaction: "¥{amount} {place}"
   income: "Income: ¥{}"

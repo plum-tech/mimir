@@ -534,6 +534,9 @@ expenseRecords:
   title: 消费记录
   list: 清单
   statistics: 统计
+  topUp: 充值
+  launchFailed: 启动失败
+  launchFailedDesc: 请确保你已安装支付宝
   balanceInCard: "卡内余额 {} 元"
   lastTransaction: "¥{amount} {place}"
   income: "收入: {} 元"

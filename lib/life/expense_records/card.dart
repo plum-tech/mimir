@@ -11,12 +11,16 @@ import 'package:mimir/life/event.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/life/expense_records/init.dart';
 import 'package:mimir/utils/async_event.dart';
+import 'package:mimir/utils/guard_launch.dart';
 import 'widget/balance.dart';
 import 'package:rettulf/rettulf.dart';
 
 import "i18n.dart";
 import 'widget/transaction.dart';
 import 'x.dart';
+
+/// 支付宝校园卡
+const _alipaySchoolCardTopUpMiniapp = "alipays://platformapi/startapp?appId=2019090967125695";
 
 class ExpenseRecordsAppCard extends ConsumerStatefulWidget {
   const ExpenseRecordsAppCard({super.key});
@@ -107,6 +111,20 @@ class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> {
                   context.push("/expense-records/statistics");
                 },
           child: i18n.statistics.text(),
+        ),
+        OutlinedButton(
+          onPressed: () async {
+            final success = await guardLaunchUrlString(context, _alipaySchoolCardTopUpMiniapp);
+            if (!context.mounted) return;
+            if (!success) {
+              context.showTip(
+                title: i18n.launchFailed,
+                desc: i18n.launchFailedDesc,
+                primary: i18n.ok,
+              );
+            }
+          },
+          child: i18n.topUp.text(),
         ),
       ],
     );
