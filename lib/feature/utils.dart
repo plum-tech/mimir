@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/settings/settings.dart';
+import 'package:mimir/r.dart';
 
 ///
 /// Any source of AppFeature configuration can consist of two parts: allowed and prohibited.
@@ -9,6 +11,7 @@ import 'package:mimir/settings/settings.dart';
 /// A feature will work only if no sources prohibit the feature.
 /// Once any source prohibits the feature, it won't work.
 bool can(String feature, [WidgetRef? ref]) {
+  if (kDebugMode && R.debugAllFeatures) return true;
   var canWork = false;
   final userType = ref == null ? CredentialsInit.storage.oa.userType : ref.watch(CredentialsInit.storage.oa.$userType);
   canWork |= userType.allow(feature);
