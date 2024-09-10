@@ -141,9 +141,9 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-          toolbarHeight: 48,
+          toolbarHeight: 42,
           centerTitle: true,
-          titleTextStyle: context.textTheme.titleMedium,
+          titleTextStyle: context.textTheme.titleSmall,
           title: title != null
               ? TextScroll(
                   title,
@@ -151,12 +151,14 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
                 )
               : null,
           leading: PlatformIconButton(
-            icon: Icon(context.icons.close),
+            icon: Icon(context.icons.close, size: 18),
             onPressed: () {
               context.pop();
             },
           ),
-          actions: [buildAction()],
+          actions: [
+            buildAction(),
+          ],
         ),
         floatingActionButton: progress < 1.0 ? AnimatedProgressCircle(value: progress) : null,
         body: InAppWebView(
@@ -261,6 +263,7 @@ class _InAppWebViewPageState extends State<InAppWebViewPage> {
 
   Widget buildPullDownMenu() {
     return PullDownMenuButton(
+      iconBuilder: (ctx, icon) => Icon(icon, size: 18),
       itemBuilder: (ctx) => [
         PullDownItem(
           title: _i18n.refresh,

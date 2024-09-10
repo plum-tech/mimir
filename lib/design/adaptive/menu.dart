@@ -137,14 +137,20 @@ class PullDownSelectable implements PullDownEntry {
 
 class PullDownMenuButton extends StatefulWidget {
   final List<PullDownEntry> Function(BuildContext context) itemBuilder;
+  final Widget Function(BuildContext context, IconData icon) iconBuilder;
 
   const PullDownMenuButton({
     super.key,
     required this.itemBuilder,
+    this.iconBuilder = _buildIcon,
   });
 
   @override
   State<PullDownMenuButton> createState() => _PullDownMenuButtonState();
+}
+
+Widget _buildIcon(BuildContext context, IconData icon) {
+  return Icon(icon);
 }
 
 class _PullDownMenuButtonState extends State<PullDownMenuButton> {
@@ -164,7 +170,7 @@ class _PullDownMenuButtonState extends State<PullDownMenuButton> {
         buttonBuilder: (context, showMenu) => CupertinoButton(
           onPressed: showMenu,
           padding: EdgeInsets.zero,
-          child: const Icon(CupertinoIcons.ellipsis_circle),
+          child: widget.iconBuilder(context, CupertinoIcons.ellipsis_circle),
         ),
       );
     } else {
@@ -184,7 +190,7 @@ class _PullDownMenuButtonState extends State<PullDownMenuButton> {
                 controller.open();
               }
             },
-            icon: Icon(Icons.adaptive.more),
+            icon: widget.iconBuilder(context, Icons.adaptive.more),
           );
         },
       );
