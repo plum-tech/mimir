@@ -1,7 +1,3 @@
-import 'dart:io';
-
-import 'package:dio/dio.dart';
-import 'package:mimir/files.dart';
 import 'package:version/version.dart';
 
 import '../entity/artifact.dart';
@@ -38,14 +34,5 @@ class MimirUpdateServiceMock implements MimirUpdateService {
   @override
   Future<Version?> getLatestVersionFromAppStore({String? iosAppStoreRegion = "cn"}) async {
     return version;
-  }
-
-  @override
-  Future<File> downloadArtifactFromUrl(
-    String url, {
-    required String name,
-    ProgressCallback? onProgress,
-  }) async {
-    throw Exception("Downloading artifact from mock service is unsupported");
   }
 }

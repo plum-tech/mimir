@@ -35,8 +35,6 @@ class Files {
 
   static Directory get screenshot => temp.subDir("screenshot");
 
-  static Directory get artifact => temp.subDir("artifact");
-
   static const timetable = TimetableFiles._();
   static const oaAnnounce = OaAnnounceFiles._();
 }
