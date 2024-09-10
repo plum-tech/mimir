@@ -12,7 +12,7 @@ import 'package:mimir/design/widgets/app.dart';
 
 import 'entity/info.dart';
 import 'x.dart';
-import "../i18n.dart";
+import "i18n.dart";
 
 class FreshmanAppCard extends ConsumerStatefulWidget {
   const FreshmanAppCard({super.key});
@@ -36,7 +36,7 @@ class _FreshmanAppCardState extends ConsumerState<FreshmanAppCard> with Automati
     super.build(context);
     final info = ref.watch(FreshmanInit.storage.$info);
     return AppCard(
-      title: "迎新系统".text(),
+      title: i18n.title.text(),
       view: info == null ? null : FreshmanInfoPreviewCard(info: info),
       leftActions: ref.watch(Dev.$on) == true
           ? [

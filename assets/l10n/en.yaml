@@ -870,6 +870,8 @@ oaAnnounce:
     academicReport: Report
 yellowPages:
   title: Yellow pages
+freshman:
+  title: Freshman
 greeting:
   headerA: SIT has accompanied you
   headerB:

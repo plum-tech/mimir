@@ -836,6 +836,8 @@ oaAnnounce:
     academicReport: 學術報告
 yellowPages:
   title: 學校黃頁
+freshman:
+  title: 迎新系統
 greeting:
   headerA: 上應大與你一起度過了
   headerB:

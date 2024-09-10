@@ -860,6 +860,8 @@ oaAnnounce:
     academicReport: 学术报告
 yellowPages:
   title: 学校黄页
+freshman:
+  title: 迎新系统
 greeting:
   headerA: 今天是你在上应大的
   headerB:
