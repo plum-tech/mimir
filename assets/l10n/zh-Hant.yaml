@@ -658,6 +658,8 @@ oa:
     welcomeHeader: 歡迎！
     accountHint: 學號/工號
     oaPwdHint: 鍵入你的 OA 密碼
+    freshmanSystemPwd: 迎新系統密碼
+    freshmanSystemPwdHint: 鍵入迎新系統密碼
     neverLoggedInTip: 你必須先登入才能繼續。
     loginRequired: 需要登入
     invalidAccountFormat: 無效的學號格式

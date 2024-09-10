@@ -692,6 +692,8 @@ oa:
     welcomeHeader: Welcome!
     accountHint: Student ID/Work number
     oaPwdHint: Enter your OA password
+    freshmanSystemPwd: Freshman system password
+    freshmanSystemPwdHint: Enter your freshman system password
     loginRequired: Login required
     neverLoggedInTip: You have to login to perform this
     schoolServerUnconnectedTip: Can't connect to school server
@@ -703,15 +705,16 @@ oa:
       Your account and password are only used to submit to the school server for authentication and are only stored locally.
     freshmanTip: |
       The OA account is independent and not shared with the Freshman system.
-      Please do not use your Gaokao registration number as your account. Please refer to the "Freshman Enrollment Notice" for your initial password.
+      Please do not use your Gaokao number as your account.
+      Please see the "Freshman Enrollment Notice" for your initial password.
 
-      Before your first login, you may also need to go to the [OA website](https://myportal.sit.edu.cn/) to change your initial password and bind your mobile phone number.
+      Before your first login, you may have to visit the [OA website](https://myportal.sit.edu.cn/) to change initial password and bind a mobile phone number.
     freshmanSystemTip: |
-      You will login to Freshman system using your Gaokao registration number. You can only view your enrollment information,
-      such as college major, dormitory room number, and your counselor and their contact information.
-      Please refer to the "Freshman Enrollment Notice" for your initial password.
+      You will login to Freshman system using your Gaokao number. You can only view your enrollment information,
+      such as dormitory room number, and counselor contact.
+      Please see the "Freshman Enrollment Notice" for your initial password.
 
-      The Freshman system is not shared with other systems (such as timetable).
+      It's not shared with other systems (such as timetable).
       After your enrollment, please use the student ID assigned to you by the school to login again.
 library:
   title: Library

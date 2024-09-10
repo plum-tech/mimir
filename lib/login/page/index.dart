@@ -204,7 +204,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           const Divider(),
           const OaLoginDisclaimerCard(),
           AnimatedShowUp(
-            when: estimatedUserType == OaUserType.freshman && admissionYear == DateTime.now().year,
+            when: estimatedUserType == OaUserType.freshman,
             builder: (ctx) => const OaLoginFreshmanSystemTipCard(),
           ),
           AnimatedShowUp(
@@ -213,7 +213,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           ),
           buildLoginButton(),
           const ForgotPasswordButton(url: oaForgotLoginPasswordUrl),
-        ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25).center(),
+        ].column(mas: MainAxisSize.min).scrolled().padH(10).center(),
       );
     } else {
       return Scaffold(
@@ -229,7 +229,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             const CampusSelector(),
             const OaLoginDisclaimerCard(),
             AnimatedShowUp(
-              when: estimatedUserType == OaUserType.freshman && admissionYear == DateTime.now().year,
+              when: estimatedUserType == OaUserType.freshman,
               builder: (ctx) => const OaLoginFreshmanSystemTipCard(),
             ),
             AnimatedShowUp(
@@ -320,8 +320,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 await login();
               },
               decoration: InputDecoration(
-                labelText: estimatedUserType == OaUserType.freshman ? "迎新系统密码" : _i18n.credentials.oaPwd,
-                hintText: estimatedUserType == OaUserType.freshman ? "请输入迎新系统密码" : _i18n.oaPwdHint,
+                labelText: estimatedUserType == OaUserType.freshman ? _i18n.freshmanSystemPwd : _i18n.credentials.oaPwd,
+                hintText: estimatedUserType == OaUserType.freshman ? _i18n.freshmanSystemPwdHint : _i18n.oaPwdHint,
                 icon: Icon(context.icons.lock),
                 suffixIcon: PlatformIconButton(
                   icon: Icon(isPasswordClear ? context.icons.eyeSolid : context.icons.eyeSlashSolid),

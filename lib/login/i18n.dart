@@ -53,6 +53,10 @@ class OaLoginI18n extends CommonAuthI18n {
 
   String get oaPwdHint => "$ns.oaPwdHint".tr();
 
+  String get freshmanSystemPwd => "$ns.freshmanSystemPwd".tr();
+
+  String get freshmanSystemPwdHint => "$ns.freshmanSystemPwdHint".tr();
+
   String get schoolServerUnconnectedTip => "$ns.schoolServerUnconnectedTip".tr();
 
   String get loginRequired => "$ns.loginRequired".tr();
