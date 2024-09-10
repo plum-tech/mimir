@@ -51,7 +51,13 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
   Widget build(BuildContext context) {
     return PromptDiscardBeforeQuitScope(
       changed: true,
-      child: buildBody(),
+      child: GestureDetector(
+        onTap: () {
+          // dismiss the keyboard when tap out of TextField.
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: buildBody(),
+      ),
     );
   }
 
@@ -86,12 +92,12 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
             buildHeader(),
             buildSchoolSelector(),
             buildAuthMethods(),
-          ].column(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.spaceEvenly),
+          ].column(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.spaceEvenly).expanded(),
           const VerticalDivider(),
           AnimatedSwitcher(
             duration: Durations.medium2,
             child: buildLoginForm(),
-          ).padAll(8),
+          ).padAll(8).expanded(),
         ].row(),
       );
     }

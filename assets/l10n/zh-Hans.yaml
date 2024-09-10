@@ -617,13 +617,13 @@ networkTool:
   campusNetworkNotConnected: 未连接校园网
   schoolServerAvailable: |
     ## <center>可以访问学校服务器</center>
-    你可以登录 OA，查看 [OA 公告](/oa-announce)，以及访问其他需要学校服务器的服务。
+    你可以登录 OA，查看 [OA 公告](/oa/announcement)，以及访问其他需要学校服务器的服务。
   schoolServerUnavailable: |
     ## <center>无法访问学校服务器</center>
     你无法登录 OA，也无法访问任何需要学校服务器的服务。
   studentRegAvailable: |
     ## <center>可以访问教务系统</center>
-    你可以从教务系统中导入课程表，并查看[考试安排](/exam-arrange)和[考试成绩](/exam-result)（包括[绩点](/exam-result/ug/gpa)）
+    你可以从教务系统中导入课程表，并查看[考试安排](/exam/arrangement)和[考试成绩](/exam/result)（包括[绩点](/exam/result/ug/gpa)）
   studentRegUnavailable: |
     ## <center>无法访问教务系统</center>
     你无法从教务系统中导入课程表，唯一的导入方法是从你的设备上的文件中加载。

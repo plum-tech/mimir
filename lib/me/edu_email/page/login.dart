@@ -3,11 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credentials/entity/credential.dart';
+import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
+import 'package:mimir/credentials/utils.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/design/animation/animated.dart';
 import 'package:mimir/login/utils.dart';
 import 'package:mimir/login/widgets/forgot_pwd.dart';
 import 'package:mimir/r.dart';
+import 'package:mimir/school/utils.dart';
+import 'package:mimir/widgets/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/utils/error.dart';
@@ -30,13 +35,33 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
   final $password = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool isPasswordClear = false;
-  bool isLoggingIn = false;
+  bool loggingIn = false;
+  OaUserType? estimatedUserType;
+  int? admissionYear;
+
+  @override
+  void initState() {
+    super.initState();
+    $username.addListener(onUsernameChange);
+  }
 
   @override
   void dispose() {
     $username.dispose();
     $password.dispose();
     super.dispose();
+  }
+
+  void onUsernameChange() {
+    var account = $username.text;
+    account = account.toUpperCase();
+    if (account != $username.text) {
+      $username.text = account;
+    }
+    setState(() {
+      estimatedUserType = estimateOaUserType(account);
+      admissionYear = getAdmissionYearFromStudentId(account);
+    });
   }
 
   @override
@@ -46,29 +71,52 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
         // dismiss the keyboard when tap out of TextField.
         FocusScope.of(context).requestFocus(FocusNode());
       },
-      child: Scaffold(
-        appBar: AppBar(
-          title: i18n.login.title.text(),
-          bottom: isLoggingIn
-              ? const PreferredSize(
-                  preferredSize: Size.fromHeight(4),
-                  child: LinearProgressIndicator(),
-                )
-              : null,
-        ),
-        floatingActionButton: !isLoggingIn ? null : const CircularProgressIndicator.adaptive(),
-        body: buildBody(),
-        bottomNavigationBar: const ForgotPasswordButton(url: _forgotLoginPasswordUrl),
-      ),
+      child: buildBody(),
     );
   }
 
   Widget buildBody() {
-    return [
-      buildForm(),
-      const SizedBox(height: 10),
-      buildLoginButton(),
-    ].column(mas: MainAxisSize.min).scrolled(physics: const NeverScrollableScrollPhysics()).padH(25).center();
+    if (context.isPortrait) {
+      return Scaffold(
+        appBar: AppBar(
+          title: i18n.login.title.text(),
+        ),
+        floatingActionButton: !loggingIn ? null : const CircularProgressIndicator.adaptive(),
+        body: [
+          buildForm(),
+          const SizedBox(height: 10),
+          const EduEmailLoginDisclaimerCard(),
+          AnimatedShowUp(
+            when: estimatedUserType == OaUserType.undergraduate && admissionYear == DateTime.now().year,
+            builder: (ctx) => const EduEmailFreshmanTipCard(),
+          ),
+          buildLoginButton(),
+          const ForgotPasswordButton(url: _forgotLoginPasswordUrl),
+        ].column(mas: MainAxisSize.min).scrolled().padH(10).center(),
+      );
+    } else {
+      return Scaffold(
+        appBar: AppBar(
+          title: i18n.login.title.text(),
+        ),
+        floatingActionButton: !loggingIn ? null : const CircularProgressIndicator.adaptive(),
+        body: [
+          [
+            const EduEmailLoginDisclaimerCard(),
+            AnimatedShowUp(
+              when: estimatedUserType == OaUserType.undergraduate && admissionYear == DateTime.now().year,
+              builder: (ctx) => const EduEmailFreshmanTipCard(),
+            ),
+          ].column().scrolled().expanded(),
+          const VerticalDivider(),
+          [
+            buildForm(),
+            buildLoginButton(),
+            const ForgotPasswordButton(url: _forgotLoginPasswordUrl),
+          ].column(mas: MainAxisSize.min).scrolled().expanded()
+        ].row(),
+      );
+    }
   }
 
   Widget buildForm() {
@@ -111,7 +159,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
               enableSuggestions: false,
               obscureText: !isPasswordClear,
               onFieldSubmitted: (inputted) async {
-                if (!isLoggingIn) {
+                if (!loggingIn) {
                   await onLogin();
                 }
               },
@@ -139,7 +187,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
     return $username >>
         (ctx, account) => FilledButton.icon(
               // Online
-              onPressed: !isLoggingIn && account.text.isNotEmpty
+              onPressed: !loggingIn && account.text.isNotEmpty
                   ? () async {
                       // un-focus the text field.
                       FocusScope.of(context).requestFocus(FocusNode());
@@ -158,19 +206,59 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
     );
     try {
       if (!mounted) return;
-      setState(() => isLoggingIn = true);
+      setState(() => loggingIn = true);
       await EduEmailInit.service.login(credential);
       CredentialsInit.storage.email.credentials = credential;
       if (!mounted) return;
-      setState(() => isLoggingIn = false);
+      setState(() => loggingIn = false);
       context.replace("/edu-email/inbox");
     } catch (error, stackTrace) {
       debugPrintError(error, stackTrace);
       if (!mounted) return;
-      setState(() => isLoggingIn = false);
+      setState(() => loggingIn = false);
       if (error is Exception) {
         await handleLoginException(context: context, error: error, stackTrace: stackTrace);
       }
     }
   }
 }
+
+class EduEmailLoginDisclaimerCard extends StatelessWidget {
+  const EduEmailLoginDisclaimerCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      FeaturedMarkdownWidget(
+        data: _disclaimer,
+      ),
+    ].column(caa: CrossAxisAlignment.stretch).padAll(12).inOutlinedCard();
+  }
+}
+
+const _disclaimer = """
+您即将登录由上海应用技术大学（简称"学校"）提供的教育邮箱。
+初始密码一般为您的OA账户的初始密码，具体详情请关注[OA公告](/oa/announcement)。
+
+如果您是第一次使用教育邮箱，请先在PC端前往官网 http://stu.mail.sit.edu.cn 进行激活。
+
+我们非常重视您的隐私安全。您的邮箱与密码仅用于提交给教育邮箱服务器进行身份验证，并仅存储在本地。
+""";
+
+class EduEmailFreshmanTipCard extends StatelessWidget {
+  const EduEmailFreshmanTipCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      FeaturedMarkdownWidget(
+        data: _freshmanTip,
+      ),
+    ].column(caa: CrossAxisAlignment.stretch).padAll(12).inOutlinedCard();
+  }
+}
+
+const _freshmanTip = """
+学校可能尚未为您分配教育邮箱。
+一般会在新生入学后的3个月内完成，具体详情请关注[OA公告](/oa/announcement)。
+""";

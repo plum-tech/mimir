@@ -623,13 +623,13 @@ networkTool:
   campusNetworkNotConnected: Not connected to campus network
   schoolServerAvailable: |
     ## <center>School server available</center>
-    You can log in to OA, view [OA announcements](/oa-announce), and access other services that require the school server.
+    You can log in to OA, view [OA announcements](/oa/announcement), and access other services that require the school server.
   schoolServerUnavailable: |
     ## <center>School server unavailable</center>
     You can't log in to OA, and can't access any services that requires the school server.
   studentRegAvailable: |
     ## <center>Student registration system available</center>
-    You can [import timetables](/timetable/import) from student registration system, and check your [exam arrangements](/exam-arrange) and [exam results](/exam-result) (including [GPA](/exam-result/ug/gpa)).
+    You can [import timetables](/timetable/import) from student registration system, and check your [exam arrangements](/exam/arrangement) and [exam results](/exam/result) (including [GPA](/exam/result/ug/gpa)).
   studentRegUnavailable: |
     ## <center>Student registration system unavailable</center>
     You can't import timetables from student registration system. The only way to import timetables is to load them from a file on your device.

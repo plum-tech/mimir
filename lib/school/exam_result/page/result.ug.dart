@@ -91,7 +91,7 @@ class _ExamResultUgPageState extends ConsumerState<ExamResultUgPage> {
         label: i18n.gpa.title.text(),
         icon: const Icon(Icons.assessment),
         onPressed: () async {
-          await context.push("/exam-result/ug/gpa");
+          await context.push("/exam/result/ug/gpa");
         },
       ),
       body: CustomScrollView(

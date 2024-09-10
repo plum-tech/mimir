@@ -28,7 +28,7 @@ class OaAnnounceTile extends StatelessWidget {
       subtitle: TagsGroup(record.departments + tags),
       trailing: context.formatYmdNum(record.dateTime).text(style: textTheme.bodySmall),
       onTap: () {
-        context.push("/oa-announce/details", extra: record);
+        context.push("/oa/announcement/details", extra: record);
       },
     );
   }

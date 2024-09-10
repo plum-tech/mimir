@@ -20,7 +20,7 @@ class _OaAnnounceAppCardState extends State<OaAnnounceAppCard> {
       leftActions: [
         FilledButton.icon(
           onPressed: () {
-            context.push("/oa-announce");
+            context.push("/oa/announcement");
           },
           icon: const Icon(Icons.newspaper),
           label: i18n.seeAll.text(),

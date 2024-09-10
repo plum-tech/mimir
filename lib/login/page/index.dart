@@ -71,7 +71,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   void dispose() {
     $account.dispose();
     $password.dispose();
-    $account.removeListener(onAccountChange);
     super.dispose();
   }
 

@@ -3,15 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
-import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/school/freshman/init.dart';
-import 'package:mimir/school/widgets/campus.dart';
-import 'package:mimir/utils/guard_launch.dart';
+import 'package:mimir/settings/dev.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/widgets/app.dart';
-import 'package:text_scroll/text_scroll.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'entity/info.dart';
@@ -38,15 +35,17 @@ class _FreshmanAppCardState extends ConsumerState<FreshmanAppCard> {
     return AppCard(
       title: "迎新系统".text(),
       view: info == null ? null : FreshmanInfoPreviewCard(info: info),
-      leftActions: [
-        FilledButton.icon(
-          onPressed: () async {
-            await XFreshman.fetchInfo(preferCache: false);
-          },
-          icon: Icon(context.icons.refresh),
-          label: i18n.refresh.text(),
-        ),
-      ],
+      leftActions: ref.watch(Dev.$on) == true
+          ? [
+              FilledButton.icon(
+                onPressed: () async {
+                  await XFreshman.fetchInfo(preferCache: false);
+                },
+                icon: Icon(context.icons.refresh),
+                label: i18n.refresh.text(),
+              ),
+            ]
+          : null,
     );
   }
 }

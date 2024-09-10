@@ -365,7 +365,7 @@ final _class2ndRoute = GoRoute(
 );
 
 final _oaAnnounceRoute = GoRoute(
-  path: "/oa-announce",
+  path: "/oa/announcement",
   builder: (ctx, state) => const OaAnnounceListPage(),
   redirect: _loginRequired,
   routes: [
@@ -479,13 +479,13 @@ final _libraryRoutes = [
 ];
 
 final _examArrange = GoRoute(
-  path: "/exam-arrange",
+  path: "/exam/arrangement",
   builder: (ctx, state) => const ExamArrangementListPage(),
   redirect: _loginRequired,
 );
 
 final _examResultRoute = GoRoute(
-  path: "/exam-result",
+  path: "/exam/result",
   routes: [
     GoRoute(
       path: "ug",
@@ -505,12 +505,12 @@ final _examResultRoute = GoRoute(
   redirect: (ctx, state) {
     final redirect = _loginRequired(ctx, state);
     if (redirect != null) return redirect;
-    if (state.fullPath == "/exam-result") {
+    if (state.fullPath == "/exam/result") {
       final currentUserType = CredentialsInit.storage.oa.userType;
       if (currentUserType == OaUserType.undergraduate) {
-        return "/exam-result/ug";
+        return "/exam/result/ug";
       } else if (currentUserType == OaUserType.postgraduate) {
-        return "/exam-result/ug";
+        return "/exam/result/ug";
       }
     }
     return null;

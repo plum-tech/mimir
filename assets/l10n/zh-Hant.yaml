@@ -595,13 +595,13 @@ networkTool:
   campusNetworkNotConnected: 未連線校園網路
   schoolServerAvailable: |
     ## <center>學校伺服器可用</center>
-    你可以登入 OA，查看 [OA 公告](/oa-announce)，並訪問需要學校伺服器的其他服務。
+    你可以登入 OA，查看 [OA 公告](/oa/announcement)，並訪問需要學校伺服器的其他服務。
   schoolServerUnavailable: |
     ## <center>學校伺服器不可用</center>
     你無法登入 OA，也無法訪問任何需要學校伺服器的服務。
   studentRegAvailable: |
     ## <center>教務系統可用</center>
-    你可以從教務系統[匯入課程表](/timetable/import)，並查看你的[考試安排](/exam-arrange)和[考試成績](/exam-result)（包括[GPA](/exam-result/ug/gpa)）。
+    你可以從教務系統[匯入課程表](/timetable/import)，並查看你的[考試安排](/exam/arrangement)和[考試成績](/exam/result)（包括[GPA](/exam/result/ug/gpa)）。
   studentRegUnavailable: |
     ## <center>教務系統不可用</center>
     你無法從教務系統匯入課程表，匯入的唯一方法是從裝置上的檔案中載入它們。

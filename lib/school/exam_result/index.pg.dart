@@ -34,7 +34,7 @@ class _ExamResultPgAppCardState extends ConsumerState<ExamResultPgAppCard> {
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
-            await context.push("/exam-result/pg");
+            await context.push("/exam/result/pg");
           },
           icon: const Icon(Icons.fact_check),
           label: i18n.check.text(),

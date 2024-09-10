@@ -43,7 +43,7 @@ class _ExamResultUgAppCardState extends ConsumerState<ExamResultUgAppCard> {
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
-            await context.push("/exam-result/ug");
+            await context.push("/exam/result/ug");
           },
           icon: const Icon(Icons.fact_check),
           label: i18n.check.text(),

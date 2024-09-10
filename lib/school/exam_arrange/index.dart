@@ -37,7 +37,7 @@ class _ExamArrangeAppCardState extends ConsumerState<ExamArrangeAppCard> {
       leftActions: [
         FilledButton.icon(
           onPressed: () {
-            context.push("/exam-arrange");
+            context.push("/exam/arrangement");
           },
           icon: const Icon(Icons.calendar_month),
           label: i18n.check.text(),
