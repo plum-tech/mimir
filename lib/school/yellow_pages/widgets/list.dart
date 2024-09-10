@@ -78,7 +78,7 @@ class _SchoolContactListState extends State<SchoolContactList> {
               itemBuilder: (ctx, i) {
                 final contact = entry.value[i];
                 final inHistory = history?.any((e) => e == contact);
-                return ContactTile(contact, inHistory: inHistory).inFilledCard();
+                return SchoolContactTile(contact, inHistory: inHistory);
               },
             ),
           )

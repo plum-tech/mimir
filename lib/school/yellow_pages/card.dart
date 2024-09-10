@@ -68,7 +68,7 @@ class _YellowPagesAppCardState extends ConsumerState<YellowPagesAppCard> {
               history.remove(contact);
               YellowPagesInit.storage.interactHistory = history;
             },
-            child: ContactTile(contact).inCard(),
+            child: SchoolContactTile(contact).inCard(clip: Clip.hardEdge),
           );
         })
         .toList()

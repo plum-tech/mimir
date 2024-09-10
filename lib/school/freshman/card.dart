@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/school/freshman/init.dart';
+import 'package:mimir/school/yellow_pages/widgets/contact.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/widgets/app.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 import 'entity/info.dart';
 import 'x.dart';
@@ -76,36 +75,33 @@ class FreshmanInfoPreviewCard extends StatelessWidget {
       ListTile(
         title: "学号: ${info.studentId}".text(),
         subtitle: "班级: ${info.yearClass}".text(),
-        trailing: Icon(context.icons.copy).padAll(8),
-        onTap: () async {
-          context.showSnackBar(content: i18n.copyTipOf("学号").text());
-          await Clipboard.setData(ClipboardData(text: info.studentId));
-        },
+        trailing: IconButton.filledTonal(
+          icon: Icon(context.icons.copy),
+          onPressed: () async {
+            context.showSnackBar(content: i18n.copyTipOf("学号").text());
+            await Clipboard.setData(ClipboardData(text: info.studentId));
+          },
+        ),
       ),
       ListTile(
         title: info.major.text(),
         subtitle: info.college.text(),
-        trailing: Icon(context.icons.copy).padAll(8),
-        onTap: () async {
-          context.showSnackBar(content: i18n.copyTipOf("专业").text());
-          await Clipboard.setData(ClipboardData(text: info.major));
-        },
+        trailing: IconButton.filledTonal(
+          icon: Icon(context.icons.copy),
+          onPressed: () async {
+            context.showSnackBar(content: i18n.copyTipOf("专业").text());
+            await Clipboard.setData(ClipboardData(text: info.studentId));
+          },
+        ),
       ),
       ListTile(
         title: "${info.buildingNumber}号楼 ${info.roomNumber}".text(),
         subtitle: "${info.bedNumber}床位".text(),
       ),
-      ListTile(
-        title: "辅导员".text(),
-        subtitle: "${info.counselorName}, ${info.counselorContact}".text(),
-        trailing: info.counselorContact.isNotEmpty
-            ? PlatformIconButton(
-                icon: const Icon(Icons.phone),
-                onPressed: () async {
-                  await launchUrlString("tel:${info.counselorContact}", mode: LaunchMode.externalApplication);
-                },
-              )
-            : null,
+      ContactTile(
+        title: "辅导员",
+        name: info.counselorName,
+        phone: info.counselorContact,
       ),
       if (info.counselorNote.isNotEmpty)
         ListTile(
