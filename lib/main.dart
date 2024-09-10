@@ -11,7 +11,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mimir/storage/objectbox/init.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mimir/files.dart';
-import 'package:mimir/migration/foundation.dart';
 import 'package:mimir/network/proxy.dart';
 import 'package:mimir/platform/windows/windows.dart';
 import 'package:mimir/storage/hive/init.dart';
