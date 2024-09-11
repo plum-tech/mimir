@@ -14,6 +14,8 @@ export const parseVersion = (fullVersion) => {
   }
 }
 
+const maxUpgradedDelta = 2
+
 /**
  *
  * @param {string | {version:string,buildNumber:number}} newVersionFull
@@ -30,8 +32,8 @@ export const guardVersioning = async (newVersionFull) => {
   if (upgradeDelta <= 0) {
     throw new Error(`${newVersionFull} should be larger than ${formatVersionInfo(largestInfo)}`)
   }
-  if (upgradeDelta > 1) {
-    throw new Error(`${newVersionFull} upgrades more than one build numbers at once than ${formatVersionInfo(largestInfo)}`)
+  if (upgradeDelta > maxUpgradedDelta) {
+    throw new Error(`${newVersionFull} upgrades more than ${maxUpgradedDelta} build numbers at once than ${formatVersionInfo(largestInfo)}`)
   }
 }
 
