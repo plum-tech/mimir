@@ -141,22 +141,7 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
       });
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      $appLink = AppLinks().uriLinkStream.listen((uri) async {
-        ref.read($appLinks.notifier).state = [...ref.read($appLinks), (uri: uri, ts: DateTime.now())];
-        final navigateCtx = $key.currentContext;
-        if (navigateCtx == null) return;
-        if (!kIsWeb) {
-          final maybePath = Uri.decodeFull(uri.toString());
-          final isFile = await File(maybePath).exists();
-          if (isFile) {
-            if (!navigateCtx.mounted) return;
-            await onHandleFilePath(context: navigateCtx, path: maybePath);
-            return;
-          }
-        }
-        if (!navigateCtx.mounted) return;
-        await onHandleDeepLink(context: navigateCtx, deepLink: uri);
-      });
+      $appLink = AppLinks().uriLinkStream.listen(handleUriLink);
     });
     initQuickActions();
     if (UniversalPlatform.isIOS || UniversalPlatform.isAndroid) {
@@ -215,6 +200,28 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
     fitSystemScreenshot.release();
     intentSub?.cancel();
     super.dispose();
+  }
+
+  Future<void> handleUriLink(Uri uri) async {
+    ref.read($appLinks.notifier).state = [...ref.read($appLinks), (uri: uri, ts: DateTime.now())];
+    final navigateCtx = $key.currentContext;
+    if (navigateCtx == null) return;
+    if (!kIsWeb) {
+      final maybePath = Uri.decodeFull(uri.toString());
+      if (uri.scheme == "file") {
+        await onHandleFilePath(context: navigateCtx, path: maybePath);
+        return;
+      } else {
+        final isFile = await File(maybePath).exists();
+        if (isFile) {
+          if (!navigateCtx.mounted) return;
+          await onHandleFilePath(context: navigateCtx, path: maybePath);
+          return;
+        }
+      }
+    }
+    if (!navigateCtx.mounted) return;
+    await onHandleDeepLink(context: navigateCtx, deepLink: uri);
   }
 
   @override
