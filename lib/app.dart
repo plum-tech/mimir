@@ -122,7 +122,7 @@ class _PostServiceRunner extends ConsumerStatefulWidget {
 }
 
 class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
-  late StreamSubscription _intentSub;
+  StreamSubscription? intentSub;
   StreamSubscription? $appLink;
 
   @override
@@ -159,38 +159,40 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
       });
     });
     initQuickActions();
-    // Listen to media sharing coming from outside the app while the app is in the memory.
-    _intentSub = ReceiveSharingIntent.instance.getMediaStream().listen((list) async {
-      ref.read($intentFiles.notifier).state = [
-        ...ref.read($intentFiles),
-        ...list,
-      ];
-      for (final file in list) {
-        final navigateCtx = $key.currentContext;
-        if (navigateCtx == null || !navigateCtx.mounted) return;
-        await onHandleFilePath(context: navigateCtx, path: file.path);
-      }
-    }, onError: (error) {
-      debugPrintError(error);
-    });
+    if (UniversalPlatform.isIOS || UniversalPlatform.isAndroid) {
+      // Listen to media sharing coming from outside the app while the app is in the memory.
+      intentSub = ReceiveSharingIntent.instance.getMediaStream().listen((list) async {
+        ref.read($intentFiles.notifier).state = [
+          ...ref.read($intentFiles),
+          ...list,
+        ];
+        for (final file in list) {
+          final navigateCtx = $key.currentContext;
+          if (navigateCtx == null || !navigateCtx.mounted) return;
+          await onHandleFilePath(context: navigateCtx, path: file.path);
+        }
+      }, onError: (error) {
+        debugPrintError(error);
+      });
 
-    // Get the media sharing coming from outside the app while the app is closed.
-    ReceiveSharingIntent.instance.getInitialMedia().then((list) async {
-      ref.read($intentFiles.notifier).state = [
-        ...ref.read($intentFiles),
-        ...list,
-      ];
-      for (final file in list) {
-        final navigateCtx = $key.currentContext;
-        if (navigateCtx == null || !navigateCtx.mounted) return;
-        await onHandleFilePath(context: navigateCtx, path: file.path);
-      }
-      if (UniversalPlatform.isIOS) {
-        await Future.wait(list.map((file) => File(file.path).delete(recursive: false)));
-      }
-      // Tell the library that we are done processing the intent.
-      ReceiveSharingIntent.instance.reset();
-    });
+      // Get the media sharing coming from outside the app while the app is closed.
+      ReceiveSharingIntent.instance.getInitialMedia().then((list) async {
+        ref.read($intentFiles.notifier).state = [
+          ...ref.read($intentFiles),
+          ...list,
+        ];
+        for (final file in list) {
+          final navigateCtx = $key.currentContext;
+          if (navigateCtx == null || !navigateCtx.mounted) return;
+          await onHandleFilePath(context: navigateCtx, path: file.path);
+        }
+        if (UniversalPlatform.isIOS) {
+          await Future.wait(list.map((file) => File(file.path).delete(recursive: false)));
+        }
+        // Tell the library that we are done processing the intent.
+        ReceiveSharingIntent.instance.reset();
+      });
+    }
   }
 
   @override
@@ -211,7 +213,7 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
   void dispose() {
     $appLink?.cancel();
     fitSystemScreenshot.release();
-    _intentSub.cancel();
+    intentSub?.cancel();
     super.dispose();
   }
 
