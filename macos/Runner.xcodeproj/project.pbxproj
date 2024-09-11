@@ -443,10 +443,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/DebugProfile.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 31;
 				DEVELOPMENT_TEAM = 6MZL7DZ5BQ;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = TGBYYVM7AB;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "小应生活";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
@@ -457,6 +459,7 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = life.mysit.SITLife;
 				PROVISIONING_PROFILE_SPECIFIER = "li macOS development";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Profile;
@@ -579,10 +582,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/DebugProfile.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 31;
 				DEVELOPMENT_TEAM = 6MZL7DZ5BQ;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = TGBYYVM7AB;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "小应生活";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
@@ -593,6 +598,7 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = life.mysit.SITLife;
 				PROVISIONING_PROFILE_SPECIFIER = "li macOS development";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -607,10 +613,12 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Release.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 31;
 				DEVELOPMENT_TEAM = 6MZL7DZ5BQ;
+				"DEVELOPMENT_TEAM[sdk=macosx*]" = TGBYYVM7AB;
 				INFOPLIST_FILE = Runner/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "小应生活";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
@@ -621,6 +629,7 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = life.mysit.SITLife;
 				PROVISIONING_PROFILE_SPECIFIER = "li macOS development";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
