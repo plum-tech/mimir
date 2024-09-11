@@ -95,6 +95,8 @@ dependencies:
   quick_actions: ^1.0.7
   # Deep links on Android and custom scheme links on iOS
   app_links: ^6.3.2
+  receive_sharing_intent: ^1.8.0
+  uri_content: ^2.2.0
   # Open with other APP/programs
   open_file: ^3.5.3
   url_launcher: ^6.3.0

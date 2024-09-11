@@ -1938,6 +1938,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.6"
+  receive_sharing_intent:
+    dependency: "direct main"
+    description:
+      name: receive_sharing_intent
+      sha256: f127989f8662ea15e193bd1e10605e5a0ab6bb92dffd51f3ce002feb0ce24c93
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.8.0"
   reorderables:
     dependency: "direct main"
     description:
@@ -2375,6 +2383,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  uri_content:
+    dependency: "direct main"
+    description:
+      name: uri_content
+      sha256: ad08e63cd995e2daeace00359399f368e3d5dfe381c1a37daa3f9901108b518e
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
   url_launcher:
     dependency: "direct main"
     description:

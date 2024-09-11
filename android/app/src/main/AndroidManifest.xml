@@ -54,6 +54,31 @@
         <!--   for backwards support     -->
         <data android:scheme="life.mysit"/>
       </intent-filter>
+      <!-- .timetable file-->
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <category android:name="android.intent.category.OPENABLE"/>
+        <data
+          android:host="*"
+          android:mimeType="*/*"
+          android:pathPattern=".*\\.timetable"
+          android:scheme="content"
+        />
+      </intent-filter>
+      <!-- .json file-->
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <category android:name="android.intent.category.OPENABLE"/>
+        <data
+          android:host="*"
+          android:mimeType="application/json"
+          android:scheme="content"
+        />
+      </intent-filter>
     </activity>
     <!-- Don't delete the meta-data below.
          This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->

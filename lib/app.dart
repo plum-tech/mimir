@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
@@ -20,9 +21,14 @@ import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/backend/update/utils.dart';
 import 'package:mimir/utils/color.dart';
+import 'package:mimir/utils/error.dart';
+import 'package:path/path.dart' as p;
+import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:system_theme/system_theme.dart';
+import 'package:uri_content/uri_content.dart';
 
 final $appLinks = StateProvider((ref) => <({Uri uri, DateTime ts})>[]);
+final $intentFiles = StateProvider((ref) => <({Uri uri, SharedMediaFile file})>[]);
 
 class MimirApp extends ConsumerStatefulWidget {
   const MimirApp({super.key});
@@ -116,8 +122,10 @@ class _PostServiceRunner extends ConsumerStatefulWidget {
   @override
   ConsumerState<_PostServiceRunner> createState() => _PostServiceRunnerState();
 }
-
+final _uriContent = UriContent();
 class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
+  late StreamSubscription _intentSub;
+  final _sharedFiles = <SharedMediaFile>[];
   StreamSubscription? $appLink;
 
   @override
@@ -154,6 +162,35 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
       });
     });
     initQuickActions();
+    // Listen to media sharing coming from outside the app while the app is in the memory.
+    _intentSub = ReceiveSharingIntent.instance.getMediaStream().listen((value) async {
+      final list = value.map((f) => (uri: Uri.parse(f.path), file: f)).toList(growable: false);
+      ref.read($intentFiles.notifier).state = [
+        ...ref.read($intentFiles),
+        ...list,
+      ];
+      for (final (:uri, :file) in list) {
+        p.extension(uri.path);
+        final bytes= await _uriContent.from(uri);
+        final content = const Utf8Decoder().convert(bytes.toList());
+        print(content);
+      }
+      print(_sharedFiles.map((f) => f.toMap()));
+    }, onError: (error) {
+      debugPrintError(error);
+    });
+
+    // Get the media sharing coming from outside the app while the app is closed.
+    ReceiveSharingIntent.instance.getInitialMedia().then((value) {
+      final list = value.map((f) => (uri: Uri.parse(f.path), file: f)).toList(growable: false);
+      ref.read($intentFiles.notifier).state = [
+        ...ref.read($intentFiles),
+        ...list,
+      ];
+      print(_sharedFiles.map((f) => f.toMap()));
+      // Tell the library that we are done processing the intent.
+      ReceiveSharingIntent.instance.reset();
+    });
   }
 
   @override
@@ -174,6 +211,7 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
   void dispose() {
     $appLink?.cancel();
     fitSystemScreenshot.release();
+    _intentSub.cancel();
     super.dispose();
   }
 
