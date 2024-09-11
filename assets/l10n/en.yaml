@@ -1,6 +1,16 @@
 appName: SIT Life
 accountName: Ing Account
 mimir:
+  update:
+    title: Check update
+    onLatestTip: You are on the latest version
+    newVersionAvailable: New version available!
+    notNow: Not Now
+    skipThisVersionFor7Days: Skip this version for 7 days
+    openAppStore: Open App Store
+    installOnAppStoreInsteadTip: |
+      @:appName has published on App Store.
+      To get the best experience, please consider to install it on App Store instead.
   forum:
     navigation: Forum
     title: Ing Forum
@@ -884,16 +894,6 @@ qrCode:
 404:
   title: Not Found
   subtitle: The requested page was not found
-update:
-  title: Check update
-  onLatestTip: You are on the latest version
-  newVersionAvailable: New version available!
-  notNow: Not Now
-  skipThisVersionFor7Days: Skip this version for 7 days
-  openAppStore: Open App Store
-  installOnAppStoreInsteadTip: |
-    @:appName has published on App Store.
-    To get the best experience, please consider to install it on App Store instead.
 weekday:
   0: Monday
   1: Tuesday
@@ -1017,6 +1017,7 @@ cancel: Cancel
 save: Save
 yes: Yes
 refresh: Refresh
+update: Update
 back: Back
 clear: Clear
 continue: Continue

@@ -356,7 +356,7 @@ class TimetableCard extends StatelessWidget {
         if (!kIsWeb && kDebugMode)
           EntryAction(
             icon: context.icons.refresh,
-            label: i18n.refresh,
+            label: i18n.update,
             action: () async {
               // TODO: refresh timetable
             },

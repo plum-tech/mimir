@@ -8,7 +8,7 @@ import '../entity/artifact.dart';
 import 'package:mimir/widgets/markdown.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import '../i18n.dart';
+import '../../i18n.dart';
 
 class ArtifactUpdatePage extends StatefulWidget {
   final ArtifactVersionInfo info;
@@ -32,7 +32,7 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
       body: [
         [
           const Spacer(),
-          i18n.newVersionAvailable
+          i18n.up.newVersionAvailable
               .text(
                 textAlign: TextAlign.center,
                 style: context.textTheme.headlineLarge?.copyWith(
@@ -69,7 +69,7 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
         }
         context.pop();
       },
-      child: i18n.notNow.text(),
+      child: i18n.up.notNow.text(),
     );
   }
 
@@ -84,7 +84,7 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
                 context.pop();
                 await launchUrlString(R.iosAppStoreUrl, mode: LaunchMode.externalApplication);
               },
-        label: i18n.openAppStore.text(),
+        label: i18n.up.openAppStore.text(),
       );
     }
     return FilledButton.icon(
@@ -111,7 +111,7 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
           ignore = value == true;
         });
       },
-      title: i18n.skipThisVersionFor7Days.text(),
+      title: i18n.up.skipThisVersionFor7Days.text(),
     );
   }
 }

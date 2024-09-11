@@ -1,6 +1,16 @@
 appName: 小应生活
 accountName: 小应账户
 mimir:
+  update:
+    title: 检查更新
+    onLatestTip: 你使用的是最新版本
+    newVersionAvailable: 有新版本可用！
+    notNow: 再等等
+    skipThisVersionFor7Days: 跳过此版本七天
+    openAppStore: 打开 App Store
+    installOnAppStoreInsteadTip: |
+      @:appName 已上架 App Store。
+      为获得更好的体验，请考虑移步至 App Store上安装。
   forum:
     navigation: 社区
     title: 小应社区
@@ -874,16 +884,6 @@ qrCode:
 404:
   title: 找不到页面
   subtitle: 未找到请求的页面
-update:
-  title: 检查更新
-  onLatestTip: 你使用的是最新版本
-  newVersionAvailable: 有新版本可用！
-  notNow: 再等等
-  skipThisVersionFor7Days: 跳过此版本七天
-  openAppStore: 打开 App Store
-  installOnAppStoreInsteadTip: |
-    @:appName 已上架 App Store。
-    为获得更好的体验，请考虑移步至 App Store上安装。
 weekday:
   0: 周一
   1: 周二
@@ -1007,6 +1007,7 @@ cancel: 取消
 save: 保存
 yes: 是的
 refresh: 刷新
+update: 更新
 back: 返回
 clear: 清空
 continue: 继续

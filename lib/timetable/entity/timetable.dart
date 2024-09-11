@@ -111,6 +111,7 @@ class SitTimetable {
       "lastModified": lastModified,
       "createdTime": createdTime,
       "signature": signature,
+      "studentId": studentId,
       "patches": patches,
     }.toString();
   }
@@ -119,10 +120,11 @@ class SitTimetable {
     return "SitTimetable("
         'name:"$name",'
         'signature:"$signature",'
+        'studentId:"$studentId",'
         "campus:$campus,"
         'startDate:DateTime.parse("$startDate"),'
-        'lastModified:DateTime.now(),'
-        'createdTime:DateTime.now(),'
+        'createdTime:DateTime.parse("$createdTime"),'
+        'lastModified:DateTime.parse("$lastModified"),'
         "courses:${courses.map((key, value) => MapEntry('"$key"', value.toDartCode()))},"
         "schoolYear:$schoolYear,"
         "semester:$semester,"

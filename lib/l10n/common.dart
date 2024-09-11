@@ -15,6 +15,8 @@ mixin class CommonI18nMixin {
 
   String get refresh => "refresh".tr();
 
+  String get update => "update".tr();
+
   String get close => "close".tr();
 
   String get submit => "submit".tr();

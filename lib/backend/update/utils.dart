@@ -14,7 +14,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 import 'package:version/version.dart';
 
 import '../init.dart';
-import 'i18n.dart';
+import '../i18n.dart';
 import 'page/update.dart';
 
 Future<void> checkAppUpdate({
@@ -75,7 +75,11 @@ Future<void> _checkAppUpdateFromOfficial({
       dismissible: false,
     );
   } else if (manually) {
-    await context.showTip(title: i18n.title, desc: i18n.onLatestTip, primary: i18n.ok);
+    await context.showTip(
+      title: i18n.up.title,
+      desc: i18n.up.onLatestTip,
+      primary: i18n.ok,
+    );
   }
 }
 
@@ -89,7 +93,11 @@ Future<void> _checkAppUpdateFromApple({
     // if the version from iTunes isn't identical to official's
     if (manually) {
       if (!context.mounted) return;
-      await context.showTip(title: i18n.title, desc: i18n.onLatestTip, primary: i18n.ok);
+      await context.showTip(
+        title: i18n.up.title,
+        desc: i18n.up.onLatestTip,
+        primary: i18n.ok,
+      );
     }
     return;
   }
@@ -117,7 +125,11 @@ Future<void> _checkAppUpdateFromApple({
         dismissible: false,
       );
     } else if (manually) {
-      await context.showTip(title: i18n.title, desc: i18n.onLatestTip, primary: i18n.ok);
+      await context.showTip(
+        title: i18n.up.title,
+        desc: i18n.up.onLatestTip,
+        primary: i18n.ok,
+      );
     }
   }
 }
@@ -129,14 +141,14 @@ Future<bool> _requestInstallOnAppStoreInstead({
   return await showCupertinoModalPopup(
     context: context,
     builder: (ctx) => CupertinoActionSheet(
-      message: i18n.installOnAppStoreInsteadTip.text(),
+      message: i18n.up.installOnAppStoreInsteadTip.text(),
       actions: [
         CupertinoActionSheetAction(
           isDefaultAction: true,
           onPressed: () {
             ctx.pop(true);
           },
-          child: i18n.openAppStore.text(),
+          child: i18n.up.openAppStore.text(),
         ),
         CupertinoActionSheetAction(
           onPressed: () {
@@ -144,7 +156,7 @@ Future<bool> _requestInstallOnAppStoreInstead({
             Settings.lastSkipUpdateTime = DateTime.now();
             ctx.pop(false);
           },
-          child: i18n.skipThisVersionFor7Days.text(),
+          child: i18n.up.skipThisVersionFor7Days.text(),
         ),
       ],
       cancelButton: CupertinoActionSheetAction(

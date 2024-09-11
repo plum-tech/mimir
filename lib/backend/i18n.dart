@@ -11,6 +11,7 @@ class _I18n with CommonI18nMixin {
 
   final auth = const _Auth();
   final forum = const _Forum();
+  final up = const _Update();
 
   String get school => "$ns.school.title".tr();
 }
@@ -45,4 +46,24 @@ class _Settings {
   const _Settings();
 
   static const ns = "${_I18n.ns}.settings";
+}
+
+class _Update {
+  const _Update();
+
+  static const ns = "${_I18n.ns}.update";
+
+  String get title => "$ns.title".tr();
+
+  String get newVersionAvailable => "$ns.newVersionAvailable".tr();
+
+  String get onLatestTip => "$ns.onLatestTip".tr();
+
+  String get installOnAppStoreInsteadTip => "$ns.installOnAppStoreInsteadTip".tr();
+
+  String get notNow => "$ns.notNow".tr();
+
+  String get skipThisVersionFor7Days => "$ns.skipThisVersionFor7Days".tr();
+
+  String get openAppStore => "$ns.openAppStore".tr();
 }
