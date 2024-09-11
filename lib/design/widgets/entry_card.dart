@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -295,22 +294,23 @@ class EntryCard extends StatelessWidget {
     final actions = this.actions(context);
     final selectAction = this.selectAction.call(context);
     final deleteAction = this.deleteAction?.call(context);
-    final editAction = actions.firstWhereOrNull((action) => action.type == EntryActionType.edit);
-    if (editAction != null) {
-      all.add(PlatformTextButton(
-        onPressed: () async {
-          if (editAction.oneShot) {
-            if (!context.mounted) return;
-            context.navigator.pop();
-          }
-          await editAction.action();
-        },
-        child: editAction.label.text(),
-      ));
-      // remove edit action
-      actions.retainWhere((action) => action.type != EntryActionType.edit);
+    final mainActions = actions.where((action) => action.main).toList();
+    final secondaryActions = actions.where((action) => !action.main).toList();
+    if (mainActions.isNotEmpty) {
+      for (final action in mainActions) {
+        all.add(PlatformTextButton(
+          onPressed: () async {
+            if (action.oneShot) {
+              if (!context.mounted) return;
+              context.navigator.pop();
+            }
+            await action.action();
+          },
+          child: action.label.text(),
+        ));
+      }
       if (selectAction != null && !selected) {
-        actions.insert(
+        secondaryActions.insert(
           0,
           EntryAction(
             label: selectAction.selectLabel,
@@ -333,7 +333,7 @@ class EntryCard extends StatelessWidget {
     all.add(PullDownMenuButton(
       itemBuilder: (ctx) {
         return [
-          ...actions.map(
+          ...secondaryActions.map(
             (action) => PullDownItem(
               icon: action.icon,
               title: action.label,

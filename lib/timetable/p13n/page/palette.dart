@@ -206,21 +206,9 @@ class PaletteCard extends StatelessWidget {
                 },
               ),
       actions: (ctx) => [
-        if (palette is! BuiltinTimetablePalette)
-          EntryAction.edit(
-            main: true,
-            label: i18n.edit,
-            icon: context.icons.edit,
-            activator: const SingleActivator(LogicalKeyboardKey.keyE),
-            action: () async {
-              await editTimetablePalette(
-                context: context,
-                id: id,
-              );
-            },
-          ),
         if (timetable != null && palette.colors.isNotEmpty)
           EntryAction(
+            main: true,
             label: i18n.preview,
             icon: isCupertino ? CupertinoIcons.eye : Icons.preview,
             activator: const SingleActivator(LogicalKeyboardKey.keyP),
@@ -229,6 +217,18 @@ class PaletteCard extends StatelessWidget {
                 context,
                 timetable: timetable,
                 palette: palette,
+              );
+            },
+          ),
+        if (palette is! BuiltinTimetablePalette)
+          EntryAction.edit(
+            label: i18n.edit,
+            icon: context.icons.edit,
+            activator: const SingleActivator(LogicalKeyboardKey.keyE),
+            action: () async {
+              await editTimetablePalette(
+                context: context,
+                id: id,
               );
             },
           ),
