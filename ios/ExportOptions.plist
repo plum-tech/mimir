@@ -5,13 +5,13 @@
   <key>method</key>
   <string>app-store</string> <!-- app-store, ad-hoc, enterprise, development -->
   <key>teamID</key>
-  <string>6MZL7DZ5BQ</string>
+  <string>TGBYYVM7AB</string>
 	<key>signingStyle</key>
 	<string>manual</string>
   <key>provisioningProfiles</key>
 	<dict>
 		<key>life.mysit.SITLife</key>
-		<string>516cedde-fe70-4902-bebe-438890797bf5</string>
+		<string>535be9d5-550e-4871-bc9b-c2bdf9728641</string>
 	</dict>
 </dict>
 </plist>
