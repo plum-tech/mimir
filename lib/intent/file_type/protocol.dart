@@ -38,7 +38,6 @@ Future<Uint8List> readBytesFromUri(Uri uri) async {
 }
 
 Future<Uint8List> readBytesFromPath(String path) async {
-  final uri = Uri.parse(path);
   // handle file, data, and Android content.
-  return _uriContent.from(uri);
+  return readBytesFromUri(Uri.parse(path));
 }

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 import 'dart:ui';
 
@@ -181,6 +180,11 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
         ...ref.read($intentFiles),
         ...list,
       ];
+      for (final file in list) {
+        final navigateCtx = $key.currentContext;
+        if (navigateCtx == null || !navigateCtx.mounted) return;
+        await onHandleFilePath(context: navigateCtx, path: file.path);
+      }
       if (UniversalPlatform.isIOS) {
         await Future.wait(list.map((file) => File(file.path).delete(recursive: false)));
       }

@@ -39,6 +39,9 @@ enum Semester implements Comparable<Semester> {
       '': Semester.all,
       '3': Semester.term1,
       '12': Semester.term2,
+      // for compatibility
+      '1': Semester.term1,
+      '2': Semester.term2,
     };
     return mapping[field]!;
   }
