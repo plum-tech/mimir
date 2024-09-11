@@ -23,8 +23,20 @@ Future<SitTimetable?> _readTimetableFromPickedFile() async {
     lockParentWindow: true,
   );
   if (result == null) return null;
-  final content = await _readTimetableFi(result.files.single);
-  if (content == null) return null;
+  final bytes = await _getBytes(result.files.single);
+  if (bytes == null) return null;
+  return readTimetableFromBytes(bytes);
+}
+
+Future<SitTimetable?> _readTimetableFromFile(String path) async {
+  final file = File(path);
+  final bytes = await file.readAsBytes();
+  return readTimetableFromBytes(bytes);
+}
+
+Future<SitTimetable?> readTimetableFromBytes(Uint8List bytes) async {
+  // timetable file should be encoding in utf-8.
+  final content = const Utf8Decoder().convert(bytes.toList());
   final json = jsonDecode(content);
   try {
     final timetable = SitTimetable.fromJson(json);
@@ -37,26 +49,11 @@ Future<SitTimetable?> _readTimetableFromPickedFile() async {
     );
   }
 }
-Future<SitTimetable?> _readTimetableFromFile(String path) async {
-  final file = File(path);
-  final content = await file.readAsString();
-  final json = jsonDecode(content);
-  final timetable = SitTimetable.fromJson(json);
-  return timetable;
-}
-
-Future<SitTimetable?> _readTimetableFromBytes(Uint8List bytes) async {
-  // timetable file should be encoding in utf-8.
-  final content = const Utf8Decoder().convert(bytes.toList());
-  final json = jsonDecode(content);
-  final timetable = SitTimetable.fromJson(json);
-  return timetable;
-}
 
 Future<SitTimetable?> readTimetableFromFileWithPrompt(
-    BuildContext context,
-    String path,
-    ) async {
+  BuildContext context,
+  String path,
+) async {
   return readTimetableWithPrompt(context, get: () => _readTimetableFromFile(path));
 }
 
@@ -65,9 +62,9 @@ Future<SitTimetable?> readTimetableFromPickedFileWithPrompt(BuildContext context
 }
 
 Future<SitTimetable?> readTimetableWithPrompt(
-    BuildContext context, {
-      required Future<SitTimetable?> Function() get,
-    }) async {
+  BuildContext context, {
+  required Future<SitTimetable?> Function() get,
+}) async {
   try {
     final timetable = await get();
     return timetable;
@@ -87,16 +84,12 @@ Future<SitTimetable?> readTimetableWithPrompt(
   }
 }
 
-Future<String?> _readTimetableFi(PlatformFile fi) async {
+Future<Uint8List?> _getBytes(PlatformFile file) async {
   if (kIsWeb) {
-    final bytes = fi.bytes;
-    if (bytes == null) return null;
-    // timetable file should be encoding in utf-8.
-    return const Utf8Decoder().convert(bytes.toList());
+    return file.bytes;
   } else {
-    final path = fi.path;
+    final path = file.path;
     if (path == null) return null;
-    final file = File(path);
-    return await file.readAsString();
+    return await File(path).readAsBytes();
   }
 }

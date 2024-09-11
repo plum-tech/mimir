@@ -44,7 +44,6 @@ class TimetableService {
         'xqm': info.semester.toUgRegFormField()
       }),
     );
-    // final response = await _ugRegSession.importTimetable(_undergraduateTimetableUrl, info);
     final json = response.data;
     return parseUndergraduateTimetableFromRaw(
       json,
