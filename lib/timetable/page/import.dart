@@ -23,6 +23,7 @@ import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
+import '../utils/import.dart';
 import 'edit/editor.dart';
 
 enum ImportStatus {

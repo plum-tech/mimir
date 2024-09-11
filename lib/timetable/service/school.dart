@@ -11,7 +11,8 @@ import 'package:mimir/session/ug_registration.dart';
 import 'package:mimir/settings/settings.dart';
 
 import '../entity/timetable.dart';
-import '../utils.dart';
+import '../utils/parse.pg.dart';
+import '../utils/parse.ug.dart';
 
 class TimetableService {
   static const _undergraduateTimetableUrl = 'http://jwxt.sit.edu.cn/jwglxt/kbcx/xskbcx_cxXsgrkb.html';

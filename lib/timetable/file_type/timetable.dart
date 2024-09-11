@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:mimir/intent/file_type/protocol.dart';
-import 'package:mimir/timetable/utils.dart';
 
 import '../page/mine.dart';
+import '../utils/import.dart';
 
 class TimetableFileType with FixedExtensionFileTypeHandler implements FileTypeHandlerProtocol {
   const TimetableFileType();
@@ -21,3 +21,4 @@ class TimetableFileType with FixedExtensionFileTypeHandler implements FileTypeHa
     await onTimetableFromFile(context: context, timetable: timetable);
   }
 }
+
