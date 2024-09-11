@@ -7,6 +7,10 @@
 - Updated ICP licence.
 - [Android] Support of `x86` and `x86_64` was back.
 - Added Topping up in expense records.
+- Bumped Minimum macOS support to 10.15.
+- Updated Apple Developer Program.
+- [tools] Avoiding build failure due to upgrading more than 1 build number but less than 3 at once.
+- Timetable files can be opened with the app on both Android and iOS.
 
 ## v2.5.2
 - Remember selected semester info only in current session.
