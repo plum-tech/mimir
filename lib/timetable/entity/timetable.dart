@@ -17,7 +17,7 @@ import '../patch/entity/patch.dart';
 
 part 'timetable.g.dart';
 
-DateTime _kLastModified() => DateTime.now();
+DateTime _kNow() => DateTime.now();
 
 List<TimetablePatchEntry> _patchesFromJson(List? list) {
   return list
@@ -60,8 +60,11 @@ class SitTimetable {
   @JsonKey()
   final Map<String, SitCourse> courses;
 
-  @JsonKey(defaultValue: _kLastModified)
+  @JsonKey(defaultValue: _kNow)
   final DateTime lastModified;
+
+  @JsonKey(defaultValue: _kNow)
+  final DateTime createdTime;
 
   @JsonKey()
   final int version;
@@ -79,6 +82,7 @@ class SitTimetable {
     required this.schoolYear,
     required this.semester,
     required this.lastModified,
+    required this.createdTime,
     required this.studentId,
     this.patches = const [],
     this.signature = "",
@@ -105,6 +109,7 @@ class SitTimetable {
       "schoolYear": schoolYear,
       "semester": semester,
       "lastModified": lastModified,
+      "createdTime": createdTime,
       "signature": signature,
       "patches": patches,
     }.toString();
@@ -117,6 +122,7 @@ class SitTimetable {
         "campus:$campus,"
         'startDate:DateTime.parse("$startDate"),'
         'lastModified:DateTime.now(),'
+        'createdTime:DateTime.now(),'
         "courses:${courses.map((key, value) => MapEntry('"$key"', value.toDartCode()))},"
         "schoolYear:$schoolYear,"
         "semester:$semester,"
@@ -172,6 +178,7 @@ class SitTimetable {
     writer.uint8(semester.index);
     writer.uint8(lastCourseKey);
     writer.datePacked(startDate, 2000);
+    writer.datePacked(createdTime, 2000);
     writer.uint8(courses.length);
     for (final course in courses.values) {
       course.serialize(writer);
@@ -194,6 +201,7 @@ class SitTimetable {
       semester: Semester.values[reader.uint8()],
       lastCourseKey: reader.uint8(),
       startDate: reader.datePacked(2000),
+      createdTime: reader.datePacked(2000),
       courses: Map.fromEntries(List.generate(reader.uint8(), (index) {
         final course = SitCourse.deserialize(reader);
         return MapEntry("${course.courseKey}", course);

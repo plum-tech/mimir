@@ -142,6 +142,7 @@ SitTimetable parseUndergraduateTimetableFromRaw(
     signature: name,
     name: i18n.import.defaultName(semester.l10n(), schoolYear.toString(), (schoolYear + 1).toString()),
     startDate: estimateStartDate(schoolYear, semester),
+    createdTime: DateTime.now(),
     campus: _extractCampusFromCourses(rawCourses) ?? defaultCampus,
     schoolYear: schoolYear,
     semester: semester,

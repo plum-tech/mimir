@@ -63,6 +63,7 @@ SitTimetable _get() {
     signature: "Liplum",
     studentId: "114514",
     startDate: DateTime.parse("2024-02-26"),
+    createdTime: DateTime.now(),
     lastModified: DateTime.now(),
     campus: Campus.fengxian,
     courses: const {

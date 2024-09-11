@@ -154,10 +154,10 @@ void completePostgraduateCourseRawFromPostgraduateScoreRaw(
 }
 
 SitTimetable parsePostgraduateTimetableFromCourseRaw(
-    List<PostgraduateCourseRaw> all, {
-      required Campus campus,
-      required String studentId,
-    }) {
+  List<PostgraduateCourseRaw> all, {
+  required Campus campus,
+  required String studentId,
+}) {
   final courseKey2Entity = <String, SitCourse>{};
   var counter = 0;
   for (final raw in all) {
@@ -197,6 +197,7 @@ SitTimetable parsePostgraduateTimetableFromCourseRaw(
     studentId: studentId,
     campus: campus,
     startDate: DateTime.utc(0),
+    createdTime: DateTime.now(),
     schoolYear: 0,
     semester: Semester.term1,
     lastModified: DateTime.now(),
