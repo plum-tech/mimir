@@ -5,7 +5,7 @@ const projectPbxprojPath = 'ios/Runner.xcodeproj/project.pbxproj'
 
 const mapping = {
   'CODE_SIGN_IDENTITY = "Apple Development: JiaHao Li (BCG3D8Z5WX)";':
-   'CODE_SIGN_IDENTITY = "Apple Distribution: Chenchen Fan (6MZL7DZ5BQ)";',
+   'CODE_SIGN_IDENTITY = "Apple Distribution: Shanghai Plum Technology Ltd. (TGBYYVM7AB)";',
   'PROVISIONING_PROFILE_SPECIFIER = "mimir-dev team iOS Development mysit.life";':
    'PROVISIONING_PROFILE_SPECIFIER = "Plum Tech App Store Distro mysit.life";',
 }
