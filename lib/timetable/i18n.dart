@@ -235,6 +235,14 @@ class _Import {
   String get formatError => "$ns.formatError.title".tr();
 
   String get formatErrorDesc => "$ns.formatError.desc".tr();
+
+  String get alreadyLatest => "$ns.alreadyLatest.title".tr();
+
+  String get alreadyLatestDesc => "$ns.alreadyLatest.desc".tr();
+
+  String get updateAvailable => "$ns.updateAvailable.title".tr();
+
+  String get updateAvailableDesc => "$ns.updateAvailable.desc".tr();
 }
 
 class _Editor {

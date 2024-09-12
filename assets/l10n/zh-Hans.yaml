@@ -131,6 +131,12 @@ timetable:
     formatError:
       title: 格式错误
       desc: 所选文件无法作为课程表导入，请选择一个课程表文件。
+    alreadyLatest:
+      title: 已经是最新版本
+      desc: 因为已经是最新版本，所以不需要更新此课程表。
+    updateAvailable:
+      title: 有可用的更新
+      desc: 课程表最近已更新，是否要覆盖您的更改并与最新版本同步？
   export:
     title: 导出选项
     export: 导出

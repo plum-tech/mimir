@@ -134,6 +134,12 @@ timetable:
     formatError:
       title: Format error
       desc: The selected file can't be loaded as a timetable. Please choose a timetable file.
+    alreadyLatest:
+      title: Already latest
+      desc: You don't need to update this timetable because it's already the latest
+    updateAvailable:
+      title: Update available
+      desc: The timetable has been updated recently. Do you want to overwrite your changes and sync with the latest version?
   export:
     title: Export to calendar
     export: Export

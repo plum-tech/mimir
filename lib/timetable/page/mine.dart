@@ -36,7 +36,7 @@ import '../entity/timetable.dart';
 import '../init.dart';
 import '../utils/export.dart';
 import '../utils/import.dart';
-import '../utils/update.dart';
+import '../utils/sync.dart';
 import '../widgets/focus.dart';
 import '../p13n/widget/style.dart';
 import 'import.dart';

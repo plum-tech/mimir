@@ -20,7 +20,7 @@ import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/backend/update/utils.dart';
 import 'package:mimir/timetable/init.dart';
-import 'package:mimir/timetable/utils/update.dart';
+import 'package:mimir/timetable/utils/sync.dart';
 import 'package:mimir/utils/color.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';

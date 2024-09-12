@@ -6,6 +6,8 @@ import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/entity/timetable.dart';
 import 'package:mimir/timetable/init.dart';
 
+import "../i18n.dart";
+
 bool canSyncTimetable(Timetable old) {
   final credentials = CredentialsInit.storage.oa.credentials;
   if (credentials == null) return false;
@@ -30,18 +32,17 @@ Future<Timetable?> syncTimetable(BuildContext context, Timetable old) async {
   if (!context.mounted) return null;
   if (equal) {
     await context.showTip(
-      title: "Already latest",
-      desc: "You don't need to update this timetable because it's already the latest",
-      primary: "OK",
+      title: i18n.import.alreadyLatest,
+      desc: i18n.import.alreadyLatestDesc,
+      primary: i18n.ok,
     );
     return null;
   }
   final confirm = await context.showActionRequest(
-    title: "Newest available",
-    desc:
-        "The timetable has been updated recently. Do you want to overwrite your changes and sync with the newest version?",
-    action: "Sync",
-    cancel: "Cancel",
+    title: i18n.import.updateAvailable,
+    desc: i18n.import.updateAvailableDesc,
+    action: i18n.sync,
+    cancel: i18n.cancel,
     destructive: true,
     dismissible: false,
   );
@@ -78,11 +79,10 @@ Future<Timetable?> autoSyncTimetable(BuildContext context, Timetable old) async 
   if (equal) return null;
   if (!context.mounted) return null;
   final confirm = await context.showActionRequest(
-    title: "Newest available",
-    desc:
-        "The timetable has been updated recently. Do you want to overwrite your changes and sync with the newest version?",
-    action: "Sync",
-    cancel: "Dismiss",
+    title: i18n.import.updateAvailable,
+    desc: i18n.import.updateAvailableDesc,
+    action: i18n.sync,
+    cancel: i18n.cancel,
     destructive: true,
     dismissible: false,
   );

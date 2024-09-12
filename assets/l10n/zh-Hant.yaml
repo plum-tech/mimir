@@ -109,6 +109,12 @@ timetable:
     formatError:
       title: 格式錯誤
       desc: 選取的檔案無法作為課程表匯入，請選取一個課程表文件。
+    alreadyLatest:
+      title: 已經是最新版本
+      desc: 因為已經是最新版本，所以不需要更新此課程表。
+    updateAvailable:
+      title: 有可用的更新
+      desc: 課程表最近已更新，是否要覆蓋您的更改並與最新版本同步？
   export:
     title: 匯出選項
     export: 匯出
