@@ -2,7 +2,6 @@ import 'package:flutter/widgets.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/school/entity/school.dart';
-import 'package:mimir/school/utils.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/entity/timetable.dart';
 import 'package:mimir/timetable/init.dart';

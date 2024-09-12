@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +17,7 @@ import 'package:mimir/design/widgets/fab.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/intent/qrcode/page/view.dart';
 import 'package:mimir/route.dart';
+import 'package:mimir/utils/error.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/settings.dart';
@@ -232,7 +234,7 @@ Future<void> editTimetablePatch({
   TimetableInit.storage.timetable[id] = timetable.markModified();
 }
 
-class TimetableCard extends StatelessWidget {
+class TimetableCard extends StatefulWidget {
   final Timetable timetable;
   final int id;
   final bool selected;
@@ -247,7 +249,29 @@ class TimetableCard extends StatelessWidget {
   });
 
   @override
+  State<TimetableCard> createState() => _TimetableCardState();
+}
+
+class _TimetableCardState extends State<TimetableCard> {
+  var syncing = false;
+
+  @override
   Widget build(BuildContext context) {
+    return AnimatedOpacity(
+      opacity: syncing ? 0.5 : 1,
+      duration: Durations.medium1,
+      child: AbsorbPointer(
+        absorbing: syncing,
+        child: buildCard(),
+      ),
+    );
+  }
+
+  Widget buildCard() {
+    final timetable = widget.timetable;
+    final selected = widget.selected;
+    final id = widget.id;
+    final allTimetableNames = widget.allTimetableNames;
     return EntryCard(
       title: timetable.name,
       selected: selected,
@@ -359,9 +383,25 @@ class TimetableCard extends StatelessWidget {
             icon: Icons.sync,
             label: i18n.sync,
             action: () async {
-              final merged = await syncTimetable(context, timetable);
-              if (merged != null) {
-                TimetableInit.storage.timetable[id] = merged;
+              try {
+                setState(() {
+                  syncing = true;
+                });
+                final merged = await syncTimetable(context, timetable);
+                if (merged != null) {
+                  TimetableInit.storage.timetable[id] = merged;
+                }
+              } catch (error, stackTrace) {
+                debugPrintError(error, stackTrace);
+                if (!context.mounted) return;
+                setState(() {
+                  syncing = false;
+                });
+                await context.showTip(
+                  title: i18n.import.failed,
+                  desc: error is DioException ? i18n.import.networkFailedDesc : i18n.import.failedDesc,
+                  primary: i18n.ok,
+                );
               }
             },
           ),
