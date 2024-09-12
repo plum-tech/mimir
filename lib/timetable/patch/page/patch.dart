@@ -397,14 +397,13 @@ class TimetablePatchEntryRecommendationCard extends StatelessWidget {
                 onPressed: onAdded == null
                     ? null
                     : () {
-                        context.pop();
+                        ctx.pop();
                         onAdded?.call();
                       },
                 child: i18n.add.text(),
               )
             ],
           ),
-          dismissible: false,
         );
       },
     );

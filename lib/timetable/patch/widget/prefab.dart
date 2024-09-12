@@ -1,8 +1,14 @@
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/patch.dart';
+import '../page/patch_set.dart';
+import '../page/qrcode.dart';
+import '../../i18n.dart';
 
 class TimetablePatchSetGalleryCard extends StatelessWidget {
   final TimetablePatchSet patchSet;
@@ -16,34 +22,32 @@ class TimetablePatchSetGalleryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final detailsColor = context.colorScheme.onSurfaceVariant;
-    final detailsStyle = context.textTheme.bodyMedium?.copyWith(color: detailsColor);
-    return Card.outlined(
-      clipBehavior: Clip.hardEdge,
-      child: ListTile(
+    return [
+      ListTile(
         isThreeLine: true,
-        title: patchSet.name.text(style: context.textTheme.titleLarge?.copyWith(color: context.colorScheme.onSurface)),
-        onTap: onAdd,
-        subtitle: [
-          ...patchSet.patches.mapIndexed(
-            (i, p) => RichText(
-              text: TextSpan(
-                style: detailsStyle,
-                children: [
-                  WidgetSpan(
-                    child: Icon(
-                      p.type.icon,
-                      color: detailsColor,
-                      size: 16,
-                    ),
-                  ),
-                  TextSpan(text: p.l10n()),
-                ],
-              ),
+        title: patchSet.name.text(),
+        subtitle: TimetablePatchSetPatchesPreview(patchSet),
+        trailing: IconButton.filledTonal(
+          onPressed: onAdd,
+          icon: Icon(context.icons.add),
+        ),
+        onTap: () async {
+          await context.showSheet(
+            (ctx) => TimetablePatchViewerPage(
+              patch: patchSet,
+              actions: [
+                PlatformTextButton(
+                  onPressed: () {
+                    ctx.pop();
+                    onAdd();
+                  },
+                  child: i18n.add.text(),
+                )
+              ],
             ),
-          ),
-        ].column(caa: CrossAxisAlignment.start),
+          );
+        },
       ),
-    );
+    ].column().inOutlinedCard(clip: Clip.hardEdge);
   }
 }
