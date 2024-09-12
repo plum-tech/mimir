@@ -1,11 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/animation/progress.dart';
 import 'package:mimir/design/widgets/common.dart';
-import 'package:mimir/design/widgets/fab.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/school/widgets/semester.dart';
 import 'package:rettulf/rettulf.dart';
@@ -29,7 +29,7 @@ class _ExamResultUgPageState extends ConsumerState<ExamResultUgPage> {
   static SemesterInfo? _lastSemesterInfo;
   late SemesterInfo initial = _lastSemesterInfo ?? estimateSemesterInfo();
   late List<ExamResultUg>? resultList = ExamResultInit.ugStorage.getResultList(initial);
-  bool isFetching = false;
+  bool fetching = false;
   final $loadingProgress = ValueNotifier(0.0);
   late SemesterInfo selected = initial;
   final controller = ScrollController();
@@ -50,7 +50,7 @@ class _ExamResultUgPageState extends ConsumerState<ExamResultUgPage> {
   Future<void> fetch() async {
     if (!mounted) return;
     setState(() {
-      isFetching = true;
+      fetching = true;
     });
     try {
       final (:semester2Results, all: _) = await XExamResult.fetchAndCacheExamResultUgEachSemester(
@@ -62,14 +62,14 @@ class _ExamResultUgPageState extends ConsumerState<ExamResultUgPage> {
       if (!mounted) return;
       setState(() {
         resultList = semester2Results[selected];
-        isFetching = false;
+        fetching = false;
       });
       $loadingProgress.value = 0;
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
-        isFetching = false;
+        fetching = false;
       });
       $loadingProgress.value = 0;
     }
@@ -86,19 +86,19 @@ class _ExamResultUgPageState extends ConsumerState<ExamResultUgPage> {
   Widget build(BuildContext context) {
     final resultList = this.resultList?.sorted(ExamResultUg.compareByTime).reversed.toList();
     return Scaffold(
-      floatingActionButton: AutoHideFAB.extended(
-        controller: controller,
-        label: i18n.gpa.title.text(),
-        icon: const Icon(Icons.assessment),
-        onPressed: () async {
-          await context.push("/exam/result/ug/gpa");
-        },
-      ),
       body: CustomScrollView(
         controller: controller,
         slivers: [
           SliverAppBar.medium(
             title: i18n.title.text(),
+            actions: [
+              PlatformTextButton(
+                child: i18n.gpa.title.text(),
+                onPressed: () async {
+                  await context.push("/exam/result/ug/gpa");
+                },
+              )
+            ],
           ),
           SliverToBoxAdapter(
             child: buildSemesterSelector(),
@@ -120,11 +120,8 @@ class _ExamResultUgPageState extends ConsumerState<ExamResultUgPage> {
               ),
         ],
       ),
-      bottomNavigationBar: isFetching
-          ? PreferredSize(
-              preferredSize: const Size.fromHeight(4),
-              child: $loadingProgress >> (ctx, value) => AnimatedProgressBar(value: value),
-            )
+      floatingActionButton: fetching
+          ? $loadingProgress >> (ctx, value) => AnimatedProgressCircle(value: value)
           : null,
     );
   }

@@ -29,7 +29,7 @@ class R {
   static const debugCupertino = kDebugMode ? false : false;
 
   static const debugNetwork = true;
-  static const debugAllFeatures = true;
+  static const debugAllFeatures = false;
   static const poorNetworkSimulation = false;
 
   /// The default window size is small enough for any modern desktop device.
