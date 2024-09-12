@@ -458,6 +458,8 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
               initial: const Credentials(account: "", password: ""),
             );
             if (credentials == null) return;
+            final old = CredentialsInit.storage.oa.credentials;
+            await recordNewCredentials(credentials, old: old);
             CredentialsInit.storage.oa.credentials = credentials;
             CredentialsInit.storage.oa.loginStatus = OaLoginStatus.everLogin;
             CredentialsInit.storage.oa.lastAuthTime = DateTime.now();
@@ -481,14 +483,24 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
     );
   }
 
+  Future<void> recordNewCredentials(Credentials credentials, {Credentials? old}) async {
+    final List<Credentials> newCredentials = [
+      ...Dev.getSavedOaCredentialsList() ?? [],
+      credentials,
+    ];
+    if (old != null && !newCredentials.any((c) => c.account == old.account)) {
+      newCredentials.add(old);
+    }
+    await Dev.setSavedOaCredentialsList(newCredentials);
+  }
+
   Future<void> loginWith(Credentials credentials) async {
     setState(() => isLoggingIn = true);
     try {
+      final old = CredentialsInit.storage.oa.credentials;
       await Init.schoolCookieJar.deleteAll();
       await XLogin.login(credentials);
-      final former = Dev.getSavedOaCredentialsList() ?? [];
-      former.add(credentials);
-      await Dev.setSavedOaCredentialsList(former);
+      await recordNewCredentials(credentials, old: old);
       if (!mounted) return;
       setState(() => isLoggingIn = false);
       context.go("/");
