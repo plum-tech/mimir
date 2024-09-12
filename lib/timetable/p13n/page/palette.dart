@@ -495,7 +495,7 @@ class TimetableP13nLivePreview extends StatelessWidget {
       options: CarouselOptions(
         height: cellSize.height,
         viewportFraction: 0.24,
-        enableInfiniteScroll: false,
+        enableInfiniteScroll: true,
         padEnds: false,
         autoPlay: true,
         autoPlayInterval: const Duration(milliseconds: 1500),

@@ -50,7 +50,7 @@ class _ExamResultPgAppCardState extends ConsumerState<ExamResultPgAppCard> {
       options: CarouselOptions(
         height: 120,
         viewportFraction: 0.45,
-        enableInfiniteScroll: false,
+        enableInfiniteScroll: true,
         padEnds: false,
       ),
       itemBuilder: (BuildContext context, int i, int pageViewIndex) {
