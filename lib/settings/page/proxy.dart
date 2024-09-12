@@ -35,6 +35,10 @@ class ProxySettingsPage extends ConsumerStatefulWidget {
 class _ProxySettingsPageState extends ConsumerState<ProxySettingsPage> {
   @override
   Widget build(BuildContext context) {
+    final http = ref.watch(Settings.proxy.$profileOf(ProxyCat.http));
+    final https = ref.watch(Settings.proxy.$profileOf(ProxyCat.https));
+    final all = ref.watch(Settings.proxy.$profileOf(ProxyCat.all));
+    final anyAvailable = http != null || https != null || all != null;
     return Scaffold(
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
@@ -47,8 +51,8 @@ class _ProxySettingsPageState extends ConsumerState<ProxySettingsPage> {
           ),
           SliverList(
             delegate: SliverChildListDelegate([
-              buildEnableProxyToggle(),
-              buildProxyModeSwitcher(),
+              buildEnableProxyToggle(anyAvailable: anyAvailable),
+              buildProxyModeSwitcher(anyAvailable: anyAvailable),
               const Divider(),
               buildProxyTypeTile(
                 ProxyCat.http,
@@ -105,21 +109,25 @@ class _ProxySettingsPageState extends ConsumerState<ProxySettingsPage> {
     );
   }
 
-  Widget buildEnableProxyToggle() {
+  Widget buildEnableProxyToggle({required bool anyAvailable}) {
     final anyEnabled = ref.watch(Settings.proxy.$anyEnabled);
     return _EnableProxyToggleTile(
+      tileEnabled: anyAvailable,
       enabled: anyEnabled,
-      onChanged: (newV) {
-        setState(() {
-          ref.read(Settings.proxy.$anyEnabled.notifier).set?.call(newV);
-        });
-      },
+      onChanged: anyAvailable
+          ? (newV) {
+              setState(() {
+                ref.read(Settings.proxy.$anyEnabled.notifier).set?.call(newV);
+              });
+            }
+          : null,
     );
   }
 
-  Widget buildProxyModeSwitcher() {
+  Widget buildProxyModeSwitcher({required bool anyAvailable}) {
     final integratedProxyMode = ref.watch(Settings.proxy.$integratedProxyMode);
     return _ProxyModeSwitcherTile(
+      tileEnabled: anyAvailable,
       proxyMode: integratedProxyMode,
       onChanged: (value) {
         setState(() {
@@ -497,18 +505,23 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
   }
 
   Widget buildEnableProxyToggle() {
+    final available = buildProfile() != null;
     return _EnableProxyToggleTile(
+      tileEnabled: available,
       enabled: enabled,
-      onChanged: (newV) {
-        setState(() {
-          enabled = newV;
-        });
-      },
+      onChanged: available
+          ? (newV) {
+              setState(() {
+                enabled = newV;
+              });
+            }
+          : null,
     );
   }
 
   Widget buildProxyModeSwitcher() {
     return _ProxyModeSwitcherTile(
+      tileEnabled: true,
       proxyMode: proxyMode,
       onChanged: (value) {
         setState(() {
@@ -519,18 +532,21 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
   }
 }
 
-class _EnableProxyToggleTile extends StatelessWidget {
+class _EnableProxyToggleTile extends ConsumerWidget {
   final bool enabled;
-  final ValueChanged<bool> onChanged;
+  final bool tileEnabled;
+  final ValueChanged<bool>? onChanged;
 
   const _EnableProxyToggleTile({
     required this.enabled,
-    required this.onChanged,
+    required this.tileEnabled,
+    this.onChanged,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
+      enabled: tileEnabled,
       title: i18n.proxy.enableProxy.text(),
       subtitle: i18n.proxy.enableProxyDesc.text(),
       leading: const Icon(Icons.vpn_key),
@@ -545,10 +561,12 @@ class _EnableProxyToggleTile extends StatelessWidget {
 class _ProxyModeSwitcherTile extends StatefulWidget {
   final ProxyMode? proxyMode;
   final ValueChanged<ProxyMode> onChanged;
+  final bool tileEnabled;
 
   const _ProxyModeSwitcherTile({
     required this.proxyMode,
     required this.onChanged,
+    required this.tileEnabled,
   });
 
   @override
@@ -566,6 +584,7 @@ class _ProxyModeSwitcherTileState extends State<_ProxyModeSwitcherTile> {
       builder: (context, trigger, showTooltip) {
         return ListTile(
           isThreeLine: true,
+          enabled: widget.tileEnabled,
           leading: const Icon(Icons.public),
           title: i18n.proxy.proxyMode.text(),
           onTap: showTooltip,
@@ -574,9 +593,11 @@ class _ProxyModeSwitcherTileState extends State<_ProxyModeSwitcherTile> {
               .map((mode) => ChoiceChip(
                     label: mode.l10nName().text(),
                     selected: widget.proxyMode == mode,
-                    onSelected: (value) {
-                      widget.onChanged(mode);
-                    },
+                    onSelected: widget.tileEnabled
+                        ? (value) {
+                            widget.onChanged(mode);
+                          }
+                        : null,
                   ))
               .toList()
               .wrap(spacing: 4),
