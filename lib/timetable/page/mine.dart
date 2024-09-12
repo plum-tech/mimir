@@ -391,6 +391,9 @@ class _TimetableCardState extends State<TimetableCard> {
                 if (merged != null) {
                   TimetableInit.storage.timetable[id] = merged;
                 }
+                setState(() {
+                  syncing = false;
+                });
               } catch (error, stackTrace) {
                 debugPrintError(error, stackTrace);
                 if (!mounted) return;

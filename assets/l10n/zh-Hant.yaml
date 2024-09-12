@@ -261,6 +261,9 @@ timetable:
     quickLookLessonOnTap:
       title: 點擊快速檢視一節課
       desc: 長按查看週課程表中完整課程
+    autoSyncTimetable:
+      title: 自動同步使用中的課表
+      desc: 自動檢查使用中的課表更新
 school:
   navigation: 學校
   semester:

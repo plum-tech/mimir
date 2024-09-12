@@ -108,7 +108,7 @@ class AutoSyncTimetableTile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final on = ref.watch(Settings.timetable.$autoSyncTimetable);
     return ListTile(
-      leading: const Icon(Icons.touch_app),
+      leading: const Icon(Icons.sync),
       title: i18n.settings.autoSyncTimetable.text(),
       subtitle: i18n.settings.autoSyncTimetableDesc.text(),
       trailing: Switch.adaptive(
@@ -130,7 +130,7 @@ class AutoUseImportedTile extends ConsumerWidget {
     return ListTile(
       title: i18n.settings.autoUseImported.text(),
       subtitle: i18n.settings.autoUseImportedDesc.text(),
-      leading: const Icon(Icons.auto_mode_outlined),
+      leading: const Icon(Icons.calendar_month),
       trailing: Switch.adaptive(
         value: on,
         onChanged: (newV) {
