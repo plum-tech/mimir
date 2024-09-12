@@ -100,7 +100,7 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
   }
 
   Widget buildMoreActionsButton() {
-    final focusMode = ref.watch(Settings.timetable.$focusTimetable) ?? false;
+    final focusMode = ref.watch(Settings.timetable.$focusTimetable);
     return PullDownMenuButton(
       itemBuilder: (ctx) => [
         PullDownItem(

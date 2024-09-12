@@ -31,6 +31,7 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
             children: [
               const AutoUseImportedTile(),
               const QuickLookCourseOnTapTile(),
+              const AutoSyncTimetableTile(),
               const Divider(),
               buildCellStyle(),
               buildP13n(),
@@ -85,7 +86,7 @@ class QuickLookCourseOnTapTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final on = ref.watch(Settings.timetable.$quickLookLessonOnTap) ?? true;
+    final on = ref.watch(Settings.timetable.$quickLookLessonOnTap);
     return ListTile(
       leading: const Icon(Icons.touch_app),
       title: i18n.settings.quickLookLessonOnTap.text(),
@@ -99,13 +100,32 @@ class QuickLookCourseOnTapTile extends ConsumerWidget {
     );
   }
 }
+class AutoSyncTimetableTile extends ConsumerWidget {
+  const AutoSyncTimetableTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final on = ref.watch(Settings.timetable.$autoSyncTimetable);
+    return ListTile(
+      leading: const Icon(Icons.touch_app),
+      title: i18n.settings.autoSyncTimetable.text(),
+      subtitle: i18n.settings.autoSyncTimetableDesc.text(),
+      trailing: Switch.adaptive(
+        value: on,
+        onChanged: (newV) {
+          ref.read(Settings.timetable.$autoSyncTimetable.notifier).set(newV);
+        },
+      ),
+    );
+  }
+}
 
 class AutoUseImportedTile extends ConsumerWidget {
   const AutoUseImportedTile({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final on = ref.watch(Settings.timetable.$autoUseImported) ?? true;
+    final on = ref.watch(Settings.timetable.$autoUseImported);
     return ListTile(
       title: i18n.settings.autoUseImported.text(),
       subtitle: i18n.settings.autoUseImportedDesc.text(),
@@ -125,7 +145,7 @@ class ShowTimetableNavigationTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final on = ref.watch(Settings.timetable.$showTimetableNavigation) ?? true;
+    final on = ref.watch(Settings.timetable.$showTimetableNavigation);
     return ListTile(
       title: i18n.settings.showTimetableNavigation.text(),
       subtitle: i18n.settings.showTimetableNavigation.text(),

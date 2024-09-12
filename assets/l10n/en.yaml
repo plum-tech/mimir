@@ -1018,6 +1018,7 @@ save: Save
 yes: Yes
 refresh: Refresh
 update: Update
+sync: Sync
 back: Back
 clear: Clear
 continue: Continue

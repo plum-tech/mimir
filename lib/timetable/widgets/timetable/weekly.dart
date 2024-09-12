@@ -350,7 +350,7 @@ class InteractiveCourseCell extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final quickLookLessonOnTap = ref.watch(Settings.timetable.$quickLookLessonOnTap) ?? true;
+    final quickLookLessonOnTap = ref.watch(Settings.timetable.$quickLookLessonOnTap);
     if (quickLookLessonOnTap) {
       return InteractiveCourseCellWithTooltip(
         timetable: timetable,

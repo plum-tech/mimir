@@ -984,6 +984,7 @@ save: 儲存
 yes: 好
 refresh: 重新整理
 update: 更新
+sync: 同步
 back: 後退
 clear: 清除
 continue: 繼續

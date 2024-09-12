@@ -46,7 +46,7 @@ class _MimirAppState extends ConsumerState<MimirApp> {
     final demoMode = ref.watch(Dev.$demoMode);
     final themeColorFromSystem = ref.watch(Settings.theme.$themeColorFromSystem) ?? true;
     ref.listen(Settings.timetable.$focusTimetable, (pre, next) {
-      $routingConfig.value = next ?? false ? buildTimetableFocusRouter() : buildCommonRoutingConfig();
+      $routingConfig.value = next ? buildTimetableFocusRouter() : buildCommonRoutingConfig();
     });
     final themeColor = themeColorFromSystem
         ? SystemTheme.accentColor.maybeAccent

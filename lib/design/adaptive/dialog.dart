@@ -82,6 +82,7 @@ extension DialogEx on BuildContext {
     required String desc,
     required String action,
     required String cancel,
+    bool dismissible = true,
     bool destructive = false,
   }) async {
     if (UniversalPlatform.isIOS) {
@@ -89,6 +90,7 @@ extension DialogEx on BuildContext {
         title: title,
         desc: desc,
         action: action,
+        dismissible: dismissible,
         cancel: cancel,
         destructive: destructive,
       );
@@ -98,6 +100,7 @@ extension DialogEx on BuildContext {
       make: (_) => desc.text(style: const TextStyle()),
       primary: action,
       secondary: cancel,
+      dismissible: dismissible,
       primaryDestructive: destructive,
       serious: destructive,
     );
@@ -108,10 +111,12 @@ extension DialogEx on BuildContext {
     required String desc,
     required String action,
     required String cancel,
+    bool dismissible = true,
     bool destructive = false,
   }) async {
     return await showCupertinoModalPopup(
       context: this,
+      barrierDismissible: dismissible,
       builder: (ctx) => CupertinoActionSheet(
         title: title?.text(),
         message: desc.text(),

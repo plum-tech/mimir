@@ -1008,6 +1008,7 @@ save: 保存
 yes: 是的
 refresh: 刷新
 update: 更新
+sync: 同步
 back: 返回
 clear: 清空
 continue: 继续

@@ -427,4 +427,8 @@ class _Settings {
   String get quickLookLessonOnTap => "$ns.quickLookLessonOnTap.title".tr();
 
   String get quickLookLessonOnTapDesc => "$ns.quickLookLessonOnTap.desc".tr();
+
+  String get autoSyncTimetable => "$ns.autoSyncTimetable.title".tr();
+
+  String get autoSyncTimetableDesc => "$ns.autoSyncTimetable.desc".tr();
 }

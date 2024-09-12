@@ -74,7 +74,7 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
   }
 
   List<Widget> buildActions() {
-    final focusMode = ref.watch(Settings.timetable.$focusTimetable) ?? false;
+    final focusMode = ref.watch(Settings.timetable.$focusTimetable);
     return [
       if (focusMode)
         buildMoreActionsButton()
@@ -185,7 +185,7 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
   }
 
   Widget buildMoreActionsButton() {
-    final focusMode = ref.watch(Settings.timetable.$focusTimetable) ?? false;
+    final focusMode = ref.watch(Settings.timetable.$focusTimetable);
     return PullDownMenuButton(
       itemBuilder: (ctx) => [
         PullDownItem(
@@ -354,12 +354,15 @@ class TimetableCard extends StatelessWidget {
               );
             },
           ),
-        if (!kIsWeb && canUpdateTimetable(timetable))
+        if (!kIsWeb && canSyncTimetable(timetable))
           EntryAction(
-            icon: context.icons.refresh,
-            label: i18n.update,
+            icon: Icons.sync,
+            label: i18n.sync,
             action: () async {
-              // TODO: refresh timetable
+              final merged = await syncTimetable(context, timetable);
+              if (merged != null) {
+                TimetableInit.storage.timetable[id] = merged;
+              }
             },
           ),
         EntryAction(

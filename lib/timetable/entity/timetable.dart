@@ -21,6 +21,7 @@ import '../patch/entity/patch.dart';
 part 'timetable.g.dart';
 
 DateTime _kNow() => DateTime.now();
+
 SchoolCode _kSchoolCode() => SchoolCode.sit;
 
 StudentType _kStudentType() => switch (CredentialsInit.storage.oa.userType) {
@@ -205,8 +206,16 @@ class Timetable {
 
   Map<String, dynamic> toJson() => _$TimetableToJson(this);
 
-  bool isCourseDifferentFrom(Timetable old) {
-    return false;
+  bool isBasicInfoEqualTo(Timetable old) {
+    if (lastCourseKey != old.lastCourseKey) return false;
+    if (courses.length != old.courses.length) return false;
+    if (!courses.keys.toSet().equalsElements(old.courses.keys.toSet())) return false;
+    for (final MapEntry(:key, value: course) in courses.entries) {
+      final oldCourse = old.courses[key];
+      if (oldCourse == null) return false;
+      if (!course.isBasicInfoEqualTo(oldCourse)) return false;
+    }
+    return true;
   }
 
   void serialize(ByteWriter writer) {
@@ -351,7 +360,7 @@ class SitCourse {
         courseName == other.courseName &&
         courseCode == other.courseCode &&
         place == other.place &&
-        weekIndices == other.weekIndices &&
+        weekIndices.equalsElements(other.weekIndices) &&
         timeslots == other.timeslots &&
         courseCredit == other.courseCredit &&
         dayIndex == other.dayIndex &&
@@ -372,6 +381,16 @@ class SitCourse {
         Object.hashAll(teachers),
         hidden,
       );
+
+  bool isBasicInfoEqualTo(SitCourse old) {
+    if (courseKey != old.courseKey) return false;
+    if (courseCode != old.courseCode) return false;
+    if (place != old.place) return false;
+    if (!weekIndices.equalsElements(old.weekIndices)) return false;
+    if (dayIndex != old.dayIndex) return false;
+    if (timeslots != old.timeslots) return false;
+    return true;
+  }
 
   void serialize(ByteWriter writer) {
     writer.uint8(courseKey);
