@@ -12,6 +12,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/adaptive/swipe.dart';
 import 'package:mimir/login/x.dart';
+import 'package:mimir/school/utils.dart';
+import 'package:mimir/timetable/init.dart';
+import 'package:mimir/timetable/service/school.demo.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:mimir/app.dart';
 import 'package:mimir/backend/init.dart';
@@ -75,6 +78,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                 path: "/settings/developer/local-storage",
               ),
               buildReload(),
+              const AddDemoTimetableTile(),
               const DebugExpenseUserOverrideTile(),
               if (credentials != null)
                 SwitchOaUserTile(
@@ -218,6 +222,30 @@ class ReceivedDeepLinksTile extends ConsumerWidget {
                 subtitle: Uri.decodeFull(uri.uri.toString()).text(),
               ))
           .toList(),
+    );
+  }
+}
+
+class AddDemoTimetableTile extends StatelessWidget {
+  const AddDemoTimetableTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: "Add demo timetable".text(),
+      leading: const Icon(Icons.calendar_month),
+      trailing: IconButton.filledTonal(
+        icon: Icon(context.icons.add),
+        onPressed: () async {
+          final timetable = await const DemoTimetableService().fetchUgTimetable(estimateSemesterInfo());
+          TimetableInit.storage.timetable.add(timetable);
+          if (!context.mounted) return;
+          context.showTip(
+            desc: "Demo timetable was added",
+            primary: i18n.ok,
+          );
+        },
+      ),
     );
   }
 }

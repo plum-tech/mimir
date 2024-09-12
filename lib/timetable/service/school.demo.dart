@@ -2,6 +2,7 @@ import 'package:mimir/backend/entity/user.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/school/entity/school.dart';
+import 'package:mimir/timetable/utils.dart';
 import '../entity/timetable.dart';
 import 'school.dart';
 
@@ -17,9 +18,14 @@ class DemoTimetableService implements TimetableService {
   Future<Timetable> fetchUgTimetable(SemesterInfo info) async {
     var key = 0;
     return Timetable(
+      name: "小应生活的课程表",
+      schoolCode: SchoolCode.sit,
+      startDate: estimateStartDate(info.exactYear, info.semester),
+      schoolYear: info.exactYear,
+      semester: info.semester,
+      lastModified: DateTime.now(),
       campus: Campus.fengxian,
       studentId: CredentialsInit.storage.oa.credentials?.account ?? "",
-      schoolCode: SchoolCode.sit,
       studentType: StudentType.undergraduate,
       createdTime: DateTime.now(),
       courses: {
@@ -123,11 +129,7 @@ class DemoTimetableService implements TimetableService {
         ),
       },
       lastCourseKey: key,
-      name: "小应生活的课程表",
-      startDate: DateTime.now(),
-      schoolYear: info.exactYear,
-      semester: info.semester,
-      lastModified: DateTime.now(),
+
     );
   }
 
