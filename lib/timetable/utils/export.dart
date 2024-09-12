@@ -15,7 +15,7 @@ import '../entity/timetable_entity.dart';
 import '../page/ical.dart';
 
 Future<void> exportTimetableFileAndShare(
-  SitTimetable timetable, {
+  Timetable timetable, {
   required BuildContext context,
 }) async {
   final content = jsonEncode(timetable.toJson());
@@ -35,7 +35,7 @@ Future<void> exportTimetableFileAndShare(
 
 Future<void> exportTimetableAsICalendarAndOpen(
   BuildContext context, {
-  required SitTimetableEntity timetable,
+  required TimetableEntity timetable,
   required TimetableICalConfig config,
 }) async {
   final name = "${timetable.type.name}, ${context.formatYmdNum(timetable.type.startDate)}";
@@ -50,7 +50,7 @@ Future<void> exportTimetableAsICalendarAndOpen(
 }
 
 String convertTimetable2ICal({
-  required SitTimetableEntity timetable,
+  required TimetableEntity timetable,
   required TimetableICalConfig config,
 }) {
   final calendar = ICal(

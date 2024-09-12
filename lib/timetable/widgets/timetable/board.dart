@@ -10,7 +10,7 @@ import 'daily.dart';
 import 'weekly.dart';
 
 class TimetableBoard extends StatelessWidget {
-  final SitTimetableEntity timetable;
+  final TimetableEntity timetable;
 
   final ValueNotifier<DisplayMode> $displayMode;
 

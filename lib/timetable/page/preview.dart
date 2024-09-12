@@ -19,7 +19,7 @@ import '../i18n.dart';
 import 'timetable.dart';
 
 class TimetablePreviewPage extends StatefulWidget {
-  final SitTimetableEntity entity;
+  final TimetableEntity entity;
 
   const TimetablePreviewPage({
     super.key,
@@ -31,12 +31,12 @@ class TimetablePreviewPage extends StatefulWidget {
 }
 
 class _TimetablePreviewPageState extends State<TimetablePreviewPage> {
-  SitTimetable get timetable => widget.entity.type;
+  Timetable get timetable => widget.entity.type;
 
   final $displayMode = ValueNotifier(DisplayMode.weekly);
   late final $currentPos = ValueNotifier(timetable.locate(DateTime.now()));
   final scrollController = ScrollController();
-  late SitTimetableEntity entity = widget.entity;
+  late TimetableEntity entity = widget.entity;
   final $showWeekHeader = AnimatedDualSwitcherController();
 
   @override
@@ -96,8 +96,8 @@ Future<void> previewTimetable(
   TimetablePalette? palette,
   CourseCellStyle? cellStyle,
   BackgroundImage? background,
-  SitTimetable? timetable,
-  SitTimetableEntity? entity,
+  Timetable? timetable,
+  TimetableEntity? entity,
 }) async {
   assert(timetable != null || entity != null);
   await context.showSheet(

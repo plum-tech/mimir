@@ -158,7 +158,7 @@ class PaletteCard extends StatelessWidget {
   final int id;
   final TimetablePalette palette;
   final bool selected;
-  final SitTimetable? timetable;
+  final Timetable? timetable;
   final VoidCallback? onDuplicate;
   final List<String>? allPaletteNames;
 

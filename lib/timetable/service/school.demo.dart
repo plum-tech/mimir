@@ -14,9 +14,9 @@ class DemoTimetableService implements TimetableService {
   }
 
   @override
-  Future<SitTimetable> fetchUgTimetable(SemesterInfo info) async {
+  Future<Timetable> fetchUgTimetable(SemesterInfo info) async {
     var key = 0;
-    return SitTimetable(
+    return Timetable(
       campus: Campus.fengxian,
       studentId: CredentialsInit.storage.oa.credentials?.account ?? "",
       schoolCode: SchoolCode.sit,
@@ -132,7 +132,7 @@ class DemoTimetableService implements TimetableService {
   }
 
   @override
-  Future<SitTimetable> fetchPgTimetable(SemesterInfo info) async {
+  Future<Timetable> fetchPgTimetable(SemesterInfo info) async {
     return fetchUgTimetable(info);
   }
 

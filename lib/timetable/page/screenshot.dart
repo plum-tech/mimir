@@ -19,7 +19,7 @@ typedef TimetableScreenshotConfig = ({
 });
 
 class TimetableScreenshotConfigEditor extends StatefulWidget {
-  final SitTimetableEntity timetable;
+  final TimetableEntity timetable;
   final bool initialGrayOutTakenLessons;
 
   const TimetableScreenshotConfigEditor({
@@ -127,7 +127,7 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
 
 class TimetableWeeklyScreenshotFilm extends StatelessWidget {
   final TimetableScreenshotConfig config;
-  final SitTimetableEntity timetable;
+  final TimetableEntity timetable;
   final int weekIndex;
   final Size fullSize;
 
@@ -188,7 +188,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
 
 Future<void> takeTimetableScreenshot({
   required BuildContext context,
-  required SitTimetableEntity timetable,
+  required TimetableEntity timetable,
   required int weekIndex,
 }) async {
   final config = await context.showSheet<TimetableScreenshotConfig>(

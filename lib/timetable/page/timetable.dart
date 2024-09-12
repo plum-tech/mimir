@@ -20,7 +20,7 @@ import 'mine.dart';
 
 class TimetableBoardPage extends ConsumerStatefulWidget {
   final int id;
-  final SitTimetableEntity timetable;
+  final TimetableEntity timetable;
 
   const TimetableBoardPage({
     super.key,
@@ -36,7 +36,7 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
   final $displayMode = ValueNotifier(TimetableInit.storage.lastDisplayMode ?? DisplayMode.weekly);
   late final ValueNotifier<TimetablePos> $currentPos;
 
-  SitTimetableEntity get timetable => widget.timetable;
+  TimetableEntity get timetable => widget.timetable;
 
   @override
   void initState() {
@@ -169,7 +169,7 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
 
 Future<void> _selectWeeklyTimetablePageToJump({
   required BuildContext context,
-  required SitTimetable timetable,
+  required Timetable timetable,
   required ValueNotifier<TimetablePos> $currentPos,
 }) async {
   final initialIndex = $currentPos.value.weekIndex;
@@ -187,7 +187,7 @@ Future<void> _selectWeeklyTimetablePageToJump({
 
 Future<void> _selectDailyTimetablePageToJump({
   required BuildContext context,
-  required SitTimetable timetable,
+  required Timetable timetable,
   required ValueNotifier<TimetablePos> $currentPos,
 }) async {
   final currentPos = $currentPos.value;
@@ -204,7 +204,7 @@ Future<void> _selectDailyTimetablePageToJump({
 }
 
 Future<void> _jumpToToday({
-  required SitTimetable timetable,
+  required Timetable timetable,
   required ValueNotifier<TimetablePos> $currentPos,
 }) async {
   final today = timetable.locate(DateTime.now());
@@ -216,7 +216,7 @@ Future<void> _jumpToToday({
 class TimetableJumpButton extends StatelessWidget {
   final ValueNotifier<DisplayMode> $displayMode;
   final ValueNotifier<TimetablePos> $currentPos;
-  final SitTimetable timetable;
+  final Timetable timetable;
   final ScrollController? controller;
 
   const TimetableJumpButton({

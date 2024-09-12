@@ -126,8 +126,8 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
     ].column(key: key, maa: MainAxisAlignment.center, caa: CrossAxisAlignment.center);
   }
 
-  Future<SitTimetable?> handleTimetableData(
-    SitTimetable timetable,
+  Future<Timetable?> handleTimetableData(
+    Timetable timetable,
     SemesterInfo info, {
     bool fillFundamentalInfo = true,
   }) async {
@@ -164,7 +164,7 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
     );
   }
 
-  Future<SitTimetable> fetchTimetable(SemesterInfo info) async {
+  Future<Timetable> fetchTimetable(SemesterInfo info) async {
     final userType = ref.read(CredentialsInit.storage.oa.$userType);
     return switch (userType) {
       OaUserType.undergraduate => TimetableInit.service.fetchUgTimetable(info),
@@ -215,12 +215,12 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
   }
 }
 
-Future<SitTimetable?> processImportedTimetable(
+Future<Timetable?> processImportedTimetable(
   BuildContext context,
-  SitTimetable timetable, {
+  Timetable timetable, {
   bool useRootNavigator = false,
 }) async {
-  final newTimetable = await context.showSheet<SitTimetable>(
+  final newTimetable = await context.showSheet<Timetable>(
     (ctx) => TimetableEditorPage(
       timetable: timetable,
     ),

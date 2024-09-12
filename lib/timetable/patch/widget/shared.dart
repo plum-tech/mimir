@@ -67,7 +67,7 @@ class _TimetableDayLocSelectionTileBase extends StatelessWidget {
   final String title;
   final IconData? icon;
   final TimetableDayLoc? loc;
-  final SitTimetable timetable;
+  final Timetable timetable;
   final VoidCallback? onSelected;
 
   const _TimetableDayLocSelectionTileBase({
@@ -118,7 +118,7 @@ class TimetableDayLocPosSelectionTile extends StatelessWidget {
   final String title;
   final IconData? icon;
   final TimetablePos? pos;
-  final SitTimetable timetable;
+  final Timetable timetable;
   final ValueChanged<TimetablePos>? onChanged;
 
   const TimetableDayLocPosSelectionTile({
@@ -161,7 +161,7 @@ class TimetableDayLocDateSelectionTile extends ConsumerWidget {
   final String title;
   final IconData? icon;
   final DateTime? date;
-  final SitTimetable timetable;
+  final Timetable timetable;
   final ValueChanged<DateTime>? onChanged;
 
   const TimetableDayLocDateSelectionTile({
@@ -203,7 +203,7 @@ class TimetableDayLocDateSelectionTile extends ConsumerWidget {
 
 class TimetablePatchMenuAction<TPatch extends TimetablePatch> extends StatelessWidget {
   final TPatch patch;
-  final SitTimetable? timetable;
+  final Timetable? timetable;
   final VoidCallback? onEdit;
   final bool enableQrCode;
   final VoidCallback? onDeleted;
@@ -256,7 +256,7 @@ class TimetablePatchWidget<TPatch extends TimetablePatch> extends StatelessWidge
   final bool optimizedForTouch;
   final VoidCallback? onDeleted;
   final bool selected;
-  final SitTimetable? timetable;
+  final Timetable? timetable;
   final VoidCallback? onEdit;
   final bool enableQrCode;
 
@@ -350,7 +350,7 @@ class PatchIcon extends StatelessWidget {
 }
 
 class AddPatchButtons extends StatelessWidget {
-  final SitTimetable timetable;
+  final Timetable timetable;
   final void Function(TimetablePatch patch) addPatch;
 
   const AddPatchButtons({

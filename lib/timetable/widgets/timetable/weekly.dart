@@ -24,7 +24,7 @@ import '../../entity/pos.dart';
 import '../../i18n.dart';
 
 class WeeklyTimetable extends StatefulWidget {
-  final SitTimetableEntity timetable;
+  final TimetableEntity timetable;
 
   final ValueNotifier<TimetablePos> $currentPos;
 
@@ -42,7 +42,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
   late PageController pageController;
   final $cellSize = ValueNotifier(Size.zero);
 
-  SitTimetableEntity get timetable => widget.timetable;
+  TimetableEntity get timetable => widget.timetable;
 
   TimetablePos get currentPos => widget.$currentPos.value;
 
@@ -104,7 +104,7 @@ class WeeklyTimetableState extends State<WeeklyTimetable> {
 }
 
 class TimetableOneWeekCached extends StatefulWidget {
-  final SitTimetableEntity timetable;
+  final TimetableEntity timetable;
   final int weekIndex;
 
   const TimetableOneWeekCached({
@@ -150,7 +150,7 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
       Widget buildCell({
         required BuildContext context,
         required SitTimetableLessonPart lesson,
-        required SitTimetableEntity timetable,
+        required TimetableEntity timetable,
       }) {
         final inClassNow = lesson.type.startTime.isBefore(now) && lesson.type.endTime.isAfter(now);
         final passed = lesson.type.endTime.isBefore(now);
@@ -187,14 +187,14 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
 }
 
 class TimetableOneWeek extends StatelessWidget {
-  final SitTimetableEntity timetable;
+  final TimetableEntity timetable;
   final int weekIndex;
   final Size fullSize;
   final bool showFreeTip;
   final Widget Function({
     required BuildContext context,
     required SitTimetableLessonPart lesson,
-    required SitTimetableEntity timetable,
+    required TimetableEntity timetable,
   }) cellBuilder;
 
   const TimetableOneWeek({
@@ -336,7 +336,7 @@ class TimetableOneWeek extends StatelessWidget {
 
 class InteractiveCourseCell extends ConsumerWidget {
   final SitTimetableLessonPart lesson;
-  final SitTimetableEntity timetable;
+  final TimetableEntity timetable;
   final bool isLessonTaken;
   final TimetableStyleData style;
 
@@ -384,7 +384,7 @@ class InteractiveCourseCell extends ConsumerWidget {
 
 class InteractiveCourseCellWithTooltip extends StatefulWidget {
   final SitTimetableLessonPart lesson;
-  final SitTimetableEntity timetable;
+  final TimetableEntity timetable;
   final bool isLessonTaken;
   final TimetableStyleData style;
 
@@ -494,7 +494,7 @@ class CourseCell extends StatelessWidget {
 
 class StyledCourseCell extends StatelessWidget {
   final SitCourse course;
-  final SitTimetableEntity timetable;
+  final TimetableEntity timetable;
   final bool isLessonTaken;
   final Widget Function(BuildContext context, Widget child)? innerBuilder;
   final TimetableStyleData style;

@@ -133,9 +133,9 @@ final _timetableShellRoute = GoRoute(
   builder: (ctx, state) => const TimetablePage(),
 );
 
-SitTimetable? _getTimetable(GoRouterState state) {
+Timetable? _getTimetable(GoRouterState state) {
   final extra = state.extra;
-  if (extra is SitTimetable) return extra;
+  if (extra is Timetable) return extra;
   final id = int.tryParse(state.pathParameters["id"] ?? "");
   if (id == null) return null;
   final timetable = TimetableInit.storage.timetable[id];

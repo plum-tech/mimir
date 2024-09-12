@@ -120,7 +120,7 @@ Campus? _extractCampusFromCourses(Iterable<UndergraduateCourseRaw> courses) {
   return null;
 }
 
-SitTimetable parseUndergraduateTimetableFromRaw(
+Timetable parseUndergraduateTimetableFromRaw(
   Map json, {
   required Campus defaultCampus,
 }) {
@@ -136,7 +136,7 @@ SitTimetable parseUndergraduateTimetableFromRaw(
   final (:courses, :lastCourseKey) = _parseUndergraduateTimetableFromCourseRaw(
     rawCourses,
   );
-  return SitTimetable(
+  return Timetable(
     courses: courses,
     studentId: studentId,
     schoolCode: SchoolCode.sit,

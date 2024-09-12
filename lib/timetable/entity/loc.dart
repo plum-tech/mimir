@@ -98,7 +98,7 @@ class TimetableDayLoc {
 
   factory TimetableDayLoc.fromJson(Map<String, dynamic> json) => _$TimetableDayLocFromJson(json);
 
-  SitTimetableDay? resolveDay(SitTimetableEntity entity) {
+  SitTimetableDay? resolveDay(TimetableEntity entity) {
     return switch (mode) {
       TimetableDayLocMode.pos => entity.getDay(pos.weekIndex, pos.weekday),
       TimetableDayLocMode.date => entity.getDayOn(date),

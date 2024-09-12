@@ -12,7 +12,7 @@ import '../entity/patch.dart';
 import 'shared.dart';
 
 class TimetableCopyDayPatchSheet extends StatefulWidget {
-  final SitTimetable timetable;
+  final Timetable timetable;
   final TimetableCopyDayPatch? patch;
 
   const TimetableCopyDayPatchSheet({
@@ -157,7 +157,7 @@ class _TimetableCopyDayPatchSheetState extends State<TimetableCopyDayPatchSheet>
     context.pop(buildPatch());
   }
 
-  SitTimetable buildTimetable() {
+  Timetable buildTimetable() {
     final patch = buildPatch();
     final newPatches = List.of(widget.timetable.patches);
     if (patch != null) {

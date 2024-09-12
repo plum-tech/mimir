@@ -25,7 +25,7 @@ import 'patch_set.dart';
 import 'qrcode.dart';
 
 class TimetablePatchEditorPage extends StatefulWidget {
-  final SitTimetable timetable;
+  final Timetable timetable;
   final TimetablePatchEntry? initialEditing;
 
   const TimetablePatchEditorPage({
@@ -218,7 +218,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
     addPatch(patchSet);
   }
 
-  Widget buildPatchEntry(TimetablePatchEntry entry, int index, SitTimetable timetable) {
+  Widget buildPatchEntry(TimetablePatchEntry entry, int index, Timetable timetable) {
     return WithSwipeAction(
       key: widget.initialEditing == entry ? initialEditingKey : null,
       childKey: ValueKey(entry),
@@ -327,7 +327,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
     markChanged();
   }
 
-  SitTimetable buildTimetable() {
+  Timetable buildTimetable() {
     return widget.timetable.copyWith(
       patches: List.of(patches),
       lastModified: DateTime.now(),

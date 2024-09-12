@@ -9,7 +9,7 @@ import 'package:mimir/timetable/entity/timetable.dart';
 import '../entity/course.dart';
 import 'parse.ug.dart';
 
-SitTimetable parsePostgraduateTimetableFromRaw({
+Timetable parsePostgraduateTimetableFromRaw({
   required List<ExamResultPgRaw> resultList,
   required String pageHtml,
   required Campus campus,
@@ -154,7 +154,7 @@ void completePostgraduateCourseRawFromPostgraduateScoreRaw(
   }
 }
 
-SitTimetable parsePostgraduateTimetableFromCourseRaw(
+Timetable parsePostgraduateTimetableFromCourseRaw(
   List<PostgraduateCourseRaw> all, {
   required Campus campus,
   required String studentId,
@@ -191,7 +191,7 @@ SitTimetable parsePostgraduateTimetableFromCourseRaw(
     );
     courseKey2Entity["$courseKey"] = course;
   }
-  final res = SitTimetable(
+  final res = Timetable(
     courses: courseKey2Entity,
     lastCourseKey: counter,
     schoolCode: SchoolCode.sit,

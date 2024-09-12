@@ -11,7 +11,7 @@ import '../events.dart';
 import '../i18n.dart';
 
 class FreeDayTip extends StatelessWidget {
-  final SitTimetableEntity timetable;
+  final TimetableEntity timetable;
   final int weekIndex;
   final Weekday weekday;
 
@@ -75,7 +75,7 @@ class FreeDayTip extends StatelessWidget {
 }
 
 class FreeWeekTip extends StatelessWidget {
-  final SitTimetableEntity timetable;
+  final TimetableEntity timetable;
   final int weekIndex;
 
   const FreeWeekTip({

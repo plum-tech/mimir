@@ -18,7 +18,7 @@ import '../../page/preview.dart';
 import '../entity/patch.dart';
 
 class TimetablePatchSetEditorPage extends StatefulWidget {
-  final SitTimetable timetable;
+  final Timetable timetable;
   final TimetablePatchSet patchSet;
 
   const TimetablePatchSetEditorPage({
@@ -143,7 +143,7 @@ class _TimetablePatchSetEditorPageState extends State<TimetablePatchSetEditorPag
     );
   }
 
-  Widget buildPatchEntry(TimetablePatch patch, int index, SitTimetable timetable) {
+  Widget buildPatchEntry(TimetablePatch patch, int index, Timetable timetable) {
     return WithSwipeAction(
       childKey: ValueKey(patch),
       right: SwipeAction.delete(
@@ -181,7 +181,7 @@ class _TimetablePatchSetEditorPageState extends State<TimetablePatchSetEditorPag
     markChanged();
   }
 
-  SitTimetable buildTimetable() {
+  Timetable buildTimetable() {
     return widget.timetable.copyWith(
       patches: List.of(widget.timetable.patches)
         ..removeLast()

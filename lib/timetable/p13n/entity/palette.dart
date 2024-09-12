@@ -150,9 +150,9 @@ class BuiltinTimetablePalette implements TimetablePalette {
 }
 
 abstract mixin class SitTimetablePaletteResolver {
-  SitTimetable get type;
+  Timetable get type;
 
-  factory SitTimetablePaletteResolver(SitTimetable type) {
+  factory SitTimetablePaletteResolver(Timetable type) {
     return _SitTimetablePaletteResolverImpl(type: type);
   }
 
@@ -185,7 +185,7 @@ abstract mixin class SitTimetablePaletteResolver {
 
 class _SitTimetablePaletteResolverImpl with SitTimetablePaletteResolver {
   @override
-  final SitTimetable type;
+  final Timetable type;
 
   _SitTimetablePaletteResolverImpl({
     required this.type,

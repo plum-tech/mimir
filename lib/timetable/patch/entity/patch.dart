@@ -147,12 +147,12 @@ enum TimetablePatchType<TPatch extends TimetablePatch> {
   ];
 
   final IconData icon;
-  final FutureOr<TPatch?> Function(BuildContext context, SitTimetable timetable, [TPatch? patch]) _onCreate;
+  final FutureOr<TPatch?> Function(BuildContext context, Timetable timetable, [TPatch? patch]) _onCreate;
   final TPatch Function(ByteReader reader) _deserialize;
 
   const TimetablePatchType(this.icon, this._onCreate, this._deserialize);
 
-  FutureOr<TPatch?> create(BuildContext context, SitTimetable timetable, [TPatch? patch]) async {
+  FutureOr<TPatch?> create(BuildContext context, Timetable timetable, [TPatch? patch]) async {
     dynamic any = this;
     // I have to cast [this] to dynamic :(
     final newPatch = await any._onCreate(context, timetable, patch);
@@ -167,7 +167,7 @@ abstract interface class WithTimetableDayLoc {
 }
 
 extension WithTimetableDayLocX on WithTimetableDayLoc {
-  bool allLocInRange(SitTimetable timetable) {
+  bool allLocInRange(Timetable timetable) {
     return allLoc.every((loc) => loc.mode == TimetableDayLocMode.date ? timetable.inRange(loc.date) : true);
   }
 }
@@ -260,7 +260,7 @@ class TimetablePatchSet extends TimetablePatchEntry {
 
 class BuiltinTimetablePatchSet implements TimetablePatchSet {
   final String key;
-  final bool Function(SitTimetable timetable)? recommended;
+  final bool Function(Timetable timetable)? recommended;
 
   @override
   String get name => "timetable.patch.builtin.$key".tr();
@@ -350,7 +350,7 @@ class TimetableUnknownPatch extends TimetablePatch {
 
   static Future<TimetableUnknownPatch?> onCreate(
     BuildContext context,
-    SitTimetable timetable, [
+    Timetable timetable, [
     TimetableUnknownPatch? patch,
   ]) async {
     throw UnsupportedError("TimetableUnknownPatch can't be created");
@@ -435,7 +435,7 @@ class TimetableRemoveDayPatch extends TimetablePatch implements WithTimetableDay
 
   static Future<TimetableRemoveDayPatch?> onCreate(
     BuildContext context,
-    SitTimetable timetable, [
+    Timetable timetable, [
     TimetableRemoveDayPatch? patch,
   ]) async {
     return await context.showSheet(
@@ -501,7 +501,7 @@ class TimetableMoveDayPatch extends TimetablePatch implements WithTimetableDayLo
 
   static Future<TimetableMoveDayPatch?> onCreate(
     BuildContext context,
-    SitTimetable timetable, [
+    Timetable timetable, [
     TimetableMoveDayPatch? patch,
   ]) async {
     return await context.showSheet(
@@ -570,7 +570,7 @@ class TimetableCopyDayPatch extends TimetablePatch implements WithTimetableDayLo
 
   static Future<TimetableCopyDayPatch?> onCreate(
     BuildContext context,
-    SitTimetable timetable, [
+    Timetable timetable, [
     TimetableCopyDayPatch? patch,
   ]) async {
     return await context.showSheet(
@@ -639,7 +639,7 @@ class TimetableSwapDaysPatch extends TimetablePatch implements WithTimetableDayL
 
   static Future<TimetableSwapDaysPatch?> onCreate(
     BuildContext context,
-    SitTimetable timetable, [
+    Timetable timetable, [
     TimetableSwapDaysPatch? patch,
   ]) async {
     return await context.showSheet(

@@ -25,7 +25,7 @@ typedef TimetableICalConfig = ({
 });
 
 class TimetableICalConfigEditor extends StatefulWidget {
-  final SitTimetable timetable;
+  final Timetable timetable;
 
   const TimetableICalConfigEditor({
     super.key,

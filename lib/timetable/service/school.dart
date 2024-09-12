@@ -30,7 +30,7 @@ class TimetableService {
   }
 
   /// 获取本科生课表
-  Future<SitTimetable> fetchUgTimetable(SemesterInfo info) async {
+  Future<Timetable> fetchUgTimetable(SemesterInfo info) async {
     final response = await _ugRegSession.request(
       _undergraduateTimetableUrl,
       options: Options(
@@ -52,7 +52,7 @@ class TimetableService {
   }
 
   /// 获取研究生课表
-  Future<SitTimetable> fetchPgTimetable(SemesterInfo info) async {
+  Future<Timetable> fetchPgTimetable(SemesterInfo info) async {
     final timetableRes = await _pgRegSession.request(
       _postgraduateTimetableUrl,
       options: Options(

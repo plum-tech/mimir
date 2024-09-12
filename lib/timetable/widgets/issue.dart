@@ -14,8 +14,8 @@ import '../i18n.dart';
 extension TimetableIssuesX on List<TimetableIssue> {
   List<Widget> build({
     required BuildContext context,
-    required SitTimetable timetable,
-    required ValueChanged<SitTimetable> onTimetableChanged,
+    required Timetable timetable,
+    required ValueChanged<Timetable> onTimetableChanged,
   }) {
     final empty = whereType<TimetableEmptyIssue>().toList();
     final cbe = whereType<TimetableCbeIssue>().toList();
@@ -70,8 +70,8 @@ class TimetableEmptyIssueWidget extends StatelessWidget {
 
 class TimetableCbeIssueWidget extends StatefulWidget {
   final List<TimetableCbeIssue> issues;
-  final SitTimetable timetable;
-  final ValueChanged<SitTimetable> onTimetableChanged;
+  final Timetable timetable;
+  final ValueChanged<Timetable> onTimetableChanged;
 
   const TimetableCbeIssueWidget({
     super.key,
@@ -127,8 +127,8 @@ class _TimetableCbeIssueWidgetState extends State<TimetableCbeIssueWidget> {
 
 class TimetableCourseOverlapIssueWidget extends StatefulWidget {
   final List<TimetableCourseOverlapIssue> issues;
-  final SitTimetable timetable;
-  final ValueChanged<SitTimetable> onTimetableChanged;
+  final Timetable timetable;
+  final ValueChanged<Timetable> onTimetableChanged;
 
   const TimetableCourseOverlapIssueWidget({
     super.key,
@@ -171,8 +171,8 @@ class _TimetableCourseOverlapIssueWidgetState extends State<TimetableCourseOverl
 
 class TimetablePatchOutOfRangeIssueWidget extends StatefulWidget {
   final List<TimetablePatchOutOfRangeIssue> issues;
-  final SitTimetable timetable;
-  final ValueChanged<SitTimetable> onTimetableChanged;
+  final Timetable timetable;
+  final ValueChanged<Timetable> onTimetableChanged;
 
   const TimetablePatchOutOfRangeIssueWidget({
     super.key,

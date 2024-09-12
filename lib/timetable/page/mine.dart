@@ -107,7 +107,7 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
   }
 
   Widget buildTimetablesBody({
-    required List<({int id, SitTimetable row})> timetables,
+    required List<({int id, Timetable row})> timetables,
     required int? selectedId,
   }) {
     return Scaffold(
@@ -140,7 +140,7 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
   /// Updates the selected timetable id.
   /// If [TimetableSettings.autoUseImported] is enabled, the newly-imported will be used.
   Future<void> goImport() async {
-    SitTimetable? timetable;
+    Timetable? timetable;
     final fromFile = isLoginGuarded(context);
     if (fromFile) {
       timetable = await importFromFile();
@@ -173,11 +173,11 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
     }
   }
 
-  Future<SitTimetable?> importFromSchoolServer() async {
-    return await context.push<SitTimetable>("/timetable/import");
+  Future<Timetable?> importFromSchoolServer() async {
+    return await context.push<Timetable>("/timetable/import");
   }
 
-  Future<SitTimetable?> importFromFile() async {
+  Future<Timetable?> importFromFile() async {
     final timetable = await readTimetableFromPickedFileWithPrompt(context);
     if (timetable == null) return null;
     if (!mounted) return null;
@@ -227,13 +227,13 @@ Future<void> editTimetablePatch({
   required BuildContext context,
   required int id,
 }) async {
-  var timetable = await context.push<SitTimetable>("/timetable/patch/edit/$id");
+  var timetable = await context.push<Timetable>("/timetable/patch/edit/$id");
   if (timetable == null) return;
   TimetableInit.storage.timetable[id] = timetable.markModified();
 }
 
 class TimetableCard extends StatelessWidget {
-  final SitTimetable timetable;
+  final Timetable timetable;
   final int id;
   final bool selected;
   final List<String>? allTimetableNames;
@@ -297,7 +297,7 @@ class TimetableCard extends StatelessWidget {
           icon: context.icons.edit,
           activator: const SingleActivator(LogicalKeyboardKey.keyE),
           action: () async {
-            var newTimetable = await ctx.push<SitTimetable>("/timetable/edit/$id");
+            var newTimetable = await ctx.push<Timetable>("/timetable/edit/$id");
             if (newTimetable == null) return;
             final newName = allocValidFileName(newTimetable.name);
             if (newName != newTimetable.name) {
@@ -389,7 +389,7 @@ class TimetableCard extends StatelessWidget {
     );
   }
 
-  Future<void> onExportCalendar(BuildContext context, SitTimetable timetable) async {
+  Future<void> onExportCalendar(BuildContext context, Timetable timetable) async {
     final config = await context.showSheet<TimetableICalConfig>(
       (context) => TimetableICalConfigEditor(
         timetable: timetable,
@@ -406,7 +406,7 @@ class TimetableCard extends StatelessWidget {
 }
 
 class TimetableInfo extends StatelessWidget {
-  final SitTimetable timetable;
+  final Timetable timetable;
 
   const TimetableInfo({
     super.key,
@@ -430,7 +430,7 @@ class TimetableInfo extends StatelessWidget {
 
 class TimetableDetailsPage extends ConsumerWidget {
   final int id;
-  final SitTimetable timetable;
+  final Timetable timetable;
   final List<Widget>? actions;
 
   const TimetableDetailsPage({
@@ -506,7 +506,7 @@ class TimetableDetailsPage extends ConsumerWidget {
 
 Future<void> onTimetableFromFile({
   required BuildContext context,
-  required SitTimetable timetable,
+  required Timetable timetable,
 }) async {
   final newTimetable = await processImportedTimetable(
     context,

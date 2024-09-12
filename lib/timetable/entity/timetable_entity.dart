@@ -15,9 +15,9 @@ import 'timetable.dart';
 part "timetable_entity.g.dart";
 
 /// The entity to display.
-class SitTimetableEntity with SitTimetablePaletteResolver, CourseCodeIndexer {
+class TimetableEntity with SitTimetablePaletteResolver, CourseCodeIndexer {
   @override
-  final SitTimetable type;
+  final Timetable type;
 
   @override
   Iterable<SitCourse> get courses => type.courses.values;
@@ -35,7 +35,7 @@ class SitTimetableEntity with SitTimetablePaletteResolver, CourseCodeIndexer {
     return days[weekIndex * 7 + weekday.index];
   }
 
-  SitTimetableEntity({
+  TimetableEntity({
     required this.type,
     required this.days,
   }) {
@@ -114,7 +114,7 @@ String _formatTime(DateTime date) {
 }
 
 class SitTimetableDay {
-  late final SitTimetableEntity parent;
+  late final TimetableEntity parent;
 
   final int weekIndex;
   final Weekday weekday;
@@ -350,8 +350,8 @@ class SitTimetableLessonPart {
   String toString() => "[$index] $type";
 }
 
-extension SitTimetable4EntityX on SitTimetable {
-  SitTimetableEntity resolve() {
+extension SitTimetable4EntityX on Timetable {
+  TimetableEntity resolve() {
     final days = List.generate(
       maxWeekLength * 7,
       (index) => SitTimetableDay.$11slots(
@@ -389,7 +389,7 @@ extension SitTimetable4EntityX on SitTimetable {
         }
       }
     }
-    final entity = SitTimetableEntity(
+    final entity = TimetableEntity(
       type: this,
       days: days,
     );

@@ -108,7 +108,7 @@ extension _DateTimeX on DateTime {
   }
 }
 
-extension TimetableX on SitTimetable {
+extension TimetableX on Timetable {
   TimetablePos locate(DateTime current) {
     return TimetablePos.locate(current, relativeTo: startDate);
   }

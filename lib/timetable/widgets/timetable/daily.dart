@@ -22,7 +22,7 @@ import '../../entity/pos.dart';
 import 'header.dart';
 
 class DailyTimetable extends StatefulWidget {
-  final SitTimetableEntity timetable;
+  final TimetableEntity timetable;
 
   final ValueNotifier<TimetablePos> $currentPos;
 
@@ -37,7 +37,7 @@ class DailyTimetable extends StatefulWidget {
 }
 
 class DailyTimetableState extends State<DailyTimetable> {
-  SitTimetableEntity get timetable => widget.timetable;
+  TimetableEntity get timetable => widget.timetable;
 
   TimetablePos get currentPos => widget.$currentPos.value;
 
@@ -123,7 +123,7 @@ class DailyTimetableState extends State<DailyTimetable> {
 }
 
 class TimetableOneDayPage extends StatefulWidget {
-  final SitTimetableEntity timetable;
+  final TimetableEntity timetable;
   final TimetablePos todayPos;
   final int weekIndex;
   final Weekday weekday;
@@ -217,7 +217,7 @@ class _TimetableOneDayPageState extends State<TimetableOneDayPage> with Automati
 
   Widget buildSingleLesson(
     BuildContext context, {
-    required SitTimetableEntity timetable,
+    required TimetableEntity timetable,
     required SitTimetableLessonPart lesson,
     required int timeslot,
   }) {
@@ -273,7 +273,7 @@ class BreakDivider extends StatelessWidget {
 class LessonCard extends StatelessWidget {
   final SitTimetableLessonPart lesson;
   final SitCourse course;
-  final SitTimetableEntity timetable;
+  final TimetableEntity timetable;
   final Color color;
   final Color? textColor;
 
@@ -349,7 +349,7 @@ class ClassTimeCard extends StatelessWidget {
 class LessonOverlapGroup extends StatelessWidget {
   final List<SitTimetableLessonPart> lessonsInSlot;
   final int timeslot;
-  final SitTimetableEntity timetable;
+  final TimetableEntity timetable;
 
   const LessonOverlapGroup(
     this.lessonsInSlot,

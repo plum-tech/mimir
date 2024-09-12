@@ -43,7 +43,7 @@ class TimetablePatchFromQrCodePage extends ConsumerWidget {
           onPressed: timetables.isEmpty
               ? null
               : () async {
-                  final timetable = await context.showSheet<SitTimetable>(
+                  final timetable = await context.showSheet<Timetable>(
                     (context) => TimetablePatchUseSheet(patch: patch),
                   );
                   if (timetable == null) return;
@@ -163,7 +163,7 @@ class _TimetablePatchUseSheetState extends ConsumerState<TimetablePatchUseSheet>
     );
   }
 
-  SitTimetable buildTimetable(SitTimetable timetable, TimetablePatchEntry patch) {
+  Timetable buildTimetable(Timetable timetable, TimetablePatchEntry patch) {
     return timetable.copyWith(
       patches: List.of(timetable.patches)..add(patch),
     );
@@ -172,7 +172,7 @@ class _TimetablePatchUseSheetState extends ConsumerState<TimetablePatchUseSheet>
 
 class TimetablePatchReceiverCard extends StatelessWidget {
   final int id;
-  final SitTimetable timetable;
+  final Timetable timetable;
   final VoidCallback? onAdded;
   final VoidCallback? onPreview;
 

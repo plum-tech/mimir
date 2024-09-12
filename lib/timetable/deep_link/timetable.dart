@@ -11,10 +11,10 @@ class TimetableDeepLink implements DeepLinkHandlerProtocol {
 
   const TimetableDeepLink();
 
-  Uri encode(SitTimetable timetable) =>
-      Uri(scheme: R.scheme, host: host, query: encodeBytesForUrl(SitTimetable.encodeByteList(timetable)));
+  Uri encode(Timetable timetable) =>
+      Uri(scheme: R.scheme, host: host, query: encodeBytesForUrl(Timetable.encodeByteList(timetable)));
 
-  SitTimetable decode(Uri qrCodeData) => (SitTimetable.decodeByteList(decodeBytesFromUrl(qrCodeData.query)));
+  Timetable decode(Uri qrCodeData) => (Timetable.decodeByteList(decodeBytesFromUrl(qrCodeData.query)));
 
   @override
   bool match(Uri encoded) {

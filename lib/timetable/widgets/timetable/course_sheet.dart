@@ -10,7 +10,7 @@ import '../../entity/timetable.dart';
 
 class TimetableCourseSheetPage extends StatelessWidget {
   final String courseCode;
-  final SitTimetableEntity timetable;
+  final TimetableEntity timetable;
   final int? highlightedCourseKey;
 
   /// A course may include both practical and theoretical parts.

@@ -58,8 +58,8 @@ Future<void> outputTestTimetableFile() async {
   print(file);
 }
 
-SitTimetable _get() {
-  return SitTimetable(
+Timetable _get() {
+  return Timetable(
     name: "Spring, 2023 Timetable",
     signature: "Liplum",
     studentId: "114514",

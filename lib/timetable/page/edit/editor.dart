@@ -27,7 +27,7 @@ import 'course_editor.dart';
 import '../preview.dart';
 
 class TimetableEditorPage extends StatefulWidget {
-  final SitTimetable timetable;
+  final Timetable timetable;
 
   const TimetableEditorPage({
     super.key,
@@ -294,7 +294,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
     );
   }
 
-  SitTimetable buildTimetable() {
+  Timetable buildTimetable() {
     final signature = $signature.text.trim();
     return widget.timetable.copyWith(
       name: $name.text,
@@ -307,7 +307,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
     );
   }
 
-  void setFromTimetable(SitTimetable timetable) {
+  void setFromTimetable(Timetable timetable) {
     setState(() {
       $name.text = timetable.name;
       $startDate.value = timetable.startDate;
@@ -338,7 +338,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
             controller: $name,
             maxLines: 2,
             inputFormatters: [
-              LengthLimitingTextInputFormatter(SitTimetable.maxNameLength),
+              LengthLimitingTextInputFormatter(Timetable.maxNameLength),
             ],
             decoration: InputDecoration(
               labelText: i18n.editor.name,

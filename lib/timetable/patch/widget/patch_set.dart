@@ -13,7 +13,7 @@ import 'shared.dart';
 class TimetablePatchSetWidget extends StatelessWidget {
   final TimetablePatchSet patchSet;
   final bool selected;
-  final SitTimetable? timetable;
+  final Timetable? timetable;
   final VoidCallback? onDeleted;
   final VoidCallback? onUnpacked;
   final VoidCallback? onEdit;

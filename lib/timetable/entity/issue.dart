@@ -53,7 +53,7 @@ class TimetablePatchOutOfRangeIssue implements TimetableIssue {
     required this.patch,
   });
 
-  static bool detect(SitTimetable timetable, TimetablePatch patch) {
+  static bool detect(Timetable timetable, TimetablePatch patch) {
     if (patch is WithTimetableDayLoc) {
       if (!(patch as WithTimetableDayLoc).allLocInRange(timetable)) {
         return true;
@@ -86,7 +86,7 @@ class TimetableCourseOverlapIssue implements TimetableIssue {
   }
 }
 
-extension SitTimetable4IssueX on SitTimetable {
+extension SitTimetable4IssueX on Timetable {
   List<TimetableIssue> inspect() {
     final issues = <TimetableIssue>[];
     // check if empty

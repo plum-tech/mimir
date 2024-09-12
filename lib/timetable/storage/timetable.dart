@@ -17,14 +17,14 @@ class _K {
 class TimetableStorage {
   Box get box => HiveInit.timetable;
 
-  final HiveTable<SitTimetable> timetable;
+  final HiveTable<Timetable> timetable;
   final HiveTable<TimetablePalette> palette;
 
   TimetableStorage()
-      : timetable = HiveTable<SitTimetable>(
+      : timetable = HiveTable<Timetable>(
           base: _K.timetable,
           box: HiveInit.timetable,
-          useJson: (fromJson: SitTimetable.fromJson, toJson: (timetable) => timetable.toJson()),
+          useJson: (fromJson: Timetable.fromJson, toJson: (timetable) => timetable.toJson()),
         ),
         palette = HiveTable<TimetablePalette>(
           base: _K.palette,

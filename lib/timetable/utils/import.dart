@@ -15,7 +15,7 @@ import '../entity/timetable.dart';
 import 'parse.ug.dart';
 import '../i18n.dart';
 
-Future<SitTimetable?> _readTimetableFromPickedFile() async {
+Future<Timetable?> _readTimetableFromPickedFile() async {
   final result = await FilePicker.platform.pickFiles(
     // Cannot limit the extensions. My RedMi phone just reject all files.
     // type: FileType.custom,
@@ -28,18 +28,18 @@ Future<SitTimetable?> _readTimetableFromPickedFile() async {
   return readTimetableFromBytes(bytes);
 }
 
-Future<SitTimetable?> _readTimetableFromFile(String path) async {
+Future<Timetable?> _readTimetableFromFile(String path) async {
   final file = File(path);
   final bytes = await file.readAsBytes();
   return readTimetableFromBytes(bytes);
 }
 
-Future<SitTimetable?> readTimetableFromBytes(Uint8List bytes) async {
+Future<Timetable?> readTimetableFromBytes(Uint8List bytes) async {
   // timetable file should be encoding in utf-8.
   final content = const Utf8Decoder().convert(bytes.toList());
   final json = jsonDecode(content);
   try {
-    final timetable = SitTimetable.fromJson(json);
+    final timetable = Timetable.fromJson(json);
     return timetable;
   } catch (_) {
     // try parsing the file as timetable raw
@@ -50,20 +50,20 @@ Future<SitTimetable?> readTimetableFromBytes(Uint8List bytes) async {
   }
 }
 
-Future<SitTimetable?> readTimetableFromFileWithPrompt(
+Future<Timetable?> readTimetableFromFileWithPrompt(
   BuildContext context,
   String path,
 ) async {
   return readTimetableWithPrompt(context, get: () => _readTimetableFromFile(path));
 }
 
-Future<SitTimetable?> readTimetableFromPickedFileWithPrompt(BuildContext context) {
+Future<Timetable?> readTimetableFromPickedFileWithPrompt(BuildContext context) {
   return readTimetableWithPrompt(context, get: _readTimetableFromPickedFile);
 }
 
-Future<SitTimetable?> readTimetableWithPrompt(
+Future<Timetable?> readTimetableWithPrompt(
   BuildContext context, {
-  required Future<SitTimetable?> Function() get,
+  required Future<Timetable?> Function() get,
 }) async {
   try {
     final timetable = await get();

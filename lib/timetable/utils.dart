@@ -85,7 +85,7 @@ Future<DateTime?> fetchStartDateOfCurrentSemester(SemesterInfo selected, OaUserT
 
 Future<int?> selectWeekInTimetable({
   required BuildContext context,
-  required SitTimetable timetable,
+  required Timetable timetable,
   int? initialWeekIndex,
   required String submitLabel,
 }) async {
@@ -117,7 +117,7 @@ Future<int?> selectWeekInTimetable({
 
 Future<TimetablePos?> selectDayInTimetable({
   required BuildContext context,
-  required SitTimetable timetable,
+  required Timetable timetable,
   TimetablePos? initialPos,
   required String submitLabel,
 }) async {

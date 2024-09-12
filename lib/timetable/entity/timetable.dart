@@ -46,13 +46,13 @@ String _defaultStudentId() {
 }
 
 String _parseName(String name) {
-  return name.substring(0, min(SitTimetable.maxNameLength, name.length));
+  return name.substring(0, min(Timetable.maxNameLength, name.length));
 }
 
 @JsonSerializable()
 @CopyWith(skipFields: true)
 @immutable
-class SitTimetable {
+class Timetable {
   static int maxNameLength = 50;
   @JsonKey(fromJson: _parseName)
   final String name;
@@ -92,7 +92,7 @@ class SitTimetable {
   @JsonKey(fromJson: _patchesFromJson)
   final List<TimetablePatchEntry> patches;
 
-  const SitTimetable({
+  const Timetable({
     required this.courses,
     required this.lastCourseKey,
     required this.name,
@@ -110,7 +110,7 @@ class SitTimetable {
     this.version = 2,
   });
 
-  SitTimetable markModified() {
+  Timetable markModified() {
     return copyWith(
       lastModified: DateTime.now(),
     );
@@ -163,7 +163,7 @@ class SitTimetable {
 
   @override
   bool operator ==(Object other) {
-    return other is SitTimetable &&
+    return other is Timetable &&
         runtimeType == other.runtimeType &&
         lastCourseKey == other.lastCourseKey &&
         version == other.version &&
@@ -201,11 +201,11 @@ class SitTimetable {
         version,
       );
 
-  factory SitTimetable.fromJson(Map<String, dynamic> json) => _$SitTimetableFromJson(json);
+  factory Timetable.fromJson(Map<String, dynamic> json) => _$TimetableFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SitTimetableToJson(this);
+  Map<String, dynamic> toJson() => _$TimetableToJson(this);
 
-  bool isCourseDifferentFrom(SitTimetable old) {
+  bool isCourseDifferentFrom(Timetable old) {
     return false;
   }
 
@@ -232,10 +232,10 @@ class SitTimetable {
     }
   }
 
-  static SitTimetable deserialize(ByteReader reader) {
+  static Timetable deserialize(ByteReader reader) {
     // ignore: unused_local_variable
     final revision = reader.uint8();
-    return SitTimetable(
+    return Timetable(
       name: reader.strUtf8(ByteLength.bit8),
       signature: reader.strUtf8(ByteLength.bit8),
       studentId: revision == 1 ? _defaultStudentId() : reader.strUtf8(ByteLength.bit8),
@@ -258,12 +258,12 @@ class SitTimetable {
     );
   }
 
-  static SitTimetable decodeByteList(Uint8List bytes) {
+  static Timetable decodeByteList(Uint8List bytes) {
     final reader = ByteReader(bytes);
     return deserialize(reader);
   }
 
-  static Uint8List encodeByteList(SitTimetable entry) {
+  static Uint8List encodeByteList(Timetable entry) {
     final writer = ByteWriter(4096);
     entry.serialize(writer);
     return writer.build();
