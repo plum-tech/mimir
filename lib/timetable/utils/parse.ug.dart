@@ -1,3 +1,4 @@
+import 'package:mimir/backend/entity/user.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/utils.dart';
@@ -138,6 +139,7 @@ SitTimetable parseUndergraduateTimetableFromRaw(
   return SitTimetable(
     courses: courses,
     studentId: studentId,
+    schoolCode: SchoolCode.sit,
     studentType: StudentType.undergraduate,
     lastCourseKey: lastCourseKey,
     signature: name,

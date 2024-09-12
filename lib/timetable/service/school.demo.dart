@@ -1,3 +1,4 @@
+import 'package:mimir/backend/entity/user.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/school/entity/school.dart';
@@ -18,6 +19,7 @@ class DemoTimetableService implements TimetableService {
     return SitTimetable(
       campus: Campus.fengxian,
       studentId: CredentialsInit.storage.oa.credentials?.account ?? "",
+      schoolCode: SchoolCode.sit,
       studentType: StudentType.undergraduate,
       createdTime: DateTime.now(),
       courses: {

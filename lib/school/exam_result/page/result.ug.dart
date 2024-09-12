@@ -120,9 +120,7 @@ class _ExamResultUgPageState extends ConsumerState<ExamResultUgPage> {
               ),
         ],
       ),
-      floatingActionButton: fetching
-          ? $loadingProgress >> (ctx, value) => AnimatedProgressCircle(value: value)
-          : null,
+      floatingActionButton: fetching ? $loadingProgress >> (ctx, value) => AnimatedProgressCircle(value: value) : null,
     );
   }
 

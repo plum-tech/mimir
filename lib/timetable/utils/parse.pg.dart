@@ -1,4 +1,5 @@
 import 'package:html/parser.dart';
+import 'package:mimir/backend/entity/user.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/exam_result/entity/result.pg.dart';
@@ -193,6 +194,7 @@ SitTimetable parsePostgraduateTimetableFromCourseRaw(
   final res = SitTimetable(
     courses: courseKey2Entity,
     lastCourseKey: counter,
+    schoolCode: SchoolCode.sit,
     name: "",
     studentId: studentId,
     studentType: StudentType.postgraduate,

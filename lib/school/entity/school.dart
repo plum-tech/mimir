@@ -119,6 +119,8 @@ enum StudentType {
   undergraduate,
   postgraduate,
   ;
+
+  static final name2enum = Map.fromEntries(values.map((v) => MapEntry(v.name, v)));
 }
 
 @HiveType(typeId: CacheHiveType.courseCat)

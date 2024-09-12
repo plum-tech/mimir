@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mimir/backend/entity/user.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/files.dart';
 import 'package:mimir/school/entity/school.dart';
@@ -62,6 +63,7 @@ SitTimetable _get() {
     name: "Spring, 2023 Timetable",
     signature: "Liplum",
     studentId: "114514",
+    schoolCode: SchoolCode.sit,
     studentType: StudentType.undergraduate,
     startDate: DateTime.parse("2024-02-26"),
     createdTime: DateTime.now(),
