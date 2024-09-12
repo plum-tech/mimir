@@ -131,6 +131,8 @@ timetable:
     importing: Trying to fetch the timetable...
     timetableInfo: Timetable Info
     defaultName: "{semester}, {yearStart} Timetable"
+    fileSystemError:
+      title: File system error
     formatError:
       title: Format error
       desc: The selected file can't be loaded as a timetable. Please choose a timetable file.

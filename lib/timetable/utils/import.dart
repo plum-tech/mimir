@@ -73,6 +73,12 @@ Future<Timetable?> readTimetableWithPrompt(
     if (!context.mounted) return null;
     if (error is PlatformException) {
       await showPermissionDeniedDialog(context: context, permission: Permission.storage);
+    } else if (error is FileSystemException) {
+      await context.showTip(
+        title: i18n.import.formatError,
+        desc: error.osError?.message ?? error.message,
+        primary: i18n.ok,
+      );
     } else {
       await context.showTip(
         title: i18n.import.formatError,

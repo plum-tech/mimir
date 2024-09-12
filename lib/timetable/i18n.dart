@@ -232,6 +232,8 @@ class _Import {
         "yearEnd": yearEnd,
       });
 
+  String get fileSystemError => "$ns.fileSystemError.title".tr();
+
   String get formatError => "$ns.formatError.title".tr();
 
   String get formatErrorDesc => "$ns.formatError.desc".tr();
