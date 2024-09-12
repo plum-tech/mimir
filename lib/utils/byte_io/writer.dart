@@ -44,7 +44,7 @@ class ByteWriter {
   }
 
   void _minimalByteLength(int actualBytes, [ByteLength expectedBytes = ByteLength.bit32, Endian endian = Endian.big]) {
-    assert(expectedBytes.maxValue >= actualBytes, "Expect $expectedBytes");
+    assert(expectedBytes.maxValue >= actualBytes, "Expect $expectedBytes but $actualBytes given");
     _checkCapacity(requireBytes: actualBytes + expectedBytes.byteLengths);
     switch (expectedBytes) {
       case ByteLength.bit8:

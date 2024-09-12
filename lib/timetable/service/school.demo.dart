@@ -18,6 +18,7 @@ class DemoTimetableService implements TimetableService {
     return SitTimetable(
       campus: Campus.fengxian,
       studentId: CredentialsInit.storage.oa.credentials?.account ?? "",
+      studentType: StudentType.undergraduate,
       createdTime: DateTime.now(),
       courses: {
         "$key": SitCourse(

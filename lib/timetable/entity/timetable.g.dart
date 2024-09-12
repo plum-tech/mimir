@@ -24,6 +24,7 @@ abstract class _$SitTimetableCWProxy {
     DateTime? lastModified,
     DateTime? createdTime,
     String? studentId,
+    StudentType? studentType,
     List<TimetablePatchEntry>? patches,
     String? signature,
     int? version,
@@ -55,6 +56,7 @@ class _$SitTimetableCWProxyImpl implements _$SitTimetableCWProxy {
     Object? lastModified = const $CopyWithPlaceholder(),
     Object? createdTime = const $CopyWithPlaceholder(),
     Object? studentId = const $CopyWithPlaceholder(),
+    Object? studentType = const $CopyWithPlaceholder(),
     Object? patches = const $CopyWithPlaceholder(),
     Object? signature = const $CopyWithPlaceholder(),
     Object? version = const $CopyWithPlaceholder(),
@@ -100,6 +102,10 @@ class _$SitTimetableCWProxyImpl implements _$SitTimetableCWProxy {
           ? _value.studentId
           // ignore: cast_nullable_to_non_nullable
           : studentId as String,
+      studentType: studentType == const $CopyWithPlaceholder() || studentType == null
+          ? _value.studentType
+          // ignore: cast_nullable_to_non_nullable
+          : studentType as StudentType,
       patches: patches == const $CopyWithPlaceholder() || patches == null
           ? _value.patches
           // ignore: cast_nullable_to_non_nullable
@@ -293,6 +299,7 @@ SitTimetable _$SitTimetableFromJson(Map<String, dynamic> json) => SitTimetable(
       lastModified: json['lastModified'] == null ? _kNow() : DateTime.parse(json['lastModified'] as String),
       createdTime: json['createdTime'] == null ? _kNow() : DateTime.parse(json['createdTime'] as String),
       studentId: json['studentId'] as String? ?? _defaultStudentId(),
+      studentType: $enumDecodeNullable(_$StudentTypeEnumMap, json['studentType']) ?? _kStudentType(),
       patches: json['patches'] == null ? const [] : _patchesFromJson(json['patches'] as List?),
       signature: json['signature'] as String? ?? "",
       version: (json['version'] as num?)?.toInt() ?? 2,
@@ -304,6 +311,7 @@ Map<String, dynamic> _$SitTimetableToJson(SitTimetable instance) => <String, dyn
       'campus': _$CampusEnumMap[instance.campus]!,
       'schoolYear': instance.schoolYear,
       'semester': _$SemesterEnumMap[instance.semester]!,
+      'studentType': _$StudentTypeEnumMap[instance.studentType]!,
       'lastCourseKey': instance.lastCourseKey,
       'signature': instance.signature,
       'studentId': instance.studentId,
@@ -323,6 +331,11 @@ const _$SemesterEnumMap = {
   Semester.all: 'all',
   Semester.term1: 'term1',
   Semester.term2: 'term2',
+};
+
+const _$StudentTypeEnumMap = {
+  StudentType.undergraduate: 'undergraduate',
+  StudentType.postgraduate: 'postgraduate',
 };
 
 SitCourse _$SitCourseFromJson(Map<String, dynamic> json) => SitCourse(

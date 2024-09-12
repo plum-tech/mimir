@@ -138,6 +138,7 @@ SitTimetable parseUndergraduateTimetableFromRaw(
   return SitTimetable(
     courses: courses,
     studentId: studentId,
+    studentType: StudentType.undergraduate,
     lastCourseKey: lastCourseKey,
     signature: name,
     name: i18n.import.defaultName(semester.l10n(), schoolYear.toString(), (schoolYear + 1).toString()),

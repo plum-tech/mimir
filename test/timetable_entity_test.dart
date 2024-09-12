@@ -62,6 +62,7 @@ SitTimetable _get() {
     name: "Spring, 2023 Timetable",
     signature: "Liplum",
     studentId: "114514",
+    studentType: StudentType.undergraduate,
     startDate: DateTime.parse("2024-02-26"),
     createdTime: DateTime.now(),
     lastModified: DateTime.now(),

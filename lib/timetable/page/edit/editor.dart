@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
@@ -335,7 +336,10 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
         children: [
           TextFormField(
             controller: $name,
-            maxLines: 1,
+            maxLines: 2,
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(SitTimetable.maxNameLength),
+            ],
             decoration: InputDecoration(
               labelText: i18n.editor.name,
               border: const OutlineInputBorder(),

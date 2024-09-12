@@ -1,9 +1,11 @@
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
+import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/school/entity/school.dart';
@@ -18,6 +20,12 @@ import '../patch/entity/patch.dart';
 part 'timetable.g.dart';
 
 DateTime _kNow() => DateTime.now();
+
+StudentType _kStudentType() => switch (CredentialsInit.storage.oa.userType) {
+      OaUserType.undergraduate => StudentType.undergraduate,
+      OaUserType.postgraduate => StudentType.postgraduate,
+      _ => StudentType.undergraduate,
+    };
 
 List<TimetablePatchEntry> _patchesFromJson(List? list) {
   return list
@@ -35,11 +43,16 @@ String _defaultStudentId() {
   return CredentialsInit.storage.oa.credentials?.account ?? "";
 }
 
+String _parseName(String name) {
+  return name.substring(0, min(SitTimetable.maxNameLength, name.length));
+}
+
 @JsonSerializable()
 @CopyWith(skipFields: true)
 @immutable
 class SitTimetable {
-  @JsonKey()
+  static int maxNameLength = 50;
+  @JsonKey(fromJson: _parseName)
   final String name;
   @JsonKey()
   final DateTime startDate;
@@ -49,6 +62,8 @@ class SitTimetable {
   final int schoolYear;
   @JsonKey()
   final Semester semester;
+  @JsonKey(defaultValue: _kStudentType)
+  final StudentType studentType;
   @JsonKey()
   final int lastCourseKey;
   @JsonKey()
@@ -84,6 +99,7 @@ class SitTimetable {
     required this.lastModified,
     required this.createdTime,
     required this.studentId,
+    required this.studentType,
     this.patches = const [],
     this.signature = "",
     this.version = 2,
@@ -112,6 +128,7 @@ class SitTimetable {
       "createdTime": createdTime,
       "signature": signature,
       "studentId": studentId,
+      "studentType": studentType,
       "patches": patches,
     }.toString();
   }
@@ -121,11 +138,14 @@ class SitTimetable {
         'name:"$name",'
         'signature:"$signature",'
         'studentId:"$studentId",'
+        'studentType:"$studentType",'
         "campus:$campus,"
         'startDate:DateTime.parse("$startDate"),'
         'createdTime:DateTime.parse("$createdTime"),'
         'lastModified:DateTime.parse("$lastModified"),'
         "courses:${courses.map((key, value) => MapEntry('"$key"', value.toDartCode()))},"
+        "studentId:$studentId,"
+        "studentType:$studentType,"
         "schoolYear:$schoolYear,"
         "semester:$semester,"
         "lastCourseKey:$lastCourseKey,"
@@ -146,7 +166,10 @@ class SitTimetable {
         name == other.name &&
         signature == other.signature &&
         startDate == other.startDate &&
+        studentId == other.studentId &&
+        studentType == other.studentType &&
         lastModified == other.lastModified &&
+        createdTime == other.createdTime &&
         courses.equalsKeysValues(courses.keys, other.courses) &&
         patches.equalsElements(other.patches);
   }
@@ -161,6 +184,9 @@ class SitTimetable {
         semester,
         startDate,
         lastModified,
+        createdTime,
+        studentId,
+        studentType,
         Object.hashAllUnordered(courses.entries.map((e) => (e.key, e.value))),
         Object.hashAll(patches),
         version,
@@ -175,6 +201,7 @@ class SitTimetable {
     writer.strUtf8(name, ByteLength.bit8);
     writer.strUtf8(signature, ByteLength.bit8);
     writer.strUtf8(studentId, ByteLength.bit8);
+    writer.uint8(studentType.index);
     writer.uint8(campus.index);
     writer.uint8(schoolYear);
     writer.uint8(semester.index);
@@ -198,6 +225,7 @@ class SitTimetable {
       name: reader.strUtf8(ByteLength.bit8),
       signature: reader.strUtf8(ByteLength.bit8),
       studentId: revision == 1 ? _defaultStudentId() : reader.strUtf8(ByteLength.bit8),
+      studentType: StudentType.values[reader.uint8()],
       campus: Campus.values[reader.uint8()],
       schoolYear: reader.uint8(),
       semester: Semester.values[reader.uint8()],

@@ -114,6 +114,13 @@ class SemesterInfo implements Comparable<SemesterInfo> {
   }
 }
 
+@JsonEnum()
+enum StudentType {
+  undergraduate,
+  postgraduate,
+  ;
+}
+
 @HiveType(typeId: CacheHiveType.courseCat)
 enum CourseCat {
   @HiveField(0)

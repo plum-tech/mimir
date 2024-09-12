@@ -34,6 +34,7 @@ import '../entity/timetable.dart';
 import '../init.dart';
 import '../utils/export.dart';
 import '../utils/import.dart';
+import '../utils/update.dart';
 import '../widgets/focus.dart';
 import '../p13n/widget/style.dart';
 import 'import.dart';
@@ -353,7 +354,7 @@ class TimetableCard extends StatelessWidget {
               );
             },
           ),
-        if (!kIsWeb && kDebugMode)
+        if (!kIsWeb && canUpdateTimetable(timetable))
           EntryAction(
             icon: context.icons.refresh,
             label: i18n.update,
@@ -465,9 +466,19 @@ class TimetableDetailsPage extends ConsumerWidget {
               subtitle: context.formatYmdText(timetable.startDate).text(),
             ),
             ListTile(
-              leading: const Icon(Icons.drive_file_rename_outline),
+              leading: const Icon(Icons.create),
+              title: "Created when".text(),
+              subtitle: context.formatYmdText(timetable.createdTime).text(),
+            ),
+            ListTile(
+              leading: const Icon(Icons.person),
               title: i18n.signature.text(),
               subtitle: timetable.signature.text(),
+            ),
+            ListTile(
+              leading: const Icon(Icons.school),
+              title: "Student type".text(),
+              subtitle: timetable.studentType.toString().text(),
             ),
           ]),
           if (code2Courses.isNotEmpty) const SliverToBoxAdapter(child: Divider()),

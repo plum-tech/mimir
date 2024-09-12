@@ -195,6 +195,7 @@ SitTimetable parsePostgraduateTimetableFromCourseRaw(
     lastCourseKey: counter,
     name: "",
     studentId: studentId,
+    studentType: StudentType.postgraduate,
     campus: campus,
     startDate: DateTime.utc(0),
     createdTime: DateTime.now(),
