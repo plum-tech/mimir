@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/school/entity/school.dart';
+import 'package:mimir/school/utils.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/entity/timetable.dart';
 import 'package:mimir/timetable/init.dart';
@@ -58,5 +59,10 @@ Future<Timetable?> syncTimetable(BuildContext context, Timetable old) async {
 
 Future<void> autoSyncTimetable(BuildContext context, Timetable old) async {
   if (!canSyncTimetable(old)) return;
+  final now = DateTime.now();
+  final startDate = old.startDate.subtract(const Duration(days: 7));
+  final endDate = old.endDate;
+  final inRange = startDate.isBefore(now) && now.isBefore(endDate);
+
   final lastSyncTimetableTime = Settings.timetable.lastSyncTimetableTime;
 }

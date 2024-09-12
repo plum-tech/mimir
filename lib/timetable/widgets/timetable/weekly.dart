@@ -149,7 +149,7 @@ class _TimetableOneWeekCachedState extends State<TimetableOneWeekCached> with Au
       final now = DateTime.now();
       Widget buildCell({
         required BuildContext context,
-        required SitTimetableLessonPart lesson,
+        required TimetableLessonPart lesson,
         required TimetableEntity timetable,
       }) {
         final inClassNow = lesson.type.startTime.isBefore(now) && lesson.type.endTime.isAfter(now);
@@ -193,7 +193,7 @@ class TimetableOneWeek extends StatelessWidget {
   final bool showFreeTip;
   final Widget Function({
     required BuildContext context,
-    required SitTimetableLessonPart lesson,
+    required TimetableLessonPart lesson,
     required TimetableEntity timetable,
   }) cellBuilder;
 
@@ -257,7 +257,7 @@ class TimetableOneWeek extends StatelessWidget {
   }
 
   Widget buildSingleWeekView(
-    SitTimetableWeek timetableWeek, {
+    TimetableWeek timetableWeek, {
     required BuildContext context,
     required Size cellSize,
     required Size fullSize,
@@ -335,7 +335,7 @@ class TimetableOneWeek extends StatelessWidget {
 }
 
 class InteractiveCourseCell extends ConsumerWidget {
-  final SitTimetableLessonPart lesson;
+  final TimetableLessonPart lesson;
   final TimetableEntity timetable;
   final bool isLessonTaken;
   final TimetableStyleData style;
@@ -383,7 +383,7 @@ class InteractiveCourseCell extends ConsumerWidget {
 }
 
 class InteractiveCourseCellWithTooltip extends StatefulWidget {
-  final SitTimetableLessonPart lesson;
+  final TimetableLessonPart lesson;
   final TimetableEntity timetable;
   final bool isLessonTaken;
   final TimetableStyleData style;

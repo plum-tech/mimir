@@ -80,10 +80,12 @@ SemesterInfo estimateSemesterInfo([DateTime? date]) {
 
 int estimateSchoolYear([DateTime? date]) {
   date ??= DateTime.now();
-  return date.month >= 9 ? date.year : date.year - 1;
+  final month = date.month;
+  return month >= 9 ? date.year : date.year - 1;
 }
 
 Semester estimateSemester([DateTime? date]) {
   date ??= DateTime.now();
-  return date.month >= 3 && date.month <= 7 ? Semester.term2 : Semester.term1;
+  final month = date.month;
+  return 3 <= month && month <= 7 ? Semester.term2 : Semester.term1;
 }

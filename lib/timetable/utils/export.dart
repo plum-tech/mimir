@@ -60,7 +60,7 @@ String convertTimetable2ICal({
   );
   final alarm = config.alarm;
   final merged = config.isLessonMerged;
-  final added = <SitTimetableLesson>{};
+  final added = <TimetableLesson>{};
   for (final day in timetable.days) {
     for (final lessonSlot in day.timeslot2LessonSlot) {
       for (final part in lessonSlot.lessons) {
