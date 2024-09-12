@@ -14,7 +14,7 @@ abstract class _$TimetableCWProxy {
   /// Timetable(...).copyWith(id: 12, name: "My name")
   /// ````
   Timetable call({
-    Map<String, SitCourse>? courses,
+    Map<String, Course>? courses,
     int? lastCourseKey,
     String? name,
     SchoolCode? schoolCode,
@@ -67,7 +67,7 @@ class _$TimetableCWProxyImpl implements _$TimetableCWProxy {
       courses: courses == const $CopyWithPlaceholder() || courses == null
           ? _value.courses
           // ignore: cast_nullable_to_non_nullable
-          : courses as Map<String, SitCourse>,
+          : courses as Map<String, Course>,
       lastCourseKey: lastCourseKey == const $CopyWithPlaceholder() || lastCourseKey == null
           ? _value.lastCourseKey
           // ignore: cast_nullable_to_non_nullable
@@ -134,14 +134,14 @@ extension $TimetableCopyWith on Timetable {
   _$TimetableCWProxy get copyWith => _$TimetableCWProxyImpl(this);
 }
 
-abstract class _$SitCourseCWProxy {
+abstract class _$CourseCWProxy {
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored.
   ///
   /// Usage
   /// ```dart
-  /// SitCourse(...).copyWith(id: 12, name: "My name")
+  /// Course(...).copyWith(id: 12, name: "My name")
   /// ````
-  SitCourse call({
+  Course call({
     int? courseKey,
     String? courseName,
     String? courseCode,
@@ -156,11 +156,11 @@ abstract class _$SitCourseCWProxy {
   });
 }
 
-/// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfSitCourse.copyWith(...)`.
-class _$SitCourseCWProxyImpl implements _$SitCourseCWProxy {
-  const _$SitCourseCWProxyImpl(this._value);
+/// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfCourse.copyWith(...)`.
+class _$CourseCWProxyImpl implements _$CourseCWProxy {
+  const _$CourseCWProxyImpl(this._value);
 
-  final SitCourse _value;
+  final Course _value;
 
   @override
 
@@ -168,9 +168,9 @@ class _$SitCourseCWProxyImpl implements _$SitCourseCWProxy {
   ///
   /// Usage
   /// ```dart
-  /// SitCourse(...).copyWith(id: 12, name: "My name")
+  /// Course(...).copyWith(id: 12, name: "My name")
   /// ````
-  SitCourse call({
+  Course call({
     Object? courseKey = const $CopyWithPlaceholder(),
     Object? courseName = const $CopyWithPlaceholder(),
     Object? courseCode = const $CopyWithPlaceholder(),
@@ -183,7 +183,7 @@ class _$SitCourseCWProxyImpl implements _$SitCourseCWProxy {
     Object? teachers = const $CopyWithPlaceholder(),
     Object? hidden = const $CopyWithPlaceholder(),
   }) {
-    return SitCourse(
+    return Course(
       courseKey: courseKey == const $CopyWithPlaceholder() || courseKey == null
           ? _value.courseKey
           // ignore: cast_nullable_to_non_nullable
@@ -232,10 +232,10 @@ class _$SitCourseCWProxyImpl implements _$SitCourseCWProxy {
   }
 }
 
-extension $SitCourseCopyWith on SitCourse {
-  /// Returns a callable class that can be used as follows: `instanceOfSitCourse.copyWith(...)`.
+extension $CourseCopyWith on Course {
+  /// Returns a callable class that can be used as follows: `instanceOfCourse.copyWith(...)`.
   // ignore: library_private_types_in_public_api
-  _$SitCourseCWProxy get copyWith => _$SitCourseCWProxyImpl(this);
+  _$CourseCWProxy get copyWith => _$CourseCWProxyImpl(this);
 }
 
 abstract class _$TimetableWeekIndexCWProxy {
@@ -294,7 +294,7 @@ extension $TimetableWeekIndexCopyWith on TimetableWeekIndex {
 
 Timetable _$TimetableFromJson(Map<String, dynamic> json) => Timetable(
       courses: (json['courses'] as Map<String, dynamic>).map(
-        (k, e) => MapEntry(k, SitCourse.fromJson(e as Map<String, dynamic>)),
+        (k, e) => MapEntry(k, Course.fromJson(e as Map<String, dynamic>)),
       ),
       lastCourseKey: (json['lastCourseKey'] as num).toInt(),
       name: _parseName(json['name'] as String),
@@ -350,7 +350,7 @@ const _$StudentTypeEnumMap = {
   StudentType.postgraduate: 'postgraduate',
 };
 
-SitCourse _$SitCourseFromJson(Map<String, dynamic> json) => SitCourse(
+Course _$CourseFromJson(Map<String, dynamic> json) => Course(
       courseKey: (json['courseKey'] as num).toInt(),
       courseName: json['courseName'] as String,
       courseCode: json['courseCode'] as String,
@@ -370,7 +370,7 @@ SitCourse _$SitCourseFromJson(Map<String, dynamic> json) => SitCourse(
       hidden: json['hidden'] as bool? ?? false,
     );
 
-Map<String, dynamic> _$SitCourseToJson(SitCourse instance) => <String, dynamic>{
+Map<String, dynamic> _$CourseToJson(Course instance) => <String, dynamic>{
       'courseKey': instance.courseKey,
       'courseName': instance.courseName,
       'courseCode': instance.courseCode,

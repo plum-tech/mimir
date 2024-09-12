@@ -493,7 +493,7 @@ class CourseCell extends StatelessWidget {
 }
 
 class StyledCourseCell extends StatelessWidget {
-  final SitCourse course;
+  final Course course;
   final TimetableEntity timetable;
   final bool isLessonTaken;
   final Widget Function(BuildContext context, Widget child)? innerBuilder;

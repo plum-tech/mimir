@@ -20,7 +20,7 @@ class TimetableEntity with SitTimetablePaletteResolver, CourseCodeIndexer {
   final Timetable type;
 
   @override
-  Iterable<SitCourse> get courses => type.courses.values;
+  Iterable<Course> get courses => type.courses.values;
 
   final List<SitTimetableDay> days;
 
@@ -126,10 +126,10 @@ class SitTimetableDay {
 
   List<SitTimetableLessonSlot> get timeslot2LessonSlot => UnmodifiableListView(slots);
 
-  late final Set<SitCourse> _associatedCourses =
+  late final Set<Course> _associatedCourses =
       slots.map((slot) => slot.lessons).flattened.map((part) => part.course).toSet();
 
-  Set<SitCourse> get associatedCourses => UnmodifiableSetView(_associatedCourses);
+  Set<Course> get associatedCourses => UnmodifiableSetView(_associatedCourses);
 
   bool _frozen = false;
 
@@ -279,7 +279,7 @@ class SitTimetableLesson {
 
   /// A lesson may last two or more time slots.
   /// If current [SitTimetableLessonPart] is a part of the whole lesson, they all have the same [courseKey].
-  final SitCourse course;
+  final Course course;
 
   /// in timeslot order
   final List<SitTimetableLessonPart> parts;
@@ -339,7 +339,7 @@ class SitTimetableLessonPart {
 
   DateTime get endTime => time.end;
 
-  SitCourse get course => type.course;
+  Course get course => type.course;
 
   SitTimetableLessonPart({
     required this.type,

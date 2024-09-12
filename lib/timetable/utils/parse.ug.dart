@@ -63,12 +63,12 @@ TimetableWeekIndices parseWeekText2RangedNumbers(
 }
 
 typedef _SitTimetableInter = ({
-  Map<String, SitCourse> courses,
+  Map<String, Course> courses,
   int lastCourseKey,
 });
 
 _SitTimetableInter _parseUndergraduateTimetableFromCourseRaw(List<UndergraduateCourseRaw> all) {
-  final courseKey2Entity = <String, SitCourse>{};
+  final courseKey2Entity = <String, Course>{};
   var counter = 0;
   for (final raw in all) {
     final courseKey = counter++;
@@ -83,7 +83,7 @@ _SitTimetableInter _parseUndergraduateTimetableFromCourseRaw(List<UndergraduateC
     if (dayIndex == null || !(0 <= dayIndex && dayIndex < 7)) continue;
     final timeslots = rangeFromString(raw.timeslotsText, number2index: true);
     assert(timeslots.start <= timeslots.end, "${timeslots.start} > ${timeslots.end} actually. ${raw.courseName}");
-    final course = SitCourse(
+    final course = Course(
       courseKey: courseKey,
       courseName: mapChinesePunctuations(raw.courseName).trim(),
       courseCode: raw.courseCode.trim(),

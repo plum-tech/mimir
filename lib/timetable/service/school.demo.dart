@@ -23,7 +23,7 @@ class DemoTimetableService implements TimetableService {
       studentType: StudentType.undergraduate,
       createdTime: DateTime.now(),
       courses: {
-        "$key": SitCourse(
+        "$key": Course(
           courseKey: key++,
           courseName: '小应生活开发实训',
           courseCode: 'dev',
@@ -37,7 +37,7 @@ class DemoTimetableService implements TimetableService {
           dayIndex: 0,
           teachers: const [],
         ),
-        "$key": SitCourse(
+        "$key": Course(
           courseKey: key++,
           courseName: '小应生活运维实训',
           courseCode: 'ops',
@@ -51,7 +51,7 @@ class DemoTimetableService implements TimetableService {
           dayIndex: 2,
           teachers: const [],
         ),
-        "$key": SitCourse(
+        "$key": Course(
           courseKey: key++,
           courseName: '小应生活设计实训',
           courseCode: 'design',
@@ -65,7 +65,7 @@ class DemoTimetableService implements TimetableService {
           dayIndex: 4,
           teachers: const [],
         ),
-        "$key": SitCourse(
+        "$key": Course(
           courseKey: key++,
           courseName: '小应生活部署实训',
           courseCode: 'deploy',
@@ -79,7 +79,7 @@ class DemoTimetableService implements TimetableService {
           dayIndex: 3,
           teachers: const [],
         ),
-        "$key": SitCourse(
+        "$key": Course(
           courseKey: key++,
           courseName: '小应生活管理实训',
           courseCode: 'management',
@@ -93,7 +93,7 @@ class DemoTimetableService implements TimetableService {
           dayIndex: 1,
           teachers: const [],
         ),
-        "$key": SitCourse(
+        "$key": Course(
           courseKey: key++,
           courseName: '小应生活会议',
           courseCode: 'meeting',
@@ -107,7 +107,7 @@ class DemoTimetableService implements TimetableService {
           dayIndex: 1,
           teachers: const [],
         ),
-        "$key": SitCourse(
+        "$key": Course(
           courseKey: key++,
           courseName: '小应生活国际化实训',
           courseCode: 'i18n',

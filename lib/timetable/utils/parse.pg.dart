@@ -159,7 +159,7 @@ Timetable parsePostgraduateTimetableFromCourseRaw(
   required Campus campus,
   required String studentId,
 }) {
-  final courseKey2Entity = <String, SitCourse>{};
+  final courseKey2Entity = <String, Course>{};
   var counter = 0;
   for (final raw in all) {
     final courseKey = counter++;
@@ -177,7 +177,7 @@ Timetable parsePostgraduateTimetableFromCourseRaw(
         : raw.timeslotsText;
     final timeslots = rangeFromString(timeslotsText, number2index: true);
     assert(timeslots.start <= timeslots.end, "${timeslots.start} > ${timeslots.end} actually. ${raw.courseName}");
-    final course = SitCourse(
+    final course = Course(
       courseKey: courseKey,
       courseName: mapChinesePunctuations(raw.courseName).trim(),
       courseCode: raw.courseCode.trim(),

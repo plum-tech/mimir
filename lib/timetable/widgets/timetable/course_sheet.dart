@@ -75,7 +75,7 @@ class TimetableCourseSheetPage extends StatelessWidget {
     );
   }
 
-  Widget buildTable(List<SitCourse> courses) {
+  Widget buildTable(List<Course> courses) {
     final teachers = courses.expand((course) => course.teachers).toSet();
     return Table(
       columnWidths: const {
@@ -102,7 +102,7 @@ class TimetableCourseSheetPage extends StatelessWidget {
 }
 
 class CourseDescTile extends StatelessWidget {
-  final SitCourse course;
+  final Course course;
   final Campus campus;
   final bool selected;
 

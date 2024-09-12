@@ -70,7 +70,7 @@ Timetable _get() {
     lastModified: DateTime.now(),
     campus: Campus.fengxian,
     courses: const {
-      "0": SitCourse(
+      "0": Course(
         courseKey: 0,
         courseName: "Java",
         courseCode: "001",
@@ -88,7 +88,7 @@ Timetable _get() {
         teachers: ["John"],
         hidden: false,
       ),
-      "1": SitCourse(
+      "1": Course(
         courseKey: 1,
         courseName: "Kotlin",
         courseCode: "002",
@@ -106,7 +106,7 @@ Timetable _get() {
         teachers: ["Joe"],
         hidden: false,
       ),
-      "2": SitCourse(
+      "2": Course(
         courseKey: 2,
         courseName: "Golang",
         courseCode: "003",
@@ -124,7 +124,7 @@ Timetable _get() {
         teachers: ["Denny"],
         hidden: false,
       ),
-      "3": SitCourse(
+      "3": Course(
         courseKey: 3,
         courseName: "C#",
         courseCode: "004",
@@ -142,7 +142,7 @@ Timetable _get() {
         teachers: ["Paul"],
         hidden: false,
       ),
-      "4": SitCourse(
+      "4": Course(
         courseKey: 4,
         courseName: "Swift",
         courseCode: "005",
@@ -160,7 +160,7 @@ Timetable _get() {
         teachers: ["Nick"],
         hidden: false,
       ),
-      "5": SitCourse(
+      "5": Course(
         courseKey: 5,
         courseName: "Dart",
         courseCode: "006",
@@ -178,7 +178,7 @@ Timetable _get() {
         teachers: ["Ben"],
         hidden: false,
       ),
-      "6": SitCourse(
+      "6": Course(
         courseKey: 6,
         courseName: "React",
         courseCode: "007",

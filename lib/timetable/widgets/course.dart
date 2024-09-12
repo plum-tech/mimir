@@ -13,7 +13,7 @@ class TimetableCourseCard extends StatelessWidget {
   final String courseCode;
   final String classCode;
   final Campus campus;
-  final List<SitCourse> courses;
+  final List<Course> courses;
   final Color? color;
 
   const TimetableCourseCard({

@@ -58,7 +58,7 @@ abstract class _$SitTimetableLessonCWProxy {
   /// SitTimetableLesson(...).copyWith(id: 12, name: "My name")
   /// ````
   SitTimetableLesson call({
-    SitCourse? course,
+    Course? course,
     List<SitTimetableLessonPart>? parts,
   });
 }
@@ -85,7 +85,7 @@ class _$SitTimetableLessonCWProxyImpl implements _$SitTimetableLessonCWProxy {
       course: course == const $CopyWithPlaceholder() || course == null
           ? _value.course
           // ignore: cast_nullable_to_non_nullable
-          : course as SitCourse,
+          : course as Course,
       parts: parts == const $CopyWithPlaceholder() || parts == null
           ? _value.parts
           // ignore: cast_nullable_to_non_nullable

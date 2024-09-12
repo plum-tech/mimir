@@ -100,6 +100,7 @@ class QuickLookCourseOnTapTile extends ConsumerWidget {
     );
   }
 }
+
 class AutoSyncTimetableTile extends ConsumerWidget {
   const AutoSyncTimetableTile({super.key});
 

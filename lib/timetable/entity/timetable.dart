@@ -78,7 +78,7 @@ class Timetable {
 
   /// The index is the CourseKey.
   @JsonKey()
-  final Map<String, SitCourse> courses;
+  final Map<String, Course> courses;
 
   @JsonKey(defaultValue: _kNow)
   final DateTime lastModified;
@@ -141,7 +141,7 @@ class Timetable {
   }
 
   String toDartCode() {
-    return "SitTimetable("
+    return "Timetable("
         'name:"$name",'
         'signature:"$signature",'
         'studentId:"$studentId",'
@@ -257,7 +257,7 @@ class Timetable {
       startDate: reader.datePacked(2000),
       createdTime: reader.datePacked(2000),
       courses: Map.fromEntries(List.generate(reader.uint8(), (index) {
-        final course = SitCourse.deserialize(reader);
+        final course = Course.deserialize(reader);
         return MapEntry("${course.courseKey}", course);
       })),
       patches: List.generate(reader.uint8(), (index) {
@@ -282,7 +282,7 @@ class Timetable {
 @JsonSerializable()
 @CopyWith(skipFields: true)
 @immutable
-class SitCourse {
+class Course {
   @JsonKey()
   final int courseKey;
   @JsonKey()
@@ -315,7 +315,7 @@ class SitCourse {
   @JsonKey()
   final bool hidden;
 
-  const SitCourse({
+  const Course({
     required this.courseKey,
     required this.courseName,
     required this.courseCode,
@@ -332,12 +332,12 @@ class SitCourse {
   @override
   String toString() => "#$courseKey($courseName: $place)";
 
-  factory SitCourse.fromJson(Map<String, dynamic> json) => _$SitCourseFromJson(json);
+  factory Course.fromJson(Map<String, dynamic> json) => _$CourseFromJson(json);
 
-  Map<String, dynamic> toJson() => _$SitCourseToJson(this);
+  Map<String, dynamic> toJson() => _$CourseToJson(this);
 
   String toDartCode() {
-    return "SitCourse("
+    return "Course("
         "courseKey:$courseKey,"
         'courseName:"$courseName",'
         'courseCode:"$courseCode",'
@@ -354,7 +354,7 @@ class SitCourse {
 
   @override
   bool operator ==(Object other) {
-    return other is SitCourse &&
+    return other is Course &&
         runtimeType == other.runtimeType &&
         courseKey == other.courseKey &&
         courseName == other.courseName &&
@@ -382,7 +382,7 @@ class SitCourse {
         hidden,
       );
 
-  bool isBasicInfoEqualTo(SitCourse old) {
+  bool isBasicInfoEqualTo(Course old) {
     if (courseKey != old.courseKey) return false;
     if (courseCode != old.courseCode) return false;
     if (place != old.place) return false;
@@ -409,8 +409,8 @@ class SitCourse {
     writer.b(hidden);
   }
 
-  static SitCourse deserialize(ByteReader reader) {
-    return SitCourse(
+  static Course deserialize(ByteReader reader) {
+    return Course(
       courseKey: reader.uint8(),
       courseName: reader.strUtf8(ByteLength.bit8),
       courseCode: reader.strUtf8(ByteLength.bit8),
@@ -430,7 +430,7 @@ class SitCourse {
 
 List<ClassTime> buildingTimetableOf(Campus campus, [String? place]) => getTeachingBuildingTimetable(campus, place);
 
-/// Based on [SitCourse.timeslots], compose a full-length class time.
+/// Based on [Course.timeslots], compose a full-length class time.
 /// Starts with the first part starts.
 /// Ends with the last part ends.
 ClassTime calcBeginEndTimePoint(({int start, int end}) timeslots, Campus campus, [String? place]) {
@@ -695,16 +695,16 @@ extension _RangeX on ({int start, int end}) {
 }
 
 abstract mixin class CourseCodeIndexer {
-  Iterable<SitCourse> get courses;
+  Iterable<Course> get courses;
 
-  final _courseCode2CoursesCache = <String, List<SitCourse>>{};
+  final _courseCode2CoursesCache = <String, List<Course>>{};
 
-  List<SitCourse> getCoursesByCourseCode(String courseCode) {
+  List<Course> getCoursesByCourseCode(String courseCode) {
     final found = _courseCode2CoursesCache[courseCode];
     if (found != null) {
       return found;
     } else {
-      final res = <SitCourse>[];
+      final res = <Course>[];
       for (final course in courses) {
         if (course.courseCode == courseCode) {
           res.add(course);

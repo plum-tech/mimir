@@ -96,7 +96,7 @@ class SitCourseEditable {
 
 class SitCourseEditorPage extends StatefulWidget {
   final String? title;
-  final SitCourse? course;
+  final Course? course;
   final SitCourseEditable editable;
 
   const SitCourseEditorPage({
@@ -366,7 +366,7 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
   }
 
   void onSave() {
-    context.pop(SitCourse(
+    context.pop(Course(
       courseKey: widget.course?.courseKey ?? 0,
       courseName: $courseName.text,
       courseCode: $courseCode.text,

@@ -206,7 +206,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
       title: i18n.editor.addCourse.text(),
       trailing: Icon(context.icons.add),
       onTap: () async {
-        final newCourse = await context.showSheet<SitCourse>(
+        final newCourse = await context.showSheet<Course>(
           (ctx) => SitCourseEditorPage(
             title: i18n.editor.newCourse,
             course: null,
@@ -218,7 +218,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
     );
   }
 
-  void onCourseChanged(SitCourse old, SitCourse newValue) {
+  void onCourseChanged(Course old, Course newValue) {
     markChanged();
     final key = "${newValue.courseKey}";
     if (courses.containsKey(key)) {
@@ -244,7 +244,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
     }
   }
 
-  void onCourseAdded(SitCourse course) {
+  void onCourseAdded(Course course) {
     markChanged();
     course = course.copyWith(
       courseKey: lastCourseKey++,
@@ -254,7 +254,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
     });
   }
 
-  void onCourseRemoved(SitCourse course) {
+  void onCourseRemoved(Course course) {
     final key = "${course.courseKey}";
     if (courses.containsKey(key)) {
       setState(() {
@@ -367,13 +367,13 @@ Future<DateTime?> _pickTimetableStartDate(
 }
 
 class TimetableEditableCourseCard extends StatelessWidget {
-  final SitCourse template;
-  final List<SitCourse> courses;
+  final Course template;
+  final List<Course> courses;
   final Campus campus;
   final Color? color;
-  final void Function(SitCourse old, SitCourse newValue)? onCourseChanged;
-  final void Function(SitCourse)? onCourseAdded;
-  final void Function(SitCourse)? onCourseRemoved;
+  final void Function(Course old, Course newValue)? onCourseChanged;
+  final void Function(Course)? onCourseAdded;
+  final void Function(Course)? onCourseRemoved;
 
   const TimetableEditableCourseCard({
     super.key,
@@ -425,7 +425,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
           icon: Icon(context.icons.edit),
           padding: EdgeInsets.zero,
           onPressed: () async {
-            final newTemplate = await context.showSheet<SitCourse>(
+            final newTemplate = await context.showSheet<Course>(
               (context) => SitCourseEditorPage(
                 title: i18n.editor.editCourse,
                 editable: const SitCourseEditable.template(),
@@ -467,7 +467,7 @@ class TimetableEditableCourseCard extends StatelessWidget {
               icon: Icon(context.icons.edit),
               padding: EdgeInsets.zero,
               onPressed: () async {
-                final newItem = await context.showSheet<SitCourse>(
+                final newItem = await context.showSheet<Course>(
                   (context) => SitCourseEditorPage(
                     title: i18n.editor.editCourse,
                     course: course,
@@ -489,11 +489,11 @@ class TimetableEditableCourseCard extends StatelessWidget {
   }
 }
 
-extension _SitCourseX on SitCourse {
-  SitCourse createSubItem({
+extension _SitCourseX on Course {
+  Course createSubItem({
     required int courseKey,
   }) {
-    return SitCourse(
+    return Course(
       courseKey: courseKey,
       courseName: courseName,
       courseCode: courseCode,

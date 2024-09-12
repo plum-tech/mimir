@@ -158,7 +158,7 @@ abstract mixin class SitTimetablePaletteResolver {
 
   final _fixedCourseCode2Color = <TimetablePalette, Map<String, DualColor>>{};
 
-  DualColor resolveColor(TimetablePalette palette, SitCourse course) {
+  DualColor resolveColor(TimetablePalette palette, Course course) {
     assert(palette.colors.isNotEmpty, "Colors can't be empty");
     if (palette.colors.isEmpty) return TimetablePalette.defaultColor;
     assert(type.courses.containsValue(course), "Course $course not found in this timetable");

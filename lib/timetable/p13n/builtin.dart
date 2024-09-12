@@ -141,7 +141,7 @@ class BuiltinTimetablePalettes {
 }
 
 extension TimetablePlatteX on TimetablePalette {
-  DualColor resolveColor(SitCourse course) {
+  DualColor resolveColor(Course course) {
     assert(colors.isNotEmpty, "Colors can't be empty");
     if (colors.isEmpty) return TimetablePalette.defaultColor;
     return colors[course.courseCode.hashCode.abs() % colors.length];

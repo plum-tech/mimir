@@ -104,7 +104,7 @@ class _TimetableCbeIssueWidgetState extends State<TimetableCbeIssueWidget> {
             trailing: PlatformTextButton(
               child: i18n.issue.resolve.text(),
               onPressed: () async {
-                final newCourse = await context.showSheet<SitCourse>(
+                final newCourse = await context.showSheet<Course>(
                   (ctx) => SitCourseEditorPage(
                     title: i18n.editor.editCourse,
                     course: course,
@@ -152,7 +152,7 @@ class _TimetableCourseOverlapIssueWidgetState extends State<TimetableCourseOverl
         title: TimetableIssueType.courseOverlaps.l10n().text(),
         subtitle: TimetableIssueType.courseOverlaps.l10nDesc().text(),
         children: widget.issues.map((issue) {
-          final courses = issue.courseKeys.map((key) => timetable.courses["$key"]).whereType<SitCourse>().toList();
+          final courses = issue.courseKeys.map((key) => timetable.courses["$key"]).whereType<Course>().toList();
           return ListTile(
             title: courses.map((course) => course.courseName).join(", ").text(),
             subtitle: [

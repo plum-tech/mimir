@@ -35,7 +35,7 @@ class TimetableCbeIssue implements TimetableIssue {
     required this.courseKey,
   });
 
-  static bool detect(SitCourse course) {
+  static bool detect(Course course) {
     if (course.courseName.contains("自修") || course.courseName.contains("免听")) {
       return true;
     }

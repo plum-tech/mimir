@@ -272,7 +272,7 @@ class BreakDivider extends StatelessWidget {
 
 class LessonCard extends StatelessWidget {
   final SitTimetableLessonPart lesson;
-  final SitCourse course;
+  final Course course;
   final TimetableEntity timetable;
   final Color color;
   final Color? textColor;

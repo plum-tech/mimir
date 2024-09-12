@@ -24,7 +24,7 @@ Future<Timetable> _fetchSameTypeTimetable(Timetable old) async {
 }
 
 Future<Timetable?> syncTimetable(BuildContext context, Timetable old) async {
-  if(!canSyncTimetable(old)) return null;
+  if (!canSyncTimetable(old)) return null;
   final newTimetable = await _fetchSameTypeTimetable(old);
   final equal = old.isBasicInfoEqualTo(newTimetable);
   if (!context.mounted) return null;
@@ -57,7 +57,6 @@ Future<Timetable?> syncTimetable(BuildContext context, Timetable old) async {
 }
 
 Future<void> autoSyncTimetable(BuildContext context, Timetable old) async {
-  if(!canSyncTimetable(old)) return;
+  if (!canSyncTimetable(old)) return;
   final lastSyncTimetableTime = Settings.timetable.lastSyncTimetableTime;
-
 }
