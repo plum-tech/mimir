@@ -19,6 +19,8 @@ import 'package:mimir/route.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/backend/update/utils.dart';
+import 'package:mimir/timetable/init.dart';
+import 'package:mimir/timetable/utils/update.dart';
 import 'package:mimir/utils/color.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
@@ -143,8 +145,8 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       $appLink = AppLinks().uriLinkStream.listen(handleUriLink);
     });
-    initQuickActions();
     if (UniversalPlatform.isIOS || UniversalPlatform.isAndroid) {
+      initQuickActions();
       // Listen to media sharing coming from outside the app while the app is in the memory.
       intentSub = ReceiveSharingIntent.instance.getMediaStream().listen((list) async {
         ref.read($intentFiles.notifier).state = [
@@ -178,6 +180,7 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
         ReceiveSharingIntent.instance.reset();
       });
     }
+    tryAutoSyncTimetable();
   }
 
   @override
@@ -222,6 +225,24 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
     }
     if (!navigateCtx.mounted) return;
     await onHandleDeepLink(context: navigateCtx, deepLink: uri);
+  }
+
+  Future<void> tryAutoSyncTimetable() async {
+    if (!Settings.timetable.autoSyncTimetable) return;
+    final selectedId = TimetableInit.storage.timetable.selectedId;
+    if (selectedId == null) return;
+    final selected = TimetableInit.storage.timetable.selectedRow;
+    if (selected == null) return;
+    if (canAutoSyncTimetable(selected)) {
+      try {
+        final merged = await autoSyncTimetable(context, selected);
+        if (merged != null) {
+          TimetableInit.storage.timetable[selectedId] = merged;
+        }
+      } catch (error, stackTrace) {
+        debugPrintError(error, stackTrace);
+      }
+    }
   }
 
   @override

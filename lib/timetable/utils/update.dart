@@ -34,34 +34,64 @@ Future<Timetable?> syncTimetable(BuildContext context, Timetable old) async {
       desc: "You don't need to update this timetable because it's already the latest",
       primary: "OK",
     );
-  } else {
-    final confirm = await context.showActionRequest(
-      title: "Newest available",
-      desc: "The timetable has been updated. Do you want to overwrite your changes and sync with the newest version?",
-      action: "Update",
-      destructive: true,
-      cancel: "Cancel",
-      dismissible: false,
-    );
-    if (confirm == true) {
-      final merged = old
-          .copyWith(
-            lastCourseKey: newTimetable.lastCourseKey,
-            courses: newTimetable.courses,
-          )
-          .markModified();
-      return merged;
-    }
+    return null;
   }
-  return null;
+  final confirm = await context.showActionRequest(
+    title: "Newest available",
+    desc:
+        "The timetable has been updated recently. Do you want to overwrite your changes and sync with the newest version?",
+    action: "Sync",
+    cancel: "Cancel",
+    destructive: true,
+    dismissible: false,
+  );
+  if (confirm != true) return null;
+  final merged = old
+      .copyWith(
+        lastCourseKey: newTimetable.lastCourseKey,
+        courses: newTimetable.courses,
+      )
+      .markModified();
+  return merged;
 }
 
-Future<void> autoSyncTimetable(BuildContext context, Timetable old) async {
-  if (!canSyncTimetable(old)) return;
+bool canAutoSyncTimetable(Timetable old) {
+  if (!Settings.timetable.autoSyncTimetable) return false;
+  if (!canSyncTimetable(old)) return false;
   final now = DateTime.now();
   final startDate = old.startDate.subtract(const Duration(days: 7));
   final endDate = old.endDate;
   final inRange = startDate.isBefore(now) && now.isBefore(endDate);
-
+  if (!inRange) return false;
+  final inHotRange = startDate.isBefore(now) && now.isBefore(old.startDate.add(const Duration(days: 7 * 3)));
+  final syncInterval = inHotRange ? const Duration(days: 3) : const Duration(days: 7);
   final lastSyncTimetableTime = Settings.timetable.lastSyncTimetableTime;
+  final requireSync = lastSyncTimetableTime == null || lastSyncTimetableTime.add(syncInterval).isBefore(now);
+  if (!requireSync) return false;
+  return true;
+}
+
+Future<Timetable?> autoSyncTimetable(BuildContext context, Timetable old) async {
+  final newTimetable = await _fetchSameTypeTimetable(old);
+  final equal = old.isBasicInfoEqualTo(newTimetable);
+  Settings.timetable.lastSyncTimetableTime = DateTime.now();
+  if (equal) return null;
+  if (!context.mounted) return null;
+  final confirm = await context.showActionRequest(
+    title: "Newest available",
+    desc:
+        "The timetable has been updated recently. Do you want to overwrite your changes and sync with the newest version?",
+    action: "Sync",
+    cancel: "Dismiss",
+    destructive: true,
+    dismissible: false,
+  );
+  if (confirm != true) return null;
+  final merged = old
+      .copyWith(
+        lastCourseKey: newTimetable.lastCourseKey,
+        courses: newTimetable.courses,
+      )
+      .markModified();
+  return merged;
 }

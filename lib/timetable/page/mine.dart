@@ -357,7 +357,7 @@ class _TimetableCardState extends State<TimetableCard> {
         if (kDebugMode)
           EntryAction(
             icon: context.icons.copy,
-            label: "[Dart] Timetable",
+            label: "Copy Dart code",
             action: () async {
               final code = timetable.toDartCode();
               debugPrint(code);
@@ -393,7 +393,7 @@ class _TimetableCardState extends State<TimetableCard> {
                 }
               } catch (error, stackTrace) {
                 debugPrintError(error, stackTrace);
-                if (!context.mounted) return;
+                if (!mounted) return;
                 setState(() {
                   syncing = false;
                 });

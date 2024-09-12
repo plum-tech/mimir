@@ -20,7 +20,7 @@ final $selectedTimetableEntity = Provider.autoDispose((ref) {
 });
 
 class _TimetablePageState extends ConsumerState<TimetablePage> {
-  @override
+    @override
   Widget build(BuildContext context) {
     final selected = ref.watch($selectedTimetableEntity);
     final selectedId = ref.watch(TimetableInit.storage.timetable.$selectedId);
