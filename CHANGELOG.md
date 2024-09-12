@@ -11,6 +11,8 @@
 - Updated Apple Developer Program.
 - [tools] Avoiding build failure due to upgrading more than 1 build number but less than 3 at once.
 - Timetable files can be opened with the app on both Android and iOS.
+- Sync the timetable to the latest, and auto-sync.
+- Improved the logic of proxy settings.
 
 ## v2.5.2
 - Remember selected semester info only in current session.
