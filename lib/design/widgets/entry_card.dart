@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -63,6 +65,15 @@ class EntrySelectAction {
     required this.selectedLabel,
     required this.action,
   });
+
+  EntryAction toAction(BuildContext context) {
+    return EntryAction(
+      label: selectLabel,
+      oneShot: true,
+      icon: context.icons.checkMark,
+      action: action,
+    );
+  }
 }
 
 class EntryCard extends StatelessWidget {
@@ -289,51 +300,56 @@ class EntryCard extends StatelessWidget {
     return all;
   }
 
+  ({EntryAction main, List<EntryAction> secondary}) separateActions4Details(
+    BuildContext context,
+    List<EntryAction> actions, {
+    EntrySelectAction? select,
+  }) {
+    final main = actions.where((action) => action.main).firstOrNull;
+    if (main != null) {
+      return (
+        main: main,
+        secondary: [
+          if (select != null) select.toAction(context),
+          ...actions.where((action) => !action.main),
+        ]
+      );
+    }
+    if (select != null && !selected) {
+      return (main: select.toAction(context), secondary: actions);
+    }
+    final edit = actions.where((action) => action.type == EntryActionType.edit).firstOrNull;
+    if (edit != null) {
+      return (
+        main: edit,
+        secondary: [
+          if (select != null) select.toAction(context),
+          ...actions.where((action) => action.type != EntryActionType.edit),
+        ]
+      );
+    }
+    return (main: actions.first, secondary: actions.sublist(min(1, actions.length)));
+  }
+
   List<Widget> buildDetailsActions(BuildContext context) {
     final all = <Widget>[];
     final actions = this.actions(context);
-    final selectAction = this.selectAction.call(context);
     final deleteAction = this.deleteAction?.call(context);
-    final mainActions = actions.where((action) => action.main).toList();
-    final secondaryActions = actions.where((action) => !action.main).toList();
-    if (mainActions.isNotEmpty) {
-      for (final action in mainActions) {
-        all.add(PlatformTextButton(
-          onPressed: () async {
-            if (action.oneShot) {
-              if (!context.mounted) return;
-              context.navigator.pop();
-            }
-            await action.action();
-          },
-          child: action.label.text(),
-        ));
-      }
-      if (selectAction != null && !selected) {
-        secondaryActions.insert(
-          0,
-          EntryAction(
-            label: selectAction.selectLabel,
-            oneShot: true,
-            icon: context.icons.checkMark,
-            action: selectAction.action,
-          ),
-        );
-      }
-    } else if (selectAction != null && !selected) {
-      all.add(PlatformTextButton(
-        onPressed: () async {
-          await selectAction.action();
+    final (:main, :secondary) = separateActions4Details(context, actions, select: selectAction.call(context));
+    all.add(PlatformTextButton(
+      onPressed: () async {
+        if (main.oneShot) {
           if (!context.mounted) return;
           context.navigator.pop();
-        },
-        child: selectAction.selectLabel.text(),
-      ));
-    }
+        }
+        await main.action();
+      },
+      child: main.label.text(),
+    ));
     all.add(PullDownMenuButton(
       itemBuilder: (ctx) {
         return [
-          ...secondaryActions.map(
+          ...secondary.map(
             (action) => PullDownItem(
               icon: action.icon,
               title: action.label,
