@@ -109,7 +109,7 @@ dependencies:
 
   # Desktop support
   window_manager: ^0.4.2
-  win32_registry: ^1.1.4
+  win32_registry: ^1.1.5
   # Get package info (version)
   package_info_plus: ^8.0.2
   # Check VPN connection status
@@ -184,8 +184,6 @@ dependencies:
 
 dependency_overrides:
   webview_flutter_android: 3.16.1
-  data_serializer: 1.2.0
-  collection: 1.19.0
 
 dev_dependencies:
   flutter_test: { sdk: flutter }
