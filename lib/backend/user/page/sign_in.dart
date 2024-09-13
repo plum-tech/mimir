@@ -10,6 +10,7 @@ import 'package:mimir/design/animation/animated.dart';
 import 'package:mimir/login/page/index.dart';
 import 'package:mimir/login/widgets/forgot_pwd.dart';
 import 'package:mimir/utils/save.dart';
+import 'package:mimir/widgets/agreements.dart';
 import 'package:mimir/widgets/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -82,6 +83,9 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
             child: buildLoginForm(),
           ).padAll(12),
         ].listview(),
+        bottomNavigationBar:  BottomAppBar(
+          child: AgreementsCheckBox.account(),
+        ),
       );
     } else {
       return Scaffold(
@@ -435,15 +439,6 @@ class MimirSchoolIdDisclaimerCard extends StatelessWidget {
     return [
       FeaturedMarkdownWidget(
         data: i18n.auth.schoolIdDisclaimer,
-      ),
-      CheckboxListTile.adaptive(
-        title: i18n.auth.acceptAgreements.text(),
-        value: accepted,
-        onChanged: (value) {
-          if (value != null) {
-            onAccepted(value);
-          }
-        },
       ),
     ].column(caa: CrossAxisAlignment.stretch).padAll(12).inOutlinedCard();
   }

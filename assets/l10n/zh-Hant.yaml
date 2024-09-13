@@ -1,5 +1,10 @@
 appName: 小應生活
 accountName: 小應賬戶
+agreements:
+  basic: |
+    我已閱讀並同意 [小应生活隐私政策](https://www.mysit.life/privacy-policy) 和 [小应生活使用协议](https://www.mysit.life/tos)
+  account: |
+    我已閱讀並同意 [小应生活隐私政策](https://www.mysit.life/privacy-policy) 和 [小应生活使用协议](https://www.mysit.life/tos)
 mimir:
   update:
     title: 檢查更新

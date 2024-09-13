@@ -23,8 +23,6 @@ class _Auth with CommonAuthI18nMixin {
 
   String get signInTitle => "$ns.signInTitle".tr();
 
-  String get acceptAgreements => "$ns.acceptAgreements".tr();
-
   String get authMethodsAvailable => "$ns.authMethodsAvailable".tr();
 
   String get authMethodUnimpl => "$ns.authMethodUnimpl".tr();

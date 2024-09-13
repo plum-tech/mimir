@@ -1,5 +1,10 @@
 appName: 小应生活
 accountName: 小应账户
+agreements:
+  basic: |
+    我已阅读并同意 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy) 和 [《小应生活使用协议》](https://www.mysit.life/tos)
+  account: |
+    我已阅读并同意 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy) 和 [《小应生活使用协议》](https://www.mysit.life/tos)
 mimir:
   update:
     title: 检查更新
@@ -21,7 +26,6 @@ mimir:
     10259: 上海应用技术大学
   auth:
     signInTitle: 登录@:accountName
-    acceptAgreements: 我已阅读并同意
     authMethodsAvailable: 暂时无法验证你在该学校的核验在校生身份
     authMethodUnimpl: 这个方式在当前App版本不受支持，请更新到最新版.
     schoolId:
@@ -32,8 +36,6 @@ mimir:
         @:accountName与您学校提供的账号无关，且不互通。如需使用课程表，考试、分数查询等基础功能，请[点击此处](/settings/oa)。
 
         我们非常重视您的隐私安全。您的学号与密码仅用于**验证在校生身份**，服务器不会存储。
-
-        请先阅读 [《隐私政策》](https://www.mysit.life/privacy-policy) 和 [《使用协议》](https://www.mysit.life/tos)。
     eduEmail:
       name: 教育邮箱
     phoneNumber:

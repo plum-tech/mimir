@@ -19,6 +19,7 @@ import 'package:mimir/login/utils.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/school/widgets/campus.dart';
+import 'package:mimir/widgets/agreements.dart';
 import 'package:mimir/widgets/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/dev.dart';
@@ -198,6 +199,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           ],
         ),
         floatingActionButton: loggingIn ? const CircularProgressIndicator.adaptive() : null,
+        bottomNavigationBar:  BottomAppBar(
+          child: AgreementsCheckBox.basic(),
+        ),
         body: [
           buildHeader(),
           buildLoginForm(),
