@@ -83,6 +83,7 @@ class Migrations {
     Version(2, 6, 0) <<
         MimirMigration.run((phrase) async {
           if (phrase == MigrationPhrase.afterHive) {
+            await HiveInit.clearCache();
             // Refresh timetable json
             for (final (:id, :row) in TimetableInit.storage.timetable.getRows()) {
               TimetableInit.storage.timetable[id] = row;
