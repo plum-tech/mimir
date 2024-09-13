@@ -51,7 +51,7 @@ typedef NavigationItems = List<({String route, _NavigationDest item})>;
 class _MainStagePageState extends ConsumerState<MainStagePage> {
   NavigationItems buildItems() {
     return [
-      if (ref.watch(Settings.timetable.$showTimetableNavigation) && (can(AppFeature.timetable, ref)))
+      if (ref.watch(Settings.timetable.$showTimetableNavigation) && can(AppFeature.timetable, ref))
         (
           route: "/timetable",
           item: (
@@ -88,7 +88,7 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
       //       label: $forum.i18n.navigation,
       //     )
       //   ),
-      if (ref.watch(Settings.game.$showGameNavigation) ?? true)
+      if (ref.watch(Settings.game.$showGameNavigation) && can(AppFeature.game$, ref))
         (
           route: "/game",
           item: (

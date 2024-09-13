@@ -22,5 +22,5 @@ class GameSettings {
 
   set showGameNavigation(bool newV) => box.safePut<bool>(_K.showGameNavigation, newV);
 
-  late final $showGameNavigation = box.provider<bool>(_K.showGameNavigation);
+  late final $showGameNavigation = box.providerWithDefault<bool>(_K.showGameNavigation, () => true);
 }

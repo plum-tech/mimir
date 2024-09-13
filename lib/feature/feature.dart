@@ -114,6 +114,8 @@ class AppFeatureTreeNode {
 
   final isRoot = false;
 
+  bool get isLeaf => name2node.isEmpty;
+
   @override
   String toString() {
     return "[$name]${name2node.values}";
@@ -127,6 +129,9 @@ class AppFeatureTree implements AppFeatureTreeNode {
   final name2node = <String, AppFeatureTreeNode>{};
 
   AppFeatureTree();
+
+  @override
+  bool get isLeaf => name2node.isEmpty;
 
   factory AppFeatureTree.build(Set<String> features) {
     final root = AppFeatureTree();
@@ -154,16 +159,16 @@ class AppFeatureTree implements AppFeatureTreeNode {
   }
 
   bool has(String feature) {
+    if(isLeaf) return false;
     final parts = Queue.of(feature.split("."));
-    final queue = Queue<AppFeatureTreeNode>();
-    queue.addLast(this);
-    while (queue.isNotEmpty && parts.isNotEmpty) {
-      final node = queue.removeFirst();
-      if (node.isRoot) {
-        queue.addAll(node.name2node.values);
-      } else if (node.name == parts.first) {
+    AppFeatureTreeNode node = this;
+    while (parts.isNotEmpty) {
+      final subNode = node.name2node[parts.first];
+      if (subNode != null) {
+        node = subNode;
         parts.removeFirst();
-        queue.addAll(node.name2node.values);
+      } else {
+        return node.isLeaf;
       }
     }
     return parts.isEmpty;
