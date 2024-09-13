@@ -4,15 +4,14 @@ import 'package:simple_icons/simple_icons.dart';
 import 'package:mimir/entity/meta.dart';
 import 'package:web_browser_detect/web_browser_detect.dart';
 
-IconData getDeviceIcon(AppMeta meta) {
-  final deviceInfo = meta.deviceInfo;
+IconData getDeviceIcon(AppMeta meta, [BaseDeviceInfo? info]) {
   switch (meta.platform) {
     case AppPlatform.iOS:
     case AppPlatform.macOS:
       return SimpleIcons.apple;
     case AppPlatform.android:
-      if (deviceInfo is AndroidDeviceInfo) {
-        return _getAndroidIcon(deviceInfo);
+      if (info is AndroidDeviceInfo) {
+        return _getAndroidIcon(info);
       }
       return SimpleIcons.android;
     case AppPlatform.windows:

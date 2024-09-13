@@ -56,6 +56,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
   Widget build(BuildContext context) {
     final credentials = ref.watch(CredentialsInit.storage.oa.$credentials);
     final demoMode = ref.watch(Dev.$demoMode);
+    final deviceInfo = R.deviceInfo;
     return Scaffold(
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
@@ -105,13 +106,16 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
               const DebugWebViewTile(),
               const DebugDeepLinkTile(),
               if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) const GoInAppWebviewTile(),
-              ListTile(
-                title: "Device info".text(),
-                trailing: Icon(context.icons.rightChevron),
-                onTap: () {
-                  context.showSheet((ctx) => const DeviceInfoPage());
-                },
-              ),
+              if (deviceInfo != null)
+                ListTile(
+                  title: "Device info".text(),
+                  trailing: Icon(context.icons.rightChevron),
+                  onTap: () {
+                    context.showSheet((ctx) => DeviceInfoPage(
+                          info: deviceInfo,
+                        ));
+                  },
+                ),
               if (!kIsWeb)
                 ListTile(
                   title: "Check version".text(),
@@ -702,7 +706,12 @@ class _VersionCheckerPageState extends ConsumerState<VersionCheckerPage> {
 }
 
 class DeviceInfoPage extends ConsumerStatefulWidget {
-  const DeviceInfoPage({super.key});
+  final BaseDeviceInfo info;
+
+  const DeviceInfoPage({
+    super.key,
+    required this.info,
+  });
 
   @override
   ConsumerState createState() => _DeviceInfoPageState();
@@ -712,7 +721,7 @@ class _DeviceInfoPageState extends ConsumerState<DeviceInfoPage> {
   @override
   Widget build(BuildContext context) {
     const encoder = JsonEncoder.withIndent("  ");
-    final json = encoder.convert(R.meta.deviceInfo.data);
+    final json = encoder.convert(widget.info.data);
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -722,8 +731,7 @@ class _DeviceInfoPageState extends ConsumerState<DeviceInfoPage> {
     );
   }
 
-  List<Widget> buildWidgets() {
-    final info = R.meta.deviceInfo;
+  List<Widget> buildWidgets(BaseDeviceInfo info) {
     if (info is AndroidDeviceInfo) {
       info.device;
     } else if (info is IosDeviceInfo) {

@@ -108,7 +108,7 @@ class _VersionTileState extends ConsumerState<VersionTile> {
     final devOn = ref.watch(Dev.$on);
     final version = R.meta;
     return ListTile(
-      leading: Icon(getDeviceIcon(R.meta)),
+      leading: Icon(getDeviceIcon(R.meta, R.deviceInfo)),
       title: i18n.about.version.text(),
       subtitle: "${version.platform.name} ${version.version.toString()}".text(),
       trailing: kIsWeb ? null : const CheckUpdateButton(),

@@ -117,6 +117,9 @@ void main() async {
   if (kDebugMode) {
     Dev.on = true;
   }
+  if( kDebugMode ||  Dev.on){
+    R.deviceInfo = await getDeviceInfo();
+  }
   // The last time when user launch this app
   Meta.lastLaunchTime = Meta.thisLaunchTime;
   Meta.thisLaunchTime = DateTime.now();
