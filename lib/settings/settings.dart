@@ -215,7 +215,6 @@ class _Proxy {
   );
 }
 
-
 class _AgreementsK {
   static const ns = "/agreements";
 

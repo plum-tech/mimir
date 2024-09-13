@@ -14,6 +14,7 @@ abstract class _$TimetableCWProxy {
   /// Timetable(...).copyWith(id: 12, name: "My name")
   /// ````
   Timetable call({
+    String? uuid,
     Map<String, Course>? courses,
     int? lastCourseKey,
     String? name,
@@ -47,6 +48,7 @@ class _$TimetableCWProxyImpl implements _$TimetableCWProxy {
   /// Timetable(...).copyWith(id: 12, name: "My name")
   /// ````
   Timetable call({
+    Object? uuid = const $CopyWithPlaceholder(),
     Object? courses = const $CopyWithPlaceholder(),
     Object? lastCourseKey = const $CopyWithPlaceholder(),
     Object? name = const $CopyWithPlaceholder(),
@@ -64,6 +66,10 @@ class _$TimetableCWProxyImpl implements _$TimetableCWProxy {
     Object? version = const $CopyWithPlaceholder(),
   }) {
     return Timetable(
+      uuid: uuid == const $CopyWithPlaceholder() || uuid == null
+          ? _value.uuid
+          // ignore: cast_nullable_to_non_nullable
+          : uuid as String,
       courses: courses == const $CopyWithPlaceholder() || courses == null
           ? _value.courses
           // ignore: cast_nullable_to_non_nullable
@@ -293,6 +299,7 @@ extension $TimetableWeekIndexCopyWith on TimetableWeekIndex {
 // **************************************************************************
 
 Timetable _$TimetableFromJson(Map<String, dynamic> json) => Timetable(
+      uuid: json['uuid'] as String? ?? _kUUid(),
       courses: (json['courses'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(k, Course.fromJson(e as Map<String, dynamic>)),
       ),
@@ -313,6 +320,7 @@ Timetable _$TimetableFromJson(Map<String, dynamic> json) => Timetable(
     );
 
 Map<String, dynamic> _$TimetableToJson(Timetable instance) => <String, dynamic>{
+      'uuid': instance.uuid,
       'name': instance.name,
       'startDate': instance.startDate.toIso8601String(),
       'campus': _$CampusEnumMap[instance.campus]!,

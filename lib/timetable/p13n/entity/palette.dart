@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mimir/design/entity/dual_color.dart';
 import 'package:mimir/utils/byte_io/byte_io.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../entity/timetable.dart';
 
@@ -13,12 +14,17 @@ part 'palette.g.dart';
 
 DateTime _kLastModified() => DateTime.now();
 
+String _kUUid() => const Uuid().v4();
+
 @JsonSerializable()
 @CopyWith()
 class TimetablePalette {
   static int maxNameLength = 50;
+
   /// in version 1, the [colors] is in type of [({Color light, Color dark})].
-  static const version = 2;
+  static const version = 3;
+  @JsonKey(defaultValue: _kUUid)
+  final String uuid;
   @JsonKey()
   final String name;
   @JsonKey()
@@ -34,6 +40,7 @@ class TimetablePalette {
   );
 
   const TimetablePalette({
+    required this.uuid,
     required this.name,
     required this.author,
     required this.colors,
@@ -49,6 +56,7 @@ class TimetablePalette {
   static Uint8List _encodeByteList(TimetablePalette obj) {
     final writer = ByteWriter(256);
     writer.uint8(version);
+    writer.strUtf8(obj.uuid, ByteLength.bit8);
     writer.strUtf8(obj.name, ByteLength.bit8);
     writer.strUtf8(obj.author, ByteLength.bit8);
     writer.uint16(obj.colors.length);
@@ -63,6 +71,7 @@ class TimetablePalette {
     final reader = ByteReader(bytes);
     // ignore: unused_local_variable
     final revision = reader.uint8();
+    final uuid = version >= 3 ? reader.strUtf8(ByteLength.bit8) : _kUUid();
     final name = reader.strUtf8(ByteLength.bit8);
     final author = reader.strUtf8(ByteLength.bit8);
 
@@ -76,6 +85,7 @@ class TimetablePalette {
     });
 
     return TimetablePalette(
+      uuid: uuid,
       name: name,
       author: author,
       colors: colors,
@@ -116,6 +126,8 @@ extension TimetablePaletteX on TimetablePalette {
 class BuiltinTimetablePalette implements TimetablePalette {
   final int id;
   final String key;
+  @override
+  final String uuid;
   final String? nameOverride;
   final String? authorOverride;
 
@@ -133,6 +145,7 @@ class BuiltinTimetablePalette implements TimetablePalette {
   const BuiltinTimetablePalette({
     required this.key,
     required this.id,
+    required this.uuid,
     required this.colors,
     String? name,
     String? author,
@@ -142,6 +155,7 @@ class BuiltinTimetablePalette implements TimetablePalette {
   @override
   Map<String, dynamic> toJson() => <String, dynamic>{
         "id": id,
+        "uuid": uuid,
         "author": author,
         "colors": colors,
       };
@@ -150,11 +164,11 @@ class BuiltinTimetablePalette implements TimetablePalette {
   Uint8List encodeByteList() => TimetablePalette._encodeByteList(this);
 }
 
-abstract mixin class SitTimetablePaletteResolver {
+abstract mixin class TimetablePaletteResolver {
   Timetable get type;
 
-  factory SitTimetablePaletteResolver(Timetable type) {
-    return _SitTimetablePaletteResolverImpl(type: type);
+  factory TimetablePaletteResolver(Timetable type) {
+    return _TimetablePaletteResolverImpl(type: type);
   }
 
   final _fixedCourseCode2Color = <TimetablePalette, Map<String, DualColor>>{};
@@ -184,11 +198,11 @@ abstract mixin class SitTimetablePaletteResolver {
   }
 }
 
-class _SitTimetablePaletteResolverImpl with SitTimetablePaletteResolver {
+class _TimetablePaletteResolverImpl with TimetablePaletteResolver {
   @override
   final Timetable type;
 
-  _SitTimetablePaletteResolverImpl({
+  _TimetablePaletteResolverImpl({
     required this.type,
   });
 }

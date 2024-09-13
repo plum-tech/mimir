@@ -44,7 +44,7 @@ class _LibraryAppCardState extends ConsumerState<LibraryAppCard> {
           icon: Icon(context.icons.search),
           label: i18n.action.searchBooks.text(),
         ),
-        if (can(AppFeature.libraryAccount$,ref))
+        if (can(AppFeature.libraryAccount$, ref))
           if (credentials == null)
             FilledButton.tonal(
               onPressed: () async {

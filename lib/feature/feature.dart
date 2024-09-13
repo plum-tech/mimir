@@ -159,7 +159,7 @@ class AppFeatureTree implements AppFeatureTreeNode {
   }
 
   bool has(String feature) {
-    if(isLeaf) return false;
+    if (isLeaf) return false;
     final parts = Queue.of(feature.split("."));
     AppFeatureTreeNode node = this;
     while (parts.isNotEmpty) {

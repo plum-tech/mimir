@@ -5,6 +5,7 @@ import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/exam_result/entity/result.pg.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/timetable/entity/timetable.dart';
+import 'package:uuid/uuid.dart';
 
 import '../entity/course.dart';
 import 'parse.ug.dart';
@@ -192,6 +193,7 @@ Timetable parsePostgraduateTimetableFromCourseRaw(
     courseKey2Entity["$courseKey"] = course;
   }
   final res = Timetable(
+    uuid: const Uuid().v4(),
     courses: courseKey2Entity,
     lastCourseKey: counter,
     schoolCode: SchoolCode.sit,

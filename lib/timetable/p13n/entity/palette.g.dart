@@ -7,6 +7,8 @@ part of 'palette.dart';
 // **************************************************************************
 
 abstract class _$TimetablePaletteCWProxy {
+  TimetablePalette uuid(String uuid);
+
   TimetablePalette name(String name);
 
   TimetablePalette author(String author);
@@ -22,6 +24,7 @@ abstract class _$TimetablePaletteCWProxy {
   /// TimetablePalette(...).copyWith(id: 12, name: "My name")
   /// ````
   TimetablePalette call({
+    String? uuid,
     String? name,
     String? author,
     List<DualColor>? colors,
@@ -34,6 +37,9 @@ class _$TimetablePaletteCWProxyImpl implements _$TimetablePaletteCWProxy {
   const _$TimetablePaletteCWProxyImpl(this._value);
 
   final TimetablePalette _value;
+
+  @override
+  TimetablePalette uuid(String uuid) => this(uuid: uuid);
 
   @override
   TimetablePalette name(String name) => this(name: name);
@@ -56,12 +62,17 @@ class _$TimetablePaletteCWProxyImpl implements _$TimetablePaletteCWProxy {
   /// TimetablePalette(...).copyWith(id: 12, name: "My name")
   /// ````
   TimetablePalette call({
+    Object? uuid = const $CopyWithPlaceholder(),
     Object? name = const $CopyWithPlaceholder(),
     Object? author = const $CopyWithPlaceholder(),
     Object? colors = const $CopyWithPlaceholder(),
     Object? lastModified = const $CopyWithPlaceholder(),
   }) {
     return TimetablePalette(
+      uuid: uuid == const $CopyWithPlaceholder() || uuid == null
+          ? _value.uuid
+          // ignore: cast_nullable_to_non_nullable
+          : uuid as String,
       name: name == const $CopyWithPlaceholder() || name == null
           ? _value.name
           // ignore: cast_nullable_to_non_nullable
@@ -93,6 +104,7 @@ extension $TimetablePaletteCopyWith on TimetablePalette {
 // **************************************************************************
 
 TimetablePalette _$TimetablePaletteFromJson(Map<String, dynamic> json) => TimetablePalette(
+      uuid: json['uuid'] as String? ?? _kUUid(),
       name: json['name'] as String,
       author: json['author'] as String,
       colors: (json['colors'] as List<dynamic>)
@@ -102,6 +114,7 @@ TimetablePalette _$TimetablePaletteFromJson(Map<String, dynamic> json) => Timeta
     );
 
 Map<String, dynamic> _$TimetablePaletteToJson(TimetablePalette instance) => <String, dynamic>{
+      'uuid': instance.uuid,
       'name': instance.name,
       'author': instance.author,
       'colors': instance.colors.map(const _DualColorMigratedFromColor2ModeConverter().toJson).toList(),

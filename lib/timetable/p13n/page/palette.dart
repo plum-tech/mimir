@@ -19,6 +19,7 @@ import 'package:mimir/timetable/entity/timetable.dart';
 import 'package:mimir/timetable/init.dart';
 import 'package:mimir/utils/format.dart';
 import 'package:text_scroll/text_scroll.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../i18n.dart';
 import '../../deep_link/palette.dart';
@@ -114,6 +115,7 @@ class _TimetableP13nPageState extends ConsumerState<TimetablePaletteListPage> wi
   Future<void> addPalette() async {
     final palette = TimetablePalette(
       name: i18n.p13n.palette.newPaletteName,
+      uuid: const Uuid().v4(),
       author: "",
       colors: [],
       lastModified: DateTime.now(),
@@ -240,6 +242,7 @@ class PaletteCard extends StatelessWidget {
           action: () async {
             final duplicate = palette
                 .copyWith(
+                  uuid: const Uuid().v4(),
                   name: allocValidFileName(palette.name, all: allPaletteNames),
                   author: palette.author,
                   colors: List.of(palette.colors),

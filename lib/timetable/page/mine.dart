@@ -28,6 +28,7 @@ import 'package:mimir/timetable/widgets/course.dart';
 import 'package:mimir/utils/format.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:universal_platform/universal_platform.dart';
+import 'package:uuid/uuid.dart';
 
 import '../p13n/builtin.dart';
 import '../p13n/entity/palette.dart';
@@ -416,7 +417,10 @@ class _TimetableCardState extends State<TimetableCard> {
           activator: const SingleActivator(LogicalKeyboardKey.keyD),
           action: () async {
             final duplicate = timetable.copyWith(
-                name: getDuplicateFileName(timetable.name, all: allTimetableNames), lastModified: DateTime.now());
+              uuid: const Uuid().v4(),
+              name: getDuplicateFileName(timetable.name, all: allTimetableNames),
+              lastModified: DateTime.now(),
+            );
             TimetableInit.storage.timetable.add(duplicate);
           },
         ),
@@ -490,7 +494,7 @@ class TimetableDetailsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final timetable = ref.watch(TimetableInit.storage.timetable.$rowOf(id)) ?? this.timetable;
-    final resolver = SitTimetablePaletteResolver(timetable);
+    final resolver = TimetablePaletteResolver(timetable);
     final palette = ref.watch(TimetableInit.storage.palette.$selectedRow) ?? BuiltinTimetablePalettes.classic;
     final code2Courses = timetable.courses.values.groupListsBy((c) => c.courseCode).entries.toList();
     final style = TimetableStyle.of(context);

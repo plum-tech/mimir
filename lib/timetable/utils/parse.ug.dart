@@ -3,6 +3,7 @@ import 'package:mimir/entity/campus.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/utils/strings.dart';
+import 'package:uuid/uuid.dart';
 
 import '../entity/course.dart';
 import '../entity/timetable.dart';
@@ -62,12 +63,12 @@ TimetableWeekIndices parseWeekText2RangedNumbers(
   return TimetableWeekIndices(indices);
 }
 
-typedef _SitTimetableInter = ({
+typedef _TimetableInter = ({
   Map<String, Course> courses,
   int lastCourseKey,
 });
 
-_SitTimetableInter _parseUndergraduateTimetableFromCourseRaw(List<UndergraduateCourseRaw> all) {
+_TimetableInter _parseUndergraduateTimetableFromCourseRaw(List<UndergraduateCourseRaw> all) {
   final courseKey2Entity = <String, Course>{};
   var counter = 0;
   for (final raw in all) {
@@ -137,6 +138,7 @@ Timetable parseUndergraduateTimetableFromRaw(
     rawCourses,
   );
   return Timetable(
+    uuid: const Uuid().v4(),
     courses: courses,
     studentId: studentId,
     schoolCode: SchoolCode.sit,

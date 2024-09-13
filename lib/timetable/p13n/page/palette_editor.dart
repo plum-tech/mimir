@@ -129,6 +129,7 @@ class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEdi
 
   TimetablePalette buildPalette() {
     return TimetablePalette(
+      uuid: widget.palette.uuid,
       name: $name.text,
       author: $author.text,
       colors: colors,

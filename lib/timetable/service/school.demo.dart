@@ -19,6 +19,7 @@ class DemoTimetableService implements TimetableService {
     var key = 0;
     return Timetable(
       name: "小应生活的课程表",
+      uuid: "9cb2c4fe-d8e8-410b-b472-c1b4c13ecf16",
       schoolCode: SchoolCode.sit,
       startDate: estimateStartDate(info.exactYear, info.semester),
       schoolYear: info.exactYear,
@@ -129,7 +130,6 @@ class DemoTimetableService implements TimetableService {
         ),
       },
       lastCourseKey: key,
-
     );
   }
 
@@ -141,7 +141,7 @@ class DemoTimetableService implements TimetableService {
   @override
   Future<({DateTime start, DateTime end})?> getUgSemesterSpan() async {
     final now = DateTime.now();
-    final start = DateTime(now.year,now.month,now.day);
+    final start = DateTime(now.year, now.month, now.day);
     return (start: start, end: start.copyWith(month: now.month + 4));
   }
 }

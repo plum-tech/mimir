@@ -86,7 +86,7 @@ class TimetableCourseOverlapIssue implements TimetableIssue {
   }
 }
 
-extension SitTimetable4IssueX on Timetable {
+extension Timetable4IssueX on Timetable {
   List<TimetableIssue> inspect() {
     final issues = <TimetableIssue>[];
     // check if empty

@@ -7,12 +7,8 @@ import 'package:mimir/school/utils.dart';
 import '../entity/result.ug.dart';
 import 'result.ug.dart';
 
-const _names = [
-  "开发",
-  "设计",
-  "部署",
-  "国际化"
-];
+const _names = ["开发", "设计", "部署", "国际化"];
+
 class DemoExamResultUgService implements ExamResultUgService {
   const DemoExamResultUgService();
 

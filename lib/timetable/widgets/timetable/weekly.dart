@@ -280,7 +280,7 @@ class TimetableOneWeek extends StatelessWidget {
   /// 构建某一天的那一列格子.
   Widget _buildCellsByDay(
     BuildContext context,
-    SitTimetableDay day,
+    TimetableDay day,
     Size cellSize, {
     required TimetablePos todayPos,
   }) {

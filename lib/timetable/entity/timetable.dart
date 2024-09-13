@@ -15,6 +15,7 @@ import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/utils.dart';
 import 'package:mimir/utils/byte_io/byte_io.dart';
 import 'package:statistics/statistics.dart';
+import 'package:uuid/uuid.dart';
 
 import '../patch/entity/patch.dart';
 
@@ -50,11 +51,15 @@ String _parseName(String name) {
   return name.substring(0, min(Timetable.maxNameLength, name.length)).replaceAll('\n', " ");
 }
 
+String _kUUid() => const Uuid().v4();
+
 @JsonSerializable()
 @CopyWith(skipFields: true)
 @immutable
 class Timetable {
   static int maxNameLength = 50;
+  @JsonKey(defaultValue: _kUUid)
+  final String uuid;
   @JsonKey(fromJson: _parseName)
   final String name;
   @JsonKey()
@@ -94,6 +99,7 @@ class Timetable {
   final List<TimetablePatchEntry> patches;
 
   const Timetable({
+    required this.uuid,
     required this.courses,
     required this.lastCourseKey,
     required this.name,
@@ -126,6 +132,7 @@ class Timetable {
   @override
   String toString() {
     return {
+      "uuid": uuid,
       "name": name,
       "startDate": startDate,
       "schoolYear": schoolYear,
@@ -142,6 +149,7 @@ class Timetable {
 
   String toDartCode() {
     return "Timetable("
+        'uuid:"$uuid",'
         'name:"$name",'
         'signature:"$signature",'
         'studentId:"$studentId",'
@@ -168,6 +176,7 @@ class Timetable {
         runtimeType == other.runtimeType &&
         lastCourseKey == other.lastCourseKey &&
         version == other.version &&
+        uuid == other.uuid &&
         campus == other.campus &&
         schoolCode == other.schoolCode &&
         schoolYear == other.schoolYear &&
@@ -185,6 +194,8 @@ class Timetable {
 
   @override
   int get hashCode => Object.hash(
+        version,
+        uuid,
         name,
         signature,
         lastCourseKey,
@@ -199,7 +210,6 @@ class Timetable {
         studentType,
         Object.hashAllUnordered(courses.entries.map((e) => (e.key, e.value))),
         Object.hashAll(patches),
-        version,
       );
 
   factory Timetable.fromJson(Map<String, dynamic> json) => _$TimetableFromJson(json);
@@ -220,6 +230,7 @@ class Timetable {
 
   void serialize(ByteWriter writer) {
     writer.uint8(version);
+    writer.strUtf8(uuid, ByteLength.bit8);
     writer.strUtf8(name, ByteLength.bit8);
     writer.strUtf8(signature, ByteLength.bit8);
     writer.strUtf8(studentId, ByteLength.bit8);
@@ -245,6 +256,7 @@ class Timetable {
     // ignore: unused_local_variable
     final revision = reader.uint8();
     return Timetable(
+      uuid: reader.strUtf8(ByteLength.bit8),
       name: reader.strUtf8(ByteLength.bit8),
       signature: reader.strUtf8(ByteLength.bit8),
       studentId: revision == 1 ? _defaultStudentId() : reader.strUtf8(ByteLength.bit8),

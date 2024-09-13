@@ -8,6 +8,7 @@ import '../entity/timetable.dart';
 class BuiltinTimetablePalettes {
   static const classic = BuiltinTimetablePalette(
     id: -1,
+    uuid: "297a0b7c-ef53-4d5e-a76b-ac678f3e9386",
     key: "classic",
     author: "Li_plum@outlook.com",
     colors: [
@@ -27,6 +28,7 @@ class BuiltinTimetablePalettes {
   static const americano = BuiltinTimetablePalette(
     id: -2,
     key: "americano",
+    uuid: "57e24c83-e404-47ba-966b-986947ce5ea7",
     author: "Gracie",
     colors: [
       DualColor(dark: ColorEntry(Color(0xFF4D5A3F)), light: ColorEntry.inverse(Color(0xE67A8D62))),
@@ -39,6 +41,7 @@ class BuiltinTimetablePalettes {
   static const candy = BuiltinTimetablePalette(
     id: -3,
     key: "candy",
+    uuid: "f946b645-7770-4318-9ede-992b87ec49b9",
     author: "Gracie",
     colors: [
       DualColor(dark: ColorEntry(Color(0xff877878)), light: ColorEntry(Color(0xfff1dada))),
@@ -53,6 +56,7 @@ class BuiltinTimetablePalettes {
   static const spring = BuiltinTimetablePalette(
     id: -4,
     key: "sprint",
+    uuid: "ac00ee45-a41e-4d69-a8d0-bc510c3a5d69",
     author: "Gracie",
     colors: [
       DualColor(dark: ColorEntry(Color(0xFF6C8081)), light: ColorEntry(Color(0xFFA5C2C4))),
@@ -66,6 +70,7 @@ class BuiltinTimetablePalettes {
   static const summary = BuiltinTimetablePalette(
     id: -5,
     key: "summary",
+    uuid: "6ff9b139-da39-459a-88a0-ba59a6e32a03",
     author: "Gracie",
     colors: [
       DualColor(dark: ColorEntry.inverse(Color(0xFFACA88B)), light: ColorEntry(Color(0xFFFFFAD3))),
@@ -79,6 +84,7 @@ class BuiltinTimetablePalettes {
   static const fall = BuiltinTimetablePalette(
     id: -6,
     key: "fall",
+    uuid: "8036ebef-4935-4e68-892b-57706f183eb4",
     author: "Gracie",
     colors: [
       DualColor(dark: ColorEntry(Color(0xFF9E9C7E)), light: ColorEntry(Color(0xFFECE9C1))),
@@ -92,6 +98,7 @@ class BuiltinTimetablePalettes {
   static const winter = BuiltinTimetablePalette(
     id: -7,
     key: "winter",
+    uuid: "6c1072d0-db28-468b-936b-c7e2e4a3a76f",
     author: "Gracie",
     colors: [
       DualColor(dark: ColorEntry(Color(0xFF7C8787)), light: ColorEntry(Color(0xFFC3DEDE))),
@@ -105,6 +112,7 @@ class BuiltinTimetablePalettes {
   static const thicket = BuiltinTimetablePalette(
     id: -8,
     key: "thicket",
+    uuid: "321e660a-247d-4801-89aa-f13fc5f48311",
     author: "Gracie",
     colors: [
       DualColor(dark: ColorEntry(Color(0xFF506952)), light: ColorEntry.inverse(Color(0xFF7DA37F))),
@@ -117,6 +125,7 @@ class BuiltinTimetablePalettes {
   static const creeksideBreeze = BuiltinTimetablePalette(
     id: -9,
     key: "creeksideBreeze",
+    uuid: "4c94b4c8-c905-4af3-90ad-df0bad728784",
     author: "Gracie",
     colors: [
       DualColor(dark: ColorEntry(Color(0xFF6C8080)), light: ColorEntry(Color(0xFFC4E7E7))),

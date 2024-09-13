@@ -9,6 +9,7 @@ import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/timetable/entity/timetable.dart';
 import 'package:mimir/timetable/entity/timetable_entity.dart';
 import 'package:statistics/statistics.dart';
+import 'package:uuid/uuid.dart';
 
 void main() {
   final timetable = _get();
@@ -60,6 +61,7 @@ Future<void> outputTestTimetableFile() async {
 
 Timetable _get() {
   return Timetable(
+    uuid: const Uuid().v4(),
     name: "Spring, 2023 Timetable",
     signature: "Liplum",
     studentId: "114514",
