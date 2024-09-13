@@ -104,6 +104,6 @@ class TimetableService {
     final start = _semesterSpanDateFormat.tryParse(match.group(1) ?? "");
     final end = _semesterSpanDateFormat.tryParse(match.group(2) ?? "");
     if (start == null || end == null) return null;
-    return (start: start, end: end);
+    return (start: DateTime(start.year, start.month, start.day), end: DateTime(end.year, end.month, end.day));
   }
 }

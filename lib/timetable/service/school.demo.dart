@@ -141,6 +141,7 @@ class DemoTimetableService implements TimetableService {
   @override
   Future<({DateTime start, DateTime end})?> getUgSemesterSpan() async {
     final now = DateTime.now();
-    return (start: now, end: now.copyWith(month: now.month + 4));
+    final start = DateTime(now.year,now.month,now.day);
+    return (start: start, end: start.copyWith(month: now.month + 4));
   }
 }

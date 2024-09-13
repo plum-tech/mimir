@@ -39,6 +39,7 @@ final _builtinStartDate = {
   (2022, Semester.term2): DateTime(2023, 2, 6),
   (2023, Semester.term1): DateTime(2023, 9, 18),
   (2023, Semester.term2): DateTime(2024, 2, 26),
+  (2024, Semester.term1): DateTime(2024, 9, 2),
 };
 
 DateTime estimateStartDate(int year, Semester semester) {
