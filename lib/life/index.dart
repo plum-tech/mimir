@@ -54,6 +54,7 @@ class _LifePageState extends ConsumerState<LifePage> {
                 if (can(AppFeature.electricityBalance, ref)) const ElectricityBalanceAppCard(),
                 if (can(AppFeature.mimirForum, ref)) const ForumAppCard(),
                 if (!kIsWeb &&
+                    // can(AppFeature.sitRobotOpenLabDoor, ref) &&
                     oaCredentials != null &&
                     OpenLabDoorAppCard.isAvailable(oaAccount: oaCredentials.account))
                   const OpenLabDoorAppCard(),
