@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mimir/credentials/init.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:mimir/widgets/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -24,7 +24,7 @@ class AgreementsCheckBox extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final $accepted = CredentialsInit.storage.agreements.$acceptAgreementsOf(type);
+    final $accepted = Settings.agreements.$acceptAgreementsOf(type);
     final accepted = ref.watch($accepted) ?? false;
     return [
       FeaturedMarkdownWidget(data: type.l10n()).expanded(flex: 9),

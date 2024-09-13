@@ -4,14 +4,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/backend/user/entity/verify.dart';
 import 'package:mimir/backend/user/x.dart';
-import 'package:mimir/credentials/entity/agreements.dart';
+import 'package:mimir/settings/entity/agreements.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/animation/animated.dart';
 import 'package:mimir/login/page/index.dart';
 import 'package:mimir/login/widgets/forgot_pwd.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:mimir/utils/save.dart';
-import 'package:mimir/credentials/widget/agreements.dart';
+import 'package:mimir/settings/widget/agreements.dart';
 import 'package:mimir/widgets/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -371,8 +372,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   }
 
   Widget buildSignIn() {
-    final acceptedAgreements =
-        ref.watch(CredentialsInit.storage.agreements.$acceptAgreementsOf(AgreementsType.account)) ?? false;
+    final acceptedAgreements = ref.watch(Settings.agreements.$acceptAgreementsOf(AgreementsType.account)) ?? false;
     return FilledButton.icon(
       onPressed: !acceptedAgreements || widget.signingIn ? null : signIn,
       icon: const Icon(Icons.login),
@@ -381,8 +381,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   }
 
   Widget buildSignUp() {
-    final acceptedAgreements =
-        ref.watch(CredentialsInit.storage.agreements.$acceptAgreementsOf(AgreementsType.account)) ?? false;
+    final acceptedAgreements = ref.watch(Settings.agreements.$acceptAgreementsOf(AgreementsType.account)) ?? false;
     return FilledButton.icon(
       onPressed: !acceptedAgreements || widget.signingIn ? null : signUp,
       icon: const Icon(Icons.create),

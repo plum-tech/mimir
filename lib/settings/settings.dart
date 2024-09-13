@@ -12,6 +12,7 @@ import 'package:mimir/utils/riverpod.dart';
 import 'package:statistics/statistics.dart';
 
 import '../life/settings.dart';
+import 'entity/agreements.dart';
 import 'entity/proxy.dart';
 
 class _K {
@@ -42,6 +43,7 @@ class SettingsImpl {
   late final game = GameSettings(box);
   late final theme = _Theme(box);
   late final proxy = _Proxy(box);
+  late final agreements = _Agreements(box);
 
   Campus get campus => box.safeGet<Campus>(_K.campus) ?? Campus.fengxian;
 
@@ -210,5 +212,29 @@ class _Proxy {
   late final $integratedProxyMode = profilesListenable.provider<ProxyMode?>(
     get: () => integratedProxyMode,
     set: (newV) => integratedProxyMode = newV,
+  );
+}
+
+
+class _AgreementsK {
+  static const ns = "/agreements";
+
+  static String keyOf(AgreementsType type) => "$ns/${type.name}";
+}
+
+class _Agreements {
+  final Box box;
+
+  _Agreements(this.box);
+
+  bool? getAcceptAgreementsOf(AgreementsType type) => box.safeGet<bool>(_AgreementsK.keyOf(type));
+
+  Future<void> setAcceptAgreementsOf(AgreementsType type, bool? newV) async =>
+      await box.safePut<bool>(_AgreementsK.keyOf(type), newV);
+
+  late final $acceptAgreementsOf = box.providerFamily<bool, AgreementsType>(
+    _AgreementsK.keyOf,
+    get: getAcceptAgreementsOf,
+    set: setAcceptAgreementsOf,
   );
 }
