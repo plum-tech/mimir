@@ -3,7 +3,6 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/utils/error.dart';
-import 'package:mimir/utils/guard_launch.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -98,11 +97,12 @@ class _YwbServiceDetailsPageState extends ConsumerState<YwbServiceDetailsPage> {
 
   Future<void> openInApp() async {
     final serviceUrl = "http://ywb.sit.edu.cn/v1/#/app?appID=${widget.meta.id}&appName=${widget.meta.name}";
-    if (_blocked.contains(widget.meta.id)) {
-      await launchUrlString(serviceUrl, mode: LaunchMode.externalApplication);
-    } else {
-      await guardLaunchUrlString(context, serviceUrl);
-    }
+    await launchUrlString(serviceUrl, mode: LaunchMode.externalApplication);
+    // if (_blocked.contains(widget.meta.id)) {
+    //   await launchUrlString(serviceUrl, mode: LaunchMode.externalApplication);
+    // } else {
+    //   await guardLaunchUrlString(context, serviceUrl);
+    // }
 
     // // 跳转到申请页面
     // final String applyUrl =
