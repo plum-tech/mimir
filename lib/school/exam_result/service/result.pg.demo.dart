@@ -16,7 +16,7 @@ class DemoExamResultPgService implements ExamResultPgService {
     final now = DateTime.now();
     final rand = Random();
     return List.generate(15, (index) {
-      final score = rand.nextInt(100).toDouble();
+      final score = (rand.nextInt(50) + 50).toDouble();
       return ExamResultPg(
         score: score,
         courseName: "小应生活开发实训${rand.nextInt(10)}",

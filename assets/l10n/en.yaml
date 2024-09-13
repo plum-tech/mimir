@@ -567,6 +567,7 @@ examArrange:
   date: Date
   time: Time
   retake: Retake
+  disqualified: Disqualified
   location: Location
   noExamsTip: No exams for you
   seatNumber: Seat No.

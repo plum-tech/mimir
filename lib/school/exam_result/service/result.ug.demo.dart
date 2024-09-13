@@ -1,11 +1,18 @@
 import 'dart:math';
 
+import 'package:flame/extensions.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/utils.dart';
 
 import '../entity/result.ug.dart';
 import 'result.ug.dart';
 
+const _names = [
+  "开发",
+  "设计",
+  "部署",
+  "国际化"
+];
 class DemoExamResultUgService implements ExamResultUgService {
   const DemoExamResultUgService();
 
@@ -19,10 +26,10 @@ class DemoExamResultUgService implements ExamResultUgService {
     final SemesterInfo(:exactYear, :semester) = estimateSemesterInfo();
     final rand = Random();
     return List.generate(15, (index) {
-      final score = rand.nextInt(100).toDouble();
+      final score = (rand.nextInt(50) + 50).toDouble();
       return ExamResultUg(
         score: score,
-        courseName: "小应生活开发实训${rand.nextInt(10)}",
+        courseName: "小应生活${_names.random(rand)}实训${rand.nextInt(10)}",
         courseCode: "SIT-Life-${rand.nextInt(100)}",
         innerClassId: "SIT-Life-${rand.nextInt(100)}",
         year: exactYear,

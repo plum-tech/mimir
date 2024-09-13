@@ -539,6 +539,7 @@ examArrange:
   date: 日期
   time: 時間
   retake: 重修
+  disqualified: 取消資格
   location: 地點
   noExamsTip: 你沒有考試安排
   seatNumber: 座位號

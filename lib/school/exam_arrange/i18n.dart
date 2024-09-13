@@ -18,6 +18,8 @@ class _I18n with CommonI18nMixin {
 
   String get retake => "$ns.retake".tr();
 
+  String get disqualified => "$ns.disqualified".tr();
+
   String get location => "$ns.location".tr();
 
   String get noExamsTip => "$ns.noExamsTip".tr();

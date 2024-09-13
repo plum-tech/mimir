@@ -27,7 +27,7 @@ class ExamCardContent extends StatelessWidget {
         [
           if (exam.disqualified)
             Chip(
-              label: "Disqualified".text(),
+              label: i18n.disqualified.text(),
               labelStyle: TextStyle(color: disqualifiedColor),
               elevation: 2,
             ),

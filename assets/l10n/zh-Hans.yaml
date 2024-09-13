@@ -558,6 +558,7 @@ examArrange:
   date: 日期
   time: 时间
   retake: 重修
+  disqualified: 取消资格
   location: 地点
   noExamsTip: 你没有考试安排
   seatNumber: 座位号
