@@ -355,7 +355,13 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
       autocorrect: false,
       enableSuggestions: false,
       obscureText: !isPasswordClear,
-      onFieldSubmitted: (inputted) async {},
+      onFieldSubmitted: (inputted) async {
+        if (status == _SignInStatus.existing) {
+          await signIn();
+        } else {
+          await signUp();
+        }
+      },
       decoration: InputDecoration(
         labelText: "Password",
         hintText: "School password",
@@ -373,7 +379,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   }
 
   Widget buildSignIn() {
-    final acceptedAgreements = ref.watch(Settings.agreements.$acceptAgreementsOf(AgreementsType.account)) ?? false;
+    final acceptedAgreements = ref.watch(Settings.agreements.$AgreementsAcceptanceOf(AgreementsType.account)) ?? false;
     return FilledButton.icon(
       onPressed: !acceptedAgreements || widget.signingIn ? null : signIn,
       icon: const Icon(Icons.login),
@@ -382,7 +388,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   }
 
   Widget buildSignUp() {
-    final acceptedAgreements = ref.watch(Settings.agreements.$acceptAgreementsOf(AgreementsType.account)) ?? false;
+    final acceptedAgreements = ref.watch(Settings.agreements.$AgreementsAcceptanceOf(AgreementsType.account)) ?? false;
     return FilledButton.icon(
       onPressed: !acceptedAgreements || widget.signingIn ? null : signUp,
       icon: const Icon(Icons.create),
@@ -391,6 +397,12 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   }
 
   Future<void> signIn() async {
+    final acceptedAgreements = ref.read(Settings.agreements.$AgreementsAcceptanceOf(AgreementsType.basic)) ?? false;
+    if (!acceptedAgreements) {
+      await showAgreementsRequired2Accept(context);
+      return;
+    }
+
     widget.onSigningIn(true);
     final success = await XMimirUser.signInMimir(
       context,
@@ -406,6 +418,13 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   }
 
   Future<void> signUp() async {
+    final acceptedAgreements = ref.read(Settings.agreements.$AgreementsAcceptanceOf(AgreementsType.basic)) ?? false;
+    if (!acceptedAgreements) {
+      await showAgreementsRequired2Accept(context);
+      return;
+    }
+
+    if (!widget.signingIn) return;
     widget.onSigningIn(true);
     final success = await XMimirUser.signUpMimir(
       context,

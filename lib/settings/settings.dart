@@ -218,7 +218,7 @@ class _Proxy {
 class _AgreementsK {
   static const ns = "/agreements";
 
-  static String keyOf(AgreementsType type) => "$ns/${type.name}";
+  static String acceptanceKeyOf(AgreementsType type) => "$ns/acceptance/${type.name}";
 }
 
 class _Agreements {
@@ -226,14 +226,14 @@ class _Agreements {
 
   _Agreements(this.box);
 
-  bool? getAcceptAgreementsOf(AgreementsType type) => box.safeGet<bool>(_AgreementsK.keyOf(type));
+  bool? getAgreementsAcceptanceOf(AgreementsType type) => box.safeGet<bool>(_AgreementsK.acceptanceKeyOf(type));
 
-  Future<void> setAcceptAgreementsOf(AgreementsType type, bool? newV) async =>
-      await box.safePut<bool>(_AgreementsK.keyOf(type), newV);
+  Future<void> setAgreementsAcceptanceOf(AgreementsType type, bool? newV) async =>
+      await box.safePut<bool>(_AgreementsK.acceptanceKeyOf(type), newV);
 
-  late final $acceptAgreementsOf = box.providerFamily<bool, AgreementsType>(
-    _AgreementsK.keyOf,
-    get: getAcceptAgreementsOf,
-    set: setAcceptAgreementsOf,
+  late final $AgreementsAcceptanceOf = box.providerFamily<bool, AgreementsType>(
+    _AgreementsK.acceptanceKeyOf,
+    get: getAgreementsAcceptanceOf,
+    set: setAgreementsAcceptanceOf,
   );
 }

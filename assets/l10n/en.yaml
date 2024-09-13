@@ -5,6 +5,9 @@ agreements:
     I've read and accepted [小应生活使用协议](https://www.mysit.life/privacy-policy) & [小应生活使用协议](https://www.mysit.life/tos)
   account: |
       I've read and accepted [小应生活使用协议](https://www.mysit.life/privacy-policy) & [小应生活使用协议](https://www.mysit.life/tos)
+  acceptanceRequired:
+    title: Acceptance Required
+    desc: You must agree to the terms and conditions before you use @:appName
 mimir:
   update:
     title: Check update

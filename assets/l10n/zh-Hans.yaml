@@ -5,6 +5,9 @@ agreements:
     我已阅读并同意 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy) 和 [《小应生活使用协议》](https://www.mysit.life/tos)
   account: |
     我已阅读并同意 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy) 和 [《小应生活使用协议》](https://www.mysit.life/tos)
+  acceptanceRequired:
+    title: 需要同意协议
+    desc: 在使用@:appName前，你必须同意我们的协议和政策
 mimir:
   update:
     title: 检查更新

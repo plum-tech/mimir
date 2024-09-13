@@ -99,6 +99,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   /// 用户点击登录按钮后
   Future<void> login() async {
+    final acceptedAgreements = ref.read(Settings.agreements.$AgreementsAcceptanceOf(AgreementsType.basic)) ?? false;
+    if (!acceptedAgreements) {
+      await showAgreementsRequired2Accept(context);
+      return;
+    }
     final account = $account.text;
     final password = $password.text;
     if (account == R.demoModeOaCredentials.account && password == R.demoModeOaCredentials.password) {
@@ -337,7 +342,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   Widget buildLoginButton() {
-    final acceptedAgreements = ref.watch(Settings.agreements.$acceptAgreementsOf(AgreementsType.basic)) ?? false;
+    final acceptedAgreements = ref.watch(Settings.agreements.$AgreementsAcceptanceOf(AgreementsType.basic)) ?? false;
     return [
       $account >>
           (ctx, account) => FilledButton.icon(
