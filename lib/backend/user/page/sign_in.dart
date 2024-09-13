@@ -4,13 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/backend/user/entity/verify.dart';
 import 'package:mimir/backend/user/x.dart';
+import 'package:mimir/credentials/entity/agreements.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/animation/animated.dart';
 import 'package:mimir/login/page/index.dart';
 import 'package:mimir/login/widgets/forgot_pwd.dart';
 import 'package:mimir/utils/save.dart';
-import 'package:mimir/widgets/agreements.dart';
+import 'package:mimir/credentials/widget/agreements.dart';
 import 'package:mimir/widgets/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -83,7 +84,7 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
             child: buildLoginForm(),
           ).padAll(12),
         ].listview(),
-        bottomNavigationBar:  BottomAppBar(
+        bottomNavigationBar: BottomAppBar(
           child: AgreementsCheckBox.account(),
         ),
       );
@@ -231,7 +232,6 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   final $schoolId = TextEditingController(text: CredentialsInit.storage.oa.credentials?.account);
   final $password = TextEditingController(text: CredentialsInit.storage.oa.credentials?.password);
   bool isPasswordClear = false;
-  bool acceptedAgreements = false;
   var status = _SignInStatus.none;
   final $schoolIdForm = GlobalKey<FormState>();
   var checkingExisting = false;
@@ -264,14 +264,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
       ),
       AnimatedShowUp(
         when: status != _SignInStatus.none,
-        builder: (context) => MimirSchoolIdDisclaimerCard(
-          accepted: acceptedAgreements,
-          onAccepted: (value) {
-            setState(() {
-              acceptedAgreements = value;
-            });
-          },
-        ).padV(8),
+        builder: (context) => const MimirSchoolIdDisclaimerCard().padV(8),
       ),
       AnimatedShowUp(
         when: status == _SignInStatus.existing,
@@ -378,6 +371,8 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   }
 
   Widget buildSignIn() {
+    final acceptedAgreements =
+        ref.watch(CredentialsInit.storage.agreements.$acceptAgreementsOf(AgreementsType.account)) ?? false;
     return FilledButton.icon(
       onPressed: !acceptedAgreements || widget.signingIn ? null : signIn,
       icon: const Icon(Icons.login),
@@ -386,6 +381,8 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   }
 
   Widget buildSignUp() {
+    final acceptedAgreements =
+        ref.watch(CredentialsInit.storage.agreements.$acceptAgreementsOf(AgreementsType.account)) ?? false;
     return FilledButton.icon(
       onPressed: !acceptedAgreements || widget.signingIn ? null : signUp,
       icon: const Icon(Icons.create),
@@ -425,14 +422,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
 }
 
 class MimirSchoolIdDisclaimerCard extends StatelessWidget {
-  final bool accepted;
-  final ValueChanged<bool> onAccepted;
-
-  const MimirSchoolIdDisclaimerCard({
-    super.key,
-    required this.accepted,
-    required this.onAccepted,
-  });
+  const MimirSchoolIdDisclaimerCard({super.key});
 
   @override
   Widget build(BuildContext context) {

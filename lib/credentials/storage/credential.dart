@@ -1,10 +1,46 @@
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mimir/credentials/entity/agreements.dart';
 import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/storage/hive/init.dart';
 import 'package:mimir/utils/hive.dart';
 
 import '../entity/credential.dart';
 import '../entity/login_status.dart';
+
+class CredentialStorage {
+  Box get box => HiveInit.credentials;
+
+  CredentialStorage();
+
+  late final oa = _Oa(box);
+  late final mimir = _Mimir(box);
+  late final email = _Email(box);
+  late final library = _Library(box);
+  late final agreements = _Agreements(box);
+}
+
+class _AgreementsK {
+  static const ns = "/agreements";
+
+  static String keyOf(AgreementsType type) => "$ns/${type.name}";
+}
+
+class _Agreements {
+  final Box box;
+
+  _Agreements(this.box);
+
+  bool? getAcceptAgreementsOf(AgreementsType type) => box.safeGet<bool>(_AgreementsK.keyOf(type));
+
+  Future<void> setAcceptAgreementsOf(AgreementsType type, bool? newV) async =>
+      await box.safePut<bool>(_AgreementsK.keyOf(type), newV);
+
+  late final $acceptAgreementsOf = box.providerFamily<bool, AgreementsType>(
+    _AgreementsK.keyOf,
+    get: getAcceptAgreementsOf,
+    set: setAcceptAgreementsOf,
+  );
+}
 
 class _OaK {
   static const ns = "/oa";
@@ -100,15 +136,4 @@ class _Library {
   set credentials(Credentials? newV) => box.safePut<Credentials>(_LibraryK.credentials, newV);
 
   late final $credentials = box.provider<Credentials>(_LibraryK.credentials);
-}
-
-class CredentialStorage {
-  Box get box => HiveInit.credentials;
-
-  CredentialStorage();
-
-  late final oa = _Oa(box);
-  late final mimir = _Mimir(box);
-  late final email = _Email(box);
-  late final library = _Library(box);
 }

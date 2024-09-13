@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/credentials/entity/agreements.dart';
 import 'package:mimir/credentials/entity/credential.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/entity/user_type.dart';
@@ -19,7 +20,7 @@ import 'package:mimir/login/utils.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/school/widgets/campus.dart';
-import 'package:mimir/widgets/agreements.dart';
+import 'package:mimir/credentials/widget/agreements.dart';
 import 'package:mimir/widgets/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/dev.dart';
@@ -199,7 +200,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           ],
         ),
         floatingActionButton: loggingIn ? const CircularProgressIndicator.adaptive() : null,
-        bottomNavigationBar:  BottomAppBar(
+        bottomNavigationBar: BottomAppBar(
           child: AgreementsCheckBox.basic(),
         ),
         body: [
@@ -345,11 +346,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   Widget buildLoginButton() {
+    final acceptedAgreements =
+        ref.watch(CredentialsInit.storage.agreements.$acceptAgreementsOf(AgreementsType.basic)) ?? false;
     return [
       $account >>
           (ctx, account) => FilledButton.icon(
                 // Online
-                onPressed: !loggingIn && account.text.isNotEmpty
+                onPressed: !loggingIn && account.text.isNotEmpty && acceptedAgreements
                     ? () {
                         // un-focus the text field.
                         FocusScope.of(context).requestFocus(FocusNode());
@@ -365,12 +368,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 $password >>
                 (ctx, password) => OutlinedButton(
                       // Offline
-                      onPressed: account.text.isNotEmpty || password.text.isNotEmpty
-                          ? null
-                          : () {
+                      onPressed: account.text.isEmpty && password.text.isEmpty && acceptedAgreements
+                          ? () {
                               CredentialsInit.storage.oa.loginStatus = OaLoginStatus.offline;
                               context.go("/");
-                            },
+                            }
+                          : null,
                       child: _i18n.offlineModeBtn.text(),
                     ),
     ].row(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.spaceAround);
