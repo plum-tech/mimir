@@ -397,7 +397,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   }
 
   Future<void> signIn() async {
-    final acceptedAgreements = ref.read(Settings.agreements.$AgreementsAcceptanceOf(AgreementsType.basic)) ?? false;
+    final acceptedAgreements = ref.read(Settings.agreements.$AgreementsAcceptanceOf(AgreementsType.account)) ?? false;
     if (!acceptedAgreements) {
       await showAgreementsRequired2Accept(context);
       return;
@@ -418,7 +418,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   }
 
   Future<void> signUp() async {
-    final acceptedAgreements = ref.read(Settings.agreements.$AgreementsAcceptanceOf(AgreementsType.basic)) ?? false;
+    final acceptedAgreements = ref.read(Settings.agreements.$AgreementsAcceptanceOf(AgreementsType.account)) ?? false;
     if (!acceptedAgreements) {
       await showAgreementsRequired2Accept(context);
       return;
