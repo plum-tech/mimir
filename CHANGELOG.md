@@ -13,6 +13,9 @@
 - Timetable files can be opened with the app on both Android and iOS.
 - Sync the timetable to the latest, and auto-sync.
 - Improved the logic of proxy settings.
+- Updated APK signature.
+- Agreements are required to be accepted before use.
+- Redesign timetable prefab patch set card.
 
 ## v2.5.2
 - Remember selected semester info only in current session.
