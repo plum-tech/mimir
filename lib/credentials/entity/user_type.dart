@@ -8,6 +8,8 @@ part 'user_type.g.dart';
 enum OaUserType {
   @HiveField(0)
   undergraduate(allowed: {
+    "mimir.forum",
+    "mimir.bulletin",
     "basic.timetable",
     "school.secondClass",
     "school.examResult.ug",
@@ -25,6 +27,8 @@ enum OaUserType {
   }),
   @HiveField(1)
   postgraduate(allowed: {
+    "mimir.forum",
+    "mimir.bulletin",
     "basic.timetable",
     "school.examResult.pg",
     "school.ywb",
@@ -38,6 +42,8 @@ enum OaUserType {
   }),
   @HiveField(2)
   freshman(allowed: {
+    "mimir.forum",
+    "mimir.bulletin",
     "school.yellowPages",
     "school.library.search",
     "school.oaAnnouncement",
@@ -46,6 +52,8 @@ enum OaUserType {
   }),
   @HiveField(3)
   worker(allowed: {
+    "mimir.forum",
+    "mimir.bulletin",
     "school.ywb",
     "school.expenseRecords",
     "school.electricityBalance",
@@ -56,6 +64,8 @@ enum OaUserType {
   }),
   @HiveField(4)
   none(allowed: {
+    "mimir.forum",
+    "mimir.bulletin",
     "basic.timetable",
     "school.electricityBalance",
     "school.library.search",
