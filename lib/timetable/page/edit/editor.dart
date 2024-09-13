@@ -339,6 +339,7 @@ class _TimetableEditorPageState extends State<TimetableEditorPage> {
             maxLines: 2,
             inputFormatters: [
               LengthLimitingTextInputFormatter(Timetable.maxNameLength),
+              FilteringTextInputFormatter.deny("\n"),
             ],
             decoration: InputDecoration(
               labelText: i18n.editor.name,

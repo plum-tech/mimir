@@ -16,6 +16,7 @@ DateTime _kLastModified() => DateTime.now();
 @JsonSerializable()
 @CopyWith()
 class TimetablePalette {
+  static int maxNameLength = 50;
   /// in version 1, the [colors] is in type of [({Color light, Color dark})].
   static const version = 2;
   @JsonKey()

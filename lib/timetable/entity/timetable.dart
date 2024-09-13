@@ -47,7 +47,7 @@ String _defaultStudentId() {
 }
 
 String _parseName(String name) {
-  return name.substring(0, min(Timetable.maxNameLength, name.length));
+  return name.substring(0, min(Timetable.maxNameLength, name.length)).replaceAll('\n', " ");
 }
 
 @JsonSerializable()

@@ -172,6 +172,10 @@ class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEdi
       title: i18n.p13n.palette.name.text(),
       subtitle: TextField(
         controller: $name,
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(TimetablePalette.maxNameLength),
+          FilteringTextInputFormatter.deny("\n"),
+        ],
         decoration: InputDecoration(
           hintText: i18n.p13n.palette.namePlaceholder,
         ),
