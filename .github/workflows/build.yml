@@ -63,9 +63,9 @@ jobs:
         with:
           releaseDirectory: build/app/outputs/flutter-apk
           signingKeyBase64: ${{ secrets.APK_SIGN_JKS_BASE64 }}
-          alias: ${{ secrets.APK_SIGN_ALIAS }}
-          keyStorePassword: ${{ secrets.APK_SIGN_PASS }}
+          keyStorePassword: ${{ secrets.APK_SIGN_JKS_PASSWORD }}
           keyPassword: ${{ secrets.APK_SIGN_ALIAS_PASS }}
+          alias: ${{ secrets.APK_SIGN_ALIAS }}
         env:
           BUILD_TOOLS_VERSION: "34.0.0"
 
