@@ -17,7 +17,8 @@
 - Updated APK signature.
 - Agreements are required to be accepted before use.
 - Redesign timetable prefab patch set card.
-- Set version to 2.6.1+1.
+- Reset version to 2.6.1+1.
+- No collecting device info off debug mode and dev mode.
 
 ## v2.5.2
 - Remember selected semester info only in current session.
