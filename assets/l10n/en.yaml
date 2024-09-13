@@ -47,7 +47,8 @@ timetable:
   navigation: Timetable
   jump: Jump
   findToday: Find today
-  startWith: "Start with"
+  startWith: Start with
+  createdWhen: Created when
   weekOrderedName: "Week {}"
   focusTimetable: Focus timetable
   signature: Signature
@@ -322,6 +323,10 @@ school:
     compulsory: Compulsory
     elective: Elective
     time: Time
+  studentType:
+    title: Student type
+    undergraduate: Undergraduate
+    postgraduate: Postgraduate
   courseCat:
     none: None
     genEd: General education

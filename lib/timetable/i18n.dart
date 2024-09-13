@@ -30,6 +30,8 @@ class _I18n with CommonI18nMixin {
 
   String get startWith => "$ns.startWith".tr();
 
+  String get createdWhen => "$ns.createdWhen".tr();
+
   String get jump => "$ns.jump".tr();
 
   String get findToday => "$ns.findToday".tr();

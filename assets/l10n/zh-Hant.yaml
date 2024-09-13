@@ -25,7 +25,8 @@ timetable:
   navigation: 課程表
   jump: 前往
   findToday: 尋找今天
-  startWith: "起始於"
+  startWith: 起始於
+  createdWhen: 創建於
   weekOrderedName: "第 {} 周"
   focusTimetable: 對焦課程表
   signature: 簽名
@@ -297,6 +298,10 @@ school:
     schoolYear: 學年
     compulsory: 必修
     elective: 選修
+  studentType:
+    title: 學生類型
+    undergraduate: 大學生
+    postgraduate: 研究生
   courseCat:
     none: 無
     genEd: 通識課

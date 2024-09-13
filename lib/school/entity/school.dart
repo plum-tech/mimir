@@ -121,6 +121,9 @@ enum StudentType {
   ;
 
   static final name2enum = Map.fromEntries(values.map((v) => MapEntry(v.name, v)));
+
+  String l10n() => "school.studentType.$name".tr();
+  static String l10nTitle() => "school.studentType.title".tr();
 }
 
 @HiveType(typeId: CacheHiveType.courseCat)

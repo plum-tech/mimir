@@ -44,7 +44,8 @@ timetable:
   navigation: 课程表
   jump: 跳转
   findToday: 找到今天
-  startWith: "起始于"
+  startWith: 起始于
+  createdWhen: 创建于
   weekOrderedName: "第 {} 周"
   focusTimetable: 课程表模式
   signature: 签名
@@ -316,6 +317,10 @@ school:
     teacher: 教师
     compulsory: 必修
     elective: 选修
+  studentType:
+    title: 学生类型
+    undergraduate: 本科生
+    postgraduate: 研究生
   courseCat:
     none: 无
     genEd: 通识课

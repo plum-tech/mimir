@@ -17,6 +17,7 @@ import 'package:mimir/design/widgets/fab.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/intent/qrcode/page/view.dart';
 import 'package:mimir/route.dart';
+import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/dev.dart';
@@ -513,7 +514,7 @@ class TimetableDetailsPage extends ConsumerWidget {
             ),
             ListTile(
               leading: const Icon(Icons.create),
-              title: "Created when".text(),
+              title: i18n.createdWhen.text(),
               subtitle: context.formatYmdText(timetable.createdTime).text(),
             ),
             ListTile(
@@ -523,8 +524,8 @@ class TimetableDetailsPage extends ConsumerWidget {
             ),
             ListTile(
               leading: const Icon(Icons.school),
-              title: "Student type".text(),
-              subtitle: timetable.studentType.toString().text(),
+              title: StudentType.l10nTitle().text(),
+              subtitle: timetable.studentType.l10n().text(),
             ),
           ]),
           if (code2Courses.isNotEmpty) const SliverToBoxAdapter(child: Divider()),
