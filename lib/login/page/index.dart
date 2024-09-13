@@ -200,13 +200,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           ],
         ),
         floatingActionButton: loggingIn ? const CircularProgressIndicator.adaptive() : null,
-        bottomNavigationBar: BottomAppBar(
-          child: AgreementsCheckBox.basic(),
-        ),
+        bottomNavigationBar: const BottomAppBar(child: AgreementsCheckBox.basic()),
         body: [
           buildHeader(),
           buildLoginForm(),
-          const Divider(),
+          const SizedBox(height: 10),
           const OaLoginDisclaimerCard(),
           AnimatedShowUp(
             when: estimatedUserType == OaUserType.freshman,
@@ -229,6 +227,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           ],
         ),
         floatingActionButton: loggingIn ? const CircularProgressIndicator.adaptive() : null,
+        bottomNavigationBar: const BottomAppBar(height: 50, child: AgreementsCheckBox.basic()),
         body: [
           [
             buildHeader(),
@@ -273,16 +272,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   Widget buildHeader() {
     return widget.isGuarded
-        ? const Icon(
-            Icons.person_off_outlined,
-            size: 120,
-          )
-        : _i18n.welcomeHeader
-            .text(
-              style: context.textTheme.displayMedium?.copyWith(fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            )
-            .padSymmetric(v: 20);
+        ? const Icon(Icons.person_off_outlined, size: 120)
+        : Image.asset("assets/icon.png", width: 80, height: 80);
   }
 
   Widget buildLoginForm() {

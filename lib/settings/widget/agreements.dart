@@ -27,13 +27,13 @@ class AgreementsCheckBox extends ConsumerWidget {
     final $accepted = Settings.agreements.$acceptAgreementsOf(type);
     final accepted = ref.watch($accepted) ?? false;
     return [
-      FeaturedMarkdownWidget(data: type.l10n()).expanded(flex: 9),
-      Checkbox(
+      Checkbox.adaptive(
         value: accepted,
         onChanged: (newV) {
           ref.read($accepted.notifier).set(newV);
         },
       ),
+      FeaturedMarkdownWidget(data: type.l10n()).expanded(flex: 9),
     ].row();
   }
 }

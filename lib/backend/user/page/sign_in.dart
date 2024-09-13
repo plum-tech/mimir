@@ -85,14 +85,13 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
             child: buildLoginForm(),
           ).padAll(12),
         ].listview(),
-        bottomNavigationBar: BottomAppBar(
-          child: AgreementsCheckBox.account(),
-        ),
+        bottomNavigationBar: const BottomAppBar(child: AgreementsCheckBox.account()),
       );
     } else {
       return Scaffold(
         appBar: AppBar(),
         floatingActionButton: signingIn ? const CircularProgressIndicator.adaptive() : null,
+        bottomNavigationBar: const BottomAppBar(height: 50, child: AgreementsCheckBox.account()),
         body: [
           [
             buildHeader(),
@@ -100,10 +99,12 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
             buildAuthMethods(),
           ].column(caa: CrossAxisAlignment.center, maa: MainAxisAlignment.spaceEvenly).expanded(),
           const VerticalDivider(),
-          AnimatedSwitcher(
-            duration: Durations.medium2,
-            child: buildLoginForm(),
-          ).padAll(8).expanded(),
+          [
+            AnimatedSwitcher(
+              duration: Durations.medium2,
+              child: buildLoginForm(),
+            ).padAll(8),
+          ].column().scrolled().expanded(),
         ].row(),
       );
     }
@@ -119,7 +120,7 @@ class _MimirSignInPageState extends ConsumerState<MimirSignInPage> {
   Widget buildHeader() {
     return i18n.auth.signInTitle
         .text(
-          style: context.textTheme.displaySmall,
+          style: context.textTheme.headlineLarge,
           textAlign: TextAlign.center,
         )
         .padSymmetric(v: 20);
