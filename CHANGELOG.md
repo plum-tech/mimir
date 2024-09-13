@@ -6,6 +6,7 @@
 - Controlled by App Feature.
 - Updated ICP licence.
 - [Android] Support of `x86` and `x86_64` was back.
+- More tips when logging in, especially for freshmen.
 - Added Topping up in expense records.
 - Bumped Minimum macOS support to 10.15.
 - Updated Apple Developer Program.
@@ -16,6 +17,7 @@
 - Updated APK signature.
 - Agreements are required to be accepted before use.
 - Redesign timetable prefab patch set card.
+- Set version to 2.6.1+1.
 
 ## v2.5.2
 - Remember selected semester info only in current session.
