@@ -2,7 +2,7 @@ name: Windows
 on: workflow_dispatch
 
 env:
-  flutter_version: '3.24.2'
+  flutter_version: '3.24.3'
 
 jobs:
   build:
