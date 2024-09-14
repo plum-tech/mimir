@@ -168,7 +168,7 @@ dependencies:
   universal_platform: ^1.1.0
   rettulf: ^2.1.1
   # lock
-  async_locks: ^4.0.0
+  async_locks: ^4.0.1
   # parse stacktrace
   stack_trace: ^1.11.0
   email_validator: ^3.0.0

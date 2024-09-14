@@ -106,10 +106,10 @@ packages:
     dependency: transitive
     description:
       name: asn1lib
-      sha256: "58082b3f0dca697204dbab0ef9ff208bfaea7767ea771076af9a343488428dda"
+      sha256: "2ca377ad4d677bbadca278e0ba4da4e057b80a10b927bfc8f7d8bda8fe2ceb75"
       url: "https://pub.dev"
     source: hosted
-    version: "1.5.3"
+    version: "1.5.4"
   async:
     dependency: transitive
     description:
@@ -122,10 +122,10 @@ packages:
     dependency: "direct main"
     description:
       name: async_locks
-      sha256: "09626b399cfafafece94f652eb0c092af535e984307e2f91b80fd870ef8b9616"
+      sha256: cb1e5888392c3808727d65560dbb97763a6e6f883b837cc4cec06b0845b1f717
       url: "https://pub.dev"
     source: hosted
-    version: "4.0.0"
+    version: "4.0.1"
   audio_session:
     dependency: transitive
     description:
@@ -2721,4 +2721,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.5.0 <4.0.0"
-  flutter: ">=3.24.1"
+  flutter: ">=3.24.3"
