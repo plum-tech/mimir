@@ -40,6 +40,7 @@ import 'package:mimir/school/ywb/page/details.dart';
 import 'package:mimir/school/ywb/page/service.dart';
 import 'package:mimir/school/ywb/page/application.dart';
 import 'package:mimir/settings/page/about.dart';
+import 'package:mimir/settings/page/edu_email.dart';
 import 'package:mimir/settings/page/language.dart';
 import 'package:mimir/settings/page/oa.dart';
 import 'package:mimir/settings/page/proxy.dart';
@@ -279,6 +280,16 @@ final _settingsRoute = GoRoute(
       builder: (ctx, state) => const OaSettingsPage(),
     ),
     GoRoute(
+      path: "edu-email",
+      redirect: (ctx, state) {
+        if (CredentialsInit.storage.eduEmail.credentials == null) {
+          return "/edu-email/login";
+        }
+        return null;
+      },
+      builder: (ctx, state) => const EduEmailSettingsPage(),
+    ),
+    GoRoute(
       path: "timetable",
       builder: (ctx, state) => const TimetableSettingsPage(),
     ),
@@ -390,7 +401,7 @@ final _yellowPagesRoute = GoRoute(
 final _eduEmailRoute = GoRoute(
   path: "/edu-email",
   redirect: (ctx, state) {
-    if (CredentialsInit.storage.email.credentials == null) {
+    if (CredentialsInit.storage.eduEmail.credentials == null) {
       return "/edu-email/login";
     }
     return null;

@@ -63,7 +63,7 @@ final _actions = [
     type: "/edu-email/inbox",
     route: "/edu-email/inbox",
     l10n: () => $email.i18n.title,
-    enable: () => CredentialsInit.storage.email.credentials != null,
+    enable: () => CredentialsInit.storage.eduEmail.credentials != null,
   ),
   QuickAction.route(
     type: "/mimir/forum",

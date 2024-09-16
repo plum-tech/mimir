@@ -24,7 +24,7 @@ class _EduEmailInboxPageState extends ConsumerState<EduEmailInboxPage> {
   @override
   initState() {
     super.initState();
-    final credentials = ref.read(CredentialsInit.storage.email.$credentials);
+    final credentials = ref.read(CredentialsInit.storage.eduEmail.$credentials);
     if (credentials != null) {
       refresh(credentials);
     }
@@ -36,7 +36,7 @@ class _EduEmailInboxPageState extends ConsumerState<EduEmailInboxPage> {
       await EduEmailInit.service.login(credentials);
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
-      CredentialsInit.storage.email.credentials = null;
+      CredentialsInit.storage.eduEmail.credentials = null;
       return;
     }
     try {
@@ -57,7 +57,7 @@ class _EduEmailInboxPageState extends ConsumerState<EduEmailInboxPage> {
 
   @override
   Widget build(BuildContext context) {
-    final credentials = ref.watch(CredentialsInit.storage.email.$credentials);
+    final credentials = ref.watch(CredentialsInit.storage.eduEmail.$credentials);
     final messages = this.messages;
     return Scaffold(
       floatingActionButton: credentials != null && messages == null ? const CircularProgressIndicator.adaptive() : null,
@@ -68,8 +68,9 @@ class _EduEmailInboxPageState extends ConsumerState<EduEmailInboxPage> {
             title: i18n.inbox.title.text(),
           ),
           if (messages != null)
-            SliverList.builder(
+            SliverList.separated(
               itemCount: messages.length,
+              separatorBuilder: (ctx,i)=> const Divider(height: 12),
               itemBuilder: (ctx, i) {
                 return EmailItem(messages[i]);
               },

@@ -63,7 +63,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     }
     if (oaCredentials != null) {
       all.add(PageNavigationTile(
-        title: i18n.oaCredentials.oaAccount.text(),
+        title: i18n.oa.oaAccount.text(),
         subtitle: oaCredentials.account.text(),
         leading: const Icon(Icons.person_rounded),
         path: "/settings/oa",
@@ -84,6 +84,15 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       all.add(const MimirCredentialsSettingsTile());
     }
 
+    final eduEmailCredentials = ref.watch(CredentialsInit.storage.eduEmail.$credentials);
+    if (eduEmailCredentials != null) {
+      all.add(PageNavigationTile(
+        title: "Edu email".text(),
+        subtitle: "Edu email".text(),
+        leading: const Icon(Icons.email),
+        path: "/settings/edu-email",
+      ));
+    }
     all.add(const Divider());
 
     all.add(PageNavigationTile(

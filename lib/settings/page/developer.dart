@@ -471,7 +471,7 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
               ].row(mas: MainAxisSize.min),
         enabled: !isCurrent,
         onLongPress: () async {
-          context.showSnackBar(content: i18n.copyTipOf(i18n.oaCredentials.oaAccount).text());
+          context.showSnackBar(content: i18n.copyTipOf(i18n.oa.oaAccount).text());
           await Clipboard.setData(ClipboardData(text: credentials.account));
         },
       ),

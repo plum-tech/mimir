@@ -208,7 +208,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
       if (!mounted) return;
       setState(() => loggingIn = true);
       await EduEmailInit.service.login(credential);
-      CredentialsInit.storage.email.credentials = credential;
+      CredentialsInit.storage.eduEmail.credentials = credential;
       if (!mounted) return;
       setState(() => loggingIn = false);
       context.replace("/edu-email/inbox");

@@ -9,7 +9,8 @@ const i18n = _I18n();
 class _I18n with CommonI18nMixin {
   const _I18n();
 
-  final oaCredentials = const _OaCredentials();
+  final oa = const _Oa();
+  final eduEmail = const _EduEmail();
   final proxy = const _Proxy();
   final dev = const _DevOptions();
   final about = const _About();
@@ -40,6 +41,10 @@ class _I18n with CommonI18nMixin {
   String get wipeDataRequest => "$ns.wipeData.request".tr();
 
   String get wipeDataRequestDesc => "$ns.wipeData.requestDesc".tr();
+
+  String get loginTest => "$ns.loginTest.title".tr();
+
+  String get loginTestDesc => "$ns.loginTest.desc".tr();
 }
 
 class _Proxy {
@@ -142,14 +147,16 @@ class _Storage with CommonI18nMixin {
   String get emptyValueDesc => "$ns.emptyValueDesc".tr();
 }
 
-class _OaCredentials extends OaCredentialsI18n {
-  static const ns = "${_I18n.ns}.credentials";
+class _Oa extends OaCredentialsI18n {
+  static const ns = "${_I18n.ns}.oa";
 
-  const _OaCredentials();
+  const _Oa();
+}
 
-  String get testLoginOa => "$ns.testLoginOa.title".tr();
+class _EduEmail with CredentialsI18nMixin {
+  static const ns = "${_I18n.ns}.eduEmail";
 
-  String get testLoginOaDesc => "$ns.testLoginOa.desc".tr();
+  const _EduEmail();
 }
 
 extension ProxyTypeI18nX on ProxyCat {

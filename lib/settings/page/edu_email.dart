@@ -6,22 +6,20 @@ import 'package:mimir/credentials/entity/credential.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/editor.dart';
+import 'package:mimir/me/edu_email/init.dart';
+import 'package:mimir/settings/widget/login_test.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
-import 'package:mimir/init.dart';
 import '../i18n.dart';
-import '../widget/login_test.dart';
 
-const _changePasswordUrl = "https://authserver.sit.edu.cn/authserver/passwordChange.do";
-
-class OaSettingsPage extends ConsumerStatefulWidget {
-  const OaSettingsPage({super.key});
+class EduEmailSettingsPage extends ConsumerStatefulWidget {
+  const EduEmailSettingsPage({super.key});
 
   @override
-  ConsumerState<OaSettingsPage> createState() => _OaSettingsPageState();
+  ConsumerState<EduEmailSettingsPage> createState() => _EduEmailSettingsPageState();
 }
 
-class _OaSettingsPageState extends ConsumerState<OaSettingsPage> {
+class _EduEmailSettingsPageState extends ConsumerState<EduEmailSettingsPage> {
   var showPassword = false;
 
   @override
@@ -43,7 +41,7 @@ class _OaSettingsPageState extends ConsumerState<OaSettingsPage> {
   }
 
   Widget buildBody() {
-    final credentials = ref.watch(CredentialsInit.storage.oa.$credentials);
+    final credentials = ref.watch(CredentialsInit.storage.eduEmail.$credentials);
     final all = <WidgetBuilder>[];
     if (credentials != null) {
       all.add((_) => buildAccount(credentials));
@@ -53,8 +51,7 @@ class _OaSettingsPageState extends ConsumerState<OaSettingsPage> {
         (_) => LoginTestTile(
           credentials: credentials,
           login: () async {
-            await Init.ssoSession.deleteSitUriCookies();
-            await Init.ssoSession.loginLocked(credentials);
+            await EduEmailInit.service.login(credentials);
           },
         ),
       );
@@ -87,7 +84,7 @@ class _OaSettingsPageState extends ConsumerState<OaSettingsPage> {
     return AnimatedSize(
       duration: const Duration(milliseconds: 100),
       child: ListTile(
-        title: i18n.oa.savedOaPwd.text(),
+        title: i18n.eduEmail.account.text(),
         subtitle: Text(!showPassword ? i18n.oa.savedOaPwdDesc : credential.password),
         leading: const Icon(Icons.password_rounded),
         trailing: [

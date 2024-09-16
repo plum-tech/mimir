@@ -805,10 +805,9 @@ settings:
   title: Settings
   themeColor: Theme color
   fromSystem: From system
-  credentials:
-    testLoginOa:
-      title: Test login OA
-      desc: Try to login OA with current credentials
+  loginTest:
+    title: Test login
+    desc: Try to login with current credentials
   dev:
     title: Developer options
     activateTip: Developer mode activated
