@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mimir/agreements/settings.dart';
 import 'package:mimir/game/settings.dart';
 import 'package:mimir/utils/hive.dart';
 import 'package:mimir/entity/campus.dart';
@@ -12,7 +13,6 @@ import 'package:mimir/utils/riverpod.dart';
 import 'package:statistics/statistics.dart';
 
 import '../life/settings.dart';
-import 'entity/agreements.dart';
 import 'entity/proxy.dart';
 
 class _K {
@@ -43,7 +43,7 @@ class SettingsImpl {
   late final game = GameSettings(box);
   late final theme = _Theme(box);
   late final proxy = _Proxy(box);
-  late final agreements = _Agreements(box);
+  late final agreements = AgreementsSettings(box);
 
   Campus get campus => box.safeGet<Campus>(_K.campus) ?? Campus.fengxian;
 
@@ -212,28 +212,5 @@ class _Proxy {
   late final $integratedProxyMode = profilesListenable.provider<ProxyMode?>(
     get: () => integratedProxyMode,
     set: (newV) => integratedProxyMode = newV,
-  );
-}
-
-class _AgreementsK {
-  static const ns = "/agreements";
-
-  static String acceptanceKeyOf(AgreementsType type) => "$ns/acceptance/${type.name}";
-}
-
-class _Agreements {
-  final Box box;
-
-  _Agreements(this.box);
-
-  bool? getAgreementsAcceptanceOf(AgreementsType type) => box.safeGet<bool>(_AgreementsK.acceptanceKeyOf(type));
-
-  Future<void> setAgreementsAcceptanceOf(AgreementsType type, bool? newV) async =>
-      await box.safePut<bool>(_AgreementsK.acceptanceKeyOf(type), newV);
-
-  late final $AgreementsAcceptanceOf = box.providerFamily<bool, AgreementsType>(
-    _AgreementsK.acceptanceKeyOf,
-    get: getAgreementsAcceptanceOf,
-    set: setAgreementsAcceptanceOf,
   );
 }

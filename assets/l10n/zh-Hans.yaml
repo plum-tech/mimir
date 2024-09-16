@@ -1,6 +1,10 @@
 appName: 小应生活
 accountName: 小应账户
 agreements:
+  privacyPolicy: |
+    @:appName 在提供服务时需要收集您的相关信息及以下权限：
+    访问网络以展示您有关学校的信息；使用摄像头以扫描二维码；读写相册以从照片中扫描二维码和保存生成的图片；读写日历以添加考试提醒和课程表。
+    更多详情请查看 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy) 和 [《小应生活使用协议》](https://www.mysit.life/tos)。
   basic: |
     我已阅读并同意 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy) 和 [《小应生活使用协议》](https://www.mysit.life/tos)
   account: |

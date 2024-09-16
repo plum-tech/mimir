@@ -72,7 +72,7 @@ class Migrations {
         });
     Version(2, 5, 1) <<
         MimirMigration.run((phrase) async {
-          if (phrase == MigrationPhrase.afterHive) {
+          if (phrase == MigrationPhrase.afterInitStorage) {
             // Refresh timetable json
             final rows = TimetableInit.storage.timetable.getRows();
             for (final (:id, :row) in rows) {
@@ -80,9 +80,9 @@ class Migrations {
             }
           }
         });
-    Version(2, 6, 0) <<
+    Version(2, 6, 1) <<
         MimirMigration.run((phrase) async {
-          if (phrase == MigrationPhrase.afterHive) {
+          if (phrase == MigrationPhrase.afterInitStorage) {
             await HiveInit.clearCache();
             // Refresh timetable json
             for (final (:id, :row) in TimetableInit.storage.timetable.getRows()) {

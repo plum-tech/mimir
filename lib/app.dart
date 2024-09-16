@@ -180,7 +180,12 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
         ReceiveSharingIntent.instance.reset();
       });
     }
-    tryAutoSyncTimetable();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await tryAutoSyncTimetable();
+    });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+
+    });
   }
 
   @override
