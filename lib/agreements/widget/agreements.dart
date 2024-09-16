@@ -1,26 +1,15 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
-import 'package:mimir/l10n/common.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/widgets/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/agreements.dart';
-
-class _I18n with CommonI18nMixin{
-  static const ns = "agreements";
-  const _I18n();
-  String get acceptanceRequired => "$ns.acceptanceRequired.title".tr();
-
-  String get acceptanceRequiredDesc => "$ns.acceptanceRequired.desc".tr();
-}
-
-const _i = _I18n();
+import '../i18n.dart';
 
 class AgreementsCheckBox extends ConsumerWidget {
-  final AgreementsType type;
+  final AgreementType type;
 
   const AgreementsCheckBox({
     super.key,
@@ -29,15 +18,15 @@ class AgreementsCheckBox extends ConsumerWidget {
 
   const AgreementsCheckBox.basic({
     super.key,
-  }) : type = AgreementsType.basic;
+  }) : type = AgreementType.basic;
 
   const AgreementsCheckBox.account({
     super.key,
-  }) : type = AgreementsType.account;
+  }) : type = AgreementType.account;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final $accepted = Settings.agreements.$AgreementsAcceptanceOf(type);
+    final $accepted = Settings.agreements.$agreementsAcceptanceOf(type);
     final accepted = ref.watch($accepted) ?? false;
     return [
       Checkbox.adaptive(
@@ -53,8 +42,8 @@ class AgreementsCheckBox extends ConsumerWidget {
 
 Future<void> showAgreementsRequired2Accept(BuildContext context) async {
   await context.showTip(
-    title: _i.acceptanceRequired,
-    desc: _i.acceptanceRequiredDesc,
-    primary: _i.ok,
+    title: i18n.acceptanceRequired,
+    desc: i18n.acceptanceRequiredDesc,
+    primary: i18n.ok,
   );
 }

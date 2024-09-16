@@ -99,7 +99,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   /// 用户点击登录按钮后
   Future<void> login() async {
-    final acceptedAgreements = ref.read(Settings.agreements.$AgreementsAcceptanceOf(AgreementsType.basic)) ?? false;
+    final acceptedAgreements = ref.read(Settings.agreements.$agreementsAcceptanceOf(AgreementType.basic)) ?? false;
     if (!acceptedAgreements) {
       await showAgreementsRequired2Accept(context);
       return;
@@ -342,7 +342,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   Widget buildLoginButton() {
-    final acceptedAgreements = ref.watch(Settings.agreements.$AgreementsAcceptanceOf(AgreementsType.basic)) ?? false;
+    final acceptedAgreements = ref.watch(Settings.agreements.$agreementsAcceptanceOf(AgreementType.basic)) ?? false;
     return [
       $account >>
           (ctx, account) => FilledButton.icon(

@@ -9,6 +9,8 @@ import 'package:fit_system_screenshot/fit_system_screenshot.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mimir/agreements/entity/agreements.dart';
+import 'package:mimir/agreements/page/acceptance.dart';
 import 'package:mimir/files.dart';
 import 'package:mimir/intent/file_type/handle.dart';
 import 'package:mimir/lifecycle.dart';
@@ -184,7 +186,9 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
       await tryAutoSyncTimetable();
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-
+      final accepted = ref.read(Settings.agreements.$agreementsAcceptanceOf(AgreementType.basic));
+      if(accepted == true) return;
+      await AgreementsAcceptanceSheet.show(context);
     });
   }
 

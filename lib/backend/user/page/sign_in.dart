@@ -379,7 +379,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   }
 
   Widget buildSignIn() {
-    final acceptedAgreements = ref.watch(Settings.agreements.$AgreementsAcceptanceOf(AgreementsType.account)) ?? false;
+    final acceptedAgreements = ref.watch(Settings.agreements.$agreementsAcceptanceOf(AgreementType.account)) ?? false;
     return FilledButton.icon(
       onPressed: !acceptedAgreements || widget.signingIn ? null : signIn,
       icon: const Icon(Icons.login),
@@ -388,7 +388,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   }
 
   Widget buildSignUp() {
-    final acceptedAgreements = ref.watch(Settings.agreements.$AgreementsAcceptanceOf(AgreementsType.account)) ?? false;
+    final acceptedAgreements = ref.watch(Settings.agreements.$agreementsAcceptanceOf(AgreementType.account)) ?? false;
     return FilledButton.icon(
       onPressed: !acceptedAgreements || widget.signingIn ? null : signUp,
       icon: const Icon(Icons.create),
@@ -397,7 +397,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   }
 
   Future<void> signIn() async {
-    final acceptedAgreements = ref.read(Settings.agreements.$AgreementsAcceptanceOf(AgreementsType.account)) ?? false;
+    final acceptedAgreements = ref.read(Settings.agreements.$agreementsAcceptanceOf(AgreementType.account)) ?? false;
     if (!acceptedAgreements) {
       await showAgreementsRequired2Accept(context);
       return;
@@ -418,7 +418,7 @@ class _SchoolIdSignInFormState extends ConsumerState<SchoolIdSignInForm> {
   }
 
   Future<void> signUp() async {
-    final acceptedAgreements = ref.read(Settings.agreements.$AgreementsAcceptanceOf(AgreementsType.account)) ?? false;
+    final acceptedAgreements = ref.read(Settings.agreements.$agreementsAcceptanceOf(AgreementType.account)) ?? false;
     if (!acceptedAgreements) {
       await showAgreementsRequired2Accept(context);
       return;

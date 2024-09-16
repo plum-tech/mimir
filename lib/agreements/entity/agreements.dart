@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 
-enum AgreementsType {
+enum AgreementType {
   basic,
   account;
 
