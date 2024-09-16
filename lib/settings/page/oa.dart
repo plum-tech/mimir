@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/credentials/entity/credential.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
-import 'package:mimir/design/adaptive/editor.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/init.dart';
 import '../i18n.dart';
-import '../widget/login_test.dart';
+import '../widget/credentials.dart';
 
 const _changePasswordUrl = "https://authserver.sit.edu.cn/authserver/passwordChange.do";
 
@@ -43,18 +41,25 @@ class _OaSettingsPageState extends ConsumerState<OaSettingsPage> {
   }
 
   Widget buildBody() {
-    final credentials = ref.watch(CredentialsInit.storage.oa.$credentials);
+    final credential = ref.watch(CredentialsInit.storage.oa.$credentials);
     final all = <WidgetBuilder>[];
-    if (credentials != null) {
-      all.add((_) => buildAccount(credentials));
+    if (credential != null) {
+      all.add((_) => buildAccount(credential));
       all.add((_) => const Divider());
-      all.add((_) => buildPassword(credentials));
+      all.add(
+            (_) => PasswordDisplayTile(
+          password: credential.password,
+          onChanged: (pwd){
+            CredentialsInit.storage.oa.credentials = credential.copyWith(password: pwd);
+          },
+        ),
+      );
       all.add(
         (_) => LoginTestTile(
-          credentials: credentials,
+          credential: credential,
           login: () async {
             await Init.ssoSession.deleteSitUriCookies();
-            await Init.ssoSession.loginLocked(credentials);
+            await Init.ssoSession.loginLocked(credential);
           },
         ),
       );
@@ -80,41 +85,6 @@ class _OaSettingsPageState extends ConsumerState<OaSettingsPage> {
         // Copy the student ID to clipboard
         await Clipboard.setData(ClipboardData(text: credential.account));
       },
-    );
-  }
-
-  Widget buildPassword(Credentials credential) {
-    return AnimatedSize(
-      duration: const Duration(milliseconds: 100),
-      child: ListTile(
-        title: i18n.oa.savedOaPwd.text(),
-        subtitle: Text(!showPassword ? i18n.oa.savedOaPwdDesc : credential.password),
-        leading: const Icon(Icons.password_rounded),
-        trailing: [
-          PlatformIconButton(
-            icon: Icon(context.icons.edit),
-            onPressed: () async {
-              final newPwd = await Editor.showStringEditor(
-                context,
-                desc: i18n.oa.savedOaPwd,
-                initial: credential.password,
-              );
-              if (newPwd != credential.password) {
-                if (!mounted) return;
-                CredentialsInit.storage.oa.credentials = credential.copyWith(password: newPwd);
-                setState(() {});
-              }
-            },
-          ),
-          PlatformIconButton(
-              onPressed: () {
-                setState(() {
-                  showPassword = !showPassword;
-                });
-              },
-              icon: showPassword ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off)),
-        ].wrap(),
-      ),
     );
   }
 }

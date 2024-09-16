@@ -10,6 +10,10 @@ mixin class CredentialsI18nMixin {
   String get account => "$ns.account".tr();
 
   String get pwd => "$ns.pwd".tr();
+
+  String get savedPwd => "$ns.savedPwd".tr();
+
+  String get savedPwdDesc => "$ns.savedPwdDesc".tr();
 }
 
 class OaCredentialsI18n extends CredentialsI18n {
@@ -22,8 +26,14 @@ class OaCredentialsI18n extends CredentialsI18n {
   String get oaAccount => "$ns.oaAccount".tr();
 
   String get oaPwd => "$ns.oaPwd".tr();
+}
 
-  String get savedOaPwd => "$ns.savedOaPwd".tr();
+class EmailCredentialsI18n extends CredentialsI18n {
+  const EmailCredentialsI18n();
 
-  String get savedOaPwdDesc => "$ns.savedOaPwdDesc".tr();
+  static const ns = "${CredentialsI18nMixin.ns}.email";
+
+  String get eduEmail => "$ns.eduEmail".tr();
+
+  String get emailAddress => "$ns.emailAddress".tr();
 }

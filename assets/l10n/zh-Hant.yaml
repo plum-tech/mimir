@@ -457,12 +457,15 @@ captcha:
 credentials:
   account: 賬戶
   password: 密碼
+  savedPwd: 儲存的密碼
+  savedPwdDesc: 用於自動登入
   oa:
     studentId: 學號
     oaAccount: OA 賬戶
     oaPwd: OA 密碼
-    savedOaPwd: 儲存的 OA 密碼
-    savedOaPwdDesc: 用於自動登入 OA
+  email:
+    eduEmail: Edu 電郵
+    emailAddress: 電郵地址
   error:
     accountPassword: 賬戶或密碼錯誤
     captcha: 驗證碼錯誤

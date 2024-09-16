@@ -80,18 +80,18 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       ));
     }
 
-    if (devOn) {
-      all.add(const MimirCredentialsSettingsTile());
-    }
-
     final eduEmailCredentials = ref.watch(CredentialsInit.storage.eduEmail.$credentials);
     if (eduEmailCredentials != null) {
       all.add(PageNavigationTile(
-        title: "Edu email".text(),
-        subtitle: "Edu email".text(),
+        title: i18n.eduEmail.eduEmail.text(),
+        subtitle: eduEmailCredentials.account.text(),
         leading: const Icon(Icons.email),
         path: "/settings/edu-email",
       ));
+    }
+
+    if (devOn) {
+      all.add(const MimirCredentialsSettingsTile());
     }
     all.add(const Divider());
 

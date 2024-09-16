@@ -478,12 +478,15 @@ captcha:
 credentials:
   account: 账号
   pwd: 密码
+  savedPwd: 保存的密码
+  savedPwdDesc: 用于自动登录
   oa:
     studentId: 学号
     oaAccount: OA 账号
     oaPwd: OA 密码
-    savedOaPwd: 保存的 OA 密码
-    savedOaPwdDesc: 用于自动登录 OA
+  email:
+    eduEmail: 教育邮箱
+    emailAddress: 邮箱地址
   error:
     accountPassword: 账号或密码不正确
     captcha: 验证码不正确

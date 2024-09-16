@@ -482,12 +482,15 @@ captcha:
 credentials:
   account: Account
   pwd: Password
+  savedPwd: Saved password
+  savedPwdDesc: Used to auto-login
   oa:
     studentId: Student ID
     oaAccount: OA account
     oaPwd: OA password
-    savedOaPwd: Saved OA password
-    savedOaPwdDesc: Used to auto-login OA
+  email:
+    eduEmail: Edu email
+    emailAddress: Email address
   error:
     accountPassword: The account or password is incorrect
     captcha: The captcha is incorrect

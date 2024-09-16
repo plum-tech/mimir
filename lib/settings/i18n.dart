@@ -153,7 +153,7 @@ class _Oa extends OaCredentialsI18n {
   const _Oa();
 }
 
-class _EduEmail with CredentialsI18nMixin {
+class _EduEmail extends EmailCredentialsI18n {
   static const ns = "${_I18n.ns}.eduEmail";
 
   const _EduEmail();

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/credentials/entity/credential.dart';
+import 'package:mimir/credentials/i18n.dart';
+import 'package:mimir/design/adaptive/editor.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/login/utils.dart';
 import 'package:rettulf/rettulf.dart';
@@ -13,12 +15,12 @@ enum _State {
 }
 
 class LoginTestTile extends StatefulWidget {
-  final Credentials credentials;
+  final Credentials credential;
   final Future<void> Function() login;
 
   const LoginTestTile({
     super.key,
-    required this.credentials,
+    required this.credential,
     required this.login,
   });
 
@@ -58,6 +60,65 @@ class _LoginTestTileState extends State<LoginTestTile> {
                 await handleLoginException(context: context, error: error, stackTrace: stackTrace);
               }
             },
+    );
+  }
+}
+
+class _I18n with CredentialsI18nMixin {
+  const _I18n();
+}
+
+const _i = _I18n();
+
+class PasswordDisplayTile extends StatefulWidget {
+  final String password;
+  final ValueChanged<String> onChanged;
+
+  const PasswordDisplayTile({
+    super.key,
+    required this.password,
+    required this.onChanged,
+  });
+
+  @override
+  State<PasswordDisplayTile> createState() => _PasswordDisplayTileState();
+}
+
+class _PasswordDisplayTileState extends State<PasswordDisplayTile> {
+  var showPassword = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final password = widget.password;
+    return AnimatedSize(
+      duration: const Duration(milliseconds: 100),
+      child: ListTile(
+        title: _i.savedPwd.text(),
+        subtitle: Text(!showPassword ? _i.savedPwdDesc : password),
+        leading: const Icon(Icons.password_rounded),
+        trailing: [
+          IconButton.filledTonal(
+            icon: Icon(context.icons.edit),
+            onPressed: () async {
+              final newPwd = await Editor.showStringEditor(
+                context,
+                desc: _i.savedPwd,
+                initial: "",
+              );
+              if (newPwd == null || newPwd == password || newPwd.isEmpty) return;
+              widget.onChanged(newPwd);
+            },
+          ),
+          IconButton.filledTonal(
+            onPressed: () {
+              setState(() {
+                showPassword = !showPassword;
+              });
+            },
+            icon: showPassword ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off),
+          ),
+        ].wrap(spacing: 4),
+      ),
     );
   }
 }
