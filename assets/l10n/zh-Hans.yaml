@@ -12,13 +12,13 @@ agreements:
       未经您的许可，我们不会向第三方披露、共享或提供您的个人信息。
       您可以根据我们的指引、访问、更正、删除您的信息或撤销您的相关授权。您可以通过查看《小应生活隐私政策》中的联系方式来与我们联系。
 
-      更多详情请阅读完整版的 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy) 和 [《小应生活使用协议》](https://www.mysit.life/tos)。
+      更多详情请阅读完整版的 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy/20240915) 和 [《小应生活使用协议》](https://www.mysit.life/tos/20240915)。
     acceptAndContinue: 同意并继续
     declineAndExit: 拒绝并退出
   basic: |
-    我已阅读并同意 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy) 和 [《小应生活使用协议》](https://www.mysit.life/tos)
+    我已阅读并同意 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy/20240915) 和 [《小应生活使用协议》](https://www.mysit.life/tos/20240915)
   account: |
-    我已阅读并同意 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy) 和 [《小应生活使用协议》](https://www.mysit.life/tos)
+    我已阅读并同意 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy/20240915) 和 [《小应生活使用协议》](https://www.mysit.life/tos/20240915)
   acceptanceRequired:
     title: 需要同意协议
     desc: 在使用@:appName前，你必须同意我们的协议和政策

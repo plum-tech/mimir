@@ -56,14 +56,14 @@ class _AboutSettingsPageState extends ConsumerState<AboutSettingsPage> {
                 title: i18n.about.termsOfService.text(),
                 trailing: const Icon(Icons.open_in_browser),
                 onTap: () async {
-                  await guardLaunchUrlString(context, "https://www.mysit.life/tos");
+                  await guardLaunchUrlString(context, "https://www.mysit.life/tos/20240915");
                 },
               ),
               ListTile(
                 title: i18n.about.privacyPolicy.text(),
                 trailing: const Icon(Icons.open_in_browser),
                 onTap: () async {
-                  await guardLaunchUrlString(context, "https://www.mysit.life/privacy-policy");
+                  await guardLaunchUrlString(context, "https://www.mysit.life/privacy-policy/20240915");
                 },
               ),
               ListTile(

@@ -57,7 +57,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
 
   List<Widget> buildEntries() {
     final all = <Widget>[];
-    final agreementAccepted = ref.watch(Settings.agreements.$agreementsAcceptanceOf(AgreementType.basic)) ?? false;
+    final agreementAccepted = ref.watch(Settings.agreements.$basicAcceptanceOf(AgreementVersion.current)) ?? false;
     if (agreementAccepted) {
       final oaLoginStatus = ref.watch(CredentialsInit.storage.oa.$loginStatus);
       if (oaLoginStatus != OaLoginStatus.never) {

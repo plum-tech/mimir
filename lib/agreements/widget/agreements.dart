@@ -26,7 +26,12 @@ class AgreementsCheckBox extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final $accepted = Settings.agreements.$agreementsAcceptanceOf(type);
+    final agreements = Settings.agreements;
+    final acceptance = switch (type) {
+      AgreementType.basic => agreements.$basicAcceptanceOf,
+      AgreementType.account => agreements.$accountAcceptanceOf,
+    };
+    final $accepted = acceptance(AgreementVersion.current);
     final accepted = ref.watch($accepted) ?? false;
     return [
       Checkbox.adaptive(

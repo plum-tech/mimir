@@ -6,7 +6,8 @@ import 'entity/agreements.dart';
 class _AgreementsK {
   static const ns = "/agreements";
 
-  static String acceptanceKeyOf(AgreementType type) => "$ns/acceptance/${type.name}";
+  static String acceptanceKeyOf(AgreementType type, AgreementVersion version) =>
+      "$ns/acceptance/${type.name}/${version.number}";
 }
 
 class AgreementsSettings {
@@ -14,14 +15,27 @@ class AgreementsSettings {
 
   AgreementsSettings(this.box);
 
-  bool? getAgreementsAcceptanceOf(AgreementType type) => box.safeGet<bool>(_AgreementsK.acceptanceKeyOf(type));
+  bool? getBasicAcceptanceOf(AgreementVersion version) =>
+      box.safeGet<bool>(_AgreementsK.acceptanceKeyOf(AgreementType.basic, version));
 
-  Future<void> setAgreementsAcceptanceOf(AgreementType type, bool? newV) async =>
-      await box.safePut<bool>(_AgreementsK.acceptanceKeyOf(type), newV);
+  Future<void> setBasicAcceptanceOf(AgreementVersion version, bool? newV) async =>
+      await box.safePut<bool>(_AgreementsK.acceptanceKeyOf(AgreementType.basic, version), newV);
 
-  late final $agreementsAcceptanceOf = box.providerFamily<bool, AgreementType>(
-    _AgreementsK.acceptanceKeyOf,
-    get: getAgreementsAcceptanceOf,
-    set: setAgreementsAcceptanceOf,
+  late final $basicAcceptanceOf = box.providerFamily<bool, AgreementVersion>(
+    (version) => _AgreementsK.acceptanceKeyOf(AgreementType.basic, version),
+    get: getBasicAcceptanceOf,
+    set: setBasicAcceptanceOf,
+  );
+
+  bool? getAccountAcceptanceOf(AgreementVersion version) =>
+      box.safeGet<bool>(_AgreementsK.acceptanceKeyOf(AgreementType.account, version));
+
+  Future<void> setAccountAcceptanceOf(AgreementVersion version, bool? newV) async =>
+      await box.safePut<bool>(_AgreementsK.acceptanceKeyOf(AgreementType.account, version), newV);
+
+  late final $accountAcceptanceOf = box.providerFamily<bool, AgreementVersion>(
+    (version) => _AgreementsK.acceptanceKeyOf(AgreementType.account, version),
+    get: getBasicAcceptanceOf,
+    set: setBasicAcceptanceOf,
   );
 }

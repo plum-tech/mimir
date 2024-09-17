@@ -57,7 +57,7 @@ class _AgreementsAcceptanceSheetState extends ConsumerState<AgreementsAcceptance
           FilledButton(
             child: i18n.acceptAndContinue.text(),
             onPressed: () {
-              Settings.agreements.setAgreementsAcceptanceOf(AgreementType.basic, true);
+              Settings.agreements.setBasicAcceptanceOf(AgreementVersion.current, true);
               context.pop();
             },
           ).expanded(),
