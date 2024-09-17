@@ -17,7 +17,7 @@ const main = async () => {
     },],
   })
   const version = args.version
-  const message = `最新测试版${version}已完成构建，Android用户可在群公告中访问最新预览版下载地址；请iOS用户等待发布TestFlight测试`
+  const message = `最新测试版${version}已完成构建，开发团队正在测试中`
   const result = await sendMessageToQQGroup({
     groupNumber: qqGroupNumber,
     message,
