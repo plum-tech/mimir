@@ -9,6 +9,7 @@ import 'package:mimir/backend/entity/user.dart';
 import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/entity/campus.dart';
+import 'package:mimir/entity/uuid.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/entity/timetable.dart';
 import 'package:mimir/settings/settings.dart';
@@ -56,8 +57,9 @@ String _kUUid() => const Uuid().v4();
 @JsonSerializable()
 @CopyWith(skipFields: true)
 @immutable
-class Timetable {
+class Timetable implements WithUuid {
   static int maxNameLength = 50;
+  @override
   @JsonKey(defaultValue: _kUUid)
   final String uuid;
   @JsonKey(fromJson: _parseName)

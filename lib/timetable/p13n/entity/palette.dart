@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mimir/design/entity/dual_color.dart';
+import 'package:mimir/entity/uuid.dart';
 import 'package:mimir/utils/byte_io/byte_io.dart';
 import 'package:uuid/uuid.dart';
 
@@ -18,11 +19,12 @@ String _kUUid() => const Uuid().v4();
 
 @JsonSerializable()
 @CopyWith()
-class TimetablePalette {
+class TimetablePalette implements WithUuid {
   static int maxNameLength = 50;
 
   /// in version 1, the [colors] is in type of [({Color light, Color dark})].
   static const version = 3;
+  @override
   @JsonKey(defaultValue: _kUUid)
   final String uuid;
   @JsonKey()
