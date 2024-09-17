@@ -5,8 +5,8 @@ import 'package:mimir/r.dart';
 import 'package:mimir/settings/entity/proxy.dart';
 import 'package:mimir/settings/settings.dart';
 
-class SitHttpOverrides extends HttpOverrides {
-  SitHttpOverrides();
+class MimirHttpOverrides extends HttpOverrides {
+  MimirHttpOverrides();
 
   @override
   HttpClient createHttpClient(SecurityContext? context) {
@@ -14,7 +14,7 @@ class SitHttpOverrides extends HttpOverrides {
     client.badCertificateCallback = (cert, host, port) => true;
     client.findProxy = (url) {
       if (kDebugMode) {
-        print('Accessing "$url", captured by $SitHttpOverrides');
+        print('Accessing "$url", captured by $MimirHttpOverrides');
       }
       final host = url.host;
       final isSchoolLanRequired = _isSchoolLanRequired(host);

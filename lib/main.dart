@@ -125,7 +125,7 @@ void main() async {
   Meta.thisLaunchTime = DateTime.now();
   Init.registerCustomEditor();
   await migrations.perform(MigrationPhrase.afterHive);
-  HttpOverrides.global = SitHttpOverrides();
+  HttpOverrides.global = MimirHttpOverrides();
   await Init.initNetwork();
   await Init.initModules();
   await Init.initStorage();
