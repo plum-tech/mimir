@@ -27,6 +27,7 @@ import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/meta.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
+import 'package:universal_platform/universal_platform.dart';
 
 import '../i18n.dart';
 import '../widgets/forgot_pwd.dart';
@@ -232,7 +233,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           ],
         ),
         floatingActionButton: loggingIn ? const CircularProgressIndicator.adaptive() : null,
-        bottomNavigationBar: const BottomAppBar(height: 50, child: AgreementsCheckBox.basic()),
+        bottomNavigationBar:
+            UniversalPlatform.isAndroid ? null : const BottomAppBar(height: 50, child: AgreementsCheckBox.basic()),
         body: [
           [
             buildHeader(),
