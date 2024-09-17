@@ -80,7 +80,7 @@ class Migrations {
             }
           }
         });
-    Version(2, 6, 1) <<
+    Version(2, 6, 2) <<
         MimirMigration.run((phrase) async {
           if (phrase == MigrationPhrase.afterInitStorage) {
             await HiveInit.clearCache();
