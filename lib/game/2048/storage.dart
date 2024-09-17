@@ -44,7 +44,7 @@ class RecordStorage2048 extends GameRecordStorage<Record2048> {
   set maxNumber(int newValue) => box().safePut<int>(_kMaxNumber, newValue);
 
   @override
-  int add(Record2048 save) {
+  String add(Record2048 save) {
     final id = super.add(save);
     if (save.score > bestScore) {
       bestScore = save.score;

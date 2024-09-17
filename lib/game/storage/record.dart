@@ -16,18 +16,18 @@ class GameRecordStorage<TRecord extends GameRecord> {
     required this.deserialize,
   }) : prefix = "$prefix/record";
 
-  late final table = HiveTable.incremental<TRecord>(
+  late final table = HiveTable.withUuid<TRecord>(
     base: prefix,
     box: box(),
     useJson: (fromJson: deserialize, toJson: serialize),
   );
 
-  int add(TRecord save) {
+  String add(TRecord save) {
     final id = table.add(save);
     return id;
   }
 
-  void delete({required int id}) {
+  void delete({required String id}) {
     table.delete(id);
   }
 
@@ -35,7 +35,7 @@ class GameRecordStorage<TRecord extends GameRecord> {
     table.drop();
   }
 
-  late final $recordOf = box().providerFamily<TRecord, int>(
+  late final $recordOf = box().providerFamily<TRecord, String>(
     (id) => "$prefix/$id",
     get: (id) => table[id],
     set: (id, v) async {

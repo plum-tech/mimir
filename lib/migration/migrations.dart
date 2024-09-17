@@ -1,13 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
 import 'package:mimir/files.dart';
 import 'package:mimir/settings/entity/proxy.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/storage/hive/init.dart';
 import 'package:mimir/timetable/entity/timetable.dart';
-import 'package:mimir/timetable/init.dart';
 import 'package:mimir/timetable/p13n/entity/palette.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:mimir/utils/hive.dart';
@@ -147,12 +145,20 @@ class Migrations {
                 box.delete(key);
               }
             }();
+            // clear game records
+            await () async {
+              for (final box in HiveInit.gameBoxes) {
+                await box.clear();
+              }
+            }();
           }
         });
-    MigrationPhrase.afterHive <<
-        () async {
-          return;
-        };
+    // MigrationPhrase.afterHive <<
+    //     () async {
+    //       for (final box in HiveInit.gameBoxes) {
+    //         await box.clear();
+    //       }
+    //     };
   }
 
   static MigrationMatch match({
