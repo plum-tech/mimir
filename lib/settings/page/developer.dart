@@ -315,11 +315,12 @@ class DebugDeepLinkTile extends StatelessWidget {
         final uri = Uri.tryParse(url);
         if (uri == null) return false;
         if (!uri.isScheme(R.scheme)) return false;
-        return getFirstDeepLinkHandler(deepLink: uri) != null;
+        return canHandleDeepLink(deepLink: uri);
       },
-      onSubmit: (uri) async {
-        await onHandleDeepLinkString(context: context, deepLink: uri);
-        return true;
+      onSubmit: (uriString) async {
+        final uri = Uri.tryParse(uriString);
+        if (uri == null) return false;
+        return await onHandleDeepLink(context: context, deepLink: uri) == DeepLinkHandleResult.success;
       },
     );
   }

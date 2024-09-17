@@ -1,6 +1,8 @@
 import 'package:flutter/widgets.dart';
+import 'package:mimir/agreements/entity/agreements.dart';
 import 'package:mimir/intent/deep_link/protocol.dart';
 import 'package:mimir/r.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:mimir/utils/error.dart';
 
 import 'registry.dart';
@@ -19,16 +21,7 @@ bool _isSchemeAllowed(String scheme) {
       scheme == "life.mysit";
 }
 
-Future<DeepLinkHandleResult> onHandleDeepLinkString({
-  required BuildContext context,
-  required String deepLink,
-}) async {
-  final deepLinkUri = Uri.tryParse(deepLink);
-  if (deepLinkUri == null) return DeepLinkHandleResult.invalidFormat;
-  return onHandleDeepLink(context: context, deepLink: deepLinkUri);
-}
-
-DeepLinkHandlerProtocol? getFirstDeepLinkHandler({
+DeepLinkHandlerProtocol? _getFirstDeepLinkHandler({
   required Uri deepLink,
 }) {
   if (!_isSchemeAllowed(deepLink.scheme)) return null;
@@ -43,12 +36,21 @@ DeepLinkHandlerProtocol? getFirstDeepLinkHandler({
   return null;
 }
 
+bool canHandleDeepLink({
+  required Uri deepLink,
+}) {
+  return _getFirstDeepLinkHandler(deepLink: deepLink) != null;
+}
+
 Future<DeepLinkHandleResult> onHandleDeepLink({
   required BuildContext context,
   required Uri deepLink,
 }) async {
+  final accepted = Settings.agreements.getBasicAcceptanceOf(AgreementVersion.current) ?? false;
+  if (!accepted) return DeepLinkHandleResult.unhandled;
+
   if (!_isSchemeAllowed(deepLink.scheme)) return DeepLinkHandleResult.unrelatedScheme;
-  final handler = getFirstDeepLinkHandler(deepLink: deepLink);
+  final handler = _getFirstDeepLinkHandler(deepLink: deepLink);
   if (handler == null) return DeepLinkHandleResult.unhandled;
   try {
     await handler.onHandle(context: context, data: deepLink);
