@@ -7,6 +7,7 @@ part of 'record.dart';
 // **************************************************************************
 
 RecordMinesweeper _$RecordMinesweeperFromJson(Map<String, dynamic> json) => RecordMinesweeper(
+      uuid: json['uuid'] as String? ?? genUuidV4(),
       ts: DateTime.parse(json['ts'] as String),
       result: $enumDecode(_$GameResultEnumMap, json['result']),
       rows: (json['rows'] as num).toInt(),
@@ -18,6 +19,7 @@ RecordMinesweeper _$RecordMinesweeperFromJson(Map<String, dynamic> json) => Reco
     );
 
 Map<String, dynamic> _$RecordMinesweeperToJson(RecordMinesweeper instance) => <String, dynamic>{
+      'uuid': instance.uuid,
       'ts': instance.ts.toIso8601String(),
       'result': _$GameResultEnumMap[instance.result]!,
       'rows': instance.rows,

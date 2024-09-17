@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:mimir/game/entity/game_result.dart';
 import 'package:mimir/game/entity/record.dart';
+import 'package:uuid/uuid.dart';
 
 import 'blueprint.dart';
 import 'board.dart';
@@ -21,6 +22,7 @@ class RecordMinesweeper extends GameRecord {
   final String blueprint;
 
   const RecordMinesweeper({
+    required super.uuid,
     required super.ts,
     required this.result,
     required this.rows,
@@ -44,6 +46,7 @@ class RecordMinesweeper extends GameRecord {
       mode: mode,
     );
     return RecordMinesweeper(
+      uuid: const Uuid().v4(),
       ts: DateTime.now(),
       result: result,
       rows: board.rows,

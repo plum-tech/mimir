@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:mimir/game/entity/game_result.dart';
 import 'package:mimir/game/entity/record.dart';
 import 'package:mimir/game/wordle/entity/blueprint.dart';
+import 'package:uuid/uuid.dart';
 
 import 'vocabulary.dart';
 
@@ -18,6 +19,7 @@ class RecordWordle extends GameRecord {
   final String blueprint;
 
   const RecordWordle({
+    required super.uuid,
     required super.ts,
     required this.result,
     required this.playtime,
@@ -36,6 +38,7 @@ class RecordWordle extends GameRecord {
       word: "APPLE",
     );
     return RecordWordle(
+      uuid: const Uuid().v4(),
       ts: DateTime.now(),
       result: result,
       playtime: playtime,

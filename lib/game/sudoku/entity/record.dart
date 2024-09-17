@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:mimir/game/entity/game_result.dart';
 import 'package:mimir/game/entity/record.dart';
 import 'package:mimir/game/sudoku/entity/board.dart';
+import 'package:uuid/uuid.dart';
 
 import 'blueprint.dart';
 import 'mode.dart';
@@ -17,6 +18,7 @@ class RecordSudoku extends GameRecord {
   final String blueprint;
 
   RecordSudoku({
+    required super.uuid,
     required super.ts,
     required this.result,
     required this.playtime,
@@ -35,6 +37,7 @@ class RecordSudoku extends GameRecord {
       mode: mode,
     );
     return RecordSudoku(
+      uuid: const Uuid().v4(),
       ts: DateTime.now(),
       result: result,
       mode: mode,

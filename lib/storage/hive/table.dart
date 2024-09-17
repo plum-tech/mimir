@@ -7,12 +7,6 @@ import 'package:mimir/entity/uuid.dart';
 import 'package:mimir/utils/hive.dart';
 import 'package:mimir/utils/riverpod.dart';
 
-const _kLastId = "lastId";
-const _kIdList = "idList";
-const _kRows = "rows";
-const _kSelectedId = "selectedId";
-const _kLastIdStart = 0;
-
 class Notifier with ChangeNotifier {
   void notifier() => notifyListeners();
 }
@@ -36,7 +30,7 @@ class IncrementalIdGenerator<T> implements IdGenerator<int, T> {
 
   @override
   int alloc(T row) {
-    final lastId = box.safeGet<int>(key) ?? _kLastIdStart;
+    final lastId = box.safeGet<int>(key) ?? 0;
     box.safePut<int>(key, lastId + 1);
     return lastId;
   }
@@ -98,6 +92,11 @@ class _UnmodifiableMapExternalTable<TId, T> implements ExternalTable<TId, T> {
   @override
   void set(TId id, T? row) {}
 }
+
+const _kLastId = "lastId";
+const _kIdList = "idList";
+const _kRows = "rows";
+const _kSelectedId = "selectedId";
 
 typedef UseJson<T> = ({T Function(Map<String, dynamic> json) fromJson, Map<String, dynamic> Function(T row) toJson});
 

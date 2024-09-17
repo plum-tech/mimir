@@ -7,6 +7,7 @@ part of 'record.dart';
 // **************************************************************************
 
 RecordWordle _$RecordWordleFromJson(Map<String, dynamic> json) => RecordWordle(
+      uuid: json['uuid'] as String? ?? genUuidV4(),
       ts: DateTime.parse(json['ts'] as String),
       result: $enumDecode(_$GameResultEnumMap, json['result']),
       playtime: Duration(microseconds: (json['playtime'] as num).toInt()),
@@ -16,6 +17,7 @@ RecordWordle _$RecordWordleFromJson(Map<String, dynamic> json) => RecordWordle(
     );
 
 Map<String, dynamic> _$RecordWordleToJson(RecordWordle instance) => <String, dynamic>{
+      'uuid': instance.uuid,
       'ts': instance.ts.toIso8601String(),
       'result': _$GameResultEnumMap[instance.result]!,
       'playtime': instance.playtime.inMicroseconds,
