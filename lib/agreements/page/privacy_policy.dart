@@ -22,6 +22,8 @@ class AgreementsAcceptanceSheet extends ConsumerStatefulWidget {
       builder: (_) => const AgreementsAcceptanceSheet(),
       isDismissible: false,
       enableDrag: false,
+      useRootNavigator: true,
+      useSafeArea: true,
     );
   }
 }
