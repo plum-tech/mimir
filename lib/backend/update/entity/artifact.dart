@@ -30,9 +30,9 @@ class ArtifactVersionInfo {
   String toString() {
     return {
       "version": version,
+      "downloads": downloads,
       "releaseTime": releaseTime,
       "releaseNote": releaseNote.replaceAll(RegExp(r"[\t\n\r]+"), ""),
-      "downloads": downloads,
     }.toString();
   }
 }

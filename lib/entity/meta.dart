@@ -18,8 +18,23 @@ enum AppPlatform {
 }
 
 class InstallerStore {
+  // General Android
+  static const android = "com.android.packageinstaller";
+
+  // Apple(Test Flight)
   static const testFlight = "com.apple.testflight";
+
+  // Apple(App Store)
   static const appStore = "com.apple";
+
+  // OPPO, Realme
+  static const heytap = "com.heytap.market";
+
+  // Xiaomi, Redmi "纯净模式"
+  static const miui = "com.miui.packageinstaller";
+
+  // Huawei
+  static const huaweiBackup = "com.huawei.localBackup";
 }
 
 class AppMeta {
