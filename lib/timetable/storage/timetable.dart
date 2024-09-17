@@ -27,20 +27,7 @@ class TimetableStorage {
     base: _K.palette,
     box: HiveInit.timetable,
     useJson: (fromJson: TimetablePalette.fromJson, toJson: (palette) => palette.toJson()),
-    getDelegate: (id, builtin) {
-      // intercept builtin timetable
-      for (final timetable in BuiltinTimetablePalettes.all) {
-        if (timetable.uuid == id) return timetable;
-      }
-      return builtin(id);
-    },
-    setDelegate: (id, newV, builtin) {
-      // skip builtin timetable
-      for (final timetable in BuiltinTimetablePalettes.all) {
-        if (timetable.uuid == id) return;
-      }
-      builtin(id, newV);
-    },
+    external: ExternalTable.unmodifiableMap(BuiltinTimetablePalettes.uuid2palette),
   );
 
   TimetableStorage();

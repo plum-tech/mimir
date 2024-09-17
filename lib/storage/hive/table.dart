@@ -59,8 +59,46 @@ class WithUuidGenerator<T extends WithUuid> implements IdGenerator<String, T> {
   void clear() {}
 }
 
-typedef GetDelegate<TId, T> = T? Function(TId id, T? Function(TId id) builtin);
-typedef SetDelegate<TId, T> = FutureOr<void> Function(TId id, T? newV, Future<void> Function(TId id, T? newV) builtin);
+abstract class ExternalTable<TId, T> {
+  const ExternalTable();
+
+  bool has(TId id);
+
+  T? get(TId id);
+
+  bool willHandleSet(TId id);
+
+  FutureOr<void> set(TId id, T? row);
+
+  factory ExternalTable.unmodifiableMap(Map<TId, T> map) {
+    return _UnmodifiableMapExternalTable(map);
+  }
+}
+
+class _UnmodifiableMapExternalTable<TId, T> implements ExternalTable<TId, T> {
+  final Map<TId, T> map;
+
+  const _UnmodifiableMapExternalTable(this.map);
+
+  @override
+  bool has(TId id) {
+    return map.containsKey(id);
+  }
+
+  @override
+  T? get(TId id) {
+    return map[id];
+  }
+
+  @override
+  bool willHandleSet(TId id) {
+    return map.containsKey(id);
+  }
+
+  @override
+  void set(TId id, T? row) {}
+}
+
 typedef UseJson<T> = ({T Function(Map<String, dynamic> json) fromJson, Map<String, dynamic> Function(T row) toJson});
 
 class HiveTable<TId, T> {
@@ -80,18 +118,13 @@ class HiveTable<TId, T> {
   /// notify if any row was changed.
   final $any = Notifier();
 
-  /// The delegate of getting row
-  final GetDelegate<TId, T>? getDelegate;
-
-  /// The delegate of setting row
-  final SetDelegate<TId, T>? setDelegate;
+  final ExternalTable<TId, T>? external;
 
   HiveTable({
     required this.base,
     required this.box,
     required this.idAllocator,
-    this.getDelegate,
-    this.setDelegate,
+    this.external,
     this.useJson,
   })  : _idListK = "$base/$_kIdList",
         _rowsK = "$base/$_kRows",
@@ -100,15 +133,13 @@ class HiveTable<TId, T> {
   static HiveTable<int, T> incremental<T>({
     required String base,
     required Box box,
-    GetDelegate<int, T>? getDelegate,
-    SetDelegate<int, T>? setDelegate,
+    ExternalTable<int, T>? external,
     UseJson<T>? useJson,
   }) {
     return HiveTable(
       base: base,
       box: box,
-      getDelegate: getDelegate,
-      setDelegate: setDelegate,
+      external: external,
       useJson: useJson,
       idAllocator: IncrementalIdGenerator(box: box, key: "$base/$_kLastId"),
     );
@@ -117,15 +148,13 @@ class HiveTable<TId, T> {
   static HiveTable<String, T> withUuid<T extends WithUuid>({
     required String base,
     required Box box,
-    GetDelegate<String, T>? getDelegate,
-    SetDelegate<String, T>? setDelegate,
+    ExternalTable<String, T>? external,
     UseJson<T>? useJson,
   }) {
     return HiveTable(
       base: base,
       box: box,
-      getDelegate: getDelegate,
-      setDelegate: setDelegate,
+      external: external,
       useJson: useJson,
       idAllocator: WithUuidGenerator<T>(),
     );
@@ -170,9 +199,9 @@ class HiveTable<TId, T> {
   }
 
   T? get(TId id) {
-    final get = this.getDelegate;
-    if (get != null) {
-      return get(id, _getBuiltin);
+    final external = this.external;
+    if (external != null && external.has(id)) {
+      return external.get(id);
     }
     return _getBuiltin(id);
   }
@@ -193,9 +222,10 @@ class HiveTable<TId, T> {
   }
 
   Future<void> set(TId id, T? newValue) async {
-    final set = this.setDelegate;
-    if (set != null) {
-      await set(id, newValue, _setBuiltin);
+    final external = this.external;
+    if (external != null && external.willHandleSet(id)) {
+      await external.set(id, newValue);
+      return;
     }
     return _setBuiltin(id, newValue);
   }

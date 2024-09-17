@@ -138,6 +138,8 @@ class BuiltinTimetablePalettes {
     thicket,
     creeksideBreeze,
   ];
+
+  static final uuid2palette = Map.fromEntries(all.map((p) => MapEntry(p.uuid, p)));
 }
 
 extension TimetablePlatteX on TimetablePalette {
