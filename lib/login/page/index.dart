@@ -99,7 +99,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   /// 用户点击登录按钮后
   Future<void> login() async {
-    final acceptedAgreements = ref.read(Settings.agreements.$accountAcceptanceOf(AgreementVersion.current)) ?? false;
+    final acceptedAgreements = ref.read(Settings.agreements.$basicAcceptanceOf(AgreementVersion.current)) ?? false;
     if (!acceptedAgreements) {
       await showAgreementsRequired2Accept(context);
       return;
@@ -205,7 +205,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           ],
         ),
         floatingActionButton: loggingIn ? const CircularProgressIndicator.adaptive() : null,
-        bottomNavigationBar: const BottomAppBar(child: AgreementsCheckBox.basic()),
         body: [
           buildHeader(),
           buildLoginForm(),
@@ -341,7 +340,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   Widget buildLoginButton() {
-    final acceptedAgreements = ref.watch(Settings.agreements.$accountAcceptanceOf(AgreementVersion.v20240915)) ?? false;
+    final acceptedAgreements = ref.watch(Settings.agreements.$basicAcceptanceOf(AgreementVersion.current)) ?? false;
     return [
       $account >>
           (ctx, account) => FilledButton.icon(
