@@ -98,7 +98,7 @@ dependencies:
   receive_sharing_intent: ^1.8.0
   uri_content: ^2.2.0
   # Open with other APP/programs
-  open_file: ^3.5.3
+  open_file: ^3.5.4
   url_launcher: ^6.3.0
   # Open Android / iOS system image picker
   image_picker: ^1.1.2

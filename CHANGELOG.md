@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.6.3
+- Migration of new storage structure of timetable and palette.
+
 ## 2.6.2
 - Users are required to accept *Privacy Policy* and *Terms of Services* at the first use.
 - Added *Privacy Policy* and *Terms of Services* versioning.
