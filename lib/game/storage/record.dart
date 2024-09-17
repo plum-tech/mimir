@@ -16,7 +16,7 @@ class GameRecordStorage<TRecord extends GameRecord> {
     required this.deserialize,
   }) : prefix = "$prefix/record";
 
-  late final table = HiveTable<TRecord>.incremental(
+  late final table = HiveTable.incremental<TRecord>(
     base: prefix,
     box: box(),
     useJson: (fromJson: deserialize, toJson: serialize),

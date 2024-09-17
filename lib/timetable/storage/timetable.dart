@@ -17,34 +17,33 @@ class _K {
 class TimetableStorage {
   Box get box => HiveInit.timetable;
 
-  final HiveTable<Timetable> timetable;
-  final HiveTable<TimetablePalette> palette;
+  final HiveTable<int, Timetable> timetable = HiveTable.incremental<Timetable>(
+    base: _K.timetable,
+    box: HiveInit.timetable,
+    useJson: (fromJson: Timetable.fromJson, toJson: (timetable) => timetable.toJson()),
+  );
 
-  TimetableStorage()
-      : timetable = HiveTable<Timetable>.incremental(
-          base: _K.timetable,
-          box: HiveInit.timetable,
-          useJson: (fromJson: Timetable.fromJson, toJson: (timetable) => timetable.toJson()),
-        ),
-        palette = HiveTable<TimetablePalette>.incremental(
-          base: _K.palette,
-          box: HiveInit.timetable,
-          useJson: (fromJson: TimetablePalette.fromJson, toJson: (palette) => palette.toJson()),
-          getDelegate: (id, builtin) {
-            // intercept builtin timetable
-            for (final timetable in BuiltinTimetablePalettes.all) {
-              if (timetable.id == id) return timetable;
-            }
-            return builtin(id);
-          },
-          setDelegate: (id, newV, builtin) {
-            // skip builtin timetable
-            for (final timetable in BuiltinTimetablePalettes.all) {
-              if (timetable.id == id) return;
-            }
-            builtin(id, newV);
-          },
-        );
+  final HiveTable<int, TimetablePalette> palette = HiveTable.incremental<TimetablePalette>(
+    base: _K.palette,
+    box: HiveInit.timetable,
+    useJson: (fromJson: TimetablePalette.fromJson, toJson: (palette) => palette.toJson()),
+    getDelegate: (id, builtin) {
+      // intercept builtin timetable
+      for (final timetable in BuiltinTimetablePalettes.all) {
+        if (timetable.id == id) return timetable;
+      }
+      return builtin(id);
+    },
+    setDelegate: (id, newV, builtin) {
+      // skip builtin timetable
+      for (final timetable in BuiltinTimetablePalettes.all) {
+        if (timetable.id == id) return;
+      }
+      builtin(id, newV);
+    },
+  );
+
+  TimetableStorage();
 
   DisplayMode? get lastDisplayMode => DisplayMode.at(box.safeGet(_K.lastDisplayMode));
 

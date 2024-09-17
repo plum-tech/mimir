@@ -16,15 +16,15 @@ class Notifier with ChangeNotifier {
   void notifier() => notifyListeners();
 }
 
-abstract class IdGenerator<TId> {
+abstract class IdGenerator<TId, T> {
   const IdGenerator();
 
-  TId gen();
+  TId gen(T row);
 
   FutureOr<void> clear();
 }
 
-class IncrementalIdGenerator implements IdGenerator<int> {
+class IncrementalIdGenerator<T> implements IdGenerator<int, T> {
   final String key;
   final Box box;
 
@@ -34,7 +34,7 @@ class IncrementalIdGenerator implements IdGenerator<int> {
   });
 
   @override
-  int gen() {
+  int gen(T row) {
     final lastId = box.safeGet<int>(key) ?? _kLastIdStart;
     box.safePut<int>(key, lastId + 1);
     return lastId;
@@ -46,18 +46,18 @@ class IncrementalIdGenerator implements IdGenerator<int> {
   }
 }
 
-typedef GetDelegate<T> = T? Function(int id, T? Function(int id) builtin);
-typedef SetDelegate<T> = FutureOr<void> Function(int id, T? newV, Future<void> Function(int id, T? newV) builtin);
+typedef GetDelegate<TId, T> = T? Function(TId id, T? Function(TId id) builtin);
+typedef SetDelegate<TId, T> = FutureOr<void> Function(TId id, T? newV, Future<void> Function(TId id, T? newV) builtin);
 typedef UseJson<T> = ({T Function(Map<String, dynamic> json) fromJson, Map<String, dynamic> Function(T row) toJson});
 
-class HiveTable<T> {
+class HiveTable<TId, T> {
   final String base;
   final Box box;
 
   final String _idListK;
   final String _rowsK;
   final String _selectedIdK;
-  final IdGenerator<int> genId;
+  final IdGenerator<TId, T> genId;
 
   final UseJson<T>? useJson;
 
@@ -68,10 +68,10 @@ class HiveTable<T> {
   final $any = Notifier();
 
   /// The delegate of getting row
-  final GetDelegate<T>? getDelegate;
+  final GetDelegate<TId, T>? getDelegate;
 
   /// The delegate of setting row
-  final SetDelegate<T>? setDelegate;
+  final SetDelegate<TId, T>? setDelegate;
 
   HiveTable({
     required this.base,
@@ -84,11 +84,11 @@ class HiveTable<T> {
         _rowsK = "$base/$_kRows",
         _selectedIdK = "$base/$_kSelectedId";
 
-  factory HiveTable.incremental({
+  static HiveTable<int, T> incremental<T>({
     required String base,
     required Box box,
-    GetDelegate<T>? getDelegate,
-    SetDelegate<T>? setDelegate,
+    GetDelegate<int, T>? getDelegate,
+    SetDelegate<int, T>? setDelegate,
     UseJson<T>? useJson,
   }) {
     return HiveTable(
@@ -103,20 +103,20 @@ class HiveTable<T> {
 
   bool get hasAny => idList?.isNotEmpty ?? false;
 
-  List<int>? get idList => box.safeGet<List>(_idListK)?.cast<int>();
+  List<TId>? get idList => box.safeGet<List>(_idListK)?.cast<TId>();
 
-  set idList(List<int>? newValue) => box.safePut<List<int>>(_idListK, newValue);
+  set idList(List<TId>? newValue) => box.safePut<List<TId>>(_idListK, newValue);
 
-  int? get selectedId => box.safeGet(_selectedIdK);
+  TId? get selectedId => box.safeGet(_selectedIdK);
 
   bool get isEmpty => idList?.isEmpty != false;
 
   bool get isNotEmpty => !isEmpty;
 
-  String _rowK(int id) => "$_rowsK/$id";
+  String _rowK(TId id) => "$_rowsK/$id";
 
-  set selectedId(int? newValue) {
-    box.safePut<int>(_selectedIdK, newValue);
+  set selectedId(TId? newValue) {
+    box.safePut<TId>(_selectedIdK, newValue);
     $selected.notifier();
     $any.notifier();
   }
@@ -129,7 +129,7 @@ class HiveTable<T> {
     return this[id];
   }
 
-  T? _getBuiltin(int id) {
+  T? _getBuiltin(TId id) {
     final row = box.safeGet<dynamic>(_rowK(id));
     final useJson = this.useJson;
     if (useJson == null || row == null) {
@@ -139,7 +139,7 @@ class HiveTable<T> {
     }
   }
 
-  T? get(int id) {
+  T? get(TId id) {
     final get = this.getDelegate;
     if (get != null) {
       return get(id, _getBuiltin);
@@ -147,9 +147,9 @@ class HiveTable<T> {
     return _getBuiltin(id);
   }
 
-  T? operator [](int id) => get(id);
+  T? operator [](TId id) => get(id);
 
-  Future<void> _setBuiltin(int id, T? newValue) async {
+  Future<void> _setBuiltin(TId id, T? newValue) async {
     final useJson = this.useJson;
     if (useJson == null || newValue == null) {
       await box.safePut<T>(_rowK(id), newValue);
@@ -162,7 +162,7 @@ class HiveTable<T> {
     $any.notifier();
   }
 
-  Future<void> set(int id, T? newValue) async {
+  Future<void> set(TId id, T? newValue) async {
     final set = this.setDelegate;
     if (set != null) {
       await set(id, newValue, _setBuiltin);
@@ -170,12 +170,12 @@ class HiveTable<T> {
     return _setBuiltin(id, newValue);
   }
 
-  void operator []=(int id, T? newValue) => set(id, newValue);
+  void operator []=(TId id, T? newValue) => set(id, newValue);
 
   /// Return a new ID for the [row].
-  int add(T row) {
-    final curId = genId.gen();
-    final ids = idList ?? <int>[];
+  TId add(T row) {
+    final curId = genId.gen(row);
+    final ids = idList ?? <TId>[];
     ids.add(curId);
     this[curId] = row;
     idList = ids;
@@ -184,7 +184,7 @@ class HiveTable<T> {
 
   /// Delete the timetable by [id].
   /// If [selectedId] is deleted, an available timetable would be switched to.
-  void delete(int id) {
+  void delete(TId id) {
     final ids = idList;
     if (ids == null) return;
     if (ids.remove(id)) {
@@ -216,9 +216,9 @@ class HiveTable<T> {
 
   // TODO: Row delegate?
   /// ignore null row
-  List<({int id, T row})> getRows() {
+  List<({TId id, T row})> getRows() {
     final ids = idList;
-    final res = <({int id, T row})>[];
+    final res = <({TId id, T row})>[];
     if (ids == null) return res;
     for (final id in ids) {
       final row = this[id];
@@ -229,18 +229,18 @@ class HiveTable<T> {
     return res;
   }
 
-  Listenable listenRowChange(int id) => box.listenable(keys: [_rowK(id)]);
+  Listenable listenRowChange(TId id) => box.listenable(keys: [_rowK(id)]);
 
-  late final $rowOf = box.providerFamily<T, int>(
+  late final $rowOf = box.providerFamily<T, TId>(
     (id) => _rowK(id),
     get: (id) => this[id],
     set: (id, v) => this[id] = v,
   );
 
-  late final $rows = $any.provider<List<({int id, T row})>>(
+  late final $rows = $any.provider<List<({TId id, T row})>>(
     get: getRows,
   );
-  late final $selectedId = $selected.provider<int?>(
+  late final $selectedId = $selected.provider<TId?>(
     get: () => selectedId,
   );
   late final $selectedRow = $selected.provider<T?>(
