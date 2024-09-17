@@ -74,8 +74,7 @@ class _AboutSettingsPageState extends ConsumerState<AboutSettingsPage> {
                 },
               ),
               AboutListTile(
-                // FIXME: icon is buggy
-                // icon: SvgPicture.asset("assets/icon.svg").sizedAll(32),
+                icon: Image.asset("assets/icon.png").sizedAll(32),
                 applicationName: R.appNameL10n,
                 applicationVersion: R.meta.version.toString(),
                 applicationLegalese: "Copyright©️2024 Plum Technology Ltd. All Rights Reserved.",
