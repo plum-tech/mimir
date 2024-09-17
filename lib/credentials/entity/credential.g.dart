@@ -6,24 +6,24 @@ part of 'credential.dart';
 // CopyWithGenerator
 // **************************************************************************
 
-abstract class _$CredentialsCWProxy {
+abstract class _$CredentialCWProxy {
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored.
   ///
   /// Usage
   /// ```dart
-  /// Credentials(...).copyWith(id: 12, name: "My name")
+  /// Credential(...).copyWith(id: 12, name: "My name")
   /// ````
-  Credentials call({
+  Credential call({
     String? account,
     String? password,
   });
 }
 
-/// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfCredentials.copyWith(...)`.
-class _$CredentialsCWProxyImpl implements _$CredentialsCWProxy {
-  const _$CredentialsCWProxyImpl(this._value);
+/// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfCredential.copyWith(...)`.
+class _$CredentialCWProxyImpl implements _$CredentialCWProxy {
+  const _$CredentialCWProxyImpl(this._value);
 
-  final Credentials _value;
+  final Credential _value;
 
   @override
 
@@ -31,13 +31,13 @@ class _$CredentialsCWProxyImpl implements _$CredentialsCWProxy {
   ///
   /// Usage
   /// ```dart
-  /// Credentials(...).copyWith(id: 12, name: "My name")
+  /// Credential(...).copyWith(id: 12, name: "My name")
   /// ````
-  Credentials call({
+  Credential call({
     Object? account = const $CopyWithPlaceholder(),
     Object? password = const $CopyWithPlaceholder(),
   }) {
-    return Credentials(
+    return Credential(
       account: account == const $CopyWithPlaceholder() || account == null
           ? _value.account
           // ignore: cast_nullable_to_non_nullable
@@ -50,34 +50,34 @@ class _$CredentialsCWProxyImpl implements _$CredentialsCWProxy {
   }
 }
 
-extension $CredentialsCopyWith on Credentials {
-  /// Returns a callable class that can be used as follows: `instanceOfCredentials.copyWith(...)`.
+extension $CredentialCopyWith on Credential {
+  /// Returns a callable class that can be used as follows: `instanceOfCredential.copyWith(...)`.
   // ignore: library_private_types_in_public_api
-  _$CredentialsCWProxy get copyWith => _$CredentialsCWProxyImpl(this);
+  _$CredentialCWProxy get copyWith => _$CredentialCWProxyImpl(this);
 }
 
 // **************************************************************************
 // TypeAdapterGenerator
 // **************************************************************************
 
-class CredentialsAdapter extends TypeAdapter<Credentials> {
+class CredentialAdapter extends TypeAdapter<Credential> {
   @override
   final int typeId = 4;
 
   @override
-  Credentials read(BinaryReader reader) {
+  Credential read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return Credentials(
+    return Credential(
       account: fields[0] as String,
       password: fields[1] as String,
     );
   }
 
   @override
-  void write(BinaryWriter writer, Credentials obj) {
+  void write(BinaryWriter writer, Credential obj) {
     writer
       ..writeByte(2)
       ..writeByte(0)
@@ -92,5 +92,5 @@ class CredentialsAdapter extends TypeAdapter<Credentials> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is CredentialsAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      other is CredentialAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

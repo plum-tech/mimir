@@ -396,7 +396,7 @@ class _TextInputActionTileState extends State<TextInputActionTile> {
 }
 
 class SwitchOaUserTile extends StatefulWidget {
-  final Credentials currentCredentials;
+  final Credential currentCredentials;
 
   const SwitchOaUserTile({
     super.key,
@@ -434,7 +434,7 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
     );
   }
 
-  Widget buildCredentialsHistoryTile(Credentials credentials) {
+  Widget buildCredentialsHistoryTile(Credential credentials) {
     final isCurrent = credentials == widget.currentCredentials;
     return WithSwipeAction(
       right: SwipeAction.delete(
@@ -487,7 +487,7 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
           onPressed: () async {
             final credentials = await Editor.showAnyEditor(
               context,
-              initial: const Credentials(account: "", password: ""),
+              initial: const Credential(account: "", password: ""),
             );
             if (credentials == null) return;
             final old = CredentialsInit.storage.oa.credentials;
@@ -503,7 +503,7 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
           onPressed: () async {
             final credentials = await Editor.showAnyEditor(
               context,
-              initial: const Credentials(account: "", password: ""),
+              initial: const Credential(account: "", password: ""),
             );
             if (credentials == null || credentials.account.trim().isEmpty || credentials.password.trim().isEmpty) {
               return;
@@ -515,8 +515,8 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
     );
   }
 
-  Future<void> recordNewCredentials(Credentials credentials, {Credentials? old}) async {
-    final List<Credentials> newCredentials = [
+  Future<void> recordNewCredentials(Credential credentials, {Credential? old}) async {
+    final List<Credential> newCredentials = [
       ...Dev.getSavedOaCredentialsList() ?? [],
       credentials,
     ];
@@ -526,7 +526,7 @@ class _SwitchOaUserTileState extends State<SwitchOaUserTile> {
     await Dev.setSavedOaCredentialsList(newCredentials);
   }
 
-  Future<void> loginWith(Credentials credentials) async {
+  Future<void> loginWith(Credential credentials) async {
     setState(() => isLoggingIn = true);
     try {
       final old = CredentialsInit.storage.oa.credentials;

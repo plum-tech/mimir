@@ -200,7 +200,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
   }
 
   Future<void> onLogin() async {
-    final credential = Credentials(
+    final credential = Credential(
       account: R.formatEduEmail(username: $username.text),
       password: $password.text,
     );

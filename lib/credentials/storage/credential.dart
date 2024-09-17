@@ -30,11 +30,11 @@ class _Oa {
 
   _Oa(this.box);
 
-  Credentials? get credentials => box.safeGet<Credentials>(_OaK.credentials);
+  Credential? get credentials => box.safeGet<Credential>(_OaK.credentials);
 
-  set credentials(Credentials? newV) => box.safePut<Credentials>(_OaK.credentials, newV);
+  set credentials(Credential? newV) => box.safePut<Credential>(_OaK.credentials, newV);
 
-  late final $credentials = box.provider<Credentials>(_OaK.credentials);
+  late final $credentials = box.provider<Credential>(_OaK.credentials);
 
   DateTime? get lastAuthTime => box.safeGet<DateTime>(_OaK.lastAuthTime);
 
@@ -89,11 +89,11 @@ class _EduEmail {
 
   _EduEmail(this.box);
 
-  Credentials? get credentials => box.safeGet<Credentials>(_EduEmailK.credentials);
+  Credential? get credentials => box.safeGet<Credential>(_EduEmailK.credentials);
 
-  set credentials(Credentials? newV) => box.safePut<Credentials>(_EduEmailK.credentials, newV);
+  set credentials(Credential? newV) => box.safePut<Credential>(_EduEmailK.credentials, newV);
 
-  late final $credentials = box.provider<Credentials>(_EduEmailK.credentials);
+  late final $credentials = box.provider<Credential>(_EduEmailK.credentials);
 }
 
 class _LibraryK {
@@ -106,9 +106,9 @@ class _Library {
 
   _Library(this.box);
 
-  Credentials? get credentials => box.safeGet<Credentials>(_LibraryK.credentials);
+  Credential? get credentials => box.safeGet<Credential>(_LibraryK.credentials);
 
-  set credentials(Credentials? newV) => box.safePut<Credentials>(_LibraryK.credentials, newV);
+  set credentials(Credential? newV) => box.safePut<Credential>(_LibraryK.credentials, newV);
 
-  late final $credentials = box.provider<Credentials>(_LibraryK.credentials);
+  late final $credentials = box.provider<Credential>(_LibraryK.credentials);
 }

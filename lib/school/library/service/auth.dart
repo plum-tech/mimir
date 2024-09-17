@@ -18,7 +18,7 @@ class LibraryAuthService {
 
   const LibraryAuthService();
 
-  Future<Response> login(Credentials credentials) async {
+  Future<Response> login(Credential credentials) async {
     final response = await _login(credentials.account, credentials.password);
     final content = response.data.toString();
     if (content.contains('用户名或密码错误')) {

@@ -39,7 +39,7 @@ class _GreetingState extends ConsumerState<Greeting> {
     super.dispose();
   }
 
-  int _getStudyDaysAndInitState(Credentials credentials) {
+  int _getStudyDaysAndInitState(Credential credentials) {
     final id = credentials.account;
     if (id.isNotEmpty) {
       final admissionYearTrailing = int.tryParse(id.substring(0, 2));

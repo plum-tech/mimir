@@ -2,7 +2,6 @@ import 'dart:typed_data';
 
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mimir/storage/hive/type_id.dart';
 import 'package:mimir/utils/byte_io/byte_io.dart';
 
 part "proxy.g.dart";
@@ -67,11 +66,8 @@ enum ProxyCat {
   }
 }
 
-@HiveType(typeId: CoreHiveType.proxyMode)
 enum ProxyMode {
-  @HiveField(0)
   global,
-  @HiveField(1)
   schoolOnly;
 }
 

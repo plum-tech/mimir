@@ -47,7 +47,7 @@ class _EduEmailSettingsPageState extends ConsumerState<EduEmailSettingsPage> {
       all.add(
         (_) => PasswordDisplayTile(
           password: credential.password,
-          onChanged: (pwd){
+          onChanged: (pwd) {
             CredentialsInit.storage.eduEmail.credentials = credential.copyWith(password: pwd);
           },
         ),
@@ -71,7 +71,7 @@ class _EduEmailSettingsPageState extends ConsumerState<EduEmailSettingsPage> {
     );
   }
 
-  Widget buildAccount(Credentials credential) {
+  Widget buildAccount(Credential credential) {
     return ListTile(
       title: i18n.eduEmail.emailAddress.text(),
       subtitle: credential.account.text(),

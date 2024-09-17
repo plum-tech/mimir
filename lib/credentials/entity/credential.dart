@@ -5,13 +5,13 @@ part 'credential.g.dart';
 
 @HiveType(typeId: CoreHiveType.credentials)
 @CopyWith(skipFields: true)
-class Credentials {
+class Credential {
   @HiveField(0)
   final String account;
   @HiveField(1)
   final String password;
 
-  const Credentials({
+  const Credential({
     required this.account,
     required this.password,
   });
@@ -21,7 +21,7 @@ class Credentials {
 
   @override
   bool operator ==(Object other) {
-    return other is Credentials &&
+    return other is Credential &&
         runtimeType == other.runtimeType &&
         account == other.account &&
         password == other.password;

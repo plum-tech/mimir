@@ -15,7 +15,7 @@ enum _State {
 }
 
 class LoginTestTile extends StatefulWidget {
-  final Credentials credential;
+  final Credential credential;
   final Future<void> Function() login;
 
   const LoginTestTile({

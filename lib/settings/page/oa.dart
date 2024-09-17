@@ -47,9 +47,9 @@ class _OaSettingsPageState extends ConsumerState<OaSettingsPage> {
       all.add((_) => buildAccount(credential));
       all.add((_) => const Divider());
       all.add(
-            (_) => PasswordDisplayTile(
+        (_) => PasswordDisplayTile(
           password: credential.password,
-          onChanged: (pwd){
+          onChanged: (pwd) {
             CredentialsInit.storage.oa.credentials = credential.copyWith(password: pwd);
           },
         ),
@@ -74,7 +74,7 @@ class _OaSettingsPageState extends ConsumerState<OaSettingsPage> {
     );
   }
 
-  Widget buildAccount(Credentials credential) {
+  Widget buildAccount(Credential credential) {
     return ListTile(
       title: i18n.oa.oaAccount.text(),
       subtitle: credential.account.text(),

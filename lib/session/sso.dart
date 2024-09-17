@@ -109,7 +109,7 @@ class SsoSession {
   }
 
   /// - User try to log in actively on a login page.
-  Future<Response> loginLocked(Credentials credentials) async {
+  Future<Response> loginLocked(Credential credentials) async {
     return await _loginLock.run(() async {
       networkLogger.i("loginLocked ${DateTime.now().toIso8601String()}");
       try {
@@ -205,7 +205,7 @@ class SsoSession {
   }
 
   Future<Response> _login(
-    Credentials credentials, {
+    Credential credentials, {
     required Future<String?> Function(Uint8List imageBytes) inputCaptcha,
   }) async {
     debugPrint('${credentials.account} logging in');

@@ -20,7 +20,6 @@ import 'package:mimir/school/class2nd/entity/activity.dart';
 import 'package:mimir/school/class2nd/entity/attended.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/yellow_pages/entity/contact.dart';
-import 'package:mimir/settings/entity/proxy.dart';
 import 'package:mimir/storage/hive/init.dart';
 
 import 'builtin.dart';
@@ -37,12 +36,9 @@ class HiveAdapter {
     hive.addAdapter(CampusAdapter());
 
     // Credential
-    hive.addAdapter(CredentialsAdapter());
+    hive.addAdapter(CredentialAdapter());
     hive.addAdapter(OaLoginStatusAdapter());
     hive.addAdapter(OaUserTypeAdapter());
-
-    // Settings
-    hive.addAdapter(ProxyModeAdapter());
   }
 
   static void registerCacheAdapters(HiveInterface hive) {

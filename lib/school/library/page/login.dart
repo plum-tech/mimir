@@ -136,7 +136,7 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
   }
 
   Future<void> onLogin() async {
-    final credential = Credentials(
+    final credential = Credential(
       account: $readerId.text,
       password: $password.text,
     );

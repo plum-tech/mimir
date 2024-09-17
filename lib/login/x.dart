@@ -10,7 +10,7 @@ import 'package:mimir/settings/settings.dart';
 import 'init.dart';
 
 class XLogin {
-  static Future<void> login(Credentials credentials) async {
+  static Future<void> login(Credential credentials) async {
     credentials = credentials.copyWith(
       account: credentials.account.toUpperCase(),
     );

@@ -47,9 +47,9 @@ class DevSettingsImpl {
 
   late final $expenseUserOverride = box.provider<String>(_K.expenseUserOverride);
 
-  List<Credentials>? getSavedOaCredentialsList() => box.safeGet<List>(_K.savedOaCredentialsList)?.cast<Credentials>();
+  List<Credential>? getSavedOaCredentialsList() => box.safeGet<List>(_K.savedOaCredentialsList)?.cast<Credential>();
 
-  Future<void> setSavedOaCredentialsList(List<Credentials>? newV) async {
+  Future<void> setSavedOaCredentialsList(List<Credential>? newV) async {
     newV?.distinctBy((c) => c.account);
     await box.safePut<List>(_K.savedOaCredentialsList, newV);
   }

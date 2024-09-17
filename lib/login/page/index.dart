@@ -164,7 +164,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     }
 
     try {
-      await XLogin.login(Credentials(account: account, password: password));
+      await XLogin.login(Credential(account: account, password: password));
       if (!mounted) return;
       setState(() => loggingIn = false);
       context.go("/");

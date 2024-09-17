@@ -30,7 +30,7 @@ class _EduEmailInboxPageState extends ConsumerState<EduEmailInboxPage> {
     }
   }
 
-  Future<void> refresh(Credentials credentials) async {
+  Future<void> refresh(Credential credentials) async {
     if (!mounted) return;
     try {
       await EduEmailInit.service.login(credentials);
@@ -70,7 +70,7 @@ class _EduEmailInboxPageState extends ConsumerState<EduEmailInboxPage> {
           if (messages != null)
             SliverList.separated(
               itemCount: messages.length,
-              separatorBuilder: (ctx,i)=> const Divider(height: 12),
+              separatorBuilder: (ctx, i) => const Divider(height: 12),
               itemBuilder: (ctx, i) {
                 return EmailItem(messages[i]);
               },
