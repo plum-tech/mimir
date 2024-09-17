@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mimir/entity/uuid.dart';
 import 'package:mimir/utils/hive.dart';
 import 'package:mimir/utils/riverpod.dart';
 
@@ -44,6 +45,18 @@ class IncrementalIdGenerator<T> implements IdGenerator<int, T> {
   FutureOr<void> clear() async {
     await box.delete(key);
   }
+}
+
+class WithUuidGenerator<T extends WithUuid> implements IdGenerator<String, T> {
+  const WithUuidGenerator();
+
+  @override
+  String gen(T row) {
+    return row.uuid;
+  }
+
+  @override
+  void clear() {}
 }
 
 typedef GetDelegate<TId, T> = T? Function(TId id, T? Function(TId id) builtin);

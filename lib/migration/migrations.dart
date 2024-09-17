@@ -1,11 +1,17 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
 import 'package:mimir/files.dart';
 import 'package:mimir/settings/entity/proxy.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/storage/hive/init.dart';
+import 'package:mimir/timetable/entity/timetable.dart';
 import 'package:mimir/timetable/init.dart';
+import 'package:mimir/timetable/p13n/entity/palette.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:mimir/utils/hive.dart';
+import 'package:mimir/utils/json.dart';
 import 'package:version/version.dart';
 
 import 'foundation.dart';
@@ -94,6 +100,75 @@ class Migrations {
             }
           }
         });
+    MigrationPhrase.afterHive <<
+        () async {
+          final box = HiveInit.timetable;
+          final timetableRows = <Timetable>[];
+          final paletteRows = <TimetablePalette>[];
+          final keys2Remove = <String>[];
+
+          Timetable? getTimetable(String key) {
+            final value = box.safeGet<String>(key);
+            if (value == null) return null;
+            final obj = decodeJsonObject(value, (obj) => Timetable.fromJson(obj));
+            return obj;
+          }
+
+          TimetablePalette? getPalette(String key) {
+            final value = box.safeGet<String>(key);
+            if (value == null) return null;
+            final obj = decodeJsonObject(value, (obj) => TimetablePalette.fromJson(obj));
+            return obj;
+          }
+
+          for (final key in box.keys) {
+            if (key is! String) continue;
+            if (key.startsWith("/timetable/rows")) {
+              final obj = getTimetable(key);
+              if (obj == null) continue;
+              timetableRows.add(obj);
+              keys2Remove.add(key);
+            } else if (key.startsWith("/palette/rows")) {
+              final obj = getPalette(key);
+              if (obj == null) continue;
+              paletteRows.add(obj);
+              keys2Remove.add(key);
+            }
+          }
+          final timetableIdList = timetableRows.map((row) => row.uuid).toList();
+          final paletteIdList = timetableRows.map((row) => row.uuid).toList();
+
+          final timetableSelectedId = box.safeGet<int>("/timetable/selectedId");
+          final timetableSelected = getTimetable("/timetable/rows/$timetableSelectedId");
+
+          final paletteSelectedId = box.safeGet<int>("/palette/selectedId");
+          final paletteSelected = getTimetable("/palette/rows/$paletteSelectedId");
+
+          // // -- put --
+          // if (timetableSelected != null) {
+          //   box.safePut<String>("/timetable/selectedId", timetableSelected.uuid);
+          // }
+          // if (paletteSelected != null) {
+          //   box.safePut<String>("/palette/selectedId", paletteSelected.uuid);
+          // }
+          // for (final timetable in timetableRows) {
+          //   box.safePut<String>("/timetable/rows/${timetable.uuid}", encodeJsonObject(timetable));
+          // }
+          // box.safePut<List<String>>("/timetable/idList", timetableIdList);
+          //
+          // for (final palette in paletteRows) {
+          //   box.safePut<String>("/palette/rows/${palette.uuid}", encodeJsonObject(palette));
+          // }
+          // box.safePut<List<String>>("/palette/idList", paletteIdList);
+          //
+          // // -- delete --
+          // for (final key in keys2Remove) {
+          //   box.delete(key);
+          // }
+
+          print(timetableRows);
+          print(paletteRows);
+        };
   }
 
   static MigrationMatch match({
@@ -114,18 +189,31 @@ class Migrations {
   }
 }
 
+final _debugTasks = <MigrationPhrase, List<FutureOr<void> Function()>>{};
+
 class MigrationMatch {
   final List<MimirMigration> _migrations;
 
-  const MigrationMatch(this._migrations);
+  MigrationMatch(this._migrations);
 
   Future<void> perform(MigrationPhrase phrase) async {
-    try {
-      for (final migration in _migrations) {
+    for (final migration in _migrations) {
+      try {
         await migration.perform(phrase);
+      } catch (error, stackTrace) {
+        debugPrintError(error, stackTrace);
       }
-    } catch (error, stackTrace) {
-      debugPrintError(error, stackTrace);
+    }
+    if (kDebugMode) {
+      final tasks = _debugTasks[phrase];
+      if (tasks == null) return;
+      for (final task in tasks) {
+        try {
+          await task();
+        } catch (error, stackTrace) {
+          debugPrintError(error, stackTrace);
+        }
+      }
     }
   }
 }
@@ -133,5 +221,15 @@ class MigrationMatch {
 extension _MigrationEx on Version {
   void operator <<(MimirMigration migration) {
     Migrations._manager.addWhen(this, perform: migration);
+  }
+}
+
+extension _MigrationPhraseEx on MigrationPhrase {
+  void operator <<(FutureOr<void> Function() func) {
+    var list = _debugTasks[this];
+    if (list == null) {
+      _debugTasks[this] = list = [];
+    }
+    list.add(func);
   }
 }
