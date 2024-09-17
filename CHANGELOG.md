@@ -3,6 +3,7 @@
 ## 2.6.2
 - Users are required to accept *Privacy Policy* and *Terms of Services* at the first use.
 - Added *Privacy Policy* and *Terms of Services* versioning.
+- Added CN bureau advice for games
 
 ## 2.6.1
 - Users are required to accept *Privacy Policy* and *Terms of Services* on login page.
