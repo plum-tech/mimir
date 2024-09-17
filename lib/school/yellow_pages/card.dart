@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/design/widgets/app.dart';
+import 'package:mimir/design/widget/app.dart';
 import 'package:mimir/r.dart';
 import 'init.dart';
 import 'storage/contact.dart';
-import 'widgets/contact.dart';
+import 'widget/contact.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'entity/contact.dart';
 import 'i18n.dart';
-import 'widgets/search.dart';
+import 'widget/search.dart';
 
 const _historyLength = 2;
 

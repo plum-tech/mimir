@@ -8,7 +8,7 @@ import 'package:url_launcher/url_launcher_string.dart';
 
 import '../entity/service.dart';
 import '../init.dart';
-import '../widgets/detail.dart';
+import '../widget/detail.dart';
 import "../i18n.dart";
 
 class YwbServiceDetailsPage extends ConsumerStatefulWidget {

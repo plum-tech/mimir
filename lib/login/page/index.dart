@@ -19,9 +19,9 @@ import 'package:mimir/l10n/common.dart';
 import 'package:mimir/login/utils.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/school/utils.dart';
-import 'package:mimir/school/widgets/campus.dart';
+import 'package:mimir/school/widget/campus.dart';
 import 'package:mimir/agreements/widget/agreements.dart';
-import 'package:mimir/widgets/markdown.dart';
+import 'package:mimir/widget/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/meta.dart';
@@ -29,7 +29,7 @@ import 'package:mimir/settings/settings.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 
 import '../i18n.dart';
-import '../widgets/forgot_pwd.dart';
+import '../widget/forgot_pwd.dart';
 import '../x.dart';
 
 const _i18n = _I18n();

@@ -7,7 +7,7 @@ import 'package:mimir/design/adaptive/editor.dart';
 import 'package:mimir/design/adaptive/menu.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/adaptive/swipe.dart';
-import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/design/widget/common.dart';
 import 'package:mimir/timetable/patch/widget/shared.dart';
 import 'package:mimir/utils/save.dart';
 import 'package:text_scroll/text_scroll.dart';

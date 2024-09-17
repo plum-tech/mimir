@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
-import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/design/widget/common.dart';
 import 'package:mimir/l10n/time.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/timetable/utils.dart';

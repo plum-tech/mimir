@@ -6,12 +6,12 @@ import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/animation/progress.dart';
 import 'package:mimir/l10n/common.dart';
 import 'package:mimir/utils/error.dart';
-import 'package:mimir/widgets/webview/injectable.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:text_scroll/text_scroll.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'injectable.dart';
 
 // TODO: remove this
 const _kUserAgent =

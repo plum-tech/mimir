@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/backend/user/x.dart';
 import 'package:mimir/credentials/init.dart';
-import 'package:mimir/design/widgets/app.dart';
+import 'package:mimir/design/widget/app.dart';
 import 'package:rettulf/rettulf.dart';
 
 import "../i18n.dart";

@@ -13,19 +13,19 @@ import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/feature/utils.dart';
 import 'package:mimir/lifecycle.dart';
 import 'package:mimir/login/i18n.dart';
-import 'package:mimir/network/widgets/entrance.dart';
+import 'package:mimir/network/widget/entrance.dart';
 import 'package:mimir/storage/hive/init.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/settings/settings.dart';
-import 'package:mimir/school/widgets/campus.dart';
+import 'package:mimir/school/widget/campus.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:locale_names/locale_names.dart';
 import 'package:mimir/utils/riverpod.dart';
 
 import '../i18n.dart';
-import '../../design/widgets/navigation.dart';
+import '../../design/widget/navigation.dart';
 
 class SettingsPage extends ConsumerStatefulWidget {
   const SettingsPage({super.key});

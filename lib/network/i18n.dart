@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:mimir/credentials/i18n.dart';
 import 'package:mimir/l10n/common.dart';
-import 'package:mimir/network/widgets/checker.dart';
+import 'package:mimir/network/widget/checker.dart';
 
 const i18n = _I18n();
 

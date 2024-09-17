@@ -5,16 +5,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/animation/progress.dart';
-import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/design/widget/common.dart';
 import 'package:mimir/school/utils.dart';
-import 'package:mimir/school/widgets/semester.dart';
+import 'package:mimir/school/widget/semester.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/utils/error.dart';
 
 import '../entity/result.ug.dart';
 import '../init.dart';
-import '../widgets/ug.dart';
+import '../widget/ug.dart';
 import '../i18n.dart';
 import '../x.dart';
 

@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
-import 'package:mimir/design/widgets/app.dart';
+import 'package:mimir/design/widget/app.dart';
 import 'package:mimir/school/ywb/entity/application.dart';
 import 'package:mimir/school/ywb/init.dart';
 import 'package:rettulf/rettulf.dart';
 
 import "i18n.dart";
-import 'widgets/application.dart';
+import 'widget/application.dart';
 
 const _applicationLength = 2;
 

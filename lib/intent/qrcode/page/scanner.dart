@@ -20,7 +20,7 @@ import 'package:mimir/utils/permission.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import '../i18n.dart';
-import '../widgets/overlay.dart';
+import '../widget/overlay.dart';
 
 class ScannerPage extends StatefulWidget {
   const ScannerPage({super.key});

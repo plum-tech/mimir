@@ -39,7 +39,7 @@ import 'package:mimir/storage/hive/cookie.dart';
 import 'package:mimir/network/dio.dart';
 import 'package:mimir/session/sso.dart';
 
-import '../widgets/captcha_box.dart';
+import '../widget/captcha_box.dart';
 
 class Init {
   const Init._();

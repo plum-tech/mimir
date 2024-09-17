@@ -5,7 +5,7 @@ import 'package:simple_icons/simple_icons.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/settings/settings.dart';
 import '../entity/artifact.dart';
-import 'package:mimir/widgets/markdown.dart';
+import 'package:mimir/widget/markdown.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../i18n.dart';

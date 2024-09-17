@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/settings/settings.dart';
-import 'package:mimir/widgets/markdown.dart';
+import 'package:mimir/widget/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 import '../entity/agreements.dart';
 import '../i18n.dart';

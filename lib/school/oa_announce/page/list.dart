@@ -4,7 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/credentials/init.dart';
-import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/design/widget/common.dart';
 
 import 'package:mimir/school/oa_announce/widget/tile.dart';
 import 'package:rettulf/rettulf.dart';

@@ -5,8 +5,8 @@ import 'package:mimir/init.dart';
 
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/utils/cookies.dart';
-import 'package:mimir/widgets/webview/injectable.dart';
-import 'package:mimir/widgets/webview/page.dart';
+import 'package:mimir/widget/webview/injectable.dart';
+import 'package:mimir/widget/webview/page.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 

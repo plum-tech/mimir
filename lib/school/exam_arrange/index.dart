@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
-import 'package:mimir/design/widgets/app.dart';
+import 'package:mimir/design/widget/app.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/school/exam_arrange/entity/exam.dart';
 import 'package:mimir/school/exam_arrange/init.dart';
@@ -16,7 +16,7 @@ import 'package:super_context_menu/super_context_menu.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import "i18n.dart";
-import 'widgets/exam.dart';
+import 'widget/exam.dart';
 
 class ExamArrangeAppCard extends ConsumerStatefulWidget {
   const ExamArrangeAppCard({super.key});

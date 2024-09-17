@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/design/widget/common.dart';
 import 'package:mimir/settings/dev.dart';
 
 class NotFoundPage extends StatelessWidget {

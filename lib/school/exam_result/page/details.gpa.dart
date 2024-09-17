@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/design/widgets/list_tile.dart';
+import 'package:mimir/design/widget/list_tile.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/exam_result/entity/gpa.dart';
-import 'package:mimir/school/exam_result/widgets/ug.dart';
+import 'package:mimir/school/exam_result/widget/ug.dart';
 import '../i18n.dart';
 
 class ExamResultGpaItemDetailsPage extends StatefulWidget {

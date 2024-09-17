@@ -8,7 +8,7 @@ import 'package:mimir/utils/error.dart';
 
 import '../init.dart';
 import '../i18n.dart';
-import '../widgets/item.dart';
+import '../widget/item.dart';
 
 // TODO: Send email
 class EduEmailInboxPage extends ConsumerStatefulWidget {

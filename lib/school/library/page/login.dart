@@ -5,7 +5,7 @@ import 'package:mimir/credentials/entity/credential.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/login/utils.dart';
-import 'package:mimir/login/widgets/forgot_pwd.dart';
+import 'package:mimir/login/widget/forgot_pwd.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/school/library/api.dart';
 import 'package:mimir/settings/dev.dart';

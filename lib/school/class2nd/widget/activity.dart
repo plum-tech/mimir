@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widgets/tags.dart';
+import 'package:mimir/design/widget/tags.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 

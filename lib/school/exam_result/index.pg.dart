@@ -2,9 +2,9 @@ import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/design/widgets/app.dart';
+import 'package:mimir/design/widget/app.dart';
 import 'package:mimir/school/exam_result/init.dart';
-import 'package:mimir/school/exam_result/widgets/pg.dart';
+import 'package:mimir/school/exam_result/widget/pg.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 

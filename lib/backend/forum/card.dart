@@ -10,7 +10,7 @@ import 'package:mimir/utils/async_event.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/backend/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
-import 'package:mimir/design/widgets/app.dart';
+import 'package:mimir/design/widget/app.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/utils/guard_launch.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/adaptive/menu.dart';
-import 'package:mimir/design/widgets/fab.dart';
+import 'package:mimir/design/widget/fab.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/page/screenshot.dart';
@@ -14,8 +14,8 @@ import '../entity/timetable_entity.dart';
 import '../init.dart';
 import '../entity/pos.dart';
 import '../utils.dart';
-import '../widgets/focus.dart';
-import '../widgets/timetable/board.dart';
+import '../widget/focus.dart';
+import '../widget/timetable/board.dart';
 import 'mine.dart';
 
 class TimetableBoardPage extends ConsumerStatefulWidget {

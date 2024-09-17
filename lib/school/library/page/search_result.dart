@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
-import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/design/widget/common.dart';
 import 'package:mimir/school/library/page/details.model.dart';
-import 'package:mimir/school/library/widgets/book.dart';
-import 'package:mimir/school/library/widgets/search.dart';
+import 'package:mimir/school/library/widget/book.dart';
+import 'package:mimir/school/library/widget/search.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:mimir/utils/error.dart';
 

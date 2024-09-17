@@ -5,7 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/l10n/common.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/widgets/modal_image_view.dart';
+import 'package:mimir/widget/modal_image_view.dart';
 
 const _i18n = CommonI18n();
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/settings/settings.dart';
-import 'package:mimir/widgets/markdown.dart';
+import 'package:mimir/widget/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/agreements.dart';

@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/design/animation/animated.dart';
-import 'package:mimir/design/widgets/icon.dart';
+import 'package:mimir/design/widget/icon.dart';
 import 'package:mimir/init.dart';
-import 'package:mimir/widgets/markdown.dart';
+import 'package:mimir/widget/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/network/service/network.dart';
-import 'package:mimir/network/widgets/buttons.dart';
+import 'package:mimir/network/widget/buttons.dart';
 
 import '../connectivity.dart';
 

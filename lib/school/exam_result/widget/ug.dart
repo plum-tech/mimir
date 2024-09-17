@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/school/exam_result/page/details.ug.dart';
-import 'package:mimir/school/widgets/course.dart';
+import 'package:mimir/school/widget/course.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../i18n.dart';

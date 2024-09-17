@@ -6,8 +6,8 @@ import 'package:mimir/school/yellow_pages/init.dart';
 import 'package:mimir/school/yellow_pages/storage/contact.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../widgets/list.dart';
-import '../widgets/search.dart';
+import '../widget/list.dart';
+import '../widget/search.dart';
 import '../i18n.dart';
 
 class YellowPagesListPage extends StatefulWidget {

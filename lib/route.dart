@@ -64,8 +64,8 @@ import 'package:mimir/timetable/page/edit/editor.dart';
 import 'package:mimir/timetable/p13n/page/palette_editor.dart';
 import 'package:mimir/timetable/patch/page/patch.dart';
 import 'package:mimir/timetable/page/settings.dart';
-import 'package:mimir/widgets/inapp_webview/page.dart';
-import 'package:mimir/widgets/not_found.dart';
+import 'package:mimir/widget/inapp_webview/page.dart';
+import 'package:mimir/widget/not_found.dart';
 import 'package:mimir/school/oa_announce/entity/announce.dart';
 import 'package:mimir/school/oa_announce/page/details.dart';
 import 'package:mimir/school/exam_arrange/page/list.dart';
@@ -85,7 +85,7 @@ import 'package:mimir/timetable/page/import.dart';
 import 'package:mimir/timetable/page/index.dart';
 import 'package:mimir/timetable/page/mine.dart';
 import 'package:mimir/timetable/p13n/page/palette.dart';
-import 'package:mimir/widgets/image.dart';
+import 'package:mimir/widget/image.dart';
 
 import 'game/minesweeper/page/records.dart';
 

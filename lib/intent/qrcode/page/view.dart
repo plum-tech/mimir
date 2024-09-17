@@ -15,7 +15,7 @@ import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/utils/screenshot.dart';
-import 'package:mimir/widgets/modal_image_view.dart';
+import 'package:mimir/widget/modal_image_view.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../i18n.dart';

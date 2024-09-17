@@ -8,8 +8,8 @@ import 'package:mimir/utils/screenshot.dart';
 
 import "../i18n.dart";
 import '../p13n/widget/style.dart';
-import '../widgets/timetable/background.dart';
-import '../widgets/timetable/weekly.dart';
+import '../widget/timetable/background.dart';
+import '../widget/timetable/weekly.dart';
 import '../entity/timetable_entity.dart';
 
 typedef TimetableScreenshotConfig = ({

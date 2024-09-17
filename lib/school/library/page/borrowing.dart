@@ -3,8 +3,8 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
-import 'package:mimir/design/widgets/card.dart';
-import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/design/widget/card.dart';
+import 'package:mimir/design/widget/common.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/school/library/init.dart';
 import 'package:mimir/school/library/utils.dart';
@@ -12,7 +12,7 @@ import 'package:mimir/utils/error.dart';
 
 import '../entity/borrow.dart';
 import '../i18n.dart';
-import '../widgets/book.dart';
+import '../widget/book.dart';
 import 'details.dart';
 import 'details.model.dart';
 

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
-import 'package:mimir/design/widgets/list_tile.dart';
+import 'package:mimir/design/widget/list_tile.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:rettulf/rettulf.dart';

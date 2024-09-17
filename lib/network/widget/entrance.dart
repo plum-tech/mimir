@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/design/widgets/navigation.dart';
+import 'package:mimir/design/widget/navigation.dart';
 import '../i18n.dart';
 
 class NetworkToolEntranceTile extends StatelessWidget {

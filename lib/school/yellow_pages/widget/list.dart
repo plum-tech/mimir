@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widgets/grouped.dart';
+import 'package:mimir/design/widget/grouped.dart';
 import 'package:mimir/school/yellow_pages/init.dart';
 import 'package:rettulf/rettulf.dart';
 

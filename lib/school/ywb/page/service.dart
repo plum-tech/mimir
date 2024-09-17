@@ -2,13 +2,13 @@ import 'package:collection/collection.dart';
 import 'package:fit_system_screenshot/fit_system_screenshot.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
-import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/design/widget/common.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/utils/error.dart';
 
 import '../entity/service.dart';
 import '../init.dart';
-import '../widgets/service.dart';
+import '../widget/service.dart';
 import '../i18n.dart';
 
 class YwbServiceListPage extends StatefulWidget {

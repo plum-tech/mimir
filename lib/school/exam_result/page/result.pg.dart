@@ -1,12 +1,12 @@
 import 'package:fit_system_screenshot/fit_system_screenshot.dart';
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/design/widget/common.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/utils/error.dart';
 
 import '../entity/result.pg.dart';
 import '../init.dart';
-import '../widgets/pg.dart';
+import '../widget/pg.dart';
 import '../i18n.dart';
 
 class ExamResultPgPage extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/design/widgets/party_popper.dart';
+import 'package:mimir/design/widget/party_popper.dart';
 
 class VictoryPartyPopper extends StatefulWidget {
   final Duration duration;

@@ -8,7 +8,7 @@ import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/adaptive/menu.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
-import 'package:mimir/design/widgets/card.dart';
+import 'package:mimir/design/widget/card.dart';
 import 'package:super_context_menu/super_context_menu.dart';
 
 enum EntryActionType {

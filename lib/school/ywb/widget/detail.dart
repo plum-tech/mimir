@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:mimir/widgets/html.dart';
+import 'package:mimir/widget/html.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/service.dart';

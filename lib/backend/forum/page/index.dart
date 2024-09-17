@@ -3,7 +3,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/utils/guard_launch.dart';
-import 'package:mimir/widgets/inapp_webview/page.dart';
+import 'package:mimir/widget/inapp_webview/page.dart';
 
 class MimirForumPage extends StatefulWidget {
   const MimirForumPage({super.key});

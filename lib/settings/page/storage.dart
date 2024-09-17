@@ -6,11 +6,11 @@ import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/utils/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mimir/design/adaptive/menu.dart';
-import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/design/widget/common.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/editor.dart';
 import 'package:mimir/storage/hive/init.dart';
-import 'package:mimir/widgets/page_grouper.dart';
+import 'package:mimir/widget/page_grouper.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../i18n.dart';

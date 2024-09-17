@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/design/widgets/list_tile.dart';
-import 'package:mimir/design/widgets/navigation.dart';
+import 'package:mimir/design/widget/list_tile.dart';
+import 'package:mimir/design/widget/navigation.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/exam_result/entity/result.ug.dart';

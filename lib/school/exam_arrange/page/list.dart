@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/credentials/init.dart';
-import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/design/widget/common.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/utils.dart';
-import 'package:mimir/school/widgets/semester.dart';
+import 'package:mimir/school/widget/semester.dart';
 import 'package:mimir/utils/error.dart';
 
 import '../entity/exam.dart';
 import '../i18n.dart';
 import '../init.dart';
-import '../widgets/exam.dart';
+import '../widget/exam.dart';
 
 class ExamArrangementListPage extends ConsumerStatefulWidget {
   const ExamArrangementListPage({super.key});

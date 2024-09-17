@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
-import 'package:mimir/design/widgets/app.dart';
+import 'package:mimir/design/widget/app.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/settings/settings.dart';

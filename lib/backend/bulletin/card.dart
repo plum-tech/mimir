@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/backend/bulletin/page/list.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/design/widgets/app.dart';
+import 'package:mimir/design/widget/app.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import 'entity/bulletin.dart';

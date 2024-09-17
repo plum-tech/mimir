@@ -9,11 +9,11 @@ import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/animation/animated.dart';
 import 'package:mimir/login/page/index.dart';
-import 'package:mimir/login/widgets/forgot_pwd.dart';
+import 'package:mimir/login/widget/forgot_pwd.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/utils/save.dart';
 import 'package:mimir/agreements/widget/agreements.dart';
-import 'package:mimir/widgets/markdown.dart';
+import 'package:mimir/widget/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../init.dart';

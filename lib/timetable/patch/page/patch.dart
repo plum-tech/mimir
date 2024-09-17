@@ -9,7 +9,7 @@ import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/adaptive/menu.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/adaptive/swipe.dart';
-import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/design/widget/common.dart';
 import 'package:mimir/timetable/patch/widget/shared.dart';
 import 'package:mimir/utils/format.dart';
 import 'package:mimir/utils/save.dart';

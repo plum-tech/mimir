@@ -4,15 +4,15 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
-import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/design/widget/common.dart';
 import 'package:mimir/utils/collection.dart';
 import 'package:mimir/utils/error.dart';
 
 import '../entity/activity.dart';
 import '../init.dart';
 import '../utils.dart';
-import '../widgets/activity.dart';
-import '../widgets/search.dart';
+import '../widget/activity.dart';
+import '../widget/search.dart';
 import '../i18n.dart';
 
 class ActivityListPage extends StatefulWidget {

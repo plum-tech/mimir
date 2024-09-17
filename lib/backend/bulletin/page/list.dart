@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/backend/bulletin/x.dart';
 import 'package:mimir/backend/init.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/widgets/markdown.dart';
+import 'package:mimir/widget/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../entity/bulletin.dart';

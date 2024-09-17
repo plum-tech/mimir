@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/adaptive/swipe.dart';
-import 'package:mimir/design/widgets/common.dart';
+import 'package:mimir/design/widget/common.dart';
 import 'package:mimir/game/entity/record.dart';
 import 'package:mimir/game/storage/record.dart';
 import "../i18n.dart";

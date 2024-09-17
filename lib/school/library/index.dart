@@ -6,7 +6,7 @@ import 'package:mimir/feature/utils.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
-import 'package:mimir/design/widgets/app.dart';
+import 'package:mimir/design/widget/app.dart';
 import 'package:mimir/school/library/page/borrowing.dart';
 import 'package:super_context_menu/super_context_menu.dart';
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/design/widgets/card.dart';
-import 'package:mimir/design/widgets/expansion_tile.dart';
+import 'package:mimir/design/widget/card.dart';
+import 'package:mimir/design/widget/expansion_tile.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/l10n/time.dart';
-import 'package:mimir/school/widgets/course.dart';
+import 'package:mimir/school/widget/course.dart';
 import 'package:mimir/timetable/entity/timetable.dart';
 import '../i18n.dart';
 

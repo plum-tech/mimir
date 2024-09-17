@@ -13,7 +13,7 @@ import '../entity/timetable.dart';
 import '../entity/timetable_entity.dart';
 import '../entity/pos.dart';
 import '../p13n/widget/style.dart';
-import '../widgets/timetable/board.dart';
+import '../widget/timetable/board.dart';
 
 import '../i18n.dart';
 import 'timetable.dart';

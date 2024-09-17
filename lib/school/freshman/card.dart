@@ -5,10 +5,10 @@ import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/school/freshman/init.dart';
-import 'package:mimir/school/yellow_pages/widgets/contact.dart';
+import 'package:mimir/school/yellow_pages/widget/contact.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/design/widgets/app.dart';
+import 'package:mimir/design/widget/app.dart';
 
 import 'entity/info.dart';
 import 'x.dart';

@@ -4,7 +4,7 @@ import 'package:mimir/credentials/error.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/session/sso.dart';
 import 'package:mimir/utils/error.dart';
-import 'package:mimir/widgets/markdown.dart';
+import 'package:mimir/widget/markdown.dart';
 import "./i18n.dart";
 
 const _i18n = OaLoginI18n();

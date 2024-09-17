@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
-import 'package:mimir/design/widgets/list_tile.dart';
+import 'package:mimir/design/widget/list_tile.dart';
 import 'package:mimir/school/library/page/details.model.dart';
-import 'package:mimir/school/library/widgets/book.dart';
+import 'package:mimir/school/library/widget/book.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:text_scroll/text_scroll.dart';
 

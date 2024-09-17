@@ -7,9 +7,9 @@ import 'package:mimir/design/entity/dual_color.dart';
 import 'package:mimir/l10n/time.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/school/entity/timetable.dart';
-import 'package:mimir/school/widgets/course.dart';
-import 'package:mimir/timetable/widgets/timetable/course_sheet.dart';
-import 'package:mimir/timetable/widgets/free.dart';
+import 'package:mimir/school/widget/course.dart';
+import 'package:mimir/timetable/widget/timetable/course_sheet.dart';
+import 'package:mimir/timetable/widget/free.dart';
 import 'package:rettulf/rettulf.dart';
 
 import '../../entity/timetable.dart';

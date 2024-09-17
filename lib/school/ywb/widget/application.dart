@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
-import 'package:mimir/design/widgets/expansion_tile.dart';
+import 'package:mimir/design/widget/expansion_tile.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 
