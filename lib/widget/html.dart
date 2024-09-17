@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flame/palette.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -168,6 +169,10 @@ class RestyledWidgetFactory extends WidgetFactory {
       image: image,
     );
   }
+
+  /// Returns a [NetworkImage].
+  @override
+  ImageProvider? imageProviderFromNetwork(String url) => url.isNotEmpty ? CachedNetworkImageProvider(url) : null;
 }
 
 BoxBorder? _restyleBorder(BoxBorder? border, Color? color) {
