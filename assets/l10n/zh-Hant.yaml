@@ -1,12 +1,24 @@
 appName: 小應生活
 accountName: 小應賬戶
 agreements:
-  privacyPolicy: |
-    @:appName.
+  privacyPolicy:
+    title: 隐私政策
+    content: |
+      @:appName 在提供服務時需要收集您的相關資訊及以下權限：
+
+      存取網路以取得您在學校各系統中的資訊；使用相機以掃描 QR 碼；讀寫相簿以從照片中掃描二維碼和儲存產生的圖片；讀寫行事曆以新增考試提醒和課程表；讀取外部儲存空間以匯入您所選的課程表檔案；寫入外部儲存空間以將您匯出的課程表檔案儲存至本機檔案系統。
+
+      我們只會在您使用特定功能時，要求您提供相應所需的權限。
+      未經您的許可，我們不會向第三方披露、分享或提供您的個人資訊。
+      您可以依照我們的指引，存取、更正、刪除您的資訊或撤銷您的相關授權。您可以透過查看《小应生活隐私政策》中的聯絡方式來與我們聯絡。
+
+      更多詳情請閱讀完整版的 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy) 和 [《小应生活使用协议》](https://www.mysit.life/tos)。
+    acceptAndContinue: 接受並繼續
+    declineAndExit: 拒絕並退出
   basic: |
-    我已閱讀並同意 [小应生活隐私政策](https://www.mysit.life/privacy-policy) 和 [小应生活使用协议](https://www.mysit.life/tos)
+    我已閱讀並同意 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy) 和 [《小应生活使用协议》](https://www.mysit.life/tos)
   account: |
-    我已閱讀並同意 [小应生活隐私政策](https://www.mysit.life/privacy-policy) 和 [小应生活使用协议](https://www.mysit.life/tos)
+    我已閱讀並同意 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy) 和 [《小应生活使用协议》](https://www.mysit.life/tos)
   acceptanceRequired:
     title: 需要同意協議
     desc: 在使用@:appName前，你必須同意我們的協議和政策

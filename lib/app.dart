@@ -186,9 +186,11 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
       await tryAutoSyncTimetable();
     });
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final navigateCtx = $key.currentContext;
+      if (navigateCtx == null) return;
       final accepted = ref.read(Settings.agreements.$agreementsAcceptanceOf(AgreementType.basic));
       if(accepted == true) return;
-      await AgreementsAcceptanceSheet.show(context);
+      await AgreementsAcceptanceSheet.show(navigateCtx);
     });
   }
 

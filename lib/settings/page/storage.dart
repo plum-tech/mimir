@@ -274,11 +274,12 @@ class _BoxItemState extends State<BoxItem> {
           title: i18n.clear,
           onTap: () async {
             final confirm = await context.showDialogRequest(
-                title: i18n.warning,
-                desc: i18n.dev.storage.emptyValueDesc,
-                primary: i18n.confirm,
-                secondary: i18n.cancel,
-                primaryDestructive: true);
+              title: i18n.warning,
+              desc: i18n.dev.storage.emptyValueDesc,
+              primary: i18n.confirm,
+              secondary: i18n.cancel,
+              primaryDestructive: true,
+            );
             if (confirm == true) {
               // this is unsafe, because the type is unknown
               widget.box.put(key, _emptyValue(value));
@@ -302,8 +303,13 @@ class _BoxItemState extends State<BoxItem> {
     );
   }
 
-  Future<void> showContentDialog(BuildContext context, Box box, String key, dynamic value,
-      {bool readonly = false}) async {
+  Future<void> showContentDialog(
+    BuildContext context,
+    Box box,
+    String key,
+    dynamic value, {
+    bool readonly = false,
+  }) async {
     if (readonly || !Editor.isSupport(value)) {
       await Editor.showReadonlyEditor(context, desc: key, initial: value);
     } else {

@@ -377,7 +377,11 @@ class BoolEditor extends StatefulWidget {
   final bool initial;
   final String? desc;
 
-  const BoolEditor({super.key, required this.initial, this.desc});
+  const BoolEditor({
+    super.key,
+    required this.initial,
+    this.desc,
+  });
 
   @override
   State<BoolEditor> createState() => _BoolEditorState();
@@ -389,27 +393,29 @@ class _BoolEditorState extends State<BoolEditor> {
   @override
   Widget build(BuildContext context) {
     return $Dialog$(
-        primary: $Action$(
-            text: _i18n.submit,
-            isDefault: true,
-            onPressed: () {
-              context.navigator.pop(value);
-            }),
-        secondary: $Action$(
-            text: _i18n.cancel,
-            onPressed: () {
-              context.navigator.pop();
-            }),
-        desc: (ctx) => $ListTile$(
-            title: (widget.desc ?? "").text(),
-            trailing: Switch.adaptive(
-              value: value,
-              onChanged: (newValue) {
-                setState(() {
-                  value = newValue;
-                });
-              },
-            )));
+      primary: $Action$(
+        text: _i18n.submit,
+        isDefault: true,
+        onPressed: () {
+          context.navigator.pop(value);
+        },
+      ),
+      secondary: $Action$(
+        text: _i18n.cancel,
+        onPressed: () {
+          context.navigator.pop();
+        },
+      ),
+      desc: (ctx) => SwitchListTile.adaptive(
+        title: (widget.desc ?? "").text(style: context.textTheme.bodySmall),
+        value: value,
+        onChanged: (newValue) {
+          setState(() {
+            value = newValue;
+          });
+        },
+      ),
+    );
   }
 }
 

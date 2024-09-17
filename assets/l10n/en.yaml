@@ -1,12 +1,29 @@
 appName: SIT Life
 accountName: Ing Account
 agreements:
-  privacyPolicy: |
-    @:appName.
+  privacyPolicy:
+    title: 隐私政策
+    content: |
+      @:appName requires the following permissions and information to provide services:
+
+      * Access network to retrieve your information from various school systems.
+      * Use camera to scan QR codes.
+      * Read and write photo library to scan QR codes from photos and save generated images.
+      * Read and write calendar to add exam reminders and timetable.
+      * Read external storage to import your chosen timetable files.
+      * Write external storage to save your exported timetable files to the local file system.
+
+      We will only request permissions that are necessary for the specific features you are using.
+      We will not disclose, share, or provide your personal information to third parties without your permission.
+      You can access, correct, delete your information or revoke your authorization according to our instructions. You can contact us through the contact information in the *小应生活隐私政策*.
+
+      For more details, please read the full version of the [*小应生活隐私政策*](https://www.mysit.life/privacy-policy) and [*小应生活使用协议*](https://www.mysit.life/tos).
+    acceptAndContinue: Accept&Continue
+    declineAndExit: Decline&Exit
   basic: |
-    I've read and accepted [小应生活隐私政策](https://www.mysit.life/privacy-policy) & [小应生活使用协议](https://www.mysit.life/tos)
+    I've read and accepted [*小应生活隐私政策*](https://www.mysit.life/privacy-policy) & [*小应生活使用协议*](https://www.mysit.life/tos)
   account: |
-      I've read and accepted [小应生活隐私政策](https://www.mysit.life/privacy-policy) & [小应生活使用协议](https://www.mysit.life/tos)
+      I've read and accepted [*小应生活隐私政策*](https://www.mysit.life/privacy-policy) & [*小应生活使用协议*](https://www.mysit.life/tos)
   acceptanceRequired:
     title: Acceptance Required
     desc: You must agree to the terms and conditions before you use @:appName

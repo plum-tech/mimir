@@ -8,9 +8,15 @@ class _I18n with CommonI18nMixin {
 
   const _I18n();
 
-  String get privacyPolicy => "$ns.privacyPolicy".tr();
-
   String get acceptanceRequired => "$ns.acceptanceRequired.title".tr();
 
   String get acceptanceRequiredDesc => "$ns.acceptanceRequired.desc".tr();
+
+  String get privacyPolicy => "$ns.privacyPolicy.title".tr();
+
+  String get privacyPolicyContent => "$ns.privacyPolicy.content".tr();
+
+  String get acceptAndContinue => "$ns.privacyPolicy.acceptAndContinue".tr();
+
+  String get declineAndExit => "$ns.privacyPolicy.declineAndExit".tr();
 }
