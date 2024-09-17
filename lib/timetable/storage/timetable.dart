@@ -21,12 +21,12 @@ class TimetableStorage {
   final HiveTable<TimetablePalette> palette;
 
   TimetableStorage()
-      : timetable = HiveTable<Timetable>(
+      : timetable = HiveTable<Timetable>.incremental(
           base: _K.timetable,
           box: HiveInit.timetable,
           useJson: (fromJson: Timetable.fromJson, toJson: (timetable) => timetable.toJson()),
         ),
-        palette = HiveTable<TimetablePalette>(
+        palette = HiveTable<TimetablePalette>.incremental(
           base: _K.palette,
           box: HiveInit.timetable,
           useJson: (fromJson: TimetablePalette.fromJson, toJson: (palette) => palette.toJson()),

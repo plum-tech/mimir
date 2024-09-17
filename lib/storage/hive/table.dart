@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mimir/utils/hive.dart';
 import 'package:mimir/utils/riverpod.dart';
@@ -17,15 +16,50 @@ class Notifier with ChangeNotifier {
   void notifier() => notifyListeners();
 }
 
+abstract class IdGenerator<TId> {
+  const IdGenerator();
+
+  TId gen();
+
+  FutureOr<void> clear();
+}
+
+class IncrementalIdGenerator implements IdGenerator<int> {
+  final String key;
+  final Box box;
+
+  const IncrementalIdGenerator({
+    required this.key,
+    required this.box,
+  });
+
+  @override
+  int gen() {
+    final lastId = box.safeGet<int>(key) ?? _kLastIdStart;
+    box.safePut<int>(key, lastId + 1);
+    return lastId;
+  }
+
+  @override
+  FutureOr<void> clear() async {
+    await box.delete(key);
+  }
+}
+
+typedef GetDelegate<T> = T? Function(int id, T? Function(int id) builtin);
+typedef SetDelegate<T> = FutureOr<void> Function(int id, T? newV, Future<void> Function(int id, T? newV) builtin);
+typedef UseJson<T> = ({T Function(Map<String, dynamic> json) fromJson, Map<String, dynamic> Function(T row) toJson});
+
 class HiveTable<T> {
   final String base;
   final Box box;
 
-  final String _lastIdK;
   final String _idListK;
   final String _rowsK;
   final String _selectedIdK;
-  final ({T Function(Map<String, dynamic> json) fromJson, Map<String, dynamic> Function(T row) toJson})? useJson;
+  final IdGenerator<int> genId;
+
+  final UseJson<T>? useJson;
 
   /// notify if selected row was changed.
   final $selected = Notifier();
@@ -34,27 +68,40 @@ class HiveTable<T> {
   final $any = Notifier();
 
   /// The delegate of getting row
-  final T? Function(int id, T? Function(int id) builtin)? getDelegate;
+  final GetDelegate<T>? getDelegate;
 
   /// The delegate of setting row
-  final FutureOr<void> Function(int id, T? newV, Future<void> Function(int id, T? newV) builtin)? setDelegate;
+  final SetDelegate<T>? setDelegate;
 
   HiveTable({
     required this.base,
     required this.box,
+    required this.genId,
     this.getDelegate,
     this.setDelegate,
     this.useJson,
-  })  : _lastIdK = "$base/$_kLastId",
-        _idListK = "$base/$_kIdList",
+  })  : _idListK = "$base/$_kIdList",
         _rowsK = "$base/$_kRows",
         _selectedIdK = "$base/$_kSelectedId";
 
+  factory HiveTable.incremental({
+    required String base,
+    required Box box,
+    GetDelegate<T>? getDelegate,
+    SetDelegate<T>? setDelegate,
+    UseJson<T>? useJson,
+  }) {
+    return HiveTable(
+      base: base,
+      box: box,
+      getDelegate: getDelegate,
+      setDelegate: setDelegate,
+      useJson: useJson,
+      genId: IncrementalIdGenerator(box: box, key: "$base/$_kLastId"),
+    );
+  }
+
   bool get hasAny => idList?.isNotEmpty ?? false;
-
-  int get lastId => box.safeGet<int>(_lastIdK) ?? _kLastIdStart;
-
-  set lastId(int newValue) => box.safePut<int>(_lastIdK, newValue);
 
   List<int>? get idList => box.safeGet<List>(_idListK)?.cast<int>();
 
@@ -127,7 +174,7 @@ class HiveTable<T> {
 
   /// Return a new ID for the [row].
   int add(T row) {
-    final curId = lastId++;
+    final curId = genId.gen();
     final ids = idList ?? <int>[];
     ids.add(curId);
     this[curId] = row;
@@ -162,7 +209,7 @@ class HiveTable<T> {
     }
     box.delete(_idListK);
     box.delete(_selectedIdK);
-    box.delete(_lastIdK);
+    genId.clear();
     $selected.notifier();
     $any.notifier();
   }
@@ -199,8 +246,8 @@ class HiveTable<T> {
   late final $selectedRow = $selected.provider<T?>(
     get: () => selectedRow,
   );
-  // TODO: compose them
-  // late final $selectedRowWithId = Provider((ref){
-  //   return (id: ref.watch<int?>($selectedId));
-  // });
+// TODO: compose them
+// late final $selectedRowWithId = Provider((ref){
+//   return (id: ref.watch<int?>($selectedId));
+// });
 }
