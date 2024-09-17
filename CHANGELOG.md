@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.6.2
+- Users are required to accept *Privacy Policy* and *Terms of Services* at the first use.
+- Added *Privacy Policy* and *Terms of Services* versioning.
+
+## 2.6.1
+- Users are required to accept *Privacy Policy* and *Terms of Services* on login page.
+- Added Edu email settings page.
+- Improved i18n of settings pages.
+
 ## 2.6.0
 - Renamed URL scheme to `sitlife`.
 - Fixed timetable importing issues for postgraduate.
