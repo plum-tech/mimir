@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/agreements/entity/agreements.dart';
 import 'package:mimir/backend/settings/page/index.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/init.dart';
@@ -55,46 +56,50 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
   }
 
   List<Widget> buildEntries() {
-    final oaCredentials = ref.watch(CredentialsInit.storage.oa.$credentials);
-    final oaLoginStatus = ref.watch(CredentialsInit.storage.oa.$loginStatus);
-    final devOn = ref.watch(Dev.$on);
     final all = <Widget>[];
-    if (oaLoginStatus != OaLoginStatus.never) {
-      all.add(const CampusSelector().padSymmetric(h: 8));
+    final agreementAccepted = ref.watch(Settings.agreements.$agreementsAcceptanceOf(AgreementType.basic)) ?? false;
+    if (agreementAccepted) {
+      final oaLoginStatus = ref.watch(CredentialsInit.storage.oa.$loginStatus);
+      if (oaLoginStatus != OaLoginStatus.never) {
+        all.add(const CampusSelector().padSymmetric(h: 8));
+      }
     }
-    if (oaCredentials != null) {
-      all.add(PageNavigationTile(
-        title: i18n.oa.oaAccount.text(),
-        subtitle: oaCredentials.account.text(),
-        leading: const Icon(Icons.person_rounded),
-        path: "/settings/oa",
-      ));
-    } else {
-      const oaLogin = OaLoginI18n();
-      all.add(ListTile(
-        title: oaLogin.loginOa.text(),
-        subtitle: oaLogin.neverLoggedInTip.text(),
-        leading: const Icon(Icons.person_rounded),
-        onTap: () {
-          context.go("/oa/login");
-        },
-      ));
-    }
+    final devOn = ref.watch(Dev.$on);
+    if (agreementAccepted) {
+      final oaCredentials = ref.watch(CredentialsInit.storage.oa.$credentials);
+      if (oaCredentials != null) {
+        all.add(PageNavigationTile(
+          title: i18n.oa.oaAccount.text(),
+          subtitle: oaCredentials.account.text(),
+          leading: const Icon(Icons.person_rounded),
+          path: "/settings/oa",
+        ));
+      } else {
+        const oaLogin = OaLoginI18n();
+        all.add(ListTile(
+          title: oaLogin.loginOa.text(),
+          subtitle: oaLogin.neverLoggedInTip.text(),
+          leading: const Icon(Icons.person_rounded),
+          onTap: () {
+            context.go("/oa/login");
+          },
+        ));
+      }
 
-    final eduEmailCredentials = ref.watch(CredentialsInit.storage.eduEmail.$credentials);
-    if (eduEmailCredentials != null) {
-      all.add(PageNavigationTile(
-        title: i18n.eduEmail.eduEmail.text(),
-        subtitle: eduEmailCredentials.account.text(),
-        leading: const Icon(Icons.email),
-        path: "/settings/edu-email",
-      ));
+      final eduEmailCredentials = ref.watch(CredentialsInit.storage.eduEmail.$credentials);
+      if (eduEmailCredentials != null) {
+        all.add(PageNavigationTile(
+          title: i18n.eduEmail.eduEmail.text(),
+          subtitle: eduEmailCredentials.account.text(),
+          leading: const Icon(Icons.email),
+          path: "/settings/edu-email",
+        ));
+      }
+      if (devOn) {
+        all.add(const MimirCredentialsSettingsTile());
+      }
+      all.add(const Divider());
     }
-
-    if (devOn) {
-      all.add(const MimirCredentialsSettingsTile());
-    }
-    all.add(const Divider());
 
     all.add(PageNavigationTile(
       title: i18n.language.text(),
@@ -106,7 +111,7 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
     all.add(const ThemeColorTile());
     all.add(const Divider());
 
-    if (oaLoginStatus != OaLoginStatus.never) {
+    if (agreementAccepted) {
       all.add(PageNavigationTile(
         leading: const Icon(Icons.calendar_month_outlined),
         title: i18n.app.navigation.timetable.text(),
@@ -140,19 +145,19 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         path: "/settings/developer",
       ));
     }
-    if (!kIsWeb) {
-      all.add(PageNavigationTile(
-        title: i18n.proxy.title.text(),
-        subtitle: i18n.proxy.desc.text(),
-        leading: const Icon(Icons.vpn_key),
-        path: "/settings/proxy",
-      ));
-      all.add(const NetworkToolEntranceTile());
-    }
-    if (oaLoginStatus != OaLoginStatus.never) {
+    if (agreementAccepted) {
+      if (!kIsWeb) {
+        all.add(PageNavigationTile(
+          title: i18n.proxy.title.text(),
+          subtitle: i18n.proxy.desc.text(),
+          leading: const Icon(Icons.vpn_key),
+          path: "/settings/proxy",
+        ));
+        all.add(const NetworkToolEntranceTile());
+      }
       all.add(const ClearCacheTile());
+      all.add(const WipeDataTile());
     }
-    all.add(const WipeDataTile());
     all.add(PageNavigationTile(
       title: i18n.about.title.text(),
       leading: Icon(context.icons.info),

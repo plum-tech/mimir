@@ -10,7 +10,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/agreements/entity/agreements.dart';
-import 'package:mimir/agreements/page/acceptance.dart';
+import 'package:mimir/agreements/page/privacy_policy.dart';
 import 'package:mimir/files.dart';
 import 'package:mimir/intent/file_type/handle.dart';
 import 'package:mimir/lifecycle.dart';

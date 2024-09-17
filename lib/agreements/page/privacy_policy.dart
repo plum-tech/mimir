@@ -34,14 +34,14 @@ class _AgreementsAcceptanceSheetState extends ConsumerState<AgreementsAcceptance
         centerTitle: true,
         automaticallyImplyLeading: false,
         title: i18n.privacyPolicy.text(),
-        // actions: [
-        //   PlatformIconButton(
-        //     onPressed: () {
-        //       context.push("/settings");
-        //     },
-        //     icon: Icon(context.icons.settings),
-        //   ),
-        // ],
+        actions: [
+          PlatformIconButton(
+            onPressed: () {
+              context.push("/settings");
+            },
+            icon: Icon(context.icons.settings),
+          ),
+        ],
       ),
       body: FeaturedMarkdownWidget(data: i18n.privacyPolicyContent).scrolled().padSymmetric(h: 15),
       bottomNavigationBar: BottomAppBar(

@@ -2,7 +2,7 @@ appName: SIT Life
 accountName: Ing Account
 agreements:
   privacyPolicy:
-    title: 隐私政策
+    title: Privacy policy
     content: |
       @:appName requires the following permissions and information to provide services:
 

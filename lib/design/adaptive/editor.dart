@@ -406,14 +406,17 @@ class _BoolEditorState extends State<BoolEditor> {
           context.navigator.pop();
         },
       ),
-      desc: (ctx) => SwitchListTile.adaptive(
-        title: (widget.desc ?? "").text(style: context.textTheme.bodySmall),
-        value: value,
-        onChanged: (newValue) {
-          setState(() {
-            value = newValue;
-          });
-        },
+      desc: (ctx) => Material(
+        color: Colors.transparent,
+        child: SwitchListTile.adaptive(
+          title: (widget.desc ?? "").text(style: context.textTheme.bodySmall),
+          value: value,
+          onChanged: (newValue) {
+            setState(() {
+              value = newValue;
+            });
+          },
+        ),
       ),
     );
   }
