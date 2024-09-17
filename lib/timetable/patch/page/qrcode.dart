@@ -130,7 +130,7 @@ class _TimetablePatchUseSheetState extends ConsumerState<TimetablePatchUseSheet>
     final timetables = ref.watch(storage.$rows);
     assert(timetables.isNotEmpty);
     final patch = widget.patch;
-    timetables.sort((a, b) => b.row.lastModified.compareTo(a.row.lastModified));
+    timetables.sort((a, b) => b.lastModified.compareTo(a.lastModified));
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -140,13 +140,12 @@ class _TimetablePatchUseSheetState extends ConsumerState<TimetablePatchUseSheet>
           SliverList.builder(
             itemCount: timetables.length,
             itemBuilder: (ctx, i) {
-              final (:id, row: timetable) = timetables[i];
+              final timetable = timetables[i];
               return TimetablePatchReceiverCard(
-                id: id,
                 timetable: timetable,
                 onAdded: () {
                   final newTimetable = buildTimetable(timetable, patch).markModified();
-                  storage[id] = newTimetable;
+                  storage[timetable.uuid] = newTimetable;
                   ctx.pop(newTimetable);
                 },
                 onPreview: () async {
@@ -171,14 +170,12 @@ class _TimetablePatchUseSheetState extends ConsumerState<TimetablePatchUseSheet>
 }
 
 class TimetablePatchReceiverCard extends StatelessWidget {
-  final int id;
   final Timetable timetable;
   final VoidCallback? onAdded;
   final VoidCallback? onPreview;
 
   const TimetablePatchReceiverCard({
     super.key,
-    required this.id,
     required this.timetable,
     this.onAdded,
     this.onPreview,

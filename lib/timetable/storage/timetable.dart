@@ -17,27 +17,27 @@ class _K {
 class TimetableStorage {
   Box get box => HiveInit.timetable;
 
-  final HiveTable<int, Timetable> timetable = HiveTable.incremental<Timetable>(
+  final timetable = HiveTable.withUuid<Timetable>(
     base: _K.timetable,
     box: HiveInit.timetable,
     useJson: (fromJson: Timetable.fromJson, toJson: (timetable) => timetable.toJson()),
   );
 
-  final HiveTable<int, TimetablePalette> palette = HiveTable.incremental<TimetablePalette>(
+  final palette = HiveTable.withUuid<TimetablePalette>(
     base: _K.palette,
     box: HiveInit.timetable,
     useJson: (fromJson: TimetablePalette.fromJson, toJson: (palette) => palette.toJson()),
     getDelegate: (id, builtin) {
       // intercept builtin timetable
       for (final timetable in BuiltinTimetablePalettes.all) {
-        if (timetable.id == id) return timetable;
+        if (timetable.uuid == id) return timetable;
       }
       return builtin(id);
     },
     setDelegate: (id, newV, builtin) {
       // skip builtin timetable
       for (final timetable in BuiltinTimetablePalettes.all) {
-        if (timetable.id == id) return;
+        if (timetable.uuid == id) return;
       }
       builtin(id, newV);
     },

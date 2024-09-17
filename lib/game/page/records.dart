@@ -28,7 +28,7 @@ class GameRecordsPage<TRecord extends GameRecord> extends ConsumerStatefulWidget
 class _RecordsMinesweeperPageState<TRecord extends GameRecord> extends ConsumerState<GameRecordsPage<TRecord>> {
   @override
   Widget build(BuildContext context) {
-    final rows = ref.watch(widget.recordStorage.table.$rows).reversed.toList();
+    final rows = ref.watch(widget.recordStorage.table.$rowsWithId).reversed.toList();
     return Scaffold(
       appBar: AppBar(
         title: widget.title.text(),

@@ -57,7 +57,7 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
     final storage = TimetableInit.storage.timetable;
     final timetables = ref.watch(storage.$rows);
     final selectedId = ref.watch(storage.$selectedId);
-    timetables.sort((a, b) => b.row.lastModified.compareTo(a.row.lastModified));
+    timetables.sort((a, b) => b.lastModified.compareTo(a.lastModified));
 
     if (timetables.isEmpty) {
       return buildEmptyTimetableBody();
@@ -111,8 +111,8 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
   }
 
   Widget buildTimetablesBody({
-    required List<({int id, Timetable row})> timetables,
-    required int? selectedId,
+    required List<Timetable> timetables,
+    required String? selectedId,
   }) {
     return Scaffold(
       floatingActionButton: buildFab(),
@@ -125,12 +125,11 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
           SliverList.builder(
             itemCount: timetables.length,
             itemBuilder: (ctx, i) {
-              final (:id, row: timetable) = timetables[i];
+              final timetable = timetables[i];
               return TimetableCard(
-                id: id,
                 timetable: timetable,
-                selected: selectedId == id,
-                allTimetableNames: timetables.map((t) => t.row.name).toList(),
+                selected: selectedId == timetable.uuid,
+                allTimetableNames: timetables.map((t) => t.name).toList(),
               ).padH(6);
             },
           ),
@@ -229,23 +228,21 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
 
 Future<void> editTimetablePatch({
   required BuildContext context,
-  required int id,
+  required String uuid,
 }) async {
-  var timetable = await context.push<Timetable>("/timetable/patch/edit/$id");
+  var timetable = await context.push<Timetable>("/timetable/patch/edit/$uuid");
   if (timetable == null) return;
-  TimetableInit.storage.timetable[id] = timetable.markModified();
+  TimetableInit.storage.timetable[uuid] = timetable.markModified();
 }
 
 class TimetableCard extends StatefulWidget {
   final Timetable timetable;
-  final int id;
   final bool selected;
   final List<String>? allTimetableNames;
 
   const TimetableCard({
     super.key,
     required this.timetable,
-    required this.id,
     required this.selected,
     this.allTimetableNames,
   });
@@ -272,7 +269,6 @@ class _TimetableCardState extends State<TimetableCard> {
   Widget buildCard() {
     final timetable = widget.timetable;
     final selected = widget.selected;
-    final id = widget.id;
     final allTimetableNames = widget.allTimetableNames;
     return EntryCard(
       title: timetable.name,
@@ -281,7 +277,7 @@ class _TimetableCardState extends State<TimetableCard> {
         selectLabel: i18n.use,
         selectedLabel: i18n.used,
         action: () async {
-          TimetableInit.storage.timetable.selectedId = id;
+          TimetableInit.storage.timetable.selectedId = timetable.uuid;
         },
       ),
       deleteAction: (ctx) => EntryAction.delete(
@@ -296,7 +292,7 @@ class _TimetableCardState extends State<TimetableCard> {
             destructive: true,
           );
           if (confirm != true) return;
-          TimetableInit.storage.timetable.delete(id);
+          TimetableInit.storage.timetable.delete(timetable.uuid);
           if (TimetableInit.storage.timetable.isEmpty) {
             if (!ctx.mounted) return;
             ctx.pop();
@@ -323,13 +319,13 @@ class _TimetableCardState extends State<TimetableCard> {
           icon: context.icons.edit,
           activator: const SingleActivator(LogicalKeyboardKey.keyE),
           action: () async {
-            var newTimetable = await ctx.push<Timetable>("/timetable/edit/$id");
+            var newTimetable = await ctx.push<Timetable>("/timetable/edit/${timetable.uuid}");
             if (newTimetable == null) return;
             final newName = allocValidFileName(newTimetable.name);
             if (newName != newTimetable.name) {
               newTimetable = newTimetable.copyWith(name: newName);
             }
-            TimetableInit.storage.timetable[id] = newTimetable.markModified();
+            TimetableInit.storage.timetable[timetable.uuid] = newTimetable.markModified();
           },
         ),
         // share_plus: sharing files is not supported on Linux
@@ -353,7 +349,7 @@ class _TimetableCardState extends State<TimetableCard> {
           label: i18n.mine.patch,
           icon: Icons.dashboard_customize,
           action: () async {
-            await editTimetablePatch(context: ctx, id: id);
+            await editTimetablePatch(context: ctx, uuid: timetable.uuid);
           },
         ),
         if (kDebugMode)
@@ -391,7 +387,7 @@ class _TimetableCardState extends State<TimetableCard> {
                 });
                 final merged = await syncTimetable(context, timetable);
                 if (merged != null) {
-                  TimetableInit.storage.timetable[id] = merged;
+                  TimetableInit.storage.timetable[timetable.uuid] = merged;
                 }
                 setState(() {
                   syncing = false;
@@ -428,7 +424,6 @@ class _TimetableCardState extends State<TimetableCard> {
       detailsBuilder: (ctx, actions) {
         return TimetableStyleProv(
           child: TimetableDetailsPage(
-            id: id,
             timetable: timetable,
             actions: actions?.call(ctx),
           ),
@@ -480,20 +475,18 @@ class TimetableInfo extends StatelessWidget {
 }
 
 class TimetableDetailsPage extends ConsumerWidget {
-  final int id;
   final Timetable timetable;
   final List<Widget>? actions;
 
   const TimetableDetailsPage({
     super.key,
-    required this.id,
     required this.timetable,
     this.actions,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final timetable = ref.watch(TimetableInit.storage.timetable.$rowOf(id)) ?? this.timetable;
+    final timetable = ref.watch(TimetableInit.storage.timetable.$rowOf(this.timetable.uuid)) ?? this.timetable;
     final resolver = TimetablePaletteResolver(timetable);
     final palette = ref.watch(TimetableInit.storage.palette.$selectedRow) ?? BuiltinTimetablePalettes.classic;
     final code2Courses = timetable.courses.values.groupListsBy((c) => c.courseCode).entries.toList();

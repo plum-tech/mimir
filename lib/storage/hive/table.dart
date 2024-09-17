@@ -20,7 +20,7 @@ class Notifier with ChangeNotifier {
 abstract class IdGenerator<TId, T> {
   const IdGenerator();
 
-  TId gen(T row);
+  TId alloc(T row);
 
   FutureOr<void> clear();
 }
@@ -35,7 +35,7 @@ class IncrementalIdGenerator<T> implements IdGenerator<int, T> {
   });
 
   @override
-  int gen(T row) {
+  int alloc(T row) {
     final lastId = box.safeGet<int>(key) ?? _kLastIdStart;
     box.safePut<int>(key, lastId + 1);
     return lastId;
@@ -51,7 +51,7 @@ class WithUuidGenerator<T extends WithUuid> implements IdGenerator<String, T> {
   const WithUuidGenerator();
 
   @override
-  String gen(T row) {
+  String alloc(T row) {
     return row.uuid;
   }
 
@@ -70,7 +70,7 @@ class HiveTable<TId, T> {
   final String _idListK;
   final String _rowsK;
   final String _selectedIdK;
-  final IdGenerator<TId, T> genId;
+  final IdGenerator<TId, T> idAllocator;
 
   final UseJson<T>? useJson;
 
@@ -89,7 +89,7 @@ class HiveTable<TId, T> {
   HiveTable({
     required this.base,
     required this.box,
-    required this.genId,
+    required this.idAllocator,
     this.getDelegate,
     this.setDelegate,
     this.useJson,
@@ -110,7 +110,24 @@ class HiveTable<TId, T> {
       getDelegate: getDelegate,
       setDelegate: setDelegate,
       useJson: useJson,
-      genId: IncrementalIdGenerator(box: box, key: "$base/$_kLastId"),
+      idAllocator: IncrementalIdGenerator(box: box, key: "$base/$_kLastId"),
+    );
+  }
+
+  static HiveTable<String, T> withUuid<T extends WithUuid>({
+    required String base,
+    required Box box,
+    GetDelegate<String, T>? getDelegate,
+    SetDelegate<String, T>? setDelegate,
+    UseJson<T>? useJson,
+  }) {
+    return HiveTable(
+      base: base,
+      box: box,
+      getDelegate: getDelegate,
+      setDelegate: setDelegate,
+      useJson: useJson,
+      idAllocator: WithUuidGenerator<T>(),
     );
   }
 
@@ -187,7 +204,7 @@ class HiveTable<TId, T> {
 
   /// Return a new ID for the [row].
   TId add(T row) {
-    final curId = genId.gen(row);
+    final curId = idAllocator.alloc(row);
     final ids = idList ?? <TId>[];
     ids.add(curId);
     this[curId] = row;
@@ -222,14 +239,14 @@ class HiveTable<TId, T> {
     }
     box.delete(_idListK);
     box.delete(_selectedIdK);
-    genId.clear();
+    idAllocator.clear();
     $selected.notifier();
     $any.notifier();
   }
 
   // TODO: Row delegate?
   /// ignore null row
-  List<({TId id, T row})> getRows() {
+  List<({TId id, T row})> getRowsWithId() {
     final ids = idList;
     final res = <({TId id, T row})>[];
     if (ids == null) return res;
@@ -237,6 +254,21 @@ class HiveTable<TId, T> {
       final row = this[id];
       if (row != null) {
         res.add((id: id, row: row));
+      }
+    }
+    return res;
+  }
+
+  // TODO: Row delegate?
+  /// ignore null row
+  List<T> getRows() {
+    final ids = idList;
+    final res = <T>[];
+    if (ids == null) return res;
+    for (final id in ids) {
+      final row = this[id];
+      if (row != null) {
+        res.add(row);
       }
     }
     return res;
@@ -250,8 +282,11 @@ class HiveTable<TId, T> {
     set: (id, v) => this[id] = v,
   );
 
-  late final $rows = $any.provider<List<({TId id, T row})>>(
+  late final $rows = $any.provider<List<T>>(
     get: getRows,
+  );
+  late final $rowsWithId = $any.provider<List<({TId id, T row})>>(
+    get: getRowsWithId,
   );
   late final $selectedId = $selected.provider<TId?>(
     get: () => selectedId,

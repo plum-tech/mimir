@@ -1,4 +1,5 @@
 import 'package:carousel_slider_plus/carousel_slider_plus.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +59,7 @@ class _TimetableP13nPageState extends ConsumerState<TimetablePaletteListPage> wi
     final forceTab = widget.tab;
     if (forceTab != null) {
       tabController.index = forceTab.clamp(TimetableP13nTab.custom, TimetableP13nTab.builtin);
-    } else if (selectedId == null || BuiltinTimetablePalettes.all.any((palette) => palette.id == selectedId)) {
+    } else if (selectedId == null || BuiltinTimetablePalettes.all.any((palette) => palette.uuid == selectedId)) {
       tabController.index = TimetableP13nTab.builtin;
     }
   }
@@ -105,7 +106,7 @@ class _TimetableP13nPageState extends ConsumerState<TimetablePaletteListPage> wi
           controller: tabController,
           children: [
             buildPaletteList(palettes),
-            buildPaletteList(BuiltinTimetablePalettes.all.map((e) => (id: e.id, row: e)).toList()),
+            buildPaletteList(BuiltinTimetablePalettes.all),
           ],
         ),
       ),
@@ -120,33 +121,32 @@ class _TimetableP13nPageState extends ConsumerState<TimetablePaletteListPage> wi
       colors: [],
       lastModified: DateTime.now(),
     );
-    final id = TimetableInit.storage.palette.add(palette);
+    final uuid = TimetableInit.storage.palette.add(palette);
     tabController.index = TimetableP13nTab.custom;
     await editTimetablePalette(
       context: context,
-      id: id,
+      uuid: uuid,
     );
   }
 
-  Widget buildPaletteList(List<({int id, TimetablePalette row})> palettes) {
-    final selectedId = ref.watch(TimetableInit.storage.palette.$selectedId) ?? BuiltinTimetablePalettes.classic.id;
+  Widget buildPaletteList(List<TimetablePalette> palettes) {
+    final selectedId = ref.watch(TimetableInit.storage.palette.$selectedId) ?? BuiltinTimetablePalettes.classic.uuid;
     final selectedTimetable = ref.watch(TimetableInit.storage.timetable.$selectedRow);
-    palettes.sort((a, b) => b.row.lastModified.compareTo(a.row.lastModified));
+    palettes = palettes.sorted((a, b) => b.lastModified.compareTo(a.lastModified));
     return CustomScrollView(
       slivers: [
         SliverList.builder(
           itemCount: palettes.length,
           itemBuilder: (ctx, i) {
-            final (:id, row: palette) = palettes[i];
+            final palette = palettes[i];
             return PaletteCard(
-              id: id,
               palette: palette,
               timetable: selectedTimetable,
-              selected: selectedId == id,
+              selected: selectedId == palette.uuid,
               onDuplicate: () {
                 tabController.index = TimetableP13nTab.custom;
               },
-              allPaletteNames: palettes.map((p) => p.row.name).toList(),
+              allPaletteNames: palettes.map((p) => p.name).toList(),
             ).padH(6);
           },
         ),
@@ -157,7 +157,6 @@ class _TimetableP13nPageState extends ConsumerState<TimetablePaletteListPage> wi
 }
 
 class PaletteCard extends StatelessWidget {
-  final int id;
   final TimetablePalette palette;
   final bool selected;
   final Timetable? timetable;
@@ -166,7 +165,6 @@ class PaletteCard extends StatelessWidget {
 
   const PaletteCard({
     super.key,
-    required this.id,
     required this.palette,
     required this.selected,
     this.timetable,
@@ -186,7 +184,7 @@ class PaletteCard extends StatelessWidget {
               selectLabel: i18n.use,
               selectedLabel: i18n.used,
               action: () async {
-                TimetableInit.storage.palette.selectedId = id;
+                TimetableInit.storage.palette.selectedId = palette.uuid;
               },
             ),
       deleteAction: palette is BuiltinTimetablePalette
@@ -203,7 +201,7 @@ class PaletteCard extends StatelessWidget {
                     primaryDestructive: true,
                   );
                   if (confirm == true) {
-                    TimetableInit.storage.palette.delete(id);
+                    TimetableInit.storage.palette.delete(palette.uuid);
                   }
                 },
               ),
@@ -230,7 +228,7 @@ class PaletteCard extends StatelessWidget {
             action: () async {
               await editTimetablePalette(
                 context: context,
-                id: id,
+                uuid: palette.uuid,
               );
             },
           ),
@@ -280,7 +278,6 @@ class PaletteCard extends StatelessWidget {
       ],
       detailsBuilder: (ctx, actions) {
         return PaletteDetailsPage(
-          id: id,
           palette: palette,
           actions: actions?.call(ctx),
         );
@@ -294,9 +291,9 @@ class PaletteCard extends StatelessWidget {
 
 Future<void> editTimetablePalette({
   required BuildContext context,
-  required int id,
+  required String uuid,
 }) async {
-  var newPalette = await context.push<TimetablePalette>("/timetable/palette/edit/$id");
+  var newPalette = await context.push<TimetablePalette>("/timetable/palette/edit/$uuid");
   if (newPalette != null) {
     final newName = allocValidFileName(newPalette.name);
     if (newName != newPalette.name) {
@@ -307,7 +304,7 @@ Future<void> editTimetablePalette({
           )
           .markModified();
     }
-    TimetableInit.storage.palette[id] = newPalette;
+    TimetableInit.storage.palette[uuid] = newPalette;
   }
 }
 
@@ -335,20 +332,18 @@ class PaletteInfo extends StatelessWidget {
 }
 
 class PaletteDetailsPage extends ConsumerWidget {
-  final int id;
   final TimetablePalette palette;
   final List<Widget>? actions;
 
   const PaletteDetailsPage({
     super.key,
-    required this.id,
     required this.palette,
     this.actions,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final palette = ref.watch(TimetableInit.storage.palette.$rowOf(id)) ?? this.palette;
+    final palette = ref.watch(TimetableInit.storage.palette.$rowOf(this.palette.uuid)) ?? this.palette;
     return Scaffold(
       body: CustomScrollView(
         slivers: [

@@ -126,7 +126,6 @@ extension TimetablePaletteX on TimetablePalette {
 }
 
 class BuiltinTimetablePalette implements TimetablePalette {
-  final int id;
   final String key;
   @override
   final String uuid;
@@ -146,7 +145,6 @@ class BuiltinTimetablePalette implements TimetablePalette {
 
   const BuiltinTimetablePalette({
     required this.key,
-    required this.id,
     required this.uuid,
     required this.colors,
     String? name,
@@ -156,7 +154,6 @@ class BuiltinTimetablePalette implements TimetablePalette {
 
   @override
   Map<String, dynamic> toJson() => <String, dynamic>{
-        "id": id,
         "uuid": uuid,
         "author": author,
         "colors": colors,

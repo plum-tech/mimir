@@ -137,18 +137,16 @@ final _timetableShellRoute = GoRoute(
 Timetable? _getTimetable(GoRouterState state) {
   final extra = state.extra;
   if (extra is Timetable) return extra;
-  final id = int.tryParse(state.pathParameters["id"] ?? "");
-  if (id == null) return null;
-  final timetable = TimetableInit.storage.timetable[id];
+  final uuid = state.pathParameters["uuid"] ?? "";
+  final timetable = TimetableInit.storage.timetable[uuid];
   return timetable;
 }
 
 TimetablePalette? _getTimetablePalette(GoRouterState state) {
   final extra = state.extra;
   if (extra is TimetablePalette) return extra;
-  final id = int.tryParse(state.pathParameters["id"] ?? "");
-  if (id == null) return null;
-  final palette = TimetableInit.storage.palette[id];
+  final uuid = state.pathParameters["uuid"] ?? "";
+  final palette = TimetableInit.storage.palette[uuid];
   return palette;
 }
 
@@ -177,7 +175,7 @@ final _timetableRoutes = [
     ],
   ),
   GoRoute(
-    path: "/timetable/palette/edit/:id",
+    path: "/timetable/palette/edit/:uuid",
     builder: (ctx, state) {
       final palette = _getTimetablePalette(state);
       if (palette == null) throw 404;
@@ -185,7 +183,7 @@ final _timetableRoutes = [
     },
   ),
   GoRoute(
-    path: "/timetable/edit/:id",
+    path: "/timetable/edit/:uuid",
     builder: (ctx, state) {
       final timetable = _getTimetable(state);
       if (timetable == null) throw 404;
@@ -193,7 +191,7 @@ final _timetableRoutes = [
     },
   ),
   GoRoute(
-    path: "/timetable/patch/edit/:id",
+    path: "/timetable/patch/edit/:uuid",
     builder: (ctx, state) {
       final timetable = _getTimetable(state);
       if (timetable == null) throw 404;

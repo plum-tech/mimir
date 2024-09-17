@@ -76,98 +76,82 @@ class Migrations {
             case MigrationPhrase.afterInitStorage:
           }
         });
-    Version(2, 5, 1) <<
+    Version(2, 6, 3) <<
         MimirMigration.run((phrase) async {
-          if (phrase == MigrationPhrase.afterInitStorage) {
-            // Refresh timetable json
-            final rows = TimetableInit.storage.timetable.getRows();
-            for (final (:id, :row) in rows) {
-              TimetableInit.storage.timetable[id] = row;
-            }
-          }
-        });
-    Version(2, 6, 2) <<
-        MimirMigration.run((phrase) async {
-          if (phrase == MigrationPhrase.afterInitStorage) {
-            await HiveInit.clearCache();
-            // Refresh timetable json
-            for (final (:id, :row) in TimetableInit.storage.timetable.getRows()) {
-              TimetableInit.storage.timetable[id] = row;
-            }
-            // Refresh palette json
-            for (final (:id, :row) in TimetableInit.storage.palette.getRows()) {
-              TimetableInit.storage.palette[id] = row;
-            }
+          if (phrase == MigrationPhrase.afterHive) {
+            // migrate timetables and palettes
+            () {
+              final box = HiveInit.timetable;
+              final timetableRows = <Timetable>[];
+              final paletteRows = <TimetablePalette>[];
+              final keys2Remove = <String>[];
+
+              Timetable? getTimetable(String key) {
+                final value = box.safeGet<String>(key);
+                if (value == null) return null;
+                final obj = decodeJsonObject(value, (obj) => Timetable.fromJson(obj));
+                return obj;
+              }
+
+              TimetablePalette? getPalette(String key) {
+                final value = box.safeGet<String>(key);
+                if (value == null) return null;
+                final obj = decodeJsonObject(value, (obj) => TimetablePalette.fromJson(obj));
+                return obj;
+              }
+
+              for (final key in box.keys) {
+                if (key is! String) continue;
+                if (key.startsWith("/timetable/rows")) {
+                  final obj = getTimetable(key);
+                  if (obj == null) continue;
+                  timetableRows.add(obj);
+                  keys2Remove.add(key);
+                } else if (key.startsWith("/palette/rows")) {
+                  final obj = getPalette(key);
+                  if (obj == null) continue;
+                  paletteRows.add(obj);
+                  keys2Remove.add(key);
+                }
+              }
+              keys2Remove.add("/timetable/lastId");
+              keys2Remove.add("/palette/lastId");
+              final timetableIdList = timetableRows.map((row) => row.uuid).toList();
+              final paletteIdList = paletteRows.map((row) => row.uuid).toList();
+
+              final timetableSelectedId = box.safeGet<int>("/timetable/selectedId");
+              final timetableSelected = getTimetable("/timetable/rows/$timetableSelectedId");
+
+              final paletteSelectedId = box.safeGet<int>("/palette/selectedId");
+              final paletteSelected = getTimetable("/palette/rows/$paletteSelectedId");
+
+              // -- put --
+              if (timetableSelected != null) {
+                box.safePut<String>("/timetable/selectedId", timetableSelected.uuid);
+              }
+              if (paletteSelected != null) {
+                box.safePut<String>("/palette/selectedId", paletteSelected.uuid);
+              }
+              for (final timetable in timetableRows) {
+                box.safePut<String>("/timetable/rows/${timetable.uuid}", encodeJsonObject(timetable));
+              }
+              box.safePut<List<String>>("/timetable/idList", timetableIdList);
+
+              for (final palette in paletteRows) {
+                box.safePut<String>("/palette/rows/${palette.uuid}", encodeJsonObject(palette));
+              }
+              box.safePut<List<String>>("/palette/idList", paletteIdList);
+
+              // -- delete --
+              for (final key in keys2Remove) {
+                box.delete(key);
+              }
+            }();
           }
         });
     MigrationPhrase.afterHive <<
         () async {
-          final box = HiveInit.timetable;
-          final timetableRows = <Timetable>[];
-          final paletteRows = <TimetablePalette>[];
-          final keys2Remove = <String>[];
-
-          Timetable? getTimetable(String key) {
-            final value = box.safeGet<String>(key);
-            if (value == null) return null;
-            final obj = decodeJsonObject(value, (obj) => Timetable.fromJson(obj));
-            return obj;
-          }
-
-          TimetablePalette? getPalette(String key) {
-            final value = box.safeGet<String>(key);
-            if (value == null) return null;
-            final obj = decodeJsonObject(value, (obj) => TimetablePalette.fromJson(obj));
-            return obj;
-          }
-
-          for (final key in box.keys) {
-            if (key is! String) continue;
-            if (key.startsWith("/timetable/rows")) {
-              final obj = getTimetable(key);
-              if (obj == null) continue;
-              timetableRows.add(obj);
-              keys2Remove.add(key);
-            } else if (key.startsWith("/palette/rows")) {
-              final obj = getPalette(key);
-              if (obj == null) continue;
-              paletteRows.add(obj);
-              keys2Remove.add(key);
-            }
-          }
-          final timetableIdList = timetableRows.map((row) => row.uuid).toList();
-          final paletteIdList = timetableRows.map((row) => row.uuid).toList();
-
-          final timetableSelectedId = box.safeGet<int>("/timetable/selectedId");
-          final timetableSelected = getTimetable("/timetable/rows/$timetableSelectedId");
-
-          final paletteSelectedId = box.safeGet<int>("/palette/selectedId");
-          final paletteSelected = getTimetable("/palette/rows/$paletteSelectedId");
-
-          // // -- put --
-          // if (timetableSelected != null) {
-          //   box.safePut<String>("/timetable/selectedId", timetableSelected.uuid);
-          // }
-          // if (paletteSelected != null) {
-          //   box.safePut<String>("/palette/selectedId", paletteSelected.uuid);
-          // }
-          // for (final timetable in timetableRows) {
-          //   box.safePut<String>("/timetable/rows/${timetable.uuid}", encodeJsonObject(timetable));
-          // }
-          // box.safePut<List<String>>("/timetable/idList", timetableIdList);
-          //
-          // for (final palette in paletteRows) {
-          //   box.safePut<String>("/palette/rows/${palette.uuid}", encodeJsonObject(palette));
-          // }
-          // box.safePut<List<String>>("/palette/idList", paletteIdList);
-          //
-          // // -- delete --
-          // for (final key in keys2Remove) {
-          //   box.delete(key);
-          // }
-
-          print(timetableRows);
-          print(paletteRows);
+          return;
         };
   }
 
