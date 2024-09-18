@@ -42,7 +42,7 @@ class R {
 
   static const eduEmailDomain = "mail.sit.edu.cn";
   static const demoModeOaCredential = Credential(account: "2300421153", password: "liplum-sit-life");
-  static const demoModeOaCredentialWithoutGame = Credential(account: "2300421155", password: "liplum-sit-life");
+  static const demoModeOaCredentialWithoutGame = Credential(account: "2200421155", password: "liplum-sit-life");
 
   static bool isDemoMode(Credential credential) {
     return credential == demoModeOaCredential || credential == demoModeOaCredentialWithoutGame;
