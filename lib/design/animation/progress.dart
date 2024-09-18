@@ -23,7 +23,7 @@ class AnimatedProgressBar extends StatelessWidget {
 
   const AnimatedProgressBar({
     super.key,
-    required this.value,
+    this.value,
     this.duration = Durations.medium1,
   });
 
@@ -48,7 +48,7 @@ class AnimatedProgressCircle extends StatelessWidget {
 
   const AnimatedProgressCircle({
     super.key,
-    required this.value,
+    this.value,
     this.duration = Durations.medium1,
   });
 
