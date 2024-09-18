@@ -40,8 +40,8 @@ export const getLargestTag = async (version) => {
 }
 
 export const getLatestTag = async () => {
-  const tags = await git.tags()
-  return tags.latest
+  const tags = await git.tags(["--sort=creatordate"])
+  return tags.all[tags.all.length - 1]
 }
 /**
  * @param {{version:string,buildNumber:number}} info
