@@ -7,6 +7,7 @@
 - Permission requests.
 - Access SIT YWB and electricity bypass VPN.
 - Detecting OA password changed outside the app.
+- [Demo mode] one demo accounts with games, and another one without.
 
 ## 2.6.2
 - Users are required to accept *Privacy Policy* and *Terms of Services* at the first use.
