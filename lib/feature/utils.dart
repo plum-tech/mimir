@@ -12,12 +12,20 @@ import 'package:mimir/r.dart';
 /// Once any source prohibits the feature, it won't work.
 bool can(String feature, [WidgetRef? ref]) {
   if (kDebugMode && R.debugAllFeatures) return true;
-  var canWork = false;
   final userType = ref == null ? CredentialsInit.storage.oa.userType : ref.watch(CredentialsInit.storage.oa.$userType);
-  canWork |= userType.allow(feature);
   final campus = ref == null ? Settings.campus : ref.watch(Settings.$campus);
-  if (campus.prohibit(feature)) {
-    return false;
+  final filters = [
+    userType.featureFilter,
+    campus.featureFilter,
+  ];
+  var canWork = false;
+  for (final filter in filters) {
+    if (filter.prohibit(feature)) {
+      return false;
+    }
+    if (filter.allow(feature)) {
+      canWork |= true;
+    }
   }
   return canWork;
 }

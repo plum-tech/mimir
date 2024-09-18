@@ -22,13 +22,9 @@ enum Campus {
 
   String l10n() => "campus.$name".tr();
 
-  static final _type2Prohibited = Map.fromEntries(Campus.values.map(
-    (v) => MapEntry(v, AppFeatureTree.build(v.prohibited)),
+  static final _type2Filter = Map.fromEntries(Campus.values.map(
+    (v) => MapEntry(v, AppFeatureFilter.build(allow: {}, prohibit: v.prohibited)),
   ));
 
-  bool prohibit(String feature) {
-    final tree = _type2Prohibited[this];
-    if (tree == null) return false;
-    return tree.has(feature);
-  }
+  AppFeatureFilter get featureFilter => _type2Filter[this]!;
 }

@@ -179,3 +179,33 @@ class AppFeatureTree implements AppFeatureTreeNode {
     return "${name2node.values}";
   }
 }
+
+extension type const AppFeatureFilter(({AppFeatureTree allow, AppFeatureTree prohibit}) o) {
+  factory AppFeatureFilter.build({
+    required Set<String> allow,
+    required Set<String> prohibit,
+  }) {
+    return AppFeatureFilter((
+      allow: AppFeatureTree.build(allow),
+      prohibit: AppFeatureTree.build(prohibit),
+    ));
+  }
+
+  factory AppFeatureFilter.create({
+    required AppFeatureTree allow,
+    required AppFeatureTree prohibit,
+  }) {
+    return AppFeatureFilter((
+      allow: allow,
+      prohibit: prohibit,
+    ));
+  }
+
+  bool allow(String feature) {
+    return o.allow.has(feature);
+  }
+
+  bool prohibit(String feature) {
+    return o.prohibit.has(feature);
+  }
+}

@@ -82,13 +82,9 @@ enum OaUserType {
 
   String l10n() => "OaUserType.$name".tr();
 
-  static final _type2Allowed = Map.fromEntries(OaUserType.values.map(
-    (v) => MapEntry(v, AppFeatureTree.build(v.allowed)),
+  static final _type2Filter = Map.fromEntries(OaUserType.values.map(
+    (v) => MapEntry(v, AppFeatureFilter.build(allow: v.allowed, prohibit: {})),
   ));
 
-  bool allow(String feature) {
-    final tree = _type2Allowed[this];
-    if (tree == null) return false;
-    return tree.has(feature);
-  }
+  AppFeatureFilter get featureFilter => _type2Filter[this]!;
 }

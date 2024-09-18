@@ -22,10 +22,10 @@ void main() {
     });
     test("Querying OaUserType tree", () {
       const type = OaUserType.undergraduate;
-      assert(type.allow("school.secondClass") == true);
-      assert(type.allow("mimir.notFound") == false);
-      assert(type.allow("school.library") == true);
-      assert(type.allow("school.library.account") == true);
+      assert(type.featureFilter.allow("school.secondClass") == true);
+      assert(type.featureFilter.allow("mimir.notFound") == false);
+      assert(type.featureFilter.allow("school.library") == true);
+      assert(type.featureFilter.allow("school.library.account") == true);
     });
     test("Querying empty tree", () {
       final tree = AppFeatureTree.build({});
