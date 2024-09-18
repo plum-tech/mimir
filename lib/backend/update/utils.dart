@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/agreements/entity/agreements.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
@@ -23,6 +24,7 @@ Future<void> checkAppUpdate({
   required bool manually,
 }) async {
   if (kIsWeb) return;
+  if (Settings.agreements.getBasicAcceptanceOf(AgreementVersion.current) != true) return;
   try {
     if (R.debugCupertino || UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
       await _checkAppUpdateFromApple(
