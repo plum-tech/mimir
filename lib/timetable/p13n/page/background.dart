@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mimir/utils/permission.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/editor.dart';
@@ -186,6 +188,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
   }
 
   Future<void> pickImage() async {
+    await requestPermission(context, Permission.photos);
     final picker = ImagePicker();
     final XFile? fi = await picker.pickImage(
       source: ImageSource.gallery,
