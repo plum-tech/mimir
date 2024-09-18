@@ -37,6 +37,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
   );
   StreamSubscription<Object?>? _subscription;
   bool isReturned = false;
+  bool isPermissionGranted = !UniversalPlatform.isAndroid;
 
   @override
   void initState() {
@@ -75,13 +76,19 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
   }
 
   Future<void> startCamera() async {
+    final granted = await requestPermission(context, Permission.camera);
+    if (!mounted) return;
+    setState(() {
+      isPermissionGranted = granted;
+    });
+    if (!granted) return;
     try {
       await controller.start();
     } catch (error, stackTrace) {
       debugPrintError(error, stackTrace);
       if (error is MobileScannerException && error.errorCode == MobileScannerErrorCode.permissionDenied) {
         if (!mounted) return;
-        await showPermissionDeniedDialog(context: context, permission: Permission.camera);
+        await showPermissionDeniedDialog(context, Permission.camera);
       }
     }
   }
@@ -103,7 +110,9 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
   }
 
   Future<void> recognizeFromFile() async {
-    final ImagePicker picker = ImagePicker();
+    final picker = ImagePicker();
+    final granted = await requestPermission(context, Permission.photos);
+    if (!granted) return;
     // Pick an image
     final image = await picker.pickImage(source: ImageSource.gallery);
     if (image == null) return;
@@ -128,7 +137,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
     return Scaffold(
       appBar: AppBar(),
       body: [
-        buildScanner(),
+        if (isPermissionGranted) buildScanner(),
         const QRScannerOverlay(
           overlayColour: Colors.black26,
         ),

@@ -1022,11 +1022,17 @@ game:
       toefl: 托福
 permission:
   permissionDenied: 没有权限
-  permissionDeniedDescOf: "{}权限未被授权，请检查应用的设置。"
+  permissionDeniedDescOf: "{} 权限未被授权，请检查应用的设置。"
+  permissionRequestOf: "需要 {} 权限"
   goSettings: 前往设置
   type:
     storage: 存储
     camera: 相机
+    photos: 相册
+  usage:
+    storage: "@:appName 需要存储权限来读取和写入课程表文件"
+    camera: "@:appName 需要相机权限来扫描二维码"
+    photos: "@:appName 需要相册权限来从图像中扫描二维码"
 quitPrompt:
   request:
     saveAndQuit: 你有未保存的更改，想要保存吗？

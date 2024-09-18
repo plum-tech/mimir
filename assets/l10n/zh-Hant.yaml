@@ -1001,11 +1001,17 @@ game:
       toefl: 托福
 permission:
   permissionDenied: 沒有權限
-  permissionDeniedDescOf: "{}權限未授予許可，請檢查應用程式的設定。"
+  permissionDeniedDescOf: "{} 權限未授予許可，請檢查應用程式的設定。"
+  permissionRequestOf: "需要 {} 權限"
   goSettings: 前往設定
   type:
     storage: 儲存
     camera: 相機
+    photos: 相片庫
+  usage:
+    storage: "@:appName 需要儲存權限來讀取和寫入課程表檔案"
+    camera: "@:appName 需要相機權限來掃描 QR 碼"
+    photos: "@:appName 需要相片庫權限來從圖像中掃描 QR 碼"
 quitPrompt:
   request:
     saveAndQuit: 你有未儲存的變更，想要儲存嗎？

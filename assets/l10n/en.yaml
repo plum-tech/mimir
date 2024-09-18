@@ -1038,10 +1038,16 @@ game:
 permission:
   permissionDenied: Permission denied
   permissionDeniedDescOf: "{} permission was not granted. Please check the app settings."
+  permissionRequestOf: "{} permission required"
   goSettings: Go settings
   type:
     storage: Storage
     camera: Camera
+    photos: Photos
+  usage:
+    storage: "@:appName requires storage permission to read&write timetable files"
+    camera: "@:appName requires camera permission to scan QR codes"
+    photos: "@:appName requires photos permission to scan QR codes from images"
 quitPrompt:
   request:
     saveAndQuit: You have unsaved changes, do you want to save them?
