@@ -4,6 +4,8 @@
 - Migration of new storage structure of timetable and palette.
 - Added UUID in game records.
 - Clear game records on start up.
+- Permission requests.
+- No need to access SIT YWB and electricity via VPN.
 
 ## 2.6.2
 - Users are required to accept *Privacy Policy* and *Terms of Services* at the first use.
