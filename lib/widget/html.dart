@@ -4,12 +4,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/r.dart';
 import 'package:mimir/utils/color.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import 'package:mimir/utils/tel.dart';
 import 'package:rettulf/rettulf.dart';
-
-final _go = Uri(scheme: "sit-life", host: "go");
 
 class RestyledHtmlWidget extends StatefulWidget {
   final String content;
@@ -36,6 +35,8 @@ class RestyledHtmlWidget extends StatefulWidget {
   @override
   State<RestyledHtmlWidget> createState() => _RestyledHtmlWidgetState();
 }
+
+final _goRoute = Uri(scheme: R.scheme, host: "go");
 
 class _RestyledHtmlWidgetState extends State<RestyledHtmlWidget> with AutomaticKeepAliveClientMixin {
   late String html;
@@ -87,7 +88,7 @@ class _RestyledHtmlWidgetState extends State<RestyledHtmlWidget> with AutomaticK
         if (uri == null) return false;
         var baseUri = widget.baseUri;
         if (widget.enableGoRoute) {
-          baseUri ??= _go;
+          baseUri ??= _goRoute;
         }
         if (uri.scheme.isEmpty && baseUri != null) {
           final related = baseUri.resolveUri(uri);

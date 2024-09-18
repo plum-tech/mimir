@@ -21,7 +21,8 @@ class YwbSession {
   });
 
   Future<bool> checkConnectivity({
-    String url = "$base/v1",
+    // String url = "https://ywb.sit.edu.cn/v1",
+    String url = "https://xgfy.sit.edu.cn",
   }) async {
     try {
       await Init.dioNoCookie.request(

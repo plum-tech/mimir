@@ -155,11 +155,7 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
           ...ref.read($intentFiles),
           ...list,
         ];
-        for (final file in list) {
-          final navigateCtx = $key.currentContext;
-          if (navigateCtx == null || !navigateCtx.mounted) return;
-          await onHandleFilePath(context: navigateCtx, path: file.path);
-        }
+        await handleFileIntents(list);
       }, onError: (error) {
         debugPrintError(error);
       });
@@ -170,11 +166,7 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
           ...ref.read($intentFiles),
           ...list,
         ];
-        for (final file in list) {
-          final navigateCtx = $key.currentContext;
-          if (navigateCtx == null || !navigateCtx.mounted) return;
-          await onHandleFilePath(context: navigateCtx, path: file.path);
-        }
+        await handleFileIntents(list);
         if (UniversalPlatform.isIOS) {
           await Future.wait(list.map((file) => File(file.path).delete(recursive: false)));
         }
@@ -192,6 +184,20 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
       if (accepted == true) return;
       await AgreementsAcceptanceSheet.show(navigateCtx);
     });
+  }
+
+  Future<void> handleFileIntents(List<SharedMediaFile> files) async {
+    final navigateCtx = $key.currentContext;
+    if (navigateCtx == null) return;
+    for (final file in files) {
+      // ignore the url intent from the this app
+      if (file.type == SharedMediaType.url) {
+        final uri = Uri.tryParse(file.path);
+        if (uri != null && canHandleDeepLink(deepLink: uri)) continue;
+      }
+      if (!navigateCtx.mounted) return;
+      await onHandleFilePath(context: navigateCtx, path: file.path);
+    }
   }
 
   @override
