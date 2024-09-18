@@ -168,7 +168,7 @@ const generateReleaseBody = ({
   - 新增 |
 ## How to download
   - Android: Click the .apk files below.
-  - iOS: Download on the [App Store](https://testflight.apple.com/join/hPeQ13fe), or join the [Test Flight]([Join the Test Flight](https://testflight.apple.com/join/2n5I09Zv)).
+  - iOS: Download on the [App Store](https://testflight.apple.com/join/hPeQ13fe), or join the [Test Flight](https://testflight.apple.com/join/2n5I09Zv).
 Full Changelog: https://github.com/liplum-dev/mimir/compare/${previousTag}...${currentTag}
 `
 }
