@@ -11,7 +11,7 @@ import 'package:mimir/utils/guard_launch.dart';
 import 'package:universal_platform/universal_platform.dart';
 
 import 'handle.dart';
-import '../qrcode/i18n.dart';
+import '../i18n.dart';
 
 final _codec = ZLibCodec(level: 6);
 final _decoder = _codec.decoder;
@@ -73,7 +73,7 @@ Future<void> recognizeQrCode(BuildContext context) async {
       await context.showTip(desc: res.toString(), primary: i18n.ok);
     } else if (result == DeepLinkHandleResult.invalidFormat) {
       if (!context.mounted) return;
-      await context.showTip(desc: i18n.invalidFormatTip, primary: i18n.ok);
+      await context.showTip(desc: i18n.qrcode.invalidFormatTip, primary: i18n.ok);
     }
   } else {
     await context.showTip(desc: res.toString(), primary: i18n.ok);

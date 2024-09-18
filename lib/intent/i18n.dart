@@ -8,7 +8,15 @@ const i18n = _I18n();
 class _I18n with CommonI18nMixin {
   const _I18n();
 
-  static const ns = "qrCode";
+  static const ns = "intent";
+  final qrcode = const _QrCode();
+  final file = const _FileType();
+}
+
+class _QrCode with CommonI18nMixin {
+  const _QrCode();
+
+  static const ns = "${_I18n.ns}.qrCode";
 
   String get noQrCodeRecognizedTip => "$ns.noQrCodeRecognizedTip".tr();
 
@@ -18,4 +26,12 @@ class _I18n with CommonI18nMixin {
         "me": const WidgetSpan(child: Icon(Icons.person)),
         "scan": const WidgetSpan(child: Icon(Icons.qr_code_scanner)),
       });
+}
+
+class _FileType with CommonI18nMixin {
+  const _FileType();
+
+  static const ns = "${_I18n.ns}.fileType";
+
+  String get unknownFileFormat => "$ns.unknownFileFormat".tr();
 }

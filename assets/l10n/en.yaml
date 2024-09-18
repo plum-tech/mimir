@@ -931,10 +931,13 @@ greeting:
   headerB:
     one: 1 Day
     other: "{} Days"
-qrCode:
-  noQrCodeRecognizedTip: No QR code
-  invalidFormatTip: Unrecognizable QR code, which may be an expired QR code from an old version of @:appName.
-  hint: Please launch @:appName. Then navigate to Me {me}, and click the Scanner {scan} on the right corner.
+intent:
+  qrCode:
+    noQrCodeRecognizedTip: No QR code
+    invalidFormatTip: Unrecognizable QR code, which may be an expired QR code from an old version of @:appName.
+    hint: Please launch @:appName. Then navigate to Me {me}, and click the Scanner {scan} on the right corner.
+  file:
+    unknownFileFormat: Unknown file format
 404:
   title: Not Found
   subtitle: The requested page was not found

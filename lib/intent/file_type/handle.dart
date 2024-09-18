@@ -2,6 +2,7 @@ import 'package:flutter/widgets.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/l10n/common.dart';
 import 'registry.dart';
+import '../i18n.dart';
 
 const _i18n = CommonI18n();
 
@@ -17,7 +18,7 @@ Future<void> onHandleFilePath({
   }
   if (!context.mounted) return;
   await context.showTip(
-    title: "Unknown file format",
+    title: i18n.file.unknownFileFormat,
     desc: path,
     primary: _i18n.ok,
   );

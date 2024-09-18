@@ -19,7 +19,7 @@ import 'package:mimir/utils/images.dart';
 import 'package:mimir/utils/permission.dart';
 import 'package:universal_platform/universal_platform.dart';
 
-import '../i18n.dart';
+import '../../i18n.dart';
 import '../widget/overlay.dart';
 
 class ScannerPage extends StatefulWidget {
@@ -127,7 +127,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
       await _handleBarcode(result);
     } else {
       if (!mounted) return;
-      context.showSnackBar(content: i18n.noQrCodeRecognizedTip.text());
+      context.showSnackBar(content: i18n.qrcode.noQrCodeRecognizedTip.text());
     }
   }
 

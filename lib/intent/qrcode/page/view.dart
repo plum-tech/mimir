@@ -18,7 +18,7 @@ import 'package:mimir/utils/screenshot.dart';
 import 'package:mimir/widget/modal_image_view.dart';
 import 'package:text_scroll/text_scroll.dart';
 
-import '../i18n.dart';
+import '../../i18n.dart';
 
 class QrCodePage extends ConsumerStatefulWidget {
   final String data;
@@ -136,7 +136,7 @@ class QrCodeHint extends StatelessWidget {
     return RichText(
       text: TextSpan(
         style: context.textTheme.bodyLarge,
-        children: i18n.hint,
+        children: i18n.qrcode.hint,
       ),
     );
   }
