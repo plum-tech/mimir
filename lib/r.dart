@@ -41,7 +41,13 @@ class R {
   static const Size minWindowSize = Size(300, 400);
 
   static const eduEmailDomain = "mail.sit.edu.cn";
-  static const demoModeOaCredentials = Credential(account: "2300421153", password: "liplum-sit-life");
+  static const demoModeOaCredential = Credential(account: "2300421153", password: "liplum-sit-life");
+  static const demoModeOaCredentialWithoutGame = Credential(account: "2300421155", password: "liplum-sit-life");
+
+  static bool isDemoMode(Credential credential) {
+    return credential == demoModeOaCredential || credential == demoModeOaCredentialWithoutGame;
+  }
+
   static const iosAppId = "6468989112";
   static const iosAppStoreUrl = "https://apps.apple.com/app/$iosAppId";
   static const iosTimetableICalToCalendarShortcut = "https://www.icloud.com/shortcuts/98f1b96465c542dcbdac651a921e2459";

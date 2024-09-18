@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:screenshot/screenshot.dart';
 import 'package:mimir/credentials/init.dart';
-import 'package:mimir/r.dart';
 import 'package:mimir/utils/random.dart';
 
 import '../entity/local.dart';
@@ -17,7 +16,7 @@ class DemoExpenseService implements ExpenseService {
     required DateTime from,
     required DateTime to,
   }) async {
-    final rand = Random((CredentialsInit.storage.oa.credentials?.account ?? R.demoModeOaCredentials.account).hashCode);
+    final rand = Random(CredentialsInit.storage.oa.credentials?.account.hashCode);
     return _generate(300, rand);
   }
 }

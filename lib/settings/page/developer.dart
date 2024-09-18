@@ -85,14 +85,31 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                 SwitchOaUserTile(
                   currentCredentials: credentials,
                 ),
-              if (demoMode && credentials != R.demoModeOaCredentials)
+              if (demoMode && credentials != R.demoModeOaCredential && credentials != R.demoModeOaCredentialWithoutGame)
                 ListTile(
                   leading: const Icon(Icons.adb),
                   title: "Login demo account".text(),
                   trailing: const Icon(Icons.login),
                   onTap: () async {
                     Settings.lastSignature ??= "Liplum";
-                    CredentialsInit.storage.oa.credentials = R.demoModeOaCredentials;
+                    CredentialsInit.storage.oa.credentials = R.demoModeOaCredential;
+                    CredentialsInit.storage.oa.loginStatus = OaLoginStatus.validated;
+                    CredentialsInit.storage.oa.lastAuthTime = DateTime.now();
+                    CredentialsInit.storage.oa.userType = OaUserType.undergraduate;
+                    await Init.initModules();
+                    if (!context.mounted) return;
+                    context.go("/");
+                  },
+                ),
+              if (demoMode && credentials != R.demoModeOaCredentialWithoutGame)
+                ListTile(
+                  leading: const Icon(Icons.adb),
+                  title: "Login demo account off games".text(),
+                  subtitle: "Without games".text(),
+                  trailing: const Icon(Icons.login),
+                  onTap: () async {
+                    Settings.lastSignature ??= "Liplum";
+                    CredentialsInit.storage.oa.credentials = R.demoModeOaCredentialWithoutGame;
                     CredentialsInit.storage.oa.loginStatus = OaLoginStatus.validated;
                     CredentialsInit.storage.oa.lastAuthTime = DateTime.now();
                     CredentialsInit.storage.oa.userType = OaUserType.undergraduate;

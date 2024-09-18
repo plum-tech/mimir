@@ -53,8 +53,8 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
-  final $account = TextEditingController(text: Dev.demoMode ? R.demoModeOaCredentials.account : null);
-  final $password = TextEditingController(text: Dev.demoMode ? R.demoModeOaCredentials.password : null);
+  final $account = TextEditingController(text: Dev.demoMode ? R.demoModeOaCredential.account : null);
+  final $password = TextEditingController(text: Dev.demoMode ? R.demoModeOaCredential.password : null);
   final _formKey = GlobalKey<FormState>();
   bool isPasswordClear = false;
   bool loggingIn = false;
@@ -106,21 +106,22 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     }
     final account = $account.text;
     final password = $password.text;
-    if (account == R.demoModeOaCredentials.account && password == R.demoModeOaCredentials.password) {
-      await loginDemoMode();
+    final credential = Credential(account: account, password: password);
+    if (R.isDemoMode(credential)) {
+      await loginDemoMode(credential);
     } else {
-      await loginWithCredentials(account, password, formatValid: (_formKey.currentState as FormState).validate());
+      await loginWithCredential(account, password, formatValid: (_formKey.currentState as FormState).validate());
     }
   }
 
-  Future<void> loginDemoMode() async {
+  Future<void> loginDemoMode(Credential credentials) async {
     if (!mounted) return;
     setState(() => loggingIn = true);
     final rand = Random();
     await Future.delayed(Duration(milliseconds: rand.nextInt(2000)));
     Meta.userRealName = "Liplum";
     Settings.lastSignature ??= "Liplum";
-    CredentialsInit.storage.oa.credentials = R.demoModeOaCredentials;
+    CredentialsInit.storage.oa.credentials = credentials;
     CredentialsInit.storage.oa.loginStatus = OaLoginStatus.validated;
     CredentialsInit.storage.oa.lastAuthTime = DateTime.now();
     CredentialsInit.storage.oa.userType = OaUserType.undergraduate;
@@ -132,7 +133,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   /// After the user clicks the login button
-  Future<void> loginWithCredentials(
+  Future<void> loginWithCredential(
     String account,
     String password, {
     required bool formatValid,
