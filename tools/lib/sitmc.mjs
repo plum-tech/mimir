@@ -5,7 +5,6 @@ import { sanitizeNameForUri } from "./utils.mjs"
 import axios from "axios"
 import env from "@liplum/env"
 import lateinit from "@liplum/lateinit"
-import { Bar, Presets as BarPresets } from "cli-progress"
 const io = lateinit(() => {
   const auth = env("SITMC_TEMP_SERVER_AUTH").string()
   return axios.create({
@@ -28,15 +27,6 @@ export async function uploadFile({ localFilePath, remotePath }) {
   const file = new Blob([await readFile(localFilePath)], { type: mime.getType(localFilePath) })
   formData.append('file', file, path.basename(localFilePath))
   formData.append('path', remotePath)
-
-  // not working in GitHub workflow output
-  // const bar = new Bar({
-  //   noTTYOutput: true,
-  //   notTTYSchedule: 0,
-  // }, BarPresets.shades_classic)
-  // bar.start(1, 0, {
-  //   speed: "N/A"
-  // })
 
   const res = await io().put("/admin", formData, {
     onUploadProgress: (e) => {

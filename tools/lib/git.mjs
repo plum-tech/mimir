@@ -38,9 +38,14 @@ export const getLargestTag = async (version) => {
   if (versionInfos.length === 0) return
   return versionInfos[versionInfos.length - 1]
 }
+
+export const getLatestTag = async () => {
+  const tags = await git.tags()
+  return tags.latest
+}
 /**
  * @param {{version:string,buildNumber:number}} info
  */
-export const formatVersionInfo = (info) =>{
-  return `v${info.version}+${info.buildNumber}`;
+export const formatVersionInfo = (info) => {
+  return `v${info.version}+${info.buildNumber}`
 }

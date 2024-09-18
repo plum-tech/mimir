@@ -134,7 +134,7 @@ const clean = async (args) => {
  * @param {string} word
  * @returns {boolean}
  */
-const validateWord = async (word) => {
+export const validateWord = async (word) => {
   if (word.length != 5) return false
   if (!(/^[a-zA-Z]+$/.test(word))) return false
   return true

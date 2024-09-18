@@ -29,6 +29,9 @@ importers:
       csv:
         specifier: ^6.3.9
         version: 6.3.10
+      csv-parse:
+        specifier: ^5.5.6
+        version: 5.5.6
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
@@ -52,13 +55,16 @@ importers:
         version: 3.0.0
     devDependencies:
       '@eslint/js':
-        specifier: ^9.2.0
+        specifier: ^9.9.1
         version: 9.9.1
+      '@types/node':
+        specifier: ^22.5.5
+        version: 22.5.5
       eslint:
-        specifier: ^9.2.0
+        specifier: ^9.9.1
         version: 9.9.1
       globals:
-        specifier: ^15.2.0
+        specifier: ^15.9.0
         version: 15.9.0
       jasmine:
         specifier: ^5.1.0
@@ -201,6 +207,9 @@ packages:
 
   '@types/command-line-usage@5.0.4':
     resolution: {integrity: sha512-BwR5KP3Es/CSht0xqBcUXS3qCAUVXwpRKsV2+arxeb65atasuXG9LykC9Ab10Cw3s2raH92ZqOeILaQbsB2ACg==}
+
+  '@types/node@22.5.5':
+    resolution: {integrity: sha512-Xjs4y5UPO/CLdzpgR6GirZJx36yScjh73+2NlLlkFRSoQN8B0DpfXPdZGnvVmLRLOsqDpOfTNv7D9trgGhmOIA==}
 
   acorn-jsx@5.3.2:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -737,6 +746,9 @@ packages:
     resolution: {integrity: sha512-T+tKVNs6Wu7IWiAce5BgMd7OZfNYUndHwc5MknN+UHOudi7sGZzuHdCadllRuqJ3fPtgFtIH9+lt9qRv6lmpfA==}
     engines: {node: '>=12.17'}
 
+  undici-types@6.19.8:
+    resolution: {integrity: sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==}
+
   undici@5.28.4:
     resolution: {integrity: sha512-72RFADWFqKmUb2hmmvNODKL3p9hcB6Gt2DOQMis1SEBaV6a4MH8soBvzg+95CYhCKPFedut2JY9bMfrDl9D23g==}
     engines: {node: '>=14.0'}
@@ -947,6 +959,10 @@ snapshots:
   '@types/command-line-args@5.2.3': {}
 
   '@types/command-line-usage@5.0.4': {}
+
+  '@types/node@22.5.5':
+    dependencies:
+      undici-types: 6.19.8
 
   acorn-jsx@5.3.2(acorn@8.12.1):
     dependencies:
@@ -1447,6 +1463,8 @@ snapshots:
   typical@4.0.0: {}
 
   typical@7.1.1: {}
+
+  undici-types@6.19.8: {}
 
   undici@5.28.4:
     dependencies:

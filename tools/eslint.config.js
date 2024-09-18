@@ -3,11 +3,19 @@ import pluginJs from "@eslint/js"
 
 
 export default [
-  { languageOptions: { globals: globals.node } },
+  {
+    languageOptions: { globals: globals.node },
+  },
   pluginJs.configs.recommended,
   {
     rules: {
       "no-unused-vars": "warn",
+      "no-undef": "error"
     }
+  },
+  {
+    ignores: [
+      "timetable.test.local.js"
+    ]
   }
 ]
