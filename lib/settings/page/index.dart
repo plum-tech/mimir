@@ -15,6 +15,7 @@ import 'package:mimir/feature/utils.dart';
 import 'package:mimir/lifecycle.dart';
 import 'package:mimir/login/i18n.dart';
 import 'package:mimir/network/widget/entrance.dart';
+import 'package:mimir/route.dart';
 import 'package:mimir/storage/hive/init.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/l10n/extension.dart';
@@ -267,7 +268,7 @@ Future<void> _onWipeData(BuildContext context) async {
     await HiveInit.clear(); // Clear storage
     await Init.initNetwork();
     await Init.initModules();
-    final navigateCtx = $key.currentContext;
+    final navigateCtx = $TimetableShellKey.currentContext;
     if (navigateCtx == null || !navigateCtx.mounted) return;
     navigateCtx.riverpod().read($oaOnline.notifier).state = false;
     await _gotoLogin(navigateCtx);
