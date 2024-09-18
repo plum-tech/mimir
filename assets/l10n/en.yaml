@@ -20,7 +20,7 @@ agreements:
       For more details, please read the complete [*小应生活隐私政策*](https://www.mysit.life/privacy-policy/20240915) and [*小应生活使用协议*](https://www.mysit.life/tos/20240915).
     accept: Accept&Continue
     decline: Decline
-    onDecline: Only by accepting our privacy policy, you'll gain access to all the features @:appName offers
+    onDecline: Only by accepting our privacy policy, you'll gain access to the features @:appName offers
   basic: |
     I've read and accepted [*小应生活隐私政策*](https://www.mysit.life/privacy-policy/20240915) & [*小应生活使用协议*](https://www.mysit.life/tos/20240915)
   account: |
