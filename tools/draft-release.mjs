@@ -121,6 +121,7 @@ const createReleaseDraft = async ({ tag, body }) => {
   const res = await octokit.rest.repos.createRelease({
     owner: "liplum-dev",
     repo: "mimir",
+    name: tag,
     tag_name: tag,
     body,
     draft: true,
