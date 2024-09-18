@@ -4,6 +4,7 @@ import { git } from "./lib/git.mjs"
 import { guardVersioning } from './lib/guard.mjs'
 import esMain from 'es-main'
 const pubspecPath = 'pubspec.yaml'
+import { context } from './lib/github.mjs'
 
 /**
  *
@@ -11,10 +12,9 @@ const pubspecPath = 'pubspec.yaml'
  */
 const pushAndTagChanges = async (newVersion) => {
   // Git operations (assuming arguments are provided)
-  const serverUrl = process.argv[2]
-  const repository = process.argv[3]
-  const runId = process.argv[4]
-  const runAttempt = process.argv[5]
+  const serverUrl = context.serverUrl
+  const repository = `${context.repo.owner}/${context.repo.repo}`
+  const runId = context.runId
 
   await git.add(".")
   await git.commit(`build: ${newVersion}`)
@@ -22,7 +22,6 @@ const pushAndTagChanges = async (newVersion) => {
     "-a", `v${newVersion}`,
     "-m", `v${newVersion}
     run id: ${runId}
-    run_attempt(should be 1): ${runAttempt}
     ${serverUrl}/${repository}/actions/runs/${runId}`,
   ])
 }
