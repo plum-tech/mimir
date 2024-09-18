@@ -51,7 +51,7 @@ class YwbApplicationService {
   }) async {
     // Authentication cookie is even not required!
     final res = await _session.request(
-      "http://ywb.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?&DoType=HttpHandler&DoMethod=TimeBase_Init&HttpHandlerName=BP.WF.HttpHandler.WF_WorkOpt_OneWork",
+      "${YwbSession.base}/unifri-flow/WF/Comm/ProcessRequest.do?&DoType=HttpHandler&DoMethod=TimeBase_Init&HttpHandlerName=BP.WF.HttpHandler.WF_WorkOpt_OneWork",
       data: {
         "WorkID": workId,
         "FK_Flow": functionId,

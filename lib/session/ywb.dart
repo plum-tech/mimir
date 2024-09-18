@@ -6,10 +6,11 @@ import 'package:mimir/credentials/init.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/session/sso.dart';
 
-/// 应网办 official website
-const _ywbUrl = "https://ywb.sit.edu.cn/v1";
-
 class YwbSession {
+  // ywb is behind school network, requiring VPN for access
+  // 应网办 official website
+  // static const base = "https://ywb.sit.edu.cn";
+  static const base = "https://xgfy.sit.edu.cn";
   bool isLogin = false;
   String? username;
   String? jwtToken;
@@ -20,7 +21,7 @@ class YwbSession {
   });
 
   Future<bool> checkConnectivity({
-    String url = "https://ywb.sit.edu.cn/v1",
+    String url = "$base/v1",
   }) async {
     try {
       await Init.dioNoCookie.request(
@@ -45,7 +46,7 @@ class YwbSession {
     required String password,
   }) async {
     final response = await dio.post(
-      "https://ywb.sit.edu.cn/unifri-flow/login",
+      "$base/unifri-flow/login",
       data: {
         'account': username,
         'userPassword': password,

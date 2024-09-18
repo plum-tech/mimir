@@ -1,6 +1,7 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mimir/session/ywb.dart';
 import 'package:mimir/storage/hive/type_id.dart';
 import 'package:mimir/school/utils.dart';
 
@@ -18,7 +19,7 @@ enum YwbApplicationType {
   String l10nName() => "ywb.type.$name".tr();
 
   String get messageListUrl =>
-      'https://ywb.sit.edu.cn/unifri-flow/WF/Comm/ProcessRequest.do?DoType=HttpHandler&DoMethod=$method&HttpHandlerName=BP.WF.HttpHandler.WF';
+      '${YwbSession.base}/unifri-flow/WF/Comm/ProcessRequest.do?DoType=HttpHandler&DoMethod=$method&HttpHandlerName=BP.WF.HttpHandler.WF';
 }
 
 final _tsFormat = DateFormat("yyyy-MM-dd hh:mm");

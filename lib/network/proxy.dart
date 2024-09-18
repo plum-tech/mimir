@@ -64,7 +64,7 @@ String? _buildProxyForType(ProxyCat cat, bool isSchoolLanRequired) {
 }
 
 bool _isSchoolLanRequired(String host) {
-  for (final uri in R.sitSchoolNetworkUriList) {
+  for (final uri in R.sitBehindCampusNetworkUriList) {
     if (host == uri.host) {
       return true;
     }

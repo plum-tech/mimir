@@ -5,8 +5,8 @@ import 'package:mimir/session/ywb.dart';
 
 import '../entity/service.dart';
 
-const String _serviceFunctionList = 'https://ywb.sit.edu.cn/app/public/queryAppManageJson';
-const String _serviceFunctionDetail = 'https://ywb.sit.edu.cn/app/public/queryAppFormJson';
+const String _serviceFunctionList = '${YwbSession.base}/app/public/queryAppManageJson';
+const String _serviceFunctionDetail = '${YwbSession.base}/app/public/queryAppFormJson';
 
 class YwbServiceService {
   YwbSession get _session => Init.ywbSession;
