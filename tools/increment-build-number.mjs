@@ -5,6 +5,7 @@ import { guardVersioning } from './lib/guard.mjs'
 import esMain from 'es-main'
 const pubspecPath = 'pubspec.yaml'
 import { context } from './lib/github.mjs'
+import { cli } from '@liplum/cli'
 
 /**
  *
@@ -27,6 +28,17 @@ const pushAndTagChanges = async (newVersion) => {
 }
 
 const main = async () => {
+  const args = cli({
+    name: 'increment-build-number',
+    description: 'Increment build number by 1.',
+    examples: ['node ./increment-build-number.mjs', 'node ./increment-build-number.mjs --push'],
+    require: [],
+    options: [{
+      name: 'push',
+      type: Boolean,
+      description: 'Whether to tag and push.'
+    },],
+  })
   // Read pubspec.yaml content
   const filedata = await fs.readFile(pubspecPath, 'utf-8')
 
@@ -52,7 +64,7 @@ const main = async () => {
   await fs.writeFile(pubspecPath, updatedFiledata)
 
   // Check for additional arguments
-  if (process.argv.length > 2) {
+  if (args.push) {
     await pushAndTagChanges(newVersion)
   }
 }

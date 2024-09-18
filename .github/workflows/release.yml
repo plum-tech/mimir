@@ -15,12 +15,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install deploy key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.DOCS_SSH_KEY }}
-          known_hosts: ${{ secrets.DOCS_KNOWN_HOST }}
-
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
@@ -36,11 +30,6 @@ jobs:
         run: |
           cd tools && pnpm i && cd ..
 
-      - name: Setup git config
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
       - name: Upload artifacts onto SIT-MC sever
         if: github.repository == 'liplum-dev/mimir'
         continue-on-error: true
@@ -49,10 +38,19 @@ jobs:
         run: |
           node tools/upload-release-sitmc.mjs
 
+      - name: Install deploy key to deploy g.mysit.life
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.DOCS_SSH_KEY }}
+          known_hosts: ${{ secrets.DOCS_KNOWN_HOST }}
+
+      - name: Setup git config to deploy g.mysit.life
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Deploy
         if: github.repository == 'liplum-dev/mimir'
-        env:
-          SITMC_TEMP_SERVER_AUTH: ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
         run: |
           node tools/publish-release.mjs
 

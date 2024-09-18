@@ -7,8 +7,7 @@ plugins {
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
-  localPropertiesFile.withReader('UTF-8') { reader ->
-    localProperties.load(reader)
+  localPropertiesFile.withReader('UTF-8') { reader -> localProperties.load(reader)
   }
 }
 
@@ -54,8 +53,9 @@ android {
     versionCode flutterVersionCode.toInteger()
     versionName flutterVersionName
     ndk {
-//      drop the support of "x86" and "x86_64" will shrink about 12% file size.
-      abiFilters 'arm64-v8a', 'armeabi-v7a', "x86", "x86_64"
+      // drop the support of "x86" and "x86_64" will shrink about 12 % file size.
+      // Run `flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi` instead
+      // abiFilters 'arm64-v8a', 'armeabi-v7a', "x86", "x86_64"
     }
   }
 

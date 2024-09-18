@@ -1,3 +1,4 @@
 node_modules
 /*.test.local.*
 .env
+/artifacts

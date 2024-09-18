@@ -15,7 +15,8 @@ export default [
   },
   {
     ignores: [
-      "timetable.test.local.js"
+      "timetable.test.local.js",
+      "spec/support/wordle.spec.mjs"
     ]
   }
 ]
