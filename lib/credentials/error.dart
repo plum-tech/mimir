@@ -1,28 +1,28 @@
 import 'package:easy_localization/easy_localization.dart';
 
-class CredentialsErrorType {
+class CredentialErrorType {
   final String type;
 
-  const CredentialsErrorType._(this.type);
+  const CredentialErrorType._(this.type);
 
   static const //
-      accountPassword = CredentialsErrorType._("accountPassword"),
-      captcha = CredentialsErrorType._("captcha"),
-      frozen = CredentialsErrorType._("frozen"),
-      locked = CredentialsErrorType._("locked");
+      accountPassword = CredentialErrorType._("accountPassword"),
+      captcha = CredentialErrorType._("captcha"),
+      frozen = CredentialErrorType._("frozen"),
+      locked = CredentialErrorType._("locked");
   static const //
-      oaFrozen = CredentialsErrorType._("oa-frozen"),
-      oaLocked = CredentialsErrorType._("oa-locked"),
-      oaIncompleteUserInfo = CredentialsErrorType._("oa-incompleteUserInfo");
+      oaFrozen = CredentialErrorType._("oa-frozen"),
+      oaLocked = CredentialErrorType._("oa-locked"),
+      oaIncompleteUserInfo = CredentialErrorType._("oa-incompleteUserInfo");
 
   String l10n() => "credentials.error.$type".tr();
 }
 
-class CredentialsException implements Exception {
-  final CredentialsErrorType type;
+class CredentialException implements Exception {
+  final CredentialErrorType type;
   final String? message;
 
-  const CredentialsException({
+  const CredentialException({
     required this.type,
     this.message,
   });

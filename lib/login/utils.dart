@@ -16,7 +16,7 @@ Future<void> handleLoginException({
 }) async {
   debugPrintError(error, stackTrace);
   if (!context.mounted) return;
-  if (error is CredentialsException) {
+  if (error is CredentialException) {
     await context.showAnyTip(
       serious: true,
       title: _i18n.failedWarn,

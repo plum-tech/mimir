@@ -22,8 +22,8 @@ class LibraryAuthService {
     final response = await _login(credentials.account, credentials.password);
     final content = response.data.toString();
     if (content.contains('用户名或密码错误')) {
-      throw CredentialsException(
-        type: CredentialsErrorType.accountPassword,
+      throw CredentialException(
+        type: CredentialErrorType.accountPassword,
         message: content,
       );
     }

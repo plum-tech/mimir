@@ -34,7 +34,7 @@ const _i18n = CommonAuthI18n();
 Future<void> handleRequestError(Object? error, [StackTrace? stackTrace]) async {
   debugPrintError(error, stackTrace);
   final context = $key.currentContext;
-  if (error is CredentialsException) {
+  if (error is CredentialException) {
     if (context == null || context.mounted) return;
     await context.showTip(
       serious: true,

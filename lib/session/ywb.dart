@@ -62,7 +62,7 @@ class YwbSession {
 
     if (code != 0) {
       final String errMessage = resData['msg'];
-      throw CredentialsException(type: CredentialsErrorType.accountPassword, message: '($code) $errMessage');
+      throw CredentialException(type: CredentialErrorType.accountPassword, message: '($code) $errMessage');
     }
     jwtToken = resData['data']['authorization'];
     this.username = username;

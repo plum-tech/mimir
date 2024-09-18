@@ -113,20 +113,33 @@ class SsoSession {
     return await _loginLock.run(() async {
       networkLogger.i("loginLocked ${DateTime.now().toIso8601String()}");
       try {
-        final byAutoCaptcha = await _login(
-          credentials,
-          inputCaptcha: (captchaImage) => BackendInit.ocr.recognizeSchoolCaptcha(captchaImage),
-        );
-        return byAutoCaptcha;
+        return _loginWithOcr(credentials);
       } catch (error, stackTrace) {
         debugPrintError(error, stackTrace);
+        rethrow;
       }
-      final byManualCaptcha = await _login(
-        credentials,
-        inputCaptcha: inputCaptcha,
-      );
-      return byManualCaptcha;
     });
+  }
+
+  Future<Response> _loginWithOcr(Credential credentials) async {
+    try {
+      final byAutoCaptcha = await _login(
+        credentials,
+        inputCaptcha: (captchaImage) => BackendInit.ocr.recognizeSchoolCaptcha(captchaImage),
+      );
+      return byAutoCaptcha;
+    } catch (error, stackTrace) {
+      if (error is CredentialException && error.type == CredentialErrorType.captcha) {
+        debugPrintError(error, stackTrace);
+      } else {
+        rethrow;
+      }
+    }
+    final byManualCaptcha = await _login(
+      credentials,
+      inputCaptcha: inputCaptcha,
+    );
+    return byManualCaptcha;
   }
 
   Future<Response> _request(
@@ -218,20 +231,20 @@ class SsoSession {
     // await cookieJar.delete(R.authServerUri, true);
     final Response response;
     try {
-      // 首先获取AuthServer首页
+      // get AuthServer homepage
       final html = await _fetchAuthServerHtml();
       var captcha = '';
       if (await isCaptchaRequired(credentials.account)) {
         final captchaImage = await getCaptcha();
         captcha = await getInputtedCaptcha(captchaImage, inputCaptcha);
       }
-      // 获取casTicket
+      // get casTicket
       final casTicket = _extractCasTicketFromAuthHtml(html);
-      // 获取salt
+      // get salt
       final salt = _extractSaltFromAuthHtml(html);
-      // 加密密码
+      // encrypt password
       final hashedPwd = _hashPassword(salt, credentials.password);
-      // 登录系统，获得cookie
+      // login and get cookie
       response = await _postLoginRequest(credentials.account, hashedPwd, captcha, casTicket);
     } catch (e) {
       _setOnline(false);
@@ -239,7 +252,7 @@ class SsoSession {
     }
     final pageRaw = response.data as String;
     if (pageRaw.contains("完善资料")) {
-      throw CredentialsException(message: pageRaw, type: CredentialsErrorType.oaIncompleteUserInfo);
+      throw CredentialException(message: pageRaw, type: CredentialErrorType.oaIncompleteUserInfo);
     }
     final page = BeautifulSoup(pageRaw);
     // For desktop
@@ -250,7 +263,7 @@ class SsoSession {
       final errorMessage = authError + mobileError;
       final type = _parseInvalidType(errorMessage);
       _setOnline(false);
-      throw CredentialsException(message: errorMessage, type: type);
+      throw CredentialException(message: errorMessage, type: type);
     }
 
     if (response.realUri.toString() != _loginSuccessUrl) {
@@ -283,15 +296,15 @@ class SsoSession {
     }
   }
 
-  static CredentialsErrorType _parseInvalidType(String errorMessage) {
+  static CredentialErrorType _parseInvalidType(String errorMessage) {
     if (errorMessage.contains("验证码")) {
-      return CredentialsErrorType.captcha;
+      return CredentialErrorType.captcha;
     } else if (errorMessage.contains("冻结")) {
-      return CredentialsErrorType.oaFrozen;
+      return CredentialErrorType.oaFrozen;
     } else if (errorMessage.contains("锁定")) {
-      return CredentialsErrorType.oaLocked;
+      return CredentialErrorType.oaLocked;
     }
-    return CredentialsErrorType.accountPassword;
+    return CredentialErrorType.accountPassword;
   }
 
   /// Extract the Salt from the auth page

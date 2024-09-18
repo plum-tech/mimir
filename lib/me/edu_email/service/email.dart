@@ -14,7 +14,7 @@ class MailService {
       return await _client.login(credential.account, credential.password);
     } catch (error) {
       if (error is ImapException) {
-        throw CredentialsException(type: CredentialsErrorType.accountPassword, message: error.message);
+        throw CredentialException(type: CredentialErrorType.accountPassword, message: error.message);
       }
       rethrow;
     }
