@@ -275,10 +275,8 @@ Future<void> _onWipeData(BuildContext context) async {
 }
 
 Future<void> _gotoLogin(BuildContext context) async {
-  final navigator = context.navigator;
-  while (navigator.canPop()) {
-    navigator.pop();
-  }
   context.go("/oa/login");
+  await Future.delayed(const Duration(milliseconds: 100));
+  if (!context.mounted) return;
   await AgreementsAcceptanceSheet.show(context);
 }
