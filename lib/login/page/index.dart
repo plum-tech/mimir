@@ -291,7 +291,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               autofillHints: const [AutofillHints.username],
               textInputAction: TextInputAction.next,
               autocorrect: false,
-              autofocus: true,
               readOnly: loggingIn,
               enableSuggestions: false,
               validator: (account) => studentIdValidator(account, () => _i18n.invalidAccountFormat),
@@ -313,7 +312,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 );
               },
               autocorrect: false,
-              autofocus: true,
               enableSuggestions: false,
               obscureText: !isPasswordClear,
               onFieldSubmitted: (inputted) async {
