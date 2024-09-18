@@ -71,7 +71,6 @@ enum OaUserType {
     "school.library.search",
     "school.eduEmail",
     "school.yellowPages",
-    "game",
   });
 
   final Set<String> allowed;
