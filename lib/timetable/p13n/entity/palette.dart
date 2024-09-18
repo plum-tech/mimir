@@ -22,7 +22,9 @@ String _kUUid() => const Uuid().v4();
 class TimetablePalette implements WithUuid {
   static int maxNameLength = 50;
 
-  /// in version 1, the [colors] is in type of [({Color light, Color dark})].
+  /// Since v1, the [colors] is in type of [({Color light, Color dark})].
+  /// Since v2, the text color can be inverse.
+  /// Since v3, the [uuid] was added.
   static const version = 3;
   @override
   @JsonKey(defaultValue: _kUUid)
@@ -71,9 +73,8 @@ class TimetablePalette implements WithUuid {
 
   static TimetablePalette decodeFromByteList(Uint8List bytes) {
     final reader = ByteReader(bytes);
-    // ignore: unused_local_variable
     final revision = reader.uint8();
-    final uuid = version >= 3 ? reader.strUtf8(ByteLength.bit8) : _kUUid();
+    final uuid = revision < 3 ? _kUUid() : reader.strUtf8(ByteLength.bit8);
     final name = reader.strUtf8(ByteLength.bit8);
     final author = reader.strUtf8(ByteLength.bit8);
 
