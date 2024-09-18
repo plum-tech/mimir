@@ -15,7 +15,7 @@ agreements:
       更多詳情請閱讀完整版的 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy/20240915) 和 [《小应生活使用协议》](https://www.mysit.life/tos/20240915)。
     accept: 接受並繼續
     decline: 拒絕
-    onDecline: 接受我們的隱私政策後，您可享受 @:appName 的所有功能
+    onDecline: 只有接受我們的隱私政策後，您才可享用 @:appName 的所有功能
   basic: |
     我已閱讀並同意 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy/20240915) 和 [《小应生活使用协议》](https://www.mysit.life/tos/20240915)
   account: |
