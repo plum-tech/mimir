@@ -109,13 +109,21 @@ class SsoSession {
   }
 
   /// - User try to log in actively on a login page.
-  Future<Response> loginLocked(Credential credentials) async {
+  Future<Response> loginLocked(
+    Credential credentials, {
+    bool active = false,
+  }) async {
     return await _loginLock.run(() async {
       networkLogger.i("loginLocked ${DateTime.now().toIso8601String()}");
       try {
         return _loginWithOcr(credentials);
       } catch (error, stackTrace) {
         debugPrintError(error, stackTrace);
+        if (error is CredentialException) {
+          if (error.type == CredentialErrorType.accountPassword) {
+
+          }
+        }
         rethrow;
       }
     });

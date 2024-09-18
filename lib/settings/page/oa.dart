@@ -59,7 +59,7 @@ class _OaSettingsPageState extends ConsumerState<OaSettingsPage> {
           credential: credential,
           login: () async {
             await Init.ssoSession.deleteSitUriCookies();
-            await Init.ssoSession.loginLocked(credential);
+            await Init.ssoSession.loginLocked(credential, active: true);
           },
         ),
       );

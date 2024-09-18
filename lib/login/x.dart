@@ -16,7 +16,7 @@ class XLogin {
     );
     final userType = estimateOaUserType(credentials.account);
     await Init.ssoSession.deleteSitUriCookies();
-    await Init.ssoSession.loginLocked(credentials);
+    await Init.ssoSession.loginLocked(credentials, active: true);
     // set user's real name to signature by default.
     final personName = await LoginInit.authServerService.getPersonName();
     Meta.userRealName ??= personName;
