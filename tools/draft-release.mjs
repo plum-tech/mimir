@@ -109,7 +109,7 @@ const createReleaseDraft = async ({ tag, body }) => {
     const check = await octokit.rest.repos.getReleaseByTag({
       owner: "liplum-dev",
       repo: "mimir",
-      tag: tag,
+      tag,
     })
     if (check.status === 200) {
       console.log(`Release of ${tag} already created.`)
