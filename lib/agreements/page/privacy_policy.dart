@@ -17,19 +17,36 @@ class AgreementsAcceptanceSheet extends ConsumerStatefulWidget {
   ConsumerState createState() => _AgreementsAcceptanceSheetState();
 
   static Future<bool> show(BuildContext context) async {
-    final res = await showModalBottomSheet(
-      context: context,
-      builder: (_) => const AgreementsAcceptanceSheet(),
-      isDismissible: false,
-      enableDrag: false,
-      useRootNavigator: true,
-      useSafeArea: true,
-    );
-    return res == true;
+    if (_sheetCount < 1) {
+      final res = await showModalBottomSheet(
+        context: context,
+        builder: (_) => const AgreementsAcceptanceSheet(),
+        isDismissible: false,
+        enableDrag: false,
+        useRootNavigator: true,
+        useSafeArea: true,
+      );
+      return res == true;
+    }
+    return Settings.agreements.getBasicAcceptanceOf(AgreementVersion.current) ?? false;
   }
 }
 
+var _sheetCount = 0;
+
 class _AgreementsAcceptanceSheetState extends ConsumerState<AgreementsAcceptanceSheet> {
+  @override
+  void initState() {
+    super.initState();
+    _sheetCount++;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _sheetCount--;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
