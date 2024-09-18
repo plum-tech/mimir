@@ -22,6 +22,7 @@ const _whitelist = {
   "236091171",
   "2210720129",
   "221012Y108",
+  "241042Y211",
 };
 
 class OpenLabDoorAppCard extends ConsumerStatefulWidget {
