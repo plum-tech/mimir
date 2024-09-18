@@ -2,10 +2,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mimir/agreements/entity/agreements.dart';
+import 'package:mimir/agreements/page/privacy_policy.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/widget/list_tile.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/settings/dev.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/backend/update/utils.dart';
 import 'package:mimir/utils/error.dart';
@@ -105,22 +108,26 @@ class _VersionTileState extends ConsumerState<VersionTile> {
   @override
   Widget build(BuildContext context) {
     final devOn = ref.watch(Dev.$on);
+    final accepted = ref.watch(Settings.agreements.$basicAcceptanceOf(AgreementVersion.current)) ?? false;
     final version = R.meta;
     return ListTile(
       leading: Icon(getDeviceIcon(R.meta, R.deviceInfo)),
       title: i18n.about.version.text(),
       subtitle: "${version.platform.name} ${version.version.toString()}".text(),
       trailing: kIsWeb ? null : const CheckUpdateButton(),
-      onTap: devOn && clickCount <= 10
+      onTap: (devOn && clickCount <= 10) || !accepted
           ? null
           : () async {
               if (ref.read(Dev.$on)) return;
               clickCount++;
               if (clickCount >= 10) {
                 clickCount = 0;
-                context.showSnackBar(content: i18n.dev.devModeActivateTip.text());
-                await ref.read(Dev.$on.notifier).set(true);
-                await HapticFeedback.mediumImpact();
+                if (accepted || await AgreementsAcceptanceSheet.show(context)) {
+                  if (!context.mounted) return;
+                  context.showSnackBar(content: i18n.dev.devModeActivateTip.text());
+                  await ref.read(Dev.$on.notifier).set(true);
+                  await HapticFeedback.mediumImpact();
+                }
               }
             },
     );

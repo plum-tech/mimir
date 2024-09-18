@@ -16,8 +16,8 @@ class AgreementsAcceptanceSheet extends ConsumerStatefulWidget {
   @override
   ConsumerState createState() => _AgreementsAcceptanceSheetState();
 
-  static Future<void> show(BuildContext context) async {
-    await showModalBottomSheet(
+  static Future<bool> show(BuildContext context) async {
+    final res = await showModalBottomSheet(
       context: context,
       builder: (_) => const AgreementsAcceptanceSheet(),
       isDismissible: false,
@@ -25,6 +25,7 @@ class AgreementsAcceptanceSheet extends ConsumerStatefulWidget {
       useRootNavigator: true,
       useSafeArea: true,
     );
+    return res == true;
   }
 }
 
@@ -63,7 +64,7 @@ class _AgreementsAcceptanceSheetState extends ConsumerState<AgreementsAcceptance
             child: i18n.accept.text(),
             onPressed: () {
               Settings.agreements.setBasicAcceptanceOf(AgreementVersion.current, true);
-              context.pop();
+              context.pop(true);
             },
           ).expanded(),
         ].row(maa: MainAxisAlignment.spaceEvenly, caa: CrossAxisAlignment.center),
