@@ -58,23 +58,16 @@ Future<void> showPermissionDeniedDialog(
   }
 }
 
-Future<bool> requestPermission(
-  BuildContext context,
-  Permission permission,
-) async {
-  if (!UniversalPlatform.isIOS) return true;
+Future<bool> requestPermission(BuildContext context, Permission permission) async {
+  if (UniversalPlatform.isIOS) return true;
   final isPermissionGranted = await permission.isGranted;
   if (isPermissionGranted) return true;
   if (!context.mounted) return false;
-  final ok = await context.showDialogRequest(
+  await context.showTip(
     title: _i.permissionRequestOf(permission),
     desc: _i.usageOf(permission),
     primary: _i.ok,
-    secondary: _i.cancel,
   );
-  if (ok == true) {
-    final res = await permission.request();
-    return res.isGranted;
-  }
-  return false;
+  final res = await permission.request();
+  return res.isGranted;
 }

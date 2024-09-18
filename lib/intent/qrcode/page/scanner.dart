@@ -111,8 +111,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
 
   Future<void> recognizeFromFile() async {
     final picker = ImagePicker();
-    final granted = await requestPermission(context, Permission.photos);
-    if (!granted) return;
+    await requestPermission(context, Permission.photos);
     // Pick an image
     final image = await picker.pickImage(source: ImageSource.gallery);
     if (image == null) return;
