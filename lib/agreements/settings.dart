@@ -35,7 +35,7 @@ class AgreementsSettings {
 
   late final $accountAcceptanceOf = box.providerFamily<bool, AgreementVersion>(
     (version) => _AgreementsK.acceptanceKeyOf(AgreementType.account, version),
-    get: getBasicAcceptanceOf,
-    set: setBasicAcceptanceOf,
+    get: getAccountAcceptanceOf,
+    set: setAccountAcceptanceOf,
   );
 }
