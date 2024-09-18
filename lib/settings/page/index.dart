@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/agreements/entity/agreements.dart';
+import 'package:mimir/agreements/page/privacy_policy.dart';
 import 'package:mimir/backend/settings/page/index.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/init.dart';
@@ -266,16 +267,18 @@ Future<void> _onWipeData(BuildContext context) async {
     await HiveInit.clear(); // Clear storage
     await Init.initNetwork();
     await Init.initModules();
-    if (!context.mounted) return;
-    context.riverpod().read($oaOnline.notifier).state = false;
-    _gotoLogin(context);
+    final navigateCtx = $key.currentContext;
+    if (navigateCtx == null || !navigateCtx.mounted) return;
+    navigateCtx.riverpod().read($oaOnline.notifier).state = false;
+    await _gotoLogin(navigateCtx);
   }
 }
 
-void _gotoLogin(BuildContext context) {
+Future<void> _gotoLogin(BuildContext context) async {
   final navigator = context.navigator;
   while (navigator.canPop()) {
     navigator.pop();
   }
-  context.go("/login");
+  context.go("/oa/login");
+  await AgreementsAcceptanceSheet.show(context);
 }
