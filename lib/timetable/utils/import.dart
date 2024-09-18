@@ -58,7 +58,10 @@ Future<Timetable?> readTimetableFromFileWithPrompt(
 }
 
 Future<Timetable?> readTimetableFromPickedFileWithPrompt(BuildContext context) {
-  return readTimetableWithPrompt(context, get: _readTimetableFromPickedFile);
+  return readTimetableWithPrompt(context, get: () async {
+    await requestPermission(context, Permission.storage);
+    return _readTimetableFromPickedFile();
+  });
 }
 
 Future<Timetable?> readTimetableWithPrompt(
