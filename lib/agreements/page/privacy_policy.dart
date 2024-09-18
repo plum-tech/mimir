@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/widget/markdown.dart';
@@ -50,14 +50,17 @@ class _AgreementsAcceptanceSheetState extends ConsumerState<AgreementsAcceptance
         height: 60,
         child: [
           OutlinedButton(
-            child: i18n.declineAndExit.text(),
-            onPressed: () {
-              SystemNavigator.pop(animated: true);
+            child: i18n.decline.text(),
+            onPressed: () async {
+              await context.showTip(
+                desc: i18n.onDecline,
+                primary: i18n.ok,
+              );
             },
           ).expanded(),
           const SizedBox(width: 15),
           FilledButton(
-            child: i18n.acceptAndContinue.text(),
+            child: i18n.accept.text(),
             onPressed: () {
               Settings.agreements.setBasicAcceptanceOf(AgreementVersion.current, true);
               context.pop();

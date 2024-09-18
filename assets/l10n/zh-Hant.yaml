@@ -2,7 +2,7 @@ appName: 小應生活
 accountName: 小應賬戶
 agreements:
   privacyPolicy:
-    title: 隱私政策
+    title: 隱私權政策
     content: |
       @:appName 在提供服務時需要收集您的相關資訊及以下權限：
 
@@ -13,8 +13,9 @@ agreements:
       您可以依照我們的指引，存取、更正、刪除您的資訊或撤銷您的相關授權。您可以透過查看《小应生活隐私政策》中的聯絡方式來與我們聯絡。
 
       更多詳情請閱讀完整版的 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy/20240915) 和 [《小应生活使用协议》](https://www.mysit.life/tos/20240915)。
-    acceptAndContinue: 接受並繼續
-    declineAndExit: 拒絕並退出
+    accept: 接受並繼續
+    decline: 拒絕
+    onDecline: 接受我們的隱私政策後，您可享受 @:appName 的所有功能
   basic: |
     我已閱讀並同意 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy/20240915) 和 [《小应生活使用协议》](https://www.mysit.life/tos/20240915)
   account: |

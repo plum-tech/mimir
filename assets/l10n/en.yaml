@@ -18,8 +18,9 @@ agreements:
       You can access, correct, delete your information or revoke your authorization according to our instructions. You can contact us through the contact information in the *小应生活隐私政策*.
 
       For more details, please read the complete [*小应生活隐私政策*](https://www.mysit.life/privacy-policy/20240915) and [*小应生活使用协议*](https://www.mysit.life/tos/20240915).
-    acceptAndContinue: Accept&Continue
-    declineAndExit: Decline&Exit
+    accept: Accept&Continue
+    decline: Decline
+    onDecline: By accepting our privacy policy, you'll gain access to all the features @:appName offers
   basic: |
     I've read and accepted [*小应生活隐私政策*](https://www.mysit.life/privacy-policy/20240915) & [*小应生活使用协议*](https://www.mysit.life/tos/20240915)
   account: |

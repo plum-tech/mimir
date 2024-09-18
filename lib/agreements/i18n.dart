@@ -16,7 +16,9 @@ class _I18n with CommonI18nMixin {
 
   String get privacyPolicyContent => "$ns.privacyPolicy.content".tr();
 
-  String get acceptAndContinue => "$ns.privacyPolicy.acceptAndContinue".tr();
+  String get accept => "$ns.privacyPolicy.accept".tr();
 
-  String get declineAndExit => "$ns.privacyPolicy.declineAndExit".tr();
+  String get decline => "$ns.privacyPolicy.decline".tr();
+
+  String get onDecline => "$ns.privacyPolicy.onDecline".tr();
 }

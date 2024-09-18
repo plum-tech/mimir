@@ -13,8 +13,9 @@ agreements:
       您可以根据我们的指引、访问、更正、删除您的信息或撤销您的相关授权。您可以通过查看《小应生活隐私政策》中的联系方式来与我们联系。
 
       更多详情请阅读完整版的 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy/20240915) 和 [《小应生活使用协议》](https://www.mysit.life/tos/20240915)。
-    acceptAndContinue: 同意并继续
-    declineAndExit: 拒绝并退出
+    accept: 同意并继续
+    decline: 拒绝
+    onDecline: 接受我们的隐私政策后，您将可以访问 @:appName 提供的所有功能
   basic: |
     我已阅读并同意 [《小应生活隐私政策》](https://www.mysit.life/privacy-policy/20240915) 和 [《小应生活使用协议》](https://www.mysit.life/tos/20240915)
   account: |
