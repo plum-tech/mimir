@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:mimir/feature/feature.dart';
 import 'package:mimir/feature/utils.dart';
 import 'package:mimir/school/class2nd/index.dart';
@@ -28,6 +29,18 @@ class SchoolPage extends ConsumerStatefulWidget {
 class _SchoolPageState extends ConsumerState<SchoolPage> {
   @override
   Widget build(BuildContext context) {
+    final cards = [
+      if (can(AppFeature.freshman, ref)) const FreshmanAppCard(),
+      if (can(AppFeature.secondClass$, ref) == true) const Class2ndAppCard().sized(w: 400),
+      if (can(AppFeature.examArrangement, ref) == true) const ExamArrangeAppCard().sized(w: 200),
+      if (can(AppFeature.examResultUg, ref) == true) const ExamResultUgAppCard().sized(w: 200),
+      if (can(AppFeature.examResultPg, ref) == true) const ExamResultPgAppCard(),
+      if (kDebugMode && can(AppFeature.studentPlan, ref)) const StudentPlanAppCard(),
+      if (can(AppFeature.oaAnnouncement, ref)) const OaAnnounceAppCard(),
+      if (can(AppFeature.ywb, ref)) const YwbAppCard(),
+      if (can(AppFeature.library$, ref)) const LibraryAppCard(),
+      if (can(AppFeature.yellowPages, ref)) const YellowPagesAppCard(),
+    ];
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: NestedScrollView(
@@ -50,21 +63,21 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
             await HapticFeedback.heavyImpact();
             await schoolEventBus.notifyListeners();
           },
-          child: CustomScrollView(
-            slivers: [
-              SliverList.list(children: [
-                if (can(AppFeature.freshman, ref)) const FreshmanAppCard(),
-                if (can(AppFeature.secondClass$, ref) == true) const Class2ndAppCard(),
-                if (can(AppFeature.examArrangement, ref) == true) const ExamArrangeAppCard(),
-                if (can(AppFeature.examResultUg, ref) == true) const ExamResultUgAppCard(),
-                if (can(AppFeature.examResultPg, ref) == true) const ExamResultPgAppCard(),
-                if (kDebugMode && can(AppFeature.studentPlan, ref)) const StudentPlanAppCard(),
-                if (can(AppFeature.oaAnnouncement, ref)) const OaAnnounceAppCard(),
-                if (can(AppFeature.ywb, ref)) const YwbAppCard(),
-                if (can(AppFeature.library$, ref)) const LibraryAppCard(),
-                if (can(AppFeature.yellowPages, ref)) const YellowPagesAppCard(),
-              ]),
-            ],
+          child: GridView.custom(
+            gridDelegate: SliverQuiltedGridDelegate(
+              crossAxisCount: 2,
+              repeatPattern: QuiltedGridRepeatPattern.inverted,
+              pattern: [
+                QuiltedGridTile(2, 2),
+                QuiltedGridTile(1, 1),
+                QuiltedGridTile(1, 1),
+                QuiltedGridTile(1, 2),
+              ],
+            ),
+            childrenDelegate: SliverChildBuilderDelegate(
+              childCount: cards.length,
+              (context, index) => cards[index],
+            ),
           ),
         ),
       ),
