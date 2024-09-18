@@ -37,16 +37,12 @@ class _Class2ndAppCardState extends ConsumerState<Class2ndAppCard> with Automati
 
   @override
   void initState() {
+    super.initState();
     $refreshEvent = schoolEventBus.addListener(() async {
       await refresh(active: true);
     });
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
     refresh(active: false);
+
   }
 
   @override
@@ -82,6 +78,9 @@ class _Class2ndAppCardState extends ConsumerState<Class2ndAppCard> with Automati
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    ref.listen(CredentialsInit.storage.oa.$credentials, (pre,next){
+      refresh(active: false);
+    });
     final storage = Class2ndInit.pointStorage;
     final summary = ref.watch(storage.$pointsSummary);
     return AppCard(

@@ -489,23 +489,30 @@ captcha:
 credentials:
   account: 账号
   pwd: 密码
-  savedPwd: 保存的密码
-  savedPwdDesc: 用于自动登录
+  savedPwd:
+    title: 保存的密码
+    desc: 用于自动登录
+  credentialsError: 账号密码错误
   oa:
     studentId: 学号
     oaAccount: OA 账号
     oaPwd: OA 密码
+    oaPwdChangedOutsideRequest: |
+      你保存的 OA 密码与学校服务器上的密码不匹配。
+      这可能是因为你在 @:appName 之外更改了 OA 密码。
+      请在设置中更新你保存的密码。
+    goSettings: 前往设置
   email:
     eduEmail: 教育邮箱
     emailAddress: 邮箱地址
   error:
-    accountPassword: 账号或密码不正确
-    captcha: 验证码不正确
-    frozen: 该账号处于冻结状态
-    locked: 该账号处于锁定状态
-    oa-frozen: 该 OA 账号处于冻结状态，请稍后再试
-    oa-locked: 该 OA 账号处于锁定状态，请联系管理员
-    oa-incompleteUserInfo: 该 OA 账号用户信息不完整，请访问 https://myportal.sit.edu.cn 进行完善
+    accountPassword: 你的账号或密码不正确
+    captcha: 你的验证码不正确
+    frozen: 你的账号处于冻结状态
+    locked: 你的账号处于锁定状态
+    oa-frozen: 你的 OA 账号处于冻结状态，请稍后再试
+    oa-locked: 你的 OA 账号处于锁定状态，请联系管理员
+    oa-incompleteUserInfo: 你的 OA 账号用户信息不完整，请访问 https://myportal.sit.edu.cn 进行完善
 easyconnect:
   launchBtn: 启动 EasyConnect
   launchFailed: 启动失败
@@ -719,10 +726,7 @@ auth:
   login: 登录
   forgotPwd: 忘记密码？
   validateInputAccountPwdRequest: 请检查你输入的账号与密码
-  credentialsValidatedTip: 账号与密码验证成功
   unknownAuthErrorTip: 未知账号验证错误
-  loggedInTip: 登录成功
-  notLoggedIn: 未登录
   invalidAccountFormat: 账号格式不正确
   offlineModeBtn: 离线模式
   failedWarn: 登录失败

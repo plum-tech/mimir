@@ -19,15 +19,9 @@ mixin class CommonAuthI18nMixin {
 
   String get forgotPwd => "$ns.forgotPwd".tr();
 
-  String get credentialsValidatedTip => "$ns.credentialsValidatedTip".tr();
-
   String get formatError => "$ns.formatError".tr();
 
   String get validateInputAccountPwdRequest => "$ns.validateInputAccountPwdRequest".tr();
-
-  String get loggedInTip => "$ns.loggedInTip".tr();
-
-  String get notLoggedIn => "$ns.notLoggedIn".tr();
 
   String get invalidAccountFormat => "$ns.invalidAccountFormat".tr();
 

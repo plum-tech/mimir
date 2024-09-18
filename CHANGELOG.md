@@ -5,7 +5,8 @@
 - Added UUID in game records.
 - Clear game records on start up.
 - Permission requests.
-- No need to access SIT YWB and electricity via VPN.
+- Access SIT YWB and electricity bypass VPN.
+- Detecting OA password changed outside of the app.
 
 ## 2.6.2
 - Users are required to accept *Privacy Policy* and *Terms of Services* at the first use.

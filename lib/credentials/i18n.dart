@@ -11,9 +11,11 @@ mixin class CredentialsI18nMixin {
 
   String get pwd => "$ns.pwd".tr();
 
-  String get savedPwd => "$ns.savedPwd".tr();
+  String get savedPwd => "$ns.savedPwd.title".tr();
 
-  String get savedPwdDesc => "$ns.savedPwdDesc".tr();
+  String get savedPwdDesc => "$ns.savedPwd.desc".tr();
+
+  String get credentialsError => "$ns.credentialsError".tr();
 }
 
 class OaCredentialsI18n extends CredentialsI18n {
@@ -26,6 +28,10 @@ class OaCredentialsI18n extends CredentialsI18n {
   String get oaAccount => "$ns.oaAccount".tr();
 
   String get oaPwd => "$ns.oaPwd".tr();
+
+  String get oaPwdChangedOutsideRequest => "$ns.oaPwdChangedOutsideRequest".tr();
+
+  String get goSettings => "$ns.goSettings".tr();
 }
 
 class EmailCredentialsI18n extends CredentialsI18n {

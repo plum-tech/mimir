@@ -9,10 +9,12 @@ import 'package:flutter/foundation.dart' hide Key;
 import 'package:logger/logger.dart';
 import 'package:mimir/backend/init.dart';
 import 'package:mimir/credentials/entity/credential.dart';
+import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/error.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/lifecycle.dart';
+import 'package:mimir/login/utils.dart';
 import 'package:mimir/r.dart';
 
 import 'package:mimir/utils/error.dart';
@@ -21,8 +23,16 @@ import 'package:encrypt/encrypt.dart';
 
 import '../utils/dio.dart';
 
-class LoginCaptchaCancelledException implements Exception {
-  const LoginCaptchaCancelledException();
+enum LoginCancelReason {
+  captcha,
+  invalidCredentials,
+  ;
+}
+
+class LoginCancelledException implements Exception {
+  final LoginCancelReason reason;
+
+  const LoginCancelledException(this.reason);
 }
 
 class OaCredentialsRequiredException implements Exception {
@@ -116,13 +126,26 @@ class SsoSession {
     return await _loginLock.run(() async {
       networkLogger.i("loginLocked ${DateTime.now().toIso8601String()}");
       try {
-        return _loginWithOcr(credentials);
+        return await _loginWithOcr(credentials);
       } catch (error, stackTrace) {
-        debugPrintError(error, stackTrace);
         if (error is CredentialException) {
-          if (error.type == CredentialErrorType.accountPassword) {
-
-          }
+          await () async {
+            if (active) return;
+            final navigateCtx = $key.currentContext;
+            if (navigateCtx == null) return;
+            if (error.type == CredentialErrorType.accountPassword && CredentialsInit.storage.oa.credentials != null) {
+              CredentialsInit.storage.oa.loginStatus = OaLoginStatus.everLogin;
+              if (!navigateCtx.mounted) return;
+              await handleOaPasswordIncorrectException(context: navigateCtx);
+            } else {
+              if (!navigateCtx.mounted) return;
+              await handleLoginException(
+                context: navigateCtx,
+                error: error,
+                stackTrace: stackTrace,
+              );
+            }
+          }();
         }
         rethrow;
       }
@@ -294,7 +317,7 @@ class SsoSession {
       debugPrint("Captcha entered is $c");
       return c;
     } else {
-      throw const LoginCaptchaCancelledException();
+      throw const LoginCancelledException(LoginCancelReason.captcha);
     }
   }
 

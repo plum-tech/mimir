@@ -500,23 +500,30 @@ captcha:
 credentials:
   account: Account
   pwd: Password
-  savedPwd: Saved password
-  savedPwdDesc: Used to auto-login
+  savedPwd:
+    title: Saved password
+    desc: Used to auto-login
+  credentialsError: Credentials error
   oa:
     studentId: Student ID
     oaAccount: OA account
     oaPwd: OA password
+    oaPwdChangedOutsideRequest: |
+      Your saved OA password mismatched the one in the school server.
+      This may be because you've changed OA password outside of @:appName.
+      Please update your saved password in the settings.
+    goSettings: Go settings
   email:
     eduEmail: Edu email
     emailAddress: Email address
   error:
-    accountPassword: The account or password is incorrect
-    captcha: The captcha is incorrect
-    frozen: The account was frozen
-    locked: The account was locked
-    oa-frozen: The OA account was frozen, please try again later
-    oa-locked: The OA account was locked, please contact your administrator
-    oa-incompleteUserInfo: The OA account has incomplete user info, please access https://myportal.sit.edu.cn to complete
+    accountPassword: Your account or password is incorrect
+    captcha: Your captcha is incorrect
+    frozen: Your account was frozen
+    locked: Your account was locked
+    oa-frozen: Your OA account was frozen, please try again later
+    oa-locked: Your OA account was locked, please contact your administrator
+    oa-incompleteUserInfo: Your OA account has incomplete user info, please access https://myportal.sit.edu.cn to complete
 easyconnect:
   launchBtn: Launch EasyConnect
   launchFailed: Launch failed
@@ -733,10 +740,7 @@ auth:
   login: Login
   forgotPwd: Forgot password?
   validateInputAccountPwdRequest: Please check the account and password you entered
-  credentialsValidatedTip: Account and password are correct
   unknownAuthErrorTip: Unknown authentication error
-  loggedInTip: Logged in
-  notLoggedIn: Not logged In
   invalidAccountFormat: Invalid account format
   offlineModeBtn: Offline mode
   failedWarn: Login Failed

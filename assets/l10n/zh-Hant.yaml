@@ -1,5 +1,5 @@
 appName: 小應生活
-accountName: 小應賬戶
+accountName: 小應帳戶
 agreements:
   privacyPolicy:
     title: 隱私權政策
@@ -468,25 +468,32 @@ captcha:
   enterHint: 請鍵入驗證碼
   emptyInputError: 未鍵入驗證碼
 credentials:
-  account: 賬戶
+  account: 帳戶
   password: 密碼
-  savedPwd: 儲存的密碼
-  savedPwdDesc: 用於自動登入
+  savedPwd:
+    title: 儲存的密碼
+    desc: 用於自動登入
+  credentialsError: 帳戶或密碼錯誤
   oa:
     studentId: 學號
-    oaAccount: OA 賬戶
+    oaAccount: OA 帳戶
     oaPwd: OA 密碼
+    oaPwdChangedOutsideRequest: |
+      你儲存的 OA 密碼與學校伺服器上的密碼不符。
+      這可能是因為你在 @:appName 之外更改了 OA 密碼。
+      請在設定中更新你儲存的密碼。
+    goSettings: 前往設定
   email:
     eduEmail: Edu 電郵
     emailAddress: 電郵地址
   error:
-    accountPassword: 賬戶或密碼錯誤
-    captcha: 驗證碼錯誤
-    frozen: 該賬戶處於凍結狀態
-    locked: 該賬戶處於鎖定狀態
-    oa-frozen: 該 OA 賬戶處於凍結狀態，請稍後再試
-    oa-locked: 該 OA 賬戶處於鎖定狀態，請聯絡管理員
-    oa-incompleteUserInfo: 該 OA 賬戶的用戶資訊不完整，請訪問 https://myportal.sit.edu.cn 進行完善
+    accountPassword: 你的帳戶或密碼錯誤
+    captcha: 你的驗證碼錯誤
+    frozen: 你的帳戶處於凍結狀態
+    locked: 你的帳戶處於鎖定狀態
+    oa-frozen: 你的 OA 帳戶處於凍結狀態，請稍後再試
+    oa-locked: 你的 OA 帳戶處於鎖定狀態，請聯絡管理員
+    oa-incompleteUserInfo: 你的 OA 帳戶的用戶資訊不完整，請訪問 https://myportal.sit.edu.cn 進行完善
 easyconnect:
   launchBtn: 啟用 EasyConnect
   launchFailed: 啟動失敗
@@ -697,11 +704,8 @@ auth:
   signOut: 登出
   login: 登入
   forgotPwd: 忘記密碼?
-  validateInputAccountPwdRequest: 請檢查你鍵入的賬戶和密碼
-  credentialsValidatedTip: 賬戶與密碼正確
-  unknownAuthErrorTip: 未知的賬戶身份驗證錯誤
-  loggedInTip: 已登入
-  notLoggedIn: 未登入
+  validateInputAccountPwdRequest: 請檢查你鍵入的帳戶和密碼
+  unknownAuthErrorTip: 未知的帳戶身份驗證錯誤
   offlineModeBtn: 離線模式
   failedWarn: 登入失敗
   formatError: 格式錯誤
@@ -721,9 +725,9 @@ oa:
       您即將登入上海應用科技大學（簡稱"學校"）的[資訊門戶（簡稱"OA"）](https://myportal.sit.edu.cn/)的帳戶，
       作為學校其他系統的統一認證服務。
 
-      我們非常重視您的隱私安全。您的賬戶與密碼僅用於提交給學校伺服器進行身分驗證，並僅儲存在本地。
+      我們非常重視您的隱私安全。您的帳戶與密碼僅用於提交給學校伺服器進行身分驗證，並僅儲存在本地。
     freshmanTip: |
-      OA賬戶與迎新系統間獨立且不共通，請勿使用高考報名號作為賬戶。請查看《新生入學須知》以了解初始密碼。
+      OA帳戶與迎新系統間獨立且不共通，請勿使用高考報名號作為帳戶。請查看《新生入學須知》以了解初始密碼。
 
       在首次登入前，可能還需前往[OA官網](https://myportal.sit.edu.cn/)修改初始密碼並綁定手機號碼。
     freshmanSystemTip: |
@@ -850,7 +854,7 @@ settings:
   language: 語言
   wipeData:
     title: 擦除資料並登出
-    desc: 擦除賬戶並登出當前 OA 賬戶
+    desc: 擦除帳戶並登出當前 OA 帳戶
     request: 擦除所有資料
     requestDesc: 這會擦除你本地除網頁快取外的登入資料與其他資料，例如匯入的課程表。
   about:

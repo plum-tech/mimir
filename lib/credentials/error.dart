@@ -16,6 +16,11 @@ class CredentialErrorType {
       oaIncompleteUserInfo = CredentialErrorType._("oa-incompleteUserInfo");
 
   String l10n() => "credentials.error.$type".tr();
+
+  @override
+  String toString() {
+    return type;
+  }
 }
 
 class CredentialException implements Exception {

@@ -36,15 +36,10 @@ class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> w
 
   @override
   void initState() {
+    super.initState();
     $refreshEvent = lifeEventBus.addListener(() async {
       await refresh(active: true);
     });
-    super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
     if (Settings.life.expense.autoRefresh) {
       refresh(active: false);
     }
@@ -54,10 +49,6 @@ class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> w
   void dispose() {
     $refreshEvent.cancel();
     super.dispose();
-  }
-
-  void onLatestChanged() {
-    setState(() {});
   }
 
   Future<void> refresh({required bool active}) async {
@@ -83,6 +74,9 @@ class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> w
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    ref.listen(CredentialsInit.storage.oa.$credentials, (pre,next){
+      refresh(active: false);
+    });
     final storage = ExpenseRecordsInit.storage;
     final lastUpdateTime = ref.watch(storage.$lastUpdateTime);
     final lastTransaction = ref.watch(storage.$lastTransaction);

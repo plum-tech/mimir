@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mimir/credentials/error.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/session/sso.dart';
@@ -34,7 +35,7 @@ Future<void> handleLoginException({
     );
     return;
   }
-  if (error is LoginCaptchaCancelledException) {
+  if (error is LoginCancelledException) {
     if (!context.mounted) return;
     return;
   }
@@ -46,4 +47,21 @@ Future<void> handleLoginException({
     primary: _i18n.close,
   );
   return;
+}
+
+Future<void> handleOaPasswordIncorrectException({
+  required BuildContext context,
+}) async {
+  final confirm = await context.showActionRequest(
+    destructive: true,
+    dismissible: false,
+    title: _i18n.credentials.credentialsError,
+    desc: _i18n.credentials.oaPwdChangedOutsideRequest,
+    action: _i18n.credentials.goSettings,
+    cancel: _i18n.cancel,
+  );
+  if (confirm == true) {
+    if (!context.mounted) return;
+    context.push("/settings/oa");
+  }
 }
