@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/credentials/init.dart';
+import 'package:mimir/feature/school_id.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/r.dart';
 
@@ -14,9 +15,12 @@ bool can(String feature, [WidgetRef? ref]) {
   if (kDebugMode && R.debugAllFeatures) return true;
   final userType = ref == null ? CredentialsInit.storage.oa.userType : ref.watch(CredentialsInit.storage.oa.$userType);
   final campus = ref == null ? Settings.campus : ref.watch(Settings.$campus);
+  final schoolId = CredentialsInit.storage.oa.credentials?.account;
+  final schoolIdFilter = schoolId == null ? null : getFeatureFilterOfSchoolId(schoolId);
   final filters = [
     userType.featureFilter,
     campus.featureFilter,
+    if (schoolIdFilter != null) schoolIdFilter,
   ];
   var canWork = false;
   for (final filter in filters) {

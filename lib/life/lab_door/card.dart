@@ -10,27 +10,8 @@ import 'package:mimir/init.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/utils/error.dart';
 
-const _whitelist = {
-  "221042Y213",
-  "2210511239",
-  "201032Y124",
-  "2210340140",
-  "221032Y116",
-  "221032Y128",
-  "2210450230",
-  "236091101",
-  "236091171",
-  "2210720129",
-  "221012Y108",
-  "241042Y211",
-};
-
 class OpenLabDoorAppCard extends ConsumerStatefulWidget {
   const OpenLabDoorAppCard({super.key});
-
-  static bool isAvailable({required String oaAccount}) {
-    return _whitelist.contains(oaAccount);
-  }
 
   @override
   ConsumerState<OpenLabDoorAppCard> createState() => _OpenLabDoorAppCardState();

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/backend/forum/card.dart';
-import 'package:mimir/credentials/init.dart';
 import 'package:mimir/feature/feature.dart';
 import 'package:mimir/feature/utils.dart';
 import 'package:mimir/life/electricity/card.dart';
@@ -24,7 +23,6 @@ class LifePage extends ConsumerStatefulWidget {
 class _LifePageState extends ConsumerState<LifePage> {
   @override
   Widget build(BuildContext context) {
-    final oaCredentials = ref.watch(CredentialsInit.storage.oa.$credentials);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: NestedScrollView(
@@ -53,11 +51,7 @@ class _LifePageState extends ConsumerState<LifePage> {
                 if (can(AppFeature.expenseRecords, ref)) const ExpenseRecordsAppCard(),
                 if (can(AppFeature.electricityBalance, ref)) const ElectricityBalanceAppCard(),
                 if (can(AppFeature.mimirForum, ref)) const ForumAppCard(),
-                if (!kIsWeb &&
-                    // can(AppFeature.sitRobotOpenLabDoor, ref) &&
-                    oaCredentials != null &&
-                    OpenLabDoorAppCard.isAvailable(oaAccount: oaCredentials.account))
-                  const OpenLabDoorAppCard(),
+                if (!kIsWeb && can(AppFeature.sitRobotOpenLabDoor, ref)) const OpenLabDoorAppCard(),
               ]),
             ],
           ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/feature/feature.dart';
+import 'package:mimir/feature/utils.dart';
 import 'package:mimir/life/lab_door/card.dart';
 import 'package:mimir/lifecycle.dart';
 import 'package:mimir/settings/dev.dart';
@@ -50,7 +51,7 @@ final _actions = [
     enable: () {
       final oa = CredentialsInit.storage.oa.credentials;
       if (oa == null) return false;
-      return OpenLabDoorAppCard.isAvailable(oaAccount: oa.account);
+      return can(AppFeature.sitRobotOpenLabDoor);
     },
   ),
   QuickAction.route(
