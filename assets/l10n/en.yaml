@@ -510,7 +510,7 @@ credentials:
     oaPwd: OA password
     oaPwdChangedOutsideRequest: |
       Your saved OA password mismatched the one in the school server.
-      This may be because you've changed OA password outside of @:appName.
+      This may be because you've changed OA password outside @:appName.
       Please update your saved password in the settings.
     goSettings: Go settings
   email:
