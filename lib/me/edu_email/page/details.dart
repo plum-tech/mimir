@@ -1,37 +1,47 @@
 import 'package:enough_mail/enough_mail.dart';
-import 'package:enough_mail_html/enough_mail_html.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:mimir/l10n/extension.dart';
+import 'package:mimir/school/yellow_pages/widget/contact.dart';
 import 'package:mimir/widget/html.dart';
 import 'package:rettulf/rettulf.dart';
 
+import '../entity/email.dart';
 import '../i18n.dart';
 
-// TODO: Better UI
-class EduEmailDetailsPage extends StatelessWidget {
-  final MimeMessage message;
+class MailDetailsPage extends StatelessWidget {
+  final MailEntity mail;
 
-  const EduEmailDetailsPage(this.message, {super.key});
+  const MailDetailsPage(this.mail, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    final subject = message.decodeSubject() ?? i18n.noSubject;
+    final date = mail.formatDate(context);
     return Scaffold(
       body: SelectionArea(
         child: CustomScrollView(
           slivers: [
             SliverAppBar(
               floating: true,
-              title: subject.text(),
+              title: mail.senders.first.displayName.text(),
             ),
-            SliverToBoxAdapter(
-              child: MailMetaCard(message),
-            ),
+            SliverList.list(children: [
+              ListTile(
+                leading: ContactAvatar(name: mail.senders.first.displayName),
+                title: mail.senders.first.email.text(),
+                subtitle: [
+                  mail.recipients.first.toString().text(),
+                  if (date != null) date.text(),
+                ].column(caa: CrossAxisAlignment.start),
+              ),
+              const Divider(),
+              mail.subject.text(style: context.textTheme.titleLarge).padH(16),
+            ]),
             SliverPadding(
               padding: const EdgeInsets.all(8),
               sliver: RestyledHtmlWidget(
-                _generateHtml(context, message),
+                async: false,
+                context.isDarkMode ? mail.htmlDarkMode : mail.html,
                 renderMode: RenderMode.sliverList,
               ),
             )
@@ -40,15 +50,6 @@ class EduEmailDetailsPage extends StatelessWidget {
       ),
     );
   }
-}
-
-String _generateHtml(BuildContext context, MimeMessage mimeMessage) {
-  return mimeMessage.transformToHtml(
-    blockExternalImages: false,
-    preferPlainText: true,
-    enableDarkMode: context.isDarkMode,
-    emptyMessageText: i18n.noContent,
-  );
 }
 
 class MailMetaCard extends StatelessWidget {

@@ -1,33 +1,39 @@
-import 'package:enough_mail/enough_mail.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:mimir/l10n/extension.dart';
+import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:rettulf/rettulf.dart';
 
-import '../page/details.dart';
+import '../entity/email.dart';
 
-// TODO: Migration
 class EmailItem extends StatelessWidget {
-  final MimeMessage _message;
+  final MailEntity mail;
 
-  const EmailItem(this._message, {super.key});
+  const EmailItem(this.mail, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    final titleStyle = Theme.of(context).textTheme.titleMedium;
-    final subtitleStyle = Theme.of(context).textTheme.bodyMedium;
-
-    final subjectText = _message.decodeSubject() ?? '';
-    final sender = _message.decodeSender();
-    final senderText = sender[0].toString() + (sender.length > 1 ? '...' : '');
-    final date = _message.decodeDate();
-    final dateText = date != null ? context.formatYmdNum(date) : '';
-
-    return ListTile(
-      title: Text(subjectText, style: titleStyle, maxLines: 1, overflow: TextOverflow.fade),
-      subtitle: Text(senderText, style: subtitleStyle),
-      trailing: Text(dateText, style: subtitleStyle),
-      onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (_) => EduEmailDetailsPage(_message)));
-      },
-    );
+    final subtitleColor = context.colorScheme.onSurfaceVariant;
+    final date = mail.formatDate(context);
+    return [
+      [
+        mail.senders.first.displayName.text(
+          style: context.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
+        ),
+        [
+          if (date != null) date.text(style: context.textTheme.labelMedium?.copyWith(color: subtitleColor)),
+          Icon(
+            context.icons.rightChevron,
+            color: subtitleColor,
+          ),
+        ].row(),
+      ].row(maa: MainAxisAlignment.spaceBetween),
+      mail.subject.text(style: context.textTheme.titleMedium),
+      mail.plaintext.substring(0, min(300, mail.plaintext.length)).text(
+            style: context.textTheme.labelMedium?.copyWith(color: subtitleColor),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+    ].column(caa: CrossAxisAlignment.start);
   }
 }

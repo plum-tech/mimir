@@ -1,5 +1,8 @@
 # Changelog
 
+## 2.6.4
+- Redesigned edu email inbox page and mail details page.
+
 ## 2.6.3
 - Migration of new storage structure of timetable and palette.
 - Added UUID in timetables, timetable palette, and game records.

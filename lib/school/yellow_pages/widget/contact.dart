@@ -10,6 +10,37 @@ import 'package:url_launcher/url_launcher_string.dart';
 import '../entity/contact.dart';
 import '../i18n.dart';
 
+class ContactAvatar extends StatelessWidget {
+  final String? name;
+
+  const ContactAvatar({
+    super.key,
+    this.name,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final name = this.name;
+    return CircleAvatar(
+      backgroundColor: context.colorScheme.primary,
+      radius: 20,
+      child: name == null || name.isEmpty || _isDigit(name[0])
+          ? Icon(
+              context.icons.accountCircle,
+              size: 40,
+              color: context.colorScheme.onPrimary,
+            ).center()
+          : name[0]
+              .text(
+                style: context.textTheme.titleLarge?.copyWith(color: context.colorScheme.onPrimary),
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              )
+              .center(),
+    );
+  }
+}
+
 class ContactTile extends StatelessWidget {
   final String? name;
   final String phone;
@@ -35,23 +66,7 @@ class ContactTile extends StatelessWidget {
     final phoneNumber = phone.length == 8 ? "021$phone" : phone;
     return ListTile(
       selected: selected,
-      leading: CircleAvatar(
-        backgroundColor: context.colorScheme.primary,
-        radius: 20,
-        child: name == null || name.isEmpty || _isDigit(name[0])
-            ? Icon(
-                context.icons.accountCircle,
-                size: 40,
-                color: context.colorScheme.onPrimary,
-              ).center()
-            : name[0]
-                .text(
-                  style: context.textTheme.titleLarge?.copyWith(color: context.colorScheme.onPrimary),
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                )
-                .center(),
-      ),
+      leading: ContactAvatar(name: name),
       title: title.text(overflow: TextOverflow.ellipsis),
       subtitle: full.text(overflow: TextOverflow.ellipsis),
       onLongPress: phoneNumber.isEmpty

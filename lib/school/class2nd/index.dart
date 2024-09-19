@@ -42,7 +42,6 @@ class _Class2ndAppCardState extends ConsumerState<Class2ndAppCard> with Automati
       await refresh(active: true);
     });
     refresh(active: false);
-
   }
 
   @override
@@ -78,7 +77,7 @@ class _Class2ndAppCardState extends ConsumerState<Class2ndAppCard> with Automati
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    ref.listen(CredentialsInit.storage.oa.$credentials, (pre,next){
+    ref.listen(CredentialsInit.storage.oa.$credentials, (pre, next) {
       refresh(active: false);
     });
     final storage = Class2ndInit.pointStorage;

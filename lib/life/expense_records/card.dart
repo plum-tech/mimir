@@ -74,7 +74,7 @@ class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> w
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    ref.listen(CredentialsInit.storage.oa.$credentials, (pre,next){
+    ref.listen(CredentialsInit.storage.oa.$credentials, (pre, next) {
       refresh(active: false);
     });
     final storage = ExpenseRecordsInit.storage;

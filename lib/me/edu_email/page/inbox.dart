@@ -1,16 +1,18 @@
-import 'package:enough_mail/enough_mail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/credentials/entity/credential.dart';
 import 'package:mimir/credentials/init.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
+import 'package:mimir/design/animation/progress.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/utils/error.dart';
 
+import '../entity/email.dart';
 import '../init.dart';
 import '../i18n.dart';
 import '../widget/item.dart';
+import 'details.dart';
 
-// TODO: Send email
 class EduEmailInboxPage extends ConsumerStatefulWidget {
   const EduEmailInboxPage({super.key});
 
@@ -19,7 +21,8 @@ class EduEmailInboxPage extends ConsumerStatefulWidget {
 }
 
 class _EduEmailInboxPageState extends ConsumerState<EduEmailInboxPage> {
-  List<MimeMessage>? messages;
+  List<MailEntity>? mails;
+  var fetching = false;
 
   @override
   initState() {
@@ -32,47 +35,65 @@ class _EduEmailInboxPageState extends ConsumerState<EduEmailInboxPage> {
 
   Future<void> refresh(Credential credentials) async {
     if (!mounted) return;
+    setState(() {
+      fetching = true;
+    });
     try {
       await EduEmailInit.service.login(credentials);
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
       CredentialsInit.storage.eduEmail.credentials = null;
+      setState(() {
+        fetching = false;
+      });
       return;
     }
     try {
-      final result = await EduEmailInit.service.getInboxMessage(30);
-      final messages = result.messages;
+      final mails = await EduEmailInit.service.getInboxEmails();
       // The more recent the time, the smaller the index in the list.
-      messages.sort((a, b) {
-        return a.decodeDate()!.isAfter(b.decodeDate()!) ? -1 : 1;
-      });
       if (!mounted) return;
       setState(() {
-        this.messages = messages;
+        fetching = false;
+        this.mails = mails;
       });
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
+      setState(() {
+        fetching = false;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final credentials = ref.watch(CredentialsInit.storage.eduEmail.$credentials);
-    final messages = this.messages;
+    final mails = this.mails;
     return Scaffold(
-      floatingActionButton: credentials != null && messages == null ? const CircularProgressIndicator.adaptive() : null,
+      floatingActionButton: fetching ? const AnimatedProgressCircle() : null,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             floating: true,
             title: i18n.inbox.title.text(),
           ),
-          if (messages != null)
+          if (mails != null)
             SliverList.separated(
-              itemCount: messages.length,
-              separatorBuilder: (ctx, i) => const Divider(height: 12),
+              itemCount: mails.length,
+              separatorBuilder: (ctx, i) => const Divider(
+                height: 4,
+                indent: 16,
+                endIndent: 8,
+              ),
               itemBuilder: (ctx, i) {
-                return EmailItem(messages[i]);
+                final mail = mails[i];
+                return InkWell(
+                  onTap: () {
+                    context.showSheet(
+                      (_) => MailDetailsPage(mail),
+                      dismissible: false,
+                    );
+                  },
+                  child: EmailItem(mail).padSymmetric(h: 16, v: 8),
+                );
               },
             )
         ],
