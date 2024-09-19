@@ -186,6 +186,8 @@ class MigrationMatch {
 
   MigrationMatch(this._migrations);
 
+  int get length => _migrations.length;
+
   Future<void> perform(MigrationPhrase phrase) async {
     for (final migration in _migrations) {
       try {

@@ -70,7 +70,7 @@ class MigrationManager<TPhrase> {
       // from: 2.3.2, m: 2.3.1 => no
       // from: 2.3.2, m: 2.3.2 => yes
       // from: 2.3.2, m: 2.4.0 => yes
-      if (from <= m.version) {
+      if (from < m.version) {
         return true;
       }
       // current: 2.4.0, m: 2.3.2 => no
