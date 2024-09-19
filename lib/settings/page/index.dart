@@ -15,7 +15,6 @@ import 'package:mimir/feature/utils.dart';
 import 'package:mimir/lifecycle.dart';
 import 'package:mimir/login/i18n.dart';
 import 'package:mimir/network/widget/entrance.dart';
-import 'package:mimir/route.dart';
 import 'package:mimir/storage/hive/init.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/l10n/extension.dart';
@@ -250,15 +249,15 @@ class WipeDataTile extends StatelessWidget {
       title: i18n.wipeDataTitle.text(),
       subtitle: i18n.wipeDataDesc.text(),
       leading: const Icon(Icons.delete_forever_rounded),
-      onTap: () {
-        _onWipeData(context);
-      },
+      onTap: _onWipeData,
     );
   }
 }
 
-Future<void> _onWipeData(BuildContext context) async {
-  final confirm = await context.showActionRequest(
+Future<void> _onWipeData() async {
+  final navigateCtx = $key.currentContext;
+  if (navigateCtx == null || !navigateCtx.mounted) return;
+  final confirm = await navigateCtx.showActionRequest(
     action: i18n.wipeDataRequest,
     desc: i18n.wipeDataRequestDesc,
     cancel: i18n.cancel,
@@ -268,16 +267,11 @@ Future<void> _onWipeData(BuildContext context) async {
     await HiveInit.clear(); // Clear storage
     await Init.initNetwork();
     await Init.initModules();
-    final navigateCtx = $TimetableShellKey.currentContext;
-    if (navigateCtx == null || !navigateCtx.mounted) return;
+    if (!navigateCtx.mounted) return;
     navigateCtx.riverpod().read($oaOnline.notifier).state = false;
-    await _gotoLogin(navigateCtx);
+    navigateCtx.go("/oa/login");
+    await Future.delayed(const Duration(milliseconds: 100));
+    if (!navigateCtx.mounted) return;
+    await AgreementsAcceptanceSheet.show(navigateCtx);
   }
-}
-
-Future<void> _gotoLogin(BuildContext context) async {
-  context.go("/oa/login");
-  await Future.delayed(const Duration(milliseconds: 100));
-  if (!context.mounted) return;
-  await AgreementsAcceptanceSheet.show(context);
 }
