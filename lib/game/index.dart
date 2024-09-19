@@ -65,16 +65,6 @@ class _GamePageState extends ConsumerState<GamePage> {
   }
 }
 
-const bureauAdvice = """
-抵制不良游戏，拒绝盗版游戏。
-
-注意自我保护，谨防受骗上当。
-
-适度游戏益脑，沉迷游戏伤身。
-
-合理安排时间，享受健康生活。
-""";
-
 class CnBureauAdvice4Game extends StatelessWidget {
   const CnBureauAdvice4Game({super.key});
 
@@ -84,8 +74,10 @@ class CnBureauAdvice4Game extends StatelessWidget {
     Widget sub(String text) => text.text(style: context.textTheme.labelMedium, textAlign: TextAlign.center);
     return [
       title("健康游戏忠告"),
-      sub("抵制不良游戏，拒绝盗版游戏。注意自我保护，谨防受骗上当。"),
-      sub("适度游戏益脑，沉迷游戏伤身。合理安排时间，享受健康生活。"),
+      sub("抵制不良游戏，拒绝盗版游戏。"),
+      sub("注意自我保护，谨防受骗上当。"),
+      sub("适度游戏益脑，沉迷游戏伤身。"),
+      sub("合理安排时间，享受健康生活。"),
     ].column();
   }
 }
