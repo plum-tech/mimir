@@ -17,10 +17,11 @@ class BackendInit {
   static void init() {
     update = kDebugMode ? MimirUpdateServiceMock() : const MimirUpdateService();
     bulletin = const MimirBulletinService();
-    bulletinStorage = MimirBulletinStorage();
     auth = const MimirAuthService();
     ocr = const MimirOcrService();
   }
 
-  static void initStorage() {}
+  static void initStorage() {
+    bulletinStorage = MimirBulletinStorage();
+  }
 }

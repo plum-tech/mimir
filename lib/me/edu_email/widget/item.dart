@@ -6,10 +6,10 @@ import 'package:rettulf/rettulf.dart';
 
 import '../entity/email.dart';
 
-class EmailItem extends StatelessWidget {
+class EmailPreviewWidget extends StatelessWidget {
   final MailEntity mail;
 
-  const EmailItem(this.mail, {super.key});
+  const EmailPreviewWidget(this.mail, {super.key});
 
   @override
   Widget build(BuildContext context) {

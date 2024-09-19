@@ -92,7 +92,7 @@ class _EduEmailInboxPageState extends ConsumerState<EduEmailInboxPage> {
                       dismissible: false,
                     );
                   },
-                  child: EmailItem(mail).padSymmetric(h: 16, v: 8),
+                  child: EmailPreviewWidget(mail).padSymmetric(h: 16, v: 8),
                 );
               },
             )

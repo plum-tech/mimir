@@ -10,10 +10,10 @@ const _port = 993;
 class MailService {
   final ImapClient _client = ImapClient(isLogEnabled: true, onBadCertificate: (_) => true);
 
-  Future<List<Capability>> login(Credential credential) async {
+  Future<void> login(Credential credential) async {
     try {
       await _client.connectToServer(_server, _port, isSecure: true);
-      return await _client.login(credential.account, credential.password);
+      final capabilities = await _client.login(credential.account, credential.password);
     } catch (error) {
       if (error is ImapException) {
         throw CredentialException(type: CredentialErrorType.accountPassword, message: error.message);
@@ -22,7 +22,7 @@ class MailService {
     }
   }
 
-  Future<List<MailEntity>> getInboxEmails([int count = 50]) async {
+  Future<List<MailEntity>> getInboxEmails({int count = 50}) async {
     // final mailboxes = await _client.listMailboxes();
     await _client.selectInbox();
     final result = await _client.fetchRecentMessages(messageCount: count);

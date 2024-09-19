@@ -125,6 +125,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     CredentialsInit.storage.oa.loginStatus = OaLoginStatus.validated;
     CredentialsInit.storage.oa.lastAuthTime = DateTime.now();
     CredentialsInit.storage.oa.userType = OaUserType.undergraduate;
+    CredentialsInit.storage.eduEmail.credentials = Credential(
+      account: "${credentials.account}@${R.eduEmailDomain}",
+      password: credentials.password,
+    );
     Dev.demoMode = true;
     await Init.initModules();
     if (!mounted) return;
