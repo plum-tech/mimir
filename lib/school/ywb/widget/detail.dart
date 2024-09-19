@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mimir/session/ywb.dart';
 import 'package:mimir/widget/html.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -38,7 +39,7 @@ class YwbApplicationDetailSectionBlock extends StatelessWidget {
 
   Widget buildHtmlSection(String content) {
     // TODO: cannot download pdf files
-    final html = content.replaceAll('../app/files/', 'https://ywb.sit.edu.cn/app/files/');
+    final html = content.replaceAll('../app/files/', '${YwbSession.base}/app/files/');
     return RestyledHtmlWidget(
       html,
       async: false,
