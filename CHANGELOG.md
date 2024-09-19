@@ -3,6 +3,7 @@
 ## 2.6.4
 - Redesigned edu email inbox page and mail details page.
 - [Demo mode] Demo mode is supported on edu email.
+- [Demo mode] Disable teacher evaluation.
 
 ## 2.6.3
 - Migration of new storage structure of timetable and palette.
