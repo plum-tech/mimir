@@ -6,6 +6,7 @@ class DemoLibraryTrendsService implements LibraryTrendsService {
 
   @override
   Future<LibraryTrends> getTrends() async {
+    await Future.delayed(const Duration(milliseconds: 200));
     return const LibraryTrends(
       recent30days: [
         LibraryTrendsItem(keyword: '小应生活', count: 500),

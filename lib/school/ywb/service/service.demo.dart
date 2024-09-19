@@ -7,11 +7,13 @@ class DemoYwbServiceService implements YwbServiceService {
 
   @override
   Future<YwbServiceDetails> getServiceDetails(String functionId) async {
+    await Future.delayed(const Duration(milliseconds: 1300));
     return const YwbServiceDetails(id: "0", sections: []);
   }
 
   @override
   Future<List<YwbService>> getServices() async {
+    await Future.delayed(const Duration(milliseconds: 1180));
     return [
       const YwbService(
         id: "1",

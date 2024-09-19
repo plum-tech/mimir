@@ -10,11 +10,13 @@ class DemoClass2ndApplicationService implements Class2ndApplicationService {
 
   @override
   Future<bool> apply(int activityId) async {
+    await Future.delayed(const Duration(milliseconds: 1350));
     return true;
   }
 
   @override
   Future<bool> withdraw(int applicationId) async {
+    await Future.delayed(const Duration(milliseconds: 1400));
     return true;
   }
 }

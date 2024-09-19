@@ -16,6 +16,7 @@ class DemoExpenseService implements ExpenseService {
     required DateTime from,
     required DateTime to,
   }) async {
+    await Future.delayed(const Duration(milliseconds: 1350));
     final rand = Random(CredentialsInit.storage.oa.credentials?.account.hashCode);
     return _generate(300, rand);
   }

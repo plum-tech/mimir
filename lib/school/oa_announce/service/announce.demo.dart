@@ -12,6 +12,7 @@ class DemoOaAnnounceService implements OaAnnounceService {
 
   @override
   Future<OaAnnounceDetails> fetchAnnounceDetails(String catalogId, String uuid) async {
+    await Future.delayed(const Duration(milliseconds: 1350));
     return OaAnnounceDetails(
       title: "title",
       dateTime: DateTime.now(),
@@ -25,6 +26,7 @@ class DemoOaAnnounceService implements OaAnnounceService {
 
   @override
   Future<OaAnnounceListPayload> getAnnounceList(OaAnnounceCat cat, int pageIndex) async {
+    await Future.delayed(const Duration(milliseconds: 1350));
     if (pageIndex == 1) {
       final now = DateTime.now();
       final rand = Random();

@@ -11,6 +11,7 @@ class DemoYwbApplicationService implements YwbApplicationService {
   }) async {
     onProgress?.call(1);
     final now = DateTime.now();
+    await Future.delayed(const Duration(milliseconds: 1400));
     return [
       YwbApplication(
         workId: 9999,

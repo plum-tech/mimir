@@ -38,7 +38,7 @@ class DemoMailService implements MailService {
       );
     }
 
-    await Future.delayed(const Duration(milliseconds: 300));
+    await Future.delayed(const Duration(milliseconds: 1300));
     return [
       gen(
         dayDelta: -5,

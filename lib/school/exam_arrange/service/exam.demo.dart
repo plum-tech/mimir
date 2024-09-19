@@ -9,6 +9,7 @@ class DemoExamArrangeService implements ExamArrangeService {
   @override
   Future<List<ExamEntry>> fetchExamList(SemesterInfo info) async {
     final now = DateTime.now();
+    await Future.delayed(const Duration(milliseconds: 1450));
     return [
       ExamEntry(
         courseName: "小应生活设计实训",

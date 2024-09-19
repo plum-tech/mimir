@@ -11,6 +11,7 @@ class DemoElectricityService implements ElectricityService {
     final rand = Random(room.hashCode);
     final rand2 = Random();
     final base = rand.nextInt(10000) / 100;
+    await Future.delayed(const Duration(milliseconds: 1400));
     return ElectricityBalance.all(
       roomNumber: room,
       balance: base + rand2.nextInt(100) / 10 - 5,

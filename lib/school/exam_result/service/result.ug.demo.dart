@@ -21,6 +21,7 @@ class DemoExamResultUgService implements ExamResultUgService {
     final now = DateTime.now();
     final SemesterInfo(:exactYear, :semester) = estimateSemesterInfo();
     final rand = Random();
+    await Future.delayed(const Duration(milliseconds: 1560));
     return List.generate(15, (index) {
       final score = (rand.nextInt(50) + 50).toDouble();
       return ExamResultUg(

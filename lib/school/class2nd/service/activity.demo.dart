@@ -22,6 +22,7 @@ class DemoClass2ndActivityService implements Class2ndActivityService {
       );
     }
 
+    await Future.delayed(const Duration(milliseconds: 1650));
     return switch (cat) {
       Class2ndActivityCat.lecture => [gen("小应生活开发者讲座")],
       Class2ndActivityCat.thematicEdu => [gen("生活主题教育")],

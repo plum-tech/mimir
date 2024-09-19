@@ -15,6 +15,7 @@ class DemoExamResultPgService implements ExamResultPgService {
   Future<List<ExamResultPg>> fetchResultList() async {
     final now = DateTime.now();
     final rand = Random();
+    await Future.delayed(const Duration(milliseconds: 1500));
     return List.generate(15, (index) {
       final score = (rand.nextInt(50) + 50).toDouble();
       return ExamResultPg(

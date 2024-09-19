@@ -17,6 +17,7 @@ class DemoTimetableService implements TimetableService {
   @override
   Future<Timetable> fetchUgTimetable(SemesterInfo info) async {
     var key = 0;
+    await Future.delayed(const Duration(milliseconds: 1400));
     return Timetable(
       name: "小应生活的课程表",
       uuid: "9cb2c4fe-d8e8-410b-b472-c1b4c13ecf16",
