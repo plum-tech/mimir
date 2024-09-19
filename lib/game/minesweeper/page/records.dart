@@ -45,7 +45,6 @@ class RecordMinesweeperTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      isThreeLine: true,
       leading: Icon(
         record.result == GameResult.victory ? Icons.check : Icons.clear,
         color: record.result == GameResult.victory ? Colors.green : Colors.red,

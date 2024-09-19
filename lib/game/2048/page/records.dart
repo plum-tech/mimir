@@ -12,10 +12,10 @@ class Records2048Page extends ConsumerStatefulWidget {
   const Records2048Page({super.key});
 
   @override
-  ConsumerState createState() => _RecordsMinesweeperPageState();
+  ConsumerState createState() => _Records2048PageState();
 }
 
-class _RecordsMinesweeperPageState extends ConsumerState<Records2048Page> {
+class _Records2048PageState extends ConsumerState<Records2048Page> {
   @override
   Widget build(BuildContext context) {
     return GameRecordsPage<Record2048>(
@@ -39,7 +39,6 @@ class Record2048Tile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      isThreeLine: true,
       leading: Icon(
         record.hasVictory ? Icons.check : Icons.clear,
         color: record.hasVictory ? Colors.green : Colors.red,

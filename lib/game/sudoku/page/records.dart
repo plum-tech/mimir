@@ -18,10 +18,10 @@ class RecordsSudokuPage extends ConsumerStatefulWidget {
   const RecordsSudokuPage({super.key});
 
   @override
-  ConsumerState createState() => _RecordsMinesweeperPageState();
+  ConsumerState createState() => _RecordsSudokuPageState();
 }
 
-class _RecordsMinesweeperPageState extends ConsumerState<RecordsSudokuPage> {
+class _RecordsSudokuPageState extends ConsumerState<RecordsSudokuPage> {
   @override
   Widget build(BuildContext context) {
     return GameRecordsPage<RecordSudoku>(
@@ -45,7 +45,6 @@ class RecordSudokuTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      isThreeLine: true,
       leading: Icon(
         record.result == GameResult.victory ? Icons.check : Icons.clear,
         color: record.result == GameResult.victory ? Colors.green : Colors.red,
