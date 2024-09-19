@@ -27,14 +27,20 @@ class InstallerStore {
   // Apple(App Store)
   static const appStore = "com.apple";
 
-  // OPPO, Realme
+  // OPPO, Realme: 应用商店
   static const heytap = "com.heytap.market";
 
-  // Xiaomi, Redmi "纯净模式"
+  // Xiaomi, Redmi: 纯净模式
   static const miui = "com.miui.packageinstaller";
 
-  // Huawei
+  // Xiaomi, Redmi: 小米应用商店
+  static const xiaomiMarket = "com.xiaomi.market";
+
+  // Huawei: backup
   static const huaweiBackup = "com.huawei.localBackup";
+
+  // Huawei: browser
+  static const huaweiBrowser = "com.huawei.browser";
 }
 
 class AppMeta {
