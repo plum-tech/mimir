@@ -104,6 +104,7 @@ class _PasswordDisplayTileState extends State<PasswordDisplayTile> {
                 context,
                 desc: _i.savedPwd,
                 initial: "",
+                secure: true,
               );
               if (newPwd == null || newPwd == password || newPwd.isEmpty) return;
               widget.onChanged(newPwd);

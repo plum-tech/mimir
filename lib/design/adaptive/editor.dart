@@ -106,12 +106,14 @@ class Editor {
     BuildContext context, {
     String? desc,
     required String initial,
+    bool secure = false,
   }) async {
     final newValue = await showAdaptiveDialog(
       context: context,
       builder: (ctx) => StringEditor(
         initial: initial,
         title: desc,
+        secure: secure,
       ),
     );
     if (newValue == null) return null;
@@ -425,11 +427,13 @@ class _BoolEditorState extends State<BoolEditor> {
 class StringEditor extends StatefulWidget {
   final String initial;
   final String? title;
+  final bool secure;
 
   const StringEditor({
     super.key,
     required this.initial,
     this.title,
+    this.secure = false,
   });
 
   @override
@@ -469,9 +473,10 @@ class _StringEditorState extends State<StringEditor> {
           context.navigator.pop();
         },
       ),
-      desc: (ctx) => $TextField$(
+      desc: (ctx) => PlatformTextField(
         maxLines: lines,
         controller: controller,
+        obscureText: widget.secure,
       ),
     );
   }
