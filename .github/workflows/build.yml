@@ -54,8 +54,8 @@ jobs:
 
       - name: Build APK
         run: |
-          flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi
-          flutter build apk --target-platform android-arm,android-arm64,android-x64
+#          flutter build apk --target-platform android-arm,android-arm64,android-x64 --split-per-abi
+          flutter build apk --target-platform android-arm,android-arm64
 
       - name: Sign APK
         uses: r0adkll/sign-android-release@v1
