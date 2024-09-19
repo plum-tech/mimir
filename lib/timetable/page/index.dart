@@ -23,14 +23,12 @@ class _TimetablePageState extends ConsumerState<TimetablePage> {
   @override
   Widget build(BuildContext context) {
     final selected = ref.watch($selectedTimetableEntity);
-    final selectedId = ref.watch(TimetableInit.storage.timetable.$selectedId);
-    if (selected == null || selectedId == null) {
+    if (selected == null) {
       // If no timetable selected, navigate to Mine page to select/import one.
       return const MyTimetableListPage();
     } else {
       return TimetableStyleProv(
         child: TimetableBoardPage(
-          id: selectedId,
           timetable: selected,
         ),
       );

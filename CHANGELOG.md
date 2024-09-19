@@ -2,7 +2,7 @@
 
 ## 2.6.3
 - Migration of new storage structure of timetable and palette.
-- Added UUID in game records.
+- Added UUID in timetables, timetable palette, and game records.
 - Clear game records on start up.
 - Permission requests.
 - Access SIT YWB and electricity bypass VPN.

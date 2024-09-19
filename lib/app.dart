@@ -246,15 +246,13 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
 
   Future<void> tryAutoSyncTimetable() async {
     if (!Settings.timetable.autoSyncTimetable) return;
-    final selectedId = TimetableInit.storage.timetable.selectedId;
-    if (selectedId == null) return;
     final selected = TimetableInit.storage.timetable.selectedRow;
     if (selected == null) return;
     if (canAutoSyncTimetable(selected)) {
       try {
         final merged = await autoSyncTimetable(context, selected);
         if (merged != null) {
-          TimetableInit.storage.timetable[selectedId] = merged;
+          TimetableInit.storage.timetable[selected.uuid] = merged;
         }
       } catch (error, stackTrace) {
         debugPrintError(error, stackTrace);

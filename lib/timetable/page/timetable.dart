@@ -19,12 +19,10 @@ import '../widget/timetable/board.dart';
 import 'mine.dart';
 
 class TimetableBoardPage extends ConsumerStatefulWidget {
-  final String id;
   final TimetableEntity timetable;
 
   const TimetableBoardPage({
     super.key,
-    required this.id,
     required this.timetable,
   });
 
@@ -149,7 +147,7 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
           onTap: () async {
             await editTimetablePatch(
               context: ctx,
-              uuid: widget.id,
+              uuid: timetable.type.uuid,
             );
           },
         ),
