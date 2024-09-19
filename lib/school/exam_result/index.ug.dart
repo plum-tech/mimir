@@ -8,6 +8,7 @@ import 'package:mimir/design/widget/app.dart';
 import 'package:mimir/school/exam_result/init.dart';
 import 'package:mimir/school/exam_result/widget/ug.dart';
 import 'package:mimir/school/utils.dart';
+import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/utils/guard_launch.dart';
@@ -33,6 +34,7 @@ class _ExamResultUgAppCardState extends ConsumerState<ExamResultUgAppCard> {
     final currentSemester = estimateSemesterInfo();
     final resultList = ref.watch(storage.$resultListFamily(currentSemester));
     final showResultPreview = ref.watch(Settings.school.examResult.$showResultPreview);
+    final demo = ref.watch(Dev.$demoMode);
     return AppCard(
       title: i18n.title.text(),
       view: showResultPreview == false
@@ -49,13 +51,15 @@ class _ExamResultUgAppCardState extends ConsumerState<ExamResultUgAppCard> {
           label: i18n.check.text(),
         ),
         FilledButton.tonalIcon(
-          onPressed: () async {
-            if (UniversalPlatform.isDesktop) {
-              await guardLaunchUrl(context, teacherEvaluationUri);
-            } else {
-              await context.push("/teacher-eval");
-            }
-          },
+          onPressed: demo
+              ? null
+              : () async {
+                  if (UniversalPlatform.isDesktop) {
+                    await guardLaunchUrl(context, teacherEvaluationUri);
+                  } else {
+                    await context.push("/teacher-eval");
+                  }
+                },
           label: i18n.teacherEval.text(),
         )
       ],
