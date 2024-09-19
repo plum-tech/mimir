@@ -11,6 +11,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/adaptive/swipe.dart';
+import 'package:mimir/intent/qrcode/page/view.dart';
 import 'package:mimir/login/x.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/timetable/init.dart';
@@ -122,6 +123,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
               const DebugGoRouteTile(),
               const DebugWebViewTile(),
               const DebugDeepLinkTile(),
+              const QrCodeCreatorTile(),
               if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) const GoInAppWebviewTile(),
               if (deviceInfo != null)
                 ListTile(
@@ -223,6 +225,24 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
         engine.performReassemble();
         if (!mounted) return;
         context.navigator.pop();
+      },
+    );
+  }
+}
+
+class QrCodeCreatorTile extends StatelessWidget {
+  const QrCodeCreatorTile({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextInputActionTile(
+      leading: const Icon(Icons.route_outlined),
+      title: "Show QR code".text(),
+      canSubmit: (content) => content.isNotEmpty,
+      hintText: "${R.scheme}://go/settings",
+      onSubmit: (content) async {
+        await context.showSheet((ctx) => QrCodePage(data: content));
+        return true;
       },
     );
   }
