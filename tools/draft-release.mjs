@@ -26,7 +26,7 @@ const octokit = getOctokit(githubToken)
  */
 const getLatestWorkflowRun = async (path) => {
   const res = await octokit.rest.actions.listWorkflowRunsForRepo({
-    owner: "liplum-dev",
+    owner: "plum-tech",
     repo: "mimir",
     branch: "master",
     event: "workflow_dispatch",
@@ -43,7 +43,7 @@ const getLatestWorkflowRun = async (path) => {
  */
 const getArtifactsFromWorkflowRun = async (runId) => {
   const res = await octokit.rest.actions.listWorkflowRunArtifacts({
-    owner: "liplum-dev",
+    owner: "plum-tech",
     repo: "mimir",
     run_id: runId,
   })
@@ -93,7 +93,7 @@ const downloadArtifactAndUnzip = async (artifact, filename) => {
 
 const getPreviousTag = async () => {
   const res = await octokit.rest.repos.getLatestRelease({
-    owner: "liplum-dev",
+    owner: "plum-tech",
     repo: "mimir",
   })
   const data = res.data
@@ -107,7 +107,7 @@ const getPreviousTag = async () => {
 const createReleaseDraft = async ({ tag, body }) => {
   try {
     const check = await octokit.rest.repos.getReleaseByTag({
-      owner: "liplum-dev",
+      owner: "plum-tech",
       repo: "mimir",
       tag,
     })
@@ -119,7 +119,7 @@ const createReleaseDraft = async ({ tag, body }) => {
     console.log(`Creating ${tag}`)
   }
   const res = await octokit.rest.repos.createRelease({
-    owner: "liplum-dev",
+    owner: "plum-tech",
     repo: "mimir",
     name: tag,
     tag_name: tag,
@@ -140,7 +140,7 @@ const uploadReleaseAsset = async (releaseId, { localFile, filename, }) => {
   }
   const buffer = await fsp.readFile(localFile)
   await octokit.rest.repos.uploadReleaseAsset({
-    owner: "liplum-dev",
+    owner: "plum-tech",
     repo: "mimir",
     name: filename,
     release_id: releaseId,
@@ -163,7 +163,7 @@ const generateReleaseBody = ({
 ## Changes
   - Fixed:
   - Added:
-  
+
 ## 更改
   - 修复 |
   - 新增 |
@@ -173,7 +173,7 @@ const generateReleaseBody = ({
   - iOS: Download on the [App Store](https://testflight.apple.com/join/hPeQ13fe), or join the [Test Flight](https://testflight.apple.com/join/2n5I09Zv).
 
 
-Full Changelog: https://github.com/liplum-dev/mimir/compare/${previousTag}...${currentTag}
+Full Changelog: https://github.com/plum-tech/mimir/compare/${previousTag}...${currentTag}
 `
 }
 

@@ -7,7 +7,7 @@
   "scripts": {
     "test": "jasmine"
   },
-  "author": "Liplum-Dev",
+  "author": "Plum Technology Ltd.",
   "license": "ISC",
   "dependencies": {
     "@actions/github": "^6.0.0",

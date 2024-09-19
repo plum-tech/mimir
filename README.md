@@ -26,11 +26,11 @@
 
 ## Contribution
 
-If you met any bug, feel free to [make an issue](https://github.com/liplum-dev/mimir/issues/new).
+If you met any bug, feel free to [make an issue](https://github.com/plum-tech/mimir/issues/new).
 
 Welcome to contribute SIT Life, please read the [contribution guide](CONTRIBUTING.md).
 
-To learn the specification of SIT Life, you can [read this](https://github.com/liplum-dev/mimir-spec).
+To learn the specification of SIT Life, you can [read this](https://github.com/plum-tech/mimir-spec).
 
 ### Source License
 
@@ -46,14 +46,14 @@ Copyright©️2024 [Plum Technology Ltd](https://www.liplum.net). All Rights Res
 
 [Website]: https://www.mysit.life
 
-[Online Preview]: https://liplum-dev.github.io/mimir/
+[Online Preview]: https://plum-tech.github.io/mimir/
 
-[Download]: https://github.com/liplum-dev/mimir/releases/latest
+[Download]: https://github.com/plum-tech/mimir/releases/latest
 
 <!---------------------------------[ Buttons ]--------------------------------->
 
 [Button Website]: https://img.shields.io/badge/Website-4599bd?style=for-the-badge
 
-[Button Download]: https://img.shields.io/github/downloads/liplum-dev/mimir/total?color=023a46&label=Download&logo=docusign&logoColor=white&style=for-the-badge&labelColor=034e5e
+[Button Download]: https://img.shields.io/github/downloads/plum-tech/mimir/total?color=023a46&label=Download&logo=docusign&logoColor=white&style=for-the-badge&labelColor=034e5e
 
 [Button Online Preview]: https://img.shields.io/badge/Online%20Preview-2d7b7e?style=for-the-badge

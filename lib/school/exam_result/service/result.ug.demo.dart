@@ -31,7 +31,7 @@ class DemoExamResultUgService implements ExamResultUgService {
         year: exactYear,
         semester: semester,
         credit: 6.0,
-        classCode: "Liplum-Dev",
+        classCode: "dev-${score}",
         time: now.copyWith(day: now.day - rand.nextInt(10)),
         courseCat: CourseCat.publicCore,
         examType: UgExamType.normal,
