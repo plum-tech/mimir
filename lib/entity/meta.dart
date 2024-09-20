@@ -18,17 +18,20 @@ enum AppPlatform {
 }
 
 class InstallerStore {
-  // General Android
+  // Android: general
   static const android = "com.android.packageinstaller";
 
-  // Apple(Test Flight)
+  // Apple: Test Flight
   static const testFlight = "com.apple.testflight";
 
-  // Apple(App Store)
+  // Apple: App Store
   static const appStore = "com.apple";
 
   // OPPO, Realme: 应用商店
   static const heytap = "com.heytap.market";
+
+  // VIVO: 应用商店
+  static const vivo = "com.bbk.appstore";
 
   // Xiaomi, Redmi: 纯净模式
   static const miui = "com.miui.packageinstaller";
