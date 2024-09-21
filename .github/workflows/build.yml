@@ -220,11 +220,3 @@ jobs:
         uses: ad-m/github-push-action@master
         with:
           branch: ${{ github.ref }}
-
-      - name: Notify the latest building
-        if: github.repository == 'plum-tech/mimir'
-        continue-on-error: true
-        env:
-          QQBOT_URL: ${{ secrets.gocq_sendgroupmsg_url }}
-        run: |
-          node tools/bot-notify-build.mjs

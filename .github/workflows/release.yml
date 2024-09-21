@@ -46,10 +46,3 @@ jobs:
         run: |
           node tools/publish-release.mjs
 
-      - name: Notify the latest release
-        if: github.repository == 'plum-tech/mimir'
-        continue-on-error: true
-        env:
-          QQBOT_URL: ${{ secrets.gocq_sendgroupmsg_url }}
-        run: |
-          node tools/bot-notify-release.mjs
