@@ -12,7 +12,12 @@ const versionAPI = lateinit(() => {
   })
 })
 
-export const uploadVersion = async (info) => {
-  const res = await versionAPI().post("/v", info)
+export const uploadReleaseVersion = async (info) => {
+  const res = await versionAPI().post("/release/v", info)
+  return res.status
+}
+
+export const uploadPreviewVersion = async (info) => {
+  const res = await versionAPI().post("/preview/v", info)
   return res.status
 }

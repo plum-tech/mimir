@@ -3,7 +3,7 @@ import * as path from "path"
 import { getArtifactDownloadUrl } from './lib/sitmc.mjs'
 import esMain from 'es-main'
 import { searchAndGetAssetInfo } from "./lib/release.mjs"
-import { uploadVersion } from "./lib/backend.mjs"
+import { uploadReleaseVersion } from "./lib/backend.mjs"
 import { cli } from "@liplum/cli"
 
 const main = async () => {
@@ -27,7 +27,7 @@ const main = async () => {
   // Get release information from environment variables (GitHub Actions context)
   const info = await prepareVersionInfo()
 
-  const result = await uploadVersion(info)
+  const result = await uploadReleaseVersion(info)
   console.log(`Uploaded result: ${result}`)
 }
 
