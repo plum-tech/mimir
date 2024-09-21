@@ -39,17 +39,6 @@ jobs:
         run: |
           node tools/upload-release-sitmc.mjs
 
-      - name: Install deploy key to deploy g.mysit.life
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.DOCS_SSH_KEY }}
-          known_hosts: ${{ secrets.DOCS_KNOWN_HOST }}
-
-      - name: Setup git config to deploy g.mysit.life
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
       - name: Deploy
         if: github.repository == 'plum-tech/mimir'
         run: |

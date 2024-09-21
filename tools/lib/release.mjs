@@ -31,14 +31,9 @@ function searchAsset(filter) {
  */
 async function getAssetInfo(payload) {
   const url = payload.browser_download_url
-  let sha256 = ""
-  if (url) {
-    sha256 = await downloadAndSha256Hash(url)
-  }
   return {
     name: payload.name,
     url: url,
-    sha256: sha256,
   }
 }
 

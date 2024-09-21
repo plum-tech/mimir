@@ -1,22 +1,22 @@
-import { github, getGitHubMirrorDownloadUrl, setGithubFromUrl, getLatestReleaseApiUrl } from "./lib/github.mjs"
+import { github, setGithubFromUrl, getLatestReleaseApiUrl } from "./lib/github.mjs"
 import * as path from "path"
 import { getArtifactDownloadUrl } from './lib/sitmc.mjs'
 import esMain from 'es-main'
 import { searchAndGetAssetInfo } from "./lib/release.mjs"
-import { modifyDocsRepoAndPush } from './lib/mimir-docs.mjs'
+import { uploadVersion } from "./lib/backend.mjs"
 import { cli } from "@liplum/cli"
 
 const main = async () => {
   const args = cli({
     name: 'publish-release',
-    description: 'Publish the release onto mimir-docs.',
+    description: 'Publish the release and version info onto the back end.',
     examples: ['node ./publish-release.mjs [<repo>]',],
     require: [],
     options: [{
       name: 'repo',
       alias: "r",
       defaultOption: true,
-      description: 'The repo to be published onto mimir-docs.'
+      description: 'The repo to be published onto the back end.'
     },],
   })
   if (args.repo) {
@@ -25,13 +25,13 @@ const main = async () => {
     await setGithubFromUrl(url)
   }
   // Get release information from environment variables (GitHub Actions context)
-  const version = getVersion()
-  const artifactPayload = await prepareArtifactPayload()
+  const info = await prepareVersionInfo()
 
-  await modifyDocsRepoAndPush({ version, payload: artifactPayload })
+  const result = await uploadVersion(info)
+  console.log(`Uploaded result: ${result}`)
 }
 
-export const prepareArtifactPayload = async () => {
+export const prepareVersionInfo = async () => {
   // Get release information from environment variables (GitHub Actions context)
   const version = getVersion()
   const releaseTime = getPublishTime()
@@ -39,11 +39,15 @@ export const prepareArtifactPayload = async () => {
   console.log(version, releaseTime)
 
   const apk = await searchAndGetAssetInfo(({ name }) => path.extname(name) === ".apk")
-  const ipa = await searchAndGetAssetInfo(({ name }) => path.extname(name) === ".ipa")
 
   // Generate artifact data
-  const artifactPayload = buildArtifactPayload({ version, tagName: github.release.tag_name, releaseTime, releaseNote, apk, ipa })
-  validateArtifactPayload(artifactPayload)
+  const artifactPayload = buildVersionInfo({
+    version,
+    tagName: github.release.tag_name,
+    releaseTime,
+    releaseNote,
+    apk,
+  })
   return artifactPayload
 }
 
@@ -52,70 +56,59 @@ export const getVersion = () => {
   return github.release.tag_name.slice(1)
 }
 
-export const getReleaseNote = () => {
+const extractMarkdownSection = (startLine, endLine) => {
   const text = github.release.body
-  const startLine = text.indexOf('## 更改')
-  const endLine = text.indexOf('## How to download')
-
-  if (startLine === -1 || endLine === -1) {
-    throw new Error('Release notes section not found')
+  const start = text.indexOf(startLine)
+  const end = text.indexOf(endLine)
+  if (start === -1 || end === -1) {
+    throw new Error(`Release notes section between "${startLine}" and "${endLine}" not found`)
   }
+  let section = text.substring(start + `${startLine}\n`.length, end).trim()
+  section = section.replace(/^\s*|\s*$/g, '')
+  section = section.trim()
+  return section
+}
 
-  // Extract content between start and end lines (excluding headers)
-  const releaseNotes = text.substring(startLine + '## 更改\n'.length, endLine).trim()
+export const getReleaseNote = () => {
+  const en = extractMarkdownSection('## Changes', '## 更改')
+  const zh_Hans = extractMarkdownSection('## 更改', '## How to download')
 
-  // Remove any leading or trailing blank lines
-  return releaseNotes.replace(/^\s*|\s*$/g, '')
+  return {
+    ["en"]: en,
+    ["zh-Hans"]: zh_Hans,
+  }
 }
 
 export const getPublishTime = () => {
   return new Date(github.release.published_at)
 }
 
-const buildArtifactPayload = ({ version, tagName, releaseTime, releaseNote, apk, ipa }) => {
-  const payload = {
+const buildVersionInfo = ({ version, tagName, releaseTime, releaseNote, apk }) => {
+  const androidMarketUrl = "market://details?id=life.mysit.sit_life"
+  const info = {
     version,
-    release_time: releaseTime,
-    release_note: releaseNote,
-    downloads: {},
-  }
-  if (apk) {
-    payload.downloads.Android = {
-      name: apk.name,
-      default: 'official',
-      sha256: apk.sha256,
-      url: {
-        official: getArtifactDownloadUrl({ tagName, fileName: apk.name }),
-        github: apk.url,
-        mirror: getGitHubMirrorDownloadUrl(apk.url),
-      },
-    }
-  }
-  if (ipa) {
-    payload.downloads.iOS = {
-      name: ipa.name,
-      default: 'official',
-      sha256: ipa.sha256,
-      url: {
-        official: getArtifactDownloadUrl({ tagName, fileName: ipa.namne }),
-        github: ipa.url,
-        mirror: getGitHubMirrorDownloadUrl(ipa.url),
-      },
-    }
-  }
-  return payload
-}
-
-export const validateArtifactPayload = (payload) => {
-  for (const [profile, download] of Object.entries(payload.downloads)) {
-    if (!(download.default && download.url[download.default] !== undefined)) {
-      if (download.url.length > 0) {
-        download.default = download.url[0]
-      } else {
-        throw new Error(`No default download URL for ${profile}.`)
+    time: releaseTime,
+    releaseNote,
+    importance: "normal",
+    delayInMinute: 7 * 24 * 60,
+    assets: {
+      Android: {
+        fileName: apk.name,
+        defaultSrc: getArtifactDownloadUrl({ tagName, fileName: apk.name }),
+        src: {
+          "com.heytap.market": androidMarketUrl,
+          "com.hihonor.appmarket": androidMarketUrl,
+          "com.huawei.appmarket": androidMarketUrl,
+          "com.huawei.localBackup": androidMarketUrl,
+          "com.huawei.browser": androidMarketUrl,
+          "com.bbk.appstore": androidMarketUrl,
+          "com.xiaomi.market": androidMarketUrl,
+          "com.miui.packageinstaller": androidMarketUrl
+        }
       }
-    }
+    },
   }
+  return info
 }
 
 if (esMain(import.meta)) {
