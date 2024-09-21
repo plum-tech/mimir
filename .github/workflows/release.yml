@@ -41,6 +41,8 @@ jobs:
 
       - name: Deploy
         if: github.repository == 'plum-tech/mimir'
+        env:
+          MIMIR_VERSION_TOKEN: ${{ secrets.MIMIR_VERSION_TOKEN }}
         run: |
           node tools/publish-release.mjs
 
