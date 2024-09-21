@@ -1,16 +1,16 @@
-import { github, setGithubFromUrl, getLatestReleaseApiUrl } from "./lib/github.mjs"
+import { github, setGithubFromUrl, getLatestReleaseApiUrl } from "./lib/github.js"
 import * as path from "path"
-import { getArtifactDownloadUrl } from './lib/sitmc.mjs'
+import { getArtifactDownloadUrl } from './lib/sitmc.js'
 import esMain from 'es-main'
-import { searchAndGetAssetInfo } from "./lib/release.mjs"
-import { uploadReleaseVersion } from "./lib/backend.mjs"
+import { searchAndGetAssetInfo } from "./lib/release.js"
+import { uploadReleaseVersion } from "./lib/backend.js"
 import { cli } from "@liplum/cli"
 
 const main = async () => {
   const args = cli({
     name: 'publish-release',
     description: 'Publish the release and version info onto the back end.',
-    examples: ['node ./publish-release.mjs [<repo>]',],
+    examples: ['node ./publish-release.js [<repo>]',],
     require: [],
     options: [{
       name: 'repo',

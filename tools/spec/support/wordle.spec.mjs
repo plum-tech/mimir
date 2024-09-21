@@ -1,4 +1,4 @@
-import { validateWord } from "../../wordle.mjs"
+import { validateWord } from "../../wordle.js"
 
 describe("Test word validation for WORDLE", function () {
   it("A valid word", function () {

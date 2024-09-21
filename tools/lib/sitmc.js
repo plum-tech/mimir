@@ -1,7 +1,7 @@
 import { readFile } from "fs/promises"
 import * as path from "path"
 import mime from 'mime'
-import { sanitizeNameForUri } from "./utils.mjs"
+import { sanitizeNameForUri } from "./utils.js"
 import axios from "axios"
 import env from "@liplum/env"
 import lateinit from "@liplum/lateinit"

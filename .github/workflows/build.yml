@@ -33,7 +33,7 @@ jobs:
 
       - name: Change version
         run: |
-          node tools/increment-build-number.mjs
+          node tools/increment-build-number.js
 
       - name: Install JDK 17
         uses: actions/setup-java@v4
@@ -100,11 +100,11 @@ jobs:
 
       - name: Change version
         run: |
-          node tools/increment-build-number.mjs
+          node tools/increment-build-number.js
 
       - name: Change Develop to Distribution
         run: |
-          node tools/to-distro.mjs
+          node tools/to-distro.js
 
       - name: Install Apple Certificate
         uses: apple-actions/import-codesign-certs@v3
@@ -183,7 +183,7 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          node tools/increment-build-number.mjs --push
+          node tools/increment-build-number.js --push
 
       - name: Get iOS Artifact
         if: github.repository == 'plum-tech/mimir'
@@ -214,7 +214,7 @@ jobs:
         env:
           SITMC_TEMP_SERVER_AUTH: ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
         run: |
-          node tools/upload-sitmc.mjs build/app-release-signed.apk -d mimir-preview/latest.apk
+          node tools/upload-sitmc.js build/app-release-signed.apk -d mimir-preview/latest.apk
 
       - name: Push changes
         uses: ad-m/github-push-action@master

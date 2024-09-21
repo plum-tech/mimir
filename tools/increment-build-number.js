@@ -1,10 +1,10 @@
 import fs from 'fs/promises' // For file system operations
-import { extractVersion, extractBuildNumber } from './lib/pubspec.mjs'
-import { git } from "./lib/git.mjs"
-import { guardVersioning } from './lib/guard.mjs'
+import { extractVersion, extractBuildNumber } from './lib/pubspec.js'
+import { git } from "./lib/git.js"
+import { guardVersioning } from './lib/guard.js'
 import esMain from 'es-main'
 const pubspecPath = 'pubspec.yaml'
-import { context } from './lib/github.mjs'
+import { context } from './lib/github.js'
 import { cli } from '@liplum/cli'
 
 /**
@@ -31,7 +31,7 @@ const main = async () => {
   const args = cli({
     name: 'increment-build-number',
     description: 'Increment build number by 1.',
-    examples: ['node ./increment-build-number.mjs', 'node ./increment-build-number.mjs --push'],
+    examples: ['node ./increment-build-number.js', 'node ./increment-build-number.js --push'],
     require: [],
     options: [{
       name: 'push',

@@ -5,9 +5,9 @@ import * as fs from "fs"
 import * as fsp from "fs/promises"
 import * as p from "path"
 import { pipeline } from "stream/promises"
-import { unzipFile } from "./lib/unzip.mjs"
+import { unzipFile } from "./lib/unzip.js"
 import axios from "axios"
-import { getLatestTag } from "./lib/git.mjs"
+import { getLatestTag } from "./lib/git.js"
 import esMain from "es-main"
 
 const githubToken = env("GITHUB_TOKEN").string()

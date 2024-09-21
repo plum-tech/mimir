@@ -1,4 +1,4 @@
-import { extractVersionAndBuildNumberFromTag, formatVersionInfo, getLargestTag } from "./git.mjs"
+import { extractVersionAndBuildNumberFromTag, formatVersionInfo, getLargestTag } from "./git.js"
 
 /**
  *

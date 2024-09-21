@@ -1,4 +1,4 @@
-import { uploadFile } from "./lib/sitmc.mjs"
+import { uploadFile } from "./lib/sitmc.js"
 import * as path from "path"
 import { cli } from '@liplum/cli'
 import esMain from "es-main"
@@ -8,7 +8,7 @@ const main = async () => {
   const args = cli({
     name: 'upload-sitmc',
     description: 'Upload files onto SIT-MC server. Env $SITMC_FILE_TOKEN required.',
-    examples: ['node ./upload-sitmc.mjs -s <file> -d <path>',],
+    examples: ['node ./upload-sitmc.js -s <file> -d <path>',],
     require: ['source'],
     options: [{
       name: 'source',
