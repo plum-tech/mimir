@@ -72,7 +72,7 @@ class _TimetablePatchEditorPageState extends State<TimetablePatchEditorPage> {
 
   Future<void> evaluateRecommendation() async {
     if (patches.isNotEmpty) return;
-    await Future.delayed(Durations.extralong4);
+    await Future.delayed(Durations.long4);
     final recommendations =
         BuiltinTimetablePatchSets.all.where((set) => set.recommended?.call(widget.timetable) == true).toList();
     setState(() {
