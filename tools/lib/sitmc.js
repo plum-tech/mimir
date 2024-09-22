@@ -54,6 +54,6 @@ export async function deleteFile({ remotePath }) {
  *
  * @param {{tagName:string,fileName:string}} param0
  */
-export function getArtifactDownloadUrl({ tagName, fileName }) {
-  return `https://temp.sitmc.club/prepare-download/${tagName}/${sanitizeNameForUri(fileName)}`
+export function getArtifactDownloadUrl({ folder, fileName }) {
+  return `https://temp.sitmc.club/prepare-download/${folder}/${sanitizeNameForUri(fileName)}`
 }

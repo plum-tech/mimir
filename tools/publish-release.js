@@ -34,17 +34,12 @@ const main = async () => {
 export const prepareVersionInfo = async () => {
   // Get release information from environment variables (GitHub Actions context)
   const version = getVersion()
-  const releaseTime = getPublishTime()
   const releaseNote = getReleaseNote()
-  console.log(version, releaseTime)
-
   const apk = await searchAndGetAssetInfo(({ name }) => path.extname(name) === ".apk")
 
   // Generate artifact data
   const artifactPayload = buildVersionInfo({
     version,
-    tagName: github.release.tag_name,
-    releaseTime,
     releaseNote,
     apk,
   })
@@ -79,32 +74,14 @@ export const getReleaseNote = () => {
   }
 }
 
-export const getPublishTime = () => {
-  return new Date(github.release.published_at)
-}
-
-const buildVersionInfo = ({ version, tagName, releaseTime, releaseNote, apk }) => {
-  const androidMarketUrl = "market://details?id=life.mysit.sit_life"
+const buildVersionInfo = ({ version, releaseNote, apk }) => {
   const info = {
     version,
-    time: releaseTime,
     releaseNote,
-    importance: "normal",
-    delayInMinute: 7 * 24 * 60,
     assets: {
       Android: {
         fileName: apk.name,
-        defaultSrc: getArtifactDownloadUrl({ tagName, fileName: apk.name }),
-        src: {
-          "com.heytap.market": androidMarketUrl,
-          "com.hihonor.appmarket": androidMarketUrl,
-          "com.huawei.appmarket": androidMarketUrl,
-          "com.huawei.localBackup": androidMarketUrl,
-          "com.huawei.browser": androidMarketUrl,
-          "com.bbk.appstore": androidMarketUrl,
-          "com.xiaomi.market": androidMarketUrl,
-          "com.miui.packageinstaller": androidMarketUrl
-        }
+        defaultSrc: getArtifactDownloadUrl({ folder: "mimir", fileName: apk.name }),
       }
     },
   }

@@ -4,7 +4,6 @@ import { cli } from '@liplum/cli'
 import { searchAndGetAssetInfo } from "./lib/release.js"
 import esMain from "es-main"
 import { downloadFile, sanitizeNameForUri } from "./lib/utils.js"
-import { github } from "./lib/github.js"
 import os from "os"
 import "dotenv/config"
 
@@ -17,7 +16,6 @@ const main = async () => {
     options: [],
   })
 
-  const tag = github.release.tag_name
   const apk = await searchAndGetAssetInfo(({ name }) => path.extname(name) === ".apk")
   if (!apk) {
     console.error("Couldn't find .apk file in the release.")
@@ -28,7 +26,7 @@ const main = async () => {
   await downloadFile(apk.url, apkPath)
   const res = await uploadFile({
     localFilePath: apkPath,
-    remotePath: `${tag}/${sanitizeNameForUri(apk.name)}`,
+    remotePath: `mimir/${sanitizeNameForUri(apk.name)}`,
   })
   console.log(res)
 }

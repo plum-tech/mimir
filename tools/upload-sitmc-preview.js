@@ -1,34 +1,29 @@
 import { uploadFile } from "./lib/sitmc.js"
-import * as path from "path"
 import { cli } from '@liplum/cli'
 import esMain from "es-main"
+import { sanitizeNameForUri } from "./lib/utils.js"
+import { getLatestTag } from "./lib/git.js"
 import "dotenv/config"
 
 const main = async () => {
   const args = cli({
-    name: 'upload-sitmc',
-    description: 'Upload files onto SIT-MC server. Env $SITMC_FILE_TOKEN required.',
-    examples: ['node ./upload-sitmc.js -s <file> -d <path>',],
+    name: 'upload-preview-sitmc',
+    description: 'Upload preview files onto SIT-MC server. Env $SITMC_FILE_TOKEN required.',
+    examples: ['node ./upload-preview-sitmc.js -s <file>',],
     require: ['source'],
     options: [{
       name: 'source',
       alias: "s",
       defaultOption: true,
       description: 'The path of local file to upload to SIT-MC server.'
-    }, {
-      name: 'destination',
-      alias: "d",
-      description: 'The server path where to save the uploaded file.'
-    },],
+    }],
   })
 
+  const version = await getLatestTag()
   const filePath = args.source
-  const remotePath = args.destination ?? path.join(
-    path.basename(path.dirname(filePath)), path.basename(filePath)
-  )
   const res = await uploadFile({
     localFilePath: filePath,
-    remotePath: remotePath,
+    remotePath: `mimir-preview/${sanitizeNameForUri(`sitlife-v${version}.apk`)}`,
   })
   console.log(res)
 }
