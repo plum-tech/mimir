@@ -36,7 +36,7 @@ class MailEntity {
 
   String? formatDate(BuildContext context) {
     final date = this.date;
-    if(date == null) return null;
+    if (date == null) return null;
     final now = DateTime.now();
     if (now.inTheSameDay(date)) {
       return context.formatHmNum(date);

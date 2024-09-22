@@ -17,17 +17,9 @@ class MimirUpdateService {
   const MimirUpdateService();
 
   Future<ArtifactVersionInfo> getLatestVersionFromOfficial() async {
-    late Response res;
-    try {
-      res = await _dio.get(
-        "https://g.mysit.life/artifact/latest.json",
-      );
-    } catch (error, stackTrace) {
-      debugPrintError(error, stackTrace);
-      res = await _dio.get(
-        "https://get.mysit.life/artifact/latest.json",
-      );
-    }
+    final res = await _dio.get(
+      "https://g.mysit.life/v1/preview/latest",
+    );
     final json = res.data as Map<String, dynamic>;
     return ArtifactVersionInfo.fromJson(json);
   }
