@@ -54,7 +54,7 @@ String convertTimetable2ICal({
   required TimetableICalConfig config,
 }) {
   final calendar = ICal(
-    company: 'mysit.life',
+    company: 'Plum Technology Ltd.',
     product: 'SIT Life',
     lang: config.locale?.toLanguageTag() ?? "EN",
   );
