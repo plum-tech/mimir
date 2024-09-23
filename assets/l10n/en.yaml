@@ -34,11 +34,8 @@ mimir:
     onLatestTip: You are on the latest version
     newVersionAvailable: New version available!
     notNow: Not Now
-    skipThisVersionFor7Days: Skip this version for 7 days
+    skipThisVersionForWhile: Skip this version for a while
     openAppStore: Open App Store
-    installOnAppStoreInsteadTip: |
-      @:appName has published on App Store.
-      To get the best experience, please consider to install it on App Store instead.
   forum:
     navigation: Forum
     title: Ing Forum

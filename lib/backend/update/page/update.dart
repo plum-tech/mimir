@@ -117,7 +117,7 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
           ignore = value == true;
         });
       },
-      title: i18n.up.skipThisVersionFor7Days.text(),
+      title: i18n.up.skipThisVersionForWhile.text(),
     );
   }
 }

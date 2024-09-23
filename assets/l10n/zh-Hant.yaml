@@ -29,11 +29,8 @@ mimir:
     onLatestTip: 你使用的是最新版本
     newVersionAvailable: 新版本可用！
     notNow: 現在不行
-    skipThisVersionFor7Days: 跳過此版本 7 天
+    skipThisVersionForWhile: 暫時跳過此版本
     openAppStore: 打開 App Store
-    installOnAppStoreInsteadTip: |
-      @:appName 已上架 App Store。
-      為獲得更好的體驗，請考慮在 App Store 上安裝。
   forum:
     navigation: 社群
     title: 小應社群

@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mimir/agreements/entity/agreements.dart';
-import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/r.dart';
@@ -71,41 +69,6 @@ Future<void> _checkAppUpdate({
       primary: i18n.ok,
     );
   }
-}
-
-Future<bool> _requestInstallOnAppStoreInstead({
-  required BuildContext context,
-  required Version latest,
-}) async {
-  return await showCupertinoModalPopup(
-    context: context,
-    builder: (ctx) => CupertinoActionSheet(
-      message: i18n.up.installOnAppStoreInsteadTip.text(),
-      actions: [
-        CupertinoActionSheetAction(
-          isDefaultAction: true,
-          onPressed: () {
-            ctx.pop(true);
-          },
-          child: i18n.up.openAppStore.text(),
-        ),
-        CupertinoActionSheetAction(
-          onPressed: () {
-            Settings.skippedVersion = latest.toString();
-            Settings.lastSkipUpdateTime = DateTime.now();
-            ctx.pop(false);
-          },
-          child: i18n.up.skipThisVersionFor7Days.text(),
-        ),
-      ],
-      cancelButton: CupertinoActionSheetAction(
-        onPressed: () {
-          ctx.pop(false);
-        },
-        child: i18n.cancel.text(),
-      ),
-    ),
-  );
 }
 
 Version? _getSkippedVersion() {

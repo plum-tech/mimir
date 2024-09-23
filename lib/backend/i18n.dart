@@ -57,11 +57,9 @@ class _Update {
 
   String get onLatestTip => "$ns.onLatestTip".tr();
 
-  String get installOnAppStoreInsteadTip => "$ns.installOnAppStoreInsteadTip".tr();
-
   String get notNow => "$ns.notNow".tr();
 
-  String get skipThisVersionFor7Days => "$ns.skipThisVersionFor7Days".tr();
+  String get skipThisVersionForWhile => "$ns.skipThisVersionForWhile".tr();
 
   String get openAppStore => "$ns.openAppStore".tr();
 }
