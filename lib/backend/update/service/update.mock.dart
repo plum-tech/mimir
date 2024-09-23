@@ -1,3 +1,4 @@
+import 'package:mimir/backend/update/entity/channel.dart';
 import 'package:version/version.dart';
 
 import '../entity/version.dart';
@@ -9,7 +10,9 @@ class MimirUpdateServiceMock implements MimirUpdateService {
   final version = Version.parse("3.0.0+500");
 
   @override
-  Future<VersionInfo> getLatestVersionInfo() async {
+  Future<VersionInfo> getLatestVersionInfo({
+    UpdateChannel channel = UpdateChannel.release,
+  }) async {
     return VersionInfo(
       version: version,
       importance: ImportanceLevel.normal,

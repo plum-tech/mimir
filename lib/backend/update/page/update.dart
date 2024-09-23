@@ -65,8 +65,8 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
     return OutlinedButton(
       onPressed: () {
         if (ignore) {
-          Settings.skippedVersion = info.version.toString();
-          Settings.lastSkipUpdateTime = DateTime.now();
+          Settings.update.skippedVersion = info.version.toString();
+          Settings.update.lastSkipUpdateTime = DateTime.now();
         }
         context.pop();
       },

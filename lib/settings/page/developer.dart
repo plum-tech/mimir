@@ -10,13 +10,13 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/backend/update/entity/channel.dart';
 import 'package:mimir/design/adaptive/swipe.dart';
 import 'package:mimir/intent/qrcode/page/view.dart';
 import 'package:mimir/login/x.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/timetable/init.dart';
 import 'package:mimir/timetable/service/school.demo.dart';
-import 'package:simple_icons/simple_icons.dart';
 import 'package:mimir/app.dart';
 import 'package:mimir/backend/init.dart';
 import 'package:mimir/credentials/entity/credential.dart';
@@ -81,6 +81,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
               ),
               buildReload(),
               const AddDemoTimetableTile(),
+              const UpdateChannelSwitcherTile(),
               const DebugExpenseUserOverrideTile(),
               if (credentials != null)
                 SwitchOaUserTile(
@@ -135,14 +136,22 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                         ));
                   },
                 ),
-              if (!kIsWeb)
+              if (!kIsWeb) ...[
                 DebugFetchVersionTile(
-                  title: "Latest version".text(),
+                  title: "Latest release version".text(),
                   fetch: () async {
-                    final info = await BackendInit.update.getLatestVersionInfo();
+                    final info = await BackendInit.update.getLatestVersionInfo(channel: UpdateChannel.release);
                     return info.version.toString();
                   },
                 ),
+                DebugFetchVersionTile(
+                  title: "Latest preview version".text(),
+                  fetch: () async {
+                    final info = await BackendInit.update.getLatestVersionInfo(channel: UpdateChannel.preview);
+                    return info.version.toString();
+                  },
+                ),
+              ],
               buildPartyPopper(),
             ]),
           ),
@@ -226,6 +235,29 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
         if (!mounted) return;
         context.navigator.pop();
       },
+    );
+  }
+}
+
+class UpdateChannelSwitcherTile extends ConsumerWidget {
+  const UpdateChannelSwitcherTile({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selected = ref.watch(Settings.update.$updateChannel);
+    return ListTile(
+      leading: const Icon(Icons.update),
+      title: "Update channel".text(),
+      subtitle: UpdateChannel.values
+          .map((channel) => ChoiceChip(
+                label: channel.name.text(),
+                selected: selected == channel,
+                onSelected: (_) {
+                  ref.read(Settings.update.$updateChannel.notifier).set(channel);
+                },
+              ))
+          .toList()
+          .wrap(spacing: 4),
     );
   }
 }
@@ -666,7 +698,7 @@ class DebugFetchVersionTile extends StatefulWidget {
   State<DebugFetchVersionTile> createState() => _DebugFetchVersionTileState();
 }
 
-class _DebugFetchVersionTileState extends State<DebugFetchVersionTile> {
+class _DebugFetchVersionTileState extends State<DebugFetchVersionTile> with AutomaticKeepAliveClientMixin {
   String? version;
   var isFetching = false;
 
@@ -689,7 +721,11 @@ class _DebugFetchVersionTileState extends State<DebugFetchVersionTile> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return ListTile(
       title: widget.title,
       leading: widget.leading,

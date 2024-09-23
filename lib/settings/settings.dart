@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mimir/agreements/settings.dart';
+import 'package:mimir/backend/update/entity/channel.dart';
 import 'package:mimir/game/settings.dart';
 import 'package:mimir/utils/hive.dart';
 import 'package:mimir/entity/campus.dart';
@@ -23,12 +24,6 @@ class _K {
   static const lastSignature = '$ns/lastSignature';
 }
 
-class _UpdateK {
-  static const ns = '/update';
-  static const skippedVersion = '$ns/skippedVersion';
-  static const lastSkipUpdateTime = '$ns/lastSkipUpdateTime';
-}
-
 // ignore: non_constant_identifier_names
 late SettingsImpl Settings;
 
@@ -43,6 +38,7 @@ class SettingsImpl {
   late final game = GameSettings(box);
   late final theme = _Theme(box);
   late final proxy = _Proxy(box);
+  late final update = _Update(box);
   late final agreements = AgreementsSettings(box);
 
   Campus get campus => box.safeGet<Campus>(_K.campus) ?? Campus.fengxian;
@@ -54,6 +50,19 @@ class SettingsImpl {
   String? get lastSignature => box.safeGet<String>(_K.lastSignature);
 
   set lastSignature(String? value) => box.safePut<String>(_K.lastSignature, value);
+}
+
+class _UpdateK {
+  static const ns = '/update';
+  static const skippedVersion = '$ns/skippedVersion';
+  static const lastSkipUpdateTime = '$ns/lastSkipUpdateTime';
+  static const updateChannel = '$ns/updateChannel';
+}
+
+class _Update {
+  final Box box;
+
+  _Update(this.box);
 
   String? get skippedVersion => box.safeGet<String>(_UpdateK.skippedVersion);
 
@@ -62,6 +71,18 @@ class SettingsImpl {
   DateTime? get lastSkipUpdateTime => box.safeGet<DateTime>(_UpdateK.lastSkipUpdateTime);
 
   set lastSkipUpdateTime(DateTime? newV) => box.safePut<DateTime>(_UpdateK.lastSkipUpdateTime, newV);
+
+  UpdateChannel get updateChannel =>
+      UpdateChannel.fromName(box.safeGet<String>(_UpdateK.updateChannel)) ?? UpdateChannel.release;
+
+  set updateChannel(UpdateChannel newV) => box.safePut<String>(_UpdateK.updateChannel, newV.name);
+
+  late final $updateChannel = box.providerWithDefault<UpdateChannel>(
+    _UpdateK.updateChannel,
+    () => UpdateChannel.release,
+    get: () => updateChannel,
+    set: (v) => updateChannel = v,
+  );
 }
 
 class _ThemeK {

@@ -35,7 +35,7 @@ bool _canSkipVersion({
   required VersionInfo latest,
   required Version current,
 }) {
-  final lastSkipUpdateTime = Settings.lastSkipUpdateTime;
+  final lastSkipUpdateTime = Settings.update.lastSkipUpdateTime;
   if (lastSkipUpdateTime == null) return false;
   if (_getSkippedVersion() != latest.version) return false;
   final now = DateTime.now();
@@ -48,7 +48,7 @@ Future<void> _checkAppUpdate({
   Duration delayAtLeast = Duration.zero,
   required bool manually,
 }) async {
-  final latest = await BackendInit.update.getLatestVersionInfo();
+  final latest = await BackendInit.update.getLatestVersionInfo(channel: Settings.update.updateChannel);
   if (!latest.assets.downloadAvailable) return;
   final currentVersion = R.meta.version;
   // if update checking was not manually triggered, skip it.
@@ -72,7 +72,7 @@ Future<void> _checkAppUpdate({
 }
 
 Version? _getSkippedVersion() {
-  final skippedVersionRaw = Settings.skippedVersion;
+  final skippedVersionRaw = Settings.update.skippedVersion;
   if (skippedVersionRaw != null) {
     try {
       return Version.parse(skippedVersionRaw);
