@@ -8,6 +8,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:fit_system_screenshot/fit_system_screenshot.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/agreements/entity/agreements.dart';
 import 'package:mimir/agreements/page/privacy_policy.dart';
@@ -44,6 +45,17 @@ class _MimirAppState extends ConsumerState<MimirApp> {
     Settings.timetable.focusTimetable ? buildTimetableFocusRouter() : buildCommonRoutingConfig(),
   );
   late final router = buildRouter($routingConfig);
+
+  @override
+  void initState() {
+    super.initState();
+    if (Platform.isAndroid) {
+      SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(systemNavigationBarColor: Colors.transparent),
+      );
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
