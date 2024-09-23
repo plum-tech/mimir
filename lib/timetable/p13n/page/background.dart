@@ -89,16 +89,6 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
               onHidden(
                 child: buildToolBar(),
               ).padV(4),
-              CheckboxListTile(
-                secondary: Icon(hidden ? Icons.hide_image_outlined : Icons.image_outlined),
-                title: "Show wallpaper".text(),
-                value: !hidden,
-                onChanged: (_) {
-                  setState(() {
-                    hidden = !hidden;
-                  });
-                },
-              ),
               if (rawPath != null && (Dev.on || (UniversalPlatform.isDesktop || kIsWeb)))
                 ListTile(
                   title: i18n.p13n.background.selectedImage.text(),
@@ -240,21 +230,32 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
   }
 
   Widget buildToolBar() {
+    final hasImage = kIsWeb ? rawPath != null : renderImageFile != null;
     return [
       FilledButton.icon(
         onPressed: chooseImage,
         icon: Icon(context.icons.create),
         label: i18n.choose.text(),
       ),
+      IconButton.outlined(
+        onPressed: hasImage
+            ? () {
+                setState(() {
+                  hidden = !hidden;
+                });
+              }
+            : null,
+        icon: Icon(hidden ? Icons.hide_image_outlined : Icons.image_outlined),
+      ),
       OutlinedButton.icon(
-        onPressed: (kIsWeb ? rawPath == null : renderImageFile == null)
-            ? null
-            : () {
+        onPressed: hasImage
+            ? () {
                 setState(() {
                   rawPath = null;
                   renderImageFile = null;
                 });
-              },
+              }
+            : null,
         icon: Icon(context.icons.delete),
         label: i18n.delete.text(),
       ),
