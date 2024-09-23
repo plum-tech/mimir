@@ -42,36 +42,32 @@ class _SchoolSettingsPageState extends ConsumerState<SchoolSettingsPage> {
 
   Widget buildClass2ndAutoRefreshToggle() {
     return StatefulBuilder(
-      builder: (ctx, setState) => ListTile(
+      builder: (ctx, setState) => SwitchListTile.adaptive(
+        secondary: Icon(context.icons.refresh),
         title: i18n.settings.class2nd.autoRefresh.text(),
         subtitle: i18n.settings.class2nd.autoRefreshDesc.text(),
-        leading: Icon(context.icons.refresh),
-        trailing: Switch.adaptive(
-          value: Settings.school.class2nd.autoRefresh,
-          onChanged: (newV) {
-            setState(() {
-              Settings.school.class2nd.autoRefresh = newV;
-            });
-          },
-        ),
+        value: Settings.school.class2nd.autoRefresh,
+        onChanged: (newV) {
+          setState(() {
+            Settings.school.class2nd.autoRefresh = newV;
+          });
+        },
       ),
     );
   }
 
   Widget buildExamResultShowResultPreviewToggle() {
     return StatefulBuilder(
-      builder: (ctx, setState) => ListTile(
+      builder: (ctx, setState) => SwitchListTile.adaptive(
+        secondary: const Icon(Icons.preview),
         title: i18n.settings.examResult.showResultPreview.text(),
         subtitle: i18n.settings.examResult.showResultPreviewDesc.text(),
-        leading: const Icon(Icons.preview),
-        trailing: Switch.adaptive(
-          value: Settings.school.examResult.showResultPreview,
-          onChanged: (newV) {
-            setState(() {
-              Settings.school.examResult.showResultPreview = newV;
-            });
-          },
-        ),
+        value: Settings.school.examResult.showResultPreview,
+        onChanged: (newV) {
+          setState(() {
+            Settings.school.examResult.showResultPreview = newV;
+          });
+        },
       ),
     );
   }

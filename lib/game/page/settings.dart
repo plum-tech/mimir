@@ -44,16 +44,14 @@ class HapticFeedbackTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final on = ref.watch(Settings.game.$enableHapticFeedback) ?? true;
-    return ListTile(
+    return SwitchListTile.adaptive(
+      secondary: const Icon(Icons.vibration),
       title: i18n.settings.enableHapticFeedback.text(),
       subtitle: i18n.settings.enableHapticFeedbackDesc.text(),
-      leading: const Icon(Icons.vibration),
-      trailing: Switch.adaptive(
-        value: on,
-        onChanged: (newV) {
-          ref.read(Settings.game.$enableHapticFeedback.notifier).set(newV);
-        },
-      ),
+      value: on,
+      onChanged: (newV) {
+        ref.read(Settings.game.$enableHapticFeedback.notifier).set(newV);
+      },
     );
   }
 }
@@ -64,16 +62,14 @@ class ShowGameNavigationTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final on = ref.watch(Settings.game.$showGameNavigation) ?? true;
-    return ListTile(
+    return SwitchListTile.adaptive(
+      secondary: const Icon(Icons.vibration),
       title: i18n.settings.showGameNavigation.text(),
       subtitle: i18n.settings.showGameNavigationDesc.text(),
-      leading: const Icon(Icons.vibration),
-      trailing: Switch.adaptive(
-        value: on,
-        onChanged: (newV) {
-          ref.read(Settings.game.$showGameNavigation.notifier).set(newV);
-        },
-      ),
+      value: on,
+      onChanged: (newV) {
+        ref.read(Settings.game.$showGameNavigation.notifier).set(newV);
+      },
     );
   }
 }

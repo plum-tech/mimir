@@ -101,16 +101,14 @@ class _ThemeColorPageState extends State<ThemeColorPage> {
   }
 
   Widget buildFromSystemToggle() {
-    return ListTile(
+    return SwitchListTile.adaptive(
       title: i18n.fromSystem.text(),
-      trailing: Switch.adaptive(
-        value: fromSystem,
-        onChanged: (value) {
-          setState(() {
-            fromSystem = value;
-          });
-        },
-      ),
+      value: fromSystem,
+      onChanged: (value) {
+        setState(() {
+          fromSystem = value;
+        });
+      },
     );
   }
 

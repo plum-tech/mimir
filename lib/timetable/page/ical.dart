@@ -140,18 +140,16 @@ class _TimetableICalConfigEditorState extends State<TimetableICalConfigEditor> {
   }
 
   Widget buildAlarmToggle() {
-    return ListTile(
-      leading: const Icon(Icons.alarm),
+    return SwitchListTile.adaptive(
+      secondary: const Icon(Icons.alarm),
       title: i18n.export.enableAlarm.text(),
       subtitle: i18n.export.enableAlarmDesc.text(),
-      trailing: Switch.adaptive(
-        value: enableAlarm,
-        onChanged: (newV) {
-          setState(() {
-            enableAlarm = newV;
-          });
-        },
-      ),
+      value: enableAlarm,
+      onChanged: (newV) {
+        setState(() {
+          enableAlarm = newV;
+        });
+      },
     );
   }
 

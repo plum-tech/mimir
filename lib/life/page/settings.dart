@@ -39,36 +39,32 @@ class _LifeSettingsPageState extends State<LifeSettingsPage> {
 
   Widget buildElectricityAutoRefreshToggle() {
     return StatefulBuilder(
-      builder: (ctx, setState) => ListTile(
+      builder: (ctx, setState) => SwitchListTile.adaptive(
+        secondary: Icon(context.icons.refresh),
         title: i18n.settings.electricity.autoRefresh.text(),
         subtitle: i18n.settings.electricity.autoRefreshDesc.text(),
-        leading: Icon(context.icons.refresh),
-        trailing: Switch.adaptive(
-          value: Settings.life.electricity.autoRefresh,
-          onChanged: (newV) {
-            setState(() {
-              Settings.life.electricity.autoRefresh = newV;
-            });
-          },
-        ),
+        value: Settings.life.electricity.autoRefresh,
+        onChanged: (newV) {
+          setState(() {
+            Settings.life.electricity.autoRefresh = newV;
+          });
+        },
       ),
     );
   }
 
   Widget buildExpenseAutoRefreshToggle() {
     return StatefulBuilder(
-      builder: (ctx, setState) => ListTile(
+      builder: (ctx, setState) => SwitchListTile.adaptive(
+        secondary: Icon(context.icons.refresh),
         title: i18n.settings.expense.autoRefresh.text(),
         subtitle: i18n.settings.expense.autoRefreshDesc.text(),
-        leading: Icon(context.icons.refresh),
-        trailing: Switch.adaptive(
-          value: Settings.life.expense.autoRefresh,
-          onChanged: (newV) {
-            setState(() {
-              Settings.life.expense.autoRefresh = newV;
-            });
-          },
-        ),
+        value: Settings.life.expense.autoRefresh,
+        onChanged: (newV) {
+          setState(() {
+            Settings.life.expense.autoRefresh = newV;
+          });
+        },
       ),
     );
   }

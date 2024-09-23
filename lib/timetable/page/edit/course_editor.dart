@@ -351,17 +351,15 @@ class _SitCourseEditorPageState extends State<SitCourseEditorPage> {
   }
 
   Widget buildHidden() {
-    return ListTile(
+    return SwitchListTile.adaptive(
       title: i18n.course.displayable.text(),
-      trailing: Switch.adaptive(
-        value: !hidden,
-        onChanged: (newV) {
-          setState(() {
-            hidden = !newV;
-          });
-          markChanged();
-        },
-      ),
+      value: !hidden,
+      onChanged: (newV) {
+        setState(() {
+          hidden = !newV;
+        });
+        markChanged();
+      },
     );
   }
 

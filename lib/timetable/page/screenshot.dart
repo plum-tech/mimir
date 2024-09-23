@@ -93,34 +93,30 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
   }
 
   Widget buildGrayOutTakenLessons() {
-    return ListTile(
-      leading: const Icon(Icons.timelapse),
+    return SwitchListTile.adaptive(
+      secondary: const Icon(Icons.timelapse),
       title: i18n.p13n.cell.grayOut.text(),
       subtitle: i18n.p13n.cell.grayOutDesc.text(),
-      trailing: Switch.adaptive(
-        value: grayOutTakenLessons == true,
-        onChanged: (newV) {
-          setState(() {
-            grayOutTakenLessons = newV;
-          });
-        },
-      ),
+      value: grayOutTakenLessons == true,
+      onChanged: (newV) {
+        setState(() {
+          grayOutTakenLessons = newV;
+        });
+      },
     );
   }
 
   Widget buildEnableBackground() {
-    return ListTile(
-      leading: const Icon(Icons.image_outlined),
+    return SwitchListTile.adaptive(
+      secondary: const Icon(Icons.image_outlined),
       title: i18n.screenshot.enableBackground.text(),
       subtitle: i18n.screenshot.enableBackgroundDesc.text(),
-      trailing: Switch.adaptive(
-        value: enableBackground,
-        onChanged: (newV) {
-          setState(() {
-            enableBackground = newV;
-          });
-        },
-      ),
+      value: enableBackground,
+      onChanged: (newV) {
+        setState(() {
+          enableBackground = newV;
+        });
+      },
     );
   }
 }

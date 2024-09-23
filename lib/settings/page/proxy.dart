@@ -448,17 +448,15 @@ class _ProxyProfileEditorPageState extends ConsumerState<ProxyProfileEditorPage>
   }
 
   Widget buildEnableAuth() {
-    return ListTile(
-      leading: const Icon(Icons.key),
+    return SwitchListTile.adaptive(
+      secondary: const Icon(Icons.key),
       title: i18n.proxy.enableAuth.text(),
-      trailing: Switch.adaptive(
-        value: enableAuth,
-        onChanged: (newV) {
-          setState(() {
-            enableAuth = newV;
-          });
-        },
-      ),
+      value: enableAuth,
+      onChanged: (newV) {
+        setState(() {
+          enableAuth = newV;
+        });
+      },
     );
   }
 
@@ -545,15 +543,12 @@ class _EnableProxyToggleTile extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ListTile(
-      enabled: tileEnabled,
+    return SwitchListTile.adaptive(
+      secondary: const Icon(Icons.vpn_key),
       title: i18n.proxy.enableProxy.text(),
       subtitle: i18n.proxy.enableProxyDesc.text(),
-      leading: const Icon(Icons.vpn_key),
-      trailing: Switch.adaptive(
-        value: enabled,
-        onChanged: onChanged,
-      ),
+      value: enabled,
+      onChanged: tileEnabled? onChanged : null,
     );
   }
 }

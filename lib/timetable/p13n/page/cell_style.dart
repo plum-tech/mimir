@@ -75,50 +75,44 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
   }
 
   Widget buildTeachersToggle() {
-    return ListTile(
-      leading: const Icon(Icons.person_pin),
+    return SwitchListTile.adaptive(
+      secondary: const Icon(Icons.person_pin),
       title: i18n.p13n.cell.showTeachers.text(),
       subtitle: i18n.p13n.cell.showTeachersDesc.text(),
-      trailing: Switch.adaptive(
-        value: cellStyle.showTeachers,
-        onChanged: (newV) {
-          setState(() {
-            cellStyle = cellStyle.copyWith(showTeachers: newV);
-          });
-        },
-      ),
+      value: cellStyle.showTeachers,
+      onChanged: (newV) {
+        setState(() {
+          cellStyle = cellStyle.copyWith(showTeachers: newV);
+        });
+      },
     );
   }
 
   Widget buildGrayOutPassedLesson() {
-    return ListTile(
-      leading: const Icon(Icons.timelapse),
+    return SwitchListTile.adaptive(
+      secondary: const Icon(Icons.timelapse),
       title: i18n.p13n.cell.grayOut.text(),
       subtitle: i18n.p13n.cell.grayOutDesc.text(),
-      trailing: Switch.adaptive(
-        value: cellStyle.grayOutTakenLessons,
-        onChanged: (newV) {
-          setState(() {
-            cellStyle = cellStyle.copyWith(grayOutTakenLessons: newV);
-          });
-        },
-      ),
+      value: cellStyle.grayOutTakenLessons,
+      onChanged: (newV) {
+        setState(() {
+          cellStyle = cellStyle.copyWith(grayOutTakenLessons: newV);
+        });
+      },
     );
   }
 
   Widget buildHarmonizeWithThemeColor() {
-    return ListTile(
-      leading: const Icon(Icons.format_color_fill),
+    return SwitchListTile.adaptive(
+      secondary: const Icon(Icons.format_color_fill),
       title: i18n.p13n.cell.harmonize.text(),
       subtitle: i18n.p13n.cell.harmonizeDesc.text(),
-      trailing: Switch.adaptive(
-        value: cellStyle.harmonizeWithThemeColor,
-        onChanged: (newV) {
-          setState(() {
-            cellStyle = cellStyle.copyWith(harmonizeWithThemeColor: newV);
-          });
-        },
-      ),
+      value: cellStyle.harmonizeWithThemeColor,
+      onChanged: (newV) {
+        setState(() {
+          cellStyle = cellStyle.copyWith(harmonizeWithThemeColor: newV);
+        });
+      },
     );
   }
 

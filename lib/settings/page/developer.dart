@@ -180,45 +180,39 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
 
   Widget buildDevModeToggle() {
     final on = ref.watch(Dev.$on);
-    return ListTile(
+    return SwitchListTile.adaptive(
+      secondary: const Icon(Icons.developer_mode_outlined),
       title: i18n.dev.devMode.text(),
-      leading: const Icon(Icons.developer_mode_outlined),
-      trailing: Switch.adaptive(
-        value: on,
-        onChanged: (newV) {
-          ref.read(Dev.$on.notifier).set(newV);
-        },
-      ),
+      value: on,
+      onChanged: (newV) {
+        ref.read(Dev.$on.notifier).set(newV);
+      },
     );
   }
 
   Widget buildMimirBetaApiToggle() {
     final on = ref.watch(Dev.$betaBackendAPI);
-    return ListTile(
+    return SwitchListTile.adaptive(
+      secondary: const Icon(Icons.developer_board),
       title: "Beta backend API".text(),
       subtitle: "Switch available features to beta backend".text(),
-      leading: const Icon(Icons.developer_board),
-      trailing: Switch.adaptive(
-        value: on,
-        onChanged: (newV) {
-          ref.read(Dev.$betaBackendAPI.notifier).set(newV);
-        },
-      ),
+      value: on,
+      onChanged: (newV) {
+        ref.read(Dev.$betaBackendAPI.notifier).set(newV);
+      },
     );
   }
 
   Widget buildDemoModeToggle() {
     final demoMode = ref.watch(Dev.$demoMode);
-    return ListTile(
-      leading: const Icon(Icons.adb),
+    return SwitchListTile.adaptive(
+      secondary: const Icon(Icons.adb),
       title: i18n.dev.demoMode.text(),
-      trailing: Switch.adaptive(
-        value: demoMode,
-        onChanged: (newV) async {
-          ref.read(Dev.$demoMode.notifier).set(newV);
-          await Init.initModules();
-        },
-      ),
+      value: demoMode,
+      onChanged: (newV) async {
+        ref.read(Dev.$demoMode.notifier).set(newV);
+        await Init.initModules();
+      },
     );
   }
 

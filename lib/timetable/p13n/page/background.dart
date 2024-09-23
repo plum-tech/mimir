@@ -348,34 +348,30 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
   }
 
   Widget buildRepeat() {
-    return ListTile(
-      leading: const Icon(Icons.repeat),
+    return SwitchListTile.adaptive(
+      secondary: const Icon(Icons.repeat),
       title: i18n.p13n.background.repeat.text(),
       subtitle: i18n.p13n.background.repeatDesc.text(),
-      trailing: Switch.adaptive(
-        value: repeat,
-        onChanged: (newV) {
-          setState(() {
-            repeat = newV;
-          });
-        },
-      ),
+      value: repeat,
+      onChanged: (newV) {
+        setState(() {
+          repeat = newV;
+        });
+      },
     );
   }
 
   Widget buildAntialias() {
-    return ListTile(
-      leading: const Icon(Icons.landscape),
+    return SwitchListTile.adaptive(
+      secondary: const Icon(Icons.landscape),
       title: i18n.p13n.background.antialias.text(),
       subtitle: i18n.p13n.background.antialiasDesc.text(),
-      trailing: Switch.adaptive(
-        value: antialias,
-        onChanged: (newV) {
-          setState(() {
-            antialias = newV;
-          });
-        },
-      ),
+      value: antialias,
+      onChanged: (newV) {
+        setState(() {
+          antialias = newV;
+        });
+      },
     );
   }
 }
