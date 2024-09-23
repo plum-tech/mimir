@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/files.dart';
+import 'package:rettulf/rettulf.dart';
 
 import '../../p13n/entity/background.dart';
 
@@ -30,6 +31,29 @@ class TimetableBackground extends StatelessWidget {
         fadeDuration: kDebugMode ? const Duration(milliseconds: 1000) : Durations.long1,
       );
     }
+  }
+}
+
+class WithTimetableBackground extends StatelessWidget {
+  final BackgroundImage background;
+  final Widget child;
+
+  const WithTimetableBackground({
+    super.key,
+    required this.child,
+    required this.background,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      Positioned.fill(
+        child: TimetableBackground(
+          background: background,
+        ),
+      ),
+      child,
+    ].stack();
   }
 }
 

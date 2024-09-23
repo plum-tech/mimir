@@ -28,14 +28,10 @@ class TimetableBoard extends StatelessWidget {
     final style = TimetableStyle.of(context);
     final background = style.background;
     if (background.enabled) {
-      return [
-        Positioned.fill(
-          child: TimetableBackground(
-            background: background,
-          ),
-        ),
-        buildBoard(),
-      ].stack();
+      return WithTimetableBackground(
+        background: background,
+        child: buildBoard(),
+      );
     }
     return buildBoard();
   }
