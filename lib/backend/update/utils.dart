@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:mimir/agreements/entity/agreements.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
+import 'package:mimir/feature/feature.dart';
+import 'package:mimir/feature/utils.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/utils/error.dart';
@@ -20,6 +22,7 @@ Future<void> checkAppUpdate({
 }) async {
   if (kIsWeb) return;
   if (Settings.agreements.getBasicAcceptanceOf(AgreementVersion.current) != true) return;
+  if (!can(AppFeature.mimirUpdate)) return;
   try {
     await _checkAppUpdate(
       context: context,

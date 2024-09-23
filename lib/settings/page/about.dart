@@ -6,6 +6,8 @@ import 'package:mimir/agreements/entity/agreements.dart';
 import 'package:mimir/agreements/page/privacy_policy.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/widget/list_tile.dart';
+import 'package:mimir/feature/feature.dart';
+import 'package:mimir/feature/utils.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/settings.dart';
@@ -114,7 +116,7 @@ class _VersionTileState extends ConsumerState<VersionTile> {
       leading: Icon(getDeviceIcon(R.meta, R.deviceInfo)),
       title: i18n.about.version.text(),
       subtitle: "${version.platform.name} ${version.version.toString()}".text(),
-      trailing: kIsWeb ? null : const CheckUpdateButton(),
+      trailing: kIsWeb || !can(AppFeature.mimirUpdate) ? null : const CheckUpdateButton(),
       onTap: (devOn && clickCount <= 10) || !accepted
           ? null
           : () async {
