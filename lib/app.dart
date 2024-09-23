@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/agreements/entity/agreements.dart';
 import 'package:mimir/agreements/page/privacy_policy.dart';
+import 'package:mimir/credentials/init.dart';
 import 'package:mimir/files.dart';
 import 'package:mimir/intent/file_type/handle.dart';
 import 'package:mimir/lifecycle.dart';
@@ -45,6 +46,8 @@ class _MimirAppState extends ConsumerState<MimirApp> {
     Settings.timetable.focusTimetable ? buildTimetableFocusRouter() : buildCommonRoutingConfig(),
   );
   late final router = buildRouter($routingConfig);
+  StreamSubscription? intentSub;
+  StreamSubscription? $appLink;
 
   @override
   void initState() {
@@ -55,6 +58,47 @@ class _MimirAppState extends ConsumerState<MimirApp> {
       );
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     }
+    if (!kIsWeb) {
+      fitSystemScreenshot.init();
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      $appLink = AppLinks().uriLinkStream.listen(handleUriLink);
+    });
+    if (UniversalPlatform.isIOS || UniversalPlatform.isAndroid) {
+      // Listen to media sharing coming from outside the app while the app is in the memory.
+      intentSub = ReceiveSharingIntent.instance.getMediaStream().listen((list) async {
+        ref.read($intentFiles.notifier).state = [
+          ...ref.read($intentFiles),
+          ...list,
+        ];
+        await handleFileIntents(list);
+      }, onError: (error) {
+        debugPrintError(error);
+      });
+
+      // Get the media sharing coming from outside the app while the app is closed.
+      ReceiveSharingIntent.instance.getInitialMedia().then((list) async {
+        ref.read($intentFiles.notifier).state = [
+          ...ref.read($intentFiles),
+          ...list,
+        ];
+        await handleFileIntents(list);
+        if (UniversalPlatform.isIOS) {
+          await Future.wait(list.map((file) => File(file.path).delete(recursive: false)));
+        }
+        // Tell the library that we are done processing the intent.
+        ReceiveSharingIntent.instance.reset();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    $appLink?.cancel();
+    fitSystemScreenshot.release();
+    intentSub?.cancel();
+    super.dispose();
   }
 
   @override
@@ -123,116 +167,6 @@ class _MimirAppState extends ConsumerState<MimirApp> {
       ),
     );
   }
-}
-
-class _PostServiceRunner extends ConsumerStatefulWidget {
-  final Widget child;
-
-  const _PostServiceRunner({
-    super.key,
-    required this.child,
-  });
-
-  @override
-  ConsumerState<_PostServiceRunner> createState() => _PostServiceRunnerState();
-}
-
-class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
-  StreamSubscription? intentSub;
-  StreamSubscription? $appLink;
-
-  @override
-  void initState() {
-    super.initState();
-    if (!kIsWeb) {
-      fitSystemScreenshot.init();
-    }
-    if (!kIsWeb) {
-      Future.delayed(Duration.zero).then((value) async {
-        await checkAppUpdate(
-          context: $key.currentContext!,
-          delayAtLeast: const Duration(milliseconds: 3000),
-          manually: false,
-        );
-      });
-    }
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      $appLink = AppLinks().uriLinkStream.listen(handleUriLink);
-    });
-    if (UniversalPlatform.isIOS || UniversalPlatform.isAndroid) {
-      initQuickActions();
-      // Listen to media sharing coming from outside the app while the app is in the memory.
-      intentSub = ReceiveSharingIntent.instance.getMediaStream().listen((list) async {
-        ref.read($intentFiles.notifier).state = [
-          ...ref.read($intentFiles),
-          ...list,
-        ];
-        await handleFileIntents(list);
-      }, onError: (error) {
-        debugPrintError(error);
-      });
-
-      // Get the media sharing coming from outside the app while the app is closed.
-      ReceiveSharingIntent.instance.getInitialMedia().then((list) async {
-        ref.read($intentFiles.notifier).state = [
-          ...ref.read($intentFiles),
-          ...list,
-        ];
-        await handleFileIntents(list);
-        if (UniversalPlatform.isIOS) {
-          await Future.wait(list.map((file) => File(file.path).delete(recursive: false)));
-        }
-        // Tell the library that we are done processing the intent.
-        ReceiveSharingIntent.instance.reset();
-      });
-    }
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await tryAutoSyncTimetable();
-    });
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      final navigateCtx = $key.currentContext;
-      if (navigateCtx == null) return;
-      final accepted = ref.read(Settings.agreements.$basicAcceptanceOf(AgreementVersion.current));
-      if (accepted == true) return;
-      await AgreementsAcceptanceSheet.show(navigateCtx);
-    });
-  }
-
-  Future<void> handleFileIntents(List<SharedMediaFile> files) async {
-    final navigateCtx = $key.currentContext;
-    if (navigateCtx == null) return;
-    for (final file in files) {
-      // ignore the url intent from the this app
-      if (file.type == SharedMediaType.url) {
-        final uri = Uri.tryParse(file.path);
-        if (uri != null && canHandleDeepLink(deepLink: uri)) continue;
-      }
-      if (!navigateCtx.mounted) return;
-      await onHandleFilePath(context: navigateCtx, path: file.path);
-    }
-  }
-
-  @override
-  void didChangeDependencies() {
-    // precache timetable background file
-    final timetableBk = Settings.timetable.backgroundImage;
-    if (timetableBk != null && timetableBk.enabled) {
-      if (kIsWeb) {
-        precacheImage(NetworkImage(timetableBk.path), context);
-      } else {
-        precacheImage(FileImage(Files.timetable.backgroundFile), context);
-      }
-    }
-    super.didChangeDependencies();
-  }
-
-  @override
-  void dispose() {
-    $appLink?.cancel();
-    fitSystemScreenshot.release();
-    intentSub?.cancel();
-    super.dispose();
-  }
 
   Future<void> handleUriLink(Uri uri) async {
     ref.read($appLinks.notifier).state = [...ref.read($appLinks), (uri: uri, ts: DateTime.now())];
@@ -255,6 +189,82 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
     if (!navigateCtx.mounted) return;
     await onHandleDeepLink(context: navigateCtx, deepLink: uri);
   }
+}
+
+class _PostServiceRunner extends ConsumerStatefulWidget {
+  final Widget child;
+
+  const _PostServiceRunner({
+    super.key,
+    required this.child,
+  });
+
+  @override
+  ConsumerState<_PostServiceRunner> createState() => _PostServiceRunnerState();
+}
+
+class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
+  late final AppLifecycleListener _listener;
+
+  @override
+  void initState() {
+    super.initState();
+    _listener = AppLifecycleListener(
+      onResume: onResume,
+    );
+    if (!kIsWeb) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+        await checkAppUpdate(
+          context: $key.currentContext!,
+          delayAtLeast: const Duration(milliseconds: 3000),
+          manually: false,
+        );
+      });
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+        await tryAutoSyncTimetable();
+      });
+    }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      final navigateCtx = $key.currentContext;
+      if (navigateCtx == null) return;
+      final accepted = ref.read(Settings.agreements.$basicAcceptanceOf(AgreementVersion.current));
+      if (accepted == true) return;
+      await AgreementsAcceptanceSheet.show(navigateCtx);
+    });
+    if (UniversalPlatform.isIOS || UniversalPlatform.isAndroid) {
+      initQuickActions();
+    }
+  }
+
+  @override
+  void dispose() {
+    _listener.dispose();
+    super.dispose();
+  }
+
+  Future<void> onResume() async {
+    await precacheTimetableBackground();
+  }
+
+  Future<void> precacheTimetableBackground() async {
+    // precache timetable background file
+    final timetableBk = Settings.timetable.backgroundImage;
+    if (timetableBk != null && timetableBk.enabled) {
+      if (kIsWeb) {
+        await precacheImage(NetworkImage(timetableBk.path), context);
+      } else {
+        await precacheImage(FileImage(Files.timetable.backgroundFile), context);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ref.listen(CredentialsInit.storage.oa.$credentials, (pre, next) async {
+      await initQuickActions();
+    });
+    return widget.child;
+  }
 
   Future<void> tryAutoSyncTimetable() async {
     if (!Settings.timetable.autoSyncTimetable) return;
@@ -271,9 +281,18 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
       }
     }
   }
+}
 
-  @override
-  Widget build(BuildContext context) {
-    return widget.child;
+Future<void> handleFileIntents(List<SharedMediaFile> files) async {
+  final navigateCtx = $key.currentContext;
+  if (navigateCtx == null) return;
+  for (final file in files) {
+    // ignore the url intent from the this app
+    if (file.type == SharedMediaType.url) {
+      final uri = Uri.tryParse(file.path);
+      if (uri != null && canHandleDeepLink(deepLink: uri)) continue;
+    }
+    if (!navigateCtx.mounted) return;
+    await onHandleFilePath(context: navigateCtx, path: file.path);
   }
 }
