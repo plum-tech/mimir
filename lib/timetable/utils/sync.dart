@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
@@ -5,6 +6,7 @@ import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/entity/timetable.dart';
 import 'package:mimir/timetable/init.dart';
+import 'package:mimir/utils/error.dart';
 
 import "../i18n.dart";
 
@@ -94,4 +96,28 @@ Future<Timetable?> autoSyncTimetable(BuildContext context, Timetable old) async 
       )
       .markModified();
   return merged;
+}
+
+Future<void> syncTimetableWithPrompt(
+  BuildContext context,
+  Timetable old, {
+  required ValueChanged<bool> onSyncingState,
+}) async {
+  try {
+    onSyncingState(true);
+    final merged = await syncTimetable(context, old);
+    if (merged != null) {
+      TimetableInit.storage.timetable[old.uuid] = merged;
+    }
+    onSyncingState(false);
+  } catch (error, stackTrace) {
+    debugPrintError(error, stackTrace);
+    onSyncingState(false);
+    if (!context.mounted) return;
+    await context.showTip(
+      title: i18n.import.failed,
+      desc: error is DioException ? i18n.import.networkFailedDesc : i18n.import.failedDesc,
+      primary: i18n.ok,
+    );
+  }
 }

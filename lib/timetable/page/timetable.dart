@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/adaptive/menu.dart';
+import 'package:mimir/design/animation/progress.dart';
 import 'package:mimir/design/widget/fab.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/settings.dart';
@@ -14,6 +15,7 @@ import '../entity/timetable_entity.dart';
 import '../init.dart';
 import '../entity/pos.dart';
 import '../utils.dart';
+import '../utils/sync.dart';
 import '../widget/focus.dart';
 import '../widget/timetable/board.dart';
 import 'mine.dart';
@@ -33,6 +35,7 @@ class TimetableBoardPage extends ConsumerStatefulWidget {
 class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
   final $displayMode = ValueNotifier(TimetableInit.storage.lastDisplayMode ?? DisplayMode.weekly);
   late final ValueNotifier<TimetablePos> $currentPos;
+  var syncing = false;
 
   TimetableEntity get timetable => widget.timetable;
 
@@ -68,10 +71,13 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
         $currentPos: $currentPos,
         timetable: timetable.type,
       ),
-      body: TimetableBoard(
-        timetable: timetable,
-        $displayMode: $displayMode,
-        $currentPos: $currentPos,
+      body: BlockWhenLoading(
+        loading: syncing,
+        child: TimetableBoard(
+          timetable: timetable,
+          $displayMode: $displayMode,
+          $currentPos: $currentPos,
+        ),
       ),
     );
   }
@@ -151,6 +157,19 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
             );
           },
         ),
+        if (canSyncTimetable(timetable.type))
+          PullDownItem(
+            icon: Icons.sync,
+            title: i18n.sync,
+            onTap: () async {
+              await syncTimetableWithPrompt(context, timetable.type, onSyncingState: (state) {
+                if (!mounted) return;
+                setState(() {
+                  syncing = state;
+                });
+              });
+            },
+          ),
         if (focusMode) ...buildFocusPopupActions(context),
         const PullDownDivider(),
         PullDownSelectable(

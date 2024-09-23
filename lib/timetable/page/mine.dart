@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -9,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/adaptive/menu.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/design/animation/progress.dart';
 import 'package:mimir/design/entity/dual_color.dart';
 import 'package:mimir/design/widget/common.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
@@ -18,7 +18,6 @@ import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/intent/qrcode/page/view.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/school/entity/school.dart';
-import 'package:mimir/utils/error.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/settings.dart';
@@ -129,16 +128,12 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
             itemCount: timetables.length,
             itemBuilder: (ctx, i) {
               final timetable = timetables[i];
-              return AnimatedOpacity(
-                opacity: syncing ? 0.5 : 1,
-                duration: Durations.medium1,
-                child: AbsorbPointer(
-                  absorbing: syncing,
-                  child: buildCard(
-                    timetable: timetable,
-                    selectedId: selectedId,
-                    timetableNames: timetableNames,
-                  ),
+              return BlockWhenLoading(
+                loading: syncing,
+                child: buildCard(
+                  timetable: timetable,
+                  selectedId: selectedId,
+                  timetableNames: timetableNames,
                 ),
               ).padH(6);
             },
@@ -159,29 +154,12 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
       selected: selectedId == timetable.uuid,
       allTimetableNames: timetableNames,
       onSync: () async {
-        try {
-          setState(() {
-            syncing = true;
-          });
-          final merged = await syncTimetable(context, timetable);
-          if (merged != null) {
-            TimetableInit.storage.timetable[timetable.uuid] = merged;
-          }
-          setState(() {
-            syncing = false;
-          });
-        } catch (error, stackTrace) {
-          debugPrintError(error, stackTrace);
+        await syncTimetableWithPrompt(context, timetable, onSyncingState: (state) {
           if (!mounted) return;
           setState(() {
-            syncing = false;
+            syncing = state;
           });
-          await context.showTip(
-            title: i18n.import.failed,
-            desc: error is DioException ? i18n.import.networkFailedDesc : i18n.import.failedDesc,
-            primary: i18n.ok,
-          );
-        }
+        });
       },
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rettulf/rettulf.dart';
 
 class ProgressWatcher {
   double _progress;
@@ -64,5 +65,34 @@ class AnimatedProgressCircle extends StatelessWidget {
       tween: Tween<double>(begin: value, end: value),
       builder: (context, value, _) => CircularProgressIndicator.adaptive(value: value),
     );
+  }
+}
+
+class BlockWhenLoading extends StatelessWidget {
+  final bool loading;
+  final Widget child;
+
+  const BlockWhenLoading({
+    super.key,
+    required this.loading,
+    required this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      AnimatedOpacity(
+        opacity: loading ? 0.5 : 1,
+        duration: Durations.medium1,
+        child: AbsorbPointer(
+          absorbing: loading,
+          child: child,
+        ),
+      ),
+      if (loading)
+        Positioned.fill(
+          child: const CircularProgressIndicator().center(),
+        ),
+    ].stack();
   }
 }
