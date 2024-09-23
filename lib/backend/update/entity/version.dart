@@ -1,4 +1,9 @@
+import 'dart:ui';
+
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mimir/entity/meta.dart';
+import 'package:mimir/r.dart';
+import 'package:universal_platform/universal_platform.dart';
 import 'package:version/version.dart';
 
 part 'version.g.dart';
@@ -20,16 +25,24 @@ class ReleaseNote {
 
   const ReleaseNote({
     required this.zhHans,
-    required this.en,
+    this.en,
   });
 
   factory ReleaseNote.fromJson(Map<String, dynamic> json) => _$ReleaseNoteFromJson(json);
+
+  String resolve(Locale locale) {
+    if (locale.languageCode == "zh") {
+      return zhHans;
+    } else {
+      return en ?? zhHans;
+    }
+  }
 }
 
 @JsonSerializable(createToJson: false)
 class AndroidAssets {
   final String fileName;
-  final String defaultSrc;
+  final String? defaultSrc;
   final Map<String, String?> src;
 
   const AndroidAssets({
@@ -39,6 +52,15 @@ class AndroidAssets {
   });
 
   factory AndroidAssets.fromJson(Map<String, dynamic> json) => _$AndroidAssetsFromJson(json);
+
+  String? resolveDownloadUrl() {
+    final installer = R.meta.installerStore;
+    if (installer == null) return defaultSrc;
+    if (src.containsKey(installer)) {
+      return src[installer];
+    }
+    return defaultSrc;
+  }
 }
 
 @JsonSerializable(createToJson: false)
@@ -47,11 +69,21 @@ class IOSAssets {
   final String? testFlight;
 
   const IOSAssets({
-    required this.appStore,
-    required this.testFlight,
+    this.appStore,
+    this.testFlight,
   });
 
   factory IOSAssets.fromJson(Map<String, dynamic> json) => _$IOSAssetsFromJson(json);
+
+  String? resolveDownloadUrl() {
+    final installer = R.meta.installerStore;
+    if (installer == InstallerStore.testFlight) {
+      return testFlight;
+    } else if (installer == InstallerStore.appStore) {
+      return appStore;
+    }
+    return null;
+  }
 }
 
 @JsonSerializable(createToJson: false)
@@ -67,6 +99,12 @@ class VersionAssets {
   });
 
   factory VersionAssets.fromJson(Map<String, dynamic> json) => _$VersionAssetsFromJson(json);
+
+  bool get downloadAvailable => UniversalPlatform.isAndroid
+      ? android.resolveDownloadUrl() != null
+      : UniversalPlatform.isApple
+          ? iOS.resolveDownloadUrl() != null
+          : false;
 }
 
 @JsonSerializable(createToJson: false)
@@ -75,7 +113,7 @@ class VersionInfo {
   final Version version;
   final DateTime? time;
   final ImportanceLevel importance;
-  final int delayInMinute;
+  final int minuteCanDelay;
   final ReleaseNote releaseNote;
   final VersionAssets assets;
 
@@ -84,7 +122,7 @@ class VersionInfo {
     required this.time,
     required this.releaseNote,
     required this.importance,
-    required this.delayInMinute,
+    required this.minuteCanDelay,
     required this.assets,
   });
 

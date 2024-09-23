@@ -5,17 +5,14 @@ import 'package:mimir/agreements/entity/agreements.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
-import 'package:mimir/entity/meta.dart';
 import 'package:mimir/r.dart';
-import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/utils/error.dart';
-import 'package:universal_platform/universal_platform.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 import 'package:version/version.dart';
 
 import '../init.dart';
 import '../i18n.dart';
+import 'entity/version.dart';
 import 'page/update.dart';
 
 Future<void> checkAppUpdate({
@@ -26,47 +23,38 @@ Future<void> checkAppUpdate({
   if (kIsWeb) return;
   if (Settings.agreements.getBasicAcceptanceOf(AgreementVersion.current) != true) return;
   try {
-    if (R.debugCupertino || UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
-      await _checkAppUpdateFromApple(
-        context: context,
-        delayAtLeast: delayAtLeast,
-        manually: manually,
-      );
-    } else {
-      await _checkAppUpdateFromOfficial(
-        context: context,
-        delayAtLeast: delayAtLeast,
-        manually: manually,
-      );
-    }
+    await _checkAppUpdate(
+      context: context,
+      delayAtLeast: delayAtLeast,
+      manually: manually,
+    );
   } catch (error, stackTrace) {
     handleRequestError(error, stackTrace);
   }
 }
 
 bool _canSkipVersion({
-  required Version latest,
+  required VersionInfo latest,
   required Version current,
 }) {
   final lastSkipUpdateTime = Settings.lastSkipUpdateTime;
   if (lastSkipUpdateTime == null) return false;
-  if (_getSkippedVersion() != latest) return false;
+  if (_getSkippedVersion() != latest.version) return false;
   final now = DateTime.now();
-  if (lastSkipUpdateTime.difference(now).inDays < 7) return false;
+  if (lastSkipUpdateTime.difference(now).inMinutes >= latest.minuteCanDelay) return false;
   return true;
 }
 
-Future<void> _checkAppUpdateFromOfficial({
+Future<void> _checkAppUpdate({
   required BuildContext context,
   Duration delayAtLeast = Duration.zero,
   required bool manually,
 }) async {
-  final latest = await BackendInit.update.getLatestVersionFromOfficial();
-  debugPrint(latest.toString());
+  final latest = await BackendInit.update.getLatestVersionInfo();
+  if (!latest.assets.downloadAvailable) return;
   final currentVersion = R.meta.version;
-  if (latest.downloadOf(R.meta.platform) == null) return;
   // if update checking was not manually triggered, skip it.
-  if (!manually && _canSkipVersion(latest: latest.version, current: currentVersion)) return;
+  if (!manually && _canSkipVersion(latest: latest, current: currentVersion)) return;
   if (!manually) {
     await Future.delayed(delayAtLeast);
   }
@@ -82,57 +70,6 @@ Future<void> _checkAppUpdateFromOfficial({
       desc: i18n.up.onLatestTip,
       primary: i18n.ok,
     );
-  }
-}
-
-Future<void> _checkAppUpdateFromApple({
-  required BuildContext context,
-  Duration delayAtLeast = Duration.zero,
-  required bool manually,
-}) async {
-  final latest = await BackendInit.update.getLatestVersionFromAppStoreAndOfficial();
-  if (latest == null) {
-    // if the version from iTunes isn't identical to official's
-    if (manually) {
-      if (!context.mounted) return;
-      await context.showTip(
-        title: i18n.up.title,
-        desc: i18n.up.onLatestTip,
-        primary: i18n.ok,
-      );
-    }
-    return;
-  }
-  debugPrint(latest.toString());
-  final currentVersion = R.meta.version;
-  // if update checking was not manually triggered, skip it.
-  if (!manually && _canSkipVersion(latest: latest.version, current: currentVersion)) return;
-  if (!manually) {
-    await Future.delayed(delayAtLeast);
-  }
-  if (!context.mounted) return;
-  final installerStore = R.meta.installerStore;
-  if (!Dev.on && installerStore == InstallerStore.testFlight) {
-    // commanded non-dev user to install app from App Store
-    if (latest.version >= currentVersion) {
-      final confirm = await _requestInstallOnAppStoreInstead(context: context, latest: latest.version);
-      if (confirm == true) {
-        await launchUrlString(R.iosAppStoreUrl, mode: LaunchMode.externalApplication);
-      }
-    }
-  } else if (installerStore == InstallerStore.appStore) {
-    if (latest.version > currentVersion) {
-      await context.showSheet(
-        (ctx) => ArtifactUpdatePage(info: latest),
-        dismissible: false,
-      );
-    } else if (manually) {
-      await context.showTip(
-        title: i18n.up.title,
-        desc: i18n.up.onLatestTip,
-        primary: i18n.ok,
-      );
-    }
   }
 }
 

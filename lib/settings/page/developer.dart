@@ -136,11 +136,11 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                   },
                 ),
               if (!kIsWeb)
-                ListTile(
-                  title: "Check version".text(),
-                  trailing: Icon(context.icons.rightChevron),
-                  onTap: () {
-                    context.showSheet((ctx) => const VersionCheckerPage());
+                DebugFetchVersionTile(
+                  title: "Latest version".text(),
+                  fetch: () async {
+                    final info = await BackendInit.update.getLatestVersionInfo();
+                    return info.version.toString();
                   },
                 ),
               buildPartyPopper(),
@@ -695,50 +695,6 @@ class _DebugFetchVersionTileState extends State<DebugFetchVersionTile> {
       leading: widget.leading,
       subtitle: version?.text(),
       trailing: isFetching ? const CircularProgressIndicator.adaptive() : null,
-    );
-  }
-}
-
-class VersionCheckerPage extends ConsumerStatefulWidget {
-  const VersionCheckerPage({super.key});
-
-  @override
-  ConsumerState createState() => _VersionCheckerPageState();
-}
-
-class _VersionCheckerPageState extends ConsumerState<VersionCheckerPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverList.list(children: [
-            DebugFetchVersionTile(
-              title: "Official".text(),
-              fetch: () async {
-                final info = await BackendInit.update.getLatestVersionFromOfficial();
-                return info.version.toString();
-              },
-            ),
-            DebugFetchVersionTile(
-              leading: const Icon(SimpleIcons.apple),
-              title: "App Store CN".text(),
-              fetch: () async {
-                final info = await BackendInit.update.getLatestVersionFromAppStore();
-                return "${info!}";
-              },
-            ),
-            DebugFetchVersionTile(
-              leading: const Icon(SimpleIcons.apple),
-              title: "App Store".text(),
-              fetch: () async {
-                final info = await BackendInit.update.getLatestVersionFromAppStore(iosAppStoreRegion: null);
-                return "${info!}";
-              },
-            ),
-          ])
-        ],
-      ),
     );
   }
 }

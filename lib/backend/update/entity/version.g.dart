@@ -13,7 +13,7 @@ ReleaseNote _$ReleaseNoteFromJson(Map<String, dynamic> json) => ReleaseNote(
 
 AndroidAssets _$AndroidAssetsFromJson(Map<String, dynamic> json) => AndroidAssets(
       fileName: json['fileName'] as String,
-      defaultSrc: json['defaultSrc'] as String,
+      defaultSrc: json['defaultSrc'] as String?,
       src: Map<String, String?>.from(json['src'] as Map),
     );
 
@@ -32,7 +32,7 @@ VersionInfo _$VersionInfoFromJson(Map<String, dynamic> json) => VersionInfo(
       time: json['time'] == null ? null : DateTime.parse(json['time'] as String),
       releaseNote: ReleaseNote.fromJson(json['releaseNote'] as Map<String, dynamic>),
       importance: $enumDecode(_$ImportanceLevelEnumMap, json['importance']),
-      delayInMinute: (json['delayInMinute'] as num).toInt(),
+      minuteCanDelay: (json['minuteCanDelay'] as num).toInt(),
       assets: VersionAssets.fromJson(json['assets'] as Map<String, dynamic>),
     );
 

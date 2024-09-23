@@ -1,6 +1,6 @@
 import 'package:version/version.dart';
 
-import '../entity/artifact.dart';
+import '../entity/version.dart';
 import 'update.dart';
 
 class MimirUpdateServiceMock implements MimirUpdateService {
@@ -9,30 +9,24 @@ class MimirUpdateServiceMock implements MimirUpdateService {
   final version = Version.parse("3.0.0+500");
 
   @override
-  Future<ArtifactVersionInfo> getLatestVersionFromOfficial() async {
-    return ArtifactVersionInfo(
+  Future<VersionInfo> getLatestVersionInfo() async {
+    return VersionInfo(
       version: version,
-      releaseTime: DateTime.tryParse("2024-10-03T05:38:39.000Z"),
-      releaseNote: "Test version",
-      downloads: {
-        "Android": const ArtifactDownload(
-          name: "Test",
-          sha256: "sha256",
-          defaultUrlName: "default",
-          name2Url: {"default": "mimir-test.apk"},
+      importance: ImportanceLevel.normal,
+      minuteCanDelay: 7 * 24 * 60,
+      time: DateTime.tryParse("2024-10-03T05:38:39.000Z"),
+      releaseNote: const ReleaseNote(zhHans: "Test version"),
+      assets: const VersionAssets(
+        android: AndroidAssets(
+          fileName: "sit-life.apk",
+          defaultSrc: "https://www.mysit.life/download",
+          src: {},
         ),
-      },
+        iOS: IOSAssets(
+          appStore: "https://apps.apple.com/cn/app/id6468989112",
+          testFlight: "https://testflight.apple.com/join/hPeQ13fe",
+        ),
+      ),
     );
-  }
-
-  /// return null if the version from iTunes isn't identical to official's
-  @override
-  Future<ArtifactVersionInfo?> getLatestVersionFromAppStoreAndOfficial() async {
-    return getLatestVersionFromOfficial();
-  }
-
-  @override
-  Future<Version?> getLatestVersionFromAppStore({String? iosAppStoreRegion = "cn"}) async {
-    return version;
   }
 }

@@ -1,17 +1,18 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/settings/settings.dart';
-import '../entity/artifact.dart';
 import 'package:mimir/widget/markdown.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../i18n.dart';
+import '../entity/version.dart';
 
 class ArtifactUpdatePage extends StatefulWidget {
-  final ArtifactVersionInfo info;
+  final VersionInfo info;
 
   const ArtifactUpdatePage({
     super.key,
@@ -48,12 +49,12 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
             leading: const Icon(Icons.featured_play_list),
             title: info.version.toString().text(),
           ),
-          FeaturedMarkdownWidget(data: info.releaseNote).expanded(),
+          FeaturedMarkdownWidget(data: info.releaseNote.resolve(context.locale)).expanded(),
         ].column().padH(8).expanded(),
         buildSkipTile().padH(32),
         [
           buildSkipButton().padOnly(r: 8).expanded(),
-          buildDownloadButton().padOnly(l: 8).expanded(),
+          (buildDownloadButton() ?? buildDownloadUnavailableButton()).padOnly(l: 8).expanded(),
         ].row(maa: MainAxisAlignment.spaceEvenly).padAll(8),
       ].column().safeArea(),
     );
@@ -73,33 +74,38 @@ class _ArtifactUpdatePageState extends State<ArtifactUpdatePage> {
     );
   }
 
-  Widget buildDownloadButton() {
+  Widget? buildDownloadButton() {
     final info = widget.info;
-    if (R.debugCupertino || UniversalPlatform.isIOS || UniversalPlatform.isMacOS) {
+    if (R.debugCupertino || UniversalPlatform.isApple) {
+      final downloadUrl = info.assets.iOS.resolveDownloadUrl();
+      if (downloadUrl == null) return null;
       return FilledButton.icon(
         icon: const Icon(SimpleIcons.appstore),
-        onPressed: ignore
-            ? null
-            : () async {
-                context.pop();
-                await launchUrlString(R.iosAppStoreUrl, mode: LaunchMode.externalApplication);
-              },
+        onPressed: () async {
+          context.pop();
+          await launchUrlString(downloadUrl, mode: LaunchMode.externalApplication);
+        },
         label: i18n.up.openAppStore.text(),
       );
+    } else if (UniversalPlatform.isAndroid) {
+      final downloadUrl = info.assets.android.resolveDownloadUrl();
+      if (downloadUrl == null) return null;
+      return FilledButton.icon(
+        onPressed: () async {
+          context.pop();
+          await launchUrlString(downloadUrl, mode: LaunchMode.externalApplication);
+        },
+        icon: Icon(UniversalPlatform.isDesktop ? Icons.install_desktop : Icons.install_mobile),
+        label: i18n.download.text(),
+      );
     }
-    return FilledButton.icon(
-      onPressed: ignore
-          ? null
-          : () async {
-              final download = info.downloadOf(R.meta.platform);
-              if (download == null) return;
-              final url = download.defaultUrl;
-              if (url == null) return;
-              context.pop();
-              await launchUrlString(url, mode: LaunchMode.externalApplication);
-            },
-      icon: Icon(UniversalPlatform.isDesktop ? Icons.install_desktop : Icons.install_mobile),
-      label: i18n.download.text(),
+    return null;
+  }
+
+  Widget buildDownloadUnavailableButton() {
+    return FilledButton(
+      onPressed: null,
+      child: "Unavailable".text(),
     );
   }
 
