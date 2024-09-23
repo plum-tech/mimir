@@ -101,13 +101,11 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
   Widget buildQrCode(String data) {
     return LayoutBuilder(builder: (ctx, box) {
       final side = min(box.maxWidth, widget.maxSize ?? double.infinity);
-      return ModalImageViewer(
-        child: PlainQrCodeView(
-          key: $qrcodeK,
-          data: data,
-          size: side,
-        ).center(),
-      );
+      return PlainQrCodeView(
+        key: $qrcodeK,
+        data: data,
+        size: side,
+      ).center();
     });
   }
 
@@ -115,7 +113,7 @@ class _QrCodePageState extends ConsumerState<QrCodePage> {
     return [
       ListTile(
         title: "Text length: ${data.length}".text(),
-        trailing: PlatformIconButton(
+        trailing: IconButton.filledTonal(
           icon: Icon(context.icons.copy),
           onPressed: () async {
             context.showSnackBar(content: "Copied".text());
