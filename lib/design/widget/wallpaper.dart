@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -94,8 +96,9 @@ class _WallpaperImplState extends State<_WallpaperImpl> with SingleTickerProvide
       },
       onShow: () {
         final now = DateTime.now();
-        if (now.difference(lastHiddenTime ?? now).inSeconds > 15) {
-          if (widget.fade) {
+        if (widget.fade && now.difference(lastHiddenTime ?? now).inSeconds > 15) {
+          final hasCache = PaintingBinding.instance.imageCache.containsKey(FileImage(File(widget.background.path)));
+          if (!hasCache) {
             $opacity.value = 0;
           }
         }
