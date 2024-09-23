@@ -48,12 +48,9 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Setup Flutter
-        run: |
-          flutter config --no-cli-animations
-
       - name: Build APK
         run: |
+          flutter config --no-cli-animations
           flutter build apk --target-platform android-arm,android-arm64
 
       - name: Sign APK
@@ -130,12 +127,9 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Setup Flutter
-        run: |
-          flutter config --no-cli-animations
-
       - name: Build iOS
         run: |
+          flutter config --no-cli-animations
           flutter build ios --release --no-codesign
 
       - name: Build resolve Swift dependencies

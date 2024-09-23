@@ -1,4 +1,4 @@
-name: Flutter Test
+name: Test
 
 on:
   - push
@@ -11,6 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Install JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
       - name: Install Flutter
         uses: subosito/flutter-action@v2
@@ -26,3 +32,7 @@ jobs:
       - name: Flutter test
         run: |
           flutter test
+
+      - name: Build APK
+        run: |
+          flutter build apk --target-platform android-arm64
