@@ -13,7 +13,8 @@ const main = async () => {
     require: [],
     options: [],
   })
-  const version = await getLatestTag()
+  // remove leading 'v'
+  const version = (await getLatestTag()).slice(1)
   const info = buildVersionInfo({
     version,
   })
@@ -23,7 +24,7 @@ const main = async () => {
 }
 
 const buildVersionInfo = ({ version }) => {
-  const fileName = `sitlife-${version}.apk`
+  const fileName = `sitlife-v${version}.apk`
   const info = {
     version,
     releaseNote: {
