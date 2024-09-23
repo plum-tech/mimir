@@ -1,3 +1,4 @@
+import "dotenv/config"
 import { getArtifactDownloadUrl } from './lib/sitmc.js'
 import esMain from 'es-main'
 import { uploadPreviewVersion } from "./lib/backend.js"
@@ -22,11 +23,12 @@ const main = async () => {
 }
 
 const buildVersionInfo = ({ version }) => {
-  const fileName = `sitlife-v${version}.apk`
+  const fileName = `sitlife-${version}.apk`
   const info = {
     version,
     releaseNote: {
-      "zh-Hans": "",
+      "zh-Hans": "这是最新的测试版。",
+      "en": "It's the latest preview version available.",
     },
     assets: {
       Android: {
