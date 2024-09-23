@@ -239,7 +239,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
         onPressed: chooseImage,
         icon: Icon(context.icons.create),
         label: i18n.choose.text(),
-      ),
+      ).center().expanded(flex: 3),
       IconButton.outlined(
         onPressed: hasImage
             ? () {
@@ -249,7 +249,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
               }
             : null,
         icon: Icon(hidden ? Icons.hide_image_outlined : Icons.image_outlined),
-      ),
+      ).center().expanded(flex: 1),
       OutlinedButton.icon(
         onPressed: hasImage
             ? () {
@@ -261,7 +261,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
             : null,
         icon: Icon(context.icons.delete),
         label: i18n.delete.text(),
-      ),
+      ).center().expanded(flex: 3),
     ].row(maa: MainAxisAlignment.spaceEvenly);
   }
 
