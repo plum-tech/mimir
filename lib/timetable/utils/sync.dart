@@ -77,8 +77,10 @@ bool canAutoSyncTimetable(Timetable old) {
 Future<Timetable?> autoSyncTimetable(BuildContext context, Timetable old) async {
   final newTimetable = await _fetchSameTypeTimetable(old);
   final equal = old.isBasicInfoEqualTo(newTimetable);
-  Settings.timetable.lastSyncTimetableTime = DateTime.now();
-  if (equal) return null;
+  if (equal) {
+    Settings.timetable.lastSyncTimetableTime = DateTime.now();
+    return null;
+  }
   if (!context.mounted) return null;
   final confirm = await context.showActionRequest(
     title: i18n.import.updateAvailable,
@@ -88,6 +90,10 @@ Future<Timetable?> autoSyncTimetable(BuildContext context, Timetable old) async 
     destructive: true,
     dismissible: false,
   );
+  if (confirm != null) {
+    // after users see the dialog, update the last sync time
+  }
+  Settings.timetable.lastSyncTimetableTime = DateTime.now();
   if (confirm != true) return null;
   final merged = old
       .copyWith(
