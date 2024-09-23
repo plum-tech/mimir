@@ -2,9 +2,18 @@ import 'package:mimir/feature/feature.dart';
 import 'package:mimir/r.dart';
 
 final Map<String, ({Set<String> allow, Set<String> prohibit})> _schoolId2Features = {
+  R.demoModeOaCredential.account: (
+    allow: {},
+    prohibit: {
+      AppFeature.mimirUpdate,
+    },
+  ),
   R.demoModeOaCredentialWithoutGame.account: (
     allow: {},
-    prohibit: {AppFeature.game$},
+    prohibit: {
+      AppFeature.game$,
+      AppFeature.mimirUpdate,
+    },
   ),
   "221042Y213": (
     allow: {AppFeature.sitRobotOpenLabDoor},
