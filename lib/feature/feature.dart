@@ -8,6 +8,7 @@ class AppFeature {
       mimirForum = "mimir.forum",
       mimirBulletin = "mimir.bulletin",
       mimirUser = "mimir.user",
+      mimirUpdate = "mimir.update",
       // --- school section ---
       // second class
       secondClass$ = "school.secondClass",
