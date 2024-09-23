@@ -69,27 +69,29 @@ class AnimatedProgressCircle extends StatelessWidget {
 }
 
 class BlockWhenLoading extends StatelessWidget {
+  final bool blocked;
   final bool loading;
   final Widget child;
 
   const BlockWhenLoading({
     super.key,
-    required this.loading,
+    required this.blocked,
     required this.child,
+    this.loading = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return [
       AnimatedOpacity(
-        opacity: loading ? 0.5 : 1,
+        opacity: blocked ? 0.5 : 1,
         duration: Durations.short4,
         child: AbsorbPointer(
-          absorbing: loading,
+          absorbing: blocked,
           child: child,
         ),
       ),
-      if (loading)
+      if (blocked && loading)
         Positioned.fill(
           child: const CircularProgressIndicator().center(),
         ),

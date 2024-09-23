@@ -74,7 +74,7 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
         timetable: timetable.type,
       ),
       body: BlockWhenLoading(
-        loading: syncing,
+        blocked: syncing,
         child: TimetableBoard(
           timetable: timetable,
           $displayMode: $displayMode,

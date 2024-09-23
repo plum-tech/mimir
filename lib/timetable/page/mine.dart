@@ -51,7 +51,7 @@ class MyTimetableListPage extends ConsumerStatefulWidget {
 }
 
 class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
-  var syncing = false;
+  String? syncingUuid;
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +129,8 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
             itemBuilder: (ctx, i) {
               final timetable = timetables[i];
               return BlockWhenLoading(
-                loading: syncing,
+                blocked: syncingUuid != null,
+                loading: timetable.uuid == syncingUuid,
                 child: buildCard(
                   timetable: timetable,
                   selectedId: selectedId,
@@ -157,7 +158,7 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
         await syncTimetableWithPrompt(context, timetable, onSyncingState: (state) {
           if (!mounted) return;
           setState(() {
-            syncing = state;
+            syncingUuid = state ? timetable.uuid : null;
           });
         });
       },
