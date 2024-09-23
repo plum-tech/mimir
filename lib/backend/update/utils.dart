@@ -60,7 +60,7 @@ Future<void> _checkAppUpdate({
     await Future.delayed(delayAtLeast);
   }
   if (!context.mounted) return;
-  if (latest.version > currentVersion) {
+  if (latest.version.compareToIncludingBuild(currentVersion) > 0) {
     await context.showSheet(
       (ctx) => ArtifactUpdatePage(info: latest),
       dismissible: false,
@@ -71,6 +71,24 @@ Future<void> _checkAppUpdate({
       desc: i18n.up.onLatestTip,
       primary: i18n.ok,
     );
+  }
+}
+
+extension VersionEx on Version {
+  int compareToIncludingBuild(Version other) {
+    final result = compareTo(other);
+    if (result == 0) {
+      final thisBuild = int.tryParse(build);
+      final otherBuild = int.tryParse(other.build);
+      if (thisBuild != null && otherBuild == null) {
+        return 1;
+      } else if (thisBuild == null && otherBuild != null) {
+        return -1;
+      } else if (thisBuild != null && otherBuild != null) {
+        return thisBuild.compareTo(otherBuild);
+      }
+    }
+    return result;
   }
 }
 
