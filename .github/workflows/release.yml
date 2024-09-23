@@ -37,7 +37,7 @@ jobs:
         env:
           SITMC_TEMP_SERVER_AUTH: ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
         run: |
-          node tools/upload-sitmc-release.js
+          node tools/upload-release.js
 
       - name: Deploy
         if: github.repository == 'plum-tech/mimir'

@@ -214,7 +214,7 @@ jobs:
         env:
           SITMC_TEMP_SERVER_AUTH: ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
         run: |
-          node tools/upload-sitmc-preview.js build/app-release-signed.apk
+          node tools/upload-preview.js build/app-release-signed.apk
 
       - name: Push changes
         uses: ad-m/github-push-action@master
