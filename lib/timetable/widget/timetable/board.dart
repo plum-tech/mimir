@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/design/widget/wallpaper.dart';
+import 'package:mimir/timetable/p13n/widget/wallpaper.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/timetable/p13n/widget/style.dart';
 

@@ -17,6 +17,8 @@ class BackgroundImage {
   final bool antialias;
   @JsonKey()
   final bool hidden;
+  @JsonKey()
+  final bool immersive;
 
   const BackgroundImage({
     required this.path,
@@ -24,6 +26,7 @@ class BackgroundImage {
     this.repeat = true,
     this.antialias = true,
     this.hidden = false,
+    this.immersive = false,
   });
 
   const BackgroundImage.disabled({
@@ -31,6 +34,7 @@ class BackgroundImage {
     this.repeat = true,
     this.antialias = true,
     this.hidden = true,
+    this.immersive = false,
   }) : path = "";
 
   bool get enabled => path.isNotEmpty;

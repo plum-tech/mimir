@@ -19,6 +19,7 @@ abstract class _$BackgroundImageCWProxy {
     bool? repeat,
     bool? antialias,
     bool? hidden,
+    bool? immersive,
   });
 }
 
@@ -42,6 +43,7 @@ class _$BackgroundImageCWProxyImpl implements _$BackgroundImageCWProxy {
     Object? repeat = const $CopyWithPlaceholder(),
     Object? antialias = const $CopyWithPlaceholder(),
     Object? hidden = const $CopyWithPlaceholder(),
+    Object? immersive = const $CopyWithPlaceholder(),
   }) {
     return BackgroundImage(
       path: path == const $CopyWithPlaceholder() || path == null
@@ -64,6 +66,10 @@ class _$BackgroundImageCWProxyImpl implements _$BackgroundImageCWProxy {
           ? _value.hidden
           // ignore: cast_nullable_to_non_nullable
           : hidden as bool,
+      immersive: immersive == const $CopyWithPlaceholder() || immersive == null
+          ? _value.immersive
+          // ignore: cast_nullable_to_non_nullable
+          : immersive as bool,
     );
   }
 }
@@ -84,6 +90,7 @@ BackgroundImage _$BackgroundImageFromJson(Map<String, dynamic> json) => Backgrou
       repeat: json['repeat'] as bool? ?? true,
       antialias: json['antialias'] as bool? ?? true,
       hidden: json['hidden'] as bool? ?? false,
+      immersive: json['immersive'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$BackgroundImageToJson(BackgroundImage instance) => <String, dynamic>{
@@ -92,4 +99,5 @@ Map<String, dynamic> _$BackgroundImageToJson(BackgroundImage instance) => <Strin
       'repeat': instance.repeat,
       'antialias': instance.antialias,
       'hidden': instance.hidden,
+      'immersive': instance.immersive,
     };

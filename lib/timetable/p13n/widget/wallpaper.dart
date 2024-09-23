@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:mimir/files.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../../timetable/p13n/entity/background.dart';
+import '../entity/background.dart';
 
 class WallpaperWidget extends StatelessWidget {
   final BackgroundImage background;

@@ -38,6 +38,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
   bool repeat = true;
   bool antialias = true;
   bool hidden = false;
+  bool immersive = false;
   late final AnimationController $opacity;
 
   _TimetableBackgroundEditorState() {
@@ -50,6 +51,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     repeat = bk?.repeat ?? true;
     antialias = bk?.antialias ?? true;
     hidden = bk?.hidden ?? false;
+    immersive = bk?.immersive ?? false;
   }
 
   @override
@@ -97,6 +99,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
               buildOpacity(),
               buildRepeat(),
               buildAntialias(),
+              if (kDebugMode) buildImmersive(),
             ]),
           ],
         ),
@@ -309,6 +312,18 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     $opacity.animateTo(
       newValue,
       duration: Durations.short3,
+    );
+  }
+
+  Widget buildImmersive() {
+    return SwitchListTile.adaptive(
+      title: "Immersive".text(),
+      value: immersive,
+      onChanged: (v) {
+        setState(() {
+          immersive = v;
+        });
+      },
     );
   }
 

@@ -8,7 +8,7 @@ import 'package:mimir/utils/screenshot.dart';
 
 import "../i18n.dart";
 import '../p13n/widget/style.dart';
-import '../../design/widget/wallpaper.dart';
+import '../p13n/widget/wallpaper.dart';
 import '../widget/timetable/weekly.dart';
 import '../entity/timetable_entity.dart';
 
