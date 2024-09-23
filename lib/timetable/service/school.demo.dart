@@ -3,6 +3,7 @@ import 'package:mimir/credentials/init.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/timetable/utils.dart';
+import 'package:uuid/uuid.dart';
 import '../entity/timetable.dart';
 import 'school.dart';
 
@@ -20,7 +21,7 @@ class DemoTimetableService implements TimetableService {
     await Future.delayed(const Duration(milliseconds: 1400));
     return Timetable(
       name: "小应生活的课程表",
-      uuid: "9cb2c4fe-d8e8-410b-b472-c1b4c13ecf16",
+      uuid: const Uuid().v4(),
       schoolCode: SchoolCode.sit,
       startDate: estimateStartDate(info.exactYear, info.semester),
       schoolYear: info.exactYear,
