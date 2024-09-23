@@ -16,7 +16,7 @@ enum OaUserType {
     AppFeature.examArrangement,
     AppFeature.teacherEval,
     AppFeature.ywb,
-    AppFeature.gpa,
+    AppFeature.gpaUg,
     AppFeature.yellowPages,
     AppFeature.expenseRecords$,
     AppFeature.electricityBalance,

@@ -19,7 +19,7 @@ class AppFeature {
       examResult$ = "school.examResult",
       examResultPg = "school.examResult.pg",
       examResultUg = "school.examResult.ug",
-      gpa = "school.examResult.ug.gpa",
+      gpaUg = "school.examResult.ug.gpa",
       examArrangement = "school.examArrangement",
       // teacher eval
       teacherEval = "school.teacherEval",
@@ -76,7 +76,7 @@ class AppFeature {
     examResultPg,
     examResultUg,
     examArrangement,
-    gpa,
+    gpaUg,
     teacherEval,
     expenseRecords,
     expenseRecordsStats,
