@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/p13n/widget/wallpaper.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/timetable/p13n/widget/style.dart';
@@ -9,7 +11,7 @@ import '../../entity/timetable_entity.dart';
 import 'daily.dart';
 import 'weekly.dart';
 
-class TimetableBoard extends StatelessWidget {
+class TimetableBoard extends ConsumerWidget {
   final TimetableEntity timetable;
 
   final ValueNotifier<DisplayMode> $displayMode;
@@ -24,13 +26,18 @@ class TimetableBoard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final style = TimetableStyle.of(context);
     final background = style.background;
-    return WithWallpaper(
-      background: background,
-      child: buildBoard(),
-    );
+    final immersiveWallpaper = ref.watch(Settings.timetable.$immersiveWallpaper);
+    if (immersiveWallpaper) {
+      return buildBoard();
+    } else {
+      return WithWallpaper(
+        background: background,
+        child: buildBoard(),
+      );
+    }
   }
 
   Widget buildBoard() {

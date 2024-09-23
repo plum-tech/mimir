@@ -112,31 +112,35 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
 
   @override
   Widget build(BuildContext context) {
-    return buildBody();
-    return [
-      Positioned.fill(
-        child: ColoredBox(color: context.colorScheme.surface),
-      ),
-      Positioned.fill(
-        child: WallpaperWidget(
-          background: Settings.timetable.backgroundImage ?? BackgroundImage.disabled(),
+    final immersiveWallpaper = ref.watch(Settings.timetable.$immersiveWallpaper);
+    if (immersiveWallpaper) {
+      return [
+        Positioned.fill(
+          child: ColoredBox(color: context.colorScheme.surface),
         ),
-      ),
-      buildBody(),
-    ].stack();
+        Positioned.fill(
+          child: WallpaperWidget(
+            background: Settings.timetable.backgroundImage ?? const BackgroundImage.disabled(),
+          ),
+        ),
+        buildBody(),
+      ].stack();
+    }
+    return buildBody();
   }
 
   Widget buildBody() {
+    final immersiveWallpaper = ref.watch(Settings.timetable.$immersiveWallpaper);
     final items = buildItems();
     if (context.isPortrait) {
       return Scaffold(
-        // backgroundColor: Colors.transparent,
+        backgroundColor: immersiveWallpaper ? Colors.transparent : null,
         body: widget.navigationShell,
         bottomNavigationBar: buildNavigationBar(items),
       );
     } else {
       return Scaffold(
-        // backgroundColor: Colors.transparent,
+        backgroundColor: immersiveWallpaper ? Colors.transparent : null,
         body: [
           buildNavigationRail(items),
           const VerticalDivider(),
@@ -147,8 +151,11 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
   }
 
   Widget buildNavigationBar(NavigationItems items) {
+    final immersiveWallpaper = ref.watch(Settings.timetable.$immersiveWallpaper);
     return NavigationBar(
-      // backgroundColor: context.colorScheme.surfaceContainer.withOpacity(0.6),
+      backgroundColor: immersiveWallpaper
+          ? context.colorScheme.surfaceContainer.withOpacity(Settings.timetable.immersiveOpacity)
+          : null,
       selectedIndex: getSelectedIndex(items),
       onDestinationSelected: (index) => onItemTapped(index, items),
       destinations: items.map((e) => e.item.toBarItem()).toList(),
@@ -156,8 +163,11 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
   }
 
   Widget buildNavigationRail(NavigationItems items) {
+    final immersiveWallpaper = ref.watch(Settings.timetable.$immersiveWallpaper);
     return NavigationRail(
-      // backgroundColor: context.colorScheme.surfaceContainer.withOpacity(0.6),
+      backgroundColor: immersiveWallpaper
+          ? context.colorScheme.surfaceContainer.withOpacity(Settings.timetable.immersiveOpacity)
+          : null,
       labelType: NavigationRailLabelType.all,
       selectedIndex: getSelectedIndex(items),
       onDestinationSelected: (index) => onItemTapped(index, items),

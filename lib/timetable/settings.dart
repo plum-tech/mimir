@@ -21,6 +21,7 @@ class _K {
   static const showTimetableNavigation = '$ns/showTimetableNavigation';
   static const autoSyncTimetable = '$ns/autoSyncTimetable';
   static const lastSyncTimetableTime = '$ns/lastSyncTimetableTime';
+  static const immersiveWallpaper = '$ns/immersiveWallpaper';
 }
 
 class TimetableSettings {
@@ -98,4 +99,12 @@ class TimetableSettings {
   DateTime? get lastSyncTimetableTime => box.safeGet<DateTime>(_K.lastSyncTimetableTime);
 
   set lastSyncTimetableTime(DateTime? newV) => box.safePut<DateTime>(_K.lastSyncTimetableTime, newV);
+
+  bool get immersiveWallpaper => box.safeGet<bool>(_K.immersiveWallpaper) ?? false;
+
+  set immersiveWallpaper(bool newV) => box.safePut<bool>(_K.immersiveWallpaper, newV);
+
+  late final $immersiveWallpaper = box.providerWithDefault<bool>(_K.immersiveWallpaper, () => false);
+
+  final immersiveOpacity = 0.6;
 }

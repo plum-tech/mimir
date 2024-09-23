@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mimir/utils/permission.dart';
@@ -24,21 +25,21 @@ import "../../i18n.dart";
 import '../entity/background.dart';
 
 /// It persists changes to storage before route popping
-class TimetableBackgroundEditor extends StatefulWidget {
+class TimetableBackgroundEditor extends ConsumerStatefulWidget {
   const TimetableBackgroundEditor({super.key});
 
   @override
-  State<TimetableBackgroundEditor> createState() => _TimetableBackgroundEditorState();
+  ConsumerState<TimetableBackgroundEditor> createState() => _TimetableBackgroundEditorState();
 }
 
-class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> with SingleTickerProviderStateMixin {
+class _TimetableBackgroundEditorState extends ConsumerState<TimetableBackgroundEditor>
+    with SingleTickerProviderStateMixin {
   String? rawPath;
   File? renderImageFile;
   double opacity = 1.0;
   bool repeat = true;
   bool antialias = true;
   bool hidden = false;
-  bool immersive = false;
   late final AnimationController $opacity;
 
   _TimetableBackgroundEditorState() {
@@ -51,7 +52,6 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     repeat = bk?.repeat ?? true;
     antialias = bk?.antialias ?? true;
     hidden = bk?.hidden ?? false;
-    immersive = bk?.immersive ?? false;
   }
 
   @override
@@ -240,7 +240,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
         icon: Icon(context.icons.create),
         label: i18n.choose.text(),
       ).center().expanded(flex: 3),
-      IconButton.outlined(
+      IconButton.filledTonal(
         onPressed: hasImage
             ? () {
                 setState(() {
@@ -316,13 +316,12 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
   }
 
   Widget buildImmersive() {
+    final immersiveWallpaper = ref.watch(Settings.timetable.$immersiveWallpaper);
     return SwitchListTile.adaptive(
       title: "Immersive".text(),
-      value: immersive,
+      value: immersiveWallpaper,
       onChanged: (v) {
-        setState(() {
-          immersive = v;
-        });
+        ref.read(Settings.timetable.$immersiveWallpaper.notifier).set(v);
       },
     );
   }

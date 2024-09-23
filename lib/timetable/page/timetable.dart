@@ -57,11 +57,13 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
 
   @override
   Widget build(BuildContext context) {
+    final immersiveWallpaper = ref.watch(Settings.timetable.$immersiveWallpaper);
     return Scaffold(
-      // backgroundColor: Colors.transparent,
+      backgroundColor: immersiveWallpaper ? Colors.transparent : null,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        // backgroundColor: context.colorScheme.surface.withOpacity(0.6),
+        backgroundColor:
+            immersiveWallpaper ? context.colorScheme.surface.withOpacity(Settings.timetable.immersiveOpacity) : null,
         title: $currentPos >> (ctx, pos) => i18n.weekOrderedName(number: pos.weekIndex + 1).text(),
         actions: [
           buildSwitchViewButton(),
