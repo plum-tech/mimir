@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mimir/design/widget/wallpaper.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/timetable/p13n/widget/style.dart';
 
 import '../../entity/display.dart';
 import '../../entity/pos.dart';
 import '../../entity/timetable_entity.dart';
-import 'background.dart';
 import 'daily.dart';
 import 'weekly.dart';
 
@@ -28,7 +28,7 @@ class TimetableBoard extends StatelessWidget {
     final style = TimetableStyle.of(context);
     final background = style.background;
     if (background.enabled) {
-      return WithTimetableBackground(
+      return WithWallpaper(
         background: background,
         child: buildBoard(),
       );

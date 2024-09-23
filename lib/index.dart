@@ -14,7 +14,7 @@ import 'package:mimir/life/i18n.dart' as $life;
 import 'package:mimir/game/i18n.dart' as $game;
 import 'package:mimir/me/i18n.dart' as $me;
 import 'package:mimir/timetable/p13n/entity/background.dart';
-import 'package:mimir/timetable/widget/timetable/background.dart';
+import 'package:mimir/design/widget/wallpaper.dart';
 
 // import 'package:mimir/backend/forum/i18n.dart' as $forum;
 import 'package:rettulf/rettulf.dart';
@@ -118,7 +118,7 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
         child: ColoredBox(color: context.colorScheme.surface),
       ),
       Positioned.fill(
-        child: TimetableBackground(
+        child: WallpaperWidget(
           background: Settings.timetable.backgroundImage ?? BackgroundImage.disabled(),
         ),
       ),

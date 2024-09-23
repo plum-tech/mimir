@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:mimir/files.dart';
 import 'package:rettulf/rettulf.dart';
 
-import '../../p13n/entity/background.dart';
+import '../../timetable/p13n/entity/background.dart';
 
-class TimetableBackground extends StatelessWidget {
+class WallpaperWidget extends StatelessWidget {
   final BackgroundImage background;
   final bool fade;
   final Duration fadeDuration;
 
-  const TimetableBackground({
+  const WallpaperWidget({
     super.key,
     required this.background,
     this.fade = true,
@@ -21,11 +21,11 @@ class TimetableBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (kIsWeb) {
-      return _TimetableBackgroundWebImpl(
+      return _WallpaperWebImpl(
         background: background,
       );
     } else {
-      return _TimetableBackgroundImpl(
+      return _WallpaperImpl(
         background: background,
         fade: fade,
         fadeDuration: kDebugMode ? const Duration(milliseconds: 1000) : Durations.long1,
@@ -34,11 +34,11 @@ class TimetableBackground extends StatelessWidget {
   }
 }
 
-class WithTimetableBackground extends StatelessWidget {
+class WithWallpaper extends StatelessWidget {
   final BackgroundImage background;
   final Widget child;
 
-  const WithTimetableBackground({
+  const WithWallpaper({
     super.key,
     required this.child,
     required this.background,
@@ -48,7 +48,7 @@ class WithTimetableBackground extends StatelessWidget {
   Widget build(BuildContext context) {
     return [
       Positioned.fill(
-        child: TimetableBackground(
+        child: WallpaperWidget(
           background: background,
         ),
       ),
@@ -57,22 +57,22 @@ class WithTimetableBackground extends StatelessWidget {
   }
 }
 
-class _TimetableBackgroundImpl extends StatefulWidget {
+class _WallpaperImpl extends StatefulWidget {
   final BackgroundImage background;
   final bool fade;
   final Duration fadeDuration;
 
-  const _TimetableBackgroundImpl({
+  const _WallpaperImpl({
     required this.background,
     this.fade = true,
     this.fadeDuration = Durations.long2,
   });
 
   @override
-  State<_TimetableBackgroundImpl> createState() => _TimetableBackgroundImplState();
+  State<_WallpaperImpl> createState() => _WallpaperImplState();
 }
 
-class _TimetableBackgroundImplState extends State<_TimetableBackgroundImpl> with SingleTickerProviderStateMixin {
+class _WallpaperImplState extends State<_WallpaperImpl> with SingleTickerProviderStateMixin {
   late final AnimationController $opacity;
   late final AppLifecycleListener _listener;
 
@@ -121,7 +121,7 @@ class _TimetableBackgroundImplState extends State<_TimetableBackgroundImpl> with
   }
 
   @override
-  void didUpdateWidget(covariant _TimetableBackgroundImpl oldWidget) {
+  void didUpdateWidget(covariant _WallpaperImpl oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.fade && oldWidget.fade) {
       if (oldWidget.background != widget.background) {
@@ -151,10 +151,10 @@ class _TimetableBackgroundImplState extends State<_TimetableBackgroundImpl> with
   }
 }
 
-class _TimetableBackgroundWebImpl extends StatelessWidget {
+class _WallpaperWebImpl extends StatelessWidget {
   final BackgroundImage background;
 
-  const _TimetableBackgroundWebImpl({
+  const _WallpaperWebImpl({
     required this.background,
   });
 

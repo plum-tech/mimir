@@ -8,7 +8,7 @@ import 'package:mimir/utils/screenshot.dart';
 
 import "../i18n.dart";
 import '../p13n/widget/style.dart';
-import '../widget/timetable/background.dart';
+import '../../design/widget/wallpaper.dart';
 import '../widget/timetable/weekly.dart';
 import '../entity/timetable_entity.dart';
 
@@ -146,7 +146,7 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
     if (config.enableBackground && background.enabled) {
       return [
         Positioned.fill(
-          child: TimetableBackground(
+          child: WallpaperWidget(
             background: background,
             fade: false,
           ),
