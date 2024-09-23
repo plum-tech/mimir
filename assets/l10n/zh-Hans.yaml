@@ -309,7 +309,7 @@ timetable:
       title: 点击快速查看一节课
       desc: 在周课程表中长按查看完整课程
     autoSyncTimetable:
-      title: 自动同步使用中的课程表
+      title: 自动同步课程表
       desc: 自动检查你使用的课程表可否更新
 school:
   navigation: 学校

@@ -317,7 +317,7 @@ timetable:
       title: Tap to quick look a lesson
       desc: Long press to see overall course in weekly timetable
     autoSyncTimetable:
-      title: Auto-sync timetable you're using
+      title: Auto-sync timetable
       desc: Auto-check updates of the timetable you're using
 school:
   navigation: School
