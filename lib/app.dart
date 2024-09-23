@@ -242,6 +242,12 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
     super.dispose();
   }
 
+  @override
+  void didChangeDependencies() {
+    precacheTimetableBackground();
+    super.didChangeDependencies();
+  }
+
   Future<void> onResume() async {
     await precacheTimetableBackground();
   }

@@ -50,23 +50,49 @@ class _TimetableBackgroundImpl extends StatefulWidget {
 
 class _TimetableBackgroundImplState extends State<_TimetableBackgroundImpl> with SingleTickerProviderStateMixin {
   late final AnimationController $opacity;
+  late final AppLifecycleListener _listener;
+
+  DateTime? lastHiddenTime;
 
   @override
   void initState() {
     super.initState();
     $opacity = AnimationController(vsync: this, value: widget.fade ? 0.0 : widget.background.opacity);
+    _listener = AppLifecycleListener(
+      onHide: () {
+        lastHiddenTime = DateTime.now();
+      },
+      onShow: () {
+        final now = DateTime.now();
+        if (now.difference(lastHiddenTime ?? now).inSeconds > 15) {
+          if (widget.fade) {
+            $opacity.value = 0;
+          }
+        }
+      },
+      onResume: () {
+        if (widget.fade) {
+          animateOpacity();
+        }
+      },
+    );
     if (widget.fade) {
-      $opacity.animateTo(
-        widget.background.opacity,
-        duration: widget.fadeDuration,
-        curve: Curves.easeInOut,
-      );
+      animateOpacity();
     }
+  }
+
+  void animateOpacity() {
+    $opacity.animateTo(
+      widget.background.opacity,
+      duration: widget.fadeDuration,
+      curve: Curves.easeInOut,
+    );
   }
 
   @override
   void dispose() {
     $opacity.dispose();
+    _listener.dispose();
     super.dispose();
   }
 
