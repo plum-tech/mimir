@@ -58,8 +58,10 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // backgroundColor: Colors.transparent,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        // backgroundColor: context.colorScheme.surface.withOpacity(0.6),
         title: $currentPos >> (ctx, pos) => i18n.weekOrderedName(number: pos.weekIndex + 1).text(),
         actions: [
           buildSwitchViewButton(),

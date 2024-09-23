@@ -13,6 +13,8 @@ import 'package:mimir/school/i18n.dart' as $school;
 import 'package:mimir/life/i18n.dart' as $life;
 import 'package:mimir/game/i18n.dart' as $game;
 import 'package:mimir/me/i18n.dart' as $me;
+import 'package:mimir/timetable/p13n/entity/background.dart';
+import 'package:mimir/timetable/widget/timetable/background.dart';
 
 // import 'package:mimir/backend/forum/i18n.dart' as $forum;
 import 'package:rettulf/rettulf.dart';
@@ -110,14 +112,30 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
 
   @override
   Widget build(BuildContext context) {
+    return buildBody();
+    return [
+      Positioned.fill(
+        child: ColoredBox(color: context.colorScheme.surface),
+      ),
+      Positioned.fill(
+        child: TimetableBackground(
+          background: Settings.timetable.backgroundImage ?? BackgroundImage.disabled(),
+        ),
+      ),
+      buildBody(),
+    ].stack();
+  }
+  Widget buildBody() {
     final items = buildItems();
     if (context.isPortrait) {
       return Scaffold(
+        // backgroundColor: Colors.transparent,
         body: widget.navigationShell,
         bottomNavigationBar: buildNavigationBar(items),
       );
     } else {
       return Scaffold(
+        // backgroundColor: Colors.transparent,
         body: [
           buildNavigationRail(items),
           const VerticalDivider(),
@@ -129,6 +147,7 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
 
   Widget buildNavigationBar(NavigationItems items) {
     return NavigationBar(
+      // backgroundColor: context.colorScheme.surfaceContainer.withOpacity(0.6),
       selectedIndex: getSelectedIndex(items),
       onDestinationSelected: (index) => onItemTapped(index, items),
       destinations: items.map((e) => e.item.toBarItem()).toList(),
@@ -137,6 +156,7 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
 
   Widget buildNavigationRail(NavigationItems items) {
     return NavigationRail(
+      // backgroundColor: context.colorScheme.surfaceContainer.withOpacity(0.6),
       labelType: NavigationRailLabelType.all,
       selectedIndex: getSelectedIndex(items),
       onDestinationSelected: (index) => onItemTapped(index, items),
