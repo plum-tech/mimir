@@ -83,7 +83,7 @@ class BlockWhenLoading extends StatelessWidget {
     return [
       AnimatedOpacity(
         opacity: loading ? 0.5 : 1,
-        duration: Durations.medium1,
+        duration: Durations.short4,
         child: AbsorbPointer(
           absorbing: loading,
           child: child,

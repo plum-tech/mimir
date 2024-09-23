@@ -125,6 +125,7 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
       buildBody(),
     ].stack();
   }
+
   Widget buildBody() {
     final items = buildItems();
     if (context.isPortrait) {

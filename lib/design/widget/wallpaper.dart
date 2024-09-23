@@ -20,6 +20,9 @@ class WallpaperWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (!background.enabled || background.hidden) {
+      return const SizedBox.shrink();
+    }
     if (kIsWeb) {
       return _WallpaperWebImpl(
         background: background,
@@ -28,7 +31,7 @@ class WallpaperWidget extends StatelessWidget {
       return _WallpaperImpl(
         background: background,
         fade: fade,
-        fadeDuration: kDebugMode ? const Duration(milliseconds: 1000) : Durations.long1,
+        fadeDuration: kDebugMode ? const Duration(milliseconds: 1000) : Durations.medium3,
       );
     }
   }
@@ -37,11 +40,13 @@ class WallpaperWidget extends StatelessWidget {
 class WithWallpaper extends StatelessWidget {
   final BackgroundImage background;
   final Widget child;
+  final bool fade;
 
   const WithWallpaper({
     super.key,
     required this.child,
     required this.background,
+    this.fade = true,
   });
 
   @override
@@ -50,6 +55,7 @@ class WithWallpaper extends StatelessWidget {
       Positioned.fill(
         child: WallpaperWidget(
           background: background,
+          fade: fade,
         ),
       ),
       child,

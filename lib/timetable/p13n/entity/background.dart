@@ -15,23 +15,28 @@ class BackgroundImage {
   final bool repeat;
   @JsonKey()
   final bool antialias;
+  @JsonKey()
+  final bool hidden;
 
   const BackgroundImage({
     required this.path,
     this.opacity = 1.0,
     this.repeat = true,
     this.antialias = true,
+    this.hidden = false,
   });
 
   const BackgroundImage.disabled({
     this.opacity = 1.0,
     this.repeat = true,
     this.antialias = true,
+    this.hidden = true,
   }) : path = "";
 
   bool get enabled => path.isNotEmpty;
 
   ImageRepeat get imageRepeat => repeat ? ImageRepeat.repeat : ImageRepeat.noRepeat;
+
   FilterQuality get filterQuality => antialias ? FilterQuality.low : FilterQuality.none;
 
   factory BackgroundImage.fromJson(Map<String, dynamic> json) => _$BackgroundImageFromJson(json);
@@ -46,11 +51,18 @@ class BackgroundImage {
             path == other.path &&
             opacity == other.opacity &&
             repeat == other.repeat &&
-            antialias == other.antialias;
+            antialias == other.antialias &&
+            hidden == other.hidden;
   }
 
   @override
-  int get hashCode => Object.hash(path, opacity, repeat, antialias);
+  int get hashCode => Object.hash(
+        path,
+        opacity,
+        repeat,
+        antialias,
+        hidden,
+      );
 
   @override
   String toString() {

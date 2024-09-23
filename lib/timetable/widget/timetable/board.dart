@@ -27,13 +27,10 @@ class TimetableBoard extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = TimetableStyle.of(context);
     final background = style.background;
-    if (background.enabled) {
-      return WithWallpaper(
-        background: background,
-        child: buildBoard(),
-      );
-    }
-    return buildBoard();
+    return WithWallpaper(
+      background: background,
+      child: buildBoard(),
+    );
   }
 
   Widget buildBoard() {

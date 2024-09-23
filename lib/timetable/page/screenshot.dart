@@ -143,16 +143,12 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
   Widget build(BuildContext context) {
     final style = TimetableStyle.of(context);
     final background = style.background;
-    if (config.enableBackground && background.enabled) {
-      return [
-        Positioned.fill(
-          child: WallpaperWidget(
-            background: background,
-            fade: false,
-          ),
-        ),
-        buildBody(context, style),
-      ].stack();
+    if (config.enableBackground) {
+      return WithWallpaper(
+        background: background,
+        fade: false,
+        child: buildBody(context, style),
+      );
     }
     return buildBody(context, style);
   }

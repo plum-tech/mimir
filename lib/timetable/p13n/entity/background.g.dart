@@ -18,6 +18,7 @@ abstract class _$BackgroundImageCWProxy {
     double? opacity,
     bool? repeat,
     bool? antialias,
+    bool? hidden,
   });
 }
 
@@ -40,6 +41,7 @@ class _$BackgroundImageCWProxyImpl implements _$BackgroundImageCWProxy {
     Object? opacity = const $CopyWithPlaceholder(),
     Object? repeat = const $CopyWithPlaceholder(),
     Object? antialias = const $CopyWithPlaceholder(),
+    Object? hidden = const $CopyWithPlaceholder(),
   }) {
     return BackgroundImage(
       path: path == const $CopyWithPlaceholder() || path == null
@@ -58,6 +60,10 @@ class _$BackgroundImageCWProxyImpl implements _$BackgroundImageCWProxy {
           ? _value.antialias
           // ignore: cast_nullable_to_non_nullable
           : antialias as bool,
+      hidden: hidden == const $CopyWithPlaceholder() || hidden == null
+          ? _value.hidden
+          // ignore: cast_nullable_to_non_nullable
+          : hidden as bool,
     );
   }
 }
@@ -77,6 +83,7 @@ BackgroundImage _$BackgroundImageFromJson(Map<String, dynamic> json) => Backgrou
       opacity: (json['opacity'] as num?)?.toDouble() ?? 1.0,
       repeat: json['repeat'] as bool? ?? true,
       antialias: json['antialias'] as bool? ?? true,
+      hidden: json['hidden'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$BackgroundImageToJson(BackgroundImage instance) => <String, dynamic>{
@@ -84,4 +91,5 @@ Map<String, dynamic> _$BackgroundImageToJson(BackgroundImage instance) => <Strin
       'opacity': instance.opacity,
       'repeat': instance.repeat,
       'antialias': instance.antialias,
+      'hidden': instance.hidden,
     };

@@ -37,6 +37,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
   double opacity = 1.0;
   bool repeat = true;
   bool antialias = true;
+  bool hidden = false;
   late final AnimationController $opacity;
 
   _TimetableBackgroundEditorState() {
@@ -48,6 +49,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
     opacity = bk?.opacity ?? 1.0;
     repeat = bk?.repeat ?? true;
     antialias = bk?.antialias ?? true;
+    hidden = bk?.hidden ?? false;
   }
 
   @override
@@ -81,8 +83,22 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
               ],
             ),
             SliverList.list(children: [
-              buildImage().padH(10),
-              buildToolBar().padV(4),
+              onHidden(
+                child: buildImage(),
+              ).padH(10),
+              onHidden(
+                child: buildToolBar(),
+              ).padV(4),
+              CheckboxListTile(
+                secondary: Icon(hidden ? Icons.hide_image_outlined : Icons.image_outlined),
+                title: "Show wallpaper".text(),
+                value: !hidden,
+                onChanged: (_) {
+                  setState(() {
+                    hidden = !hidden;
+                  });
+                },
+              ),
               if (rawPath != null && (Dev.on || (UniversalPlatform.isDesktop || kIsWeb)))
                 ListTile(
                   title: i18n.p13n.background.selectedImage.text(),
@@ -95,6 +111,14 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
           ],
         ),
       ),
+    );
+  }
+
+  Widget onHidden({required Widget child}) {
+    return AnimatedOpacity(
+      opacity: hidden ? 0.3 : 1.0,
+      duration: Durations.short4,
+      child: child,
     );
   }
 
@@ -211,6 +235,7 @@ class _TimetableBackgroundEditorState extends State<TimetableBackgroundEditor> w
       opacity: opacity,
       repeat: repeat,
       antialias: antialias,
+      hidden: hidden,
     );
   }
 
