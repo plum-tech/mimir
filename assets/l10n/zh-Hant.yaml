@@ -282,7 +282,7 @@ timetable:
       title: 調色盤
       desc: 自訂課程表的調色盤
     cellStyle:
-      title: 編輯單元樣式
+      title: 單元樣式
       desc: 課程單元看上去如何
     background:
       title: 桌布

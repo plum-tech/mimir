@@ -308,7 +308,7 @@ timetable:
       title: Palettes
       desc: Customize timetable colors
     cellStyle:
-      title: Edit cell style
+      title: Cell style
       desc: How course cell looks like
     background:
       title: Wallpaper

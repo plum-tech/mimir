@@ -300,7 +300,7 @@ timetable:
       title: 配色方案
       desc: 自定义课程表的颜色
     cellStyle:
-      title: 编辑单元格风格
+      title: 单元格风格
       desc: 课程单元格如何显示
     background:
       title: 壁纸
