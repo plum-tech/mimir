@@ -52,6 +52,8 @@ class MyTimetableListPage extends ConsumerStatefulWidget {
 }
 
 class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
+  var syncing = false;
+
   @override
   Widget build(BuildContext context) {
     final storage = TimetableInit.storage.timetable;
@@ -114,6 +116,7 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
     required List<Timetable> timetables,
     required String? selectedId,
   }) {
+    final timetableNames = timetables.map((t) => t.name).toList();
     return Scaffold(
       floatingActionButton: buildFab(),
       body: CustomScrollView(
@@ -126,16 +129,60 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
             itemCount: timetables.length,
             itemBuilder: (ctx, i) {
               final timetable = timetables[i];
-              return TimetableCard(
-                timetable: timetable,
-                selected: selectedId == timetable.uuid,
-                allTimetableNames: timetables.map((t) => t.name).toList(),
+              return AnimatedOpacity(
+                opacity: syncing ? 0.5 : 1,
+                duration: Durations.medium1,
+                child: AbsorbPointer(
+                  absorbing: syncing,
+                  child: buildCard(
+                    timetable: timetable,
+                    selectedId: selectedId,
+                    timetableNames: timetableNames,
+                  ),
+                ),
               ).padH(6);
             },
           ),
           const FloatingActionButtonSpace().sliver(),
         ],
       ),
+    );
+  }
+
+  Widget buildCard({
+    required Timetable timetable,
+    required String? selectedId,
+    required List<String> timetableNames,
+  }) {
+    return TimetableCard(
+      timetable: timetable,
+      selected: selectedId == timetable.uuid,
+      allTimetableNames: timetableNames,
+      onSync: () async {
+        try {
+          setState(() {
+            syncing = true;
+          });
+          final merged = await syncTimetable(context, timetable);
+          if (merged != null) {
+            TimetableInit.storage.timetable[timetable.uuid] = merged;
+          }
+          setState(() {
+            syncing = false;
+          });
+        } catch (error, stackTrace) {
+          debugPrintError(error, stackTrace);
+          if (!mounted) return;
+          setState(() {
+            syncing = false;
+          });
+          await context.showTip(
+            title: i18n.import.failed,
+            desc: error is DioException ? i18n.import.networkFailedDesc : i18n.import.failedDesc,
+            primary: i18n.ok,
+          );
+        }
+      },
     );
   }
 
@@ -235,41 +282,22 @@ Future<void> editTimetablePatch({
   TimetableInit.storage.timetable[uuid] = timetable.markModified();
 }
 
-class TimetableCard extends StatefulWidget {
+class TimetableCard extends StatelessWidget {
   final Timetable timetable;
   final bool selected;
   final List<String>? allTimetableNames;
+  final Future<void> Function() onSync;
 
   const TimetableCard({
     super.key,
     required this.timetable,
     required this.selected,
     this.allTimetableNames,
+    required this.onSync,
   });
 
   @override
-  State<TimetableCard> createState() => _TimetableCardState();
-}
-
-class _TimetableCardState extends State<TimetableCard> {
-  var syncing = false;
-
-  @override
   Widget build(BuildContext context) {
-    return AnimatedOpacity(
-      opacity: syncing ? 0.5 : 1,
-      duration: Durations.medium1,
-      child: AbsorbPointer(
-        absorbing: syncing,
-        child: buildCard(),
-      ),
-    );
-  }
-
-  Widget buildCard() {
-    final timetable = widget.timetable;
-    final selected = widget.selected;
-    final allTimetableNames = widget.allTimetableNames;
     return EntryCard(
       title: timetable.name,
       selected: selected,
@@ -380,31 +408,7 @@ class _TimetableCardState extends State<TimetableCard> {
           EntryAction(
             icon: Icons.sync,
             label: i18n.sync,
-            action: () async {
-              try {
-                setState(() {
-                  syncing = true;
-                });
-                final merged = await syncTimetable(context, timetable);
-                if (merged != null) {
-                  TimetableInit.storage.timetable[timetable.uuid] = merged;
-                }
-                setState(() {
-                  syncing = false;
-                });
-              } catch (error, stackTrace) {
-                debugPrintError(error, stackTrace);
-                if (!mounted) return;
-                setState(() {
-                  syncing = false;
-                });
-                await context.showTip(
-                  title: i18n.import.failed,
-                  desc: error is DioException ? i18n.import.networkFailedDesc : i18n.import.failedDesc,
-                  primary: i18n.ok,
-                );
-              }
-            },
+            action: onSync,
           ),
         EntryAction(
           label: i18n.duplicate,
