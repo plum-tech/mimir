@@ -13,7 +13,6 @@ const io = lateinit(() => {
     headers: {
       Authorization: auth,
     },
-    timeout: 3 * 60 * 1000, //ms
   })
 })
 

@@ -13,7 +13,7 @@ const main = async () => {
     require: [],
     options: [],
   })
-  const { version } = await getLatestTag()
+  const version = await getLatestTag()
   const info = buildVersionInfo({
     version,
   })
