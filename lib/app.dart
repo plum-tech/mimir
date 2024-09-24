@@ -115,6 +115,13 @@ class _MimirAppState extends ConsumerState<MimirApp> {
     ThemeData bakeTheme(ThemeData origin) {
       return origin.copyWith(
         platform: R.debugCupertino ? TargetPlatform.iOS : null,
+        menuTheme: MenuThemeData(
+          style: (origin.menuTheme.style ?? const MenuStyle()).copyWith(
+            shape: WidgetStatePropertyAll<OutlinedBorder?>(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+            ),
+          ),
+        ),
         colorScheme: themeColor == null
             ? null
             : ColorScheme.fromSeed(
