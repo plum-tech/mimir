@@ -51,6 +51,20 @@ class TimetablePalette implements WithUuid {
     required this.lastModified,
   });
 
+  factory TimetablePalette.create({
+    required String name,
+    required String author,
+    required List<DualColor> colors,
+  }) {
+    return TimetablePalette(
+      uuid: _kUUid(),
+      name: name,
+      author: author,
+      colors: colors,
+      lastModified: DateTime.now(),
+    );
+  }
+
   factory TimetablePalette.fromJson(Map<String, dynamic> json) => _$TimetablePaletteFromJson(json);
 
   Map<String, dynamic> toJson() => _$TimetablePaletteToJson(this);

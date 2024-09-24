@@ -7,6 +7,10 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mimir/design/entity/dual_color.dart';
+import 'package:mimir/timetable/init.dart';
+import 'package:mimir/timetable/p13n/entity/palette.dart';
+import 'package:mimir/timetable/page/preview.dart';
 import 'package:mimir/utils/permission.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rettulf/rettulf.dart';
@@ -21,6 +25,8 @@ import 'package:mimir/utils/images.dart';
 import 'package:mimir/utils/save.dart';
 import 'package:mimir/widget/modal_image_view.dart';
 import 'package:universal_platform/universal_platform.dart';
+import 'package:palette_generator/palette_generator.dart';
+
 import "../../i18n.dart";
 import '../entity/background.dart';
 
@@ -34,6 +40,7 @@ class TimetableBackgroundEditor extends ConsumerStatefulWidget {
 
 class _TimetableBackgroundEditorState extends ConsumerState<TimetableBackgroundEditor>
     with SingleTickerProviderStateMixin {
+  PaletteGenerator? paletteGen;
   String? rawPath;
   File? renderImageFile;
   double opacity = 1.0;
@@ -99,7 +106,16 @@ class _TimetableBackgroundEditorState extends ConsumerState<TimetableBackgroundE
               buildOpacity(),
               buildRepeat(),
               buildAntialias(),
-              if (kDebugMode) buildImmersive(),
+              if (kDebugMode) ...[
+                buildImmersive(),
+                if (paletteGen != null) buildPaletteCard(paletteGen!),
+                FilledButton.icon(
+                  label: "Regenerate".text(),
+                  onPressed: () async {
+                    await generatorPalette(renderImageFile!);
+                  },
+                ).center(),
+              ],
             ]),
           ],
         ),
@@ -213,11 +229,15 @@ class _TimetableBackgroundEditorState extends ConsumerState<TimetableBackgroundE
     );
     if (fi == null) return;
     if (!mounted) return;
+    final file = File(fi.path);
     setState(() {
       rawPath = fi.path;
-      renderImageFile = File(fi.path);
+      renderImageFile = file;
     });
     setOpacity(opacity);
+    if (!kIsWeb) {
+      await generatorPalette(file);
+    }
   }
 
   BackgroundImage? buildBackgroundImage() {
@@ -326,6 +346,52 @@ class _TimetableBackgroundEditorState extends ConsumerState<TimetableBackgroundE
     );
   }
 
+  Widget buildPaletteCard(PaletteGenerator gen) {
+    final palette = TimetablePalette.create(
+      name: "Immersive palette",
+      author: "You",
+      colors: gen.paletteColors.map((pc) {
+        return DualColor(
+            light: ColorEntry(
+              pc.color,
+              inverseText: ThemeData.estimateBrightnessForColor(pc.color) != Brightness.light,
+            ),
+            dark: ColorEntry(
+              pc.color,
+              inverseText: ThemeData.estimateBrightnessForColor(pc.color) != Brightness.dark,
+            ));
+      }).toList(),
+    );
+    return [
+      gen.paletteColors
+          .map((color) => ColorSquareCard(
+                color: color.color,
+                text: color.titleTextColor,
+              ))
+          .toList()
+          .wrap(spacing: 4, runSpacing: 4),
+      [
+        FilledButton.tonalIcon(
+          label: "Preview".text(),
+          onPressed: () async {
+            await previewTimetable(
+              context,
+              palette: palette,
+              background: Settings.timetable.backgroundImage,
+              timetable: TimetableInit.storage.timetable.selectedRow,
+            );
+          },
+        ),
+        FilledButton.tonalIcon(
+          label: "Added".text(),
+          onPressed: () async {
+            TimetableInit.storage.palette.add(palette);
+          },
+        ),
+      ].row(maa: MainAxisAlignment.spaceEvenly),
+    ].column();
+  }
+
   Widget buildOpacity() {
     final value = opacity;
     return ListTile(
@@ -371,6 +437,47 @@ class _TimetableBackgroundEditorState extends ConsumerState<TimetableBackgroundE
           antialias = newV;
         });
       },
+    );
+  }
+
+  Future<void> generatorPalette(File imgFi) async {
+    final generator = await PaletteGenerator.fromImageProvider(
+      FileImage(imgFi),
+      maximumColorCount: 12,
+      targets: PaletteTarget.baseTargets,
+    );
+    setState(() {
+      paletteGen = generator;
+    });
+  }
+}
+
+class ColorSquareCard extends StatelessWidget {
+  final Color color;
+  final Color text;
+
+  const ColorSquareCard({
+    required this.color,
+    required this.text,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card.filled(
+      margin: EdgeInsets.zero,
+      color: color,
+      child: SizedBox(
+        width: 32,
+        height: 32,
+        child: "A"
+            .text(
+                style: context.textTheme.bodyLarge?.copyWith(
+              color: text,
+              fontWeight: FontWeight.bold,
+            ))
+            .center(),
+      ),
     );
   }
 }

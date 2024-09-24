@@ -151,6 +151,7 @@ class _WallpaperImplState extends State<_WallpaperImpl> with SingleTickerProvide
   @override
   Widget build(BuildContext context) {
     final background = widget.background;
+
     return Image.file(
       Files.timetable.backgroundFile,
       opacity: $opacity,

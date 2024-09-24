@@ -21,7 +21,7 @@ Future<void> copyCompressedImageToTarget({
     await FlutterImageCompress.compressAndGetFile(
       source.path,
       target,
-      format: UniversalPlatform.isIOS ? CompressFormat.heic : CompressFormat.jpeg,
+      format: UniversalPlatform.isIOS ? CompressFormat.heic : CompressFormat.png,
     );
     return;
   } else {

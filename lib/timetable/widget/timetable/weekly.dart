@@ -233,7 +233,7 @@ class TimetableOneWeek extends StatelessWidget {
     }
   }
 
-  /// 布局左侧边栏, 显示节次
+  /// timeslots
   Widget buildLeftColumn(BuildContext ctx, Size cellSize) {
     final textStyle = ctx.textTheme.bodyMedium;
     final side = getTimetableBorderSide(ctx);
@@ -277,7 +277,7 @@ class TimetableOneWeek extends StatelessWidget {
     }).row();
   }
 
-  /// 构建某一天的那一列格子.
+  /// lessons on a day
   Widget _buildCellsByDay(
     BuildContext context,
     TimetableDay day,
