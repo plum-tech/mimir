@@ -37,6 +37,8 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
             SliverOverlapAbsorber(
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
               sliver: SliverAppBar(
+                floating: true,
+                snap: true,
                 title: i18n.navigation.text(),
                 forceElevated: innerBoxIsScrolled,
               ),

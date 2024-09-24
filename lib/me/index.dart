@@ -44,6 +44,8 @@ class _MePageState extends ConsumerState<MePage> {
           SliverAppBar(
             titleTextStyle: context.textTheme.headlineSmall,
             title: const Greeting(),
+            floating: true,
+            snap: true,
             toolbarHeight: 120,
             centerTitle: false,
             actions: [

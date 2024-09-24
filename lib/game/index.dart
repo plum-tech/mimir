@@ -32,6 +32,8 @@ class _GamePageState extends ConsumerState<GamePage> {
             SliverOverlapAbsorber(
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
               sliver: SliverAppBar(
+                floating: true,
+                snap: true,
                 title: i18n.navigation.text(),
                 forceElevated: innerBoxIsScrolled,
               ),

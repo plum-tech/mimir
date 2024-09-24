@@ -32,6 +32,8 @@ class _LifePageState extends ConsumerState<LifePage> {
             SliverOverlapAbsorber(
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
               sliver: SliverAppBar(
+                floating: true,
+                snap: true,
                 title: i18n.navigation.text(),
                 forceElevated: innerBoxIsScrolled,
               ),
