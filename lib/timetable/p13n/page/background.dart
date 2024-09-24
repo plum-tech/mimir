@@ -144,7 +144,7 @@ class _TimetableBackgroundEditorState extends ConsumerState<TimetableBackgroundE
                   FileImage(renderImageFile),
                 );
                 if (added) {
-                if (!context.mounted) return;
+                  if (!context.mounted) return;
                   context.push("/timetable/palettes/custom");
                 }
               },
@@ -261,7 +261,13 @@ class _TimetableBackgroundEditorState extends ConsumerState<TimetableBackgroundE
     );
     if (fi == null) return;
     if (!mounted) return;
-    final file = File(fi.path);
+    var file = File(fi.path);
+    if (Platform.isAndroid || Platform.isIOS) {
+      final croppedFile = await cropImage(context, file);
+      if (croppedFile != null) {
+        file = croppedFile;
+      }
+    }
     setState(() {
       rawPath = fi.path;
       renderImageFile = file;

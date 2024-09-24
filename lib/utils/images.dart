@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:path/path.dart' as path;
 
@@ -27,4 +29,26 @@ Future<void> copyCompressedImageToTarget({
   } else {
     await source.copy(target);
   }
+}
+
+Future<File?> cropImage(BuildContext context, File imageFile) async {
+  final croppedFile = await ImageCropper().cropImage(
+    sourcePath: imageFile.path,
+    uiSettings: [
+      AndroidUiSettings(
+        aspectRatioPresets: [
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.square,
+        ],
+      ),
+      IOSUiSettings(
+        aspectRatioPresets: [
+          CropAspectRatioPreset.original,
+          CropAspectRatioPreset.square,
+        ],
+      ),
+    ],
+  );
+  if (croppedFile == null) return null;
+  return File(croppedFile.path);
 }
