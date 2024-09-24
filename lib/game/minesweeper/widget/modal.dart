@@ -17,11 +17,13 @@ class GameOverModal extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Positioned.fill(
       child: InkWell(
+        borderRadius: BorderRadius.circular(12.0),
         onTap: () {
           resetGame();
         },
         child: Container(
           decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.0),
             color: gameOverColor.withOpacity(0.5),
           ),
           child: Text(
@@ -50,10 +52,12 @@ class VictoryModal extends ConsumerWidget {
     return Positioned.fill(
       child: Container(
         decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.0),
           color: victoryColor.withOpacity(0.5),
         ),
-        child: MaterialButton(
-          onPressed: () {
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12.0),
+          onTap: () {
             resetGame();
           },
           child: Text(
@@ -61,7 +65,7 @@ class VictoryModal extends ConsumerWidget {
             style: const TextStyle(
               fontSize: 64.0,
             ),
-          ),
+          ).center(),
         ),
       ),
     );

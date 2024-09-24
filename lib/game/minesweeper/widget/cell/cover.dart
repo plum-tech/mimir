@@ -16,12 +16,10 @@ class CellCover extends StatelessWidget {
       curve: Curves.ease,
       duration: visible ? Duration.zero : Durations.long1,
       child: Container(
+        margin: const EdgeInsets.all(1),
         decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12.0),
           color: context.colorScheme.surfaceContainerHighest,
-          border: Border.all(
-            width: 1,
-            color: context.colorScheme.surface,
-          ),
         ),
       ),
     );
