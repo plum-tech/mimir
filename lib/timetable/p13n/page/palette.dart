@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,7 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/design/widget/fab.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mimir/settings/settings.dart';
+import 'package:mimir/utils/permission.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
@@ -25,6 +30,7 @@ import 'package:uuid/uuid.dart';
 import '../../i18n.dart';
 import '../../deep_link/palette.dart';
 import '../builtin.dart';
+import '../utils/generate.dart';
 import '../widget/style.dart';
 import '../../widget/timetable/weekly.dart';
 import 'palette_editor.dart';
@@ -74,52 +80,45 @@ class _TimetableP13nPageState extends ConsumerState<TimetablePaletteListPage> wi
   Widget build(BuildContext context) {
     final palettes = ref.watch(TimetableInit.storage.palette.$rows);
     return Scaffold(
-      floatingActionButton: FloatingActionButton.extended(
-        label: i18n.add.text(),
-        icon: Icon(context.icons.add),
-        onPressed: addPalette,
-      ),
-      body: NestedScrollView(
-        floatHeaderSlivers: true,
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          // These are the slivers that show up in the "outer" scroll view.
-          return <Widget>[
-            SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverAppBar(
-                floating: true,
-                title: i18n.p13n.palette.title.text(),
-                forceElevated: innerBoxIsScrolled,
-                bottom: TabBar(
-                  controller: tabController,
-                  isScrollable: true,
-                  tabs: [
-                    Tab(child: i18n.p13n.palette.customTab.text()),
-                    Tab(child: i18n.p13n.palette.builtinTab.text()),
-                  ],
-                ),
-              ),
-            ),
-          ];
-        },
-        body: TabBarView(
+      persistentFooterButtons: [
+        FilledButton.tonalIcon(
+          onPressed: generateFromImage,
+          icon: const Icon(Icons.generating_tokens_outlined),
+          label: "Generate".text(),
+        ),
+        FilledButton.icon(
+          onPressed: addPalette,
+          icon: Icon(context.icons.add),
+          label: "Create".text(),
+        ),
+      ],
+      persistentFooterAlignment: AlignmentDirectional.center,
+      appBar: AppBar(
+        title: i18n.p13n.palette.title.text(),
+        bottom: TabBar(
           controller: tabController,
-          children: [
-            buildPaletteList(palettes),
-            buildPaletteList(BuiltinTimetablePalettes.all),
+          isScrollable: true,
+          tabs: [
+            Tab(child: i18n.p13n.palette.customTab.text()),
+            Tab(child: i18n.p13n.palette.builtinTab.text()),
           ],
         ),
+      ),
+      body: TabBarView(
+        controller: tabController,
+        children: [
+          buildPaletteList(palettes),
+          buildPaletteList(BuiltinTimetablePalettes.all),
+        ],
       ),
     );
   }
 
   Future<void> addPalette() async {
-    final palette = TimetablePalette(
+    final palette = TimetablePalette.create(
       name: i18n.p13n.palette.newPaletteName,
-      uuid: const Uuid().v4(),
-      author: "",
+      author: Settings.lastSignature ?? "",
       colors: [],
-      lastModified: DateTime.now(),
     );
     final uuid = TimetableInit.storage.palette.add(palette);
     tabController.index = TimetableP13nTab.custom;
@@ -129,29 +128,49 @@ class _TimetableP13nPageState extends ConsumerState<TimetablePaletteListPage> wi
     );
   }
 
+  Future<void> generateFromImage() async {
+    final context = this.context;
+    await requestPermission(context, Permission.photos);
+    final picker = ImagePicker();
+    final XFile? fi = await picker.pickImage(
+      source: ImageSource.gallery,
+      requestFullMetadata: false,
+    );
+    if (fi == null) return;
+    if (kIsWeb) {
+      final bytes = await fi.readAsBytes();
+      if (!context.mounted) return;
+      await addPaletteFromImageByGenerator(
+        context,
+        MemoryImage(bytes),
+      );
+    } else {
+      if (!context.mounted) return;
+      await addPaletteFromImageByGenerator(
+        context,
+        FileImage(File(fi.path)),
+      );
+    }
+  }
+
   Widget buildPaletteList(List<TimetablePalette> palettes) {
     final selectedId = ref.watch(TimetableInit.storage.palette.$selectedId) ?? BuiltinTimetablePalettes.classic.uuid;
     final selectedTimetable = ref.watch(TimetableInit.storage.timetable.$selectedRow);
     palettes = palettes.sorted((a, b) => b.lastModified.compareTo(a.lastModified));
-    return CustomScrollView(
-      slivers: [
-        SliverList.builder(
-          itemCount: palettes.length,
-          itemBuilder: (ctx, i) {
-            final palette = palettes[i];
-            return PaletteCard(
-              palette: palette,
-              timetable: selectedTimetable,
-              selected: selectedId == palette.uuid,
-              onDuplicate: () {
-                tabController.index = TimetableP13nTab.custom;
-              },
-              allPaletteNames: palettes.map((p) => p.name).toList(),
-            ).padH(6);
+    return ListView.builder(
+      itemCount: palettes.length,
+      itemBuilder: (ctx, i) {
+        final palette = palettes[i];
+        return PaletteCard(
+          palette: palette,
+          timetable: selectedTimetable,
+          selected: selectedId == palette.uuid,
+          onDuplicate: () {
+            tabController.index = TimetableP13nTab.custom;
           },
-        ),
-        const FloatingActionButtonSpace().sliver(),
-      ],
+          allPaletteNames: palettes.map((p) => p.name).toList(),
+        ).padH(6);
+      },
     );
   }
 }
@@ -402,20 +421,9 @@ class PaletteColorsPreview extends StatelessWidget {
             child: TweenAnimationBuilder(
               tween: ColorTween(begin: color.color, end: color.color),
               duration: const Duration(milliseconds: 300),
-              builder: (ctx, value, child) => Card.filled(
-                margin: EdgeInsets.zero,
+              builder: (ctx, value, child) => ColorSquareCard(
                 color: value,
-                child: SizedBox(
-                  width: 32,
-                  height: 32,
-                  child: "A"
-                      .text(
-                          style: context.textTheme.bodyLarge?.copyWith(
-                        color: textColor,
-                        fontWeight: FontWeight.bold,
-                      ))
-                      .center(),
-                ),
+                textColor: textColor,
               ),
             ),
           );
@@ -552,4 +560,34 @@ Future<void> onTimetablePaletteFromQrCode({
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
   context.push("/timetable/palettes/custom");
+}
+
+class ColorSquareCard extends StatelessWidget {
+  final Color? color;
+  final Color? textColor;
+
+  const ColorSquareCard({
+    this.color,
+    this.textColor,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card.filled(
+      margin: EdgeInsets.zero,
+      color: color,
+      child: SizedBox(
+        width: 32,
+        height: 32,
+        child: "A"
+            .text(
+                style: context.textTheme.bodyLarge?.copyWith(
+              color: textColor,
+              fontWeight: FontWeight.bold,
+            ))
+            .center(),
+      ),
+    );
+  }
 }
