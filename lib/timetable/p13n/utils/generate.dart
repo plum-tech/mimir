@@ -38,7 +38,7 @@ Future<TimetablePalette> generatePaletteFromImage(
   return palette;
 }
 
-Future<void> addPaletteFromImageByGenerator(
+Future<bool> addPaletteFromImageByGenerator(
   BuildContext context,
   ImageProvider img, {
   int maxColorCount = 12,
@@ -47,13 +47,13 @@ Future<void> addPaletteFromImageByGenerator(
     img,
     maxColorCount: maxColorCount,
   );
-  if (!context.mounted) return;
+  if (!context.mounted) return false;
   final newPalette = await context.showSheet<TimetablePalette>(
     (ctx) => TimetablePaletteEditorPage(palette: palette),
     dismissible: false,
   );
-  if (newPalette == null) return;
+  if (newPalette == null) return false;
   TimetableInit.storage.palette.add(newPalette);
   await HapticFeedback.mediumImpact();
-  if (!context.mounted) return;
+  return true;
 }

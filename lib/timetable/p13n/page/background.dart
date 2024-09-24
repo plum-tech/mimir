@@ -139,12 +139,14 @@ class _TimetableBackgroundEditorState extends ConsumerState<TimetableBackgroundE
               icon: const Icon(Icons.generating_tokens_outlined),
               label: i18n.p13n.background.generatePalette.text(),
               onPressed: () async {
-                await addPaletteFromImageByGenerator(
+                final added = await addPaletteFromImageByGenerator(
                   context,
                   FileImage(renderImageFile),
                 );
+                if (added) {
                 if (!context.mounted) return;
-                context.push("/timetable/palettes/custom");
+                  context.push("/timetable/palettes/custom");
+                }
               },
             ),
         ],
