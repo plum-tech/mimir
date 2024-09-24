@@ -9,30 +9,35 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/background.dart';
 
 class WallpaperWidget extends StatelessWidget {
-  final BackgroundImage background;
+  final BackgroundImage? background;
+  final double opacity;
   final bool fade;
   final Duration fadeDuration;
 
   const WallpaperWidget({
     super.key,
-    required this.background,
+    this.background,
+    this.opacity = 1.0,
     this.fade = true,
     this.fadeDuration = Durations.long2,
   });
 
   @override
   Widget build(BuildContext context) {
-    if (!background.enabled || background.hidden) {
+    final background = this.background;
+    if (background == null || !background.enabled || background.hidden) {
       return const SizedBox.shrink();
     }
     if (kIsWeb) {
       return _WallpaperWebImpl(
         background: background,
+        opacity: opacity,
       );
     } else {
       return _WallpaperImpl(
         background: background,
         fade: fade,
+        opacity: opacity,
         fadeDuration: kDebugMode ? const Duration(milliseconds: 1000) : Durations.medium3,
       );
     }
@@ -40,14 +45,16 @@ class WallpaperWidget extends StatelessWidget {
 }
 
 class WithWallpaper extends StatelessWidget {
-  final BackgroundImage background;
+  final BackgroundImage? background;
+  final double opacity;
   final Widget child;
   final bool fade;
 
   const WithWallpaper({
     super.key,
     required this.child,
-    required this.background,
+    this.opacity = 1.0,
+    this.background,
     this.fade = true,
   });
 
@@ -57,6 +64,7 @@ class WithWallpaper extends StatelessWidget {
       Positioned.fill(
         child: WallpaperWidget(
           background: background,
+          opacity: opacity,
           fade: fade,
         ),
       ),
@@ -67,12 +75,14 @@ class WithWallpaper extends StatelessWidget {
 
 class _WallpaperImpl extends StatefulWidget {
   final BackgroundImage background;
+  final double opacity;
   final bool fade;
   final Duration fadeDuration;
 
   const _WallpaperImpl({
     required this.background,
     this.fade = true,
+    this.opacity = 1.0,
     this.fadeDuration = Durations.long2,
   });
 
@@ -152,28 +162,38 @@ class _WallpaperImplState extends State<_WallpaperImpl> with SingleTickerProvide
   Widget build(BuildContext context) {
     final background = widget.background;
 
-    return Image.file(
-      Files.timetable.backgroundFile,
-      opacity: $opacity,
-      filterQuality: background.filterQuality,
-      repeat: background.imageRepeat,
+    return AnimatedOpacity(
+      opacity: widget.opacity,
+      duration: Durations.short3,
+      child: Image.file(
+        Files.timetable.backgroundFile,
+        opacity: $opacity,
+        filterQuality: background.filterQuality,
+        repeat: background.imageRepeat,
+      ),
     );
   }
 }
 
 class _WallpaperWebImpl extends StatelessWidget {
   final BackgroundImage background;
+  final double opacity;
 
   const _WallpaperWebImpl({
     required this.background,
+    this.opacity = 1.0,
   });
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: background.path,
-      filterQuality: background.filterQuality,
-      repeat: background.imageRepeat,
+    return AnimatedOpacity(
+      opacity: opacity,
+      duration: Durations.short3,
+      child: CachedNetworkImage(
+        imageUrl: background.path,
+        filterQuality: background.filterQuality,
+        repeat: background.imageRepeat,
+      ),
     );
   }
 }
