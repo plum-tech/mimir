@@ -1606,10 +1606,10 @@ packages:
     dependency: "direct main"
     description:
       name: open_file
-      sha256: "3bd408a9ab3dc4f0e6a3906fe635519b2ff0dd3a3547c9a99acdf73a73949587"
+      sha256: "865fcdf2f6876f8265d6a99a642df7d244e8ee979f8a5d2650b1d8eb3c70e273"
       url: "https://pub.dev"
     source: hosted
-    version: "3.5.5"
+    version: "3.5.6"
   open_file_android:
     dependency: transitive
     description:
@@ -1942,10 +1942,10 @@ packages:
     dependency: "direct main"
     description:
       name: quick_actions
-      sha256: b17da113df7a7005977f64adfa58ccc49c829d3ccc6e8e770079a8c7fbf2da9e
+      sha256: "2c1d9a91f3218b4e987a7e1e95ba0415b7f48a2cb3ffacc027a1e3d3c117223f"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.7"
+    version: "1.0.8"
   quick_actions_android:
     dependency: transitive
     description:
