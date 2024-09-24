@@ -23,7 +23,7 @@ const main = async () => {
   const filePath = args.source
   const res = await uploadFile({
     localFilePath: filePath,
-    remotePath: `mimir-preview/${sanitizeNameForUri(`sitlife-v${version}.apk`)}`,
+    remotePath: `mimir-preview/${sanitizeNameForUri(`sitlife-${version}.apk`)}`,
   })
   console.log(res)
 }
