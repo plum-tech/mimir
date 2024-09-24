@@ -78,8 +78,8 @@ class _MePageState extends ConsumerState<MePage> {
       leading: const Icon(SimpleIcons.tencentqq),
       title: "QQ交流群".text(),
       subtitle: _qGroupNumber.text(),
-      trailing: PlatformIconButton(
-        padding: EdgeInsets.zero,
+      trailing: IconButton.filledTonal(
+        icon: const Icon(Icons.group_add),
         onPressed: () async {
           try {
             if (UniversalPlatform.isIOS || UniversalPlatform.isAndroid) {
@@ -94,7 +94,6 @@ class _MePageState extends ConsumerState<MePage> {
             context.showSnackBar(content: i18n.copyTipOf("QQ交流群").text());
           }
         },
-        icon: const Icon(Icons.group),
       ),
     );
   }
@@ -104,8 +103,7 @@ class _MePageState extends ConsumerState<MePage> {
       leading: const Icon(SimpleIcons.wechat),
       title: "微信公众号".text(),
       subtitle: "小应生活".text(),
-      trailing: PlatformIconButton(
-        padding: EdgeInsets.zero,
+      trailing: IconButton.filledTonal(
         onPressed: () async {
           try {
             await launchUrlString(_wechatUri);

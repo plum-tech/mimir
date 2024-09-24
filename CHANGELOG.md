@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.7.0
+- Introduced immersive timetable wallpaper.
+- Introduced timetable palette generator from images.
+- Cropping the timetable wallpaper.
+- Scrolling should be more smooth in OA announcement, second class activity, and SIT YWB application.
+
 ## 2.6.4
 - Redesigned edu email inbox page and mail details page.
 - [Demo mode] Demo mode is supported on edu email.
