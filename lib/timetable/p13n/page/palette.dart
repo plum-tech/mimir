@@ -84,7 +84,7 @@ class _TimetableP13nPageState extends ConsumerState<TimetablePaletteListPage> wi
         FilledButton.tonalIcon(
           onPressed: generateFromImage,
           icon: const Icon(Icons.generating_tokens_outlined),
-          label:i18n.p13n.palette.generate.text(),
+          label: i18n.p13n.palette.generate.text(),
         ),
         FilledButton.icon(
           onPressed: addPalette,

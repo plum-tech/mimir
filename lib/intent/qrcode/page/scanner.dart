@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as p;
@@ -146,6 +145,7 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
         buildSwitchButton(),
         if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS) buildScanImageButton(),
       ],
+      persistentFooterAlignment: AlignmentDirectional.center,
     );
   }
 
@@ -157,14 +157,14 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
   }
 
   Widget buildScanImageButton() {
-    return PlatformIconButton(
+    return IconButton.filledTonal(
       icon: const Icon(Icons.image),
       onPressed: recognizeFromFile,
     );
   }
 
   Widget buildSwitchButton() {
-    return PlatformIconButton(
+    return IconButton.filledTonal(
       icon: Icon(context.icons.switchCamera),
       onPressed: () => controller.switchCamera(),
     );
@@ -173,18 +173,19 @@ class _ScannerPageState extends State<ScannerPage> with WidgetsBindingObserver {
   Widget buildTorchButton() {
     return controller >>
         (context, state) => switch (state.torchState) {
-              TorchState.off => PlatformIconButton(
+              TorchState.off => IconButton.filledTonal(
                   icon: const Icon(Icons.flash_off),
                   onPressed: controller.toggleTorch,
                 ),
-              TorchState.on => PlatformIconButton(
+              TorchState.on => IconButton.filledTonal(
                   icon: const Icon(Icons.flash_on, color: Colors.yellow),
                   onPressed: controller.toggleTorch,
                 ),
-              TorchState.unavailable => PlatformIconButton(
-                  icon: const Icon(Icons.flash_off),
+              TorchState.unavailable => const IconButton.filledTonal(
+                  icon: Icon(Icons.flash_off),
+                  onPressed: null,
                 ),
-              TorchState.auto => PlatformIconButton(
+              TorchState.auto => IconButton.filledTonal(
                   icon: const Icon(Icons.flash_on),
                   onPressed: controller.toggleTorch,
                 ),
