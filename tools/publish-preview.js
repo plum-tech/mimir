@@ -34,7 +34,7 @@ const buildVersionInfo = ({ version }) => {
     assets: {
       Android: {
         fileName,
-        defaultSrc: getArtifactDownloadUrl({ tagName: "mimir-preview", fileName }),
+        defaultSrc: getArtifactDownloadUrl({ folder: "mimir-preview", fileName }),
       }
     },
   }
