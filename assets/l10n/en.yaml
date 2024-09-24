@@ -229,12 +229,13 @@ timetable:
       authorPlaceholder: Your name, email, or url
       color: color
       details: Details
-      fab: Create
       newPaletteName: New palette
       deleteRequest: Conform to delete?
       deleteRequestDesc: The palette will be deleted permanently without unless a QR code backup is saved
       addColor: Add a color
       appSettings: App settings
+      generate: Generate
+      create: Create
       builtin:
         classic:
           name: Classic
@@ -280,6 +281,10 @@ timetable:
       antialias:
         title: Anti-alias
         desc: Turn off this if image is low in pixels
+      immersive:
+        title: Immersive
+        desc: Expanding images to the full screen
+      generatePalette: Generate palette
     livePreview:
       0:
         name: Taken

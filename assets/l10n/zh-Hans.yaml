@@ -221,12 +221,13 @@ timetable:
       authorPlaceholder: 你的姓名，电子邮箱，或 url
       color: 颜色
       details: 详情
-      fab: 创作
       newPaletteName: 新的配色方案
       deleteRequest: 确定删除？
       deleteRequestDesc: 推荐先保存二维码备份再删除
       addColor: 添加一种配色
       appSettings: 应用设置
+      generate: 生成
+      create: 创作
       builtin:
         classic:
           name: 经典
@@ -272,6 +273,10 @@ timetable:
       antialias:
         title: 抗锯齿
         desc: 如果图像像素较低，请关闭此功能
+      immersive:
+        title: 沉浸式
+        desc: 将图像向全屏展开
+      generatePalette: 生成配色方案
     livePreview:
       0:
         name: 上过的

@@ -126,7 +126,7 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
           },
         ),
         PullDownItem(
-          icon: Icons.color_lens,
+          icon: Icons.color_lens_outlined,
           title: i18n.p13n.palette.title,
           onTap: () async {
             await context.push("/timetable/palettes");

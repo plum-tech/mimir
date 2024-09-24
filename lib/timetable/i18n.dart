@@ -117,8 +117,6 @@ class _Palette {
 
   String get title => "$ns.title".tr();
 
-  String get fab => "$ns.fab".tr();
-
   String get customTab => "$ns.tab.custom".tr();
 
   String get builtinTab => "$ns.tab.builtin".tr();
@@ -144,6 +142,10 @@ class _Palette {
   String get details => "$ns.details".tr();
 
   String get appSettings => "$ns.appSettings".tr();
+
+  String get generate => "$ns.generate".tr();
+
+  String get create => "$ns.create".tr();
 }
 
 class _Background {
@@ -172,6 +174,12 @@ class _Background {
   String get antialias => "$ns.antialias.title".tr();
 
   String get antialiasDesc => "$ns.antialias.desc".tr();
+
+  String get immersive => "$ns.immersive.title".tr();
+
+  String get immersiveDesc => "$ns.immersive.desc".tr();
+
+  String get generatePalette => "$ns.generatePalette".tr();
 }
 
 class _Screenshot {

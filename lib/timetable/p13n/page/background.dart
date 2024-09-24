@@ -137,7 +137,7 @@ class _TimetableBackgroundEditorState extends ConsumerState<TimetableBackgroundE
           if (renderImageFile != null)
             FilledButton.tonalIcon(
               icon: const Icon(Icons.generating_tokens_outlined),
-              label: "Generate palette".text(),
+              label: i18n.p13n.background.generatePalette.text(),
               onPressed: () async {
                 await addPaletteFromImageByGenerator(
                   context,
@@ -366,8 +366,8 @@ class _TimetableBackgroundEditorState extends ConsumerState<TimetableBackgroundE
     final immersiveWallpaper = ref.watch(Settings.timetable.$immersiveWallpaper);
     return SwitchListTile.adaptive(
       secondary: const Icon(Icons.vrpano_outlined),
-      title: "Immersive".text(),
-      subtitle: "Expanding the image to full screen".text(),
+      title: i18n.p13n.background.immersive.text(),
+      subtitle: i18n.p13n.background.immersiveDesc.text(),
       value: immersiveWallpaper,
       onChanged: (v) {
         ref.read(Settings.timetable.$immersiveWallpaper.notifier).set(v);
