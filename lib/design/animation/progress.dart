@@ -98,3 +98,29 @@ class BlockWhenLoading extends StatelessWidget {
     ].stack();
   }
 }
+
+class WhenLoading extends StatelessWidget {
+  final bool loading;
+  final Widget child;
+
+  const WhenLoading({
+    super.key,
+    required this.child,
+    this.loading = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      AnimatedOpacity(
+        opacity: loading ? 0.5 : 1,
+        duration: Durations.short4,
+        child: child,
+      ),
+      if (loading)
+        Positioned.fill(
+          child: const CircularProgressIndicator().center(),
+        ),
+    ].stack();
+  }
+}

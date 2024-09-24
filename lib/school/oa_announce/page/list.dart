@@ -4,6 +4,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/credentials/init.dart';
+import 'package:mimir/design/animation/progress.dart';
 import 'package:mimir/design/widget/common.dart';
 
 import 'package:mimir/school/oa_announce/widget/tile.dart';
@@ -44,73 +45,42 @@ class OaAnnounceListPageInternal extends StatefulWidget {
 }
 
 class _OaAnnounceListPageInternalState extends State<OaAnnounceListPageInternal> {
-  late final $loadingStates = ValueNotifier(widget.cats.map((cat) => false).toList());
-
-  @override
-  void dispose() {
-    $loadingStates.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return $loadingStates >>
-        (ctx, states) => Scaffold(
-              floatingActionButton:
-                  !states.any((state) => state == true) ? null : const CircularProgressIndicator.adaptive(),
-              body: DefaultTabController(
-                length: widget.cats.length,
-                child: NestedScrollView(
-                  floatHeaderSlivers: true,
-                  headerSliverBuilder: (context, innerBoxIsScrolled) {
-                    // These are the slivers that show up in the "outer" scroll view.
-                    return <Widget>[
-                      SliverOverlapAbsorber(
-                        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                        sliver: SliverAppBar(
-                          floating: true,
-                          title: i18n.title.text(),
-                          forceElevated: innerBoxIsScrolled,
-                          bottom: TabBar(
-                            isScrollable: true,
-                            tabs: widget.cats
-                                .map((cat) => Tab(
-                                      child: cat.l10nName().text(),
-                                    ))
-                                .toList(),
-                          ),
-                        ),
-                      ),
-                    ];
-                  },
-                  body: TabBarView(
-                    // These are the contents of the tab views, below the tabs.
-                    children: widget.cats.mapIndexed((i, cat) {
-                      return OaAnnounceLoadingList(
-                        key: ValueKey(cat),
-                        cat: cat,
-                        onLoadingChanged: (state) {
-                          final newStates = List.of($loadingStates.value);
-                          newStates[i] = state;
-                          $loadingStates.value = newStates;
-                        },
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
+    return DefaultTabController(
+      length: widget.cats.length,
+      child: Scaffold(
+        appBar: AppBar(
+          title: i18n.title.text(),
+          bottom: TabBar(
+            isScrollable: true,
+            tabs: widget.cats
+                .map((cat) => Tab(
+                      child: cat.l10nName().text(),
+                    ))
+                .toList(),
+          ),
+        ),
+        body: TabBarView(
+          // These are the contents of the tab views, below the tabs.
+          children: widget.cats.mapIndexed((i, cat) {
+            return OaAnnounceLoadingList(
+              key: ValueKey(cat),
+              cat: cat,
             );
+          }).toList(),
+        ),
+      ),
+    );
   }
 }
 
 class OaAnnounceLoadingList extends StatefulWidget {
   final OaAnnounceCat cat;
-  final ValueChanged<bool> onLoadingChanged;
 
   const OaAnnounceLoadingList({
     super.key,
     required this.cat,
-    required this.onLoadingChanged,
   });
 
   @override
@@ -119,7 +89,7 @@ class OaAnnounceLoadingList extends StatefulWidget {
 
 class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with AutomaticKeepAliveClientMixin {
   int lastPage = 1;
-  bool isFetching = false;
+  bool fetching = false;
   late var announcements = OaAnnounceInit.storage.getAnnouncements(widget.cat);
 
   @override
@@ -144,44 +114,38 @@ class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with Auto
         }
         return true;
       },
-      child: CustomScrollView(
-        // CAN'T USE ScrollController, and I don't know why
-        // controller: scrollController,
-        slivers: <Widget>[
-          SliverOverlapInjector(
-            // This is the flip side of the SliverOverlapAbsorber above.
-            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-          ),
-          if (announcements != null)
-            if (announcements.isEmpty)
-              SliverFillRemaining(
-                child: LeavingBlank(
-                  icon: Icons.inbox_outlined,
-                  desc: i18n.noOaAnnouncementsTip,
-                ),
-              )
-            else
-              SliverList.builder(
-                itemCount: announcements.length,
-                itemBuilder: (ctx, index) {
-                  return Card.filled(
-                    clipBehavior: Clip.hardEdge,
-                    child: OaAnnounceTile(announcements[index]),
-                  );
-                },
-              ),
-        ],
-      ),
+      child: announcements == null
+          ? const SizedBox()
+          : WhenLoading(
+              loading: fetching,
+              child: buildList(announcements),
+            ),
     );
   }
 
+  Widget buildList(List<OaAnnounceRecord> announcements) {
+    return announcements.isEmpty
+        ? LeavingBlank(
+            icon: Icons.inbox_outlined,
+            desc: i18n.noOaAnnouncementsTip,
+          )
+        : ListView.builder(
+          itemCount: announcements.length,
+          itemBuilder: (ctx, index) {
+            return Card.filled(
+              clipBehavior: Clip.hardEdge,
+              child: OaAnnounceTile(announcements[index]),
+            );
+          },
+        );
+  }
+
   Future<void> loadMore() async {
-    if (isFetching) return;
+    if (fetching) return;
     if (!mounted) return;
     setState(() {
-      isFetching = true;
+      fetching = true;
     });
-    widget.onLoadingChanged(true);
     final cat = widget.cat;
     try {
       final lastPayload = await OaAnnounceInit.service.getAnnounceList(cat, lastPage);
@@ -194,16 +158,14 @@ class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with Auto
       setState(() {
         lastPage = max(lastPage + 1, lastPayload.totalPage);
         this.announcements = announcements;
-        isFetching = false;
+        fetching = false;
       });
-      widget.onLoadingChanged(false);
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
-        isFetching = false;
+        fetching = false;
       });
-      widget.onLoadingChanged(false);
     }
   }
 }

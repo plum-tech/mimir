@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/design/animation/progress.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widget/common.dart';
@@ -23,85 +24,52 @@ class ActivityListPage extends StatefulWidget {
 }
 
 class _ActivityListPageState extends State<ActivityListPage> {
-  final $loadingStates = ValueNotifier(commonClass2ndCategories.map((cat) => false).toList());
-
-  @override
-  void dispose() {
-    $loadingStates.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return $loadingStates >>
-        (ctx, states) => Scaffold(
-              floatingActionButton:
-                  !states.any((state) => state == true) ? null : const CircularProgressIndicator.adaptive(),
-              body: DefaultTabController(
-                length: commonClass2ndCategories.length,
-                child: NestedScrollView(
-                  floatHeaderSlivers: true,
-                  headerSliverBuilder: (context, innerBoxIsScrolled) {
-                    // These are the slivers that show up in the "outer" scroll view.
-                    return <Widget>[
-                      SliverOverlapAbsorber(
-                        handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                        sliver: SliverAppBar(
-                          floating: true,
-                          title: i18n.title.text(),
-                          forceElevated: innerBoxIsScrolled,
-                          actions: [
-                            PlatformIconButton(
-                              icon: Icon(context.icons.search),
-                              onPressed: () => showSearch(
-                                useRootNavigator: true,
-                                context: context,
-                                delegate: ActivitySearchDelegate(),
-                              ),
-                            ),
-                          ],
-                          bottom: TabBar(
-                            isScrollable: true,
-                            tabs: commonClass2ndCategories
-                                .mapIndexed(
-                                  (i, e) => Tab(
-                                    child: e.l10nName().text(),
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                        ),
-                      ),
-                    ];
-                  },
-                  body: TabBarView(
-                    // These are the contents of the tab views, below the tabs.
-                    children: commonClass2ndCategories.mapIndexed((i, cat) {
-                      return ActivityLoadingList(
-                        cat: cat,
-                        onLoadingChanged: (state) {
-                          final newStates = List.of($loadingStates.value);
-                          newStates[i] = state;
-                          $loadingStates.value = newStates;
-                        },
-                      );
-                    }).toList(),
-                  ),
-                ),
+    return DefaultTabController(
+      length: commonClass2ndCategories.length,
+      child: Scaffold(
+        appBar: AppBar(
+          title: i18n.title.text(),
+          actions: [
+            PlatformIconButton(
+              icon: Icon(context.icons.search),
+              onPressed: () => showSearch(
+                useRootNavigator: true,
+                context: context,
+                delegate: ActivitySearchDelegate(),
               ),
-            );
+            ),
+          ],
+          bottom: TabBar(
+            isScrollable: true,
+            tabs: commonClass2ndCategories
+                .mapIndexed(
+                  (i, e) => Tab(
+                    child: e.l10nName().text(),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+        body: TabBarView(
+          // These are the contents of the tab views, below the tabs.
+          children: commonClass2ndCategories.mapIndexed((i, cat) {
+            return ActivityLoadingList(cat: cat);
+          }).toList(),
+        ),
+      ),
+    );
   }
 }
 
 /// Thanks to the cache, don't worry about that switching tab will re-fetch the activity list.
 class ActivityLoadingList extends StatefulWidget {
   final Class2ndActivityCat cat;
-  final ValueChanged<bool> onLoadingChanged;
 
   const ActivityLoadingList({
     super.key,
     required this.cat,
-    required this.onLoadingChanged,
   });
 
   @override
@@ -110,7 +78,7 @@ class ActivityLoadingList extends StatefulWidget {
 
 class _ActivityLoadingListState extends State<ActivityLoadingList> with AutomaticKeepAliveClientMixin {
   int lastPage = 1;
-  bool isFetching = false;
+  bool fetching = false;
   late var activities = Class2ndInit.activityStorage.getActivities(widget.cat);
 
   @override
@@ -135,51 +103,45 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
         }
         return true;
       },
-      child: CustomScrollView(
-        // CAN'T USE ScrollController, and I don't know why
-        // controller: scrollController,
-        slivers: <Widget>[
-          SliverOverlapInjector(
-            // This is the flip side of the SliverOverlapAbsorber above.
-            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-          ),
-          if (activities != null)
-            if (activities.isEmpty)
-              SliverFillRemaining(
-                child: LeavingBlank(
-                  icon: Icons.inbox_outlined,
-                  desc: i18n.noActivities,
-                ),
-              )
-            else
-              SliverList.builder(
-                itemCount: activities.length,
-                itemBuilder: (ctx, index) {
-                  final activity = activities[index];
-                  return ActivityCard(
-                    activity,
-                    onTap: () async {
-                      await context.push(
-                        "/class2nd/activity-details/${activity.id}?title=${activity.title}&time=${activity.time}&enable-apply=true",
-                      );
-                    },
+      child: activities == null
+          ? const SizedBox()
+          : WhenLoading(
+              loading: fetching,
+              child: buildList(activities),
+            ),
+    );
+  }
+
+  Widget buildList(List<Class2ndActivity> activities) {
+    return activities.isEmpty
+        ? LeavingBlank(
+            icon: Icons.inbox_outlined,
+            desc: i18n.noActivities,
+          )
+        : ListView.builder(
+            itemCount: activities.length,
+            itemBuilder: (ctx, index) {
+              final activity = activities[index];
+              return ActivityCard(
+                activity,
+                onTap: () async {
+                  await context.push(
+                    "/class2nd/activity-details/${activity.id}?title=${activity.title}&time=${activity.time}&enable-apply=true",
                   );
                 },
-              ),
-        ],
-      ),
-    );
+              );
+            },
+          );
   }
 
   Future<void> loadMore() async {
     final cat = widget.cat;
     if (!cat.canFetchData) return;
-    if (isFetching) return;
+    if (fetching) return;
     if (!mounted) return;
     setState(() {
-      isFetching = true;
+      fetching = true;
     });
-    widget.onLoadingChanged(true);
     try {
       final lastActivities = await Class2ndInit.activityService.getActivityList(cat, lastPage);
       final activities = this.activities ?? <Class2ndActivity>[];
@@ -192,16 +154,14 @@ class _ActivityLoadingListState extends State<ActivityLoadingList> with Automati
       setState(() {
         lastPage++;
         this.activities = activities;
-        isFetching = false;
+        fetching = false;
       });
-      widget.onLoadingChanged(false);
     } catch (error, stackTrace) {
       handleRequestError(error, stackTrace);
       if (!mounted) return;
       setState(() {
-        isFetching = false;
+        fetching = false;
       });
-      widget.onLoadingChanged(false);
     }
   }
 }
