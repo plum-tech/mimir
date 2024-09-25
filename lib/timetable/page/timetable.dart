@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/adaptive/menu.dart';
 import 'package:mimir/design/animation/progress.dart';
 import 'package:mimir/design/widget/fab.dart';
@@ -145,10 +146,11 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
           icon: Icons.screenshot,
           title: i18n.screenshot.screenshot,
           onTap: () async {
-            await takeTimetableScreenshot(
-              context: context,
-              timetable: timetable,
-              weekIndex: $currentPos.value.weekIndex,
+            await context.showSheet(
+              (ctx) => TimetableScreenshotPage(
+                timetable: timetable,
+                weekIndex: $currentPos.value.weekIndex,
+              ),
             );
           },
         ),

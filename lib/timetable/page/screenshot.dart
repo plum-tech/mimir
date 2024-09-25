@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/design/widget/task_builder.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/utils/screenshot.dart';
 
@@ -18,23 +18,23 @@ typedef TimetableScreenshotConfig = ({
   bool enableBackground,
 });
 
-class TimetableScreenshotConfigEditor extends StatefulWidget {
+class TimetableScreenshotPage extends StatefulWidget {
   final TimetableEntity timetable;
-  final bool initialGrayOutTakenLessons;
+  final int weekIndex;
 
-  const TimetableScreenshotConfigEditor({
+  const TimetableScreenshotPage({
     super.key,
     required this.timetable,
-    this.initialGrayOutTakenLessons = false,
+    required this.weekIndex,
   });
 
   @override
-  State<TimetableScreenshotConfigEditor> createState() => _TimetableScreenshotConfigEditorState();
+  State<TimetableScreenshotPage> createState() => _TimetableScreenshotPageState();
 }
 
-class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotConfigEditor> {
+class _TimetableScreenshotPageState extends State<TimetableScreenshotPage> {
   late final $signature = TextEditingController(text: widget.timetable.signature);
-  late bool grayOutTakenLessons = widget.initialGrayOutTakenLessons;
+  late bool grayOutTakenLessons = Settings.timetable.cellStyle?.grayOutTakenLessons ?? false;
   var enableBackground = true;
 
   @override
@@ -65,17 +65,46 @@ class _TimetableScreenshotConfigEditorState extends State<TimetableScreenshotCon
   }
 
   Widget buildScreenshotAction() {
-    return PlatformTextButton(
-      child: i18n.screenshot.take.text(),
-      onPressed: () async {
-        Settings.lastSignature = $signature.text;
-        context.pop<TimetableScreenshotConfig>((
-          signature: $signature.text.trim(),
-          grayOutTakenLessons: grayOutTakenLessons == true,
-          enableBackground: enableBackground,
-        ));
+    return TaskBuilder(
+      task: takeScreenshot,
+      builder: (context, task, running) {
+        return PlatformTextButton(
+          onPressed: task,
+          child: i18n.screenshot.take.text(),
+        );
       },
     );
+  }
+
+  Future<void> takeScreenshot() async {
+    final weekIndex = widget.weekIndex;
+    final timetable = widget.timetable;
+    final config = (
+      signature: $signature.text.trim(),
+      grayOutTakenLessons: grayOutTakenLessons == true,
+      enableBackground: enableBackground,
+    );
+    Settings.lastSignature = $signature.text;
+    final fi = await takeWidgetScreenshot(
+      context: context,
+      name: 'timetable.png',
+      child: Builder(
+        builder: (ctx) => Material(
+          child: TimetableStyleProv(
+            child: TimetableWeeklyScreenshotFilm(
+              config: config,
+              timetable: timetable,
+              weekIndex: weekIndex,
+              fullSize: ctx.mediaQuery.size,
+            ),
+          ),
+        ),
+      ),
+    );
+
+    await onScreenshotTaken(fi.path);
+    if (!mounted) return;
+    context.pop();
   }
 
   Widget buildSignatureInput() {
@@ -176,37 +205,4 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
     }
     return week;
   }
-}
-
-Future<void> takeTimetableScreenshot({
-  required BuildContext context,
-  required TimetableEntity timetable,
-  required int weekIndex,
-}) async {
-  final config = await context.showSheet<TimetableScreenshotConfig>(
-    (ctx) => TimetableScreenshotConfigEditor(
-      timetable: timetable,
-      initialGrayOutTakenLessons: Settings.timetable.cellStyle?.grayOutTakenLessons ?? false,
-    ),
-  );
-  if (config == null) return;
-  if (!context.mounted) return;
-  final fi = await takeWidgetScreenshot(
-    context: context,
-    name: 'timetable.png',
-    child: Builder(
-      builder: (ctx) => Material(
-        child: TimetableStyleProv(
-          child: TimetableWeeklyScreenshotFilm(
-            config: config,
-            timetable: timetable,
-            weekIndex: weekIndex,
-            fullSize: ctx.mediaQuery.size,
-          ),
-        ),
-      ),
-    ),
-  );
-
-  await onScreenshotTaken(fi.path);
 }
