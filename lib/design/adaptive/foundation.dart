@@ -20,6 +20,7 @@ extension $BuildContextEx$ on BuildContext {
         builder: builder,
         animationCurve: Curves.fastEaseInToSlowEaseOut,
         isDismissible: dismissible,
+        enableDrag: !dismissible,
         useRootNavigator: useRootNavigator,
       );
     } else {
