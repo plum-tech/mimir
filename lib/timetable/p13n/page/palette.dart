@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mimir/design/widget/task_builder.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/utils/permission.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -81,10 +82,15 @@ class _TimetableP13nPageState extends ConsumerState<TimetablePaletteListPage> wi
     final palettes = ref.watch(TimetableInit.storage.palette.$rows);
     return Scaffold(
       persistentFooterButtons: [
-        FilledButton.tonalIcon(
-          onPressed: generateFromImage,
-          icon: const Icon(Icons.generating_tokens_outlined),
-          label: i18n.p13n.palette.generate.text(),
+        TaskBuilder(
+          task: generateFromImage,
+          builder: (context, task, running) {
+            return FilledButton.tonalIcon(
+              onPressed: task,
+              icon: const Icon(Icons.generating_tokens_outlined),
+              label: i18n.p13n.palette.generate.text(),
+            );
+          },
         ),
         FilledButton.icon(
           onPressed: addPalette,

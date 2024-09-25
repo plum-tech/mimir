@@ -7,6 +7,7 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mimir/design/widget/task_builder.dart';
 import 'package:mimir/timetable/p13n/page/palette.dart';
 import 'package:mimir/utils/permission.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -134,24 +135,32 @@ class _TimetableBackgroundEditorState extends ConsumerState<TimetableBackgroundE
           ],
         ),
         persistentFooterButtons: [
-          if (renderImageFile != null)
-            FilledButton.tonalIcon(
-              icon: const Icon(Icons.generating_tokens_outlined),
-              label: i18n.p13n.background.generatePalette.text(),
-              onPressed: () async {
-                final added = await addPaletteFromImageByGenerator(
-                  context,
-                  FileImage(renderImageFile),
-                );
-                if (added) {
-                  if (!context.mounted) return;
-                  context.push("/timetable/palettes/custom");
-                }
-              },
-            ),
+          if (renderImageFile != null) buildGeneratePalette(renderImageFile),
         ],
         persistentFooterAlignment: AlignmentDirectional.center,
       ),
+    );
+  }
+
+  Widget buildGeneratePalette(File imageFile) {
+    return TaskBuilder(
+      task: () async {
+        final added = await addPaletteFromImageByGenerator(
+          context,
+          FileImage(imageFile),
+        );
+        if (added) {
+          if (!mounted) return;
+          context.push("/timetable/palettes/custom");
+        }
+      },
+      builder: (context, task, running) {
+        return FilledButton.tonalIcon(
+          icon: const Icon(Icons.generating_tokens_outlined),
+          label: i18n.p13n.background.generatePalette.text(),
+          onPressed: task,
+        );
+      },
     );
   }
 
@@ -290,11 +299,16 @@ class _TimetableBackgroundEditorState extends ConsumerState<TimetableBackgroundE
   Widget buildToolBar() {
     final hasImage = kIsWeb ? rawPath != null : renderImageFile != null;
     return [
-      FilledButton.icon(
-        onPressed: chooseImage,
-        icon: Icon(context.icons.create),
-        label: i18n.choose.text(),
-      ).center().expanded(flex: 3),
+      TaskBuilder(
+        task: chooseImage,
+        builder: (context, task, running) {
+          return FilledButton.icon(
+            onPressed: task,
+            icon: Icon(context.icons.create),
+            label: i18n.choose.text(),
+          ).center().expanded(flex: 3);
+        },
+      ),
       IconButton.filledTonal(
         onPressed: hasImage
             ? () {
