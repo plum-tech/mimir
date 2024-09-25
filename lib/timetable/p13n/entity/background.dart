@@ -37,7 +37,7 @@ class BackgroundImage {
     this.immersive = false,
   }) : path = "";
 
-  bool get enabled => path.isNotEmpty;
+  bool get enabled => path.isNotEmpty && !hidden;
 
   ImageRepeat get imageRepeat => repeat ? ImageRepeat.repeat : ImageRepeat.noRepeat;
 

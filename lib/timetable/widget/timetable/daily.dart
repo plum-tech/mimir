@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
+import 'package:mimir/design/dash.dart';
 import 'package:mimir/design/entity/dual_color.dart';
 import 'package:mimir/l10n/time.dart';
 import 'package:mimir/school/utils.dart';
@@ -80,15 +81,19 @@ class DailyTimetableState extends State<DailyTimetable> {
   @override
   Widget build(BuildContext context) {
     return [
-      widget.$currentPos >>
-          (ctx, cur) => TimetableHeader(
-                selectedWeekday: cur.weekday,
-                weekIndex: cur.weekIndex,
-                startDate: timetable.type.startDate,
-                onDayTap: (dayIndex) {
-                  eventBus.fire(JumpToPosEvent(TimetablePos(weekIndex: cur.weekIndex, weekday: dayIndex)));
-                },
-              ),
+      DashLined(
+        bottom: true,
+        color: getTimetableHeaderDashLinedColor(context),
+        child: widget.$currentPos >>
+            (ctx, cur) => TimetableHeader(
+                  selectedWeekday: cur.weekday,
+                  weekIndex: cur.weekIndex,
+                  startDate: timetable.type.startDate,
+                  onDayTap: (dayIndex) {
+                    eventBus.fire(JumpToPosEvent(TimetablePos(weekIndex: cur.weekIndex, weekday: dayIndex)));
+                  },
+                ),
+      ),
       PageView.builder(
         controller: _pageController,
         scrollDirection: Axis.horizontal,

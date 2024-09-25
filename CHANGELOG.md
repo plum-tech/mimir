@@ -5,6 +5,7 @@
 - Introduced timetable palette generator from images.
 - Cropping the timetable wallpaper.
 - Scrolling should be smoother in OA announcement, second class activity, and SIT YWB application.
+- Redesigned timetable header cells.
 
 ## 2.6.4
 - Redesigned edu email inbox page and mail details page.

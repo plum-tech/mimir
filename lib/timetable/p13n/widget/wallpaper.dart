@@ -25,7 +25,7 @@ class WallpaperWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final background = this.background;
-    if (background == null || !background.enabled || background.hidden) {
+    if (background == null || !background.enabled) {
       return const SizedBox.shrink();
     }
     if (kIsWeb) {
