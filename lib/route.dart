@@ -402,7 +402,7 @@ final _eduEmailRoute = GoRoute(
     if (CredentialsInit.storage.eduEmail.credentials == null) {
       return "/edu-email/login";
     }
-    return null;
+    return "/edu-email/inbox";
   },
   routes: [
     GoRoute(
