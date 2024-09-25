@@ -234,9 +234,9 @@ class TimetableOneWeek extends StatelessWidget {
   }
 
   /// timeslots
-  Widget buildLeftColumn(BuildContext ctx, Size cellSize) {
-    final textStyle = ctx.textTheme.bodyMedium;
-    final side = getTimetableBorderSide(ctx);
+  Widget buildLeftColumn(BuildContext context, Size cellSize) {
+    final textStyle = context.textTheme.bodyMedium;
+    final side = getTimetableBorderSide(context);
     final cells = <Widget>[];
     cells.add(SizedBox(
       width: cellSize.width * 0.6,
@@ -245,6 +245,7 @@ class TimetableOneWeek extends StatelessWidget {
     for (var i = 0; i < 11; i++) {
       cells.add(Container(
         decoration: BoxDecoration(
+          color: context.colorScheme.tertiaryContainer.withOpacity(0.6),
           border: Border(right: side),
         ),
         child: SizedBox.fromSize(
@@ -290,7 +291,7 @@ class TimetableOneWeek extends StatelessWidget {
       decoration: BoxDecoration(
         color: todayPos.weekIndex == weekIndex && todayPos.weekday == day.weekday
             ? context.colorScheme.secondaryContainer
-            : null,
+            : context.colorScheme.tertiaryContainer.withOpacity(0.6),
         border: Border(bottom: getTimetableBorderSide(context)),
       ),
       child: HeaderCellTextBox(

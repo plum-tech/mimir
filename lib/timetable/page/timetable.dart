@@ -81,6 +81,7 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
           timetable: timetable,
           $displayMode: $displayMode,
           $currentPos: $currentPos,
+          showWallpaper: !ref.watch(Settings.timetable.$immersiveWallpaper),
         ),
       ),
     );

@@ -280,12 +280,14 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
   }
 
   Future<void> tryAutoSyncTimetable() async {
+    final navigateCtx = $key.currentContext;
+    if (navigateCtx == null) return;
     if (!Settings.timetable.autoSyncTimetable) return;
     final selected = TimetableInit.storage.timetable.selectedRow;
     if (selected == null) return;
     if (canAutoSyncTimetable(selected)) {
       try {
-        final merged = await autoSyncTimetable(context, selected);
+        final merged = await autoSyncTimetable(navigateCtx, selected);
         if (merged != null) {
           TimetableInit.storage.timetable[selected.uuid] = merged;
         }
