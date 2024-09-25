@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/credentials/entity/user_type.dart';
+import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/adaptive/menu.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
@@ -36,6 +38,7 @@ import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
 import '../utils/export.dart';
+import '../utils/freshman.dart';
 import '../utils/import.dart';
 import '../utils/sync.dart';
 import '../widget/focus.dart';
@@ -203,6 +206,10 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
   }
 
   Future<Timetable?> importFromSchoolServer() async {
+    if (ref.read(CredentialsInit.storage.oa.$userType) == OaUserType.freshman) {
+      await onFreshmanImport(context);
+      return null;
+    }
     return await context.push<Timetable>("/timetable/import");
   }
 

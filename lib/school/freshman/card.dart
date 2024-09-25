@@ -6,7 +6,7 @@ import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/school/freshman/init.dart';
 import 'package:mimir/school/yellow_pages/widget/contact.dart';
-import 'package:mimir/settings/dev.dart';
+import 'package:mimir/widget/markdown.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/widget/app.dart';
 
@@ -38,17 +38,15 @@ class _FreshmanAppCardState extends ConsumerState<FreshmanAppCard> with Automati
     return AppCard(
       title: i18n.title.text(),
       view: info == null ? null : FreshmanInfoPreviewCard(info: info),
-      leftActions: ref.watch(Dev.$on) == true
-          ? [
-              FilledButton.icon(
-                onPressed: () async {
-                  await XFreshman.fetchInfo(preferCache: false);
-                },
-                icon: Icon(context.icons.refresh),
-                label: i18n.refresh.text(),
-              ),
-            ]
-          : null,
+      leftActions: [
+        FilledButton.icon(
+          onPressed: () async {
+            await XFreshman.fetchInfo(preferCache: false);
+          },
+          icon: Icon(context.icons.refresh),
+          label: i18n.refresh.text(),
+        ),
+      ],
     );
   }
 }
@@ -113,5 +111,24 @@ class FreshmanInfoPreviewCard extends StatelessWidget {
           subtitle: info.counselorNote.text(),
         ),
     ].column().inCard();
+  }
+}
+
+const _tip = """
+你目前登录的是迎新系统，账号为高考报名号，此系统仅可查看你的入学信息。
+
+迎新系统不与其他系统共通（如课程表功能），在你入学后，
+请使用学校为你分配的学号[重新登录](/oa/login)，以此访问课程表、电费查询等功能。
+""";
+
+class FreshmanTipAppCard extends StatelessWidget {
+  const FreshmanTipAppCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card.outlined(
+      clipBehavior: Clip.hardEdge,
+      child: const FeaturedMarkdownWidget(data: _tip).padAll(12),
+    );
   }
 }

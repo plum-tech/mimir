@@ -55,7 +55,10 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
           child: CustomScrollView(
             slivers: [
               SliverList.list(children: [
-                if (can(AppFeature.freshman, ref)) const FreshmanAppCard(),
+                if (can(AppFeature.freshman, ref)) ...[
+                  const FreshmanAppCard(),
+                  const FreshmanTipAppCard(),
+                ],
                 if (can(AppFeature.secondClass$, ref) == true) const Class2ndAppCard(),
                 if (can(AppFeature.examArrangement, ref) == true) const ExamArrangeAppCard(),
                 if (can(AppFeature.examResultUg, ref) == true) const ExamResultUgAppCard(),

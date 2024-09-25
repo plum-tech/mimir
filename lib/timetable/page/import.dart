@@ -23,6 +23,7 @@ import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
+import '../utils/freshman.dart';
 import '../utils/import.dart';
 import 'edit/editor.dart';
 
@@ -175,6 +176,11 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
   }
 
   void _onImport() async {
+    if (ref.read(CredentialsInit.storage.oa.$userType) == OaUserType.freshman) {
+      await onFreshmanImport(context);
+      return;
+    }
+
     final connected = await checkConnectivity();
     if (!connected) return;
     setState(() {

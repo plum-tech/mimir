@@ -44,6 +44,7 @@ enum OaUserType {
   }),
   @HiveField(2)
   freshman(allowed: {
+    AppFeature.timetable,
     AppFeature.mimirForum,
     AppFeature.mimirBulletin,
     AppFeature.yellowPages,

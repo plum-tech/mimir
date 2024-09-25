@@ -34,6 +34,7 @@ Future<void> copyCompressedImageToTarget({
 Future<File?> cropImage(BuildContext context, File imageFile) async {
   final croppedFile = await ImageCropper().cropImage(
     sourcePath: imageFile.path,
+    compressFormat: ImageCompressFormat.png,
     uiSettings: [
       AndroidUiSettings(
         aspectRatioPresets: [
