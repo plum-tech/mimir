@@ -6,6 +6,10 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:path/path.dart' as path;
 
+bool isGif(File imageFile){
+  return  path.extension(imageFile.path).toLowerCase() == ".gif";
+}
+
 Future<void> copyCompressedImageToTarget({
   required File source,
   required String target,
@@ -17,8 +21,7 @@ Future<void> copyCompressedImageToTarget({
     await source.copy(target);
     return;
   }
-  final isGif = path.extension(source.path).toLowerCase() == ".gif";
-  if (!isGif || compressGif) {
+  if (!isGif(source) || compressGif) {
     FlutterImageCompress.validator.ignoreCheckExtName = true;
     await FlutterImageCompress.compressAndGetFile(
       source.path,
