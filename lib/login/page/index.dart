@@ -358,7 +358,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 icon: const Icon(Icons.login),
                 label: _i18n.login.text(),
               ),
-      if (!widget.isGuarded)
+      if (!widget.isGuarded && ref.watch(CredentialsInit.storage.oa.$lastAuthTime) == null )
         $account >>
             (ctx, account) =>
                 $password >>
