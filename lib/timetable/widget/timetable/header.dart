@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/l10n/time.dart';
+import 'package:mimir/lifecycle.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/timetable/p13n/widget/style.dart';
 import 'package:rettulf/rettulf.dart';
@@ -162,7 +163,7 @@ class MonthHeaderCellTextBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (context.locale.languageCode == "zh") {
+    if ($locale.languageCode == "zh") {
       return CustomHeaderCellTextBox(
         line1: "$month",
         line2: "月",
