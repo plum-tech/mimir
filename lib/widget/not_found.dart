@@ -13,7 +13,7 @@ class NotFoundPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: _i18n.title.tr().text(),
+        title: _i18n.title.text(),
       ),
       body: LeavingBlank(
         icon: Icons.browser_not_supported,
@@ -30,7 +30,7 @@ class _I18n {
 
   static const ns = "404";
 
-  String get title => "$ns.title";
+  String get title => "$ns.title".tr();
 
-  String get subtitle => "$ns.subtitle";
+  String get subtitle => "$ns.subtitle".tr();
 }
