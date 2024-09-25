@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mimir/settings/settings.dart';
+import 'package:mimir/timetable/p13n/widget/wallpaper.dart';
 
 import '../init.dart';
 import '../p13n/widget/style.dart';
@@ -28,10 +30,26 @@ class _TimetablePageState extends ConsumerState<TimetablePage> {
       return const MyTimetableListPage();
     } else {
       return TimetableStyleProv(
-        child: TimetableBoardPage(
-          timetable: selected,
-        ),
+        child: buildBoard(selected),
       );
     }
+  }
+
+  Widget buildBoard(TimetableEntity timetable) {
+    final focusTimetable = ref.watch(Settings.timetable.$focusTimetable);
+    if (focusTimetable) {
+      final background = ref.watch(Settings.timetable.$backgroundImage);
+      if (background != null && background.enabled) {
+        return WithWallpaper(
+          background: ref.watch(Settings.timetable.$backgroundImage),
+          child: TimetableBoardPage(
+            timetable: timetable,
+          ),
+        );
+      }
+    }
+    return TimetableBoardPage(
+      timetable: timetable,
+    );
   }
 }
