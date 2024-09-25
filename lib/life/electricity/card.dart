@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widget/app.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/design/widget/task_builder.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/utils/async_event.dart';
@@ -118,16 +119,21 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
       ],
       rightActions: [
         if (balance != null && selectedRoom != null && !supportContextMenu)
-          PlatformIconButton(
-            material: (ctx, p) {
-              return MaterialIconButtonData(
-                tooltip: i18n.share,
-              );
-            },
-            onPressed: () async {
+          TaskBuilder(
+            task: () async {
               await shareBalance(balance: balance, selectedRoom: selectedRoom, context: context);
             },
-            icon: Icon(context.icons.share),
+            builder: (context, task, running) {
+              return PlatformIconButton(
+                material: (ctx, p) {
+                  return MaterialIconButtonData(
+                    tooltip: i18n.share,
+                  );
+                },
+                onPressed: task,
+                icon: Icon(context.icons.share),
+              );
+            },
           ),
       ],
     );

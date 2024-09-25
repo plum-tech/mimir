@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widget/app.dart';
+import 'package:mimir/design/widget/task_builder.dart';
 import 'package:mimir/init.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/utils/error.dart';
@@ -18,40 +19,34 @@ class OpenLabDoorAppCard extends ConsumerStatefulWidget {
 }
 
 class _OpenLabDoorAppCardState extends ConsumerState<OpenLabDoorAppCard> {
-  var opening = false;
-
   @override
   Widget build(BuildContext context) {
     return AppCard(
       title: "机协实验室".text(),
       subtitle: '请先连接 Wi-Fi "Robot"'.text(),
       leftActions: [
-        FilledButton.icon(
-          icon: Icon(context.icons.unlock),
-          onPressed: opening ? null : openDoor,
-          label: "开门".text(),
+        TaskBuilder(
+          task: openDoor,
+          builder: (context, task, running) {
+            return FilledButton.icon(
+              icon: Icon(context.icons.unlock),
+              onPressed: task,
+              label: "开门".text(),
+            );
+          },
         ),
       ],
     );
   }
 
   Future<void> openDoor() async {
-    setState(() {
-      opening = true;
-    });
     final result = await sitRobotOpenDoor();
     if (result) {
       await Future.delayed(const Duration(milliseconds: 2000));
       if (!mounted) return;
-      setState(() {
-        opening = false;
-      });
       context.showSnackBar(content: "开门成功".text());
     } else {
       if (!mounted) return;
-      setState(() {
-        opening = false;
-      });
       context.showSnackBar(content: "开门失败".text());
     }
   }

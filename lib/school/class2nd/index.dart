@@ -9,6 +9,7 @@ import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widget/app.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/design/widget/task_builder.dart';
 import 'package:mimir/school/class2nd/widget/summary.dart';
 import 'package:mimir/school/event.dart';
 import 'package:mimir/school/utils.dart';
@@ -113,18 +114,23 @@ class _Class2ndAppCardState extends ConsumerState<Class2ndAppCard> with Automati
       ],
       rightActions: [
         if (!supportContextMenu)
-          PlatformIconButton(
-            material: (ctx, p) {
-              return MaterialIconButtonData(
-                tooltip: i18n.share,
-              );
-            },
-            onPressed: summary != null
+          TaskBuilder(
+            task: summary != null
                 ? () async {
                     await shareSummery(summary: summary, target: getTargetScore(), context: context);
                   }
                 : null,
-            icon: Icon(context.icons.share),
+            builder: (context, task, running) {
+              return PlatformIconButton(
+                material: (ctx, p) {
+                  return MaterialIconButtonData(
+                    tooltip: i18n.share,
+                  );
+                },
+                onPressed: task,
+                icon: Icon(context.icons.share),
+              );
+            },
           ),
       ],
     );
