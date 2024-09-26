@@ -1,7 +1,9 @@
 import 'package:objectbox/objectbox.dart';
 
+import 'stats.dart';
+
 @Entity()
-class StatsRoute {
+class StatsRoute implements StatsEntry {
   @Id()
   int id;
   final String route;
@@ -13,4 +15,13 @@ class StatsRoute {
     required this.route,
     required this.time,
   });
+
+  @override
+  Map<String, dynamic> toPayload() => {
+        "category": "app_route",
+        "data": {
+          "route": route,
+          "time": time.toIso8601String(),
+        }
+      };
 }

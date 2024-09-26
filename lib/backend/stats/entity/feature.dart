@@ -1,7 +1,9 @@
 import 'package:objectbox/objectbox.dart';
 
+import 'stats.dart';
+
 @Entity()
-class StatsFeatureUsage {
+class StatsFeatureUsage implements StatsEntry {
   @Id()
   int id;
   final String feature;
@@ -15,4 +17,14 @@ class StatsFeatureUsage {
     this.result = "",
     required this.time,
   });
+
+  @override
+  Map<String, dynamic> toPayload() => {
+        "category": "app_feature",
+        "data": {
+          "feature": feature,
+          "time": time.toIso8601String(),
+          "result": result,
+        }
+      };
 }
