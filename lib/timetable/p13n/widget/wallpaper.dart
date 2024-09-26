@@ -38,7 +38,7 @@ class WallpaperWidget extends StatelessWidget {
         background: background,
         fade: fade,
         opacity: opacity,
-        fadeDuration: kDebugMode ? const Duration(milliseconds: 1000) : Durations.medium3,
+        fadeDuration: kDebugMode ? const Duration(milliseconds: 1000) : Durations.long1,
       );
     }
   }
