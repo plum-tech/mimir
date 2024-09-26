@@ -3,10 +3,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mimir/backend/stats/utils/stats.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widget/app.dart';
 import 'package:mimir/design/widget/task_builder.dart';
+import 'package:mimir/feature/feature.dart';
 import 'package:mimir/init.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/utils/error.dart';
@@ -45,7 +47,9 @@ class _OpenLabDoorAppCardState extends ConsumerState<OpenLabDoorAppCard> {
       await Future.delayed(const Duration(milliseconds: 2000));
       if (!mounted) return;
       context.showSnackBar(content: "开门成功".text());
+      Stats.feature(AppFeature.sitRobotOpenLabDoor, "/open?success");
     } else {
+      Stats.feature(AppFeature.sitRobotOpenLabDoor, "/open?failed");
       if (!mounted) return;
       context.showSnackBar(content: "开门失败".text());
     }

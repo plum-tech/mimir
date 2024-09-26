@@ -3,9 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/backend/stats/utils/stats.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/widget/app.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
+import 'package:mimir/feature/feature.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/life/event.dart';
 import 'package:mimir/settings/settings.dart';
@@ -112,8 +114,11 @@ class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> w
         OutlinedButton(
           onPressed: () async {
             final success = await guardLaunchUrlString(context, _alipaySchoolCardTopUpMiniapp);
-            if (!context.mounted) return;
-            if (!success) {
+            if (success) {
+              Stats.feature(AppFeature.expenseRecords, "/top-up?launched");
+            } else {
+              Stats.feature(AppFeature.expenseRecords, "/top-up?failed");
+              if (!context.mounted) return;
               context.showTip(
                 title: i18n.launchFailed,
                 desc: i18n.launchFailedDesc,

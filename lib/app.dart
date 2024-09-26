@@ -100,7 +100,7 @@ class _MimirAppState extends ConsumerState<MimirApp> {
 
   void onRouteChanged() {
     final info = router.routeInformationProvider.value;
-    Stats.onRoute(info.uri);
+    Stats.route(info.uri);
   }
 
   @override

@@ -106,7 +106,7 @@ class _WallpaperImplState extends State<_WallpaperImpl> with SingleTickerProvide
       },
       onShow: () {
         final now = DateTime.now();
-        if (widget.fade && now.difference(lastHiddenTime ?? now).inSeconds > 15) {
+        if (widget.fade && now.difference(lastHiddenTime ?? now).inSeconds > 60) {
           final hasCache = PaintingBinding.instance.imageCache.containsKey(FileImage(File(widget.background.path)));
           if (!hasCache) {
             $opacity.value = 0;

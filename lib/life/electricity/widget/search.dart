@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mimir/backend/stats/utils/stats.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/adaptive/swipe.dart';
 import 'package:mimir/design/widget/common.dart';
+import 'package:mimir/feature/feature.dart';
 import 'package:mimir/life/electricity/entity/room.dart';
 import 'package:mimir/widget/search.dart';
 import 'package:rettulf/rettulf.dart';
@@ -15,6 +17,7 @@ Future<String?> searchRoom({
   required ValueNotifier<List<String>> $searchHistory,
   required List<String> roomList,
 }) async {
+  Stats.feature(AppFeature.electricityBalance, "/search");
   final result = await showSearch(
     useRootNavigator: true,
     context: ctx,

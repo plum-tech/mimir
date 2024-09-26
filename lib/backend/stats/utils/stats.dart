@@ -7,7 +7,7 @@ import '../init.dart';
 class Stats {
   static String? lastRoute;
 
-  static void onRoute(Uri uri) {
+  static void route(Uri uri) {
     final route = uri.toString();
     if (route == lastRoute) {
       return;
@@ -22,7 +22,7 @@ class Stats {
     debugPrint('[${time.toString()}] On route #$id: "$route"');
   }
 
-  static void onFeature(String feature, [String? result]) {
+  static void feature(String feature, [String? result]) {
     final time = DateTime.now();
     final row = StatsFeatureUsage(
       feature: feature,
