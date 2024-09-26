@@ -548,7 +548,7 @@ class _EnableProxyToggleTile extends ConsumerWidget {
       title: i18n.proxy.enableProxy.text(),
       subtitle: i18n.proxy.enableProxyDesc.text(),
       value: enabled,
-      onChanged: tileEnabled? onChanged : null,
+      onChanged: tileEnabled ? onChanged : null,
     );
   }
 }

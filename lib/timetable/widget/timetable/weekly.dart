@@ -193,9 +193,9 @@ class TimetableOneWeek extends StatelessWidget {
   final Size fullSize;
   final bool showFreeTip;
   final Widget Function({
-  required BuildContext context,
-  required TimetableLessonPart lesson,
-  required TimetableEntity timetable,
+    required BuildContext context,
+    required TimetableLessonPart lesson,
+    required TimetableEntity timetable,
   }) cellBuilder;
 
   const TimetableOneWeek({
@@ -236,7 +236,11 @@ class TimetableOneWeek extends StatelessWidget {
   }
 
   /// timeslots
-  Widget buildLeftColumn(BuildContext context, Size cellSize, {required int month,}) {
+  Widget buildLeftColumn(
+    BuildContext context,
+    Size cellSize, {
+    required int month,
+  }) {
     final textStyle = context.textTheme.bodyMedium;
     final cells = <Widget>[];
     cells.add(Container(
@@ -264,7 +268,8 @@ class TimetableOneWeek extends StatelessWidget {
     return cells.column();
   }
 
-  Widget buildSingleWeekView(TimetableWeek timetableWeek, {
+  Widget buildSingleWeekView(
+    TimetableWeek timetableWeek, {
     required BuildContext context,
     required TimetableEntity timetable,
     required Size cellSize,
@@ -273,11 +278,12 @@ class TimetableOneWeek extends StatelessWidget {
   }) {
     return List.generate(8, (index) {
       if (index == 0) {
-        return buildLeftColumn(context, cellSize, month:reflectWeekDayIndexToDate(
-          weekIndex: weekIndex,
-          weekday: Weekday.monday,
-          startDate: timetable.startDate,
-        ).month);
+        return buildLeftColumn(context, cellSize,
+            month: reflectWeekDayIndexToDate(
+              weekIndex: weekIndex,
+              weekday: Weekday.monday,
+              startDate: timetable.startDate,
+            ).month);
       } else {
         return _buildCellsByDay(
           context,
@@ -290,11 +296,12 @@ class TimetableOneWeek extends StatelessWidget {
   }
 
   /// lessons on a day
-  Widget _buildCellsByDay(BuildContext context,
-      TimetableDay day,
-      Size cellSize, {
-        required TimetablePos todayPos,
-      }) {
+  Widget _buildCellsByDay(
+    BuildContext context,
+    TimetableDay day,
+    Size cellSize, {
+    required TimetablePos todayPos,
+  }) {
     final cells = <Widget>[];
     cells.add(DashLined(
       color: getTimetableHeaderDashLinedColor(context),
@@ -380,21 +387,19 @@ class InteractiveCourseCell extends ConsumerWidget {
       course: course,
       isLessonTaken: isLessonTaken,
       style: style,
-      innerBuilder: (ctx, child) =>
-          InkWell(
-            onTap: () async {
-              if (!context.mounted) return;
-              await context.showSheet(
-                    (ctx) =>
-                    TimetableCourseSheetPage(
-                      courseCode: course.courseCode,
-                      timetable: timetable,
-                      highlightedCourseKey: course.courseKey,
-                    ),
-              );
-            },
-            child: child,
-          ),
+      innerBuilder: (ctx, child) => InkWell(
+        onTap: () async {
+          if (!context.mounted) return;
+          await context.showSheet(
+            (ctx) => TimetableCourseSheetPage(
+              courseCode: course.courseCode,
+              timetable: timetable,
+              highlightedCourseKey: course.courseKey,
+            ),
+          );
+        },
+        child: child,
+      ),
     );
   }
 }
@@ -427,37 +432,35 @@ class _InteractiveCourseCellWithTooltipState extends State<InteractiveCourseCell
       course: widget.lesson.course,
       isLessonTaken: widget.isLessonTaken,
       style: widget.style,
-      innerBuilder: (ctx, child) =>
-          Tooltip(
-            key: $tooltip,
-            preferBelow: false,
-            triggerMode: UniversalPlatform.isDesktop ? TooltipTriggerMode.tap : TooltipTriggerMode.manual,
-            message: buildTooltipMessage(),
-            textAlign: TextAlign.center,
-            child: InkWell(
-              onTap: UniversalPlatform.isDesktop
-                  ? null
-                  : () async {
-                $tooltip.currentState?.ensureTooltipVisible();
-                await HapticFeedback.selectionClick();
-              },
-              // onDoubleTap: showDetailsSheet,
-              onLongPress: showDetailsSheet,
-              child: child,
-            ),
-          ),
+      innerBuilder: (ctx, child) => Tooltip(
+        key: $tooltip,
+        preferBelow: false,
+        triggerMode: UniversalPlatform.isDesktop ? TooltipTriggerMode.tap : TooltipTriggerMode.manual,
+        message: buildTooltipMessage(),
+        textAlign: TextAlign.center,
+        child: InkWell(
+          onTap: UniversalPlatform.isDesktop
+              ? null
+              : () async {
+                  $tooltip.currentState?.ensureTooltipVisible();
+                  await HapticFeedback.selectionClick();
+                },
+          // onDoubleTap: showDetailsSheet,
+          onLongPress: showDetailsSheet,
+          child: child,
+        ),
+      ),
     );
   }
 
   Future<void> showDetailsSheet() async {
     final course = widget.lesson.course;
     await context.showSheet(
-          (ctx) =>
-          TimetableCourseSheetPage(
-            courseCode: course.courseCode,
-            timetable: widget.timetable,
-            highlightedCourseKey: course.courseKey,
-          ),
+      (ctx) => TimetableCourseSheetPage(
+        courseCode: course.courseCode,
+        timetable: widget.timetable,
+        highlightedCourseKey: course.courseKey,
+      ),
     );
   }
 

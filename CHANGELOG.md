@@ -1,6 +1,7 @@
 # Changelog
 
 ## 2.7.0
+- Added update channel options: `release` or `preview`.
 - Introduced immersive timetable wallpaper.
 - Introduced timetable palette generator from images.
 - Cropping the timetable wallpaper.

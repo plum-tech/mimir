@@ -130,14 +130,14 @@ class _OaAnnounceLoadingListState extends State<OaAnnounceLoadingList> with Auto
             desc: i18n.noOaAnnouncementsTip,
           )
         : ListView.builder(
-          itemCount: announcements.length,
-          itemBuilder: (ctx, index) {
-            return Card.filled(
-              clipBehavior: Clip.hardEdge,
-              child: OaAnnounceTile(announcements[index]),
-            );
-          },
-        );
+            itemCount: announcements.length,
+            itemBuilder: (ctx, index) {
+              return Card.filled(
+                clipBehavior: Clip.hardEdge,
+                child: OaAnnounceTile(announcements[index]),
+              );
+            },
+          );
   }
 
   Future<void> loadMore() async {

@@ -4,47 +4,52 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:3049504742638355443",
-      "lastPropertyId": "3:6829777567001922062",
+      "id": "1:6058686906110423483",
+      "lastPropertyId": "4:1456794932391410454",
       "name": "StatsFeatureUsage",
       "properties": [
         {
-          "id": "1:7339886906527342418",
+          "id": "1:8567821803968552595",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:3550306696746963752",
-          "name": "time",
-          "type": 10
-        },
-        {
-          "id": "3:6829777567001922062",
+          "id": "2:6258818122600997136",
           "name": "feature",
           "type": 9
+        },
+        {
+          "id": "3:3615904521094794642",
+          "name": "result",
+          "type": 9
+        },
+        {
+          "id": "4:1456794932391410454",
+          "name": "time",
+          "type": 10
         }
       ],
       "relations": []
     },
     {
-      "id": "2:2808936172102568470",
-      "lastPropertyId": "3:4450762094026544792",
+      "id": "2:6860077869163213812",
+      "lastPropertyId": "3:6558364299568351246",
       "name": "StatsRoute",
       "properties": [
         {
-          "id": "1:2242334635534013885",
+          "id": "1:1088320578842355463",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:5995258184475796813",
+          "id": "2:6229011439275914211",
           "name": "route",
           "type": 9
         },
         {
-          "id": "3:4450762094026544792",
+          "id": "3:6558364299568351246",
           "name": "time",
           "type": 10
         }
@@ -52,7 +57,7 @@
       "relations": []
     }
   ],
-  "lastEntityId": "2:2808936172102568470",
+  "lastEntityId": "2:6860077869163213812",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

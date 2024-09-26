@@ -20,26 +20,27 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(1, 3049504742638355443),
+      id: const obx_int.IdUid(1, 6058686906110423483),
       name: 'StatsFeatureUsage',
-      lastPropertyId: const obx_int.IdUid(3, 6829777567001922062),
+      lastPropertyId: const obx_int.IdUid(4, 1456794932391410454),
       flags: 0,
       properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(id: const obx_int.IdUid(1, 7339886906527342418), name: 'id', type: 6, flags: 1),
-        obx_int.ModelProperty(id: const obx_int.IdUid(2, 3550306696746963752), name: 'time', type: 10, flags: 0),
-        obx_int.ModelProperty(id: const obx_int.IdUid(3, 6829777567001922062), name: 'feature', type: 9, flags: 0)
+        obx_int.ModelProperty(id: const obx_int.IdUid(1, 8567821803968552595), name: 'id', type: 6, flags: 1),
+        obx_int.ModelProperty(id: const obx_int.IdUid(2, 6258818122600997136), name: 'feature', type: 9, flags: 0),
+        obx_int.ModelProperty(id: const obx_int.IdUid(3, 3615904521094794642), name: 'result', type: 9, flags: 0),
+        obx_int.ModelProperty(id: const obx_int.IdUid(4, 1456794932391410454), name: 'time', type: 10, flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(2, 2808936172102568470),
+      id: const obx_int.IdUid(2, 6860077869163213812),
       name: 'StatsRoute',
-      lastPropertyId: const obx_int.IdUid(3, 4450762094026544792),
+      lastPropertyId: const obx_int.IdUid(3, 6558364299568351246),
       flags: 0,
       properties: <obx_int.ModelProperty>[
-        obx_int.ModelProperty(id: const obx_int.IdUid(1, 2242334635534013885), name: 'id', type: 6, flags: 1),
-        obx_int.ModelProperty(id: const obx_int.IdUid(2, 5995258184475796813), name: 'route', type: 9, flags: 0),
-        obx_int.ModelProperty(id: const obx_int.IdUid(3, 4450762094026544792), name: 'time', type: 10, flags: 0)
+        obx_int.ModelProperty(id: const obx_int.IdUid(1, 1088320578842355463), name: 'id', type: 6, flags: 1),
+        obx_int.ModelProperty(id: const obx_int.IdUid(2, 6229011439275914211), name: 'route', type: 9, flags: 0),
+        obx_int.ModelProperty(id: const obx_int.IdUid(3, 6558364299568351246), name: 'time', type: 10, flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[])
@@ -80,7 +81,7 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(2, 2808936172102568470),
+      lastEntityId: const obx_int.IdUid(2, 6860077869163213812),
       lastIndexId: const obx_int.IdUid(0, 0),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
@@ -103,10 +104,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
         },
         objectToFB: (StatsFeatureUsage object, fb.Builder fbb) {
           final featureOffset = fbb.writeString(object.feature);
-          fbb.startTable(4);
+          final resultOffset = fbb.writeString(object.result);
+          fbb.startTable(5);
           fbb.addInt64(0, object.id);
-          fbb.addInt64(1, object.time.millisecondsSinceEpoch);
-          fbb.addOffset(2, featureOffset);
+          fbb.addOffset(1, featureOffset);
+          fbb.addOffset(2, resultOffset);
+          fbb.addInt64(3, object.time.millisecondsSinceEpoch);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -114,10 +117,11 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
           final idParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
-          final featureParam = const fb.StringReader(asciiOptimization: true).vTableGet(buffer, rootOffset, 8, '');
+          final featureParam = const fb.StringReader(asciiOptimization: true).vTableGet(buffer, rootOffset, 6, '');
+          final resultParam = const fb.StringReader(asciiOptimization: true).vTableGet(buffer, rootOffset, 8, '');
           final timeParam =
-              DateTime.fromMillisecondsSinceEpoch(const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0));
-          final object = StatsFeatureUsage(id: idParam, feature: featureParam, time: timeParam);
+              DateTime.fromMillisecondsSinceEpoch(const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0));
+          final object = StatsFeatureUsage(id: idParam, feature: featureParam, result: resultParam, time: timeParam);
 
           return object;
         }),
@@ -159,11 +163,14 @@ class StatsFeatureUsage_ {
   /// See [StatsFeatureUsage.id].
   static final id = obx.QueryIntegerProperty<StatsFeatureUsage>(_entities[0].properties[0]);
 
-  /// See [StatsFeatureUsage.time].
-  static final time = obx.QueryDateProperty<StatsFeatureUsage>(_entities[0].properties[1]);
-
   /// See [StatsFeatureUsage.feature].
-  static final feature = obx.QueryStringProperty<StatsFeatureUsage>(_entities[0].properties[2]);
+  static final feature = obx.QueryStringProperty<StatsFeatureUsage>(_entities[0].properties[1]);
+
+  /// See [StatsFeatureUsage.result].
+  static final result = obx.QueryStringProperty<StatsFeatureUsage>(_entities[0].properties[2]);
+
+  /// See [StatsFeatureUsage.time].
+  static final time = obx.QueryDateProperty<StatsFeatureUsage>(_entities[0].properties[3]);
 }
 
 /// [StatsRoute] entity fields to define ObjectBox queries.
