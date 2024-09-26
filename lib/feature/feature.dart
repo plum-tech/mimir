@@ -55,6 +55,9 @@ class AppFeature {
       sitRobotOpenLabDoor = "school.sitRobot.openLabDoor",
       // --- basic section ---
       timetable = "basic.timetable",
+      timetableScreenshot = "basic.timetable.screenshot",
+      timetableSync = "basic.timetable.sync",
+      timetableAutoSync = "basic.timetable.sync.auto",
       scanner = "basic.scanner",
       // --- game section ---
       game$ = "game",

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mimir/backend/stats/utils/stats.dart';
 import 'package:mimir/design/widget/task_builder.dart';
+import 'package:mimir/feature/feature.dart';
 import 'package:mimir/timetable/widget/timetable/header.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/settings.dart';
@@ -78,6 +80,7 @@ class _TimetableScreenshotPageState extends State<TimetableScreenshotPage> {
   }
 
   Future<void> takeScreenshot() async {
+    Stats.feature(AppFeature.timetableScreenshot);
     final weekIndex = widget.weekIndex;
     final timetable = widget.timetable;
     final config = (
