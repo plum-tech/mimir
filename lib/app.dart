@@ -66,6 +66,7 @@ class _MimirAppState extends ConsumerState<MimirApp> {
     }
 
     router.routeInformationProvider.addListener(onRouteChanged);
+    // router.routerDelegate.addListener(onChanged);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       $appLink = AppLinks().uriLinkStream.listen(handleUriLink);
@@ -105,6 +106,15 @@ class _MimirAppState extends ConsumerState<MimirApp> {
   void onRouteChanged() {
     final info = router.routeInformationProvider.value;
     Stats.route(info.uri);
+    // final state = info.state;
+    // if(state is RouteInformationState){
+    //   debugPrint("${state.type}");
+    // }
+  }
+
+  void onChanged(){
+    final config = router.routerDelegate.currentConfiguration;
+    debugPrint("${config.uri}");
   }
 
   @override
