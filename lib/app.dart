@@ -12,6 +12,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/agreements/entity/agreements.dart';
 import 'package:mimir/agreements/page/privacy_policy.dart';
+import 'package:mimir/backend/stats/utils/stats.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/files.dart';
 import 'package:mimir/intent/file_type/handle.dart';
@@ -97,8 +98,7 @@ class _MimirAppState extends ConsumerState<MimirApp> {
 
   void onRouteChanged() {
     final info = router.routeInformationProvider.value;
-    final route = info.uri;
-    print(info.uri);
+    Stats.onRoute(info.uri);
   }
 
   @override

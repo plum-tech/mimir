@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/backend/init.dart';
 import 'package:mimir/backend/network/ua.dart';
+import 'package:mimir/backend/stats/init.dart';
 import 'package:mimir/credentials/entity/credential.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/entity/user_type.dart';
@@ -129,6 +130,7 @@ class Init {
       YwbInit.init();
       Class2ndInit.init();
       ElectricityBalanceInit.init();
+      StatsInit.init();
     }
     YellowPagesInit.init();
     EduEmailInit.init();
@@ -149,6 +151,7 @@ class Init {
       YwbInit.initStorage();
       Class2ndInit.initStorage();
       ElectricityBalanceInit.initStorage();
+      StatsInit.initStorage();
     }
     YellowPagesInit.initStorage();
     EduEmailInit.initStorage();
