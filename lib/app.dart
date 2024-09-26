@@ -24,10 +24,12 @@ import 'package:mimir/route.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/backend/update/utils.dart';
+import 'package:mimir/storage/objectbox/init.dart';
 import 'package:mimir/timetable/init.dart';
 import 'package:mimir/timetable/utils/sync.dart';
 import 'package:mimir/utils/color.dart';
 import 'package:mimir/utils/error.dart';
+import 'package:objectbox/objectbox.dart';
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:universal_platform/universal_platform.dart';
@@ -250,11 +252,19 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
     if (UniversalPlatform.isIOS || UniversalPlatform.isAndroid) {
       initQuickActions();
     }
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      if (Admin.isAvailable()) {
+        final admin = Admin(ObjectBoxInit.store);
+        ObjectBoxInit.objectBoxAdmin = admin;
+        debugPrint("ObjectBox Admin running at port ${admin.port}.");
+      }
+    });
   }
 
   @override
   void dispose() {
     _listener.dispose();
+    ObjectBoxInit.objectBoxAdmin?.close();
     super.dispose();
   }
 
