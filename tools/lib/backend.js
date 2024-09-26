@@ -18,6 +18,6 @@ export const uploadReleaseVersion = async (info) => {
 }
 
 export const uploadPreviewVersion = async (info) => {
-  const res = await versionAPI().post("/preview/v", info)
+  const res = await versionAPI().post("/preview/v?android-src-default=fallback", info)
   return res.status
 }
