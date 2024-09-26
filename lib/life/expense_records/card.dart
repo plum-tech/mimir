@@ -115,9 +115,9 @@ class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> w
           onPressed: () async {
             final success = await guardLaunchUrlString(context, _alipaySchoolCardTopUpMiniapp);
             if (success) {
-              Stats.feature(AppFeature.expenseRecords, "/top-up?launched");
+              Stats.feature(AppFeature.expenseRecords, "top-up.launched");
             } else {
-              Stats.feature(AppFeature.expenseRecords, "/top-up?failed");
+              Stats.feature(AppFeature.expenseRecords, "top-up.failed");
               if (!context.mounted) return;
               context.showTip(
                 title: i18n.launchFailed,

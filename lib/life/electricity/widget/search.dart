@@ -17,7 +17,7 @@ Future<String?> searchRoom({
   required ValueNotifier<List<String>> $searchHistory,
   required List<String> roomList,
 }) async {
-  Stats.feature(AppFeature.electricityBalance, "/search");
+  Stats.feature(AppFeature.electricityBalance, "search");
   final result = await showSearch(
     useRootNavigator: true,
     context: ctx,

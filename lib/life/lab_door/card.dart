@@ -47,9 +47,9 @@ class _OpenLabDoorAppCardState extends ConsumerState<OpenLabDoorAppCard> {
       await Future.delayed(const Duration(milliseconds: 2000));
       if (!mounted) return;
       context.showSnackBar(content: "开门成功".text());
-      Stats.feature(AppFeature.sitRobotOpenLabDoor, "/open?success");
+      Stats.feature(AppFeature.sitRobotOpenLabDoor, "open.success");
     } else {
-      Stats.feature(AppFeature.sitRobotOpenLabDoor, "/open?failed");
+      Stats.feature(AppFeature.sitRobotOpenLabDoor, "open.failed");
       if (!mounted) return;
       context.showSnackBar(content: "开门失败".text());
     }
