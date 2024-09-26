@@ -123,7 +123,7 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                     context.go("/");
                   },
                 ),
-              if (Admin.isAvailable() && objectboxAdmin != null && !objectboxAdmin.isClosed())
+              if (kDebugMode && Admin.isAvailable() && objectboxAdmin != null && !objectboxAdmin.isClosed())
                 ListTile(
                   title: "Open Objectbox Admin".text(),
                   subtitle: "http://localhost:${objectboxAdmin.port}/index.html".text(),
