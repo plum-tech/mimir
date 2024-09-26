@@ -52,7 +52,7 @@ class _MimirAppState extends ConsumerState<MimirApp> {
   @override
   void initState() {
     super.initState();
-    if (Platform.isAndroid) {
+    if (UniversalPlatform.isAndroid) {
       SystemChrome.setSystemUIOverlayStyle(
         const SystemUiOverlayStyle(systemNavigationBarColor: Colors.transparent),
       );
@@ -61,6 +61,8 @@ class _MimirAppState extends ConsumerState<MimirApp> {
     if (!kIsWeb) {
       fitSystemScreenshot.init();
     }
+
+    router.routeInformationProvider.addListener(onRouteChanged);
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       $appLink = AppLinks().uriLinkStream.listen(handleUriLink);
@@ -93,11 +95,18 @@ class _MimirAppState extends ConsumerState<MimirApp> {
     }
   }
 
+  void onRouteChanged() {
+    final info = router.routeInformationProvider.value;
+    final route = info.uri;
+    print(info.uri);
+  }
+
   @override
   void dispose() {
     $appLink?.cancel();
     fitSystemScreenshot.release();
     intentSub?.cancel();
+    router.dispose();
     super.dispose();
   }
 

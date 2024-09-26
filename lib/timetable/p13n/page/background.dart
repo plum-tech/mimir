@@ -271,7 +271,7 @@ class _TimetableBackgroundEditorState extends ConsumerState<TimetableBackgroundE
     if (fi == null) return;
     if (!mounted) return;
     var file = File(fi.path);
-    if ((Platform.isAndroid || Platform.isIOS) && !isGif(file)) {
+    if ((UniversalPlatform.isAndroid || UniversalPlatform.isIOS) && !isGif(file)) {
       final croppedFile = await cropImage(context, file);
       if (croppedFile != null) {
         file = croppedFile;
