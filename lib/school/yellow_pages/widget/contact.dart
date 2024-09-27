@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mimir/backend/stats/utils/stats.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
+import 'package:mimir/feature/feature.dart';
 import 'package:mimir/school/yellow_pages/init.dart';
 import 'package:mimir/school/yellow_pages/storage/contact.dart';
 import 'package:rettulf/rettulf.dart';
@@ -129,9 +131,11 @@ class SchoolContactTile extends StatelessWidget {
       selected: inHistory ?? false,
       descMaxLines: descMaxLines,
       onCalled: () {
+        Stats.feature(AppFeature.yellowPages, "call.${contact.phone}");
         YellowPagesInit.storage.addInteractHistory(contact);
       },
       onCopied: () {
+        Stats.feature(AppFeature.yellowPages, "copy.${contact.phone}");
         YellowPagesInit.storage.addInteractHistory(contact);
       },
     );

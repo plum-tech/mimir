@@ -12,6 +12,7 @@
 - Redesigned timetable header cells.
 - Recording route, AppFeature logs and uploading them.
 - Blocked clicking button when task is in running.
+- Updated yellow pages.
 
 ## 2.6.4
 - Redesigned edu email inbox page and mail details page.

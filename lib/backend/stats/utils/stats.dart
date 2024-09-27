@@ -32,4 +32,5 @@ class Stats {
     final id = StatsInit.storage.feature.put(row);
     debugPrint('[${time.toString()}] On feature #$id: "$feature"');
   }
+
 }
