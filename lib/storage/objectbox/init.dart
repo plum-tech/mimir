@@ -5,7 +5,7 @@ import 'package:mimir/objectbox.g.dart';
 class ObjectBoxInit {
   /// The Store of this app.
   static late final Store store;
-  static late final Admin? objectBoxAdmin;
+  static Admin? objectBoxAdmin;
 
   ObjectBoxInit._();
 
