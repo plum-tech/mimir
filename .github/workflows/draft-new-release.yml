@@ -31,7 +31,6 @@ jobs:
           cd tools && pnpm i && cd ..
 
       - name: Draft new release
-        if: github.repository == 'plum-tech/mimir'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |

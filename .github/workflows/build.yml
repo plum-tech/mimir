@@ -180,14 +180,12 @@ jobs:
           node tools/increment-build-number.js --push
 
       - name: Get iOS Artifact
-        if: github.repository == 'plum-tech/mimir'
         uses: actions/download-artifact@v4
         with:
           name: iOS-release
           path: build/
 
       - name: Deploy to App Store (TestFlight)
-        if: github.repository == 'plum-tech/mimir'
         uses: apple-actions/upload-testflight-build@v1
         with:
           app-path: ${{ github.workspace }}/build/life.mysit.SITLife.ipa
@@ -196,14 +194,12 @@ jobs:
           api-private-key: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY }}
 
       - name: Get Android Artifact
-        if: github.repository == 'plum-tech/mimir'
         uses: actions/download-artifact@v4
         with:
           name: Android-release
           path: build/
 
       - name: Upload preview file onto SIT-MC server
-        if: github.repository == 'plum-tech/mimir'
         continue-on-error: true
         env:
           SITMC_TEMP_SERVER_AUTH: ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
@@ -216,7 +212,6 @@ jobs:
           branch: ${{ github.ref }}
 
       - name: Deploy
-        if: github.repository == 'plum-tech/mimir'
         env:
           MIMIR_VERSION_TOKEN: ${{ secrets.MIMIR_VERSION_TOKEN }}
         run: |

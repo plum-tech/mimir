@@ -32,7 +32,6 @@ jobs:
           cd tools && pnpm i && cd ..
 
       - name: Upload artifacts onto SIT-MC sever
-        if: github.repository == 'plum-tech/mimir'
         continue-on-error: true
         env:
           SITMC_TEMP_SERVER_AUTH: ${{ secrets.SITMC_TEMP_SERVER_AUTH }}
