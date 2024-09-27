@@ -45,6 +45,7 @@ class ContactTile extends StatelessWidget {
   final String? name;
   final String phone;
   final String? desc;
+  final int? descMaxLines;
   final bool selected;
   final VoidCallback? onCopied;
   final VoidCallback? onCalled;
@@ -52,6 +53,7 @@ class ContactTile extends StatelessWidget {
   const ContactTile({
     this.name,
     required this.phone,
+    this.descMaxLines,
     this.desc,
     super.key,
     this.selected = false,
@@ -72,7 +74,7 @@ class ContactTile extends StatelessWidget {
     final name = this.name;
     final desc = this.desc;
     final phoneNumber = phone.length == 8 ? "021$phone" : phone;
-    final title = name??desc ?? phone;
+    final title = name ?? desc ?? phone;
     return ListTile(
       selected: selected,
       isThreeLine: desc != null,
@@ -80,7 +82,7 @@ class ContactTile extends StatelessWidget {
       title: title.text(overflow: TextOverflow.ellipsis),
       subtitle: [
         phone.text(),
-        if (desc != null) desc.text(),
+        if (desc != null) desc.text(maxLines: descMaxLines),
       ].column(caa: CrossAxisAlignment.start),
       onLongPress: phoneNumber.isEmpty
           ? null
@@ -109,11 +111,13 @@ bool _isDigit(String char) {
 class SchoolContactTile extends StatelessWidget {
   final SchoolContact contact;
   final bool? inHistory;
+  final int? descMaxLines;
 
-  const SchoolContactTile(
-    this.contact, {
+  const SchoolContactTile({
     super.key,
+    required this.contact,
     this.inHistory,
+    this.descMaxLines,
   });
 
   @override
@@ -123,6 +127,7 @@ class SchoolContactTile extends StatelessWidget {
       desc: contact.description,
       phone: contact.phone,
       selected: inHistory ?? false,
+      descMaxLines: descMaxLines,
       onCalled: () {
         YellowPagesInit.storage.addInteractHistory(contact);
       },

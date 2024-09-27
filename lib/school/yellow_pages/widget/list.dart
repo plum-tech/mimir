@@ -65,7 +65,7 @@ class _SchoolContactListState extends ConsumerState<SchoolContactList> {
               itemBuilder: (ctx, i) {
                 final contact = entry.contacts[i];
                 final inHistory = history?.any((e) => e == contact);
-                return SchoolContactTile(contact, inHistory: inHistory);
+                return SchoolContactTile(contact:contact, inHistory: inHistory);
               },
             ),
           )
