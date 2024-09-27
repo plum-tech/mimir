@@ -6,8 +6,7 @@ import 'package:mimir/school/utils.dart';
 import 'package:mimir/timetable/p13n/widget/style.dart';
 import 'package:rettulf/rettulf.dart';
 
-Color? getTimetableHeaderColor(
-  BuildContext context, {
+Color? getTimetableHeaderColor(BuildContext context, {
   bool selected = false,
 }) {
   if (selected) {
@@ -21,9 +20,7 @@ Color? getTimetableHeaderColor(
   return null;
 }
 
-Color? getTimetableHeaderDashLinedColor(
-  BuildContext context,
-) {
+Color? getTimetableHeaderDashLinedColor(BuildContext context,) {
   return context.colorScheme.surfaceTint.withOpacity(0.35);
 }
 
@@ -64,8 +61,8 @@ class TimetableHeader extends StatelessWidget {
           child: InkWell(
             onTap: onDayTap != null
                 ? () {
-                    onDayTap.call(weekday);
-                  }
+              onDayTap.call(weekday);
+            }
                 : null,
             child: HeaderCell(
               weekIndex: weekIndex,
@@ -138,16 +135,10 @@ class HeaderCellTextBox extends StatelessWidget {
     final day = date.month == firstDateInWeek.month || date.day != 1
         ? "${date.day}"
         : DateFormat("MMM", context.locale.toString()).format(DateTime(0, date.month));
-    return [
-      weekday.l10nShort().text(
-            textAlign: TextAlign.center,
-            style: context.textTheme.titleSmall,
-          ),
-      day.text(
-        textAlign: TextAlign.center,
-        style: context.textTheme.labelSmall,
-      ),
-    ].column().padOnly(t: 5, b: 5);
+    return CustomHeaderCellTextBox(
+      line1: weekday.l10nShort(),
+      line2: day,
+    );
   }
 }
 
@@ -170,7 +161,7 @@ class MonthHeaderCellTextBox extends StatelessWidget {
       );
     }
     return CustomHeaderCellTextBox(
-      line1: "$month",
+      line1: "",
       line2: _monthAbbr.format(DateTime(0, month)),
     );
   }

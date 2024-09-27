@@ -50,6 +50,16 @@ extension _NavigationDestX on _NavigationDest {
 
 typedef NavigationItems = List<({String route, _NavigationDest item})>;
 
+final _immersiveWallpaperMode = Provider.autoDispose((ref) {
+  final immersiveWallpaper = ref.watch(Settings.timetable.$immersiveWallpaper);
+  if (immersiveWallpaper) {
+    final bg = ref.watch(Settings.timetable.$backgroundImage);
+    return bg?.enabled == true;
+  }
+  return false;
+});
+
+
 class _MainStagePageState extends ConsumerState<MainStagePage> {
   NavigationItems buildItems() {
     return [
@@ -112,7 +122,7 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
 
   @override
   Widget build(BuildContext context) {
-    final immersiveWallpaper = ref.watch(Settings.timetable.$immersiveWallpaper);
+    final immersiveWallpaper = ref.watch(_immersiveWallpaperMode);
     if (immersiveWallpaper) {
       return [
         Positioned.fill(
@@ -130,7 +140,7 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
   }
 
   Widget buildBody() {
-    final immersiveWallpaper = ref.watch(Settings.timetable.$immersiveWallpaper);
+    final immersiveWallpaper = ref.watch(_immersiveWallpaperMode);
     final items = buildItems();
     if (context.isPortrait) {
       return Scaffold(
@@ -151,7 +161,7 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
   }
 
   Widget buildNavigationBar(NavigationItems items) {
-    final immersiveWallpaper = ref.watch(Settings.timetable.$immersiveWallpaper);
+    final immersiveWallpaper = ref.watch(_immersiveWallpaperMode);
     return NavigationBar(
       backgroundColor: immersiveWallpaper
           ? context.colorScheme.surfaceContainer.withOpacity(Settings.timetable.immersiveOpacity)
@@ -163,7 +173,7 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
   }
 
   Widget buildNavigationRail(NavigationItems items) {
-    final immersiveWallpaper = ref.watch(Settings.timetable.$immersiveWallpaper);
+    final immersiveWallpaper = ref.watch(_immersiveWallpaperMode);
     return NavigationRail(
       backgroundColor: immersiveWallpaper
           ? context.colorScheme.surfaceContainer.withOpacity(Settings.timetable.immersiveOpacity)
