@@ -74,9 +74,7 @@ class _MimirAppState extends ConsumerState<MimirApp> {
     if (UniversalPlatform.isIOS || UniversalPlatform.isAndroid) {
       // Listen to media sharing coming from outside the app while the app is in the memory.
       intentSub = ReceiveSharingIntent.instance.getMediaStream().listen((list) async {
-        ref
-            .read($intentFiles.notifier)
-            .state = [
+        ref.read($intentFiles.notifier).state = [
           ...ref.read($intentFiles),
           ...list,
         ];
@@ -87,9 +85,7 @@ class _MimirAppState extends ConsumerState<MimirApp> {
 
       // Get the media sharing coming from outside the app while the app is closed.
       ReceiveSharingIntent.instance.getInitialMedia().then((list) async {
-        ref
-            .read($intentFiles.notifier)
-            .state = [
+        ref.read($intentFiles.notifier).state = [
           ...ref.read($intentFiles),
           ...list,
         ];
@@ -112,7 +108,7 @@ class _MimirAppState extends ConsumerState<MimirApp> {
     // }
   }
 
-  void onChanged(){
+  void onChanged() {
     final config = router.routerDelegate.currentConfiguration;
     debugPrint("${config.uri}");
   }
@@ -150,9 +146,9 @@ class _MimirAppState extends ConsumerState<MimirApp> {
         colorScheme: themeColor == null
             ? null
             : ColorScheme.fromSeed(
-          seedColor: themeColor,
-          brightness: origin.brightness,
-        ),
+                seedColor: themeColor,
+                brightness: origin.brightness,
+              ),
         visualDensity: VisualDensity.comfortable,
         splashFactory: kIsWeb ? null : InkSparkle.splashFactory,
         navigationBarTheme: const NavigationBarThemeData(
@@ -184,11 +180,10 @@ class _MimirAppState extends ConsumerState<MimirApp> {
       themeMode: ref.watch(Settings.theme.$themeMode),
       theme: bakeTheme(ThemeData.light()),
       darkTheme: bakeTheme(ThemeData.dark()),
-      builder: (ctx, child) =>
-          _PostServiceRunner(
-            key: const ValueKey("Post service runner"),
-            child: child ?? const SizedBox.shrink(),
-          ),
+      builder: (ctx, child) => _PostServiceRunner(
+        key: const ValueKey("Post service runner"),
+        child: child ?? const SizedBox.shrink(),
+      ),
       scrollBehavior: const MaterialScrollBehavior().copyWith(
         dragDevices: {
           PointerDeviceKind.mouse,
@@ -202,9 +197,7 @@ class _MimirAppState extends ConsumerState<MimirApp> {
   }
 
   Future<void> handleUriLink(Uri uri) async {
-    ref
-        .read($appLinks.notifier)
-        .state = [...ref.read($appLinks), (uri: uri, ts: DateTime.now())];
+    ref.read($appLinks.notifier).state = [...ref.read($appLinks), (uri: uri, ts: DateTime.now())];
     final navigateCtx = $key.currentContext;
     if (navigateCtx == null) return;
     if (!kIsWeb) {

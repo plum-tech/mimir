@@ -59,7 +59,6 @@ final _immersiveWallpaperMode = Provider.autoDispose((ref) {
   return false;
 });
 
-
 class _MainStagePageState extends ConsumerState<MainStagePage> {
   NavigationItems buildItems() {
     return [

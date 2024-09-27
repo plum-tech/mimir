@@ -6,11 +6,11 @@ part 'contact.g.dart';
 @JsonSerializable(createToJson: false)
 @HiveType(typeId: CacheHiveType.schoolContact)
 class SchoolContact {
-  @JsonKey()
+  @JsonKey(name: "dept")
   @HiveField(0)
   final String department;
 
-  @JsonKey(includeIfNull: false)
+  @JsonKey(name: "desc", includeIfNull: false)
   @HiveField(1)
   final String? description;
 
@@ -28,7 +28,7 @@ class SchoolContact {
 
   @override
   String toString() {
-    return '{department: $department, description: $description, name: $name, phone: $phone}';
+    return '[$department] $description + $name $phone';
   }
 
   @override
@@ -42,5 +42,10 @@ class SchoolContact {
           description == other.description;
 
   @override
-  int get hashCode => Object.hash(department, name, phone, description);
+  int get hashCode => Object.hash(
+        department,
+        name,
+        phone,
+        description,
+      );
 }

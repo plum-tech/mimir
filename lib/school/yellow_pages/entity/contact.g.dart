@@ -52,8 +52,8 @@ class SchoolContactAdapter extends TypeAdapter<SchoolContact> {
 // **************************************************************************
 
 SchoolContact _$SchoolContactFromJson(Map<String, dynamic> json) => SchoolContact(
-      json['department'] as String,
-      json['description'] as String?,
+      json['dept'] as String,
+      json['desc'] as String?,
       json['name'] as String?,
       json['phone'] as String,
     );

@@ -6,7 +6,8 @@ import 'package:mimir/school/utils.dart';
 import 'package:mimir/timetable/p13n/widget/style.dart';
 import 'package:rettulf/rettulf.dart';
 
-Color? getTimetableHeaderColor(BuildContext context, {
+Color? getTimetableHeaderColor(
+  BuildContext context, {
   bool selected = false,
 }) {
   if (selected) {
@@ -20,7 +21,9 @@ Color? getTimetableHeaderColor(BuildContext context, {
   return null;
 }
 
-Color? getTimetableHeaderDashLinedColor(BuildContext context,) {
+Color? getTimetableHeaderDashLinedColor(
+  BuildContext context,
+) {
   return context.colorScheme.surfaceTint.withOpacity(0.35);
 }
 
@@ -61,8 +64,8 @@ class TimetableHeader extends StatelessWidget {
           child: InkWell(
             onTap: onDayTap != null
                 ? () {
-              onDayTap.call(weekday);
-            }
+                    onDayTap.call(weekday);
+                  }
                 : null,
             child: HeaderCell(
               weekIndex: weekIndex,
