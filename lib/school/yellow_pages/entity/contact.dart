@@ -1,30 +1,60 @@
+import 'package:collection/collection.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mimir/storage/hive/type_id.dart';
 
 part 'contact.g.dart';
 
 @JsonSerializable(createToJson: false)
-@HiveType(typeId: CacheHiveType.schoolContact)
+class SchoolDeptContact {
+  @JsonKey(name: "dept")
+  final String department;
+  final List<SchoolContact> contacts;
+
+  const SchoolDeptContact({
+    required this.department,
+    required this.contacts,
+  });
+
+  factory SchoolDeptContact.fromJson(Map<String, dynamic> json) => _$SchoolDeptContactFromJson(json);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SchoolDeptContact &&
+          runtimeType == other.runtimeType &&
+          department == other.department &&
+          contacts.equals(other.contacts);
+
+  @override
+  int get hashCode => Object.hash(
+        department,
+        Object.hashAll(contacts),
+      );
+}
+
+@JsonSerializable()
 class SchoolContact {
   @JsonKey(name: "dept")
-  @HiveField(0)
   final String department;
 
   @JsonKey(name: "desc", includeIfNull: false)
-  @HiveField(1)
   final String? description;
 
   @JsonKey(includeIfNull: false)
-  @HiveField(2)
   final String? name;
 
   @JsonKey()
-  @HiveField(3)
   final String phone;
 
-  const SchoolContact(this.department, this.description, this.name, this.phone);
+  const SchoolContact({
+    required this.department,
+    required this.description,
+    required this.name,
+    required this.phone,
+  });
 
   factory SchoolContact.fromJson(Map<String, dynamic> json) => _$SchoolContactFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SchoolContactToJson(this);
 
   @override
   String toString() {

@@ -3,10 +3,11 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 
 import '../entity/contact.dart';
+import '../utils.dart';
 import 'list.dart';
 
 class YellowPageSearchDelegate extends SearchDelegate<SchoolContact> {
-  final List<SchoolContact> contacts;
+  final List<SchoolDeptContact> contacts;
 
   YellowPageSearchDelegate(this.contacts) : super();
 
@@ -28,34 +29,14 @@ class YellowPageSearchDelegate extends SearchDelegate<SchoolContact> {
   @override
   Widget buildResults(BuildContext context) {
     if (query.isEmpty) return const SizedBox.shrink();
-    final matched = contacts.where((e) => predicate(query, e)).toList();
+    final matched = matchSchoolContacts(contacts,query);
     return SchoolContactList(matched);
-  }
-
-  @override
-  void showResults(BuildContext context) {
-    super.showResults(context);
-    final matched = contacts.where((e) => predicate(query, e)).toList();
-    if (matched.length == 1) {
-      close(context, matched[0]);
-    }
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
     if (query.isEmpty) return const SizedBox.shrink();
-    final searched = contacts.where((e) => predicate(query, e)).toList();
-    return SchoolContactList(searched);
-  }
-
-  bool predicate(String query, SchoolContact contact) {
-    query = query.toLowerCase();
-    final name = contact.name?.toLowerCase();
-    final department = contact.department.toLowerCase();
-    final description = contact.description?.toLowerCase();
-    return department.contains(query) ||
-        (name != null && name.contains(query)) ||
-        (description != null && description.contains(query)) ||
-        contact.phone.contains(query);
+    final matched = matchSchoolContacts(contacts,query);
+    return SchoolContactList(matched);
   }
 }

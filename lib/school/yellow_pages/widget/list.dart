@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/design/widget/grouped.dart';
 import 'package:mimir/school/yellow_pages/init.dart';
 import 'package:rettulf/rettulf.dart';
@@ -7,8 +8,8 @@ import 'package:rettulf/rettulf.dart';
 import '../entity/contact.dart';
 import 'contact.dart';
 
-class SchoolContactList extends StatefulWidget {
-  final List<SchoolContact> contacts;
+class SchoolContactList extends ConsumerStatefulWidget {
+  final List<SchoolDeptContact> contacts;
   final bool Function(int index, int length)? isInitialExpanded;
 
   const SchoolContactList(
@@ -18,11 +19,10 @@ class SchoolContactList extends StatefulWidget {
   });
 
   @override
-  State<SchoolContactList> createState() => _SchoolContactListState();
+  ConsumerState<SchoolContactList> createState() => _SchoolContactListState();
 }
 
-class _SchoolContactListState extends State<SchoolContactList> {
-  late Map<String, List<SchoolContact>> department2contacts;
+class _SchoolContactListState extends ConsumerState<SchoolContactList> {
   // Dispose? screenShotDispose;
   // final scrollAreaKey = GlobalKey();
   // final scrollController = ScrollController();
@@ -34,7 +34,6 @@ class _SchoolContactListState extends State<SchoolContactList> {
     //   scrollController,
     //   scrollController.jumpTo,
     // );
-    updateGroupedContacts();
   }
 
   @override
@@ -45,38 +44,26 @@ class _SchoolContactListState extends State<SchoolContactList> {
   }
 
   @override
-  void didUpdateWidget(covariant SchoolContactList oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (!widget.contacts.equals(oldWidget.contacts)) {
-      updateGroupedContacts();
-    }
-  }
-
-  void updateGroupedContacts() {
-    department2contacts = widget.contacts.groupListsBy((contact) => contact.department);
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final history = YellowPagesInit.storage.interactHistory;
+    final history = ref.watch(YellowPagesInit.storage.$interactHistory);
     return CustomScrollView(
       // key: scrollAreaKey,
       // controller: scrollController,
-      slivers: department2contacts.entries
+      slivers: widget.contacts
           .mapIndexed(
             (i, entry) => GroupedSection(
               headerBuilder: (context, expanded, toggleExpand, defaultTrailing) {
                 return ListTile(
-                  title: entry.key.text(),
+                  title: entry.department.text(),
                   titleTextStyle: context.textTheme.titleMedium,
                   onTap: toggleExpand,
                   trailing: defaultTrailing,
                 );
               },
-              initialExpanded: widget.isInitialExpanded?.call(i, department2contacts.length) ?? true,
-              itemCount: entry.value.length,
+              initialExpanded: widget.isInitialExpanded?.call(i, entry.contacts.length) ?? true,
+              itemCount: entry.contacts.length,
               itemBuilder: (ctx, i) {
-                final contact = entry.value[i];
+                final contact = entry.contacts[i];
                 final inHistory = history?.any((e) => e == contact);
                 return SchoolContactTile(contact, inHistory: inHistory);
               },

@@ -12,7 +12,7 @@ class R {
   const R._();
 
   static const scheme = "sitlife";
-  static const hiveStorageVersionCache = "2.3.0";
+  static const hiveStorageVersionCache = "2.7.0";
   static const hiveStorageVersionCore = "2.1.1";
   static const objectBoxStorageVersion = "2.7.0";
   static const appId = "life.mysit.SITLife";
@@ -57,7 +57,7 @@ class R {
   }
 
   static late List<String> roomList;
-  static late List<SchoolContact> yellowPages;
+  static late List<SchoolDeptContact> yellowPages;
   static const enLocale = Locale('en');
   static const zhHansLocale = Locale.fromSubtags(languageCode: "zh", scriptCode: "Hans");
   static const zhHantLocale = Locale.fromSubtags(languageCode: "zh", scriptCode: "Hant");

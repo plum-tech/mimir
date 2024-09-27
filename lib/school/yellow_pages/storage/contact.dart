@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mimir/utils/hive.dart';
 import 'package:mimir/storage/hive/init.dart';
+import 'package:mimir/utils/json.dart';
 
 import '../entity/contact.dart';
 
@@ -18,18 +19,20 @@ class YellowPagesStorage {
     this.maxHistoryLength = 2,
   });
 
-  List<SchoolContact>? get interactHistory => box.safeGet<List>(_K.history)?.cast<SchoolContact>();
+  List<SchoolContact>? get interactHistory =>
+      decodeJsonList(box.safeGet<String>(_K.history), (obj) => SchoolContact.fromJson(obj));
 
   set interactHistory(List<SchoolContact>? newV) {
     if (newV != null) {
       newV = newV.sublist(0, min(newV.length, maxHistoryLength));
     }
-    box.safePut<List>(_K.history, newV);
+    box.safePut<String>(_K.history, encodeJsonList(newV));
   }
 
   late final $interactHistory = box.provider(
     _K.history,
     get: () => interactHistory,
+    set: (newV) => interactHistory = newV,
   );
 }
 

@@ -19,7 +19,6 @@ import 'package:mimir/school/class2nd/entity/details.dart';
 import 'package:mimir/school/class2nd/entity/activity.dart';
 import 'package:mimir/school/class2nd/entity/attended.dart';
 import 'package:mimir/school/entity/school.dart';
-import 'package:mimir/school/yellow_pages/entity/contact.dart';
 import 'package:mimir/storage/hive/init.dart';
 
 import 'builtin.dart';
@@ -77,9 +76,6 @@ class HiveAdapter {
     // Expense Records
     hive.addAdapter(TransactionAdapter());
     hive.addAdapter(TransactionTypeAdapter());
-
-    // Yellow Pages
-    hive.addAdapter(SchoolContactAdapter());
 
     // Library
     hive.addAdapter(BookAdapter());

@@ -44,7 +44,7 @@ class ContactAvatar extends StatelessWidget {
 class ContactTile extends StatelessWidget {
   final String? name;
   final String phone;
-  final String title;
+  final String? desc;
   final bool selected;
   final VoidCallback? onCopied;
   final VoidCallback? onCalled;
@@ -52,28 +52,42 @@ class ContactTile extends StatelessWidget {
   const ContactTile({
     this.name,
     required this.phone,
+    this.desc,
     super.key,
     this.selected = false,
-    required this.title,
     this.onCopied,
     this.onCalled,
   });
 
+  String build4Copy() {
+    final name = this.name;
+    final desc = this.desc;
+    final phoneNumber = phone.length == 8 ? "021$phone" : phone;
+    final pounce = [name, phoneNumber, desc].where((s) => s != null).join(", ");
+    return pounce;
+  }
+
   @override
   Widget build(BuildContext context) {
     final name = this.name;
-    final full = name == null ? phone : "$name, $phone";
+    final desc = this.desc;
     final phoneNumber = phone.length == 8 ? "021$phone" : phone;
+    final title = name??desc ?? phone;
     return ListTile(
       selected: selected,
+      isThreeLine: desc != null,
       leading: ContactAvatar(name: name),
       title: title.text(overflow: TextOverflow.ellipsis),
-      subtitle: full.text(overflow: TextOverflow.ellipsis),
+      subtitle: [
+        phone.text(),
+        if (desc != null) desc.text(),
+      ].column(caa: CrossAxisAlignment.start),
       onLongPress: phoneNumber.isEmpty
           ? null
           : () async {
-              context.showSnackBar(content: i18n.copyTipOf(phoneNumber).text());
-              await Clipboard.setData(ClipboardData(text: phoneNumber));
+              context.showSnackBar(content: i18n.copyTipOf(name ?? desc ?? phone).text());
+              await Clipboard.setData(ClipboardData(text: build4Copy()));
+              onCopied?.call();
             },
       trailing: phoneNumber.isEmpty
           ? null
@@ -81,6 +95,7 @@ class ContactTile extends StatelessWidget {
               icon: const Icon(Icons.phone),
               onPressed: () async {
                 await launchUrlString("tel:$phoneNumber", mode: LaunchMode.externalApplication);
+                onCalled?.call();
               },
             ),
     );
@@ -105,7 +120,7 @@ class SchoolContactTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ContactTile(
       name: contact.name,
-      title: contact.description ?? contact.name ?? contact.phone,
+      desc: contact.description,
       phone: contact.phone,
       selected: inHistory ?? false,
       onCalled: () {

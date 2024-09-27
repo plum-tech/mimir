@@ -151,8 +151,8 @@ Future<List<String>> _loadRoomNumberList() async {
   return list.map((e) => e.toString()).toList();
 }
 
-Future<List<SchoolContact>> _loadYellowPages() async {
+Future<List<SchoolDeptContact>> _loadYellowPages() async {
   String jsonData = await rootBundle.loadString("assets/yellow_pages.json");
   List<dynamic> list = jsonDecode(jsonData);
-  return list.map((e) => SchoolContact.fromJson(e)).toList().cast<SchoolContact>();
+  return list.map((e) => SchoolDeptContact.fromJson(e)).toList().cast<SchoolDeptContact>();
 }

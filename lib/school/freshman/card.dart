@@ -101,8 +101,8 @@ class FreshmanInfoPreviewCard extends StatelessWidget {
         subtitle: "${info.bedNumber}床位".text(),
       ),
       ContactTile(
-        title: "辅导员",
         name: info.counselorName,
+        desc: "辅导员",
         phone: info.counselorContact,
       ),
       if (info.counselorNote.isNotEmpty)
