@@ -55,9 +55,33 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "3:3688717735845025595",
+      "lastPropertyId": "3:4710628089873159767",
+      "name": "StatsLaunch",
+      "properties": [
+        {
+          "id": "1:5919874536508612063",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:2068107934154271660",
+          "name": "launchTime",
+          "type": 10
+        },
+        {
+          "id": "3:4710628089873159767",
+          "name": "lastHeartbeatTime",
+          "type": 10
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "2:6860077869163213812",
+  "lastEntityId": "3:3688717735845025595",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

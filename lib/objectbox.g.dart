@@ -14,6 +14,7 @@ import 'package:objectbox/objectbox.dart' as obx;
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import 'backend/stats/entity/feature.dart';
+import 'backend/stats/entity/launch.dart';
 import 'backend/stats/entity/route.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
@@ -41,6 +42,19 @@ final _entities = <obx_int.ModelEntity>[
         obx_int.ModelProperty(id: const obx_int.IdUid(1, 1088320578842355463), name: 'id', type: 6, flags: 1),
         obx_int.ModelProperty(id: const obx_int.IdUid(2, 6229011439275914211), name: 'route', type: 9, flags: 0),
         obx_int.ModelProperty(id: const obx_int.IdUid(3, 6558364299568351246), name: 'time', type: 10, flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(3, 3688717735845025595),
+      name: 'StatsLaunch',
+      lastPropertyId: const obx_int.IdUid(3, 4710628089873159767),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(id: const obx_int.IdUid(1, 5919874536508612063), name: 'id', type: 6, flags: 1),
+        obx_int.ModelProperty(id: const obx_int.IdUid(2, 2068107934154271660), name: 'launchTime', type: 10, flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 4710628089873159767), name: 'lastHeartbeatTime', type: 10, flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[])
@@ -81,7 +95,7 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(2, 6860077869163213812),
+      lastEntityId: const obx_int.IdUid(3, 3688717735845025595),
       lastIndexId: const obx_int.IdUid(0, 0),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
@@ -152,6 +166,35 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final object = StatsRoute(id: idParam, route: routeParam, time: timeParam);
 
           return object;
+        }),
+    StatsLaunch: obx_int.EntityDefinition<StatsLaunch>(
+        model: _entities[2],
+        toOneRelations: (StatsLaunch object) => [],
+        toManyRelations: (StatsLaunch object) => {},
+        getId: (StatsLaunch object) => object.id,
+        setId: (StatsLaunch object, int id) {
+          object.id = id;
+        },
+        objectToFB: (StatsLaunch object, fb.Builder fbb) {
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id);
+          fbb.addInt64(1, object.launchTime.millisecondsSinceEpoch);
+          fbb.addInt64(2, object.lastHeartbeatTime.millisecondsSinceEpoch);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final idParam = const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final launchTimeParam =
+              DateTime.fromMillisecondsSinceEpoch(const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0));
+          final lastHeartbeatTimeParam =
+              DateTime.fromMillisecondsSinceEpoch(const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0));
+          final object =
+              StatsLaunch(id: idParam, launchTime: launchTimeParam, lastHeartbeatTime: lastHeartbeatTimeParam);
+
+          return object;
         })
   };
 
@@ -183,4 +226,16 @@ class StatsRoute_ {
 
   /// See [StatsRoute.time].
   static final time = obx.QueryDateProperty<StatsRoute>(_entities[1].properties[2]);
+}
+
+/// [StatsLaunch] entity fields to define ObjectBox queries.
+class StatsLaunch_ {
+  /// See [StatsLaunch.id].
+  static final id = obx.QueryIntegerProperty<StatsLaunch>(_entities[2].properties[0]);
+
+  /// See [StatsLaunch.launchTime].
+  static final launchTime = obx.QueryDateProperty<StatsLaunch>(_entities[2].properties[1]);
+
+  /// See [StatsLaunch.lastHeartbeatTime].
+  static final lastHeartbeatTime = obx.QueryDateProperty<StatsLaunch>(_entities[2].properties[2]);
 }

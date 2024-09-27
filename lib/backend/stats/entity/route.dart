@@ -1,8 +1,12 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 
 import 'stats.dart';
 
+part "route.g.dart";
+
 @Entity()
+@JsonSerializable(createFactory: false)
 class StatsRoute implements StatsEntry {
   @Id()
   int id;
@@ -17,11 +21,5 @@ class StatsRoute implements StatsEntry {
   });
 
   @override
-  Map<String, dynamic> toPayload() => {
-        "category": "app_route",
-        "data": {
-          "route": route,
-          "time": time.toIso8601String(),
-        }
-      };
+  Map<String, dynamic> toJson() => _$StatsRouteToJson(this);
 }

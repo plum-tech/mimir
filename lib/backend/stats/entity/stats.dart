@@ -1,3 +1,3 @@
 abstract class StatsEntry {
-  Map<String, dynamic> toPayload();
+  Map<String, dynamic> toJson();
 }
