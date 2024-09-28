@@ -1,13 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 
-import 'stats.dart';
-
 part "launch.g.dart";
 
 @Entity()
 @JsonSerializable(createFactory: false)
-class StatsLaunch implements StatsEntry {
+class StatsAppLaunch {
   @Id()
   int id;
   @Property(type: PropertyType.date)
@@ -15,12 +13,11 @@ class StatsLaunch implements StatsEntry {
   @Property(type: PropertyType.date)
   final DateTime lastHeartbeatTime;
 
-  StatsLaunch({
+  StatsAppLaunch({
     this.id = 0,
     required this.launchTime,
     required this.lastHeartbeatTime,
   });
 
-  @override
-  Map<String, dynamic> toJson() => _$StatsLaunchToJson(this);
+  Map<String, dynamic> toJson() => _$StatsAppLaunchToJson(this);
 }

@@ -29,14 +29,14 @@ class YellowPageSearchDelegate extends SearchDelegate<SchoolContact> {
   @override
   Widget buildResults(BuildContext context) {
     if (query.isEmpty) return const SizedBox.shrink();
-    final matched = matchSchoolContacts(contacts,query);
+    final matched = matchSchoolContacts(contacts, query);
     return SchoolContactList(matched);
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
     if (query.isEmpty) return const SizedBox.shrink();
-    final matched = matchSchoolContacts(contacts,query);
+    final matched = matchSchoolContacts(contacts, query);
     return SchoolContactList(matched);
   }
 }

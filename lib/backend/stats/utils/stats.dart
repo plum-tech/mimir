@@ -14,7 +14,7 @@ class Stats {
     }
     lastRoute = route;
     final time = DateTime.now();
-    final row = StatsRoute(
+    final row = StatsAppRoute(
       route: route.toString(),
       time: time,
     );
@@ -24,7 +24,7 @@ class Stats {
 
   static void feature(String feature, [String? result]) {
     final time = DateTime.now();
-    final row = StatsFeatureUsage(
+    final row = StatsAppFeature(
       feature: feature,
       result: result ?? "",
       time: time,
@@ -32,5 +32,4 @@ class Stats {
     final id = StatsInit.storage.feature.put(row);
     debugPrint('[${time.toString()}] On feature #$id: "$feature"');
   }
-
 }

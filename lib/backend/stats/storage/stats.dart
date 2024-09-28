@@ -5,6 +5,6 @@ import '../entity/feature.dart';
 import '../entity/route.dart';
 
 class StatsStorage {
-  late final Box<StatsFeatureUsage> feature = ObjectBoxInit.store.box<StatsFeatureUsage>();
-  late final Box<StatsRoute> route = ObjectBoxInit.store.box<StatsRoute>();
+  late final Box<StatsAppFeature> feature = ObjectBoxInit.store.box<StatsAppFeature>();
+  late final Box<StatsAppRoute> route = ObjectBoxInit.store.box<StatsAppRoute>();
 }

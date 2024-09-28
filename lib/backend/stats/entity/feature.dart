@@ -1,13 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:objectbox/objectbox.dart';
 
-import 'stats.dart';
-
 part "feature.g.dart";
 
 @Entity()
 @JsonSerializable(createFactory: false)
-class StatsFeatureUsage implements StatsEntry {
+class StatsAppFeature {
   @Id()
   int id;
   final String feature;
@@ -15,13 +13,12 @@ class StatsFeatureUsage implements StatsEntry {
   @Property(type: PropertyType.date)
   final DateTime time;
 
-  StatsFeatureUsage({
+  StatsAppFeature({
     this.id = 0,
     required this.feature,
     this.result = "",
     required this.time,
   });
 
-  @override
-  Map<String, dynamic> toJson() => _$StatsFeatureUsageToJson(this);
+  Map<String, dynamic> toJson() => _$StatsAppFeatureToJson(this);
 }
