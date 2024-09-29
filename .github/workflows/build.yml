@@ -14,6 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          repository: plum-tech/mimir-x
           fetch-depth: 0
 
       - name: Install pnpm
@@ -77,6 +78,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        repository: plum-tech/mimir-x
         with:
           fetch-depth: 0
 
@@ -155,6 +157,7 @@ jobs:
     needs: [ build_android, build_ios ]
     steps:
       - uses: actions/checkout@v4
+        repository: plum-tech/mimir-x
         with:
           fetch-depth: 0
 
