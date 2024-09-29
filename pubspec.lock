@@ -1606,18 +1606,18 @@ packages:
     dependency: "direct main"
     description:
       name: open_file
-      sha256: "865fcdf2f6876f8265d6a99a642df7d244e8ee979f8a5d2650b1d8eb3c70e273"
+      sha256: a070625d8684aa35a35d6701b91d684592f1ea03f5a737ee0d39332526d09421
       url: "https://pub.dev"
     source: hosted
-    version: "3.5.6"
+    version: "3.5.7"
   open_file_android:
     dependency: transitive
     description:
       name: open_file_android
-      sha256: b5e1a2e9c5ea8e256b015403e94299039627c7205c2a5e6bb426c33235b6ca9a
+      sha256: eaa52421c5e10ba42eb3958d2632be0fc8b4f7e53556296064339d363caa2233
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   open_file_ios:
     dependency: transitive
     description:
