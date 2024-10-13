@@ -20,8 +20,6 @@ import 'package:mimir/game/minesweeper/page/index.dart';
 import 'package:mimir/game/page/settings.dart';
 import 'package:mimir/game/sudoku/page/index.dart';
 import 'package:mimir/game/sudoku/page/records.dart';
-import 'package:mimir/game/suika/index.dart';
-import 'package:mimir/game/wordle/page/index.dart';
 import 'package:mimir/index.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/life/page/settings.dart';
@@ -588,14 +586,6 @@ final _gameRoutes = [
         },
       ),
     ],
-  ),
-  GoRoute(
-    path: "/game/suika",
-    builder: (ctx, state) => const GameSuikaPage(),
-  ),
-  GoRoute(
-    path: "/game/wordle",
-    builder: (ctx, state) => const GameWordlePage(),
   ),
 ];
 

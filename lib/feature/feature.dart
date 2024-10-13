@@ -61,9 +61,7 @@ class AppFeature {
       game$ = "game",
       game2048 = "game.2048",
       gameMinesweeper = "game.minesweeper",
-      gameSudoku = "game.sudoku",
-      gameWordle = "game.wordle",
-      gameSuika = "game.suika";
+      gameSudoku = "game.sudoku";
 
   static const all = {
     // mimir
@@ -98,8 +96,6 @@ class AppFeature {
     game2048,
     gameMinesweeper,
     gameSudoku,
-    gameWordle,
-    gameSuika,
   };
   static final tree = AppFeatureTree.build(all);
 }
