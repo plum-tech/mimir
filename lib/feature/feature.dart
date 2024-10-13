@@ -51,8 +51,6 @@ class AppFeature {
       courseSelection = "school.courseSelection",
       // student plan
       studentPlan = "school.studentPlan",
-      // --- SIT Robot section ---
-      sitRobotOpenLabDoor = "school.sitRobot.openLabDoor",
       // --- basic section ---
       timetable = "basic.timetable",
       timetableScreenshot = "basic.timetable.screenshot",
@@ -93,8 +91,6 @@ class AppFeature {
     yellowPages,
     courseSelection,
     studentPlan,
-    // SIT Rebot
-    sitRobotOpenLabDoor,
     // basic
     timetable,
     scanner,
