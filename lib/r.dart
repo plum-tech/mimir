@@ -4,7 +4,6 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:mimir/credentials/entity/credential.dart';
-import 'package:mimir/life/lab_door/card.dart';
 import 'package:mimir/school/yellow_pages/entity/contact.dart';
 import 'package:mimir/entity/meta.dart';
 

@@ -2,9 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credentials/init.dart';
-import 'package:mimir/feature/feature.dart';
-import 'package:mimir/feature/utils.dart';
-import 'package:mimir/life/lab_door/card.dart';
 import 'package:mimir/lifecycle.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:quick_actions/quick_actions.dart';
@@ -42,18 +39,6 @@ class QuickAction {
 }
 
 final _actions = [
-  QuickAction(
-    type: AppFeature.sitRobotOpenLabDoor,
-    action: (ctx) {
-      sitRobotOpenDoor();
-    },
-    l10n: () => "机协开门",
-    enable: () {
-      final oa = CredentialsInit.storage.oa.credentials;
-      if (oa == null) return false;
-      return can(AppFeature.sitRobotOpenLabDoor);
-    },
-  ),
   QuickAction.route(
     type: "/tools/network-tool",
     route: "/tools/network-tool",

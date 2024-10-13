@@ -7,7 +7,6 @@ import 'package:mimir/feature/feature.dart';
 import 'package:mimir/feature/utils.dart';
 import 'package:mimir/life/electricity/card.dart';
 import 'package:mimir/life/expense_records/card.dart';
-import 'package:mimir/life/lab_door/card.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'event.dart';
@@ -53,7 +52,6 @@ class _LifePageState extends ConsumerState<LifePage> {
                 if (can(AppFeature.expenseRecords, ref)) const ExpenseRecordsAppCard(),
                 if (can(AppFeature.electricityBalance, ref)) const ElectricityBalanceAppCard(),
                 if (can(AppFeature.mimirForum, ref)) const ForumAppCard(),
-                if (!kIsWeb && can(AppFeature.sitRobotOpenLabDoor, ref)) const OpenLabDoorAppCard(),
               ]),
             ],
           ),
