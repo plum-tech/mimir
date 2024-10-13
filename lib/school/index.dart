@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -12,7 +11,6 @@ import 'package:mimir/school/exam_result/card.ug.dart';
 import 'package:mimir/school/freshman/card.dart';
 import 'package:mimir/school/library/index.dart';
 import 'package:mimir/school/oa_announce/index.dart';
-import 'package:mimir/school/student_plan/card.dart';
 import 'package:mimir/school/yellow_pages/card.dart';
 import 'package:mimir/school/ywb/index.dart';
 import 'package:rettulf/rettulf.dart';
@@ -63,7 +61,6 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
                 if (can(AppFeature.examArrangement, ref) == true) const ExamArrangeAppCard(),
                 if (can(AppFeature.examResultUg, ref) == true) const ExamResultUgAppCard(),
                 if (can(AppFeature.examResultPg, ref) == true) const ExamResultPgAppCard(),
-                if (kDebugMode && can(AppFeature.studentPlan, ref)) const StudentPlanAppCard(),
                 if (can(AppFeature.oaAnnouncement, ref)) const OaAnnounceAppCard(),
                 if (can(AppFeature.ywb, ref)) const YwbAppCard(),
                 if (can(AppFeature.library$, ref)) const LibraryAppCard(),

@@ -47,10 +47,6 @@ class AppFeature {
       libraryBorrowingHistory = "school.library.account.borrowingHistory",
       // yellow pages
       yellowPages = "school.yellowPages",
-      // course selection
-      courseSelection = "school.courseSelection",
-      // student plan
-      studentPlan = "school.studentPlan",
       // --- basic section ---
       timetable = "basic.timetable",
       timetableScreenshot = "basic.timetable.screenshot",
@@ -87,8 +83,6 @@ class AppFeature {
     libraryBorrowing,
     libraryBorrowingHistory,
     yellowPages,
-    courseSelection,
-    studentPlan,
     // basic
     timetable,
     scanner,

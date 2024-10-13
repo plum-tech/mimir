@@ -32,7 +32,6 @@ import 'package:mimir/school/exam_result/page/result.pg.dart';
 import 'package:mimir/school/library/page/history.dart';
 import 'package:mimir/school/library/page/login.dart';
 import 'package:mimir/school/library/page/borrowing.dart';
-import 'package:mimir/school/student_plan/course_selection/page/index.dart';
 import 'package:mimir/school/ywb/entity/service.dart';
 import 'package:mimir/school/ywb/page/details.dart';
 import 'package:mimir/school/ywb/page/service.dart';
@@ -589,11 +588,6 @@ final _gameRoutes = [
   ),
 ];
 
-final _courseSelectionRoute = GoRoute(
-  path: "/select-course",
-  builder: (ctx, state) => const CourseSelectionPage(),
-);
-
 GoRouter buildRouter(ValueNotifier<RoutingConfig> $routingConfig) {
   return GoRouter.routingConfig(
     routingConfig: $routingConfig,
@@ -701,7 +695,6 @@ RoutingConfig buildCommonRoutingConfig() {
       _oaLoginRoute,
       _imageRoute,
       ..._gameRoutes,
-      _courseSelectionRoute,
     ],
   );
 }
@@ -737,7 +730,6 @@ RoutingConfig buildTimetableFocusRouter() {
       _oaLoginRoute,
       _imageRoute,
       ..._gameRoutes,
-      _courseSelectionRoute,
     ],
   );
 }
