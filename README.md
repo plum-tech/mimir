@@ -1,6 +1,6 @@
 <div align="center">
 
-# SIT Life
+# Xiao Ying
 
 <img src="assets/icon.svg" alt="Icon" width="256">
 
@@ -28,9 +28,9 @@
 
 If you met any bug, feel free to [make an issue](https://github.com/plum-tech/mimir/issues/new).
 
-Welcome to contribute SIT Life, please read the [contribution guide](CONTRIBUTING.md).
+Welcome to contribute Xiao Ying, please read the [contribution guide](CONTRIBUTING.md).
 
-To learn the specification of SIT Life, you can [read this](https://github.com/plum-tech/mimir-spec).
+To learn the specification of Xiao Ying, you can [read this](https://github.com/plum-tech/mimir-spec).
 
 ### Source License
 

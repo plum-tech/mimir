@@ -16,7 +16,7 @@ flutter pub get
 flutter pub run build_runner build
 ```
 
-Finally, build the SIT Life based on your platform.
+Finally, build the Xiao Ying based on your platform.
 
 ```shell
 # On Windows, macOS, or Linux
@@ -31,12 +31,6 @@ flutter build linux     # build for Linux
 # On Windows, macOS, or Linux
 flutter build web     # build for web
 ```
-
-### iOS Build
-
-SIT Life for iOS requires at least `Xcode 14.3.1`.
-You can search and download it [here](https://developer.apple.com/download/all/?q=Xcode),
-or install it on macOS App Store.
 
 ## Dependency
 
@@ -64,10 +58,6 @@ As to formatting, the indent is 2 spaces.
 
 As to naming, please keep the key `lowerCamelCase`,
 which can be mapped to a valid dart variable name.
-
-### Build Tool
-
-Read more about the [tools folder](/tools).
 
 ### Web icon
 
