@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/agreements/entity/agreements.dart';
 import 'package:mimir/agreements/page/privacy_policy.dart';
+import 'package:mimir/backend/network/ua.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/widget/list_tile.dart';
 import 'package:mimir/feature/feature.dart';
@@ -88,7 +89,12 @@ class _AboutSettingsPageState extends ConsumerState<AboutSettingsPage> {
                 DetailListTile(
                   title: "UUID",
                   subtitle: R.uuid,
-                )
+                ),
+              if (kDebugMode)
+                DetailListTile(
+                  title: "Mimir user agent",
+                  subtitle: buildMimirUa(),
+                ),
             ],
           ),
         ],
