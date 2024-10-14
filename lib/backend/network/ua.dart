@@ -8,19 +8,19 @@ class MimirUserAgentDioInterceptor extends Interceptor {
     options.headers["User-Agent"] = buildMimirUa();
     handler.next(options);
   }
-}
 
-String buildMimirUa() {
-  return _encodeMimirUa([
-    "1",
-    "app",
-    "${R.meta.version}",
-    $locale.toLanguageTag(),
-    R.meta.platform.name,
-    R.uuid,
-  ], {
-    "installer": R.meta.installerStore,
-  });
+  String buildMimirUa() {
+    return _encodeMimirUa([
+      "1",
+      "app",
+      "${R.meta.version}",
+      $locale.toLanguageTag(),
+      R.meta.platform.name,
+      R.uuid,
+    ], {
+      "installer": R.meta.installerStore,
+    });
+  }
 }
 
 String _encodeMimirUa(List<String> fixed, Map<String, String?> kv) {
