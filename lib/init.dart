@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mimir/backend/init.dart';
-import 'package:mimir/backend/network/ua.dart';
 import 'package:mimir/backend/stats/init.dart';
 import 'package:mimir/credentials/entity/credential.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
@@ -93,8 +92,6 @@ class Init {
     )).withDebugging();
 
     mimirDio = Dio(BaseOptions()).withCookieJar(cookieJar).withDebugging();
-
-    mimirDio.interceptors.add(MimirUserAgentDioInterceptor());
 
     ssoSession = SsoSession(
       inputCaptcha: _inputCaptcha,
