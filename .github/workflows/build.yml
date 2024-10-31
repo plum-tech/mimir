@@ -1,4 +1,4 @@
-name: 1.Flutter Build
+name: Flutter Build
 
 on: workflow_dispatch
 permissions: write-all

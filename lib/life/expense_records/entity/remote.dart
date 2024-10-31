@@ -2,7 +2,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'remote.g.dart';
 
-/// The analysis of expense tracker is [here](https://github.com/SIT-kite/expense-tracker).
 @JsonSerializable(createToJson: false)
 class DataPackRaw {
   @JsonKey(name: "retcode")
