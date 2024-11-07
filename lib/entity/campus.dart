@@ -11,7 +11,6 @@ enum Campus {
   @HiveField(1)
   xuhui(prohibited: {
     "school.electricityBalance",
-    "school.sitRobot",
   });
 
   final Set<String> prohibited;
