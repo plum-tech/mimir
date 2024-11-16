@@ -126,7 +126,10 @@ class SsoSession {
     return await _loginLock.run(() async {
       networkLogger.i("loginLocked ${DateTime.now().toIso8601String()}");
       try {
-        return await _loginWithOcr(credentials);
+        return await _login(
+          credentials,
+          inputCaptcha: inputCaptcha,
+        );
       } catch (error, stackTrace) {
         if (error is CredentialException) {
           await () async {
@@ -150,27 +153,6 @@ class SsoSession {
         rethrow;
       }
     });
-  }
-
-  Future<Response> _loginWithOcr(Credential credentials) async {
-    try {
-      final byAutoCaptcha = await _login(
-        credentials,
-        inputCaptcha: (captchaImage) => BackendInit.ocr.recognizeSchoolCaptcha(captchaImage),
-      );
-      return byAutoCaptcha;
-    } catch (error, stackTrace) {
-      if (error is CredentialException && error.type == CredentialErrorType.captcha) {
-        debugPrintError(error, stackTrace);
-      } else {
-        rethrow;
-      }
-    }
-    final byManualCaptcha = await _login(
-      credentials,
-      inputCaptcha: inputCaptcha,
-    );
-    return byManualCaptcha;
   }
 
   Future<Response> _request(

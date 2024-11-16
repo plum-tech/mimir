@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/backend/forum/page/index.dart';
 import 'package:mimir/backend/settings/page/index.dart';
-import 'package:mimir/backend/user/page/sign_in.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
@@ -222,10 +221,6 @@ final _meShellRoute = GoRoute(
   builder: (ctx, state) => const MePage(),
 );
 final _mimirRoutes = [
-  GoRoute(
-    path: "/mimir/sign-in",
-    builder: (ctx, state) => const MimirSignInPage(),
-  ),
   GoRoute(
     path: "/mimir/forum",
     builder: (ctx, state) => const MimirForumPage(),
