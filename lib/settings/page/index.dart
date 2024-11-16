@@ -11,7 +11,6 @@ import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
-import 'package:mimir/feature/utils.dart';
 import 'package:mimir/lifecycle.dart';
 import 'package:mimir/login/i18n.dart';
 import 'package:mimir/network/widget/entrance.dart';
@@ -128,13 +127,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           title: i18n.app.navigation.life.text(),
           leading: const Icon(Icons.spa_outlined),
           path: "/settings/life",
-        ));
-      }
-      if (can("game", ref)) {
-        all.add(PageNavigationTile(
-          title: i18n.app.navigation.game.text(),
-          leading: Icon(context.icons.game),
-          path: "/settings/game",
         ));
       }
       all.add(const Divider());

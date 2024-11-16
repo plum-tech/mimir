@@ -4,7 +4,6 @@ import 'package:mimir/design/adaptive/menu.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/school/i18n.dart' as $school;
 import 'package:mimir/life/i18n.dart' as $life;
-import 'package:mimir/game/i18n.dart' as $game;
 import 'package:mimir/me/i18n.dart' as $me;
 import 'package:mimir/settings/i18n.dart' as $settings;
 
@@ -30,13 +29,6 @@ List<PullDownEntry> buildFocusPopupActions(BuildContext context) {
       title: $life.i18n.navigation,
       onTap: () async {
         await context.push("/life");
-      },
-    ),
-    PullDownItem(
-      icon: Icons.videogame_asset_outlined,
-      title: $game.i18n.navigation,
-      onTap: () async {
-        await context.push("/game");
       },
     ),
     PullDownItem(

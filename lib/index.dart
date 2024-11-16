@@ -11,7 +11,6 @@ import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/i18n.dart' as $timetable;
 import 'package:mimir/school/i18n.dart' as $school;
 import 'package:mimir/life/i18n.dart' as $life;
-import 'package:mimir/game/i18n.dart' as $game;
 import 'package:mimir/me/i18n.dart' as $me;
 import 'package:mimir/timetable/p13n/entity/background.dart';
 import 'package:mimir/timetable/p13n/widget/wallpaper.dart';
@@ -87,25 +86,6 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
             icon: Icons.spa_outlined,
             activeIcon: Icons.spa,
             label: $life.i18n.navigation,
-          )
-        ),
-      // in-app webview only supports Android, and iOS
-      // if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)
-      //   (
-      //     route: "/forum",
-      //     item: (
-      //       icon: Icons.forum_outlined,
-      //       activeIcon: Icons.forum,
-      //       label: $forum.i18n.navigation,
-      //     )
-      //   ),
-      if (ref.watch(Settings.game.$showGameNavigation) && can(AppFeature.game$, ref))
-        (
-          route: "/game",
-          item: (
-            icon: context.icons.game,
-            activeIcon: context.icons.gameFilled,
-            label: $game.i18n.navigation,
           )
         ),
       (

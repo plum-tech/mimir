@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mimir/agreements/settings.dart';
 import 'package:mimir/backend/update/entity/channel.dart';
-import 'package:mimir/game/settings.dart';
 import 'package:mimir/utils/hive.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/school/settings.dart';
@@ -35,7 +34,6 @@ class SettingsImpl {
   late final life = LifeSettings(box);
   late final timetable = TimetableSettings(box);
   late final school = SchoolSettings(box);
-  late final game = GameSettings(box);
   late final theme = _Theme(box);
   late final proxy = _Proxy(box);
   late final update = _Update(box);

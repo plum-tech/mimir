@@ -12,13 +12,6 @@ import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/feature/feature.dart';
 import 'package:mimir/feature/utils.dart';
-import 'package:mimir/game/2048/page/index.dart';
-import 'package:mimir/game/2048/page/records.dart';
-import 'package:mimir/game/index.dart';
-import 'package:mimir/game/minesweeper/page/index.dart';
-import 'package:mimir/game/page/settings.dart';
-import 'package:mimir/game/sudoku/page/index.dart';
-import 'package:mimir/game/sudoku/page/records.dart';
 import 'package:mimir/index.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/life/page/settings.dart';
@@ -83,7 +76,6 @@ import 'package:mimir/timetable/page/mine.dart';
 import 'package:mimir/timetable/p13n/page/palette.dart';
 import 'package:mimir/widget/image.dart';
 
-import 'game/minesweeper/page/records.dart';
 
 final $TimetableShellKey = GlobalKey<NavigatorState>();
 final $SchoolShellKey = GlobalKey<NavigatorState>();
@@ -212,10 +204,6 @@ final _lifeShellRoute = GoRoute(
   path: "/life",
   builder: (ctx, state) => const LifePage(),
 );
-final _gameShellRoute = GoRoute(
-  path: "/game",
-  builder: (ctx, state) => const GamePage(),
-);
 final _meShellRoute = GoRoute(
   path: "/me",
   builder: (ctx, state) => const MePage(),
@@ -290,10 +278,6 @@ final _settingsRoute = GoRoute(
     GoRoute(
       path: "life",
       builder: (ctx, state) => const LifeSettingsPage(),
-    ),
-    GoRoute(
-      path: "game",
-      builder: (ctx, state) => const GameSettingsPage(),
     ),
     GoRoute(
       path: "about",
@@ -535,53 +519,6 @@ final _webviewRoute = GoRoute(
     throw 400;
   },
 );
-final _gameRoutes = [
-  GoRoute(
-    path: "/game/2048",
-    builder: (ctx, state) {
-      final continueGame = state.uri.queryParameters["continue"] != null;
-      return Game2048Page(newGame: !continueGame);
-    },
-    routes: [
-      GoRoute(
-        path: "records",
-        builder: (ctx, state) {
-          return const Records2048Page();
-        },
-      ),
-    ],
-  ),
-  GoRoute(
-    path: "/game/minesweeper",
-    builder: (ctx, state) {
-      final continueGame = state.uri.queryParameters["continue"] != null;
-      return GameMinesweeperPage(newGame: !continueGame);
-    },
-    routes: [
-      GoRoute(
-        path: "records",
-        builder: (ctx, state) {
-          return const RecordsMinesweeperPage();
-        },
-      ),
-    ],
-  ),
-  GoRoute(
-    path: "/game/sudoku",
-    builder: (ctx, state) {
-      final continueGame = state.uri.queryParameters["continue"] != null;
-      return GameSudokuPage(newGame: !continueGame);
-    },
-    routes: [
-      GoRoute(
-        path: "records",
-        builder: (ctx, state) {
-          return const RecordsSudokuPage();
-        },
-      ),
-    ],
-  ),
-];
 
 GoRouter buildRouter(ValueNotifier<RoutingConfig> $routingConfig) {
   return GoRouter.routingConfig(
@@ -653,18 +590,6 @@ RoutingConfig buildCommonRoutingConfig() {
             ],
           ),
           StatefulShellBranch(
-            navigatorKey: $GameShellKey,
-            routes: [
-              _gameShellRoute,
-            ],
-          ),
-          // StatefulShellBranch(
-          //   navigatorKey: $ForumShellKey,
-          //   routes: [
-          //     _forumShellRoute,
-          //   ],
-          // ),
-          StatefulShellBranch(
             navigatorKey: $MeShellKey,
             routes: [
               _meShellRoute,
@@ -689,7 +614,6 @@ RoutingConfig buildCommonRoutingConfig() {
       _teacherEvalRoute,
       _oaLoginRoute,
       _imageRoute,
-      ..._gameRoutes,
     ],
   );
 }
@@ -706,7 +630,6 @@ RoutingConfig buildTimetableFocusRouter() {
       _timetableShellRoute,
       ..._timetableRoutes,
       _schoolShellRoute,
-      _gameShellRoute,
       _lifeShellRoute,
       _meShellRoute,
       _webviewRoute,
@@ -724,7 +647,6 @@ RoutingConfig buildTimetableFocusRouter() {
       _teacherEvalRoute,
       _oaLoginRoute,
       _imageRoute,
-      ..._gameRoutes,
     ],
   );
 }

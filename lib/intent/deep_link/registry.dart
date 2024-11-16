@@ -1,5 +1,3 @@
-import 'package:mimir/game/minesweeper/qrcode/blueprint.dart';
-import 'package:mimir/game/sudoku/qrcode/blueprint.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/settings/deep_link/proxy.dart';
 import 'package:mimir/timetable/deep_link/palette.dart';
@@ -19,7 +17,5 @@ class DeepLinkHandlers {
     const TimetableDeepLink(),
     const GoRouteDeepLink(),
     const WebviewDeepLink(),
-    blueprintMinesweeperDeepLink,
-    blueprintSudokuDeepLink,
   ];
 }

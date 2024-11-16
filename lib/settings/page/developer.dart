@@ -29,7 +29,6 @@ import 'package:mimir/design/adaptive/editor.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widget/expansion_tile.dart';
-import 'package:mimir/game/widget/party_popper.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/login/utils.dart';
@@ -152,29 +151,10 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                   },
                 ),
               ],
-              buildPartyPopper(),
             ]),
           ),
         ],
       ),
-    );
-  }
-
-  Widget buildPartyPopper() {
-    return ListTile(
-      leading: "🎉".text(style: context.textTheme.headlineLarge),
-      title: "Party popper 🎉".text(),
-      subtitle: "Tap me!".text(),
-      trailing: Icon(context.icons.rightChevron),
-      onTap: () {
-        context.showSheet((ctx) => Scaffold(
-              body: [
-                const VictoryPartyPopper(
-                  pop: true,
-                ),
-              ].stack(),
-            ));
-      },
     );
   }
 
