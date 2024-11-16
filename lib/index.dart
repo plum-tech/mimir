@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
-import 'package:mimir/feature/feature.dart';
-import 'package:mimir/feature/utils.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/i18n.dart' as $timetable;
 import 'package:mimir/school/i18n.dart' as $school;
@@ -61,7 +59,7 @@ final _immersiveWallpaperMode = Provider.autoDispose((ref) {
 class _MainStagePageState extends ConsumerState<MainStagePage> {
   NavigationItems buildItems() {
     return [
-      if (ref.watch(Settings.timetable.$showTimetableNavigation) && can(AppFeature.timetable, ref))
+      if (ref.watch(Settings.timetable.$showTimetableNavigation))
         (
           route: "/timetable",
           item: (

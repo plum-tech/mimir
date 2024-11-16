@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mimir/feature/feature.dart';
-import 'package:mimir/feature/utils.dart';
 import 'package:mimir/school/class2nd/index.dart';
 import 'package:mimir/school/event.dart';
 import 'package:mimir/school/exam_arrange/card.dart';
 import 'package:mimir/school/exam_result/card.pg.dart';
 import 'package:mimir/school/exam_result/card.ug.dart';
-import 'package:mimir/school/freshman/card.dart';
 import 'package:mimir/school/library/index.dart';
 import 'package:mimir/school/oa_announce/index.dart';
 import 'package:mimir/school/yellow_pages/card.dart';
@@ -52,19 +49,15 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
           },
           child: CustomScrollView(
             slivers: [
-              SliverList.list(children: [
-                if (can(AppFeature.freshman, ref)) ...[
-                  const FreshmanAppCard(),
-                  const FreshmanTipAppCard(),
-                ],
-                if (can(AppFeature.secondClass$, ref) == true) const Class2ndAppCard(),
-                if (can(AppFeature.examArrangement, ref) == true) const ExamArrangeAppCard(),
-                if (can(AppFeature.examResultUg, ref) == true) const ExamResultUgAppCard(),
-                if (can(AppFeature.examResultPg, ref) == true) const ExamResultPgAppCard(),
-                if (can(AppFeature.oaAnnouncement, ref)) const OaAnnounceAppCard(),
-                if (can(AppFeature.ywb, ref)) const YwbAppCard(),
-                if (can(AppFeature.library$, ref)) const LibraryAppCard(),
-                if (can(AppFeature.yellowPages, ref)) const YellowPagesAppCard(),
+              SliverList.list(children: const [
+                Class2ndAppCard(),
+                ExamArrangeAppCard(),
+                ExamResultUgAppCard(),
+                ExamResultPgAppCard(),
+                OaAnnounceAppCard(),
+                YwbAppCard(),
+                LibraryAppCard(),
+                YellowPagesAppCard(),
               ]),
             ],
           ),

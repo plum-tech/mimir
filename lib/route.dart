@@ -5,13 +5,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/backend/forum/page/index.dart';
 import 'package:mimir/backend/settings/page/index.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
-import 'package:mimir/feature/feature.dart';
-import 'package:mimir/feature/utils.dart';
 import 'package:mimir/index.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/life/page/settings.dart';
@@ -208,12 +205,6 @@ final _meShellRoute = GoRoute(
   path: "/me",
   builder: (ctx, state) => const MePage(),
 );
-final _mimirRoutes = [
-  GoRoute(
-    path: "/mimir/forum",
-    builder: (ctx, state) => const MimirForumPage(),
-  ),
-];
 final _toolsRoutes = [
   GoRoute(
     path: "/tools/network-tool",
@@ -543,9 +534,6 @@ String _getRootRoute() {
     available.remove("/timetable");
   }
   final userType = CredentialsInit.storage.oa.userType;
-  if (!can(AppFeature.timetable)) {
-    available.remove("/timetable");
-  }
   if (userType == OaUserType.freshman) {
     return "/school";
   }
@@ -597,7 +585,6 @@ RoutingConfig buildCommonRoutingConfig() {
           ),
         ],
       ),
-      ..._mimirRoutes,
       ..._timetableRoutes,
       _webviewRoute,
       _expenseRoute,
@@ -626,7 +613,6 @@ RoutingConfig buildTimetableFocusRouter() {
         path: "/",
         redirect: (ctx, state) => _getRootRoute(),
       ),
-      ..._mimirRoutes,
       _timetableShellRoute,
       ..._timetableRoutes,
       _schoolShellRoute,

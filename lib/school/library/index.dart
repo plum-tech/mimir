@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/feature/feature.dart';
-import 'package:mimir/feature/utils.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
@@ -44,22 +42,21 @@ class _LibraryAppCardState extends ConsumerState<LibraryAppCard> {
           icon: Icon(context.icons.search),
           label: i18n.action.searchBooks.text(),
         ),
-        if (can(AppFeature.libraryAccount$, ref))
-          if (credentials == null)
-            FilledButton.tonal(
-              onPressed: () async {
-                await context.push("/library/login");
-              },
-              child: i18n.action.login.text(),
-            )
-          else
-            FilledButton.tonalIcon(
-              onPressed: () async {
-                await context.push("/library/borrowing");
-              },
-              icon: Icon(context.icons.person),
-              label: i18n.action.borrowing.text(),
-            )
+        if (credentials == null)
+          FilledButton.tonal(
+            onPressed: () async {
+              await context.push("/library/login");
+            },
+            child: i18n.action.login.text(),
+          )
+        else
+          FilledButton.tonalIcon(
+            onPressed: () async {
+              await context.push("/library/borrowing");
+            },
+            icon: Icon(context.icons.person),
+            label: i18n.action.borrowing.text(),
+          )
       ],
     );
   }

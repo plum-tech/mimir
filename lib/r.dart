@@ -98,6 +98,5 @@ class R {
     ywb2Uri,
   };
 
-  static final websiteUri = Uri(scheme: "https", host: "www.mysit.life");
-  static final forumUri = Uri(scheme: "https", host: "forum.mysit.life");
+  static final websiteUri = Uri(scheme: "https", host: "www.xiaoying.life");
 }
