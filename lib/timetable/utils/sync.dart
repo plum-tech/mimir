@@ -1,9 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mimir/backend/stats/utils/stats.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
-import 'package:mimir/feature/feature.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/entity/timetable.dart';
@@ -35,7 +33,6 @@ Future<Timetable?> syncTimetable(BuildContext context, Timetable old) async {
   final equal = old.isBasicInfoEqualTo(newTimetable);
   if (!context.mounted) return null;
   if (equal) {
-    Stats.feature(AppFeature.timetableSync, "equal");
     await context.showTip(
       title: i18n.import.alreadyLatest,
       desc: i18n.import.alreadyLatestDesc,
@@ -43,7 +40,6 @@ Future<Timetable?> syncTimetable(BuildContext context, Timetable old) async {
     );
     return null;
   }
-  Stats.feature(AppFeature.timetableSync, "updatable");
   final confirm = await context.showActionRequest(
     title: i18n.import.updateAvailable,
     desc: i18n.import.updateAvailableDesc,
@@ -96,7 +92,6 @@ Future<Timetable?> autoSyncTimetable(BuildContext context, Timetable old) async 
   );
   if (confirm != null) {
     // after users see the dialog, update the last sync time
-    Stats.feature(AppFeature.timetableAutoSync, "cancel");
     Settings.timetable.lastSyncTimetableTime = DateTime.now();
   }
   if (confirm != true) return null;
@@ -106,7 +101,6 @@ Future<Timetable?> autoSyncTimetable(BuildContext context, Timetable old) async 
         courses: newTimetable.courses,
       )
       .markModified();
-  Stats.feature(AppFeature.timetableAutoSync, "updated");
   return merged;
 }
 

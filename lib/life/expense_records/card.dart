@@ -3,26 +3,20 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/backend/stats/utils/stats.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/widget/app.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
-import 'package:mimir/feature/feature.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/life/event.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/life/expense_records/init.dart';
 import 'package:mimir/utils/async_event.dart';
-import 'package:mimir/utils/guard_launch.dart';
 import 'widget/balance.dart';
 import 'package:rettulf/rettulf.dart';
 
 import "i18n.dart";
 import 'widget/transaction.dart';
 import 'x.dart';
-
-/// 支付宝校园卡
-const _alipaySchoolCardTopUpMiniapp = "alipays://platformapi/startapp?appId=2019090967125695";
 
 class ExpenseRecordsAppCard extends ConsumerStatefulWidget {
   const ExpenseRecordsAppCard({super.key});
@@ -110,23 +104,6 @@ class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> w
                   context.push("/expense-records/statistics");
                 },
           child: i18n.statistics.text(),
-        ),
-        OutlinedButton(
-          onPressed: () async {
-            final success = await guardLaunchUrlString(context, _alipaySchoolCardTopUpMiniapp);
-            if (success) {
-              Stats.feature(AppFeature.expenseRecords, "top-up.launched");
-            } else {
-              Stats.feature(AppFeature.expenseRecords, "top-up.failed");
-              if (!context.mounted) return;
-              context.showTip(
-                title: i18n.launchFailed,
-                desc: i18n.launchFailedDesc,
-                primary: i18n.ok,
-              );
-            }
-          },
-          child: i18n.topUp.text(),
         ),
       ],
     );

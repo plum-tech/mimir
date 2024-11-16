@@ -15,7 +15,6 @@ import 'package:mimir/design/adaptive/swipe.dart';
 import 'package:mimir/intent/qrcode/page/view.dart';
 import 'package:mimir/login/x.dart';
 import 'package:mimir/school/utils.dart';
-import 'package:mimir/storage/objectbox/init.dart';
 import 'package:mimir/timetable/init.dart';
 import 'package:mimir/timetable/service/school.demo.dart';
 import 'package:mimir/app.dart';
@@ -37,7 +36,6 @@ import 'package:mimir/login/utils.dart';
 import 'package:mimir/intent/deep_link/handle.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/design/widget/navigation.dart';
-import 'package:objectbox/objectbox.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/utils/guard_launch.dart';
@@ -60,7 +58,6 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
     final credentials = ref.watch(CredentialsInit.storage.oa.$credentials);
     final demoMode = ref.watch(Dev.$demoMode);
     final deviceInfo = R.deviceInfo;
-    final objectboxAdmin = ObjectBoxInit.objectBoxAdmin;
     return Scaffold(
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
@@ -121,15 +118,6 @@ class _DeveloperOptionsPageState extends ConsumerState<DeveloperOptionsPage> {
                     await Init.initModules();
                     if (!context.mounted) return;
                     context.go("/");
-                  },
-                ),
-              if (kDebugMode && Admin.isAvailable() && objectboxAdmin != null && !objectboxAdmin.isClosed())
-                ListTile(
-                  title: "Open Objectbox Admin".text(),
-                  subtitle: "http://localhost:${objectboxAdmin.port}/index.html".text(),
-                  trailing: const Icon(Icons.open_in_browser),
-                  onTap: () async {
-                    await guardLaunchUrlString(context, "http://localhost:${objectboxAdmin.port}/index.html");
                   },
                 ),
               const ReceivedDeepLinksTile(),
