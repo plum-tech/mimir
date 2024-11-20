@@ -28,11 +28,11 @@ jobs:
 
       - name: Pnpm install
         run: |
-          cd tools && pnpm i && cd ..
+          cd tools && pnpm i && pnpm build && cd ..
 
       - name: Change version
         run: |
-          node tools/increment-build-number.js
+          pnpm -C tools run increment-build-number
 
       - name: Install JDK 17
         uses: actions/setup-java@v4
@@ -94,15 +94,15 @@ jobs:
 
       - name: Pnpm install
         run: |
-          cd tools && pnpm i && cd ..
+          cd tools && pnpm i && pnpm build && cd ..
 
       - name: Change version
         run: |
-          node tools/increment-build-number.js
+          pnpm -C tools run increment-build-number
 
       - name: Change Develop to Distribution
         run: |
-          node tools/to-distro.js
+          pnpm -C tools run to-distro
 
       - name: Install Apple Certificate
         uses: apple-actions/import-codesign-certs@v3
@@ -174,13 +174,13 @@ jobs:
 
       - name: Pnpm install
         run: |
-          cd tools && pnpm i && cd ..
+          cd tools && pnpm i && pnpm build && cd ..
 
       - name: Change version and push tag
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
-          node tools/increment-build-number.js --push
+          pnpm -C tools run increment-build-number --push
 
       - name: Get iOS Artifact
         uses: actions/download-artifact@v4
@@ -214,4 +214,4 @@ jobs:
         env:
           MIMIR_VERSION_TOKEN: ${{ secrets.MIMIR_VERSION_ADMIN_TOKEN }}
         run: |
-          node tools/publish-preview.js --upload build/app-release-signed.apk
+          pnpm -C tools run publish-preview --upload build/app-release-signed.apk
