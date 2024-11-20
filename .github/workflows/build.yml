@@ -212,6 +212,6 @@ jobs:
       - name: Publish preview version
         continue-on-error: true
         env:
-          MIMIR_VERSION_TOKEN: ${{ secrets.MIMIR_VERSION_ADMIN_TOKEN }}
+          MIMIR_VERSION_ADMIN_TOKEN: ${{ secrets.MIMIR_VERSION_ADMIN_TOKEN }}
         run: |
           pnpm run publish-preview --upload build/app-release-signed.apk
