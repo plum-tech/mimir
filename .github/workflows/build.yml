@@ -176,9 +176,7 @@ jobs:
         run: |
           cd tools && pnpm i && pnpm build && cd ..
 
-      - name: Change version and push tag
-        with:
-          github_token: ${{ secrets.MIMIR_GITHUB_TOKEN }}
+      - name: Change version and commit tag
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "github-actions[bot]"
