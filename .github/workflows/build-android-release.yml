@@ -11,6 +11,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: plum-tech/mimir-x
+          token: ${{ secrets.MIMIR_GITHUB_TOKEN }}
           fetch-depth: 0
 
       - name: Install pnpm
