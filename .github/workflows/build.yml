@@ -1,6 +1,14 @@
 name: Flutter Build
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_app_store:
+        description: 'Deploy on App Store connect'
+        required: true
+        default: true
+        type: boolean
+
 permissions: write-all
 
 jobs:
@@ -72,7 +80,7 @@ jobs:
 
   build_ios:
     runs-on: macos-14 # macos-latest is macos-12 actually, and iOS 17+ SDK not supported
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master' && ${{ inputs.deploy_app_store }}
 
     steps:
       - uses: actions/checkout@v4
