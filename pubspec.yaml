@@ -107,7 +107,6 @@ dependencies:
   # Haptic feedbacks
   vibration: ^2.0.0
   # qrcode scanner
-  mobile_scanner: 5.2.3
   add_2_calendar: ^3.0.1
 
   # UI

@@ -27,14 +27,6 @@ if (keystorePropertiesFile.exists()) {
   keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
-// Tell Gradle to exclude the objectbox-android dependency
-// that is added by objectbox_flutter_libs for debug builds.
-configurations {
-  debugImplementation {
-    exclude group: 'io.objectbox', module: 'objectbox-android'
-  }
-}
-
 android {
   namespace 'life.mysit.sit_life'
   compileSdk flutter.compileSdkVersion
@@ -98,12 +90,5 @@ flutter {
 
 dependencies {
   implementation 'com.google.android.material:material:1.12.0'
-
-  // Add objectbox-android-objectbrowser only for debug builds.
-  // Replace <version> with the included objectbox-android version,
-  // e.g. check https://github.com/objectbox/objectbox-dart/releases
-  // Warning: when ObjectBox for Dart updates check if <version>
-  // needs to be updated.
-  debugImplementation("io.objectbox:objectbox-android-objectbrowser:4.0.2")
 }
 
