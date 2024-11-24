@@ -31,7 +31,6 @@ import 'package:mimir/settings/page/language.dart';
 import 'package:mimir/settings/page/oa.dart';
 import 'package:mimir/settings/page/proxy.dart';
 import 'package:mimir/school/page/settings.dart';
-import 'package:mimir/settings/page/storage.dart';
 import 'package:mimir/life/expense_records/page/records.dart';
 import 'package:mimir/life/expense_records/page/statistics.dart';
 import 'package:mimir/life/index.dart';
@@ -56,14 +55,12 @@ import 'package:mimir/school/oa_announce/entity/announce.dart';
 import 'package:mimir/school/oa_announce/page/details.dart';
 import 'package:mimir/school/exam_arrange/page/list.dart';
 import 'package:mimir/school/oa_announce/page/list.dart';
-import 'package:mimir/intent/qrcode/page/scanner.dart';
 import 'package:mimir/school/class2nd/page/details.dart';
 import 'package:mimir/school/class2nd/page/activity.dart';
 import 'package:mimir/school/class2nd/page/attended.dart';
 import 'package:mimir/school/exam_result/page/evaluation.dart';
 import 'package:mimir/school/exam_result/page/result.ug.dart';
 import 'package:mimir/school/yellow_pages/page/index.dart';
-import 'package:mimir/settings/page/developer.dart';
 import 'package:mimir/settings/page/index.dart';
 import 'package:mimir/me/index.dart';
 import 'package:mimir/school/index.dart';
@@ -210,11 +207,6 @@ final _toolsRoutes = [
     path: "/tools/network-tool",
     builder: (ctx, state) => const NetworkToolPage(),
   ),
-  GoRoute(
-    path: "/tools/scanner",
-    parentNavigatorKey: $key,
-    builder: (ctx, state) => const ScannerPage(),
-  ),
 ];
 final _settingsRoute = GoRoute(
   path: "/settings",
@@ -277,16 +269,6 @@ final _settingsRoute = GoRoute(
     GoRoute(
       path: "proxy",
       builder: (ctx, state) => const ProxySettingsPage(),
-    ),
-    GoRoute(
-      path: "developer",
-      builder: (ctx, state) => const DeveloperOptionsPage(),
-      routes: [
-        GoRoute(
-          path: "local-storage",
-          builder: (ctx, state) => const LocalStoragePage(),
-        )
-      ],
     ),
   ],
 );

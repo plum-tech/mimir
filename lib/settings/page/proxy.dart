@@ -1,7 +1,4 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -13,7 +10,6 @@ import 'package:mimir/design/widget/list_tile.dart';
 import 'package:mimir/design/widget/tooltip.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/network/widget/checker.dart';
-import 'package:mimir/intent/qrcode/page/view.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/dev.dart';
@@ -21,7 +17,6 @@ import 'package:mimir/utils/error.dart';
 import 'package:mimir/utils/save.dart';
 import '../entity/proxy.dart';
 import '../i18n.dart';
-import '../deep_link/proxy.dart';
 
 class ProxySettingsPage extends ConsumerStatefulWidget {
   const ProxySettingsPage({
@@ -72,7 +67,6 @@ class _ProxySettingsPageState extends ConsumerState<ProxySettingsPage> {
                 where: WhereToCheck.studentReg,
                 check: () async => await Init.ugRegSession.checkConnectivity(),
               ),
-              const ProxyShareQrCodeTile(),
             ]),
           ),
         ],
@@ -150,81 +144,6 @@ Uri? _validateProxyUriForType(String uriString, ProxyCat type) {
   final uri = _validateProxyUri(uriString);
   if (uri == null) return null;
   return !type.supportedProtocols.contains(uri.scheme) ? null : uri;
-}
-
-class ProxyShareQrCodeTile extends StatelessWidget {
-  const ProxyShareQrCodeTile({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(context.icons.qrcode),
-      title: i18n.proxy.shareQrCode.text(),
-      subtitle: i18n.proxy.shareQrCodeDesc.text(),
-      trailing: Icon(context.icons.share),
-      onTap: () async {
-        final proxy = Settings.proxy;
-        final qrCodeData = const ProxyDeepLink().encode(
-          http: proxy.http,
-          https: proxy.https,
-          all: proxy.all,
-        );
-        context.showSheet(
-          (context) => QrCodePage(
-            title: i18n.proxy.title,
-            data: qrCodeData.toString(),
-          ),
-        );
-      },
-    );
-  }
-}
-
-Future<void> onProxyFromQrCode({
-  required BuildContext context,
-  required ProxyProfile? http,
-  required ProxyProfile? https,
-  required ProxyProfile? all,
-}) async {
-  final confirm = await context.showActionRequest(
-    desc: i18n.proxy.setFromQrCodeDesc,
-    action: i18n.proxy.setFromQrCodeAction,
-    cancel: i18n.cancel,
-  );
-  if (confirm != true) return;
-  bool isValid(Uri? uri, ProxyCat type) {
-    return uri == null ? true : _validateProxyUriForType(uri.toString(), type) != null;
-  }
-
-  var valid = isValid(http?.address, ProxyCat.http) &&
-      isValid(https?.address, ProxyCat.https) &&
-      isValid(all?.address, ProxyCat.all);
-  if (!valid) {
-    if (!context.mounted) return;
-    context.showTip(
-      title: i18n.error,
-      desc: i18n.proxy.invalidProxyFormatTip,
-      primary: i18n.close,
-    );
-    return;
-  }
-  final cat2Address = {
-    ProxyCat.http: http,
-    ProxyCat.https: https,
-    ProxyCat.all: all,
-  };
-  Settings.proxy.applyForeach((cat, profile, set) {
-    final profile = cat2Address[cat];
-    if (profile != null) {
-      set(profile);
-    }
-  });
-
-  await HapticFeedback.mediumImpact();
-  if (!context.mounted) return;
-  context.push("/settings/proxy");
 }
 
 class ProxyProfileEditorPage extends ConsumerStatefulWidget {

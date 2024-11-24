@@ -60,14 +60,6 @@ class TimetablePatchSetWidget extends StatelessWidget {
               await previewTimetable(context, timetable: timetable);
             },
           ),
-          if (!kIsWeb && enableQrCode)
-            PullDownItem(
-              icon: context.icons.qrcode,
-              title: i18n.shareQrCode,
-              onTap: () async {
-                shareTimetablePatchQrCode(context, patchSet);
-              },
-            ),
           if (onUnpacked != null)
             PullDownItem(
               icon: Icons.outbox,

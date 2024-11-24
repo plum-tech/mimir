@@ -17,14 +17,11 @@ import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/widget/entry_card.dart';
 import 'package:mimir/design/widget/fab.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/intent/qrcode/page/view.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/page/ical.dart';
-import 'package:mimir/timetable/deep_link/timetable.dart';
 import 'package:mimir/timetable/widget/course.dart';
 import 'package:mimir/utils/format.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -374,20 +371,6 @@ class TimetableCard extends StatelessWidget {
               final code = timetable.toDartCode();
               debugPrint(code);
               await Clipboard.setData(ClipboardData(text: code));
-            },
-          ),
-        if (!kIsWeb && Dev.on)
-          EntryAction(
-            icon: context.icons.qrcode,
-            label: i18n.shareQrCode,
-            action: () async {
-              final qrCodeData = const TimetableDeepLink().encode(timetable);
-              await context.showSheet(
-                (context) => QrCodePage(
-                  title: timetable.name,
-                  data: qrCodeData.toString(),
-                ),
-              );
             },
           ),
         if (!kIsWeb && canSyncTimetable(timetable))

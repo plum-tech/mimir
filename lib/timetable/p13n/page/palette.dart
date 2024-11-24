@@ -20,7 +20,6 @@ import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/entity/dual_color.dart';
 import 'package:mimir/design/widget/entry_card.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/intent/qrcode/page/view.dart';
 import 'package:mimir/timetable/p13n/entity/palette.dart';
 import 'package:mimir/timetable/entity/timetable.dart';
 import 'package:mimir/timetable/init.dart';
@@ -29,7 +28,6 @@ import 'package:text_scroll/text_scroll.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../i18n.dart';
-import '../../deep_link/palette.dart';
 import '../builtin.dart';
 import '../utils/generate.dart';
 import '../widget/style.dart';
@@ -275,21 +273,6 @@ class PaletteCard extends StatelessWidget {
             onDuplicate?.call();
           },
         ),
-        // Uint64 is not supporting on web
-        if (!kIsWeb)
-          EntryAction(
-            label: i18n.shareQrCode,
-            icon: context.icons.qrcode,
-            action: () async {
-              final qrCodeData = const TimetablePaletteDeepLink().encode(palette);
-              await ctx.showSheet(
-                (context) => QrCodePage(
-                  title: palette.name,
-                  data: qrCodeData.toString(),
-                ),
-              );
-            },
-          ),
         if (kDebugMode)
           EntryAction(
             icon: context.icons.copy,

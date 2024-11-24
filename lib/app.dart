@@ -1,9 +1,7 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:animations/animations.dart';
-import 'package:app_links/app_links.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:fit_system_screenshot/fit_system_screenshot.dart';
 import 'package:flutter/foundation.dart';
@@ -12,12 +10,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/agreements/entity/agreements.dart';
 import 'package:mimir/agreements/page/privacy_policy.dart';
-import 'package:mimir/credentials/init.dart';
 import 'package:mimir/files.dart';
-import 'package:mimir/intent/file_type/handle.dart';
 import 'package:mimir/lifecycle.dart';
-import 'package:mimir/intent/deep_link/handle.dart';
-import 'package:mimir/platform/quick_action.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/settings/dev.dart';
@@ -27,12 +21,8 @@ import 'package:mimir/timetable/init.dart';
 import 'package:mimir/timetable/utils/sync.dart';
 import 'package:mimir/utils/color.dart';
 import 'package:mimir/utils/error.dart';
-import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:universal_platform/universal_platform.dart';
-
-final $appLinks = StateProvider((ref) => <({Uri uri, DateTime ts})>[]);
-final $intentFiles = StateProvider((ref) => <SharedMediaFile>[]);
 
 class MimirApp extends ConsumerStatefulWidget {
   const MimirApp({super.key});
@@ -60,36 +50,6 @@ class _MimirAppState extends ConsumerState<MimirApp> {
     }
     if (!kIsWeb) {
       fitSystemScreenshot.init();
-    }
-
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      $appLink = AppLinks().uriLinkStream.listen(handleUriLink);
-    });
-    if (UniversalPlatform.isIOS || UniversalPlatform.isAndroid) {
-      // Listen to media sharing coming from outside the app while the app is in the memory.
-      intentSub = ReceiveSharingIntent.instance.getMediaStream().listen((list) async {
-        ref.read($intentFiles.notifier).state = [
-          ...ref.read($intentFiles),
-          ...list,
-        ];
-        await handleFileIntents(list);
-      }, onError: (error) {
-        debugPrintError(error);
-      });
-
-      // Get the media sharing coming from outside the app while the app is closed.
-      ReceiveSharingIntent.instance.getInitialMedia().then((list) async {
-        ref.read($intentFiles.notifier).state = [
-          ...ref.read($intentFiles),
-          ...list,
-        ];
-        await handleFileIntents(list);
-        if (UniversalPlatform.isIOS) {
-          await Future.wait(list.map((file) => File(file.path).delete(recursive: false)));
-        }
-        // Tell the library that we are done processing the intent.
-        ReceiveSharingIntent.instance.reset();
-      });
     }
   }
 
@@ -180,28 +140,6 @@ class _MimirAppState extends ConsumerState<MimirApp> {
       ),
     );
   }
-
-  Future<void> handleUriLink(Uri uri) async {
-    ref.read($appLinks.notifier).state = [...ref.read($appLinks), (uri: uri, ts: DateTime.now())];
-    final navigateCtx = $key.currentContext;
-    if (navigateCtx == null) return;
-    if (!kIsWeb) {
-      final maybePath = Uri.decodeFull(uri.toString());
-      if (uri.scheme == "file") {
-        await onHandleFilePath(context: navigateCtx, path: maybePath);
-        return;
-      } else {
-        final isFile = await File(maybePath).exists();
-        if (isFile) {
-          if (!navigateCtx.mounted) return;
-          await onHandleFilePath(context: navigateCtx, path: maybePath);
-          return;
-        }
-      }
-    }
-    if (!navigateCtx.mounted) return;
-    await onHandleDeepLink(context: navigateCtx, deepLink: uri);
-  }
 }
 
 class _PostServiceRunner extends ConsumerStatefulWidget {
@@ -244,9 +182,6 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
       if (accepted == true) return;
       await AgreementsAcceptanceSheet.show(navigateCtx);
     });
-    if (UniversalPlatform.isIOS || UniversalPlatform.isAndroid) {
-      initQuickActions();
-    }
   }
 
   @override
@@ -279,9 +214,6 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(CredentialsInit.storage.oa.$credentials, (pre, next) async {
-      await initQuickActions();
-    });
     return widget.child;
   }
 
@@ -301,19 +233,5 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
         debugPrintError(error, stackTrace);
       }
     }
-  }
-}
-
-Future<void> handleFileIntents(List<SharedMediaFile> files) async {
-  final navigateCtx = $key.currentContext;
-  if (navigateCtx == null) return;
-  for (final file in files) {
-    // ignore the url intent from the this app
-    if (file.type == SharedMediaType.url) {
-      final uri = Uri.tryParse(file.path);
-      if (uri != null && canHandleDeepLink(deepLink: uri)) continue;
-    }
-    if (!navigateCtx.mounted) return;
-    await onHandleFilePath(context: navigateCtx, path: file.path);
   }
 }

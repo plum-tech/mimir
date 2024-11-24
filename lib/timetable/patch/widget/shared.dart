@@ -1,19 +1,15 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/adaptive/menu.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/intent/qrcode/page/view.dart';
 import 'package:mimir/timetable/entity/pos.dart';
 
 import '../../entity/loc.dart';
 import '../../entity/timetable.dart';
 import '../../i18n.dart';
 import '../../page/preview.dart';
-import '../../deep_link/patch.dart';
 import '../../utils.dart';
 import '../entity/patch.dart';
 
@@ -231,14 +227,6 @@ class TimetablePatchMenuAction<TPatch extends TimetablePatch> extends StatelessW
               await previewTimetable(context, timetable: timetable);
             },
           ),
-        if (!kIsWeb && enableQrCode)
-          PullDownItem(
-            title: i18n.shareQrCode,
-            icon: context.icons.qrcode,
-            onTap: () async {
-              shareTimetablePatchQrCode(context, patch);
-            },
-          ),
         if (onDeleted != null)
           PullDownItem.delete(
             icon: context.icons.delete,
@@ -377,18 +365,4 @@ class AddPatchButtons extends StatelessWidget {
           .toList(),
     ).sized(h: 40);
   }
-}
-
-void shareTimetablePatchQrCode(BuildContext context, TimetablePatchEntry patch) async {
-  if (kIsWeb) return;
-  final qrCodeData = const TimetablePatchDeepLink().encode(patch);
-  await context.showSheet(
-    (context) => QrCodePage(
-      title: switch (patch) {
-        TimetablePatchSet() => patch.name,
-        TimetablePatch() => patch.l10n(),
-      },
-      data: qrCodeData.toString(),
-    ),
-  );
 }

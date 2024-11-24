@@ -46,38 +46,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.11"
-  app_links:
-    dependency: "direct main"
-    description:
-      name: app_links
-      sha256: ad1a6d598e7e39b46a34f746f9a8b011ee147e4c275d407fa457e7a62f84dd99
-      url: "https://pub.dev"
-    source: hosted
-    version: "6.3.2"
-  app_links_linux:
-    dependency: transitive
-    description:
-      name: app_links_linux
-      sha256: f5f7173a78609f3dfd4c2ff2c95bd559ab43c80a87dc6a095921d96c05688c81
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.3"
-  app_links_platform_interface:
-    dependency: transitive
-    description:
-      name: app_links_platform_interface
-      sha256: "05f5379577c513b534a29ddea68176a4d4802c46180ee8e2e966257158772a3f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.2"
-  app_links_web:
-    dependency: transitive
-    description:
-      name: app_links_web
-      sha256: af060ed76183f9e2b87510a9480e56a5352b6c249778d07bd2c95fc35632a555
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.4"
   app_settings:
     dependency: "direct main"
     description:
@@ -1130,14 +1098,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
-  gtk:
-    dependency: transitive
-    description:
-      name: gtk
-      sha256: e8ce9ca4b1df106e4d72dad201d345ea1a036cc12c360f1a7d5a758f78ffa42c
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.1.0"
   hashlib_codecs:
     dependency: "direct main"
     description:
@@ -1898,46 +1858,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.1.0"
-  quick_actions:
-    dependency: "direct main"
-    description:
-      name: quick_actions
-      sha256: "2c1d9a91f3218b4e987a7e1e95ba0415b7f48a2cb3ffacc027a1e3d3c117223f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.8"
-  quick_actions_android:
-    dependency: transitive
-    description:
-      name: quick_actions_android
-      sha256: "54a581491b90ff2e1be94af84a40c05e806e232184bb32afa2df57b07c4d6882"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.15"
-  quick_actions_ios:
-    dependency: transitive
-    description:
-      name: quick_actions_ios
-      sha256: "402596dea62a1028960b93f7651ec22be0e2a91e4fbf92a1c62d3b95f8ff95a5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.1"
-  quick_actions_platform_interface:
-    dependency: transitive
-    description:
-      name: quick_actions_platform_interface
-      sha256: "81a1e40c519bb3cacfec38b3008b13cef665a75bd270da94f40091b57f0f9236"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.6"
-  receive_sharing_intent:
-    dependency: "direct main"
-    description:
-      name: receive_sharing_intent
-      sha256: f127989f8662ea15e193bd1e10605e5a0ab6bb92dffd51f3ce002feb0ce24c93
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.8.0"
   reorderables:
     dependency: "direct main"
     description:
@@ -2375,14 +2295,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  uri_content:
-    dependency: "direct main"
-    description:
-      name: uri_content
-      sha256: ad08e63cd995e2daeace00359399f368e3d5dfe381c1a37daa3f9901108b518e
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.2.0"
   url_launcher:
     dependency: "direct main"
     description:

@@ -10,7 +10,6 @@ import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/me/edu_email/index.dart';
 import 'package:mimir/me/widget/greeting.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/intent/deep_link/utils.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:universal_platform/universal_platform.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -50,7 +49,6 @@ class _MePageState extends ConsumerState<MePage> {
                   UniversalPlatform.isIOS ||
                   UniversalPlatform.isMacOS ||
                   UniversalPlatform.isWeb)
-                buildScannerAction(),
               PlatformIconButton(
                 icon: Icon(context.icons.settings),
                 onPressed: () {
@@ -109,15 +107,6 @@ class _MePageState extends ConsumerState<MePage> {
         },
         icon: Icon(context.icons.rightChevron),
       ),
-    );
-  }
-
-  Widget buildScannerAction() {
-    return PlatformIconButton(
-      onPressed: () async {
-        await recognizeQrCode(context);
-      },
-      icon: const Icon(Icons.qr_code_scanner_outlined),
     );
   }
 }
