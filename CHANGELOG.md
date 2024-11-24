@@ -72,7 +72,7 @@ Usage: `sitlife://go/any-route`. And in FeaturedMarkdownWidget, it has a shortha
 - Unified the swipe-to-delete action on both TimetablePatch and TimetablePatchSet.
 - Keep html and markdown widgets alive to improve performance.
 - A new deep link handler, Open webview, to open a page in the in-app webview.
-Usage: `sitlife://webview/https://www.mysit.life`.
+Usage: `sitlife://webview/https://www.xiaoying.life`.
 - Redesigned the style of AppCard.
 - Rewrote the SSO authorization logic of Undergrad registration session and SSO session.
 - Open SIT YWB application in webview or browser.

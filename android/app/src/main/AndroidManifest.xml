@@ -39,9 +39,9 @@
         <action android:name="android.intent.action.VIEW"/>
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
-        <!-- Accepts URIs that begin with "https://mysit.life” -->
+        <!-- Accepts URIs that begin with "https://xiaoying.life” -->
         <data android:scheme="https"
-              android:host="mysit.life"/>
+              android:host="xiaoying.life"/>
       </intent-filter>
       <intent-filter android:label="Deep Links">
         <action android:name="android.intent.action.VIEW"/>

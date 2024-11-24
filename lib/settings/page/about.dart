@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,7 +9,6 @@ import 'package:mimir/r.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/utils/error.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import '../i18n.dart';
 import '../widget/device.dart';
@@ -58,21 +56,21 @@ class _AboutSettingsPageState extends ConsumerState<AboutSettingsPage> {
                 title: i18n.about.termsOfService.text(),
                 trailing: const Icon(Icons.open_in_browser),
                 onTap: () async {
-                  await guardLaunchUrlString(context, "https://www.mysit.life/tos/20240915");
+                  await guardLaunchUrlString(context, "https://www.xiaoying.life/tos");
                 },
               ),
               ListTile(
                 title: i18n.about.privacyPolicy.text(),
                 trailing: const Icon(Icons.open_in_browser),
                 onTap: () async {
-                  await guardLaunchUrlString(context, "https://www.mysit.life/privacy-policy/20240915");
+                  await guardLaunchUrlString(context, "https://www.xiaoying.life/privacy-policy");
                 },
               ),
               ListTile(
                 title: i18n.about.marketingWebsite.text(),
                 trailing: const Icon(Icons.open_in_browser),
                 onTap: () async {
-                  await guardLaunchUrlString(context, "https://www.mysit.life");
+                  await guardLaunchUrlString(context, "https://www.xiaoying.life");
                 },
               ),
               AboutListTile(

@@ -9,9 +9,10 @@ enum AgreementType {
 
 enum AgreementVersion {
   v20240915("20240915"),
+  v20241118("20241118"),
   ;
 
-  static const current = v20240915;
+  static const current = v20241118;
 
   final String number;
 

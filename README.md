@@ -44,7 +44,7 @@ Copyright©️2024 [Plum Technology Ltd](https://www.liplum.net). All Rights Res
 
 <!----------------------------------------------------------------------------->
 
-[Website]: https://www.mysit.life
+[Website]: https://www.xiaoying.life
 
 [Online Preview]: https://plum-tech.github.io/mimir/
 
