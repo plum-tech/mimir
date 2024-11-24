@@ -16,7 +16,6 @@ import 'package:mimir/r.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/settings.dart';
-import 'package:mimir/backend/update/utils.dart';
 import 'package:mimir/timetable/init.dart';
 import 'package:mimir/timetable/utils/sync.dart';
 import 'package:mimir/utils/color.dart';
@@ -164,13 +163,6 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
       onResume: onResume,
     );
     if (!kIsWeb) {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-        await checkAppUpdate(
-          context: $key.currentContext!,
-          delayAtLeast: const Duration(milliseconds: 3000),
-          manually: false,
-        );
-      });
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
         await tryAutoSyncTimetable();
       });

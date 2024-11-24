@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/agreements/entity/agreements.dart';
 import 'package:mimir/agreements/page/privacy_policy.dart';
-import 'package:mimir/backend/settings/page/index.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
@@ -94,9 +93,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           leading: const Icon(Icons.email),
           path: "/settings/edu-email",
         ));
-      }
-      if (devOn) {
-        all.add(const MimirCredentialsSettingsTile());
       }
       all.add(const Divider());
     }

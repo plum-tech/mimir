@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mimir/backend/init.dart';
 import 'package:mimir/credentials/entity/credential.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/entity/user_type.dart';
@@ -114,7 +113,6 @@ class Init {
     debugPrint("Initializing modules");
     CredentialsInit.init();
     TimetableInit.init();
-    BackendInit.init();
     if (!kIsWeb) {
       OaAnnounceInit.init();
       ExamResultInit.init();
@@ -135,7 +133,6 @@ class Init {
     CredentialsInit.initStorage();
     TimetableInit.initStorage();
     if (!kIsWeb) {
-      BackendInit.initStorage();
       OaAnnounceInit.initStorage();
       ExamResultInit.initStorage();
       ExamArrangeInit.initStorage();

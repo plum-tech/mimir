@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/backend/settings/page/index.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
@@ -212,16 +211,6 @@ final _settingsRoute = GoRoute(
   path: "/settings",
   builder: (ctx, state) => const SettingsPage(),
   routes: [
-    GoRoute(
-      path: "mimir",
-      redirect: (ctx, state) {
-        if (CredentialsInit.storage.mimir.signedIn != true) {
-          return "/mimir/sign-in";
-        }
-        return null;
-      },
-      builder: (ctx, state) => const MimirSettingsPage(),
-    ),
     GoRoute(
       path: "language",
       builder: (ctx, state) => const LanguagePage(),

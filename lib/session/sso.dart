@@ -7,7 +7,6 @@ import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart' hide Key;
 import 'package:logger/logger.dart';
-import 'package:mimir/backend/init.dart';
 import 'package:mimir/credentials/entity/credential.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/error.dart';
@@ -17,7 +16,6 @@ import 'package:mimir/lifecycle.dart';
 import 'package:mimir/login/utils.dart';
 import 'package:mimir/r.dart';
 
-import 'package:mimir/utils/error.dart';
 import 'package:mimir/utils/riverpod.dart';
 import 'package:encrypt/encrypt.dart';
 

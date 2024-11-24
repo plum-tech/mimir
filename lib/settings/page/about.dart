@@ -10,7 +10,6 @@ import 'package:mimir/r.dart';
 import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/backend/update/utils.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import '../i18n.dart';
@@ -114,7 +113,6 @@ class _VersionTileState extends ConsumerState<VersionTile> {
       leading: Icon(getDeviceIcon(R.meta, R.deviceInfo)),
       title: i18n.about.version.text(),
       subtitle: "${version.platform.name} ${version.version.toString()}".text(),
-      trailing: kIsWeb  ? null : const CheckUpdateButton(),
       onTap: (devOn && clickCount <= 10) || !accepted
           ? null
           : () async {
@@ -130,39 +128,6 @@ class _VersionTileState extends ConsumerState<VersionTile> {
                 }
               }
             },
-    );
-  }
-}
-
-class CheckUpdateButton extends StatefulWidget {
-  const CheckUpdateButton({super.key});
-
-  @override
-  State<CheckUpdateButton> createState() => _CheckUpdateButtonState();
-}
-
-class _CheckUpdateButtonState extends State<CheckUpdateButton> {
-  var isChecking = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return FilledButton.tonal(
-      onPressed: isChecking
-          ? null
-          : () async {
-              setState(() {
-                isChecking = true;
-              });
-              try {
-                await checkAppUpdate(context: context, manually: true);
-              } catch (error, stackTrace) {
-                debugPrintError(error, stackTrace);
-              }
-              setState(() {
-                isChecking = false;
-              });
-            },
-      child: i18n.about.checkUpdate.text(),
     );
   }
 }
