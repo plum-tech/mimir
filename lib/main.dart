@@ -11,10 +11,8 @@ import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mimir/files.dart';
 import 'package:mimir/network/proxy.dart';
-import 'package:mimir/platform/windows/windows.dart';
 import 'package:mimir/storage/hive/init.dart';
 import 'package:mimir/init.dart';
-import 'package:mimir/platform/desktop.dart';
 import 'package:mimir/school/yellow_pages/entity/contact.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:mimir/settings/meta.dart';
@@ -44,9 +42,6 @@ void main() async {
     await InAppWebViewController.setWebContentsDebuggingEnabled(kDebugMode);
   }
   final prefs = await SharedPreferences.getInstance();
-  final lastSize = prefs.getLastWindowSize();
-  await DesktopInit.init(size: lastSize);
-  await WindowsInit.registerCustomScheme(R.scheme);
   final installationTime = prefs.getInstallTime();
   debugPrint("First installation time: $installationTime");
   if (installationTime == null) {
