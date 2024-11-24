@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
-import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/adaptive/menu.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/animation/progress.dart';
@@ -21,7 +20,6 @@ import 'package:mimir/route.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/settings.dart';
-import 'package:mimir/timetable/page/ical.dart';
 import 'package:mimir/timetable/widget/course.dart';
 import 'package:mimir/utils/format.dart';
 import 'package:text_scroll/text_scroll.dart';
@@ -30,7 +28,6 @@ import 'package:uuid/uuid.dart';
 
 import '../p13n/builtin.dart';
 import '../p13n/entity/palette.dart';
-import '../entity/timetable_entity.dart';
 import '../i18n.dart';
 import '../entity/timetable.dart';
 import '../init.dart';
@@ -350,13 +347,6 @@ class TimetableCard extends StatelessWidget {
             },
           ),
         EntryAction(
-          label: i18n.mine.exportCalendar,
-          icon: context.icons.calendar,
-          action: () async {
-            await onExportCalendar(ctx, timetable);
-          },
-        ),
-        EntryAction(
           label: i18n.mine.patch,
           icon: Icons.dashboard_customize,
           action: () async {
@@ -405,21 +395,6 @@ class TimetableCard extends StatelessWidget {
       itemBuilder: (ctx) {
         return TimetableInfo(timetable: timetable);
       },
-    );
-  }
-
-  Future<void> onExportCalendar(BuildContext context, Timetable timetable) async {
-    final config = await context.showSheet<TimetableICalConfig>(
-      (context) => TimetableICalConfigEditor(
-        timetable: timetable,
-      ),
-    );
-    if (config == null) return;
-    if (!context.mounted) return;
-    await exportTimetableAsICalendarAndOpen(
-      context,
-      timetable: timetable.resolve(),
-      config: config,
     );
   }
 }

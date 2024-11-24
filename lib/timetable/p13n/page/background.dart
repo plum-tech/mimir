@@ -21,11 +21,9 @@ import 'package:mimir/utils/images.dart';
 import 'package:mimir/utils/save.dart';
 import 'package:mimir/widget/modal_image_view.dart';
 import 'package:universal_platform/universal_platform.dart';
-import 'package:palette_generator/palette_generator.dart';
 
 import "../../i18n.dart";
 import '../entity/background.dart';
-import '../utils/generate.dart';
 
 /// It persists changes to storage before route popping
 class TimetableBackgroundEditor extends ConsumerStatefulWidget {
@@ -37,7 +35,6 @@ class TimetableBackgroundEditor extends ConsumerStatefulWidget {
 
 class _TimetableBackgroundEditorState extends ConsumerState<TimetableBackgroundEditor>
     with SingleTickerProviderStateMixin {
-  PaletteGenerator? paletteGen;
   String? rawPath;
   File? renderImageFile;
   double opacity = 1.0;
@@ -108,33 +105,8 @@ class _TimetableBackgroundEditorState extends ConsumerState<TimetableBackgroundE
             ]),
           ],
         ),
-        persistentFooterButtons: [
-          if (renderImageFile != null) buildGeneratePalette(renderImageFile),
-        ],
         persistentFooterAlignment: AlignmentDirectional.center,
       ),
-    );
-  }
-
-  Widget buildGeneratePalette(File imageFile) {
-    return TaskBuilder(
-      task: () async {
-        final added = await addPaletteFromImageByGenerator(
-          context,
-          FileImage(imageFile),
-        );
-        if (added) {
-          if (!mounted) return;
-          context.push("/timetable/palettes/custom");
-        }
-      },
-      builder: (context, task, running) {
-        return FilledButton.tonalIcon(
-          icon: const Icon(Icons.generating_tokens_outlined),
-          label: i18n.p13n.background.generatePalette.text(),
-          onPressed: task,
-        );
-      },
     );
   }
 
