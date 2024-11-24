@@ -14,7 +14,6 @@ import 'package:mimir/network/proxy.dart';
 import 'package:mimir/platform/windows/windows.dart';
 import 'package:mimir/storage/hive/init.dart';
 import 'package:mimir/init.dart';
-import 'package:mimir/migration/migrations.dart';
 import 'package:mimir/platform/desktop.dart';
 import 'package:mimir/school/yellow_pages/entity/contact.dart';
 import 'package:path_provider/path_provider.dart';
@@ -69,7 +68,6 @@ void main() async {
     debugPrintError(error, stackTrace);
   }
   await EasyLocalization.ensureInitialized();
-  Migrations.init();
 
   if (!kIsWeb) {
     await Files.init(
@@ -86,10 +84,6 @@ void main() async {
   final lastVersion = lastVersionRaw != null ? Version.parse(lastVersionRaw) : currentVersion;
   debugPrint("Last version: $lastVersion");
   await prefs.setLastVersion(currentVersion.toString());
-  final migrations = Migrations.match(from: lastVersion, to: currentVersion);
-  // final migrations = Migrations.match(from: Version(2, 3, 2), to: currentVersion);
-
-  await migrations.perform(MigrationPhrase.beforeHive);
 
   R.roomList = await _loadRoomNumberList();
   R.yellowPages = await _loadYellowPages();
@@ -112,12 +106,10 @@ void main() async {
   Meta.lastLaunchTime = Meta.thisLaunchTime;
   Meta.thisLaunchTime = DateTime.now();
   Init.registerCustomEditor();
-  await migrations.perform(MigrationPhrase.afterHive);
   HttpOverrides.global = MimirHttpOverrides();
   await Init.initNetwork();
   await Init.initModules();
   await Init.initStorage();
-  await migrations.perform(MigrationPhrase.afterInitStorage);
   runApp(
     ProviderScope(
       child: EasyLocalization(
