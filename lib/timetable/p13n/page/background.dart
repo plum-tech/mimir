@@ -8,7 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mimir/design/widget/task_builder.dart';
-import 'package:mimir/timetable/p13n/page/palette.dart';
 import 'package:mimir/utils/permission.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:rettulf/rettulf.dart';
@@ -17,7 +16,6 @@ import 'package:mimir/design/adaptive/editor.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widget/common.dart';
 import 'package:mimir/files.dart';
-import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/utils/images.dart';
 import 'package:mimir/utils/save.dart';
@@ -98,7 +96,7 @@ class _TimetableBackgroundEditorState extends ConsumerState<TimetableBackgroundE
               onHidden(
                 child: buildToolBar(),
               ).padV(4),
-              if (rawPath != null && (Dev.on || (UniversalPlatform.isDesktop || kIsWeb)))
+              if (rawPath != null && (UniversalPlatform.isDesktop || kIsWeb))
                 ListTile(
                   title: i18n.p13n.background.selectedImage.text(),
                   subtitle: rawPath.text(),
@@ -107,30 +105,6 @@ class _TimetableBackgroundEditorState extends ConsumerState<TimetableBackgroundE
               buildImmersive(),
               buildRepeat(),
               buildAntialias(),
-              if (Dev.on && renderImageFile != null)
-                [
-                  FilledButton.icon(
-                    label: "Extract colors".text(),
-                    onPressed: () async {
-                      final generator = await PaletteGenerator.fromImageProvider(
-                        FileImage(renderImageFile),
-                        maximumColorCount: 12,
-                        targets: PaletteTarget.baseTargets,
-                      );
-                      setState(() {
-                        paletteGen = generator;
-                      });
-                    },
-                  ).center(),
-                  if (paletteGen != null)
-                    paletteGen!.paletteColors
-                        .map((color) => ColorSquareCard(
-                              color: color.color,
-                              textColor: color.titleTextColor,
-                            ))
-                        .toList()
-                        .wrap(spacing: 4, runSpacing: 4),
-                ].column(),
             ]),
           ],
         ),

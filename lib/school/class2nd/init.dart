@@ -1,10 +1,5 @@
-import 'package:mimir/school/class2nd/service/points.demo.dart';
-import 'package:mimir/settings/dev.dart';
-
 import 'service/activity.dart';
-import 'service/activity.demo.dart';
 import 'service/application.dart';
-import 'service/application.demo.dart';
 import 'service/points.dart';
 import 'storage/activity.dart';
 import 'storage/points.dart';
@@ -17,9 +12,9 @@ class Class2ndInit {
   static late Class2ndApplicationService applicationService;
 
   static void init() {
-    pointService = Dev.demoMode ? const DemoClass2ndPointsService() : const Class2ndPointsService();
-    activityService = Dev.demoMode ? const DemoClass2ndActivityService() : const Class2ndActivityService();
-    applicationService = Dev.demoMode ? const DemoClass2ndApplicationService() : const Class2ndApplicationService();
+    pointService = const Class2ndPointsService();
+    activityService = const Class2ndActivityService();
+    applicationService =  const Class2ndApplicationService();
   }
 
   static void initStorage() {

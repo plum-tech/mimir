@@ -12,7 +12,6 @@ import 'package:mimir/init.dart';
 import 'package:mimir/network/widget/checker.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/settings/dev.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:mimir/utils/save.dart';
 import '../entity/proxy.dart';
@@ -57,11 +56,6 @@ class _ProxySettingsPageState extends ConsumerState<ProxySettingsPage> {
                 ProxyCat.https,
                 icon: const Icon(Icons.https),
               ),
-              if (Dev.on)
-                buildProxyTypeTile(
-                  ProxyCat.all,
-                  icon: const Icon(Icons.public),
-                ),
               const Divider(),
               TestConnectionTile(
                 where: WhereToCheck.studentReg,

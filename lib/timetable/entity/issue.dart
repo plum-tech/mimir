@@ -1,10 +1,8 @@
 import 'package:mimir/l10n/time.dart';
-import 'package:mimir/settings/dev.dart';
 import 'package:statistics/statistics.dart';
 
 import '../patch/entity/patch.dart';
 import 'timetable.dart';
-import 'timetable_entity.dart';
 
 enum TimetableIssueType {
   empty,
@@ -100,41 +98,6 @@ extension Timetable4IssueX on Timetable {
         issues.add(TimetableCbeIssue(
           courseKey: course.courseKey,
         ));
-      }
-    }
-
-    // TODO: finish overlap issue inspection
-    if (Dev.on) {
-      final overlaps = <TimetableCourseOverlapIssue>[];
-      final entity = resolve();
-      for (final day in entity.days) {
-        for (var timeslot = 0; timeslot < day.timeslot2LessonSlot.length; timeslot++) {
-          final lessonSlot = day.timeslot2LessonSlot[timeslot];
-          if (lessonSlot.lessons.length >= 2) {
-            final issue = TimetableCourseOverlapIssue(
-              courseKeys: lessonSlot.lessons.map((l) => l.course.courseKey).toList(),
-              weekIndex: day.weekIndex,
-              weekday: day.weekday,
-              timeslots: (start: timeslot, end: timeslot),
-            );
-            if (overlaps.every((overlap) => !overlap.isSameOne(issue))) {
-              overlaps.add(issue);
-            }
-          }
-        }
-      }
-      issues.addAll(overlaps);
-    }
-    if (Dev.on) {
-      for (var i = 0; i < patches.length; i++) {
-        final patch = patches[i];
-        if (patch is TimetablePatch) {
-          if (TimetablePatchOutOfRangeIssue.detect(this, patch)) {
-            issues.add(TimetablePatchOutOfRangeIssue(
-              patch: patch,
-            ));
-          }
-        }
       }
     }
     return issues;

@@ -1,5 +1,3 @@
-import 'package:mimir/settings/dev.dart';
-
 import 'entity/local.dart';
 import 'init.dart';
 
@@ -7,10 +5,6 @@ class XExpense {
   static Future<void> fetchAndSaveTransactionUntilNow({
     required String oaAccount,
   }) async {
-    final override = Dev.expenseUserOverride;
-    if (override != null) {
-      oaAccount = override;
-    }
     final storage = ExpenseRecordsInit.storage;
     final now = DateTime.now();
     final start = now.copyWith(year: now.year - 6);

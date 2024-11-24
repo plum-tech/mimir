@@ -19,7 +19,6 @@ import 'package:mimir/platform/desktop.dart';
 import 'package:mimir/school/yellow_pages/entity/contact.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:mimir/settings/meta.dart';
-import 'package:mimir/settings/dev.dart';
 import 'package:mimir/entity/meta.dart';
 import 'package:mimir/storage/prefs.dart';
 import 'package:mimir/utils/error.dart';
@@ -107,12 +106,8 @@ void main() async {
   await HiveInit.initBox();
 
   // Setup Settings and Meta
-  if (kDebugMode) {
-    Dev.on = true;
-  }
-  if (kDebugMode || Dev.on) {
-    R.deviceInfo = await getDeviceInfo();
-  }
+
+  R.deviceInfo = await getDeviceInfo();
   // The last time when user launch this app
   Meta.lastLaunchTime = Meta.thisLaunchTime;
   Meta.thisLaunchTime = DateTime.now();

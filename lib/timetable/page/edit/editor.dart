@@ -15,7 +15,6 @@ import 'package:mimir/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/l10n/time.dart';
 import 'package:mimir/school/widget/course.dart';
-import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/settings.dart';
 import '../../entity/issue.dart';
 import '../../widget/issue.dart';
@@ -457,7 +456,6 @@ class TimetableEditableCourseCard extends StatelessWidget {
             isThreeLine: true,
             visualDensity: VisualDensity.compact,
             enabled: !course.hidden,
-            leading: Dev.on ? "${course.courseKey}".text() : null,
             title: course.place.text(),
             subtitle: [
               course.teachers.join(", ").text(),

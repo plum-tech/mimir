@@ -14,7 +14,6 @@ import 'package:mimir/files.dart';
 import 'package:mimir/lifecycle.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/route.dart';
-import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/init.dart';
 import 'package:mimir/timetable/utils/sync.dart';
@@ -68,7 +67,6 @@ class _MimirAppState extends ConsumerState<MimirApp> {
 
   @override
   Widget build(BuildContext context) {
-    final demoMode = ref.watch(Dev.$demoMode);
     final themeColorFromSystem = ref.watch(Settings.theme.$themeColorFromSystem) ?? true;
     ref.listen(Settings.timetable.$focusTimetable, (pre, next) {
       $routingConfig.value = next ? buildTimetableFocusRouter() : buildCommonRoutingConfig();
@@ -117,7 +115,6 @@ class _MimirAppState extends ConsumerState<MimirApp> {
       title: R.appName,
       onGenerateTitle: (ctx) => "appName".tr(),
       routerConfig: router,
-      debugShowCheckedModeBanner: !demoMode,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,

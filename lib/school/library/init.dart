@@ -1,9 +1,7 @@
 import 'package:mimir/school/library/service/auth.dart';
 import 'package:mimir/school/library/storage/book.dart';
 import 'package:mimir/school/library/storage/borrow.dart';
-import 'package:mimir/settings/dev.dart';
 
-import 'service/book.demo.dart';
 import 'service/details.dart';
 import 'service/book.dart';
 import 'service/borrow.dart';
@@ -11,7 +9,6 @@ import 'service/collection.dart';
 import 'service/collection_preview.dart';
 import 'service/trends.dart';
 import 'service/image_search.dart';
-import 'service/trends.demo.dart';
 import 'storage/browse.dart';
 import 'storage/image.dart';
 import 'storage/search.dart';
@@ -36,12 +33,12 @@ class LibraryInit {
   static void init() {
     auth = const LibraryAuthService();
 
-    bookSearch = Dev.demoMode ? const DemoBookSearchService() : const BookSearchService();
+    bookSearch =const BookSearchService();
     bookDetailsService = const BookDetailsService();
     collectionInfoService = const LibraryCollectionInfoService();
     bookImageSearch = const BookImageSearchService();
     collectionPreviewService = const LibraryCollectionPreviewService();
-    hotSearchService = Dev.demoMode ? const DemoLibraryTrendsService() : const LibraryTrendsService();
+    hotSearchService = const LibraryTrendsService();
     borrowService = const LibraryBorrowService();
   }
 

@@ -217,7 +217,7 @@ msix_config:
   languages: en,zh-hans,zh-hant
   file_extension: .timetable
   # sit-life,life.mysit for backwards support
-  protocol_activation: sitlife,sit-life,life.mysit
-  execution_alias: sitlife
+  protocol_activation: xiaoying,sitlife,sit-life,life.mysit
+  execution_alias: xiaoying
   output_name: SIT-Life
   enable_at_startup: false

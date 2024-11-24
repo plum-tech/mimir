@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/settings/dev.dart';
 import '../entity/local.dart';
 import "../i18n.dart";
 
@@ -19,7 +18,6 @@ class TransactionTile extends StatelessWidget {
       subtitle: [
         context.formatYmdhmsNum(transaction.timestamp).text(),
         if (title != transaction.note && transaction.note.isNotEmpty) transaction.note.text(),
-        if (Dev.on) "${transaction.balanceBefore} => ${transaction.balanceAfter}".text(),
       ].column(caa: CrossAxisAlignment.start),
       leading: transaction.type.icon.make(color: transaction.type.resolveColor(context), size: 32),
       trailing: transaction.toReadableString().text(

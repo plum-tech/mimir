@@ -14,7 +14,6 @@ import 'package:mimir/r.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/widget/markdown.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/settings/dev.dart';
 import 'package:mimir/utils/error.dart';
 import '../init.dart';
 import '../i18n.dart';
@@ -130,7 +129,7 @@ class _EduEmailLoginPageState extends State<EduEmailLoginPage> {
               controller: $username,
               textInputAction: TextInputAction.next,
               autofocus: true,
-              readOnly: !Dev.on && initialAccount != null,
+              readOnly: initialAccount != null,
               autocorrect: false,
               enableSuggestions: false,
               validator: (username) {

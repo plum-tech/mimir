@@ -3,14 +3,13 @@ import 'dart:ui';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mimir/credentials/entity/credential.dart';
 import 'package:mimir/school/yellow_pages/entity/contact.dart';
 import 'package:mimir/entity/meta.dart';
 
 class R {
   const R._();
 
-  static const scheme = "sitlife";
+  static const scheme = "xiaoying";
   static const hiveStorageVersionCache = "2.7.0";
   static const hiveStorageVersionCore = "2.1.1";
   static const appId = "life.mysit.SITLife";
@@ -39,12 +38,6 @@ class R {
   static const Size minWindowSize = Size(300, 400);
 
   static const eduEmailDomain = "mail.sit.edu.cn";
-  static const demoModeOaCredential = Credential(account: "2300421153", password: "liplum-sit-life");
-  static const demoModeOaCredentialWithoutGame = Credential(account: "2200421155", password: "liplum-sit-life");
-
-  static bool isDemoMode(Credential credential) {
-    return credential == demoModeOaCredential || credential == demoModeOaCredentialWithoutGame;
-  }
 
   static const iosAppId = "6468989112";
   static const iosAppStoreUrl = "https://apps.apple.com/app/$iosAppId";

@@ -8,7 +8,6 @@ import 'package:mimir/login/utils.dart';
 import 'package:mimir/login/widget/forgot_pwd.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/school/library/api.dart';
-import 'package:mimir/settings/dev.dart';
 import 'package:mimir/utils/error.dart';
 import '../init.dart';
 import '../i18n.dart';
@@ -72,7 +71,7 @@ class _LibraryLoginPageState extends State<LibraryLoginPage> {
               controller: $readerId,
               textInputAction: TextInputAction.next,
               autofocus: true,
-              readOnly: !Dev.on && initialAccount != null,
+              readOnly: initialAccount != null,
               autocorrect: false,
               enableSuggestions: false,
               decoration: InputDecoration(

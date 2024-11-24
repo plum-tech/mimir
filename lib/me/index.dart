@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/settings/dev.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
@@ -32,7 +31,6 @@ class MePage extends ConsumerStatefulWidget {
 class _MePageState extends ConsumerState<MePage> {
   @override
   Widget build(BuildContext context) {
-    final dev = ref.watch(Dev.$on);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: CustomScrollView(

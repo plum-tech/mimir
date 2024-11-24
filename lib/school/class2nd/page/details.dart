@@ -3,14 +3,11 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/menu.dart';
-import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widget/list_tile.dart';
 import 'package:mimir/design/widget/tags.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/school/class2nd/service/application.dart';
-import 'package:mimir/settings/dev.dart';
 import 'package:mimir/utils/error.dart';
-import 'package:mimir/utils/guard_launch.dart';
 import 'package:mimir/utils/tel.dart';
 import 'package:mimir/widget/html.dart';
 import 'package:rettulf/rettulf.dart';
@@ -212,24 +209,6 @@ class _Class2ndActivityDetailsPageState extends State<Class2ndActivityDetailsPag
             );
           },
         ),
-        if (Dev.on)
-          PullDownItem(
-            icon: Icons.send,
-            title: "Forcibly apply",
-            destructive: true,
-            onTap: () async {
-              await showForciblyApplyRequest();
-            },
-          ),
-        if (Dev.on)
-          PullDownItem(
-            icon: context.icons.delete,
-            title: "Delete cache",
-            destructive: true,
-            onTap: () async {
-              Class2ndInit.activityStorage.setActivityDetails(activityId, null);
-            },
-          ),
       ],
     );
   }

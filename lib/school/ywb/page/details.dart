@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mimir/settings/dev.dart';
 import 'package:mimir/utils/error.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -74,7 +73,7 @@ class _YwbServiceDetailsPageState extends ConsumerState<YwbServiceDetailsPage> {
           controller: controller,
           slivers: [
             SliverAppBar.medium(
-              title: (ref.watch(Dev.$on) ? "$name#$id" : name).text(),
+              title: name.text(),
               actions: [
                 PlatformTextButton(
                   onPressed: openInApp,

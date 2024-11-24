@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,17 +12,13 @@ import 'package:mimir/credentials/utils.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/animation/animated.dart';
-import 'package:mimir/init.dart';
 import 'package:mimir/l10n/common.dart';
 import 'package:mimir/login/utils.dart';
-import 'package:mimir/r.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/school/widget/campus.dart';
 import 'package:mimir/agreements/widget/agreements.dart';
 import 'package:mimir/widget/markdown.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/settings/dev.dart';
-import 'package:mimir/settings/meta.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart' hide isCupertino;
 
@@ -53,8 +47,8 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
-  final $account = TextEditingController(text: Dev.demoMode ? R.demoModeOaCredential.account : null);
-  final $password = TextEditingController(text: Dev.demoMode ? R.demoModeOaCredential.password : null);
+  final $account = TextEditingController(text: null);
+  final $password = TextEditingController(text:  null);
   final _formKey = GlobalKey<FormState>();
   bool isPasswordClear = false;
   bool loggingIn = false;
@@ -106,34 +100,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     }
     final account = $account.text;
     final password = $password.text;
-    final credential = Credential(account: account, password: password);
-    if (R.isDemoMode(credential)) {
-      await loginDemoMode(credential);
-    } else {
-      await loginWithCredential(account, password, formatValid: (_formKey.currentState as FormState).validate());
-    }
-  }
-
-  Future<void> loginDemoMode(Credential credentials) async {
-    if (!mounted) return;
-    setState(() => loggingIn = true);
-    final rand = Random();
-    await Future.delayed(Duration(milliseconds: rand.nextInt(2000)));
-    Meta.userRealName = "Liplum";
-    Settings.lastSignature ??= "Liplum";
-    CredentialsInit.storage.oa.credentials = credentials;
-    CredentialsInit.storage.oa.loginStatus = OaLoginStatus.validated;
-    CredentialsInit.storage.oa.lastAuthTime = DateTime.now();
-    CredentialsInit.storage.oa.userType = OaUserType.undergraduate;
-    CredentialsInit.storage.eduEmail.credentials = Credential(
-      account: "${credentials.account}@${R.eduEmailDomain}",
-      password: credentials.password,
-    );
-    Dev.demoMode = true;
-    await Init.initModules();
-    if (!mounted) return;
-    setState(() => loggingIn = false);
-    context.go("/");
+    await loginWithCredential(account, password, formatValid: (_formKey.currentState as FormState).validate());
   }
 
   /// After the user clicks the login button

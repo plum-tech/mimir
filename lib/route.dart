@@ -36,7 +36,6 @@ import 'package:mimir/life/index.dart';
 import 'package:mimir/login/page/index.dart';
 import 'package:mimir/me/edu_email/page/inbox.dart';
 import 'package:mimir/network/page/index.dart';
-import 'package:mimir/settings/dev.dart';
 import 'package:mimir/settings/page/theme_color.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/p13n/entity/palette.dart';
@@ -78,7 +77,6 @@ final $MeShellKey = GlobalKey<NavigatorState>();
 // final $ForumShellKey = GlobalKey<NavigatorState>();
 
 bool isLoginGuarded(BuildContext ctx) {
-  if (Dev.demoMode) return false;
   final loginStatus = ProviderScope.containerOf(ctx).read(CredentialsInit.storage.oa.$loginStatus);
   final credentials = ProviderScope.containerOf(ctx).read(CredentialsInit.storage.oa.$credentials);
   return loginStatus != OaLoginStatus.validated && credentials == null;

@@ -3,7 +3,6 @@ import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/init.dart';
 
-import 'package:mimir/settings/dev.dart';
 import 'package:mimir/utils/cookies.dart';
 import 'package:mimir/widget/webview/injectable.dart';
 import 'package:mimir/widget/webview/page.dart';
@@ -106,7 +105,6 @@ class _TeacherEvaluationPageState extends ConsumerState<TeacherEvaluationPage> {
           js: _skipCountingDownPageJs,
         ),
       ],
-      bottomNavigationBar: ref.watch(Dev.$on) ? buildAdvancedBottomBar() : null,
     );
   }
 

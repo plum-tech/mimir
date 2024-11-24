@@ -19,7 +19,6 @@ import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/school/widget/campus.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/settings/dev.dart';
 import 'package:locale_names/locale_names.dart';
 import 'package:mimir/utils/riverpod.dart';
 
@@ -63,7 +62,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         all.add(const CampusSelector().padSymmetric(h: 8));
       }
     }
-    final devOn = ref.watch(Dev.$on);
     if (agreementAccepted) {
       final oaCredentials = ref.watch(CredentialsInit.storage.oa.$credentials);
       if (oaCredentials != null) {
@@ -126,13 +124,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         ));
       }
       all.add(const Divider());
-    }
-    if (devOn) {
-      all.add(PageNavigationTile(
-        title: i18n.dev.title.text(),
-        leading: const Icon(Icons.developer_mode_outlined),
-        path: "/settings/developer",
-      ));
     }
     if (agreementAccepted) {
       if (!kIsWeb) {

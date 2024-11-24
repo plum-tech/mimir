@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:mimir/agreements/entity/agreements.dart';
-import 'package:mimir/agreements/page/privacy_policy.dart';
-import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/widget/list_tile.dart';
 import 'package:mimir/r.dart';
-import 'package:mimir/settings/dev.dart';
-import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/utils/guard_launch.dart';
 import '../i18n.dart';
@@ -25,7 +19,6 @@ class AboutSettingsPage extends ConsumerStatefulWidget {
 class _AboutSettingsPageState extends ConsumerState<AboutSettingsPage> {
   @override
   Widget build(BuildContext context) {
-    final devMode = ref.watch(Dev.$on);
     return Scaffold(
       body: CustomScrollView(
         physics: const RangeMaintainingScrollPhysics(),
@@ -39,11 +32,6 @@ class _AboutSettingsPageState extends ConsumerState<AboutSettingsPage> {
           SliverList.list(
             children: [
               const VersionTile(),
-              if (devMode)
-                DetailListTile(
-                  title: "Installer Store",
-                  subtitle: R.meta.installerStore ?? i18n.unknown,
-                ),
               DetailListTile(
                 title: i18n.about.icpLicense,
                 subtitle: R.icpLicense,
@@ -79,11 +67,6 @@ class _AboutSettingsPageState extends ConsumerState<AboutSettingsPage> {
                 applicationVersion: R.meta.version.toString(),
                 applicationLegalese: "Copyright©️2024 Plum Technology Ltd. All Rights Reserved.",
               ),
-              if (devMode)
-                DetailListTile(
-                  title: "UUID",
-                  subtitle: R.uuid,
-                )
             ],
           ),
         ],
@@ -104,28 +87,11 @@ class _VersionTileState extends ConsumerState<VersionTile> {
 
   @override
   Widget build(BuildContext context) {
-    final devOn = ref.watch(Dev.$on);
-    final accepted = ref.watch(Settings.agreements.$basicAcceptanceOf(AgreementVersion.current)) ?? false;
     final version = R.meta;
     return ListTile(
       leading: Icon(getDeviceIcon(R.meta, R.deviceInfo)),
       title: i18n.about.version.text(),
       subtitle: "${version.platform.name} ${version.version.toString()}".text(),
-      onTap: (devOn && clickCount <= 10) || !accepted
-          ? null
-          : () async {
-              if (ref.read(Dev.$on)) return;
-              clickCount++;
-              if (clickCount >= 10) {
-                clickCount = 0;
-                if (accepted || await AgreementsAcceptanceSheet.show(context)) {
-                  if (!context.mounted) return;
-                  context.showSnackBar(content: i18n.dev.devModeActivateTip.text());
-                  await ref.read(Dev.$on.notifier).set(true);
-                  await HapticFeedback.mediumImpact();
-                }
-              }
-            },
     );
   }
 }
