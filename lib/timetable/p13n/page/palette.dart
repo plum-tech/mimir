@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:collection/collection.dart';
@@ -8,11 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:mimir/design/widget/task_builder.dart';
 import 'package:mimir/settings/settings.dart';
-import 'package:mimir/utils/permission.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
@@ -29,7 +24,6 @@ import 'package:uuid/uuid.dart';
 
 import '../../i18n.dart';
 import '../builtin.dart';
-import '../utils/generate.dart';
 import '../widget/style.dart';
 import '../../widget/timetable/weekly.dart';
 import 'palette_editor.dart';
@@ -80,16 +74,6 @@ class _TimetableP13nPageState extends ConsumerState<TimetablePaletteListPage> wi
     final palettes = ref.watch(TimetableInit.storage.palette.$rows);
     return Scaffold(
       persistentFooterButtons: [
-        TaskBuilder(
-          task: generateFromImage,
-          builder: (context, task, running) {
-            return FilledButton.tonalIcon(
-              onPressed: task,
-              icon: const Icon(Icons.generating_tokens_outlined),
-              label: i18n.p13n.palette.generate.text(),
-            );
-          },
-        ),
         FilledButton.icon(
           onPressed: addPalette,
           icon: Icon(context.icons.add),
@@ -130,31 +114,6 @@ class _TimetableP13nPageState extends ConsumerState<TimetablePaletteListPage> wi
       context: context,
       uuid: uuid,
     );
-  }
-
-  Future<void> generateFromImage() async {
-    final context = this.context;
-    await requestPermission(context, Permission.photos);
-    final picker = ImagePicker();
-    final XFile? fi = await picker.pickImage(
-      source: ImageSource.gallery,
-      requestFullMetadata: false,
-    );
-    if (fi == null) return;
-    if (kIsWeb) {
-      final bytes = await fi.readAsBytes();
-      if (!context.mounted) return;
-      await addPaletteFromImageByGenerator(
-        context,
-        MemoryImage(bytes),
-      );
-    } else {
-      if (!context.mounted) return;
-      await addPaletteFromImageByGenerator(
-        context,
-        FileImage(File(fi.path)),
-      );
-    }
   }
 
   Widget buildPaletteList(List<TimetablePalette> palettes) {
