@@ -47,6 +47,17 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
+      - name: Install the provisioning profile of HomeWidget
+        env:
+          PROVISIONING_CERTIFICATE_BASE64: ${{ secrets.PROVISIONING_PROFILE_HOME_WIDGET_BASE64 }}
+        run: |
+          PP_PATH=$RUNNER_TEMP/build_home_widget_pp.mobileprovision
+
+          echo -n "PROVISIONING_PROFILE_HOME_WIDGET_BASE64" | base64 --decode --output $PP_PATH
+
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
