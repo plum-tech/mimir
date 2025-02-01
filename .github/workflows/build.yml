@@ -79,7 +79,7 @@ jobs:
           path: build/app/outputs/flutter-apk/*-signed.apk
 
   build_ios:
-    runs-on: macos-latest
+    runs-on: macos-15
     if: github.ref == 'refs/heads/master' && ${{ inputs.deploy_app_store }}
 
     steps:
