@@ -2,7 +2,6 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:mimir/entity/meta.dart';
-import 'package:web_browser_detect/web_browser_detect.dart';
 
 IconData getDeviceIcon(AppMeta meta, [BaseDeviceInfo? info]) {
   switch (meta.platform) {
@@ -19,24 +18,10 @@ IconData getDeviceIcon(AppMeta meta, [BaseDeviceInfo? info]) {
     case AppPlatform.linux:
       return SimpleIcons.windows;
     case AppPlatform.web:
-      return _getBrowserIcon();
+      return Icons.web;
     case AppPlatform.unknown:
       return Icons.device_unknown_outlined;
   }
-}
-
-IconData _getBrowserIcon() {
-  final browser = Browser.detectOrNull();
-  if (browser == null) return Icons.web;
-  return switch (browser.browserAgent) {
-    BrowserAgent.UnKnown => Icons.web,
-    BrowserAgent.Chrome => SimpleIcons.googlechrome,
-    BrowserAgent.Safari => SimpleIcons.safari,
-    BrowserAgent.Firefox => SimpleIcons.firefoxbrowser,
-    BrowserAgent.Explorer => SimpleIcons.internetexplorer,
-    BrowserAgent.Edge => SimpleIcons.microsoftedge,
-    BrowserAgent.EdgeChromium => SimpleIcons.microsoftedge,
-  };
 }
 
 const _manufacturer2icon = {
