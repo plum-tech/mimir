@@ -82,16 +82,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
           },
         ));
       }
-
-      final eduEmailCredentials = ref.watch(CredentialsInit.storage.eduEmail.$credentials);
-      if (eduEmailCredentials != null) {
-        all.add(PageNavigationTile(
-          title: i18n.eduEmail.eduEmail.text(),
-          subtitle: eduEmailCredentials.account.text(),
-          leading: const Icon(Icons.email),
-          path: "/settings/edu-email",
-        ));
-      }
       all.add(const Divider());
     }
 

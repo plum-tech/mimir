@@ -13,7 +13,6 @@ class CredentialStorage {
 
   late final oa = _Oa(box);
   late final mimir = _Mimir(box);
-  late final eduEmail = _EduEmail(box);
   late final library = _Library(box);
 }
 
@@ -77,23 +76,6 @@ class _Mimir {
   set signedIn(bool? newV) => box.safePut<bool>(_MimirK.signedIn, newV);
 
   late final $signedIn = box.providerWithDefault<bool>(_MimirK.signedIn, () => false);
-}
-
-class _EduEmailK {
-  static const ns = "/eduEmail";
-  static const credentials = "$ns/credentials";
-}
-
-class _EduEmail {
-  final Box box;
-
-  _EduEmail(this.box);
-
-  Credential? get credentials => box.safeGet<Credential>(_EduEmailK.credentials);
-
-  set credentials(Credential? newV) => box.safePut<Credential>(_EduEmailK.credentials, newV);
-
-  late final $credentials = box.provider<Credential>(_EduEmailK.credentials);
 }
 
 class _LibraryK {

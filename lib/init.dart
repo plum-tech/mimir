@@ -18,7 +18,6 @@ import 'package:mimir/session/ywb.dart';
 import 'package:mimir/life/electricity/init.dart';
 import 'package:mimir/life/expense_records/init.dart';
 import 'package:mimir/login/init.dart';
-import 'package:mimir/me/edu_email/init.dart';
 import 'package:mimir/school/ywb/init.dart';
 import 'package:mimir/school/exam_arrange/init.dart';
 import 'package:mimir/school/library/init.dart';
@@ -124,7 +123,6 @@ class Init {
       ElectricityBalanceInit.init();
     }
     YellowPagesInit.init();
-    EduEmailInit.init();
     LoginInit.init();
   }
 
@@ -143,7 +141,6 @@ class Init {
       ElectricityBalanceInit.initStorage();
     }
     YellowPagesInit.initStorage();
-    EduEmailInit.initStorage();
     LoginInit.initStorage();
   }
 

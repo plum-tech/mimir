@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:simple_icons/simple_icons.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
-import 'package:mimir/me/edu_email/index.dart';
 import 'package:mimir/me/widget/greeting.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/utils/error.dart';
@@ -55,7 +54,6 @@ class _MePageState extends ConsumerState<MePage> {
               ),
             ],
           ),
-          const EduEmailAppCard().sliver(),
           SliverList.list(children: [
             buildQQGroupTile(),
             buildWechatOfficialAccountTile(),

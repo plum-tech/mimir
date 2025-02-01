@@ -12,8 +12,6 @@ import 'package:mimir/index.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/life/page/settings.dart';
 import 'package:mimir/lifecycle.dart';
-import 'package:mimir/me/edu_email/page/login.dart';
-import 'package:mimir/me/edu_email/page/outbox.dart';
 import 'package:mimir/school/class2nd/entity/attended.dart';
 import 'package:mimir/school/exam_result/page/gpa.dart';
 import 'package:mimir/school/exam_result/page/result.pg.dart';
@@ -25,7 +23,6 @@ import 'package:mimir/school/ywb/page/details.dart';
 import 'package:mimir/school/ywb/page/service.dart';
 import 'package:mimir/school/ywb/page/application.dart';
 import 'package:mimir/settings/page/about.dart';
-import 'package:mimir/settings/page/edu_email.dart';
 import 'package:mimir/settings/page/language.dart';
 import 'package:mimir/settings/page/oa.dart';
 import 'package:mimir/settings/page/proxy.dart';
@@ -34,7 +31,6 @@ import 'package:mimir/life/expense_records/page/records.dart';
 import 'package:mimir/life/expense_records/page/statistics.dart';
 import 'package:mimir/life/index.dart';
 import 'package:mimir/login/page/index.dart';
-import 'package:mimir/me/edu_email/page/inbox.dart';
 import 'package:mimir/network/page/index.dart';
 import 'package:mimir/settings/page/theme_color.dart';
 import 'package:mimir/settings/settings.dart';
@@ -227,16 +223,6 @@ final _settingsRoute = GoRoute(
       builder: (ctx, state) => const OaSettingsPage(),
     ),
     GoRoute(
-      path: "edu-email",
-      redirect: (ctx, state) {
-        if (CredentialsInit.storage.eduEmail.credentials == null) {
-          return "/edu-email/login";
-        }
-        return null;
-      },
-      builder: (ctx, state) => const EduEmailSettingsPage(),
-    ),
-    GoRoute(
       path: "timetable",
       builder: (ctx, state) => const TimetableSettingsPage(),
     ),
@@ -329,30 +315,6 @@ final _oaAnnounceRoute = GoRoute(
 final _yellowPagesRoute = GoRoute(
   path: "/yellow-pages",
   builder: (ctx, state) => const YellowPagesListPage(),
-);
-
-final _eduEmailRoute = GoRoute(
-  path: "/edu-email",
-  redirect: (ctx, state) {
-    if (CredentialsInit.storage.eduEmail.credentials == null) {
-      return "/edu-email/login";
-    }
-    return "/edu-email/inbox";
-  },
-  routes: [
-    GoRoute(
-      path: "login",
-      builder: (ctx, state) => const EduEmailLoginPage(),
-    ),
-    GoRoute(
-      path: "inbox",
-      builder: (ctx, state) => const EduEmailInboxPage(),
-    ),
-    GoRoute(
-      path: "outbox",
-      builder: (ctx, state) => const EduEmailOutboxPage(),
-    ),
-  ],
 );
 
 final _ywbRoute = GoRoute(
@@ -555,7 +517,6 @@ RoutingConfig buildCommonRoutingConfig() {
       ..._toolsRoutes,
       _class2ndRoute,
       _oaAnnounceRoute,
-      _eduEmailRoute,
       _ywbRoute,
       _examResultRoute,
       _examArrange,
@@ -586,7 +547,6 @@ RoutingConfig buildTimetableFocusRouter() {
       ..._toolsRoutes,
       _class2ndRoute,
       _oaAnnounceRoute,
-      _eduEmailRoute,
       _ywbRoute,
       _examResultRoute,
       _examArrange,
