@@ -56,7 +56,6 @@ import 'package:mimir/school/oa_announce/page/list.dart';
 import 'package:mimir/school/class2nd/page/details.dart';
 import 'package:mimir/school/class2nd/page/activity.dart';
 import 'package:mimir/school/class2nd/page/attended.dart';
-import 'package:mimir/school/exam_result/page/evaluation.dart';
 import 'package:mimir/school/exam_result/page/result.ug.dart';
 import 'package:mimir/school/yellow_pages/page/index.dart';
 import 'package:mimir/settings/page/index.dart';
@@ -402,12 +401,6 @@ final _oaLoginRoute = GoRoute(
   },
 );
 
-final _teacherEvalRoute = GoRoute(
-  path: "/teacher-eval",
-  builder: (ctx, state) => const TeacherEvaluationPage(),
-  redirect: _loginRequired,
-);
-
 final _libraryRoutes = [
   GoRoute(
     path: "/library/login",
@@ -567,7 +560,6 @@ RoutingConfig buildCommonRoutingConfig() {
       _examResultRoute,
       _examArrange,
       ..._libraryRoutes,
-      _teacherEvalRoute,
       _oaLoginRoute,
       _imageRoute,
     ],
@@ -599,7 +591,6 @@ RoutingConfig buildTimetableFocusRouter() {
       _examResultRoute,
       _examArrange,
       ..._libraryRoutes,
-      _teacherEvalRoute,
       _oaLoginRoute,
       _imageRoute,
     ],

@@ -10,12 +10,9 @@ import 'package:mimir/school/exam_result/widget/ug.dart';
 import 'package:mimir/school/utils.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/utils/guard_launch.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 import 'entity/result.ug.dart';
 import "i18n.dart";
-import 'page/evaluation.dart';
 
 const _recentLength = 2;
 
@@ -48,16 +45,6 @@ class _ExamResultUgAppCardState extends ConsumerState<ExamResultUgAppCard> {
           icon: const Icon(Icons.fact_check),
           label: i18n.check.text(),
         ),
-        FilledButton.tonalIcon(
-          onPressed: () async {
-            if (UniversalPlatform.isDesktop) {
-              await guardLaunchUrl(context, teacherEvaluationUri);
-            } else {
-              await context.push("/teacher-eval");
-            }
-          },
-          label: i18n.teacherEval.text(),
-        )
       ],
     );
   }
