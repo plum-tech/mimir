@@ -38,8 +38,6 @@ dependencies:
   hive_flutter: ^1.1.0
   json_annotation: ^4.9.0
   copy_with_extension: ^5.0.4
-  freezed_annotation: ^2.4.4
-  get_it: ^7.7.0
   flutter_image_compress: ^2.3.0
   pausable_timer: ^3.1.0+3
   event_bus: ^2.0.1
@@ -114,13 +112,9 @@ dependencies:
   fl_chart: ^0.69.0
   flutter_svg: ^2.0.10+1
   flutter_svg_provider: ^1.0.7
-  visibility_detector: ^0.4.0+2
   reorderables: ^0.6.0
-  # Screen adaptation
-  flutter_adaptive_ui: ^0.8.0+1
   # Qr code generate
   qr_flutter: ^4.1.0
-  pretty_qr_code: ^3.3.0
   cached_network_image: ^3.4.1
   modal_bottom_sheet: ^3.0.0
   auto_size_text: ^3.0.0
@@ -136,7 +130,6 @@ dependencies:
   flex_color_picker: ^3.6.0
   flutter_swipe_action_cell: ^3.1.4
   flutter_slidable: ^3.1.1
-  bordered_text: ^2.0.0
   flutter_platform_widgets: ^7.0.1
   pull_down_button: ^0.10.1
   # read system theme color
@@ -146,7 +139,6 @@ dependencies:
   carousel_slider_plus: ^7.0.1
   super_context_menu: ^0.8.22
   animated_size_and_fade: ^4.0.0
-  dismissible_page: ^1.0.2
   image_cropper: ^8.0.2
   # Utils
   # dart.io.Platform API for Web
@@ -164,8 +156,6 @@ dependencies:
 
   # game
   flame: ^1.19.0
-  flame_forge2d: ^0.18.2
-  sudoku_solver_generator: ^2.1.0+1
 
 dev_dependencies:
   flutter_test: { sdk: flutter }
@@ -173,7 +163,6 @@ dev_dependencies:
   build_runner: ^2.4.12
   json_serializable: ^6.8.0
   hive_generator: ^2.0.0
-  freezed: ^2.5.7
   copy_with_extension_gen: ^5.0.4
   test: ^1.24.9
   msix: ^3.16.8

@@ -6,7 +6,6 @@ import 'package:collection/collection.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/utils/byte_io/byte_io.dart';
