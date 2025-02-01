@@ -51,12 +51,10 @@ class R {
   static late List<SchoolDeptContact> yellowPages;
   static const enLocale = Locale('en');
   static const zhHansLocale = Locale.fromSubtags(languageCode: "zh", scriptCode: "Hans");
-  static const zhHantLocale = Locale.fromSubtags(languageCode: "zh", scriptCode: "Hant");
   static const defaultLocale = zhHansLocale;
   static const supportedLocales = [
     enLocale,
     zhHansLocale,
-    zhHantLocale,
   ];
 
   static final sitUri = Uri(scheme: "https", host: "sit.edu.cn");
