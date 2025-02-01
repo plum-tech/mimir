@@ -13,7 +13,6 @@ import 'package:mimir/files.dart';
 import 'package:mimir/network/proxy.dart';
 import 'package:mimir/storage/hive/init.dart';
 import 'package:mimir/init.dart';
-import 'package:mimir/school/yellow_pages/entity/contact.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:mimir/settings/meta.dart';
 import 'package:mimir/entity/meta.dart';
@@ -81,7 +80,6 @@ void main() async {
   await prefs.setLastVersion(currentVersion.toString());
 
   R.roomList = await _loadRoomNumberList();
-  R.yellowPages = await _loadYellowPages();
 
   // Initialize Hive
   if (!kIsWeb) {
@@ -125,10 +123,4 @@ Future<List<String>> _loadRoomNumberList() async {
   String jsonData = await rootBundle.loadString("assets/room_list.json");
   List<dynamic> list = jsonDecode(jsonData);
   return list.map((e) => e.toString()).toList();
-}
-
-Future<List<SchoolDeptContact>> _loadYellowPages() async {
-  String jsonData = await rootBundle.loadString("assets/yellow_pages.json");
-  List<dynamic> list = jsonDecode(jsonData);
-  return list.map((e) => SchoolDeptContact.fromJson(e)).toList().cast<SchoolDeptContact>();
 }

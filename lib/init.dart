@@ -24,7 +24,6 @@ import 'package:mimir/school/library/init.dart';
 import 'package:mimir/school/oa_announce/init.dart';
 import 'package:mimir/school/class2nd/init.dart';
 import 'package:mimir/school/exam_result/init.dart';
-import 'package:mimir/school/yellow_pages/init.dart';
 import 'package:mimir/session/ug_registration.dart';
 import 'package:mimir/timetable/init.dart';
 import 'dart:async';
@@ -122,7 +121,6 @@ class Init {
       Class2ndInit.init();
       ElectricityBalanceInit.init();
     }
-    YellowPagesInit.init();
     LoginInit.init();
   }
 
@@ -140,7 +138,6 @@ class Init {
       Class2ndInit.initStorage();
       ElectricityBalanceInit.initStorage();
     }
-    YellowPagesInit.initStorage();
     LoginInit.initStorage();
   }
 

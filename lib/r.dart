@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
-import 'package:mimir/school/yellow_pages/entity/contact.dart';
 import 'package:mimir/entity/meta.dart';
 
 class R {
@@ -48,7 +47,6 @@ class R {
   }
 
   static late List<String> roomList;
-  static late List<SchoolDeptContact> yellowPages;
   static const enLocale = Locale('en');
   static const zhHansLocale = Locale.fromSubtags(languageCode: "zh", scriptCode: "Hans");
   static const defaultLocale = zhHansLocale;

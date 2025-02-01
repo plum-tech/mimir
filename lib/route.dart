@@ -53,7 +53,6 @@ import 'package:mimir/school/class2nd/page/details.dart';
 import 'package:mimir/school/class2nd/page/activity.dart';
 import 'package:mimir/school/class2nd/page/attended.dart';
 import 'package:mimir/school/exam_result/page/result.ug.dart';
-import 'package:mimir/school/yellow_pages/page/index.dart';
 import 'package:mimir/settings/page/index.dart';
 import 'package:mimir/me/index.dart';
 import 'package:mimir/school/index.dart';
@@ -312,10 +311,6 @@ final _oaAnnounceRoute = GoRoute(
     ),
   ],
 );
-final _yellowPagesRoute = GoRoute(
-  path: "/yellow-pages",
-  builder: (ctx, state) => const YellowPagesListPage(),
-);
 
 final _ywbRoute = GoRoute(
   path: "/ywb",
@@ -513,7 +508,6 @@ RoutingConfig buildCommonRoutingConfig() {
       _webviewRoute,
       _expenseRoute,
       _settingsRoute,
-      _yellowPagesRoute,
       ..._toolsRoutes,
       _class2ndRoute,
       _oaAnnounceRoute,
@@ -543,7 +537,6 @@ RoutingConfig buildTimetableFocusRouter() {
       _webviewRoute,
       _expenseRoute,
       _settingsRoute,
-      _yellowPagesRoute,
       ..._toolsRoutes,
       _class2ndRoute,
       _oaAnnounceRoute,

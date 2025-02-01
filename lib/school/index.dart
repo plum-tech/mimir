@@ -8,7 +8,6 @@ import 'package:mimir/school/exam_result/card.pg.dart';
 import 'package:mimir/school/exam_result/card.ug.dart';
 import 'package:mimir/school/library/index.dart';
 import 'package:mimir/school/oa_announce/index.dart';
-import 'package:mimir/school/yellow_pages/card.dart';
 import 'package:mimir/school/ywb/index.dart';
 import 'package:rettulf/rettulf.dart';
 import 'i18n.dart';
@@ -57,7 +56,6 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
                 OaAnnounceAppCard(),
                 YwbAppCard(),
                 LibraryAppCard(),
-                YellowPagesAppCard(),
               ]),
             ],
           ),
