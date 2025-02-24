@@ -143,3 +143,5 @@ app.*.symbols
 !/dev/ci/**/Gemfile.lock
 generated_plugin*
 .cookies
+
+android/app/.cxx/

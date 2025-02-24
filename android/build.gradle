@@ -3,16 +3,39 @@ allprojects {
     google()
     mavenCentral()
   }
+}
+
+allprojects {
+  // fix https://github.com/jonataslaw/VideoCompress/issues/255
+  afterEvaluate { project ->
+    if (project.hasProperty("kotlin")) {
+      project.tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+        kotlinOptions {
+          jvmTarget = "1.8"
+        }
+      }
+    }
+  }
+}
+allprojects {
   // fix for verifyReleaseResources: https://github.com/isar/isar/issues/1654#issuecomment-2295028039
-  // ============
   afterEvaluate { project ->
     if (project.plugins.hasPlugin("com.android.application") ||
       project.plugins.hasPlugin("com.android.library")) {
       project.android {
-        compileSdkVersion 34
-        buildToolsVersion "34.0.0"
+        compileSdkVersion 35
+        buildToolsVersion "35.0.0"
       }
     }
+  }
+}
+
+allprojects {
+  afterEvaluate { project ->
+    // check only for "com.android.library" to not modify
+    // your "app" subproject. All plugins will have "com.android.library" plugin, and only your app "com.android.application"
+    // Change your application's namespace in main build.gradle and in main android block.
+
     if (project.hasProperty("android")) {
       project.android {
         if (namespace == null) {
@@ -21,7 +44,6 @@ allprojects {
       }
     }
   }
-  // ============
 }
 
 rootProject.buildDir = '../build'
