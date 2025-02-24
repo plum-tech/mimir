@@ -53,6 +53,8 @@ class _Settings {
   static const ns = "${_I18n.ns}.settings";
   final class2nd = const _Class2nd();
   final examResult = const _ExamResult();
+  final electricity = const _Electricity();
+  final expense = const _Expense();
 }
 
 class _Class2nd {
@@ -73,4 +75,24 @@ class _ExamResult {
   String get showResultPreview => "$ns.showResultPreview.title".tr();
 
   String get showResultPreviewDesc => "$ns.showResultPreview.desc".tr();
+}
+
+class _Electricity {
+  static const ns = "${_Settings.ns}.electricity";
+
+  const _Electricity();
+
+  String get autoRefresh => "$ns.autoRefresh.title".tr();
+
+  String get autoRefreshDesc => "$ns.autoRefresh.desc".tr();
+}
+
+class _Expense {
+  static const ns = "${_Settings.ns}.expenseRecords";
+
+  const _Expense();
+
+  String get autoRefresh => "$ns.autoRefresh.title".tr();
+
+  String get autoRefreshDesc => "$ns.autoRefresh.desc".tr();
 }

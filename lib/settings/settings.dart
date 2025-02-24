@@ -11,7 +11,6 @@ import 'package:mimir/utils/json.dart';
 import 'package:mimir/utils/riverpod.dart';
 import 'package:statistics/statistics.dart';
 
-import '../life/settings.dart';
 import 'entity/proxy.dart';
 
 class _K {
@@ -30,7 +29,6 @@ class SettingsImpl {
 
   SettingsImpl(this.box);
 
-  late final life = LifeSettings(box);
   late final timetable = TimetableSettings(box);
   late final school = SchoolSettings(box);
   late final theme = _Theme(box);

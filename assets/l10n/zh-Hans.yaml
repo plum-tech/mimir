@@ -359,9 +359,6 @@ school:
       showResultPreview:
         title: 显示考试成绩预览
         desc: 在卡片中显示当前学期的考试成绩
-life:
-  navigation: 生活
-  settings:
     electricity:
       autoRefresh:
         title: 电费余额自动刷新

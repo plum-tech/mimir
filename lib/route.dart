@@ -10,7 +10,6 @@ import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/index.dart';
 import 'package:mimir/init.dart';
-import 'package:mimir/life/page/settings.dart';
 import 'package:mimir/lifecycle.dart';
 import 'package:mimir/school/class2nd/entity/attended.dart';
 import 'package:mimir/school/exam_result/page/gpa.dart';
@@ -207,10 +206,6 @@ final _settingsRoute = GoRoute(
     GoRoute(
       path: "school",
       builder: (ctx, state) => const SchoolSettingsPage(),
-    ),
-    GoRoute(
-      path: "life",
-      builder: (ctx, state) => const LifeSettingsPage(),
     ),
     GoRoute(
       path: "about",

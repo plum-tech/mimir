@@ -36,7 +36,7 @@ class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> w
     $refreshEvent = schoolEventBus.addListener(() async {
       await refresh(active: true);
     });
-    if (Settings.life.expense.autoRefresh) {
+    if (Settings.school.expense.autoRefresh) {
       refresh(active: false);
     }
   }

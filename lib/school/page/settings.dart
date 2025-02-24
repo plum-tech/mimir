@@ -30,6 +30,8 @@ class _SchoolSettingsPageState extends ConsumerState<SchoolSettingsPage> {
           SliverList.list(
             children: [
               buildClass2ndAutoRefreshToggle(),
+              buildElectricityAutoRefreshToggle(),
+              buildExpenseAutoRefreshToggle(),
             ],
           ),
         ],
@@ -47,6 +49,38 @@ class _SchoolSettingsPageState extends ConsumerState<SchoolSettingsPage> {
         onChanged: (newV) {
           setState(() {
             Settings.school.class2nd.autoRefresh = newV;
+          });
+        },
+      ),
+    );
+  }
+
+  Widget buildElectricityAutoRefreshToggle() {
+    return StatefulBuilder(
+      builder: (ctx, setState) => SwitchListTile.adaptive(
+        secondary: Icon(context.icons.refresh),
+        title: i18n.settings.electricity.autoRefresh.text(),
+        subtitle: i18n.settings.electricity.autoRefreshDesc.text(),
+        value: Settings.school.electricity.autoRefresh,
+        onChanged: (newV) {
+          setState(() {
+            Settings.school.electricity.autoRefresh = newV;
+          });
+        },
+      ),
+    );
+  }
+
+  Widget buildExpenseAutoRefreshToggle() {
+    return StatefulBuilder(
+      builder: (ctx, setState) => SwitchListTile.adaptive(
+        secondary: Icon(context.icons.refresh),
+        title: i18n.settings.expense.autoRefresh.text(),
+        subtitle: i18n.settings.expense.autoRefreshDesc.text(),
+        value: Settings.school.expense.autoRefresh,
+        onChanged: (newV) {
+          setState(() {
+            Settings.school.expense.autoRefresh = newV;
           });
         },
       ),

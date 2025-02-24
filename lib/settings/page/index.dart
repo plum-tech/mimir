@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -101,30 +100,21 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
         title: i18n.app.navigation.timetable.text(),
         path: "/settings/timetable",
       ));
-      if (!kIsWeb) {
-        all.add(PageNavigationTile(
-          title: i18n.app.navigation.school.text(),
-          leading: const Icon(Icons.school_outlined),
-          path: "/settings/school",
-        ));
-        all.add(PageNavigationTile(
-          title: i18n.app.navigation.life.text(),
-          leading: const Icon(Icons.spa_outlined),
-          path: "/settings/life",
-        ));
-      }
+      all.add(PageNavigationTile(
+        title: i18n.app.navigation.school.text(),
+        leading: const Icon(Icons.school_outlined),
+        path: "/settings/school",
+      ));
       all.add(const Divider());
     }
     if (agreementAccepted) {
-      if (!kIsWeb) {
-        all.add(PageNavigationTile(
-          title: i18n.proxy.title.text(),
-          subtitle: i18n.proxy.desc.text(),
-          leading: const Icon(Icons.vpn_key),
-          path: "/settings/proxy",
-        ));
-        all.add(const NetworkToolEntranceTile());
-      }
+      all.add(PageNavigationTile(
+        title: i18n.proxy.title.text(),
+        subtitle: i18n.proxy.desc.text(),
+        leading: const Icon(Icons.vpn_key),
+        path: "/settings/proxy",
+      ));
+      all.add(const NetworkToolEntranceTile());
       all.add(const ClearCacheTile());
       all.add(const WipeDataTile());
     }

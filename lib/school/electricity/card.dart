@@ -42,7 +42,7 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
     $refreshEvent = schoolEventBus.addListener(() async {
       await refresh(active: true);
     });
-    if (Settings.life.electricity.autoRefresh) {
+    if (Settings.school.electricity.autoRefresh) {
       refresh(active: false);
     }
   }
@@ -55,7 +55,7 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
 
   /// The electricity balance is refreshed approximately every 15 minutes.
   Future<void> refresh({required bool active}) async {
-    final selectedRoom = Settings.life.electricity.selectedRoom;
+    final selectedRoom = Settings.school.electricity.selectedRoom;
     if (selectedRoom == null) return;
     try {
       await XElectricity.refresh(
@@ -79,7 +79,7 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
     super.build(context);
     final storage = ElectricityBalanceInit.storage;
     final lastBalance = ref.watch(storage.$lastBalance);
-    final selectedRoom = ref.watch(Settings.life.electricity.$selectedRoom);
+    final selectedRoom = ref.watch(Settings.school.electricity.$selectedRoom);
     final lastUpdateTime = ref.watch(storage.$lastUpdateTime);
     final balance = lastBalance?.roomNumber == selectedRoom ? lastBalance : null;
     final roomNumber = balance != null
@@ -173,7 +173,7 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
                 activator: const SingleActivator(LogicalKeyboardKey.delete),
                 callback: () async {
                   await HapticFeedback.heavyImpact();
-                  Settings.life.electricity.selectedRoom = null;
+                  Settings.school.electricity.selectedRoom = null;
                 },
               ),
             ],

@@ -11,13 +11,13 @@ class XElectricity {
   }
 
   static void setSelectedRoom(String room) {
-    Settings.life.electricity.selectedRoom = room;
+    Settings.school.electricity.selectedRoom = room;
     addSearchHistory(room);
     ElectricityBalanceInit.storage.lastUpdateTime = null;
   }
 
   static void clearSelectedRoom() {
-    Settings.life.electricity.selectedRoom = null;
+    Settings.school.electricity.selectedRoom = null;
     ElectricityBalanceInit.storage.lastUpdateTime = null;
     ElectricityBalanceInit.storage.lastBalance = null;
   }
