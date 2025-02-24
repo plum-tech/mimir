@@ -18,9 +18,6 @@ class _K {
   static const cellStyle = "$ns/cellStyle";
   static const quickLookLessonOnTap = "$ns/quickLookLessonOnTap";
   static const focusTimetable = '$ns/focusTimetable';
-  static const showTimetableNavigation = '$ns/showTimetableNavigation';
-  static const autoSyncTimetable = '$ns/autoSyncTimetable';
-  static const lastSyncTimetableTime = '$ns/lastSyncTimetableTime';
   static const immersiveWallpaper = '$ns/immersiveWallpaper';
 }
 
@@ -34,12 +31,6 @@ class TimetableSettings {
   set focusTimetable(bool newV) => box.safePut<bool>(_K.focusTimetable, newV);
 
   late final $focusTimetable = box.providerWithDefault<bool>(_K.focusTimetable, () => false);
-
-  bool get showTimetableNavigation => box.safeGet<bool>(_K.showTimetableNavigation) ?? true;
-
-  set showTimetableNavigation(bool newV) => box.safePut<bool>(_K.showTimetableNavigation, newV);
-
-  late final $showTimetableNavigation = box.providerWithDefault<bool>(_K.showTimetableNavigation, () => true);
 
   bool get autoUseImported => box.safeGet<bool>(_K.autoUseImported) ?? _kAutoUseImported;
 
@@ -89,16 +80,6 @@ class TimetableSettings {
 
   late final $quickLookLessonOnTap =
       box.providerWithDefault<bool>(_K.quickLookLessonOnTap, () => _kQuickLookCourseOnTap);
-
-  bool get autoSyncTimetable => box.safeGet<bool>(_K.autoSyncTimetable) ?? true;
-
-  set autoSyncTimetable(bool newV) => box.safePut<bool>(_K.autoSyncTimetable, newV);
-
-  late final $autoSyncTimetable = box.providerWithDefault<bool>(_K.autoSyncTimetable, () => true);
-
-  DateTime? get lastSyncTimetableTime => box.safeGet<DateTime>(_K.lastSyncTimetableTime);
-
-  set lastSyncTimetableTime(DateTime? newV) => box.safePut<DateTime>(_K.lastSyncTimetableTime, newV);
 
   bool get immersiveWallpaper => box.safeGet<bool>(_K.immersiveWallpaper) ?? false;
 

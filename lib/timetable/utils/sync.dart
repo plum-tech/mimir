@@ -58,52 +58,6 @@ Future<Timetable?> syncTimetable(BuildContext context, Timetable old) async {
   return merged;
 }
 
-bool canAutoSyncTimetable(Timetable old) {
-  if (!Settings.timetable.autoSyncTimetable) return false;
-  if (!canSyncTimetable(old)) return false;
-  final now = DateTime.now();
-  final startDate = old.startDate.subtract(const Duration(days: 7));
-  final endDate = old.endDate;
-  final inRange = startDate.isBefore(now) && now.isBefore(endDate);
-  if (!inRange) return false;
-  final inHotRange = startDate.isBefore(now) && now.isBefore(old.startDate.add(const Duration(days: 7 * 3)));
-  final syncInterval = inHotRange ? const Duration(days: 3) : const Duration(days: 7);
-  final lastSyncTimetableTime = Settings.timetable.lastSyncTimetableTime;
-  final requireSync = lastSyncTimetableTime == null || lastSyncTimetableTime.add(syncInterval).isBefore(now);
-  if (!requireSync) return false;
-  return true;
-}
-
-Future<Timetable?> autoSyncTimetable(BuildContext context, Timetable old) async {
-  final newTimetable = await _fetchSameTypeTimetable(old);
-  final equal = old.isBasicInfoEqualTo(newTimetable);
-  if (equal) {
-    Settings.timetable.lastSyncTimetableTime = DateTime.now();
-    return null;
-  }
-  if (!context.mounted) return null;
-  final confirm = await context.showActionRequest(
-    title: i18n.import.updateAvailable,
-    desc: i18n.import.updateAvailableDesc,
-    action: i18n.sync,
-    cancel: i18n.cancel,
-    destructive: true,
-    dismissible: false,
-  );
-  if (confirm != null) {
-    // after users see the dialog, update the last sync time
-    Settings.timetable.lastSyncTimetableTime = DateTime.now();
-  }
-  if (confirm != true) return null;
-  final merged = old
-      .copyWith(
-        lastCourseKey: newTimetable.lastCourseKey,
-        courses: newTimetable.courses,
-      )
-      .markModified();
-  return merged;
-}
-
 Future<void> syncTimetableWithPrompt(
   BuildContext context,
   Timetable old, {

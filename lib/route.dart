@@ -32,7 +32,6 @@ import 'package:mimir/school/expense_records/page/statistics.dart';
 import 'package:mimir/login/page/index.dart';
 import 'package:mimir/network/page/index.dart';
 import 'package:mimir/settings/page/theme_color.dart';
-import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/p13n/entity/palette.dart';
 import 'package:mimir/timetable/entity/timetable.dart';
 import 'package:mimir/timetable/init.dart';
@@ -53,7 +52,6 @@ import 'package:mimir/school/class2nd/page/activity.dart';
 import 'package:mimir/school/class2nd/page/attended.dart';
 import 'package:mimir/school/exam_result/page/result.ug.dart';
 import 'package:mimir/settings/page/index.dart';
-import 'package:mimir/me/index.dart';
 import 'package:mimir/school/index.dart';
 import 'package:mimir/timetable/page/import.dart';
 import 'package:mimir/timetable/page/index.dart';
@@ -63,8 +61,6 @@ import 'package:mimir/widget/image.dart';
 
 final $TimetableShellKey = GlobalKey<NavigatorState>();
 final $SchoolShellKey = GlobalKey<NavigatorState>();
-final $GameShellKey = GlobalKey<NavigatorState>();
-final $MeShellKey = GlobalKey<NavigatorState>();
 
 bool isLoginGuarded(BuildContext ctx) {
   final loginStatus = ProviderScope.containerOf(ctx).read(CredentialsInit.storage.oa.$loginStatus);
@@ -180,10 +176,6 @@ final _timetableRoutes = [
 final _schoolShellRoute = GoRoute(
   path: "/school",
   builder: (ctx, state) => const SchoolPage(),
-);
-final _meShellRoute = GoRoute(
-  path: "/me",
-  builder: (ctx, state) => const MePage(),
 );
 final _toolsRoutes = [
   GoRoute(
@@ -436,21 +428,11 @@ GoRouter buildRouter(ValueNotifier<RoutingConfig> $routingConfig) {
 String _getRootRoute() {
   final available = [
     "/timetable",
-    "/life",
     "/school",
-    "/game",
-    "/me",
   ];
-  if (!Settings.timetable.showTimetableNavigation) {
-    available.remove("/timetable");
-  }
   final userType = CredentialsInit.storage.oa.userType;
   if (userType == OaUserType.freshman) {
     return "/school";
-  }
-  if (kIsWeb) {
-    available.remove("/school");
-    available.remove("/life");
   }
   return available.first;
 }
@@ -479,12 +461,6 @@ RoutingConfig buildCommonRoutingConfig() {
             navigatorKey: $TimetableShellKey,
             routes: [
               _timetableShellRoute,
-            ],
-          ),
-          StatefulShellBranch(
-            navigatorKey: $MeShellKey,
-            routes: [
-              _meShellRoute,
             ],
           ),
         ],
@@ -517,7 +493,6 @@ RoutingConfig buildTimetableFocusRouter() {
       _timetableShellRoute,
       ..._timetableRoutes,
       _schoolShellRoute,
-      _meShellRoute,
       _webviewRoute,
       _expenseRoute,
       _settingsRoute,

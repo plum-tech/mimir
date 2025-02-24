@@ -9,8 +9,8 @@ const i18n = _I18n();
 class _I18n with CommonI18nMixin {
   const _I18n();
 
-  final oa = const _Oa();
-  final eduEmail = const _EduEmail();
+  final oa = const OaCredentialsI18n();
+  final eduEmail = const EmailCredentialsI18n();
   final proxy = const _Proxy();
   final dev = const _DevOptions();
   final about = const _About();
@@ -145,18 +145,6 @@ class _Storage with CommonI18nMixin {
   String get deleteItemDesc => "$ns.deleteItemDesc".tr();
 
   String get emptyValueDesc => "$ns.emptyValueDesc".tr();
-}
-
-class _Oa extends OaCredentialsI18n {
-  static const ns = "${_I18n.ns}.oa";
-
-  const _Oa();
-}
-
-class _EduEmail extends EmailCredentialsI18n {
-  static const ns = "${_I18n.ns}.eduEmail";
-
-  const _EduEmail();
 }
 
 extension ProxyTypeI18nX on ProxyCat {

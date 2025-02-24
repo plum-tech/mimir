@@ -4,11 +4,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/i18n.dart' as $timetable;
 import 'package:mimir/school/i18n.dart' as $school;
-import 'package:mimir/me/i18n.dart' as $me;
 import 'package:mimir/timetable/p13n/entity/background.dart';
 import 'package:mimir/timetable/p13n/widget/wallpaper.dart';
 
@@ -58,7 +56,6 @@ final _immersiveWallpaperMode = Provider.autoDispose((ref) {
 class _MainStagePageState extends ConsumerState<MainStagePage> {
   NavigationItems buildItems() {
     return [
-      if (ref.watch(Settings.timetable.$showTimetableNavigation))
         (
           route: "/timetable",
           item: (
@@ -76,14 +73,6 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
             label: $school.i18n.navigation,
           )
         ),
-      (
-        route: "/me",
-        item: (
-          icon: context.icons.personOutline,
-          activeIcon: context.icons.person,
-          label: $me.i18n.navigation,
-        )
-      ),
     ];
   }
 

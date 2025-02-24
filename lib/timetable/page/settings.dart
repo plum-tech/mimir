@@ -31,8 +31,6 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
             children: [
               const AutoUseImportedTile(),
               const QuickLookCourseOnTapTile(),
-              const AutoSyncTimetableTile(),
-              const ShowTimetableNavigationTile(),
               const Divider(),
               buildCellStyle(),
               buildP13n(),
@@ -99,24 +97,6 @@ class QuickLookCourseOnTapTile extends ConsumerWidget {
   }
 }
 
-class AutoSyncTimetableTile extends ConsumerWidget {
-  const AutoSyncTimetableTile({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final on = ref.watch(Settings.timetable.$autoSyncTimetable);
-    return SwitchListTile.adaptive(
-      secondary: const Icon(Icons.sync),
-      title: i18n.settings.autoSyncTimetable.text(),
-      subtitle: i18n.settings.autoSyncTimetableDesc.text(),
-      value: on,
-      onChanged: (newV) {
-        ref.read(Settings.timetable.$autoSyncTimetable.notifier).set(newV);
-      },
-    );
-  }
-}
-
 class AutoUseImportedTile extends ConsumerWidget {
   const AutoUseImportedTile({super.key});
 
@@ -130,24 +110,6 @@ class AutoUseImportedTile extends ConsumerWidget {
       value: on,
       onChanged: (newV) {
         ref.read(Settings.timetable.$autoUseImported.notifier).set(newV);
-      },
-    );
-  }
-}
-
-class ShowTimetableNavigationTile extends ConsumerWidget {
-  const ShowTimetableNavigationTile({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final on = ref.watch(Settings.timetable.$showTimetableNavigation);
-    return SwitchListTile.adaptive(
-      secondary: const Icon(Icons.vibration),
-      title: i18n.settings.showTimetableNavigation.text(),
-      subtitle: i18n.settings.showTimetableNavigation.text(),
-      value: on,
-      onChanged: (newV) {
-        ref.read(Settings.timetable.$showTimetableNavigation.notifier).set(newV);
       },
     );
   }

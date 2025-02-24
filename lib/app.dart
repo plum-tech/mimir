@@ -14,10 +14,7 @@ import 'package:mimir/lifecycle.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/settings/settings.dart';
-import 'package:mimir/timetable/init.dart';
-import 'package:mimir/timetable/utils/sync.dart';
 import 'package:mimir/utils/color.dart';
-import 'package:mimir/utils/error.dart';
 import 'package:system_theme/system_theme.dart';
 import 'package:universal_platform/universal_platform.dart';
 
@@ -154,11 +151,6 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
     _listener = AppLifecycleListener(
       onResume: onResume,
     );
-    if (!kIsWeb) {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-        await tryAutoSyncTimetable();
-      });
-    }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final navigateCtx = $key.currentContext;
       if (navigateCtx == null) return;
@@ -199,23 +191,5 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
   @override
   Widget build(BuildContext context) {
     return widget.child;
-  }
-
-  Future<void> tryAutoSyncTimetable() async {
-    final navigateCtx = $key.currentContext;
-    if (navigateCtx == null) return;
-    if (!Settings.timetable.autoSyncTimetable) return;
-    final selected = TimetableInit.storage.timetable.selectedRow;
-    if (selected == null) return;
-    if (canAutoSyncTimetable(selected)) {
-      try {
-        final merged = await autoSyncTimetable(navigateCtx, selected);
-        if (merged != null) {
-          TimetableInit.storage.timetable[selected.uuid] = merged;
-        }
-      } catch (error, stackTrace) {
-        debugPrintError(error, stackTrace);
-      }
-    }
   }
 }
