@@ -14,9 +14,6 @@ import 'package:mimir/lifecycle.dart';
 import 'package:mimir/school/class2nd/entity/attended.dart';
 import 'package:mimir/school/exam_result/page/gpa.dart';
 import 'package:mimir/school/exam_result/page/result.pg.dart';
-import 'package:mimir/school/library/page/history.dart';
-import 'package:mimir/school/library/page/login.dart';
-import 'package:mimir/school/library/page/borrowing.dart';
 import 'package:mimir/school/ywb/entity/service.dart';
 import 'package:mimir/school/ywb/page/details.dart';
 import 'package:mimir/school/ywb/page/service.dart';
@@ -332,21 +329,6 @@ final _oaLoginRoute = GoRoute(
   },
 );
 
-final _libraryRoutes = [
-  GoRoute(
-    path: "/library/login",
-    builder: (ctx, state) => const LibraryLoginPage(),
-  ),
-  GoRoute(
-    path: "/library/borrowing",
-    builder: (ctx, state) => const LibraryBorrowingPage(),
-  ),
-  GoRoute(
-    path: "/library/borrowing-history",
-    builder: (ctx, state) => const LibraryMyBorrowingHistoryPage(),
-  ),
-];
-
 final _examArrange = GoRoute(
   path: "/exam/arrangement",
   builder: (ctx, state) => const ExamArrangementListPage(),
@@ -465,7 +447,6 @@ RoutingConfig buildCommonRoutingConfig() {
       _ywbRoute,
       _examResultRoute,
       _examArrange,
-      ..._libraryRoutes,
       _oaLoginRoute,
       _imageRoute,
     ],
@@ -492,7 +473,6 @@ RoutingConfig buildTimetableFocusRouter() {
       _ywbRoute,
       _examResultRoute,
       _examArrange,
-      ..._libraryRoutes,
       _oaLoginRoute,
       _imageRoute,
     ],

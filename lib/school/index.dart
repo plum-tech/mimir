@@ -13,7 +13,6 @@ import 'package:mimir/school/exam_arrange/card.dart';
 import 'package:mimir/school/exam_result/card.pg.dart';
 import 'package:mimir/school/exam_result/card.ug.dart';
 import 'package:mimir/school/expense_records/card.dart';
-import 'package:mimir/school/library/index.dart';
 import 'package:mimir/school/oa_announce/index.dart';
 import 'package:mimir/school/ywb/index.dart';
 import 'package:rettulf/rettulf.dart';
@@ -74,7 +73,6 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
                   const ExamResultPgAppCard(),
                 const OaAnnounceAppCard(),
                 const YwbAppCard(),
-                const LibraryAppCard(),
               ]),
             ],
           ),

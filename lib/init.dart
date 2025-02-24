@@ -13,14 +13,12 @@ import 'package:mimir/settings/entity/proxy.dart';
 import 'package:mimir/storage/hive/init.dart';
 import 'package:mimir/session/class2nd.dart';
 import 'package:mimir/session/pg_registration.dart';
-import 'package:mimir/session/library.dart';
 import 'package:mimir/session/ywb.dart';
 import 'package:mimir/school/electricity/init.dart';
 import 'package:mimir/school/expense_records/init.dart';
 import 'package:mimir/login/init.dart';
 import 'package:mimir/school/ywb/init.dart';
 import 'package:mimir/school/exam_arrange/init.dart';
-import 'package:mimir/school/library/init.dart';
 import 'package:mimir/school/oa_announce/init.dart';
 import 'package:mimir/school/class2nd/init.dart';
 import 'package:mimir/school/exam_result/init.dart';
@@ -49,7 +47,6 @@ class Init {
   static late UgRegistrationSession ugRegSession;
   static late PgRegistrationSession pgRegSession;
   static late YwbSession ywbSession;
-  static late LibrarySession librarySession;
   static late Class2ndSession class2ndSession;
 
   static Future<void> initNetwork() async {
@@ -95,9 +92,6 @@ class Init {
     ywbSession = YwbSession(
       dio: schoolDio,
     );
-    librarySession = LibrarySession(
-      dio: schoolDio,
-    );
     class2ndSession = Class2ndSession(
       ssoSession: ssoSession,
     );
@@ -116,7 +110,6 @@ class Init {
       ExamResultInit.init();
       ExamArrangeInit.init();
       ExpenseRecordsInit.init();
-      LibraryInit.init();
       YwbInit.init();
       Class2ndInit.init();
       ElectricityBalanceInit.init();
@@ -133,7 +126,6 @@ class Init {
       ExamResultInit.initStorage();
       ExamArrangeInit.initStorage();
       ExpenseRecordsInit.initStorage();
-      LibraryInit.initStorage();
       YwbInit.initStorage();
       Class2ndInit.initStorage();
       ElectricityBalanceInit.initStorage();

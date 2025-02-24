@@ -19,32 +19,20 @@ class HiveInit {
       timetable,
       settings,
       meta,
-      bulletin,
       cookies;
 
   static late Box //
-      library,
       expense,
-      yellowPages,
       class2nd,
       examArrange,
       examResult,
       oaAnnounce,
       ywb,
-      eduEmail,
-      freshman,
       electricity,
       schoolCookies;
 
-  static late Box //
-      game2048,
-      gameMinesweeper,
-      gameSudoku,
-      gameWordle;
-
   static late Map<String, Box> name2Box;
   static late List<Box> cacheBoxes;
-  static late List<Box> gameBoxes;
 
   static Future<void> initLocalStorage({
     required Directory coreDir,
@@ -68,16 +56,11 @@ class HiveInit {
       settings = await core.openBox('settings'),
       meta = await core.openBox('meta'),
       timetable = await core.openBox('timetable'),
-      freshman = await core.openBox('freshman'),
       ...cacheBoxes = [
-        bulletin = await cache.openBox("mimir-bulletin"),
-        yellowPages = await cache.openBox('yellow-pages'),
-        eduEmail = await cache.openBox('edu-email'),
         if (!kIsWeb) ...[
           cookies = await cache.openBox('cookies'),
           schoolCookies = await cache.openBox('school-cookies'),
           expense = await cache.openBox('expense'),
-          library = await cache.openBox('library'),
           examArrange = await cache.openBox('exam-arrange'),
           examResult = await cache.openBox('exam-result'),
           oaAnnounce = await cache.openBox('oa-announce'),
@@ -86,12 +69,6 @@ class HiveInit {
           electricity = await cache.openBox('electricity'),
         ],
       ],
-      ...gameBoxes = [
-        game2048 = await core.openBox("game-2048"),
-        gameMinesweeper = await core.openBox("game-minesweeper"),
-        gameSudoku = await core.openBox("game-sudoku"),
-        gameWordle = await core.openBox("game-wordle"),
-      ]
     ]);
     Settings = SettingsImpl(settings);
     Meta = MetaImpl(meta);

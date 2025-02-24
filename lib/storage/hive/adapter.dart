@@ -8,9 +8,6 @@ import 'package:mimir/school/electricity/entity/balance.dart';
 import 'package:mimir/school/expense_records/entity/local.dart';
 import 'package:mimir/school/class2nd/entity/application.dart';
 import 'package:mimir/school/exam_result/entity/result.pg.dart';
-import 'package:mimir/school/library/entity/book.dart';
-import 'package:mimir/school/library/entity/borrow.dart';
-import 'package:mimir/school/library/entity/image.dart';
 import 'package:mimir/school/ywb/entity/service.dart';
 import 'package:mimir/school/ywb/entity/application.dart';
 import 'package:mimir/school/exam_result/entity/result.ug.dart';
@@ -76,14 +73,6 @@ class HiveAdapter {
     // Expense Records
     hive.addAdapter(TransactionAdapter());
     hive.addAdapter(TransactionTypeAdapter());
-
-    // Library
-    hive.addAdapter(BookAdapter());
-    hive.addAdapter(BookDetailsAdapter());
-    hive.addAdapter(BorrowedBookItemAdapter());
-    hive.addAdapter(BookBorrowingHistoryItemAdapter());
-    hive.addAdapter(BookBorrowingHistoryOperationAdapter());
-    hive.addAdapter(BookImageAdapter());
 
     // School
     hive.addAdapter(SemesterAdapter());
