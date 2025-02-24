@@ -30,7 +30,6 @@ class _SchoolSettingsPageState extends ConsumerState<SchoolSettingsPage> {
           SliverList.list(
             children: [
               buildClass2ndAutoRefreshToggle(),
-              buildExamResultShowResultPreviewToggle(),
             ],
           ),
         ],
@@ -48,22 +47,6 @@ class _SchoolSettingsPageState extends ConsumerState<SchoolSettingsPage> {
         onChanged: (newV) {
           setState(() {
             Settings.school.class2nd.autoRefresh = newV;
-          });
-        },
-      ),
-    );
-  }
-
-  Widget buildExamResultShowResultPreviewToggle() {
-    return StatefulBuilder(
-      builder: (ctx, setState) => SwitchListTile.adaptive(
-        secondary: const Icon(Icons.preview),
-        title: i18n.settings.examResult.showResultPreview.text(),
-        subtitle: i18n.settings.examResult.showResultPreviewDesc.text(),
-        value: Settings.school.examResult.showResultPreview,
-        onChanged: (newV) {
-          setState(() {
-            Settings.school.examResult.showResultPreview = newV;
           });
         },
       ),

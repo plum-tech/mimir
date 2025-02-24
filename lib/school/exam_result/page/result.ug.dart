@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:fit_system_screenshot/fit_system_screenshot.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,22 +34,15 @@ class _ExamResultUgPageState extends ConsumerState<ExamResultUgPage> {
   late SemesterInfo selected = initial;
   final scrollAreaKey = GlobalKey();
   final controller = ScrollController();
-  Dispose? screenShotDispose;
 
   @override
   void initState() {
     super.initState();
     fetch();
-    screenShotDispose = fitSystemScreenshot.attachToPage(
-      scrollAreaKey,
-      controller,
-      controller.jumpTo,
-    );
   }
 
   @override
   void dispose() {
-    screenShotDispose?.call();
     $loadingProgress.dispose();
     controller.dispose();
     super.dispose();

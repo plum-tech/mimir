@@ -3,7 +3,6 @@ import 'dart:ui';
 
 import 'package:animations/animations.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:fit_system_screenshot/fit_system_screenshot.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -46,9 +45,6 @@ class _MimirAppState extends ConsumerState<MimirApp> {
       );
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     }
-    if (!kIsWeb) {
-      fitSystemScreenshot.init();
-    }
   }
 
   void onChanged() {
@@ -59,7 +55,6 @@ class _MimirAppState extends ConsumerState<MimirApp> {
   @override
   void dispose() {
     $appLink?.cancel();
-    fitSystemScreenshot.release();
     intentSub?.cancel();
     router.dispose();
     super.dispose();

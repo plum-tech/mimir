@@ -10,8 +10,6 @@ class SchoolSettings {
   SchoolSettings(this.box);
 
   late final class2nd = _Class2nd(box);
-  late final examResult = _ExamResult(box);
-  late final examArrange = _ExamArrange(box);
 
   static const ns = "/school";
 }
@@ -29,35 +27,4 @@ class _Class2nd {
   bool get autoRefresh => box.safeGet<bool>(_Class2ndK.autoRefresh) ?? _kClass2ndAutoRefresh;
 
   set autoRefresh(bool newV) => box.safePut<bool>(_Class2ndK.autoRefresh, newV);
-}
-
-const _kExamResulShowResultPreview = true;
-
-class _ExamResultK {
-  static const ns = "${SchoolSettings.ns}/examResult";
-  static const showResultPreview = "$ns/showResultPreview";
-}
-
-class _ExamResult {
-  final Box box;
-
-  _ExamResult(this.box);
-
-  bool get showResultPreview => box.safeGet<bool>(_ExamResultK.showResultPreview) ?? _kExamResulShowResultPreview;
-
-  set showResultPreview(bool newV) => box.safePut<bool>(_ExamResultK.showResultPreview, newV);
-
-  Listenable listenShowResultPreview() => box.listenable(keys: [_ExamResultK.showResultPreview]);
-
-  late final $showResultPreview = box.provider<bool>(_ExamResultK.showResultPreview);
-}
-
-class _ExamArrangeK {
-  static const ns = "${SchoolSettings.ns}/examArrange";
-}
-
-class _ExamArrange {
-  final Box box;
-
-  const _ExamArrange(this.box);
 }

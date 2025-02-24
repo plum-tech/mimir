@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:fit_system_screenshot/fit_system_screenshot.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widget/common.dart';
@@ -19,7 +18,6 @@ class YwbServiceListPage extends StatefulWidget {
 }
 
 class _YwbServiceListPageState extends State<YwbServiceListPage> {
-  Dispose? screenShotDispose;
   final scrollAreaKey = GlobalKey();
   final scrollController = ScrollController();
 
@@ -30,16 +28,10 @@ class _YwbServiceListPageState extends State<YwbServiceListPage> {
   @override
   void initState() {
     super.initState();
-    screenShotDispose = fitSystemScreenshot.attachToPage(
-      scrollAreaKey,
-      scrollController,
-      scrollController.jumpTo,
-    );
   }
 
   @override
   void dispose() {
-    screenShotDispose?.call();
     scrollController.dispose();
     super.dispose();
   }

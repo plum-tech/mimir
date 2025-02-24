@@ -1,4 +1,3 @@
-import 'package:fit_system_screenshot/fit_system_screenshot.dart';
 import 'package:flutter/material.dart';
 import 'package:mimir/design/widget/common.dart';
 import 'package:rettulf/rettulf.dart';
@@ -21,24 +20,17 @@ class _ExamResultPgPageState extends State<ExamResultPgPage> {
   bool fetching = false;
   bool isSelecting = false;
 
-  Dispose? screenShotDispose;
   final scrollAreaKey = GlobalKey();
   final scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    screenShotDispose = fitSystemScreenshot.attachToPage(
-      scrollAreaKey,
-      scrollController,
-      scrollController.jumpTo,
-    );
     refresh();
   }
 
   @override
   void dispose() {
-    screenShotDispose?.call();
     scrollController.dispose();
     super.dispose();
   }

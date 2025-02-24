@@ -1,14 +1,9 @@
-import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/widget/app.dart';
-import 'package:mimir/school/exam_result/init.dart';
-import 'package:mimir/school/exam_result/widget/pg.dart';
-import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 
-import 'entity/result.pg.dart';
 import "i18n.dart";
 
 class ExamResultPgAppCard extends ConsumerStatefulWidget {
@@ -21,16 +16,8 @@ class ExamResultPgAppCard extends ConsumerStatefulWidget {
 class _ExamResultPgAppCardState extends ConsumerState<ExamResultPgAppCard> {
   @override
   Widget build(BuildContext context) {
-    final storage = ExamResultInit.pgStorage;
-    final showResultPreview = ref.watch(Settings.school.examResult.$showResultPreview);
-    final resultList = ref.watch(storage.$resultList);
     return AppCard(
       title: i18n.title.text(),
-      view: showResultPreview == false
-          ? null
-          : resultList == null
-              ? null
-              : buildRecentResults(resultList),
       leftActions: [
         FilledButton.icon(
           onPressed: () async {
@@ -40,26 +27,6 @@ class _ExamResultPgAppCardState extends ConsumerState<ExamResultPgAppCard> {
           label: i18n.check.text(),
         ),
       ],
-    );
-  }
-
-  Widget? buildRecentResults(List<ExamResultPg> resultList) {
-    if (resultList.isEmpty) return null;
-    return CarouselSlider.builder(
-      itemCount: resultList.length,
-      options: CarouselOptions(
-        height: 120,
-        viewportFraction: 0.45,
-        enableInfiniteScroll: true,
-        padEnds: false,
-      ),
-      itemBuilder: (BuildContext context, int i, int pageViewIndex) {
-        final result = resultList[i];
-        return ExamResultPgCarouselCard(
-          result,
-          elevated: true,
-        ).sized(w: 180);
-      },
     );
   }
 }
