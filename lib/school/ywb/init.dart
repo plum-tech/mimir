@@ -10,8 +10,8 @@ class YwbInit {
   static late YwbApplicationStorage applicationStorage;
 
   static void init() {
-    serviceService =  const YwbServiceService();
-    applicationService =  const YwbApplicationService();
+    serviceService = const YwbServiceService();
+    applicationService = const YwbApplicationService();
   }
 
   static void initStorage() {

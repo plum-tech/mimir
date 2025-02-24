@@ -12,21 +12,11 @@ TimetableDayLoc _$TimetableDayLocFromJson(Map<String, dynamic> json) => Timetabl
       dateInternal: json['date'] == null ? null : DateTime.parse(json['date'] as String),
     );
 
-Map<String, dynamic> _$TimetableDayLocToJson(TimetableDayLoc instance) {
-  final val = <String, dynamic>{
-    'mode': _$TimetableDayLocModeEnumMap[instance.mode]!,
-  };
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('pos', instance.posInternal);
-  writeNotNull('date', instance.dateInternal?.toIso8601String());
-  return val;
-}
+Map<String, dynamic> _$TimetableDayLocToJson(TimetableDayLoc instance) => <String, dynamic>{
+      'mode': _$TimetableDayLocModeEnumMap[instance.mode]!,
+      if (instance.posInternal case final value?) 'pos': value,
+      if (instance.dateInternal?.toIso8601String() case final value?) 'date': value,
+    };
 
 const _$TimetableDayLocModeEnumMap = {
   TimetableDayLocMode.pos: 'pos',

@@ -48,7 +48,7 @@ class LoginPage extends ConsumerStatefulWidget {
 
 class _LoginPageState extends ConsumerState<LoginPage> {
   final $account = TextEditingController(text: null);
-  final $password = TextEditingController(text:  null);
+  final $password = TextEditingController(text: null);
   final _formKey = GlobalKey<FormState>();
   bool isPasswordClear = false;
   bool loggingIn = false;

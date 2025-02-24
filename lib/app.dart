@@ -9,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/agreements/entity/agreements.dart';
 import 'package:mimir/agreements/page/privacy_policy.dart';
-import 'package:mimir/files.dart';
 import 'package:mimir/lifecycle.dart';
 import 'package:mimir/r.dart';
 import 'package:mimir/route.dart';
@@ -143,14 +142,9 @@ class _PostServiceRunner extends ConsumerStatefulWidget {
 }
 
 class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
-  late final AppLifecycleListener _listener;
-
   @override
   void initState() {
     super.initState();
-    _listener = AppLifecycleListener(
-      onResume: onResume,
-    );
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final navigateCtx = $key.currentContext;
       if (navigateCtx == null) return;
@@ -162,30 +156,7 @@ class _PostServiceRunnerState extends ConsumerState<_PostServiceRunner> {
 
   @override
   void dispose() {
-    _listener.dispose();
     super.dispose();
-  }
-
-  @override
-  void didChangeDependencies() {
-    precacheTimetableBackground();
-    super.didChangeDependencies();
-  }
-
-  Future<void> onResume() async {
-    await precacheTimetableBackground();
-  }
-
-  Future<void> precacheTimetableBackground() async {
-    // precache timetable background file
-    final timetableBk = Settings.timetable.backgroundImage;
-    if (timetableBk != null && timetableBk.enabled) {
-      if (kIsWeb) {
-        await precacheImage(NetworkImage(timetableBk.path), context);
-      } else {
-        await precacheImage(FileImage(Files.timetable.backgroundFile), context);
-      }
-    }
   }
 
   @override

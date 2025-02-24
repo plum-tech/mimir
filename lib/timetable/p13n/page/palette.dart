@@ -1,4 +1,3 @@
-
 import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';

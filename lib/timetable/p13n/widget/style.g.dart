@@ -16,7 +16,6 @@ abstract class _$TimetableStyleDataCWProxy {
   TimetableStyleData call({
     TimetablePalette? platte,
     CourseCellStyle? cellStyle,
-    BackgroundImage? background,
   });
 }
 
@@ -37,7 +36,6 @@ class _$TimetableStyleDataCWProxyImpl implements _$TimetableStyleDataCWProxy {
   TimetableStyleData call({
     Object? platte = const $CopyWithPlaceholder(),
     Object? cellStyle = const $CopyWithPlaceholder(),
-    Object? background = const $CopyWithPlaceholder(),
   }) {
     return TimetableStyleData(
       platte: platte == const $CopyWithPlaceholder() || platte == null
@@ -48,10 +46,6 @@ class _$TimetableStyleDataCWProxyImpl implements _$TimetableStyleDataCWProxy {
           ? _value.cellStyle
           // ignore: cast_nullable_to_non_nullable
           : cellStyle as CourseCellStyle,
-      background: background == const $CopyWithPlaceholder() || background == null
-          ? _value.background
-          // ignore: cast_nullable_to_non_nullable
-          : background as BackgroundImage,
     );
   }
 }

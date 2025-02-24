@@ -83,7 +83,6 @@ class _TimetablePaletteEditorPageState extends ConsumerState<TimetablePaletteEdi
                         context,
                         timetable: timetable,
                         cellStyle: ref.read(Settings.timetable.$cellStyle),
-                        background: ref.read(Settings.timetable.$backgroundImage),
                         palette: buildPalette(),
                       );
                     },

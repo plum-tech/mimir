@@ -9,14 +9,12 @@ import 'package:mimir/utils/screenshot.dart';
 
 import "../i18n.dart";
 import '../p13n/widget/style.dart';
-import '../p13n/widget/wallpaper.dart';
 import '../widget/timetable/weekly.dart';
 import '../entity/timetable_entity.dart';
 
 typedef TimetableScreenshotConfig = ({
   String signature,
   bool grayOutTakenLessons,
-  bool enableBackground,
 });
 
 class TimetableScreenshotPage extends StatefulWidget {
@@ -36,7 +34,6 @@ class TimetableScreenshotPage extends StatefulWidget {
 class _TimetableScreenshotPageState extends State<TimetableScreenshotPage> {
   late final $signature = TextEditingController(text: widget.timetable.signature);
   late bool grayOutTakenLessons = Settings.timetable.cellStyle?.grayOutTakenLessons ?? false;
-  var enableBackground = true;
 
   @override
   void dispose() {
@@ -58,7 +55,6 @@ class _TimetableScreenshotPageState extends State<TimetableScreenshotPage> {
           SliverList.list(children: [
             buildSignatureInput(),
             buildGrayOutTakenLessons(),
-            buildEnableBackground(),
           ]),
         ],
       ),
@@ -83,7 +79,6 @@ class _TimetableScreenshotPageState extends State<TimetableScreenshotPage> {
     final config = (
       signature: $signature.text.trim(),
       grayOutTakenLessons: grayOutTakenLessons == true,
-      enableBackground: enableBackground,
     );
     Settings.lastSignature = $signature.text;
     final fi = await takeWidgetScreenshot(
@@ -135,20 +130,6 @@ class _TimetableScreenshotPageState extends State<TimetableScreenshotPage> {
       },
     );
   }
-
-  Widget buildEnableBackground() {
-    return SwitchListTile.adaptive(
-      secondary: const Icon(Icons.image_outlined),
-      title: i18n.screenshot.enableBackground.text(),
-      subtitle: i18n.screenshot.enableBackgroundDesc.text(),
-      value: enableBackground,
-      onChanged: (newV) {
-        setState(() {
-          enableBackground = newV;
-        });
-      },
-    );
-  }
 }
 
 class TimetableWeeklyScreenshotFilm extends StatelessWidget {
@@ -168,14 +149,6 @@ class TimetableWeeklyScreenshotFilm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = TimetableStyle.of(context);
-    final background = style.background;
-    if (config.enableBackground) {
-      return WithWallpaper(
-        background: background,
-        fade: false,
-        child: buildBody(context, style),
-      );
-    }
     return buildBody(context, style);
   }
 

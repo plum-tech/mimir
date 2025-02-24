@@ -232,13 +232,6 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
             await context.push("/timetable/cell-style");
           },
         ),
-        PullDownItem(
-          icon: Icons.image_outlined,
-          title: i18n.p13n.background.title,
-          onTap: () async {
-            await context.push("/timetable/background");
-          },
-        ),
         if (focusMode) ...buildFocusPopupActions(context),
         const PullDownDivider(),
         PullDownSelectable(

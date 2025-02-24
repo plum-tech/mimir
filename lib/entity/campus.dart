@@ -13,5 +13,4 @@ enum Campus {
   const Campus();
 
   String l10n() => "campus.$name".tr();
-
 }

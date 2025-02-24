@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mimir/utils/hive.dart';
 import 'package:mimir/utils/json.dart';
 
-import 'p13n/entity/background.dart';
 import 'p13n/entity/cell_style.dart';
 
 const _kAutoUseImported = true;
@@ -14,11 +11,9 @@ const _kQuickLookCourseOnTap = true;
 class _K {
   static const ns = "/timetable";
   static const autoUseImported = "$ns/autoUseImported";
-  static const backgroundImage = "$ns/backgroundImage";
   static const cellStyle = "$ns/cellStyle";
   static const quickLookLessonOnTap = "$ns/quickLookLessonOnTap";
   static const focusTimetable = '$ns/focusTimetable';
-  static const immersiveWallpaper = '$ns/immersiveWallpaper';
 }
 
 class TimetableSettings {
@@ -56,36 +51,10 @@ class TimetableSettings {
 
   ValueListenable listenCellStyle() => box.listenable(keys: [_K.cellStyle]);
 
-  BackgroundImage? get backgroundImage => decodeJsonObject(
-        box.safeGet<String>(_K.backgroundImage),
-        (obj) => BackgroundImage.fromJson(obj),
-      );
-
-  set backgroundImage(BackgroundImage? newV) => box.safePut<String>(
-        _K.backgroundImage,
-        jsonEncode(newV?.toJson()),
-      );
-
-  late final $backgroundImage = box.provider(
-    _K.backgroundImage,
-    get: () => backgroundImage,
-    set: (v) => backgroundImage = v,
-  );
-
-  ValueListenable listenBackgroundImage() => box.listenable(keys: [_K.backgroundImage]);
-
   bool get quickLookLessonOnTap => box.safeGet<bool>(_K.quickLookLessonOnTap) ?? _kQuickLookCourseOnTap;
 
   set quickLookLessonOnTap(bool newV) => box.safePut<bool>(_K.quickLookLessonOnTap, newV);
 
   late final $quickLookLessonOnTap =
       box.providerWithDefault<bool>(_K.quickLookLessonOnTap, () => _kQuickLookCourseOnTap);
-
-  bool get immersiveWallpaper => box.safeGet<bool>(_K.immersiveWallpaper) ?? false;
-
-  set immersiveWallpaper(bool newV) => box.safePut<bool>(_K.immersiveWallpaper, newV);
-
-  late final $immersiveWallpaper = box.providerWithDefault<bool>(_K.immersiveWallpaper, () => false);
-
-  final immersiveOpacity = 0.6;
 }

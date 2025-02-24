@@ -33,7 +33,7 @@ class LibraryInit {
   static void init() {
     auth = const LibraryAuthService();
 
-    bookSearch =const BookSearchService();
+    bookSearch = const BookSearchService();
     bookDetailsService = const BookDetailsService();
     collectionInfoService = const LibraryCollectionInfoService();
     bookImageSearch = const BookImageSearchService();

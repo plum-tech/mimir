@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:mimir/l10n/time.dart';
 import 'package:mimir/lifecycle.dart';
 import 'package:mimir/school/utils.dart';
-import 'package:mimir/timetable/p13n/widget/style.dart';
 import 'package:rettulf/rettulf.dart';
 
 Color? getTimetableHeaderColor(
@@ -12,11 +11,6 @@ Color? getTimetableHeaderColor(
 }) {
   if (selected) {
     return context.colorScheme.secondaryContainer;
-  }
-  final style = TimetableStyle.of(context);
-  final bg = style.background;
-  if (bg.enabled && bg.opacity > 0) {
-    return context.colorScheme.surfaceContainer.withOpacity(0.7);
   }
   return null;
 }

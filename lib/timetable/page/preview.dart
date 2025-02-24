@@ -6,7 +6,6 @@ import 'package:mimir/design/animation/marquee.dart';
 import 'package:text_scroll/text_scroll.dart';
 
 import '../entity/display.dart';
-import '../p13n/entity/background.dart';
 import '../p13n/entity/cell_style.dart';
 import '../p13n/entity/palette.dart';
 import '../entity/timetable.dart';
@@ -95,7 +94,6 @@ Future<void> previewTimetable(
   BuildContext context, {
   TimetablePalette? palette,
   CourseCellStyle? cellStyle,
-  BackgroundImage? background,
   Timetable? timetable,
   TimetableEntity? entity,
 }) async {
@@ -104,7 +102,6 @@ Future<void> previewTimetable(
     (context) => TimetableStyleProv(
       palette: palette,
       cellStyle: cellStyle,
-      background: background,
       child: TimetablePreviewPage(
         entity: entity ?? timetable!.resolve(),
       ),

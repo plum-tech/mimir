@@ -14,7 +14,7 @@ class Class2ndInit {
   static void init() {
     pointService = const Class2ndPointsService();
     activityService = const Class2ndActivityService();
-    applicationService =  const Class2ndApplicationService();
+    applicationService = const Class2ndApplicationService();
   }
 
   static void initStorage() {

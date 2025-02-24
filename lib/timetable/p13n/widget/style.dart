@@ -6,7 +6,6 @@ import 'package:mimir/timetable/p13n/entity/palette.dart';
 
 import '../../init.dart';
 import '../builtin.dart';
-import '../entity/background.dart';
 import '../entity/cell_style.dart';
 
 part "style.g.dart";
@@ -15,12 +14,10 @@ part "style.g.dart";
 class TimetableStyleData {
   final TimetablePalette platte;
   final CourseCellStyle cellStyle;
-  final BackgroundImage background;
 
   const TimetableStyleData({
     this.platte = BuiltinTimetablePalettes.classic,
     this.cellStyle = const CourseCellStyle(),
-    this.background = const BackgroundImage.disabled(),
   });
 
   @override
@@ -29,7 +26,6 @@ class TimetableStyleData {
     return other is TimetableStyleData &&
         runtimeType == other.runtimeType &&
         platte == other.platte &&
-        background == other.background &&
         cellStyle == other.cellStyle;
   }
 }
@@ -64,7 +60,6 @@ class TimetableStyleProv extends ConsumerStatefulWidget {
   final Widget? child;
   final TimetablePalette? palette;
   final CourseCellStyle? cellStyle;
-  final BackgroundImage? background;
 
   final Widget Function(BuildContext context, TimetableStyleData style)? builder;
 
@@ -74,7 +69,6 @@ class TimetableStyleProv extends ConsumerStatefulWidget {
     this.builder,
     this.palette,
     this.cellStyle,
-    this.background,
   }) : assert(builder != null || child != null, "TimetableStyleProv should have at least one child.");
 
   @override
@@ -105,16 +99,13 @@ class TimetableStyleProvState extends ConsumerState<TimetableStyleProv> {
 
   @override
   Widget build(BuildContext context) {
-    final background = ref.watch(Settings.timetable.$backgroundImage) ?? const BackgroundImage.disabled();
     final cellStyle = ref.watch(Settings.timetable.$cellStyle) ?? const CourseCellStyle();
     final data = TimetableStyleData(
       platte: palette,
       cellStyle: cellStyle,
-      background: background,
     ).copyWith(
       platte: widget.palette,
       cellStyle: widget.cellStyle,
-      background: widget.background,
     );
     return TimetableStyle(
       data: data,
