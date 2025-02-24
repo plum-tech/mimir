@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/adaptive/swipe.dart';
 import 'package:mimir/design/widget/common.dart';
-import 'package:mimir/life/electricity/entity/room.dart';
+import 'package:mimir/school/electricity/entity/room.dart';
 import 'package:mimir/widget/search.dart';
 import 'package:rettulf/rettulf.dart';
 import '../i18n.dart';

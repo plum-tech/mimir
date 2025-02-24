@@ -8,7 +8,6 @@ import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/i18n.dart' as $timetable;
 import 'package:mimir/school/i18n.dart' as $school;
-import 'package:mimir/life/i18n.dart' as $life;
 import 'package:mimir/me/i18n.dart' as $me;
 import 'package:mimir/timetable/p13n/entity/background.dart';
 import 'package:mimir/timetable/p13n/widget/wallpaper.dart';
@@ -75,15 +74,6 @@ class _MainStagePageState extends ConsumerState<MainStagePage> {
             icon: Icons.school_outlined,
             activeIcon: Icons.school,
             label: $school.i18n.navigation,
-          )
-        ),
-      if (!kIsWeb)
-        (
-          route: "/life",
-          item: (
-            icon: Icons.spa_outlined,
-            activeIcon: Icons.spa,
-            label: $life.i18n.navigation,
           )
         ),
       (

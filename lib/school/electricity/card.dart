@@ -39,7 +39,7 @@ class _ElectricityBalanceAppCardState extends ConsumerState<ElectricityBalanceAp
   @override
   initState() {
     super.initState();
-    $refreshEvent = lifeEventBus.addListener(() async {
+    $refreshEvent = schoolEventBus.addListener(() async {
       await refresh(active: true);
     });
     if (Settings.life.electricity.autoRefresh) {

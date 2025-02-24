@@ -4,10 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/school/class2nd/index.dart';
+import 'package:mimir/school/electricity/card.dart';
 import 'package:mimir/school/event.dart';
 import 'package:mimir/school/exam_arrange/card.dart';
 import 'package:mimir/school/exam_result/card.pg.dart';
 import 'package:mimir/school/exam_result/card.ug.dart';
+import 'package:mimir/school/expense_records/card.dart';
 import 'package:mimir/school/library/index.dart';
 import 'package:mimir/school/oa_announce/index.dart';
 import 'package:mimir/school/ywb/index.dart';
@@ -52,6 +54,8 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
             slivers: [
               SliverList.list(children: [
                 const Class2ndAppCard(),
+                const ExpenseRecordsAppCard(),
+                const ElectricityBalanceAppCard(),
                 const ExamArrangeAppCard(),
                 if (ref.watch(CredentialsInit.storage.oa.$userType) == OaUserType.undergraduate)
                   const ExamResultUgAppCard(),

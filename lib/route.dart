@@ -27,9 +27,8 @@ import 'package:mimir/settings/page/language.dart';
 import 'package:mimir/settings/page/oa.dart';
 import 'package:mimir/settings/page/proxy.dart';
 import 'package:mimir/school/page/settings.dart';
-import 'package:mimir/life/expense_records/page/records.dart';
-import 'package:mimir/life/expense_records/page/statistics.dart';
-import 'package:mimir/life/index.dart';
+import 'package:mimir/school/expense_records/page/records.dart';
+import 'package:mimir/school/expense_records/page/statistics.dart';
 import 'package:mimir/login/page/index.dart';
 import 'package:mimir/network/page/index.dart';
 import 'package:mimir/settings/page/theme_color.dart';
@@ -62,13 +61,10 @@ import 'package:mimir/timetable/page/mine.dart';
 import 'package:mimir/timetable/p13n/page/palette.dart';
 import 'package:mimir/widget/image.dart';
 
-
 final $TimetableShellKey = GlobalKey<NavigatorState>();
 final $SchoolShellKey = GlobalKey<NavigatorState>();
-final $LifeShellKey = GlobalKey<NavigatorState>();
 final $GameShellKey = GlobalKey<NavigatorState>();
 final $MeShellKey = GlobalKey<NavigatorState>();
-// final $ForumShellKey = GlobalKey<NavigatorState>();
 
 bool isLoginGuarded(BuildContext ctx) {
   final loginStatus = ProviderScope.containerOf(ctx).read(CredentialsInit.storage.oa.$loginStatus);
@@ -184,10 +180,6 @@ final _timetableRoutes = [
 final _schoolShellRoute = GoRoute(
   path: "/school",
   builder: (ctx, state) => const SchoolPage(),
-);
-final _lifeShellRoute = GoRoute(
-  path: "/life",
-  builder: (ctx, state) => const LifePage(),
 );
 final _meShellRoute = GoRoute(
   path: "/me",
@@ -483,13 +475,6 @@ RoutingConfig buildCommonRoutingConfig() {
                 _schoolShellRoute,
               ],
             ),
-          if (!kIsWeb)
-            StatefulShellBranch(
-              navigatorKey: $LifeShellKey,
-              routes: [
-                _lifeShellRoute,
-              ],
-            ),
           StatefulShellBranch(
             navigatorKey: $TimetableShellKey,
             routes: [
@@ -532,7 +517,6 @@ RoutingConfig buildTimetableFocusRouter() {
       _timetableShellRoute,
       ..._timetableRoutes,
       _schoolShellRoute,
-      _lifeShellRoute,
       _meShellRoute,
       _webviewRoute,
       _expenseRoute,

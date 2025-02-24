@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
-import 'package:mimir/life/expense_records/entity/local.dart';
+import 'package:mimir/school/expense_records/entity/local.dart';
 import 'package:mimir/lifecycle.dart';
 
 import 'package:mimir/school/utils.dart';

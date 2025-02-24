@@ -1,4 +1,4 @@
-import 'package:mimir/life/electricity/init.dart';
+import 'package:mimir/school/electricity/init.dart';
 import 'package:mimir/settings/settings.dart';
 
 class XElectricity {

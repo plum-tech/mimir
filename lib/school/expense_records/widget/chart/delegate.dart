@@ -5,7 +5,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/widgets.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/l10n/time.dart';
-import 'package:mimir/life/expense_records/utils.dart';
+import 'package:mimir/school/expense_records/utils.dart';
 import 'package:mimir/lifecycle.dart';
 import 'package:mimir/utils/date.dart';
 import 'package:mimir/utils/format.dart';

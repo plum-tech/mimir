@@ -7,10 +7,10 @@ import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/widget/app.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/l10n/extension.dart';
-import 'package:mimir/life/event.dart';
+import 'package:mimir/school/event.dart';
 import 'package:mimir/settings/settings.dart';
-import 'package:mimir/life/expense_records/init.dart';
 import 'package:mimir/utils/async_event.dart';
+import 'init.dart';
 import 'widget/balance.dart';
 import 'package:rettulf/rettulf.dart';
 
@@ -33,7 +33,7 @@ class _ExpenseRecordsAppCardState extends ConsumerState<ExpenseRecordsAppCard> w
   @override
   void initState() {
     super.initState();
-    $refreshEvent = lifeEventBus.addListener(() async {
+    $refreshEvent = schoolEventBus.addListener(() async {
       await refresh(active: true);
     });
     if (Settings.life.expense.autoRefresh) {
