@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:mimir/credentials/entity/user_type.dart';
+import 'package:mimir/credentials/init.dart';
 import 'package:mimir/school/class2nd/index.dart';
 import 'package:mimir/school/event.dart';
 import 'package:mimir/school/exam_arrange/card.dart';
@@ -48,14 +50,16 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
           },
           child: CustomScrollView(
             slivers: [
-              SliverList.list(children: const [
-                Class2ndAppCard(),
-                ExamArrangeAppCard(),
-                ExamResultUgAppCard(),
-                ExamResultPgAppCard(),
-                OaAnnounceAppCard(),
-                YwbAppCard(),
-                LibraryAppCard(),
+              SliverList.list(children: [
+                const Class2ndAppCard(),
+                const ExamArrangeAppCard(),
+                if (ref.watch(CredentialsInit.storage.oa.$userType) == OaUserType.undergraduate)
+                  const ExamResultUgAppCard(),
+                if (ref.watch(CredentialsInit.storage.oa.$userType) == OaUserType.postgraduate)
+                  const ExamResultPgAppCard(),
+                const OaAnnounceAppCard(),
+                const YwbAppCard(),
+                const LibraryAppCard(),
               ]),
             ],
           ),
