@@ -58,7 +58,7 @@ jobs:
       - name: Build APK
         run: |
           flutter config --no-cli-animations
-          flutter build apk --target-platform android-arm,android-arm64
+          flutter build apk --release --target-platform android-arm,android-arm64
 
       - name: Sign APK
         uses: r0adkll/sign-android-release@v1
