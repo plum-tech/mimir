@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +17,6 @@ import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/school/widget/campus.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:locale_names/locale_names.dart';
 import 'package:mimir/utils/riverpod.dart';
 
 import '../i18n.dart';
@@ -83,13 +81,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       }
       all.add(const Divider());
     }
-
-    all.add(PageNavigationTile(
-      title: i18n.language.text(),
-      subtitle: context.locale.nativeDisplayLanguageScript.text(),
-      leading: const Icon(Icons.translate_rounded),
-      path: "/settings/language",
-    ));
     all.add(const ThemeModeTile());
     all.add(const ThemeColorTile());
     all.add(const Divider());

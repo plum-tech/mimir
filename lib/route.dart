@@ -18,7 +18,6 @@ import 'package:mimir/school/ywb/page/details.dart';
 import 'package:mimir/school/ywb/page/service.dart';
 import 'package:mimir/school/ywb/page/application.dart';
 import 'package:mimir/settings/page/about.dart';
-import 'package:mimir/settings/page/language.dart';
 import 'package:mimir/settings/page/oa.dart';
 import 'package:mimir/school/page/settings.dart';
 import 'package:mimir/school/expense_records/page/records.dart';
@@ -173,10 +172,6 @@ final _settingsRoute = GoRoute(
   path: "/settings",
   builder: (ctx, state) => const SettingsPage(),
   routes: [
-    GoRoute(
-      path: "language",
-      builder: (ctx, state) => const LanguagePage(),
-    ),
     GoRoute(
       path: "theme-color",
       builder: (ctx, state) => const ThemeColorPage(),
