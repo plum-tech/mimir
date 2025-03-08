@@ -10,7 +10,6 @@ import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/lifecycle.dart';
 import 'package:mimir/login/i18n.dart';
-import 'package:mimir/network/widget/entrance.dart';
 import 'package:mimir/storage/hive/init.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/l10n/extension.dart';
@@ -99,7 +98,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       all.add(const Divider());
     }
     if (agreementAccepted) {
-      all.add(const NetworkToolEntranceTile());
       all.add(const ClearCacheTile());
       all.add(const WipeDataTile());
     }

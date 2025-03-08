@@ -23,7 +23,6 @@ import 'package:mimir/school/page/settings.dart';
 import 'package:mimir/school/expense_records/page/records.dart';
 import 'package:mimir/school/expense_records/page/statistics.dart';
 import 'package:mimir/login/page/index.dart';
-import 'package:mimir/network/page/index.dart';
 import 'package:mimir/settings/page/theme_color.dart';
 import 'package:mimir/timetable/p13n/entity/palette.dart';
 import 'package:mimir/timetable/entity/timetable.dart';
@@ -162,12 +161,6 @@ final _schoolShellRoute = GoRoute(
   path: "/school",
   builder: (ctx, state) => const SchoolPage(),
 );
-final _toolsRoutes = [
-  GoRoute(
-    path: "/tools/network-tool",
-    builder: (ctx, state) => const NetworkToolPage(),
-  ),
-];
 final _settingsRoute = GoRoute(
   path: "/settings",
   builder: (ctx, state) => const SettingsPage(),
@@ -391,7 +384,6 @@ RoutingConfig buildCommonRoutingConfig() {
       _webviewRoute,
       _expenseRoute,
       _settingsRoute,
-      ..._toolsRoutes,
       _oaAnnounceRoute,
       _ywbRoute,
       _examResultRoute,
@@ -416,7 +408,6 @@ RoutingConfig buildTimetableFocusRouter() {
       _webviewRoute,
       _expenseRoute,
       _settingsRoute,
-      ..._toolsRoutes,
       _oaAnnounceRoute,
       _ywbRoute,
       _examResultRoute,

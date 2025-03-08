@@ -1,4 +1,3 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -122,19 +121,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     if (!mounted) return;
     setState(() => loggingIn = true);
-    final connectionType = await Connectivity().checkConnectivity();
-    if (connectionType.contains(ConnectivityResult.none)) {
-      if (!mounted) return;
-      setState(() => loggingIn = false);
-      await context.showTip(
-        title: _i18n.network.error,
-        desc: _i18n.network.noAccessTip,
-        primary: _i18n.close,
-        serious: true,
-      );
-      return;
-    }
-
     try {
       await XLogin.login(Credential(account: account, password: password));
       if (!mounted) return;

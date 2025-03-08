@@ -34,9 +34,7 @@ class Lang {
   Lang._();
 
   static final zhHansFormatter = _ZhHansFormatter();
-  static final enFormatter = _EnUsFormatter();
   static final locale2Format = {
-    R.enLocale: _EnUsFormatter(),
     R.zhHansLocale: _ZhHansFormatter(),
   };
 
@@ -68,31 +66,4 @@ class _ZhHansFormatter implements RegionalFormatter {
   final mdNum = DateFormat("M/d", "zh_Hans");
   @override
   final firstDayInWeek = Weekday.monday;
-}
-
-class _EnUsFormatter implements RegionalFormatter {
-  @override
-  final hms = DateFormat.jms();
-  @override
-  final hm = DateFormat.jm();
-  @override
-  final ymdText = DateFormat("MMMM d, yyyy", "en_US");
-  @override
-  final ymdWeekText = DateFormat("EEEE, MMMM d, yyyy", "en_US");
-  @override
-  final mdWeekText = DateFormat("EEEE, MMMM d", "en_US");
-  @override
-  final ymText = DateFormat("MMMM, yyyy", "en_US");
-  @override
-  final ymdNum = DateFormat("M/d/yyyy", "en_US");
-  @override
-  final ymdhmsNum = DateFormat("M/d/yyyy", "en_US").add_jms();
-  @override
-  final ymdhmNum = DateFormat("M/d/yyyy", "en_US").add_jm();
-  @override
-  final mdHmNum = DateFormat("M/d", "en_US").add_jm();
-  @override
-  final mdNum = DateFormat("M/d", "en_US");
-  @override
-  final firstDayInWeek = Weekday.sunday;
 }
