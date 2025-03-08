@@ -9,7 +9,6 @@ class CoreHiveType {
   static const credentials = 4;
   static const oaLoginStatus = 5;
   static const oaUserType = 6;
-  static const proxyMode = 7;
 }
 
 class CacheHiveType {

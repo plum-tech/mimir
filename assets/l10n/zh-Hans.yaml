@@ -652,23 +652,6 @@ expenseRecords:
 homepage:
   campusNetworkConnected: 已连接校园网
   campusNetworkUnconnected: 未连接校园网
-networkChecker:
-  whereToCheck:
-    schoolServer: 学校服务器
-    studentReg: 教务系统
-  testConnection:
-    title: 测试连接
-    desc: "测试与{where}的连接"
-  button:
-    connected: 继续
-    connecting: 检查中
-    disconnected: 重试
-    none: 检查网络连接
-  status:
-    connected: "好耶！你能够访问{where}！"
-    connecting: "这可能需要几秒钟，请确保你在设备上已经打开了网络连接。"
-    disconnected: "糟糕！你无法访问{where}，请点击下方的疑难解答以了解更多。"
-    none: "你需要访问{where}才能继续，现在就检查一下吧。"
 network:
   error: 网络错误
   ipAddress: IP 地址
@@ -840,37 +823,6 @@ settings:
     request: 你下次需要连接校园网才能重新加载它们。
   themeMode:
     title: 亮度
-  proxy:
-    title: 代理
-    desc: 代理校园网连接
-    enableAuth: 启用身份验证
-    authentication: 身份验证
-    protocol: 协议
-    hostname: 主机名
-    port: 端口
-    username: 用户名
-    password: 密码
-    invalidProxyFormatTip: 代理的格式无效
-    setFromQrCodeAction: 设置代理
-    setFromQrCodeDesc: 确定从读取的二维码中设置代理？
-    shareQrCode:
-      title: 分享二维码
-      desc: 将代理通过二维码分享
-    enableProxy:
-      title: 启用代理
-      desc: 代理你的请求
-    proxyMode:
-      title: 代理模式
-      global:
-        name: 全局
-        tip: 通过代理访问所有网络
-      schoolOnly:
-        name: 仅学校服务器
-        tip: 仅通过代理访问学校服务器
-    proxyType:
-      http: HTTP
-      https: HTTPS
-      all: 全部
   language: 语言
   wipeData:
     title: 擦除数据并登出
