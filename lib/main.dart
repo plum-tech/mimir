@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
@@ -10,7 +9,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mimir/files.dart';
-import 'package:mimir/network/proxy.dart';
 import 'package:mimir/storage/hive/init.dart';
 import 'package:mimir/init.dart';
 import 'package:path_provider/path_provider.dart';
@@ -99,7 +97,6 @@ void main() async {
   Meta.lastLaunchTime = Meta.thisLaunchTime;
   Meta.thisLaunchTime = DateTime.now();
   Init.registerCustomEditor();
-  HttpOverrides.global = MimirHttpOverrides();
   await Init.initNetwork();
   await Init.initModules();
   await Init.initStorage();

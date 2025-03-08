@@ -9,7 +9,6 @@ import 'package:flutter/foundation.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/lifecycle.dart';
 import 'package:mimir/session/freshman.dart';
-import 'package:mimir/settings/entity/proxy.dart';
 import 'package:mimir/storage/hive/init.dart';
 import 'package:mimir/session/pg_registration.dart';
 import 'package:mimir/session/ywb.dart';
@@ -128,7 +127,6 @@ class Init {
   static void registerCustomEditor() {
     EditorEx.registerEnumEditor(Campus.values);
     EditorEx.registerEnumEditor(ThemeMode.values);
-    EditorEx.registerEnumEditor(ProxyMode.values);
     Editor.registerEditor<Credential>((ctx, desc, initial) => StringsEditor(
           fields: [
             (name: "account", initial: initial.account),

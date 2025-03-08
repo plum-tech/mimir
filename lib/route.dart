@@ -20,7 +20,6 @@ import 'package:mimir/school/ywb/page/application.dart';
 import 'package:mimir/settings/page/about.dart';
 import 'package:mimir/settings/page/language.dart';
 import 'package:mimir/settings/page/oa.dart';
-import 'package:mimir/settings/page/proxy.dart';
 import 'package:mimir/school/page/settings.dart';
 import 'package:mimir/school/expense_records/page/records.dart';
 import 'package:mimir/school/expense_records/page/statistics.dart';
@@ -203,10 +202,6 @@ final _settingsRoute = GoRoute(
     GoRoute(
       path: "about",
       builder: (ctx, state) => const AboutSettingsPage(),
-    ),
-    GoRoute(
-      path: "proxy",
-      builder: (ctx, state) => const ProxySettingsPage(),
     ),
   ],
 );

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mimir/agreements/settings.dart';
@@ -7,11 +5,7 @@ import 'package:mimir/utils/hive.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/school/settings.dart';
 import 'package:mimir/timetable/settings.dart';
-import 'package:mimir/utils/json.dart';
-import 'package:mimir/utils/riverpod.dart';
-import 'package:statistics/statistics.dart';
 
-import 'entity/proxy.dart';
 
 class _K {
   static const ns = "/settings";
@@ -32,7 +26,6 @@ class SettingsImpl {
   late final timetable = TimetableSettings(box);
   late final school = SchoolSettings(box);
   late final theme = _Theme(box);
-  late final proxy = _Proxy(box);
   late final agreements = AgreementsSettings(box);
 
   Campus get campus => box.safeGet<Campus>(_K.campus) ?? Campus.fengxian;
@@ -69,7 +62,7 @@ class _Theme {
   }
 
   set themeColor(Color? v) {
-    box.safePut<int>(_ThemeK.themeColor, v?.value);
+    box.safePut<int>(_ThemeK.themeColor, v?.toARGB32());
   }
 
   late final $themeColor = box.provider<Color>(
@@ -90,109 +83,4 @@ class _Theme {
   set themeMode(ThemeMode value) => box.safePut<ThemeMode>(_ThemeK.themeMode, value);
 
   late final $themeMode = box.provider<ThemeMode>(_ThemeK.themeMode);
-}
-
-class _ProxyK {
-  static const ns = '/proxy';
-
-  static String keyOf(ProxyCat type) => "$ns/${type.name}";
-}
-
-class _Proxy {
-  final Box box;
-
-  _Proxy(this.box);
-
-  ProxyProfile? getProfileOf(ProxyCat cat) =>
-      decodeJsonObject(box.safeGet<String>(_ProxyK.keyOf(cat)), (obj) => ProxyProfile.fromJson(obj));
-
-  Future<void> setProfileOf(ProxyCat cat, ProxyProfile? newV) async =>
-      await box.safePut<String>(_ProxyK.keyOf(cat), encodeJsonObject(newV));
-
-  ProxyProfile? get http => getProfileOf(ProxyCat.http);
-
-  ProxyProfile? get https => getProfileOf(ProxyCat.https);
-
-  ProxyProfile? get all => getProfileOf(ProxyCat.all);
-
-  set http(ProxyProfile? profile) => setProfileOf(ProxyCat.http, profile);
-
-  set https(ProxyProfile? profile) => setProfileOf(ProxyCat.https, profile);
-
-  set all(ProxyProfile? profile) => setProfileOf(ProxyCat.all, profile);
-
-  List<ProxyProfile> get profiles {
-    final http = this.http;
-    final https = this.https;
-    final all = this.all;
-    return [
-      if (http != null) http,
-      if (https != null) https,
-      if (all != null) all,
-    ];
-  }
-
-  FutureOr<void> applyForeach(
-    FutureOr<void> Function(
-      ProxyCat cat,
-      ProxyProfile? profile,
-      Future<void> Function(ProxyProfile?) set,
-    ) func,
-  ) async {
-    for (final cat in ProxyCat.values) {
-      await func(cat, getProfileOf(cat), (newV) => setProfileOf(cat, newV));
-    }
-  }
-
-  bool get anyEnabled => profiles.any((profile) => profile.enabled);
-
-  set anyEnabled(bool value) {
-    applyForeach((cat, profile, set) {
-      if (profile != null) {
-        set(profile.copyWith(enabled: value));
-      }
-    });
-  }
-
-  /// return null if their proxy mode are not identical.
-  ProxyMode? get integratedProxyMode {
-    final profiles = this.profiles;
-    return profiles.all((profile) => profile.mode == ProxyMode.schoolOnly)
-        ? ProxyMode.schoolOnly
-        : profiles.all((profile) => profile.mode == ProxyMode.global)
-            ? ProxyMode.global
-            : null;
-  }
-
-  set integratedProxyMode(ProxyMode? mode) {
-    applyForeach((cat, profile, set) {
-      if (profile != null) {
-        set(profile.copyWith(mode: mode));
-      }
-    });
-  }
-
-  /// return null if their proxy mode are not identical.
-  bool hasAnyProxyMode(ProxyMode mode) {
-    return http?.mode == mode || https?.mode == mode || all?.mode == mode;
-  }
-
-  late final $profileOf = box.providerFamily<ProxyProfile, ProxyCat>(
-    _ProxyK.keyOf,
-    get: getProfileOf,
-    set: setProfileOf,
-  );
-
-  late final profilesListenable = box.listenable(
-    keys: ProxyCat.values.map((cat) => _ProxyK.keyOf(cat)).toList(),
-  );
-
-  late final $anyEnabled = profilesListenable.provider<bool>(
-    get: () => anyEnabled,
-    set: (newV) => anyEnabled = newV,
-  );
-  late final $integratedProxyMode = profilesListenable.provider<ProxyMode?>(
-    get: () => integratedProxyMode,
-    set: (newV) => integratedProxyMode = newV,
-  );
 }

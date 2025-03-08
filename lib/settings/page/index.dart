@@ -108,12 +108,6 @@ class _SettingsPageState extends ConsumerState<SettingsPage> {
       all.add(const Divider());
     }
     if (agreementAccepted) {
-      all.add(PageNavigationTile(
-        title: i18n.proxy.title.text(),
-        subtitle: i18n.proxy.desc.text(),
-        leading: const Icon(Icons.vpn_key),
-        path: "/settings/proxy",
-      ));
       all.add(const NetworkToolEntranceTile());
       all.add(const ClearCacheTile());
       all.add(const WipeDataTile());
