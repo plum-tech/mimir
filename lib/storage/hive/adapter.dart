@@ -6,15 +6,11 @@ import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/entity/campus.dart';
 import 'package:mimir/school/electricity/entity/balance.dart';
 import 'package:mimir/school/expense_records/entity/local.dart';
-import 'package:mimir/school/class2nd/entity/application.dart';
 import 'package:mimir/school/exam_result/entity/result.pg.dart';
 import 'package:mimir/school/ywb/entity/service.dart';
 import 'package:mimir/school/ywb/entity/application.dart';
 import 'package:mimir/school/exam_result/entity/result.ug.dart';
 import 'package:mimir/school/oa_announce/entity/announce.dart';
-import 'package:mimir/school/class2nd/entity/details.dart';
-import 'package:mimir/school/class2nd/entity/activity.dart';
-import 'package:mimir/school/class2nd/entity/attended.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/storage/hive/init.dart';
 
@@ -41,16 +37,6 @@ class HiveAdapter {
     debugPrint("Register cache Hive type");
     // Electric Bill
     hive.addAdapter(ElectricityBalanceAdapter());
-
-    // Activity
-    hive.addAdapter(Class2ndActivityDetailsAdapter());
-    hive.addAdapter(Class2ndActivityAdapter());
-    hive.addAdapter(Class2ndPointsSummaryAdapter());
-    hive.addAdapter(Class2ndActivityApplicationAdapter());
-    hive.addAdapter(Class2ndActivityApplicationStatusAdapter());
-    hive.addAdapter(Class2ndPointItemAdapter());
-    hive.addAdapter(Class2ndActivityCatAdapter());
-    hive.addAdapter(Class2ndPointTypeAdapter());
 
     // OA Announcement
     hive.addAdapter(OaAnnounceDetailsAdapter());

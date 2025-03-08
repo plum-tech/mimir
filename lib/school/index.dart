@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
-import 'package:mimir/school/class2nd/index.dart';
 import 'package:mimir/school/electricity/card.dart';
 import 'package:mimir/school/event.dart';
 import 'package:mimir/school/exam_arrange/card.dart';
@@ -63,7 +62,6 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
           child: CustomScrollView(
             slivers: [
               SliverList.list(children: [
-                const Class2ndAppCard(),
                 const ExpenseRecordsAppCard(),
                 const ElectricityBalanceAppCard(),
                 const ExamArrangeAppCard(),

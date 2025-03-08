@@ -11,7 +11,6 @@ import 'package:mimir/credentials/init.dart';
 import 'package:mimir/index.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/lifecycle.dart';
-import 'package:mimir/school/class2nd/entity/attended.dart';
 import 'package:mimir/school/exam_result/page/gpa.dart';
 import 'package:mimir/school/exam_result/page/result.pg.dart';
 import 'package:mimir/school/ywb/entity/service.dart';
@@ -42,9 +41,6 @@ import 'package:mimir/school/oa_announce/entity/announce.dart';
 import 'package:mimir/school/oa_announce/page/details.dart';
 import 'package:mimir/school/exam_arrange/page/list.dart';
 import 'package:mimir/school/oa_announce/page/list.dart';
-import 'package:mimir/school/class2nd/page/details.dart';
-import 'package:mimir/school/class2nd/page/activity.dart';
-import 'package:mimir/school/class2nd/page/attended.dart';
 import 'package:mimir/school/exam_result/page/result.ug.dart';
 import 'package:mimir/settings/page/index.dart';
 import 'package:mimir/school/index.dart';
@@ -227,42 +223,6 @@ final _expenseRoute = GoRoute(
   ],
 );
 
-final _class2ndRoute = GoRoute(
-  path: "/class2nd",
-  builder: (ctx, state) => const ActivityListPage(),
-  redirect: _loginRequired,
-  routes: [
-    GoRoute(
-      path: "attended",
-      builder: (ctx, state) => const AttendedActivityPage(),
-      redirect: _loginRequired,
-    ),
-    GoRoute(
-      path: "activity-details/:id",
-      builder: (ctx, state) {
-        final id = int.tryParse(state.pathParameters["id"] ?? "");
-        if (id == null) throw 404;
-        final enableApply = state.uri.queryParameters["enable-apply"] != null;
-        final title = state.uri.queryParameters["title"];
-        final time = DateTime.tryParse(state.uri.queryParameters["time"] ?? "");
-        return Class2ndActivityDetailsPage(activityId: id, title: title, time: time, enableApply: enableApply);
-      },
-      redirect: _loginRequired,
-    ),
-    // TODO: using path para
-    GoRoute(
-      path: "attended-details",
-      builder: (ctx, state) {
-        final extra = state.extra;
-        if (extra is Class2ndAttendedActivity) {
-          return Class2ndApplicationDetailsPage(extra);
-        }
-        throw 404;
-      },
-      redirect: _loginRequired,
-    ),
-  ],
-);
 
 final _oaAnnounceRoute = GoRoute(
   path: "/oa/announcement",
@@ -442,7 +402,6 @@ RoutingConfig buildCommonRoutingConfig() {
       _expenseRoute,
       _settingsRoute,
       ..._toolsRoutes,
-      _class2ndRoute,
       _oaAnnounceRoute,
       _ywbRoute,
       _examResultRoute,
@@ -468,7 +427,6 @@ RoutingConfig buildTimetableFocusRouter() {
       _expenseRoute,
       _settingsRoute,
       ..._toolsRoutes,
-      _class2ndRoute,
       _oaAnnounceRoute,
       _ywbRoute,
       _examResultRoute,

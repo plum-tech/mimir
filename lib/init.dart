@@ -20,7 +20,6 @@ import 'package:mimir/login/init.dart';
 import 'package:mimir/school/ywb/init.dart';
 import 'package:mimir/school/exam_arrange/init.dart';
 import 'package:mimir/school/oa_announce/init.dart';
-import 'package:mimir/school/class2nd/init.dart';
 import 'package:mimir/school/exam_result/init.dart';
 import 'package:mimir/session/ug_registration.dart';
 import 'package:mimir/timetable/init.dart';
@@ -111,7 +110,6 @@ class Init {
       ExamArrangeInit.init();
       ExpenseRecordsInit.init();
       YwbInit.init();
-      Class2ndInit.init();
       ElectricityBalanceInit.init();
     }
     LoginInit.init();
@@ -127,7 +125,6 @@ class Init {
       ExamArrangeInit.initStorage();
       ExpenseRecordsInit.initStorage();
       YwbInit.initStorage();
-      Class2ndInit.initStorage();
       ElectricityBalanceInit.initStorage();
     }
     LoginInit.initStorage();
