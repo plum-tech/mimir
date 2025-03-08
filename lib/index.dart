@@ -7,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mimir/timetable/i18n.dart' as $timetable;
 import 'package:mimir/school/i18n.dart' as $school;
 
-// import 'package:mimir/backend/forum/i18n.dart' as $forum;
 import 'package:rettulf/rettulf.dart';
 
 class MainStagePage extends ConsumerStatefulWidget {

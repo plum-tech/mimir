@@ -11,7 +11,6 @@ import 'package:mimir/lifecycle.dart';
 import 'package:mimir/session/freshman.dart';
 import 'package:mimir/settings/entity/proxy.dart';
 import 'package:mimir/storage/hive/init.dart';
-import 'package:mimir/session/class2nd.dart';
 import 'package:mimir/session/pg_registration.dart';
 import 'package:mimir/session/ywb.dart';
 import 'package:mimir/school/electricity/init.dart';
@@ -46,7 +45,6 @@ class Init {
   static late UgRegistrationSession ugRegSession;
   static late PgRegistrationSession pgRegSession;
   static late YwbSession ywbSession;
-  static late Class2ndSession class2ndSession;
 
   static Future<void> initNetwork() async {
     debugPrint("Initializing network");
@@ -90,9 +88,6 @@ class Init {
     ugRegSession = const UgRegistrationSession();
     ywbSession = YwbSession(
       dio: schoolDio,
-    );
-    class2ndSession = Class2ndSession(
-      ssoSession: ssoSession,
     );
     freshmanSession = const FreshmanSession();
     pgRegSession = PgRegistrationSession(

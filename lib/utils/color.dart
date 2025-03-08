@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'dart:ui';
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,19 +8,19 @@ import 'package:system_theme/system_theme.dart';
 
 extension ColorX on Color {
   Color monochrome({double progress = 1}) {
-    final gray = 0.21 * red + 0.71 * green + 0.07 * blue;
+    final gray = 0.21 * r + 0.71 * g + 0.07 * b;
     final iProgress = 1.0 - progress;
-    return Color.fromARGB(
-      alpha,
-      (red * iProgress + gray * progress).toInt(),
-      (green * iProgress + gray * progress).toInt(),
-      (blue * iProgress + gray * progress).toInt(),
+    return Color.from(
+      alpha: a,
+      red: r * iProgress + gray * progress,
+      green: g * iProgress + gray * progress,
+      blue: b * iProgress + gray * progress,
     );
   }
 
-  double get luminance => (0.2126 * red + 0.7152 * green + 0.0722 * blue) / 255.0;
+  double get luminance => (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255.0;
 
-  double get brightness => (0.299 * red + 0.587 * green + 0.114 * blue) / 255.0;
+  double get brightness => (0.299 * r + 0.587 * g + 0.114 * b) / 255.0;
 }
 
 extension SystemAccentColorX on SystemAccentColor {
