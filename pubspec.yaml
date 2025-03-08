@@ -64,8 +64,6 @@ dependencies:
   dio: ^5.8.0+1
   dio_cookie_manager: ^3.2.0
 
-  # WebView and browser related
-  webview_flutter: ^4.10.0
   # Android, iOS, macOS, web
   flutter_inappwebview: 6.1.5
   fk_user_agent: ^2.1.0
