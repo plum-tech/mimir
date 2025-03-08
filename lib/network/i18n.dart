@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:mimir/credentials/i18n.dart';
 import 'package:mimir/l10n/common.dart';
-import 'package:mimir/network/widget/checker.dart';
 
 const i18n = _I18n();
 
@@ -12,7 +11,6 @@ class _I18n with CommonI18nMixin {
   final easyconnect = const _Easyconnect();
   final network = const NetworkI18n();
   final credentials = const OaCredentialsI18n();
-  final checker = const _NetworkCheckerI18n();
 
   String get title => "$ns.title".tr();
 
@@ -60,57 +58,4 @@ class _Easyconnect {
   String get launchFailed => "$ns.launchFailed".tr();
 
   String get launchFailedDesc => "$ns.launchFailedDesc".tr();
-}
-
-class _NetworkCheckerI18n {
-  const _NetworkCheckerI18n();
-
-  static const ns = "networkChecker";
-
-  final button = const _NetworkCheckerButton();
-  final status = const _NetworkCheckerStatus();
-
-  String get testConnection => "$ns.testConnection.title".tr();
-
-  String testConnectionDesc(WhereToCheck where) => "$ns.testConnection.desc".tr(namedArgs: {
-        "where": where.l10n(),
-      });
-}
-
-class _NetworkCheckerButton {
-  final String ns = "${_NetworkCheckerI18n.ns}.button";
-
-  const _NetworkCheckerButton();
-
-  String get connected => "$ns.connected".tr();
-
-  String get connecting => "$ns.connecting".tr();
-
-  String get disconnected => "$ns.disconnected".tr();
-
-  String get none => "$ns.none".tr();
-}
-
-class _NetworkCheckerStatus {
-  final String ns = "${_NetworkCheckerI18n.ns}.status";
-
-  const _NetworkCheckerStatus();
-
-  String connected(WhereToCheck where) => "$ns.connected".tr(namedArgs: {
-        "where": where.l10n(),
-      });
-
-  String connecting(WhereToCheck where) => "$ns.connecting".tr();
-
-  String disconnected(WhereToCheck where) => "$ns.disconnected".tr(namedArgs: {
-        "where": where.l10n(),
-      });
-
-  String none(WhereToCheck where) => "$ns.none".tr(namedArgs: {
-        "where": where.l10n(),
-      });
-}
-
-extension WhereToCheckI18nX on WhereToCheck {
-  String l10n() => "${_NetworkCheckerI18n.ns}.whereToCheck.$name".tr();
 }

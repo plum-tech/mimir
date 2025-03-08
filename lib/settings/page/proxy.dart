@@ -8,8 +8,6 @@ import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/widget/list_tile.dart';
 import 'package:mimir/design/widget/tooltip.dart';
-import 'package:mimir/init.dart';
-import 'package:mimir/network/widget/checker.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/utils/error.dart';
@@ -55,11 +53,6 @@ class _ProxySettingsPageState extends ConsumerState<ProxySettingsPage> {
               buildProxyTypeTile(
                 ProxyCat.https,
                 icon: const Icon(Icons.https),
-              ),
-              const Divider(),
-              TestConnectionTile(
-                where: WhereToCheck.studentReg,
-                check: () async => await Init.ugRegSession.checkConnectivity(),
               ),
             ]),
           ),

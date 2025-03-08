@@ -9,7 +9,6 @@ import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/animation/animated.dart';
-import 'package:mimir/network/widget/checker.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/utils.dart';
@@ -43,7 +42,6 @@ class ImportTimetablePage extends ConsumerStatefulWidget {
 }
 
 class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
-  bool connected = false;
   var _status = ImportStatus.none;
   late SemesterInfo initial = estimateSemesterInfo();
   late SemesterInfo selected = initial;
@@ -79,19 +77,6 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
     if (timetable == null) return;
     if (!mounted) return;
     context.pop(timetable);
-  }
-
-  Future<bool> checkConnectivity() async {
-    if (connected) return true;
-    final result = await context.showSheet<bool>(
-      (ctx) => ConnectivityCheckerSheet(
-        desc: i18n.import.connectivityCheckerDesc,
-        check: TimetableInit.service.checkConnectivity,
-        where: WhereToCheck.studentReg,
-      ),
-    );
-    connected = result == true;
-    return connected;
   }
 
   Widget buildTip(BuildContext ctx) {
@@ -180,9 +165,6 @@ class _ImportTimetablePageState extends ConsumerState<ImportTimetablePage> {
       await onFreshmanImport(context);
       return;
     }
-
-    final connected = await checkConnectivity();
-    if (!connected) return;
     setState(() {
       _status = ImportStatus.importing;
     });

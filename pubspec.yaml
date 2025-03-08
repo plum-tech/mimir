@@ -85,7 +85,6 @@ dependencies:
   # Get package info (version)
   package_info_plus: ^8.2.1
   # Check VPN connection status
-  check_vpn_connection: ^0.0.2
   connectivity_plus: ^6.1.3
   # Haptic feedbacks
   # qrcode scanner
