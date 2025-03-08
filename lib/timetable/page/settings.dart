@@ -34,7 +34,6 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
               const Divider(),
               buildCellStyle(),
               buildP13n(),
-              buildBackground(),
             ],
           ),
         ],
@@ -62,18 +61,6 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
       trailing: const Icon(Icons.open_in_new),
       onTap: () async {
         await context.push("/timetable/cell-style");
-      },
-    );
-  }
-
-  Widget buildBackground() {
-    return ListTile(
-      leading: const Icon(Icons.image_outlined),
-      title: i18n.settings.background.text(),
-      subtitle: i18n.settings.backgroundDesc.text(),
-      trailing: const Icon(Icons.open_in_new),
-      onTap: () async {
-        await context.push("/timetable/background");
       },
     );
   }
