@@ -27,7 +27,6 @@ abstract class _$TimetableCWProxy {
     DateTime? createdTime,
     String? studentId,
     StudentType? studentType,
-    List<TimetablePatchEntry>? patches,
     String? signature,
     int? version,
   });
@@ -61,7 +60,6 @@ class _$TimetableCWProxyImpl implements _$TimetableCWProxy {
     Object? createdTime = const $CopyWithPlaceholder(),
     Object? studentId = const $CopyWithPlaceholder(),
     Object? studentType = const $CopyWithPlaceholder(),
-    Object? patches = const $CopyWithPlaceholder(),
     Object? signature = const $CopyWithPlaceholder(),
     Object? version = const $CopyWithPlaceholder(),
   }) {
@@ -118,10 +116,6 @@ class _$TimetableCWProxyImpl implements _$TimetableCWProxy {
           ? _value.studentType
           // ignore: cast_nullable_to_non_nullable
           : studentType as StudentType,
-      patches: patches == const $CopyWithPlaceholder() || patches == null
-          ? _value.patches
-          // ignore: cast_nullable_to_non_nullable
-          : patches as List<TimetablePatchEntry>,
       signature: signature == const $CopyWithPlaceholder() || signature == null
           ? _value.signature
           // ignore: cast_nullable_to_non_nullable
@@ -314,7 +308,6 @@ Timetable _$TimetableFromJson(Map<String, dynamic> json) => Timetable(
       createdTime: json['createdTime'] == null ? _kNow() : DateTime.parse(json['createdTime'] as String),
       studentId: json['studentId'] as String? ?? _defaultStudentId(),
       studentType: $enumDecodeNullable(_$StudentTypeEnumMap, json['studentType']) ?? _kStudentType(),
-      patches: json['patches'] == null ? const [] : _patchesFromJson(json['patches'] as List?),
       signature: json['signature'] as String? ?? "",
       version: (json['version'] as num?)?.toInt() ?? 2,
     );
@@ -335,7 +328,6 @@ Map<String, dynamic> _$TimetableToJson(Timetable instance) => <String, dynamic>{
       'lastModified': instance.lastModified.toIso8601String(),
       'createdTime': instance.createdTime.toIso8601String(),
       'version': instance.version,
-      'patches': instance.patches,
     };
 
 const _$SchoolCodeEnumMap = {

@@ -17,7 +17,6 @@ import '../utils.dart';
 import '../utils/sync.dart';
 import '../widget/focus.dart';
 import '../widget/timetable/board.dart';
-import 'mine.dart';
 
 class TimetableBoardPage extends ConsumerStatefulWidget {
   final TimetableEntity timetable;
@@ -118,16 +117,6 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
           title: i18n.p13n.cell.title,
           onTap: () async {
             await context.push("/timetable/cell-style");
-          },
-        ),
-        PullDownItem(
-          icon: Icons.dashboard_customize,
-          title: i18n.patch.title,
-          onTap: () async {
-            await editTimetablePatch(
-              context: ctx,
-              uuid: timetable.type.uuid,
-            );
           },
         ),
         if (canSyncTimetable(timetable.type))

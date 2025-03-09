@@ -4,7 +4,6 @@ import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/widget/expansion_tile.dart';
 import 'package:mimir/l10n/time.dart';
-import 'package:mimir/timetable/patch/page/patch.dart';
 
 import '../entity/timetable.dart';
 import '../entity/issue.dart';
@@ -20,7 +19,6 @@ extension TimetableIssuesX on List<TimetableIssue> {
     final empty = whereType<TimetableEmptyIssue>().toList();
     final cbe = whereType<TimetableCbeIssue>().toList();
     final courseOverlap = whereType<TimetableCourseOverlapIssue>().toList();
-    final patchOutOfRange = whereType<TimetablePatchOutOfRangeIssue>().toList();
     return [
       if (empty.isNotEmpty)
         TimetableEmptyIssueWidget(
@@ -29,12 +27,6 @@ extension TimetableIssuesX on List<TimetableIssue> {
       if (cbe.isNotEmpty)
         TimetableCbeIssueWidget(
           issues: cbe,
-          timetable: timetable,
-          onTimetableChanged: onTimetableChanged,
-        ),
-      if (patchOutOfRange.isNotEmpty)
-        TimetablePatchOutOfRangeIssueWidget(
-          issues: patchOutOfRange,
           timetable: timetable,
           onTimetableChanged: onTimetableChanged,
         ),
@@ -162,61 +154,6 @@ class _TimetableCourseOverlapIssueWidgetState extends State<TimetableCourseOverl
                     .text();
               }),
             ].column(caa: CrossAxisAlignment.start),
-          );
-        }).toList(),
-      ),
-    );
-  }
-}
-
-class TimetablePatchOutOfRangeIssueWidget extends StatefulWidget {
-  final List<TimetablePatchOutOfRangeIssue> issues;
-  final Timetable timetable;
-  final ValueChanged<Timetable> onTimetableChanged;
-
-  const TimetablePatchOutOfRangeIssueWidget({
-    super.key,
-    required this.issues,
-    required this.timetable,
-    required this.onTimetableChanged,
-  });
-
-  @override
-  State<TimetablePatchOutOfRangeIssueWidget> createState() => _TimetablePatchOutOfRangeIssueWidgetState();
-}
-
-class _TimetablePatchOutOfRangeIssueWidgetState extends State<TimetablePatchOutOfRangeIssueWidget> {
-  @override
-  Widget build(BuildContext context) {
-    final timetable = widget.timetable;
-    return Card.outlined(
-      clipBehavior: Clip.hardEdge,
-      child: AnimatedExpansionTile(
-        initiallyExpanded: true,
-        title: TimetableIssueType.patchOutOfRange.l10n().text(),
-        subtitle: TimetableIssueType.patchOutOfRange.l10nDesc().text(),
-        children: widget.issues.map((issue) {
-          final patch = issue.patch;
-          return ListTile(
-            leading: Icon(patch.type.icon),
-            title: patch.type.l10n().text(),
-            subtitle: patch.l10n().text(),
-            trailing: PlatformTextButton(
-              child: i18n.issue.resolve.text(),
-              onPressed: () async {
-                var newTimetable = await context.navigator.push(
-                  platformPageRoute(
-                    context: context,
-                    builder: (ctx) => TimetablePatchEditorPage(
-                      timetable: timetable,
-                      initialEditing: patch,
-                    ),
-                  ),
-                );
-                if (newTimetable == null) return;
-                widget.onTimetableChanged(newTimetable);
-              },
-            ),
           );
         }).toList(),
       ),

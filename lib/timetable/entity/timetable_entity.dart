@@ -9,7 +9,6 @@ import 'package:mimir/timetable/utils.dart';
 import 'package:collection/collection.dart';
 import 'package:mimir/utils/date.dart';
 import '../p13n/entity/palette.dart';
-import '../patch/entity/patch.dart';
 import 'timetable.dart';
 
 part "timetable_entity.g.dart";
@@ -393,50 +392,6 @@ extension Timetable4EntityX on Timetable {
       type: this,
       days: days,
     );
-
-    void processPatch(TimetablePatchEntry patch) {
-      if (patch is TimetablePatchSet) {
-        for (final patch in patch.patches) {
-          processPatch(patch);
-        }
-      } else if (patch is TimetableRemoveDayPatch) {
-        for (final loc in patch.all) {
-          final day = loc.resolveDay(entity);
-          if (day != null) {
-            day.clear();
-          }
-        }
-      } else if (patch is TimetableMoveDayPatch) {
-        final source = patch.source;
-        final target = patch.target;
-        final sourceDay = source.resolveDay(entity);
-        final targetDay = target.resolveDay(entity);
-        if (sourceDay != null && targetDay != null) {
-          targetDay.replaceWith(sourceDay);
-          sourceDay.clear();
-        }
-      } else if (patch is TimetableCopyDayPatch) {
-        final source = patch.source;
-        final target = patch.target;
-        final sourceDay = source.resolveDay(entity);
-        final targetDay = target.resolveDay(entity);
-        if (sourceDay != null && targetDay != null) {
-          targetDay.replaceWith(sourceDay);
-        }
-      } else if (patch is TimetableSwapDaysPatch) {
-        final a = patch.a;
-        final b = patch.b;
-        final aDay = a.resolveDay(entity);
-        final bDay = b.resolveDay(entity);
-        if (aDay != null && bDay != null) {
-          aDay.swap(bDay);
-        }
-      }
-    }
-
-    for (final patch in patches) {
-      processPatch(patch);
-    }
 
     if (kDebugMode) {
       for (final day in entity.days) {

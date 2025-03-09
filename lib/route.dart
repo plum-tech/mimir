@@ -28,7 +28,6 @@ import 'package:mimir/timetable/entity/timetable.dart';
 import 'package:mimir/timetable/init.dart';
 import 'package:mimir/timetable/p13n/page/cell_style.dart';
 import 'package:mimir/timetable/page/edit/editor.dart';
-import 'package:mimir/timetable/patch/page/patch.dart';
 import 'package:mimir/timetable/page/settings.dart';
 import 'package:mimir/widget/inapp_webview/page.dart';
 import 'package:mimir/widget/not_found.dart';
@@ -108,14 +107,6 @@ final _timetableRoutes = [
       final timetable = _getTimetable(state);
       if (timetable == null) throw 404;
       return TimetableEditorPage(timetable: timetable);
-    },
-  ),
-  GoRoute(
-    path: "/timetable/patch/edit/:uuid",
-    builder: (ctx, state) {
-      final timetable = _getTimetable(state);
-      if (timetable == null) throw 404;
-      return TimetablePatchEditorPage(timetable: timetable);
     },
   ),
   GoRoute(

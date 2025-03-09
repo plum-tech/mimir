@@ -1,13 +1,11 @@
 import 'package:mimir/l10n/time.dart';
 import 'package:statistics/statistics.dart';
 
-import '../patch/entity/patch.dart';
 import 'timetable.dart';
 
 enum TimetableIssueType {
   empty,
   cbeCourse,
-  patchOutOfRange,
   courseOverlaps,
   ;
 }
@@ -36,26 +34,6 @@ class TimetableCbeIssue implements TimetableIssue {
   static bool detect(Course course) {
     if (course.courseName.contains("自修") || course.courseName.contains("免听")) {
       return true;
-    }
-    return false;
-  }
-}
-
-/// Credit by Examination
-class TimetablePatchOutOfRangeIssue implements TimetableIssue {
-  @override
-  TimetableIssueType get type => TimetableIssueType.patchOutOfRange;
-  final TimetablePatch patch;
-
-  const TimetablePatchOutOfRangeIssue({
-    required this.patch,
-  });
-
-  static bool detect(Timetable timetable, TimetablePatch patch) {
-    if (patch is WithTimetableDayLoc) {
-      if (!(patch as WithTimetableDayLoc).allLocInRange(timetable)) {
-        return true;
-      }
     }
     return false;
   }

@@ -18,8 +18,6 @@ import 'package:mimir/utils/byte_io/byte_io.dart';
 import 'package:statistics/statistics.dart';
 import 'package:uuid/uuid.dart';
 
-import '../patch/entity/patch.dart';
-
 part 'timetable.g.dart';
 
 DateTime _kNow() => DateTime.now();
@@ -31,14 +29,6 @@ StudentType _kStudentType() => switch (CredentialsInit.storage.oa.userType) {
       OaUserType.postgraduate => StudentType.postgraduate,
       _ => StudentType.undergraduate,
     };
-
-List<TimetablePatchEntry> _patchesFromJson(List? list) {
-  return list
-          ?.map((e) => TimetablePatchEntry.fromJson(e as Map<String, dynamic>))
-          .where((patch) => patch is TimetablePatch ? patch.type != TimetablePatchType.unknown : true)
-          .toList() ??
-      const <TimetablePatchEntry>[];
-}
 
 Campus _defaultCampus() {
   return Settings.campus;
@@ -96,10 +86,6 @@ class Timetable implements WithUuid {
   @JsonKey()
   final int version;
 
-  /// Timetable patches will be processed in list order.
-  @JsonKey(fromJson: _patchesFromJson)
-  final List<TimetablePatchEntry> patches;
-
   const Timetable({
     required this.uuid,
     required this.courses,
@@ -114,7 +100,6 @@ class Timetable implements WithUuid {
     required this.createdTime,
     required this.studentId,
     required this.studentType,
-    this.patches = const [],
     this.signature = "",
     this.version = 2,
   });
@@ -145,7 +130,6 @@ class Timetable implements WithUuid {
       "signature": signature,
       "studentId": studentId,
       "studentType": studentType,
-      "patches": patches,
     }.toString();
   }
 
@@ -168,7 +152,6 @@ class Timetable implements WithUuid {
         "semester:$semester,"
         "lastCourseKey:$lastCourseKey,"
         "version:$version,"
-        "patches:${patches.map((p) => p.toDartCode()).toList()},"
         ")";
   }
 
@@ -190,8 +173,7 @@ class Timetable implements WithUuid {
         studentType == other.studentType &&
         lastModified == other.lastModified &&
         createdTime == other.createdTime &&
-        courses.equalsKeysValues(courses.keys, other.courses) &&
-        patches.equalsElements(other.patches);
+        courses.equalsKeysValues(courses.keys, other.courses) ;
   }
 
   @override
@@ -211,7 +193,6 @@ class Timetable implements WithUuid {
         studentId,
         studentType,
         Object.hashAllUnordered(courses.entries.map((e) => (e.key, e.value))),
-        Object.hashAll(patches),
       );
 
   factory Timetable.fromJson(Map<String, dynamic> json) => _$TimetableFromJson(json);
@@ -248,10 +229,6 @@ class Timetable implements WithUuid {
     for (final course in courses.values) {
       course.serialize(writer);
     }
-    writer.uint8(patches.length);
-    for (final patch in patches) {
-      TimetablePatchEntry.serialize(patch, writer);
-    }
   }
 
   static Timetable deserialize(ByteReader reader) {
@@ -274,9 +251,6 @@ class Timetable implements WithUuid {
         final course = Course.deserialize(reader);
         return MapEntry("${course.courseKey}", course);
       })),
-      patches: List.generate(reader.uint8(), (index) {
-        return TimetablePatchEntry.deserialize(reader);
-      }),
       lastModified: DateTime.now(),
     );
   }

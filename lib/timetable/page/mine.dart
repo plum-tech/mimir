@@ -221,15 +221,6 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
   }
 }
 
-Future<void> editTimetablePatch({
-  required BuildContext context,
-  required String uuid,
-}) async {
-  var timetable = await context.push<Timetable>("/timetable/patch/edit/$uuid");
-  if (timetable == null) return;
-  TimetableInit.storage.timetable[uuid] = timetable.markModified();
-}
-
 class TimetableCard extends StatelessWidget {
   final Timetable timetable;
   final bool selected;
@@ -314,13 +305,6 @@ class TimetableCard extends StatelessWidget {
               await exportTimetableFileAndShare(timetable, context: ctx);
             },
           ),
-        EntryAction(
-          label: i18n.mine.patch,
-          icon: Icons.dashboard_customize,
-          action: () async {
-            await editTimetablePatch(context: ctx, uuid: timetable.uuid);
-          },
-        ),
         if (kDebugMode)
           EntryAction(
             icon: context.icons.copy,
