@@ -8,7 +8,6 @@ import 'package:go_router/go_router.dart';
 import 'package:mimir/credentials/entity/login_status.dart';
 import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
-import 'package:mimir/index.dart';
 import 'package:mimir/init.dart';
 import 'package:mimir/lifecycle.dart';
 import 'package:mimir/school/exam_result/page/gpa.dart';
@@ -308,48 +307,6 @@ String _getRootRoute() {
     return "/school";
   }
   return available.first;
-}
-
-RoutingConfig buildCommonRoutingConfig() {
-  return RoutingConfig(
-    redirect: _redirectRoot,
-    routes: [
-      GoRoute(
-        path: "/",
-        redirect: (ctx, state) => _getRootRoute(),
-      ),
-      StatefulShellRoute.indexedStack(
-        builder: (ctx, state, navigationShell) {
-          return MainStagePage(navigationShell: navigationShell);
-        },
-        branches: [
-          if (!kIsWeb)
-            StatefulShellBranch(
-              navigatorKey: $SchoolShellKey,
-              routes: [
-                _schoolShellRoute,
-              ],
-            ),
-          StatefulShellBranch(
-            navigatorKey: $TimetableShellKey,
-            routes: [
-              _timetableShellRoute,
-            ],
-          ),
-        ],
-      ),
-      ..._timetableRoutes,
-      _webviewRoute,
-      _expenseRoute,
-      _settingsRoute,
-      _oaAnnounceRoute,
-      _ywbRoute,
-      _examResultRoute,
-      _examArrange,
-      _oaLoginRoute,
-      _imageRoute,
-    ],
-  );
 }
 
 RoutingConfig buildTimetableFocusRouter() {

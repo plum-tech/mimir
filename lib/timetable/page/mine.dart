@@ -77,6 +77,9 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
     return Scaffold(
       appBar: AppBar(
         title: i18n.mine.title.text(),
+        actions: [
+          buildMoreActionsButton(),
+        ],
       ),
       floatingActionButton: buildFab(),
       body: LeavingBlank(

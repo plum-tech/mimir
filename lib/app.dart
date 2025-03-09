@@ -25,9 +25,7 @@ class MimirApp extends ConsumerStatefulWidget {
 }
 
 class _MimirAppState extends ConsumerState<MimirApp> {
-  final $routingConfig = ValueNotifier(
-    Settings.timetable.focusTimetable ? buildTimetableFocusRouter() : buildCommonRoutingConfig(),
-  );
+  final $routingConfig = ValueNotifier(buildTimetableFocusRouter());
   late final router = buildRouter($routingConfig);
   StreamSubscription? intentSub;
   StreamSubscription? $appLink;
@@ -59,9 +57,6 @@ class _MimirAppState extends ConsumerState<MimirApp> {
   @override
   Widget build(BuildContext context) {
     final themeColorFromSystem = ref.watch(Settings.theme.$themeColorFromSystem) ?? true;
-    ref.listen(Settings.timetable.$focusTimetable, (pre, next) {
-      $routingConfig.value = next ? buildTimetableFocusRouter() : buildCommonRoutingConfig();
-    });
     final themeColor = themeColorFromSystem
         ? SystemTheme.accentColor.maybeAccent
         : ref.watch(Settings.theme.$themeColor) ?? SystemTheme.accentColor.maybeAccent;

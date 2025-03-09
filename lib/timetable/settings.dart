@@ -13,19 +13,12 @@ class _K {
   static const autoUseImported = "$ns/autoUseImported";
   static const cellStyle = "$ns/cellStyle";
   static const quickLookLessonOnTap = "$ns/quickLookLessonOnTap";
-  static const focusTimetable = '$ns/focusTimetable';
 }
 
 class TimetableSettings {
   final Box box;
 
   TimetableSettings(this.box);
-
-  bool get focusTimetable => true;
-
-  set focusTimetable(bool newV) => box.safePut<bool>(_K.focusTimetable, newV);
-
-  late final $focusTimetable = box.providerWithDefault<bool>(_K.focusTimetable, () => false);
 
   bool get autoUseImported => box.safeGet<bool>(_K.autoUseImported) ?? _kAutoUseImported;
 

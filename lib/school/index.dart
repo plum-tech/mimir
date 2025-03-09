@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:mimir/credentials/entity/user_type.dart';
 import 'package:mimir/credentials/init.dart';
-import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/school/electricity/card.dart';
 import 'package:mimir/school/event.dart';
 import 'package:mimir/school/exam_arrange/card.dart';
@@ -40,14 +37,6 @@ class _SchoolPageState extends ConsumerState<SchoolPage> {
                 snap: true,
                 title: i18n.navigation.text(),
                 forceElevated: innerBoxIsScrolled,
-                actions: [
-                  PlatformIconButton(
-                    icon: Icon(context.icons.settings),
-                    onPressed: () async {
-                      await context.push("/settings");
-                    },
-                  )
-                ],
               ),
             ),
           ];
