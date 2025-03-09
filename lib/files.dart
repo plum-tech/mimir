@@ -23,19 +23,14 @@ class Files {
     debugPrint("Internal dir: $internal");
     debugPrint("User dir: $user");
     Files.temp = TempDir._();
-    await timetable.init();
   }
 
   static late final Directory _temp;
-
   static late final TempDir temp;
   static late final Directory cache;
   static late final Directory internal;
   static late final Directory user;
 
-  static Directory get screenshot => temp.subDir("screenshot");
-
-  static const timetable = TimetableFiles._();
   static const oaAnnounce = OaAnnounceFiles._();
 }
 
@@ -43,20 +38,6 @@ extension DirectoryX on Directory {
   File subFile(String p1, [String? p2, String? p3, String? p4]) => File(join(path, p1, p2, p3, p4));
 
   Directory subDir(String p1, [String? p2, String? p3, String? p4]) => Directory(join(path, p1, p2, p3, p4));
-}
-
-class TimetableFiles {
-  const TimetableFiles._();
-
-  File get backgroundFile => Files.user.subFile("timetable", "background");
-
-  // on MIUI, OpenFile can't open file under `Files.user`
-  Directory get calendarDir => (UniversalPlatform.isAndroid ? Files.cache : Files.user).subDir("timetable", "calendar");
-
-  Future<void> init() async {
-    await calendarDir.create(recursive: true);
-    await Files.user.subDir("timetable").create(recursive: true);
-  }
 }
 
 class OaAnnounceFiles {
