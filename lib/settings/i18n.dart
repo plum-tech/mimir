@@ -61,8 +61,6 @@ class _About {
   String get privacyPolicy => "$ns.privacyPolicy".tr();
 
   String get marketingWebsite => "$ns.marketingWebsite".tr();
-
-  String get checkUpdate => "$ns.checkUpdate".tr();
 }
 
 class _DevOptions {
