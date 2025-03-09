@@ -75,24 +75,18 @@ dependencies:
   # Open with other APP/programs
   open_file: ^3.5.10
   url_launcher: ^6.3.1
-  # Open Android / iOS system image picker
-  image_picker: ^1.1.2
   file_picker: ^8.1.2
   share_plus: ^10.1.4
   app_settings: ^5.2.0
 
   # Get package info (version)
   package_info_plus: ^8.2.1
-  # Haptic feedbacks
-  # qrcode scanner
-  add_2_calendar: ^3.0.1
 
   # UI
   go_router: ^14.8.0
   fl_chart: ^0.69.0
   flutter_svg: ^2.0.17
   flutter_svg_provider: ^1.0.7
-  reorderables: ^0.6.0
   cached_network_image: ^3.4.1
   auto_size_text: ^3.0.0
   text_scroll: ^0.2.0

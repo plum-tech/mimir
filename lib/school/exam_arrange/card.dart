@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:collection/collection.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -13,7 +12,6 @@ import 'package:mimir/school/exam_arrange/entity/exam.dart';
 import 'package:mimir/school/exam_arrange/init.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:super_context_menu/super_context_menu.dart';
-import 'package:universal_platform/universal_platform.dart';
 
 import "i18n.dart";
 import 'widget/exam.dart';
@@ -69,14 +67,6 @@ class _ExamArrangeAppCardState extends ConsumerState<ExamArrangeAppCard> {
         menuProvider: (MenuRequest request) {
           return Menu(
             children: [
-              if (UniversalPlatform.isAndroid || UniversalPlatform.isIOS)
-                MenuAction(
-                  image: MenuImage.icon(CupertinoIcons.calendar_badge_plus),
-                  title: i18n.addCalendarEvent,
-                  callback: () async {
-                    await addExamArrangeToCalendar(exam);
-                  },
-                ),
               MenuAction(
                 image: MenuImage.icon(context.icons.share),
                 title: i18n.share,
