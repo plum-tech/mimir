@@ -94,7 +94,6 @@ dependencies:
   flutter_svg_provider: ^1.0.7
   reorderables: ^0.6.0
   cached_network_image: ^3.4.1
-  modal_bottom_sheet: ^3.0.0
   auto_size_text: ^3.0.0
   text_scroll: ^0.2.0
   markdown: ^7.3.0

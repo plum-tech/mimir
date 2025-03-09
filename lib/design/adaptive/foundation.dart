@@ -3,11 +3,25 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:rettulf/rettulf.dart';
 
 import 'multiplatform.dart';
 
+class _CupertinoSheetAdapter extends StatelessWidget {
+  final WidgetBuilder builder;
+
+  const _CupertinoSheetAdapter({
+    required this.builder,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return [
+      builder(context).expanded(),
+      const SizedBox(height: 80),
+    ].column();
+  }
+}
 extension $BuildContextEx$ on BuildContext {
   Future<T?> showSheet<T>(
     WidgetBuilder builder, {
@@ -15,13 +29,9 @@ extension $BuildContextEx$ on BuildContext {
     bool useRootNavigator = true,
   }) async {
     if (isCupertino) {
-      return await showCupertinoModalBottomSheet<T>(
+      return await showCupertinoSheet(
         context: this,
-        builder: builder,
-        animationCurve: Curves.fastEaseInToSlowEaseOut,
-        isDismissible: dismissible,
-        enableDrag: !dismissible,
-        useRootNavigator: useRootNavigator,
+        pageBuilder: (ctx) => _CupertinoSheetAdapter(builder: builder),
       );
     } else {
       // dismissible not working with CustomScrollView
@@ -119,7 +129,7 @@ class $Dialog$ extends StatelessWidget {
     } else {
       // For other platform
       dialog = AlertDialog(
-        backgroundColor: context.theme.dialogBackgroundColor,
+        backgroundColor: context.theme.dialogTheme.backgroundColor,
         title: title?.text(style: TextStyle(fontWeight: FontWeight.w600, color: serious ? context.$red$ : null)),
         content: desc(context),
         actions: [
