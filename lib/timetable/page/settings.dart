@@ -33,23 +33,10 @@ class _TimetableSettingsPageState extends State<TimetableSettingsPage> {
               const QuickLookCourseOnTapTile(),
               const Divider(),
               buildCellStyle(),
-              buildP13n(),
             ],
           ),
         ],
       ),
-    );
-  }
-
-  Widget buildP13n() {
-    return ListTile(
-      leading: const Icon(Icons.color_lens_outlined),
-      title: i18n.settings.palette.text(),
-      subtitle: i18n.settings.paletteDesc.text(),
-      trailing: const Icon(Icons.open_in_new),
-      onTap: () async {
-        await context.push("/timetable/palettes");
-      },
     );
   }
 

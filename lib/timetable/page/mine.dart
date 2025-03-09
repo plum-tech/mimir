@@ -2,7 +2,6 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/credentials/entity/user_type.dart';
@@ -75,26 +74,10 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
     );
   }
 
-  List<Widget> buildActions() {
-    final focusMode = ref.watch(Settings.timetable.$focusTimetable);
-    return [
-      if (focusMode)
-        buildMoreActionsButton()
-      else
-        PlatformIconButton(
-          icon: const Icon(Icons.color_lens_outlined),
-          onPressed: () {
-            context.push("/timetable/palettes");
-          },
-        ),
-    ];
-  }
-
   Widget buildEmptyTimetableBody() {
     return Scaffold(
       appBar: AppBar(
         title: i18n.mine.title.text(),
-        actions: buildActions(),
       ),
       floatingActionButton: buildFab(),
       body: LeavingBlank(
@@ -119,7 +102,6 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
         slivers: [
           SliverAppBar.medium(
             title: i18n.mine.title.text(),
-            actions: buildActions(),
           ),
           SliverList.builder(
             itemCount: timetables.length,
@@ -218,13 +200,6 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
     final focusMode = ref.watch(Settings.timetable.$focusTimetable);
     return PullDownMenuButton(
       itemBuilder: (ctx) => [
-        PullDownItem(
-          icon: Icons.palette_outlined,
-          title: i18n.p13n.palette.title,
-          onTap: () async {
-            await context.push("/timetable/palettes");
-          },
-        ),
         PullDownItem(
           icon: Icons.view_comfortable_outlined,
           title: i18n.p13n.cell.title,

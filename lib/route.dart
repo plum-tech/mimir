@@ -42,7 +42,6 @@ import 'package:mimir/school/index.dart';
 import 'package:mimir/timetable/page/import.dart';
 import 'package:mimir/timetable/page/index.dart';
 import 'package:mimir/timetable/page/mine.dart';
-import 'package:mimir/timetable/p13n/page/palette.dart';
 import 'package:mimir/widget/image.dart';
 
 final $TimetableShellKey = GlobalKey<NavigatorState>();
@@ -102,20 +101,6 @@ final _timetableRoutes = [
   GoRoute(
     path: "/timetable/mine",
     builder: (ctx, state) => const MyTimetableListPage(),
-  ),
-  GoRoute(
-    path: "/timetable/palettes",
-    builder: (ctx, state) => const TimetablePaletteListPage(),
-    routes: [
-      GoRoute(
-        path: "custom",
-        builder: (ctx, state) => const TimetablePaletteListPage(tab: TimetableP13nTab.custom),
-      ),
-      GoRoute(
-        path: "builtin",
-        builder: (ctx, state) => const TimetablePaletteListPage(tab: TimetableP13nTab.builtin),
-      ),
-    ],
   ),
   GoRoute(
     path: "/timetable/edit/:uuid",

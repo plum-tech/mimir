@@ -122,13 +122,6 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
             await context.push("/timetable/cell-style");
           },
         ),
-        PullDownItem(
-          icon: Icons.color_lens_outlined,
-          title: i18n.p13n.palette.title,
-          onTap: () async {
-            await context.push("/timetable/palettes");
-          },
-        ),
         const PullDownDivider(),
         PullDownItem(
           icon: Icons.screenshot,
