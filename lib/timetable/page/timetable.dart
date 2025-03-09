@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/adaptive/menu.dart';
 import 'package:mimir/design/animation/progress.dart';
 import 'package:mimir/design/widget/fab.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/settings.dart';
-import 'package:mimir/timetable/page/screenshot.dart';
 import '../entity/display.dart';
 import '../entity/timetable.dart';
 import '../events.dart';
@@ -120,19 +118,6 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
           title: i18n.p13n.cell.title,
           onTap: () async {
             await context.push("/timetable/cell-style");
-          },
-        ),
-        const PullDownDivider(),
-        PullDownItem(
-          icon: Icons.screenshot,
-          title: i18n.screenshot.screenshot,
-          onTap: () async {
-            await context.showSheet(
-              (ctx) => TimetableScreenshotPage(
-                timetable: timetable,
-                weekIndex: $currentPos.value.weekIndex,
-              ),
-            );
           },
         ),
         PullDownItem(
