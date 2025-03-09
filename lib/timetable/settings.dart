@@ -21,7 +21,7 @@ class TimetableSettings {
 
   TimetableSettings(this.box);
 
-  bool get focusTimetable => box.safeGet<bool>(_K.focusTimetable) ?? false;
+  bool get focusTimetable => true;
 
   set focusTimetable(bool newV) => box.safePut<bool>(_K.focusTimetable, newV);
 

@@ -188,7 +188,6 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
   }
 
   Widget buildMoreActionsButton() {
-    final focusMode = ref.watch(Settings.timetable.$focusTimetable);
     return PullDownMenuButton(
       itemBuilder: (ctx) => [
         PullDownItem(
@@ -198,15 +197,7 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
             await context.push("/timetable/cell-style");
           },
         ),
-        if (focusMode) ...buildFocusPopupActions(context),
-        const PullDownDivider(),
-        PullDownSelectable(
-          title: i18n.focusTimetable,
-          selected: focusMode,
-          onTap: () async {
-            Settings.timetable.focusTimetable = !focusMode;
-          },
-        ),
+        ...buildFocusPopupActions(context),
       ],
     );
   }

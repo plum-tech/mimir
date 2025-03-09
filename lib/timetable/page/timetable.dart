@@ -5,7 +5,6 @@ import 'package:mimir/design/adaptive/menu.dart';
 import 'package:mimir/design/animation/progress.dart';
 import 'package:mimir/design/widget/fab.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/settings/settings.dart';
 import '../entity/display.dart';
 import '../entity/timetable.dart';
 import '../events.dart';
@@ -101,7 +100,6 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
   }
 
   Widget buildMoreActionsButton() {
-    final focusMode = ref.watch(Settings.timetable.$focusTimetable);
     return PullDownMenuButton(
       itemBuilder: (ctx) => [
         PullDownItem(
@@ -118,15 +116,7 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
             await context.push("/timetable/cell-style");
           },
         ),
-        if (focusMode) ...buildFocusPopupActions(context),
-        const PullDownDivider(),
-        PullDownSelectable(
-          title: i18n.focusTimetable,
-          selected: focusMode,
-          onTap: () async {
-            Settings.timetable.focusTimetable = !focusMode;
-          },
-        ),
+        ...buildFocusPopupActions(context),
       ],
     );
   }
