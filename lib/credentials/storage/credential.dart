@@ -12,8 +12,6 @@ class CredentialStorage {
   CredentialStorage();
 
   late final oa = _Oa(box);
-  late final mimir = _Mimir(box);
-  late final library = _Library(box);
 }
 
 class _OaK {
@@ -54,43 +52,3 @@ class _Oa {
   late final $userType = box.providerWithDefault<OaUserType>(_OaK.userType, () => OaUserType.none);
 }
 
-class _MimirK {
-  static const ns = "/mimir";
-  static const lastAuthTime = "$ns/lastAuthTime";
-  static const signedIn = "$ns/signedIn";
-}
-
-class _Mimir {
-  final Box box;
-
-  _Mimir(this.box);
-
-  DateTime? get lastAuthTime => box.safeGet<DateTime>(_MimirK.lastAuthTime);
-
-  set lastAuthTime(DateTime? newV) => box.safePut<DateTime>(_MimirK.lastAuthTime, newV);
-
-  late final $lastAuthTime = box.provider<DateTime>(_MimirK.lastAuthTime);
-
-  bool? get signedIn => box.safeGet<bool>(_MimirK.signedIn) ?? false;
-
-  set signedIn(bool? newV) => box.safePut<bool>(_MimirK.signedIn, newV);
-
-  late final $signedIn = box.providerWithDefault<bool>(_MimirK.signedIn, () => false);
-}
-
-class _LibraryK {
-  static const ns = "/library";
-  static const credentials = "$ns/credentials";
-}
-
-class _Library {
-  final Box box;
-
-  _Library(this.box);
-
-  Credential? get credentials => box.safeGet<Credential>(_LibraryK.credentials);
-
-  set credentials(Credential? newV) => box.safePut<Credential>(_LibraryK.credentials, newV);
-
-  late final $credentials = box.provider<Credential>(_LibraryK.credentials);
-}

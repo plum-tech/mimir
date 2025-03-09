@@ -13,7 +13,6 @@ import 'package:mimir/design/entity/dual_color.dart';
 import 'package:mimir/design/widget/common.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
 import 'package:mimir/design/widget/entry_card.dart';
-import 'package:mimir/design/widget/fab.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/route.dart';
 import 'package:mimir/school/entity/school.dart';
@@ -120,7 +119,7 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
               ).padH(6);
             },
           ),
-          const FloatingActionButtonSpace().sliver(),
+          const SizedBox(height: 80).sliver(),
         ],
       ),
     );

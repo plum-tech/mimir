@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mimir/design/adaptive/menu.dart';
 import 'package:mimir/design/animation/progress.dart';
-import 'package:mimir/design/widget/fab.dart';
 import 'package:rettulf/rettulf.dart';
 import '../entity/display.dart';
 import '../entity/timetable.dart';
@@ -172,14 +171,12 @@ class TimetableJumpButton extends StatelessWidget {
   final ValueNotifier<DisplayMode> $displayMode;
   final ValueNotifier<TimetablePos> $currentPos;
   final Timetable timetable;
-  final ScrollController? controller;
 
   const TimetableJumpButton({
     super.key,
     required this.$displayMode,
     required this.timetable,
     required this.$currentPos,
-    this.controller,
   });
 
   @override
@@ -205,22 +202,11 @@ class TimetableJumpButton extends StatelessWidget {
   }
 
   Widget buildFab() {
-    final controller = this.controller;
-    if (controller != null) {
-      return AutoHideFAB(
-        controller: controller,
-        child: const Icon(Icons.undo_rounded),
-        onPressed: () async {
-          await _jumpToToday(timetable: timetable, $currentPos: $currentPos);
-        },
-      );
-    } else {
-      return FloatingActionButton(
-        child: const Icon(Icons.undo_rounded),
-        onPressed: () async {
-          await _jumpToToday(timetable: timetable, $currentPos: $currentPos);
-        },
-      );
-    }
+    return FloatingActionButton(
+      child: const Icon(Icons.undo_rounded),
+      onPressed: () async {
+        await _jumpToToday(timetable: timetable, $currentPos: $currentPos);
+      },
+    );
   }
 }
