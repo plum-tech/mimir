@@ -16,7 +16,6 @@ import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/school/widget/campus.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/utils/riverpod.dart';
 
 import '../i18n.dart';
 import '../../design/widget/navigation.dart';
@@ -210,7 +209,6 @@ Future<void> _onWipeData() async {
     await Init.initNetwork();
     await Init.initModules();
     if (!navigateCtx.mounted) return;
-    navigateCtx.riverpod().read($oaOnline.notifier).state = false;
     navigateCtx.go("/oa/login");
     await Future.delayed(const Duration(milliseconds: 100));
     if (!navigateCtx.mounted) return;

@@ -41,7 +41,8 @@ Future<Timetable?> readTimetableFromBytes(Uint8List bytes) async {
   try {
     final timetable = Timetable.fromJson(json);
     return timetable;
-  } catch (_) {
+  } catch (error, stackTrace) {
+    debugPrintError(error, stackTrace);
     // try parsing the file as timetable raw
     return parseUndergraduateTimetableFromRaw(
       json,

@@ -16,7 +16,6 @@ import 'package:mimir/lifecycle.dart';
 import 'package:mimir/login/utils.dart';
 import 'package:mimir/r.dart';
 
-import 'package:mimir/utils/riverpod.dart';
 import 'package:encrypt/encrypt.dart';
 
 import '../utils/dio.dart';
@@ -216,13 +215,6 @@ class SsoSession {
     return res.realUri.toString().contains(_loginUrl);
   }
 
-  void _setOnline(bool isOnline) {
-    final ctx = $key.currentContext;
-    if (ctx != null && ctx.mounted) {
-      ctx.riverpod().read($oaOnline.notifier).state = isOnline;
-    }
-  }
-
   Future<Cookie?> getJSessionId() async {
     final cookies = await Init.schoolCookieJar.loadForRequest(Uri.parse(_authServerUrl));
     return cookies.firstWhereOrNull((cookie) => cookie.name == "JSESSIONID");
@@ -258,7 +250,6 @@ class SsoSession {
       // login and get cookie
       response = await _postLoginRequest(credentials.account, hashedPwd, captcha, casTicket);
     } catch (e) {
-      _setOnline(false);
       rethrow;
     }
     final pageRaw = response.data as String;
@@ -273,18 +264,15 @@ class SsoSession {
     if (authError.isNotEmpty || mobileError.isNotEmpty) {
       final errorMessage = authError + mobileError;
       final type = _parseInvalidType(errorMessage);
-      _setOnline(false);
       throw CredentialException(message: errorMessage, type: type);
     }
 
     if (response.realUri.toString() != _loginSuccessUrl) {
       debugPrint('Unknown auth error at "${response.realUri}"');
-      _setOnline(false);
       throw Exception(response.data.toString());
     }
     debugPrint('${credentials.account} logged in');
     CredentialsInit.storage.oa.lastAuthTime = DateTime.now();
-    _setOnline(true);
     return response;
   }
 
