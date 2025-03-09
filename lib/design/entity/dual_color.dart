@@ -5,11 +5,10 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/widgets.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:rettulf/rettulf.dart';
-import 'package:mimir/utils/byte_io/byte_io.dart';
 
 part "dual_color.g.dart";
 
-int _colorToJson(Color color) => color.value;
+int _colorToJson(Color color) => color.toARGB32();
 
 Color _colorFromJson(int value) => Color(value);
 
@@ -32,18 +31,6 @@ class ColorEntry {
   factory ColorEntry.fromJson(Map<String, dynamic> json) => _$ColorEntryFromJson(json);
 
   Map<String, dynamic> toJson() => _$ColorEntryToJson(this);
-
-  void serialize(ByteWriter writer) {
-    writer.uint32(color.value);
-    writer.b(inverseText);
-  }
-
-  factory ColorEntry.deserialize(ByteReader reader) {
-    return ColorEntry(
-      Color(reader.uint32()),
-      inverseText: reader.b(),
-    );
-  }
 
   @override
   String toString() {
@@ -71,18 +58,6 @@ class DualColor {
   factory DualColor.fromJson(Map<String, dynamic> json) => _$DualColorFromJson(json);
 
   Map<String, dynamic> toJson() => _$DualColorToJson(this);
-
-  void serialize(ByteWriter writer) {
-    light.serialize(writer);
-    dark.serialize(writer);
-  }
-
-  factory DualColor.deserialize(ByteReader reader) {
-    return DualColor(
-      light: ColorEntry.deserialize(reader),
-      dark: ColorEntry.deserialize(reader),
-    );
-  }
 
   @override
   String toString() {

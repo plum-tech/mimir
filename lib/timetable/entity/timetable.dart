@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -14,7 +13,6 @@ import 'package:mimir/school/entity/school.dart';
 import 'package:mimir/school/entity/timetable.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/timetable/utils.dart';
-import 'package:mimir/utils/byte_io/byte_io.dart';
 import 'package:statistics/statistics.dart';
 import 'package:uuid/uuid.dart';
 
@@ -210,61 +208,6 @@ class Timetable implements WithUuid {
     }
     return true;
   }
-
-  void serialize(ByteWriter writer) {
-    writer.uint8(version);
-    writer.strUtf8(uuid, ByteLength.bit8);
-    writer.strUtf8(name, ByteLength.bit8);
-    writer.strUtf8(signature, ByteLength.bit8);
-    writer.strUtf8(studentId, ByteLength.bit8);
-    writer.strUtf8(studentType.name);
-    writer.strUtf8(schoolCode.code);
-    writer.uint8(campus.index);
-    writer.uint8(schoolYear);
-    writer.uint8(semester.index);
-    writer.uint8(lastCourseKey);
-    writer.datePacked(startDate, 2000);
-    writer.datePacked(createdTime, 2000);
-    writer.uint8(courses.length);
-    for (final course in courses.values) {
-      course.serialize(writer);
-    }
-  }
-
-  static Timetable deserialize(ByteReader reader) {
-    // ignore: unused_local_variable
-    final revision = reader.uint8();
-    return Timetable(
-      uuid: reader.strUtf8(ByteLength.bit8),
-      name: reader.strUtf8(ByteLength.bit8),
-      signature: reader.strUtf8(ByteLength.bit8),
-      studentId: revision == 1 ? _defaultStudentId() : reader.strUtf8(ByteLength.bit8),
-      studentType: StudentType.name2enum[reader.strUtf8()] ?? StudentType.undergraduate,
-      schoolCode: SchoolCode.code2enum[reader.strUtf8()] ?? SchoolCode.sit,
-      campus: Campus.values[reader.uint8()],
-      schoolYear: reader.uint8(),
-      semester: Semester.values[reader.uint8()],
-      lastCourseKey: reader.uint8(),
-      startDate: reader.datePacked(2000),
-      createdTime: reader.datePacked(2000),
-      courses: Map.fromEntries(List.generate(reader.uint8(), (index) {
-        final course = Course.deserialize(reader);
-        return MapEntry("${course.courseKey}", course);
-      })),
-      lastModified: DateTime.now(),
-    );
-  }
-
-  static Timetable decodeByteList(Uint8List bytes) {
-    final reader = ByteReader(bytes);
-    return deserialize(reader);
-  }
-
-  static Uint8List encodeByteList(Timetable entry) {
-    final writer = ByteWriter(4096);
-    entry.serialize(writer);
-    return writer.build();
-  }
 }
 
 @JsonSerializable()
@@ -379,41 +322,6 @@ class Course {
     if (timeslots != old.timeslots) return false;
     return true;
   }
-
-  void serialize(ByteWriter writer) {
-    writer.uint8(courseKey);
-    writer.strUtf8(courseName, ByteLength.bit8);
-    writer.strUtf8(courseCode, ByteLength.bit8);
-    writer.strUtf8(classCode, ByteLength.bit8);
-    writer.strUtf8(place, ByteLength.bit8);
-    weekIndices.serialize(writer);
-    writer.uint8(timeslots.packedInt8());
-    writer.uint8((courseCredit * 10).toInt());
-    writer.uint8(dayIndex);
-    writer.uint8(teachers.length);
-    for (final teacher in teachers) {
-      writer.strUtf8(teacher, ByteLength.bit8);
-    }
-    writer.b(hidden);
-  }
-
-  static Course deserialize(ByteReader reader) {
-    return Course(
-      courseKey: reader.uint8(),
-      courseName: reader.strUtf8(ByteLength.bit8),
-      courseCode: reader.strUtf8(ByteLength.bit8),
-      classCode: reader.strUtf8(ByteLength.bit8),
-      place: reader.strUtf8(ByteLength.bit8),
-      weekIndices: TimetableWeekIndices.deserialize(reader),
-      timeslots: _unpackedInt8(reader.uint8()),
-      courseCredit: reader.uint8() * 0.1,
-      dayIndex: reader.uint8(),
-      teachers: List.generate(reader.uint8(), (index) {
-        return reader.strUtf8(ByteLength.bit8);
-      }),
-      hidden: reader.b(),
-    );
-  }
 }
 
 List<ClassTime> buildingTimetableOf(Campus campus, [String? place]) => getTeachingBuildingTimetable(campus, place);
@@ -510,18 +418,6 @@ class TimetableWeekIndex {
     }
   }
 
-  void serialize(ByteWriter writer) {
-    writer.uint8(type.index);
-    writer.uint8(range.packedInt8());
-  }
-
-  static TimetableWeekIndex deserialize(ByteReader reader) {
-    return TimetableWeekIndex(
-      type: TimetableWeekIndexType.values[reader.uint8()],
-      range: _unpackedInt8(reader.uint8()),
-    );
-  }
-
   String toDartCode() {
     return "TimetableWeekIndex("
         "type:$type,"
@@ -601,19 +497,6 @@ extension type const TimetableWeekIndices(List<TimetableWeekIndex> indices) impl
     return res;
   }
 
-  void serialize(ByteWriter writer) {
-    writer.uint8(indices.length);
-    for (final index in indices) {
-      index.serialize(writer);
-    }
-  }
-
-  static TimetableWeekIndices deserialize(ByteReader reader) {
-    return TimetableWeekIndices(List.generate(reader.uint8(), (index) {
-      return TimetableWeekIndex.deserialize(reader);
-    }));
-  }
-
   factory TimetableWeekIndices.fromJson(dynamic json) {
     // for backwards support
     if (json is Map) {
@@ -670,16 +553,6 @@ String rangeToString(({int start, int end}) range) {
   } else {
     return "${range.start}-${range.end}";
   }
-}
-
-extension _RangeX on ({int start, int end}) {
-  int packedInt8() {
-    return start << 4 | end;
-  }
-}
-
-({int start, int end}) _unpackedInt8(int packed) {
-  return (start: packed >> 4 & 0xF, end: packed & 0xF);
 }
 
 abstract mixin class CourseCodeIndexer {

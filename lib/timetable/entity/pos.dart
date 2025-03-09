@@ -1,7 +1,6 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:mimir/l10n/time.dart';
-import 'package:mimir/utils/byte_io/byte_io.dart';
 
 import 'timetable.dart';
 import '../i18n.dart';
@@ -60,17 +59,6 @@ class TimetablePos {
       // if out of range, fallback will be return.
       return fallback ?? initial;
     }
-  }
-
-  void serialize(ByteWriter writer) {
-    writer.uint8(weekIndex);
-    writer.uint8(weekday.index);
-  }
-
-  static TimetablePos deserialize(ByteReader reader) {
-    final weekIndex = reader.uint8();
-    final weekdayIndex = reader.uint8();
-    return TimetablePos(weekIndex: weekIndex, weekday: Weekday.fromIndex(weekdayIndex));
   }
 
   String l10n() {

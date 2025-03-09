@@ -3,7 +3,6 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:mimir/l10n/extension.dart';
 import 'package:mimir/l10n/time.dart';
 import 'package:mimir/lifecycle.dart';
-import 'package:mimir/utils/byte_io/byte_io.dart';
 import 'pos.dart';
 import 'timetable_entity.dart';
 
@@ -59,26 +58,6 @@ class TimetableDayLoc {
   TimetablePos get pos => posInternal!;
 
   DateTime get date => dateInternal!;
-
-  void serialize(ByteWriter writer) {
-    writer.uint8(mode.index);
-    switch (mode) {
-      case TimetableDayLocMode.pos:
-        pos.serialize(writer);
-      case TimetableDayLocMode.date:
-        writer.datePacked(date, 2000);
-    }
-  }
-
-  static TimetableDayLoc deserialize(ByteReader reader) {
-    final mode = TimetableDayLocMode.values[reader.uint8()];
-    switch (mode) {
-      case TimetableDayLocMode.pos:
-        return TimetableDayLoc.pos(TimetablePos.deserialize(reader));
-      case TimetableDayLocMode.date:
-        return TimetableDayLoc.date(reader.datePacked(2000));
-    }
-  }
 
   String toDartCode() {
     return switch (mode) {
