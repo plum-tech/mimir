@@ -14,7 +14,6 @@ import '../entity/timetable_entity.dart';
 import '../init.dart';
 import '../entity/pos.dart';
 import '../utils.dart';
-import '../utils/sync.dart';
 import '../widget/focus.dart';
 import '../widget/timetable/board.dart';
 
@@ -119,19 +118,6 @@ class _TimetableBoardPageState extends ConsumerState<TimetableBoardPage> {
             await context.push("/timetable/cell-style");
           },
         ),
-        if (canSyncTimetable(timetable.type))
-          PullDownItem(
-            icon: Icons.sync,
-            title: i18n.sync,
-            onTap: () async {
-              await syncTimetableWithPrompt(context, timetable.type, onSyncingState: (state) {
-                if (!mounted) return;
-                setState(() {
-                  syncing = state;
-                });
-              });
-            },
-          ),
         if (focusMode) ...buildFocusPopupActions(context),
         const PullDownDivider(),
         PullDownSelectable(

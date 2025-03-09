@@ -33,7 +33,6 @@ import '../init.dart';
 import '../utils/export.dart';
 import '../utils/freshman.dart';
 import '../utils/import.dart';
-import '../utils/sync.dart';
 import '../widget/focus.dart';
 import '../p13n/widget/style.dart';
 import 'import.dart';
@@ -133,14 +132,6 @@ class _MyTimetableListPageState extends ConsumerState<MyTimetableListPage> {
       timetable: timetable,
       selected: selectedId == timetable.uuid,
       allTimetableNames: timetableNames,
-      onSync: () async {
-        await syncTimetableWithPrompt(context, timetable, onSyncingState: (state) {
-          if (!mounted) return;
-          setState(() {
-            syncingUuid = state ? timetable.uuid : null;
-          });
-        });
-      },
     );
   }
 
@@ -225,14 +216,12 @@ class TimetableCard extends StatelessWidget {
   final Timetable timetable;
   final bool selected;
   final List<String>? allTimetableNames;
-  final Future<void> Function() onSync;
 
   const TimetableCard({
     super.key,
     required this.timetable,
     required this.selected,
     this.allTimetableNames,
-    required this.onSync,
   });
 
   @override
@@ -314,12 +303,6 @@ class TimetableCard extends StatelessWidget {
               debugPrint(code);
               await Clipboard.setData(ClipboardData(text: code));
             },
-          ),
-        if (!kIsWeb && canSyncTimetable(timetable))
-          EntryAction(
-            icon: Icons.sync,
-            label: i18n.sync,
-            action: onSync,
           ),
         EntryAction(
           label: i18n.duplicate,
