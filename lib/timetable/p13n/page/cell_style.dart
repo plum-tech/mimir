@@ -5,10 +5,8 @@ import 'package:rettulf/rettulf.dart';
 import 'package:mimir/settings/settings.dart';
 import 'package:mimir/utils/save.dart';
 
-import '../widget/style.dart';
 import '../../i18n.dart';
 import '../entity/cell_style.dart';
-import 'palette.dart';
 
 /// It persists changes to storage before route popping
 class TimetableCellStyleEditor extends StatefulWidget {
@@ -39,12 +37,6 @@ class _TimetableCellStyleEditorState extends State<TimetableCellStyleEditor> {
                   child: i18n.save.text(),
                 ),
               ],
-            ),
-            SliverToBoxAdapter(
-              child: TimetableStyleProv(
-                cellStyle: buildCellStyle(),
-                child: const TimetableP13nLivePreview(),
-              ),
             ),
             SliverList.list(children: [
               buildTeachersToggle(),

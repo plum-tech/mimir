@@ -109,8 +109,6 @@ dependencies:
   pull_down_button: ^0.10.2
   # read system theme color
   system_theme: ^3.1.2
-  flutter_swipe_detector: ^2.0.0
-  carousel_slider_plus: ^7.1.0
   super_context_menu: ^0.8.24
   image_cropper: ^8.0.2
   # Utils
