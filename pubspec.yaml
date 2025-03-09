@@ -122,8 +122,6 @@ dependencies:
   # parse stacktrace
   stack_trace: ^1.11.0
   sanitize_filename: ^1.0.5
-  # Take screenshot of flutter widgets
-  screenshot: ^3.0.0
 
   # game
   flame: ^1.25.0
