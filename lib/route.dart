@@ -24,12 +24,10 @@ import 'package:mimir/school/expense_records/page/records.dart';
 import 'package:mimir/school/expense_records/page/statistics.dart';
 import 'package:mimir/login/page/index.dart';
 import 'package:mimir/settings/page/theme_color.dart';
-import 'package:mimir/timetable/p13n/entity/palette.dart';
 import 'package:mimir/timetable/entity/timetable.dart';
 import 'package:mimir/timetable/init.dart';
 import 'package:mimir/timetable/p13n/page/cell_style.dart';
 import 'package:mimir/timetable/page/edit/editor.dart';
-import 'package:mimir/timetable/p13n/page/palette_editor.dart';
 import 'package:mimir/timetable/patch/page/patch.dart';
 import 'package:mimir/timetable/page/settings.dart';
 import 'package:mimir/widget/inapp_webview/page.dart';
@@ -95,14 +93,6 @@ Timetable? _getTimetable(GoRouterState state) {
   return timetable;
 }
 
-TimetablePalette? _getTimetablePalette(GoRouterState state) {
-  final extra = state.extra;
-  if (extra is TimetablePalette) return extra;
-  final uuid = state.pathParameters["uuid"] ?? "";
-  final palette = TimetableInit.storage.palette[uuid];
-  return palette;
-}
-
 final _timetableRoutes = [
   GoRoute(
     path: "/timetable/import",
@@ -126,14 +116,6 @@ final _timetableRoutes = [
         builder: (ctx, state) => const TimetablePaletteListPage(tab: TimetableP13nTab.builtin),
       ),
     ],
-  ),
-  GoRoute(
-    path: "/timetable/palette/edit/:uuid",
-    builder: (ctx, state) {
-      final palette = _getTimetablePalette(state);
-      if (palette == null) throw 404;
-      return TimetablePaletteEditorPage(palette: palette);
-    },
   ),
   GoRoute(
     path: "/timetable/edit/:uuid",

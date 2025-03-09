@@ -6,10 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimir/settings/settings.dart';
 import 'package:rettulf/rettulf.dart';
 import 'package:mimir/design/adaptive/dialog.dart';
-import 'package:mimir/design/adaptive/foundation.dart';
 import 'package:mimir/design/adaptive/multiplatform.dart';
 import 'package:mimir/design/entity/dual_color.dart';
 import 'package:mimir/design/widget/entry_card.dart';
@@ -72,13 +70,6 @@ class _TimetableP13nPageState extends ConsumerState<TimetablePaletteListPage> wi
   Widget build(BuildContext context) {
     final palettes = ref.watch(TimetableInit.storage.palette.$rows);
     return Scaffold(
-      persistentFooterButtons: [
-        FilledButton.icon(
-          onPressed: addPalette,
-          icon: Icon(context.icons.add),
-          label: i18n.p13n.palette.create.text(),
-        ),
-      ],
       persistentFooterAlignment: AlignmentDirectional.center,
       appBar: AppBar(
         title: i18n.p13n.palette.title.text(),
@@ -98,20 +89,6 @@ class _TimetableP13nPageState extends ConsumerState<TimetablePaletteListPage> wi
           buildPaletteList(BuiltinTimetablePalettes.all),
         ],
       ),
-    );
-  }
-
-  Future<void> addPalette() async {
-    final palette = TimetablePalette.create(
-      name: i18n.p13n.palette.newPaletteName,
-      author: Settings.lastSignature ?? "",
-      colors: [],
-    );
-    final uuid = TimetableInit.storage.palette.add(palette);
-    tabController.index = TimetableP13nTab.custom;
-    await editTimetablePalette(
-      context: context,
-      uuid: uuid,
     );
   }
 
@@ -201,18 +178,6 @@ class PaletteCard extends StatelessWidget {
               );
             },
           ),
-        if (palette is! BuiltinTimetablePalette)
-          EntryAction.edit(
-            label: i18n.edit,
-            icon: context.icons.edit,
-            activator: const SingleActivator(LogicalKeyboardKey.keyE),
-            action: () async {
-              await editTimetablePalette(
-                context: context,
-                uuid: palette.uuid,
-              );
-            },
-          ),
         EntryAction(
           label: i18n.duplicate,
           icon: context.icons.copy,
@@ -252,25 +217,6 @@ class PaletteCard extends StatelessWidget {
         return PaletteInfo(palette: palette);
       },
     );
-  }
-}
-
-Future<void> editTimetablePalette({
-  required BuildContext context,
-  required String uuid,
-}) async {
-  var newPalette = await context.push<TimetablePalette>("/timetable/palette/edit/$uuid");
-  if (newPalette != null) {
-    final newName = allocValidFileName(newPalette.name);
-    if (newName != newPalette.name) {
-      newPalette = newPalette
-          .copyWith(
-            name: newName,
-            colors: List.of(newPalette.colors),
-          )
-          .markModified();
-    }
-    TimetableInit.storage.palette[uuid] = newPalette;
   }
 }
 
@@ -498,12 +444,7 @@ Future<void> onTimetablePaletteFromQrCode({
   required BuildContext context,
   required TimetablePalette palette,
 }) async {
-  final newPalette = await context.showSheet<TimetablePalette>(
-    (ctx) => TimetablePaletteEditorPage(palette: palette),
-    dismissible: false,
-  );
-  if (newPalette == null) return;
-  TimetableInit.storage.palette.add(newPalette);
+  TimetableInit.storage.palette.add(palette);
   await HapticFeedback.mediumImpact();
   if (!context.mounted) return;
   context.push("/timetable/palettes/custom");
