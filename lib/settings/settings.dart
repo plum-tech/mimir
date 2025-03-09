@@ -6,7 +6,6 @@ import 'package:mimir/entity/campus.dart';
 import 'package:mimir/school/settings.dart';
 import 'package:mimir/timetable/settings.dart';
 
-
 class _K {
   static const ns = "/settings";
   static const campus = '$ns/campus';

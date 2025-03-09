@@ -163,7 +163,6 @@ final _expenseRoute = GoRoute(
   ],
 );
 
-
 final _oaAnnounceRoute = GoRoute(
   path: "/oa/announcement",
   builder: (ctx, state) => const OaAnnounceListPage(),

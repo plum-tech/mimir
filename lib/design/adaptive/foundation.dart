@@ -22,6 +22,7 @@ class _CupertinoSheetAdapter extends StatelessWidget {
     ].column();
   }
 }
+
 extension $BuildContextEx$ on BuildContext {
   Future<T?> showSheet<T>(
     WidgetBuilder builder, {

@@ -51,4 +51,3 @@ class _Oa {
 
   late final $userType = box.providerWithDefault<OaUserType>(_OaK.userType, () => OaUserType.none);
 }
-

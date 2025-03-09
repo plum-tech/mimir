@@ -171,7 +171,7 @@ class Timetable implements WithUuid {
         studentType == other.studentType &&
         lastModified == other.lastModified &&
         createdTime == other.createdTime &&
-        courses.equalsKeysValues(courses.keys, other.courses) ;
+        courses.equalsKeysValues(courses.keys, other.courses);
   }
 
   @override
